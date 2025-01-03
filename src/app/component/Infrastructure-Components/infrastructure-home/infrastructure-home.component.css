@@ -190,3 +190,12 @@
   /* .dropdown-container {
    
   } */
+
+  .modal-content {
+    border-radius: 0; /* Removes border-radius for full-width effect */
+  }
+  
+  .modal-body {
+    padding: 20px; /* Adjust padding as needed */
+  }
+  
