@@ -183,7 +183,7 @@ const routes: Routes = [
 {path:'SearchingWork',component:SearchingWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'DistrictProgress',component:DistrictProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'DivisionProgress',component:DivisionProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
-{path:'WorkOrder',component:WorkOrderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
+{path:'WorkOrder',component:WorkOrderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 
 
 
