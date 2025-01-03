@@ -1,0 +1,89 @@
+<!-- <div class="w-100 " style="background-color: #e2e3e5">
+    <h3> 
+      Chhattisgarh Medical Services Corporation Ltd.
+  
+    </h3>
+  </div> -->
+   
+  <div class="container-fluid">
+    <mat-tab-group
+      [(selectedIndex)]="selectedTabIndex"
+      (selectedTabChange)="selectedTabValue($event)"
+    >
+    <mat-tab
+    label="Current Year"
+    [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
+  >
+    <ng-template matTabContent>
+      <mat-tab-group>
+        <!-- Nested Tab 1: DHS Facilities Supplies -->
+        <mat-tab label=" District Supplies (DHS) ">
+          <ng-template matTabContent>
+            <app-cgmsc-current-year *ngIf="selectedTabIndex === 0"></app-cgmsc-current-year>
+          </ng-template>
+        </mat-tab>
+
+
+
+        <!-- Nested Tab 2: Medical College Supplies -->
+        <mat-tab label="DHS Facillity Wise Supplies">
+          <ng-template matTabContent>
+            <app-cgmsc-facility-wise-supplies></app-cgmsc-facility-wise-supplies>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Nested Tab 2: Medical College Supplies -->
+        <mat-tab label="Medical College Supplies">
+          <ng-template matTabContent>
+            <app-cgmsc-supplies-dme></app-cgmsc-supplies-dme>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Nested Tab 3: Ayush Facilities Supplies -->
+        <mat-tab label="Ayush Facilities Supplies">
+          <ng-template matTabContent>
+            <app-cgmsc-supplies-ayush></app-cgmsc-supplies-ayush>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </ng-template>
+  </mat-tab>
+
+      <mat-tab
+        label="Supply Growth"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+      >
+        <ng-template matTabContent>
+          <app-cgmsc-supplies
+            *ngIf="selectedTabIndex === 1"
+          ></app-cgmsc-supplies>
+        </ng-template>
+      </mat-tab>
+
+
+      <!-- <mat-tab
+        label="DME"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
+      >
+        <ng-template matTabContent>
+          <app-cgmsc-supplies-dme
+            *ngIf="selectedTabIndex === 2"
+          ></app-cgmsc-supplies-dme>
+        </ng-template>
+      </mat-tab> -->
+
+
+      <!-- <mat-tab
+        label="DHS Facillity Wise Supplies"
+        [ngClass]="{'active-tab': selectedTabIndex === 2 }"
+      >
+        <ng-template matTabContent>
+          <app-cgmsc-facility-wise-supplies
+            *ngIf="selectedTabIndex === 2"
+          ></app-cgmsc-facility-wise-supplies>
+        </ng-template>
+      </mat-tab> -->
+      
+    </mat-tab-group>
+  </div>
+  

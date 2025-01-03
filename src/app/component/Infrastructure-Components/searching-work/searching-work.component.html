@@ -1,0 +1,369 @@
+
+<div class="container-fluid p-2">
+    <div class="row justify-content-center">
+        <!-- <label for="items" class="form-label">Select Distric</label> -->
+        <ngx-select-dropdown class="leftside" id="worK_ID" [(ngModel)]="items" #itemsModel="ngModel" [config]="config"
+            [options]="workfill" placeholder="Select Works" bindLabel="searchname" bindValue="worK_ID"
+            placeholder="Select Distric" name="searchname" (change)="onGetDistrictsSelect($event)"
+            style=" text-align: left;">
+            <!-- required -->
+        </ngx-select-dropdown>
+    </div>
+</div>
+
+<ng-container *ngFor="let detail of workdetails">
+    <span class="d-flex  flex-row-reverse p-2 ">
+        <button class="btn btn-light btn-sm btn-outline-secondary align-items-center" (click)="exportAsPDF()">
+            <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+        </button>
+    </span>
+    <div id="workdetails">
+
+        <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <!-- Work Details -->
+                    <!-- <div class="col-12 text-center font-weight-bold  py-1">
+                    Works Abstract Report
+                    Administrative Approvals
+                </div> -->
+                    <div class="row border mb-0 mt-0">
+                        <div class="col-12 border text-center font-weight-bold  py-1 text-white" style="background: #000;">
+                            <strong>Work Details</strong>
+                        </div>
+                        <div class="col-12 col-md-8 border p-2 d-flex">
+                            <strong>Work Name:</strong>
+                            <span class="ml-2">{{detail.work}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Work Code:</strong>
+                            <span class="ml-2">{{detail.work_id}}</span>
+                        </div>
+                        <div class="col-12 col-md-5 border p-2 d-flex">
+                            <strong>Type of Work:</strong>
+                            <span class="ml-2">{{detail.tType}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>Grant:</strong>
+                            <span class="ml-2">{{detail.grantname}}</span>
+                        </div>
+                        <div class="col-6 col-md-4 border p-2 d-flex flex-row">
+                            <strong>District:</strong>
+                            <span class="ml-2">{{detail.dbStart_Name_En}}</span>
+                        </div>
+                        <div class="col-6 col-md-5 border p-2 d-flex flex-row">
+                            <strong>Block:</strong>
+                            <span class="ml-2">{{detail.blockname}}</span>
+                        </div>
+                        <div class="col-6 col-md-3 border p-2 d-flex flex-row">
+                            <strong>Division:</strong>
+                            <span class="ml-2">{{detail.divName_En}}</span>
+                        </div>
+                        <div class="col-6 col-md-4 border p-2 d-flex flex-row">
+                            <strong>AS Letter Refrence:</strong>
+                            <span class="ml-2"> {{detail.letterNo}}</span>
+                        </div>
+                        <div class="col-6 col-md-5 border p-2 d-flex flex-row">
+                            <strong>Fund Head</strong><span class="ml-2">{{detail.head}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong> Approver:</strong>
+                            <span class="ml-2">{{detail.approver}}</span>
+                        </div>
+                        <div class="col-6 col-md-4 border p-2 d-flex flex-row">
+                            <strong>AS Amount(in Lacs)</strong><span class="ml-2">{{detail.aaamt}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-5 border p-2 d-flex flex-row">
+                            <strong>AS Date:</strong>
+                            <span class="ml-2">{{detail.aaDate}}</span>
+                        </div>
+
+                        <div class="col-6 col-md-3 border p-2 d-flex flex-row">
+                            <strong>TS Date:</strong>
+                            <span class="ml-2">{{detail.tsDate}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-4 border p-2 d-flex flex-row">
+                            <strong>TS Amount:</strong>
+                            <span class="ml-2">{{detail.tsamt}}</span>
+                        </div>
+                        <!-- <div class="col-12 col-md-3 border p-2 d-flex">
+                        <strong>DivisionId:</strong>
+                        <span class="ml-2">{{detail.divisionid}}</span>
+                    </div> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tender/Acceptance Details -->
+
+        <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-2">
+                        <div class="col-12 text-center font-weight-bold  py-1 bg-primary  text-white">
+
+                            <strong> Tender/Acceptance Details </strong>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong> NIT Ref No:</strong>
+                            <span class="ml-2">{{detail.tenderReference}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>NIT Issue Date:</strong>
+                            <span class="ml-2">{{detail.dateOfIssueNIT}}</span>
+                        </div>
+                        <div class="col-12 col-md-5 border p-2 d-flex flex-row">
+                            <strong>Acceptance Letter Date:</strong>
+                            <span class="ml-2">{{detail.acceptLetterDT}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>PAC:</strong>
+                            <span class="ml-2">{{detail.pac}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex flex-row">
+                            <strong>Sanctioned:</strong> <span class="ml-2">{{detail.sanctionDetail}}</span>
+                        </div>
+                        <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong>Approved Rate:</strong>
+                            <span class="ml-2">{{detail.sanctionRate}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>Contract Amount(in Lacs):</strong>
+                            <span class="ml-2">{{detail.totalAmountOfContract}}</span>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contractor Details -->
+        <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-2">
+                        <div class="col-12 text-center font-weight-bold  py-1 text-light" style="background-color: #4B0082 ;">
+                            <strong> Contractor Details </strong>
+                            <!-- bg-primary text-white -->
+                        </div>
+                        <div class="col-12 col-md-8 border p-2 d-flex">
+                            <strong>Contractor ID:</strong>
+                            <span class="ml-2">{{detail.cid}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Contractor:</strong>
+                            <span class="ml-2">{{detail.contractorNAme}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Mobile No:</strong>
+                            <span class="ml-2">{{detail.mobNo}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Registration Type:</strong>
+                            <span class="ml-2">{{detail.regType}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Class:</strong>
+                            <span class="ml-2">{{detail.class}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--    Work Order Details-->
+        <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-1">
+                        <div class="col-12 text-center font-weight-bold  py-1 text-white " style="background-color: #FF8C00;">
+                            <strong>Work Order Details</strong>
+
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Work Order Ref No Govt:</strong>
+                            <span class="ml-2">{{detail.workorderRefNoGovt}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Work Order Date:</strong>
+                            <span class="ml-2">{{detail.wrokOrderDT}}</span>
+                        </div>
+
+
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Time Allowed:</strong>
+                            <span class="ml-2">{{detail.timeAllowed}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Due Date Of Completion:</strong>
+                            <span class="ml-2">{{detail.actualDueDT}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-4 border p-2 d-flex ">
+                            <strong>Year of Agreement:</strong>
+                            <span class="ml-2">{{detail.yearofAgreement}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex ">
+                            <strong>Agreement No:</strong>
+                            <span class="ml-2">{{detail.agreementNo}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex ">
+                            <strong>Agreement Ref No:</strong>
+                            <span class="ml-2">{{detail.agreementRefNo}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>PG Required:</strong>
+                            <span class="ml-2">{{detail.pgReq}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <!-- <strong>Sub Engineer:</strong> -->
+                            <!-- <span class="ml-2">{{detail.subengname}}</span> -->
+                        </div>
+
+                        <!-- <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong>Desig:</strong>
+                            <span class="ml-2">{{detail.desig}}</span>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <!-- Financial Progress -->
+        <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-1">
+                        <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #FF4500;">
+                            <strong>Financial Progress</strong>
+
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Expenditure Amount (In Lacs):</strong>
+                            <span class="ml-2">{{detail.expd}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Final Bill Paid:</strong>
+                            <span class="ml-2">{{detail.fBill}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Pending Bill Amount(In Lacs):</strong>
+                            <span class="ml-2">{{detail.expPending}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <!-- Physical Progress  -->
+         <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-1">
+                        <div class="col-12 text-center font-weight-bold  py-1 text-light" style="background-color: #00008B;">
+                            <strong>Physical Progress</strong>
+
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Main Progress</strong>
+                            <span class="ml-2">{{detail.dashName}}</span>
+                        </div>
+                        <div class="col-12 col-md-5 border p-2 d-flex">
+                            <strong>Progress Group:</strong>
+                            <span class="ml-2">{{detail.groupName}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>Progress Level:</strong>
+                            <span class="ml-2">{{detail.lProgress}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Last Progress Date:</strong>
+                            <span class="ml-2">{{detail.pdate}}</span>
+                        </div>
+                        <div class="col-12 col-md-5 border p-2 d-flex">
+                            <strong>Progress Remarks:</strong>
+                            <span class="ml-2">{{detail.pRemarks}}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>Genreal Remarks:</strong>
+                            <span class="ml-2">{{detail.remarks}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Sub Engineer:</strong>
+                            <span class="ml-2">{{detail.subengname}}</span>
+                        </div>
+
+                        <div class="col-12 col-md-5 border p-2 d-flex">
+                            <strong>Desig:</strong>
+                            <span class="ml-2">{{detail.desig}}</span>
+                        </div>
+                        <!-- <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>Desig:</strong>
+                            <span class="ml-2">{{detail.desig}}</span>
+                        </div> -->
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <strong>Progress Enter By:</strong>
+                            <span class="ml-2">{{ detail.progressEnterby }}</span>
+                        </div>
+                        <div class="col-12 col-md-9 border p-2 d-flex">
+                            <strong>Progress Entry Time:</strong>
+                            <span class="ml-2">{{ detail.progressEntryTime | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                        </div>
+                        <div class="col-12 col-md-3 border p-2 d-flex">
+                            <!-- <strong>Ismongo:</strong> -->
+                            <!-- <span class="ml-2">{{detail.ismongo}}</span> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="container-fluid p-2">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row  mb-0">
+                        <div class="col-12 text-center font-weight-bold  py-1 text-light" style="background-color: #00008B;">
+                            <strong>Uploaded Image</strong>
+
+                        </div>
+                        <!-- <div class="col-12 text-center font-weight-bold pl-2 pr-2 ">
+                            <img class="border" [src]="'data:image/jpeg;base64,' + base64Data" width="100%"
+                                alt="Image">
+        
+                        </div> -->
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <!-- <img class="d-block w-100" src="..." alt="First slide"> -->
+                                    <img class="border" [src]="'data:image/jpeg;base64,' + base64Data" width="100%"
+                                                alt="Image">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="E:\Emis_Dashboard_27-06-24-master\src\assets\images\doctor-s-hand-holding-pills.jpg" alt="Second slide">
+                                    <!-- <img class="border" [src]="'data:image/jpeg;base64,' + base64Data" width="100%"  href="#carouselExampleControls" -->
+                                    alt="Image">
+                                </div>
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="E:\Emis_Dashboard_27-06-24-master\src\assets\images\cg-govt.png" alt="Third slide">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev"  data-bs-target="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" data-bs-target="#carouselExampleControls"  role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        
+    </div>
+</ng-container>

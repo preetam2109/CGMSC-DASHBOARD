@@ -1,0 +1,213 @@
+<div class="container-fluid p-4">
+    <div class="row">
+  
+      <!-- First Table -->
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="table-container shadow-sm p-3 mb-5 bg-white rounded">
+          <h3 class="text-primary text-center mb-3">NOC Pending at CGMSC</h3>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="flex-grow-1">
+              <!-- Optional: Add filtering functionality here if needed -->
+            </div>
+            <div>
+              <button mat-button class="btn btn-outline-primary" [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item (click)="exporter.exportTable('xlsx')">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-menu-item (click)="exportToPDF1()">PDF</button>
+              </mat-menu>
+            </div>
+          </div>
+  
+          <!-- Mat Table -->
+          <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource" class="table table-striped mat-elevation-z8" matSort>
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+              <td mat-cell *matCellDef="let element">{{ element.sno }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="facilityid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>facility Id</th>
+              <td mat-cell *matCellDef="let element">{{ element.facilityid }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="nositems">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Items</th>
+              <td mat-cell *matCellDef="let element" (click)="OnItemsClick(element.nocid)" class="clickable-link" >{{ element.nositems }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="nocnumber">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>NOC Number</th>
+              <td mat-cell *matCellDef="let element" >{{ element.nocnumber }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="cmhoforwarddt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>CMHO Forward DT</th>
+              <td mat-cell *matCellDef="let element">{{ element.cmhoforwarddt }}</td>
+            </ng-container>
+            <ng-container matColumnDef="districtname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+              <td mat-cell *matCellDef="let element">{{ element.districtname}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="facilityname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Facility</th>
+              <td mat-cell *matCellDef="let element"  >
+                {{ element.facilityname }}
+              </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="['sno','districtname','facilityname','nositems','cmhoforwarddt','nocnumber']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['sno','districtname','facilityname','nositems','cmhoforwarddt','nocnumber']"></tr>
+          </table>
+        </div>
+        </div>
+      </div>
+  
+      <!-- Second Table -->
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="table-container shadow-sm p-3 mb-5 bg-white rounded">
+          <h3 class="text-primary text-center mb-3">Pending NOC Details</h3>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="flex-grow-1">
+              <input matInput type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div>
+              <button mat-button class="btn btn-outline-primary" [matMenuTriggerFor]="batchExportMenu">Export</button>
+              <mat-menu #batchExportMenu="matMenu">
+                <button mat-menu-item (click)="exporter.exportTable('xlsx')">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-menu-item (click)="exportToPDF2()">PDF</button>
+              </mat-menu>
+            </div>
+          </div>
+  
+          <!-- Mat Table -->
+          <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource1" class="table table-striped mat-elevation-z8" matSort>
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+              <td mat-cell *matCellDef="let element">{{ element.sno }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="sr">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>SR</th>
+                <td mat-cell *matCellDef="let element">{{ element.sr }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="facilityname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Facility</th>
+                <td mat-cell *matCellDef="let element">{{ element.facilityname }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="itemcode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+                <td mat-cell *matCellDef="let element">{{ element.itemcode }}</td>
+              </ng-container>
+              <ng-container matColumnDef="itemname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Item</th>
+                <td mat-cell *matCellDef="let element">{{ element.itemname }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="strengtH1">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Strength</th>
+                <td mat-cell *matCellDef="let element">{{ element.strengtH1 }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="unit">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit</th>
+                <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+              </ng-container>
+              <ng-container matColumnDef="cmhoForwardDT">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>CMHO Forward Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.cmhoForwardDT }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="nocdate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>NOC Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.nocdate }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="applieddt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.applieddt }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="appliedqty">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied Qty</th>
+                <td mat-cell *matCellDef="let element">{{ element.appliedqty }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="cmhoaprqty">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>CMHO Approved Qty</th>
+                <td mat-cell *matCellDef="let element">{{ element.cmhoaprqty }}</td>
+              </ng-container>
+              <ng-container matColumnDef="readywh">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Ready Warehouse</th>
+                <td mat-cell *matCellDef="let element">{{ element.readywh }}</td>
+              </ng-container>
+              <ng-container matColumnDef="uqcwh">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>UQC Warehouse</th>
+                <td mat-cell *matCellDef="let element">{{ element.uqcwh }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="transferqty">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>IWH Qty</th>
+                <td mat-cell *matCellDef="let element">{{ element.transferqty }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="uqcTotal">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>UQC CGMSC</th>
+                <td mat-cell *matCellDef="let element">{{ element.uqcTotal }}</td>
+              </ng-container>
+        
+              
+              <ng-container matColumnDef="nocnumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>NOC Number</th>
+                <td mat-cell *matCellDef="let element">{{ element.nocnumber }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="totalreadycgmsc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Ready CGMSC</th>
+                <td mat-cell *matCellDef="let element">{{ element.totalreadycgmsc }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="tdate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>To Date</th>
+                <td mat-cell *matCellDef="let element">{{ element.tdate }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="districtname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+                <td mat-cell *matCellDef="let element">{{ element.districtname }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nocid">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>nocid</th>
+                <td mat-cell *matCellDef="let element">{{ element.nocid }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="facilityid">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>facilityid</th>
+                <td mat-cell *matCellDef="let element">{{ element.facilityid }}</td>
+              </ng-container>
+
+       
+        
+              <tr mat-header-row *matHeaderRowDef="['sno','facilityname','itemcode','itemname','strengtH1', 'unit','appliedqty','cmhoaprqty','cmhoForwardDT','readywh', 'uqcwh','transferqty','tdate','totalreadycgmsc', 'uqcTotal','districtname','nocnumber']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['sno','facilityname','itemcode','itemname','strengtH1', 'unit','appliedqty','cmhoaprqty','cmhoForwardDT','readywh', 'uqcwh','transferqty','tdate','totalreadycgmsc', 'uqcTotal','districtname','nocnumber']"></tr>
+            </table>
+          </div>
+        </div>
+  
+        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+      </div>
+  
+    </div>
+  </div>
+  

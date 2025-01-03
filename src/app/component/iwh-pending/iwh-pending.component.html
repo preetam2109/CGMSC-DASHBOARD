@@ -1,0 +1,42 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h3> 
+      <!-- Chhattisgarh Medical Services Corporation Ltd. -->
+  
+    </h3>
+  </div>
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label="IWH Initiated But Not Issued BY 1st Warehouse">
+      <ng-template matTabContent>
+        <app-iwh-pending-tab-one *ngIf="selectedTabIndex === 0"></app-iwh-pending-tab-one>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="IWH Issued but Not Received BY 2nd Warehouse">
+      <ng-template matTabContent>
+        <app-iwh-pending-tab-two *ngIf="selectedTabIndex === 1"></app-iwh-pending-tab-two>
+      </ng-template>
+    </mat-tab>
+    <!-- <mat-tab label="Tender Wise">
+      <ng-template matTabContent>
+        <app-emd-pending-tenderwise *ngIf="selectedTabIndex === 2"></app-emd-pending-tenderwise>
+      </ng-template>
+    </mat-tab>
+  
+    <mat-tab label="Details">
+      <ng-template matTabContent>
+        <app-emd-pending *ngIf="selectedTabIndex === 3"></app-emd-pending>
+      </ng-template>
+    </mat-tab>
+     -->
+    <!-- <mat-tab label="EMD Released">
+      <ng-template matTabContent>
+        <app-emd-released *ngIf="selectedTabIndex === 2"></app-emd-released>
+      </ng-template>
+    </mat-tab> -->
+    
+  </mat-tab-group>
+  
+  </div>
+  

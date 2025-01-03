@@ -1,0 +1,60 @@
+<div class="container mt-3">
+    <h1 style="color: rgb(50, 50, 164); margin-bottom: 20px;" > <strong>Average Time Taken Days For Quality Control Testing </strong></h1>
+  <div class="row mb-3">
+    <div class="col-md-6 d-flex flex-wrap">
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="all" [(ngModel)]="selectedCategory"
+          value="All" (change)="updateSelectedHodid()"  />
+        <label class="form-check-label" for="all">All</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategory"
+          value="Drugs" (change)="updateSelectedHodid()"  />
+        <label class="form-check-label" for="drugs">Drugs</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" [(ngModel)]="selectedCategory"
+          value="Consumables" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="consumables">Consumables</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" [(ngModel)]="selectedCategory"
+          value="Reagent" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="reagent">Reagent</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategory"
+          value="AYUSH" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="ayush">AYUSH</label>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- <div class="row mb-3 text-center">
+      <div class="col-md-3">
+        <button class="btn btn-primary w-100" (click)="loadData(mcid)">60 Days</button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-secondary w-100" (click)="loadData(mcid)">70 Days</button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-secondary w-100" (click)="loadData(mcid)">75 Days</button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-secondary w-100" (click)="loadData(mcid)">90 Days</button>
+      </div>
+    </div> -->
+
+    <div class="row">
+      <div class="col-12">
+        <div class="chart-container">
+          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+            [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+            [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,192 @@
+.card-class {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .card-class:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+
+  .card-class {
+    margin-bottom: 20px; /* Add spacing between cards */
+  }
+  
+  .container-fluid {
+    /* padding: 5px; */
+    margin-top: -16px;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .mat-card-header {
+    align-items: center;
+  }
+  
+
+  .button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    
+    
+}
+
+  
+  .button-container .btn {
+    flex: 1 1 auto;
+    min-width: 100px;
+    max-width: 200px;
+    text-align: center;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    /* flex: 1 1 auto;
+    min-width: 0px;
+    max-width: 95px;
+    text-align: center;
+    border: none;
+    padding: 5px;
+    font-size: 15px;
+    border-radius: 27px;
+    cursor: pointer;
+    transition: transform 0.3s ease; */
+  }
+  
+  .button-container .btn:hover {
+    transform: scale(1.05);
+  }
+
+  
+  .dropdown-container {
+    display: flex;
+    justify-content: center;
+    /* padding: 20px; */
+
+  }
+  
+  .dropdown-field {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  
+  .active-button {
+    /* border: 2px solid #FF9800; */
+    border: 2px solid #D3D3D3;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+/* 
+  .division-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .division-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .active-button {
+    border: 2px solid #000;
+    font-weight: bold;
+  }
+   */
+
+
+   .division-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+  }
+  
+  .division-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+    white-space: nowrap;
+  }
+  
+  .button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .active-button {
+    border: 2px solid #000;
+    font-weight: bold;
+  }
+  
+  @media (max-width: 768px) {
+    .division-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .division-label {
+      margin-bottom: 10px;
+    }
+  }
+  
+  .card {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .card-division {
+    /* border-radius: 10px; */
+    overflow: hidden;
+  }
+  
+  .card-body p {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* .dropdown-container {
+   
+  } */

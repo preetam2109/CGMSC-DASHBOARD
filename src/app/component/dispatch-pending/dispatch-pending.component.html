@@ -1,0 +1,71 @@
+ <!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="line-scale-party" [fullScreen]="true">
+  <p style="color: white"> Please wait... </p>
+</ngx-spinner>
+<div class="container" style="background-color: #e2e3e5">
+  <h3> Chhattisgarh Medical Services Corporation Ltd.</h3>
+</div>
+
+<mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+  <mat-tab label="Dashboard">
+
+  </mat-tab>
+
+<mat-tab label="Dispatch Pending">
+<app-dispatch-pending-one>
+  
+</app-dispatch-pending-one>
+    
+
+  </mat-tab>
+  <mat-tab label="Receipt Pending"> 
+    <app-receipt-pending></app-receipt-pending>
+  </mat-tab>
+  <mat-tab label="Installation Pending">
+   <app-installation-pending></app-installation-pending>  
+  </mat-tab>
+
+
+
+
+
+  
+
+</mat-tab-group>  -->
+
+
+
+
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#fff" type="line-scale-party" [fullScreen]="true">
+  <p style="color: white"> Please wait... </p>
+</ngx-spinner> -->
+
+<div class="w-100 " style="background-color: #e2e3e5">
+  <h3> Chhattisgarh Medical Services Corporation Ltd.</h3>
+</div>
+<div class="container-fluid">
+<mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+  <mat-tab label="Dashboard">
+    <ng-template matTabContent>
+      <!-- <app-dashboard *ngIf="selectedTabIndex === 0"></app-dashboard> -->
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Dispatch Pending">
+    <ng-template matTabContent>
+      <app-dispatch-pending-one *ngIf="selectedTabIndex === 1"></app-dispatch-pending-one>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Receipt Pending">
+    <ng-template matTabContent>
+      <app-receipt-pending *ngIf="selectedTabIndex === 2"></app-receipt-pending>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Installation Pending">
+    <ng-template matTabContent>
+      <app-installation-pending *ngIf="selectedTabIndex === 3"></app-installation-pending>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+</div>

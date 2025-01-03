@@ -1,0 +1,90 @@
+.submenu {
+  margin-left: 20px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.submenu mat-list-item {
+  padding-left: 16px; /* Add extra padding for submenu items */
+}
+
+.submenu[hidden] {
+  max-height: 0;
+  padding: 0;
+}
+
+
+.mat-toolbar.mat-dark {
+    background: #000;
+    color: #fff;
+}
+.mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+.toolbar-title {
+    flex: 1;
+    text-align: left;
+    margin-left: 16px; /* Adjust the margin as needed */
+}
+.example-spacer {
+    flex: 1;
+}
+.logout-button {
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+
+/* pwa */
+.add-to-home-screen {
+    width: 300px;
+    position: fixed;
+    bottom: -100px; /* Start off-screen */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    transition: transform 0.5s ease-in-out, bottom 0.5s ease-in-out;
+
+  }
+  
+  .add-to-home-screen.show {
+    bottom: 20px; /* Final position */
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  .add-to-home-screen img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .add-to-home-screen button {
+    background: #6200ea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-to-home-screen button:hover {
+    background: #3700b3;
+  }
+  
+  .add-to-home-screen .close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    margin-left: auto;
+    cursor: pointer;
+  }
+
+ 
+  
+  /* pwa close */
+  

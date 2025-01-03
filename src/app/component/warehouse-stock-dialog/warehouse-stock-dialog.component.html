@@ -1,0 +1,92 @@
+<h1 mat-dialog-title>Warehouse Stock Details</h1>
+<div mat-dialog-content class="dialog-content">
+     <p><strong>Item Code:</strong> {{itemcode}}</p>
+  <p><strong>Item Name:</strong> {{itemname}}</p>
+  <p><strong>Strength:</strong> {{strengtH1}}</p>
+  <p><strong>SKU:</strong> {{sku}}</p>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+         
+    <!-- ID Column -->
+    <!-- <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+    </ng-container> -->
+
+       <!-- Serial Number Column -->
+       <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+        <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+      </ng-container>
+      
+    <!-- Warehouse Name Column -->
+    <ng-container matColumnDef="warehousename">
+      <mat-header-cell *matHeaderCellDef> Warehouse </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.warehousename}} </mat-cell>
+    </ng-container>
+
+    <!-- Warehouse ID Column -->
+    <!-- <ng-container matColumnDef="warehouseid">
+      <mat-header-cell *matHeaderCellDef> Warehouse ID </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.warehouseid}} </mat-cell>
+    </ng-container> -->
+
+    <!-- Ready for Issue Column -->
+    <!-- <ng-container matColumnDef="readyforissue">
+      <mat-header-cell *matHeaderCellDef> Ready </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.readyforissue}} </mat-cell>
+    </ng-container> -->
+    <ng-container matColumnDef="readyforissue">
+        <mat-header-cell *matHeaderCellDef> Ready </mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngStyle]="{'color': element.readyforissue === 0 ? 'red' : 'black'}">
+          {{element.readyforissue}}
+        </mat-cell>
+      </ng-container>
+      
+
+    <!-- Pending Column -->
+    <ng-container matColumnDef="pending">
+      <mat-header-cell *matHeaderCellDef> Under QC </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.pending}} </mat-cell>
+    </ng-container>
+
+    <!-- Supplier Pipeline Column -->
+    <ng-container matColumnDef="supplierpipeline">
+      <mat-header-cell *matHeaderCellDef> Pipeline </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.supplierpipeline}} </mat-cell>
+    </ng-container>
+
+    <!-- IWH Pipeline Column -->
+    <ng-container matColumnDef="iwhpipeline">
+      <mat-header-cell *matHeaderCellDef> IWH Pipeline </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.iwhpipeline}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="issuedfy">
+      <mat-header-cell *matHeaderCellDef> CFY Issued Quantity </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.issuedfy}} </mat-cell>
+    </ng-container>
+
+    
+    
+            <!-- Header Row -->
+            <!-- <tr mat-header-row *matHeaderRowDef="['warehousename','readyforissue','iwhpipeline','pending','supplierpipeline']"></tr> -->
+  
+            <!-- Data Rows -->
+            <!-- <tr mat-row *matRowDef="let row; columns: ['warehousename','readyforissue','iwhpipeline','pending','supplierpipeline'];"></tr> -->
+  
+    
+    
+    
+    <!-- Table Header -->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <!-- Table Rows -->
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
+
+  </mat-table>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button (click)="onCloseClick()">Close</button>
+  <button mat-button (click)="exportToPDF()">Export to PDF</button>
+</div>

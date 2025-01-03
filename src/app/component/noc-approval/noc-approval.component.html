@@ -1,0 +1,189 @@
+<div class="container-fluid p-4">
+    <div class="row">
+  
+      <!-- First Table -->
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="table-container shadow-sm p-3 mb-5 bg-white rounded">
+          <h3 class="text-primary text-center mb-3"> NOC Approved By CGMSC</h3>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="flex-grow-1">
+              <!-- Optional: Add filtering functionality here if needed -->
+            </div>
+            <div>
+              <button mat-button class="btn btn-outline-primary" [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item (click)="exporter.exportTable('xlsx')">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-menu-item (click)="exportToPDF1()">PDF</button>
+              </mat-menu>
+            </div>
+          </div>
+  
+          <!-- Mat Table -->
+          <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource" class="table table-striped mat-elevation-z8" matSort>
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+              <td mat-cell *matCellDef="let element">{{ element.sno }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="districtname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+              <td mat-cell *matCellDef="let element">{{ element.districtname }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="facilityname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Facility</th>
+              <td mat-cell *matCellDef="let element">{{ element.facilityname }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="nosapplied">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied</th>
+              <td mat-cell  *matCellDef="let element" (click)="OnItemsClick(element.facilityid,element.districtname)" class="clickable-link"  >{{ element.nosapplied }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="approved">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved</th>
+              <td mat-cell *matCellDef="let element" (click)="OnItemsClickApproved(element.facilityid,element.districtname)" class="clickable-link" >{{ element.approved }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="rejected">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Rejected</th>
+              <td mat-cell *matCellDef="let element" (click)="OnItemsClickRejected(element.facilityid,element.districtname)" class="clickable-link" >
+                {{ element.rejected }}
+              </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="['sno','districtname','facilityname','nosapplied','approved','rejected']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['sno','districtname','facilityname','nosapplied','approved','rejected']"></tr>
+          </table>
+        </div>
+        </div>
+      </div>
+  
+      <!-- Second Table -->
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="table-container shadow-sm p-3 mb-5 bg-white rounded">
+          <h3 class="text-primary text-center mb-3">{{selectedColumnName}} NOC Detail {{selectedDistrictName}} </h3>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="flex-grow-1">
+              <input matInput type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div>
+              <button mat-button class="btn btn-outline-primary" [matMenuTriggerFor]="batchExportMenu">Export</button>
+              <mat-menu #batchExportMenu="matMenu">
+                <button mat-menu-item (click)="exporter.exportTable('xlsx')">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-menu-item (click)="exportToPDF2()">PDF</button>
+              </mat-menu>
+            </div>
+          </div>
+  
+          <!-- Mat Table -->
+          <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource1" class="table table-striped mat-elevation-z8" matSort>
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+              <td mat-cell *matCellDef="let element">{{ element.sno }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="facilityname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Facility</th>
+                <td mat-cell *matCellDef="let element">{{ element.facilityname }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="itemcode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+                <td mat-cell *matCellDef="let element">{{ element.itemcode }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="itemname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Item</th>
+                <td mat-cell *matCellDef="let element">{{ element.itemname }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="strengtH1">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Strength</th>
+                <td mat-cell *matCellDef="let element">{{ element.strengtH1 }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="unit">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit</th>
+                <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+              </ng-container>
+        
+       
+        
+              <ng-container matColumnDef="applieddt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied DT</th>
+                <td mat-cell *matCellDef="let element">{{ element.applieddt }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="appliedqty">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied Qty</th>
+                <td mat-cell *matCellDef="let element">{{ element.appliedqty }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="cmhoaprqty">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>CMHO Approved Qty</th>
+                <td mat-cell *matCellDef="let element">{{ element.cmhoaprqty }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="approvedqty">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved Qty</th>
+                <td mat-cell *matCellDef="let element">{{ element.approvedqty }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="rejectqty">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Rejected Qty</th>
+                <td mat-cell *matCellDef="let element">{{ element.rejectqty }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="cgmscaprdttime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>CGMSC Approval Date & Time</th>
+                <td mat-cell *matCellDef="let element">{{ element.cgmscaprdttime }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="cgmsclremarks">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>CGMSC Remarks</th>
+                <td mat-cell *matCellDef="let element">{{ element.cgmsclremarks }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="isiwh">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Is IWH?</th>
+                <td mat-cell *matCellDef="let element">{{ element.isiwh }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="whname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Warehouse </th>
+                <td mat-cell *matCellDef="let element">{{ element.whname }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="nocnumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>NOC Number</th>
+                <td mat-cell *matCellDef="let element">{{ element.nocnumber }}</td>
+              </ng-container>
+        
+              <ng-container matColumnDef="nocid">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>NOC ID</th>
+                <td mat-cell *matCellDef="let element">{{ element.nocid }}</td>
+              </ng-container>
+
+       
+        
+              <tr mat-header-row *matHeaderRowDef="[ 'sno', 'facilityname', 'itemcode', 'itemname', 'strengtH1', 'unit',  'applieddt', 'appliedqty', 'cmhoaprqty', 'approvedqty', 'rejectqty', 'cgmscaprdttime', 'cgmsclremarks', 'isiwh', 'whname', 'nocnumber'  ]"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['sno', 'facilityname', 'itemcode', 'itemname', 'strengtH1', 'unit', 'applieddt', 'appliedqty', 'cmhoaprqty', 'approvedqty', 'rejectqty', 'cgmscaprdttime', 'cgmsclremarks', 'isiwh', 'whname', 'nocnumber'  ]"></tr>
+            </table>
+          </div>
+        </div>
+  
+        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+      </div>
+  
+    </div>
+  </div>
+  

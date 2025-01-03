@@ -1,0 +1,88 @@
+<h1 mat-dialog-title>
+    <div class="dialog-header">
+      <div class="title-container">
+        <span>Pipeline Details</span>
+      </div>
+      <button mat-icon-button (click)="exportToPDF()">
+        <mat-icon>picture_as_pdf</mat-icon>
+      </button>
+    </div>
+  </h1>
+  
+  <div mat-dialog-content>
+    <div class="info-container">
+        <div class="info-item-left">
+            <p><strong>Item Name:</strong> {{itemname}}</p>
+            <p><strong>SKU:</strong> {{sku}}</p>
+        </div>
+        <div class="info-item-right">
+            <p><strong>Strength:</strong> {{strengtH1}}</p>
+            <p><strong>EDL Type:</strong> {{edltype}}</p>  
+        </div>
+    </div>
+  
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        
+        <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SNo </th>
+            <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+          </ng-container>
+        
+        <!-- PONO ID Column -->
+        <ng-container matColumnDef="pono">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Po No </th>
+          <td mat-cell *matCellDef="let element"> {{ element.pono }} </td>
+        </ng-container>
+      
+        <!-- Po Date Column -->
+        <ng-container matColumnDef="soissuedate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Po Date </th>
+          <td mat-cell *matCellDef="let element"> {{ element.soissuedate }} </td>
+        </ng-container>
+      
+        <!-- Po Qty Column -->
+        <ng-container matColumnDef="absqty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Po Qty </th>
+          <td mat-cell *matCellDef="let element"> {{ element.absqty }} </td>
+        </ng-container>
+      
+        <!-- Dispatch Qty Column -->
+        <ng-container matColumnDef="disqty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Dispatch Qty </th>
+          <td mat-cell *matCellDef="let element"> {{ element.disqty }} </td>
+        </ng-container>
+      
+        <!-- Receipt Qty Column -->
+        <ng-container matColumnDef="receiptabsqty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Receipt Qty </th>
+          <td mat-cell *matCellDef="let element"> {{ element.receiptabsqty }} </td>
+        </ng-container>
+      
+        <!-- Pipeline Column -->
+        <ng-container matColumnDef="pipelineqty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Pipeline </th>
+          <td mat-cell *matCellDef="let element"> {{ element.pipelineqty }} </td>
+        </ng-container>
+      
+        <!-- Expected Delivery Date Column -->
+        <ng-container matColumnDef="expecteddeliverydate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Expected Delivery Date </th>
+          <td mat-cell *matCellDef="let element"> {{ element.expecteddeliverydate }} </td>
+        </ng-container>
+      
+        <!-- Table rows and headers -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      
+    
+    <!-- Fallback message for no data -->
+    <div *ngIf="!data.pipiLineDetails?.length">No pipeline data available.</div>
+  </div>
+  
+  <div mat-dialog-actions class="text-center">
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
+  
+ 
+  

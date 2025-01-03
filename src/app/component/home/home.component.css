@@ -1,0 +1,20 @@
+.container {
+    text-align:right;
+    /* padding: 20px; Adds padding to the container */
+  }
+  
+  .title {
+    display: inline-block;
+    font-size: 25px; /* Larger font size */
+    font-weight: bold;
+    font-family: "Poppins", sans-serif; /* Use a modern font */
+    margin-right: 10px; /* Adds space between title and username */
+  }
+  
+  .username {
+    text-transform: capitalize;
+    display: inline-block;
+    font-size: 20px;
+    font-family: "Roboto", sans-serif; /* Use a different font for contrast */
+    color: #888; /* Slightly darker color */
+  }

@@ -1,0 +1,17 @@
+.card-class {
+  margin-bottom: 20px; /* Add spacing between cards */
+}
+
+.container-fluid {
+  /* padding: 5px; */
+  margin-top: -16px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mat-card-header {
+  align-items: center;
+}
+

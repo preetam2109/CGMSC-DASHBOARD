@@ -1,0 +1,30 @@
+<div class="container mt-4">
+    <div class="row justify-content-center">
+      <!-- EDL Chart -->
+      <div class="col-md-6 col-sm-12 text-center">
+        <h5>EDL</h5> <!-- Title for EDL Chart -->
+        <div id="chart-edl" *ngIf="chartOptionsEDL" class="chart-container">
+          <apx-chart
+            [series]="chartOptionsEDL.series"
+            [chart]="chartOptionsEDL.chart"
+            [labels]="chartOptionsEDL.labels"
+            [responsive]="chartOptionsEDL.responsive"
+          ></apx-chart>
+        </div>
+      </div>
+  
+      <!-- Non-EDL Chart -->
+      <div class="col-md-6 col-sm-12 text-center">
+        <h5>NON-EDL</h5> <!-- Title for Non-EDL Chart -->
+        <div id="chart-non-edl" *ngIf="chartOptionsNonEDL" class="chart-container">
+          <apx-chart
+            [series]="chartOptionsNonEDL.series"
+            [chart]="chartOptionsNonEDL.chart"
+            [labels]="chartOptionsNonEDL.labels"
+            [responsive]="chartOptionsNonEDL.responsive"
+          ></apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+  

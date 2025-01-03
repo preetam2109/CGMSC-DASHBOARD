@@ -1,0 +1,116 @@
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#fff" type="line-scale-party" [fullScreen]="true">
+    <p style="color: white"> Please wait... </p>
+</ngx-spinner> -->
+
+<div class="container-fluid p-4">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="chart-container">
+          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+            [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+            [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"></apx-chart>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12 table-container mat-elevation-z8">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <mat-form-field class="filter-field flex-grow-1">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyTextFilter($event)" placeholder="Filter">
+          </mat-form-field>
+          <div class="export-menu-container ">
+            <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+            <mat-menu #exportMenu="matMenu">
+              <button mat-menu-item
+                (click)="exporter.exportTable('xlsx', { fileName: 'complaints', sheet: 'complaints', Props: { Author: 'cgmsc' }})">Excel</button>
+              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+              <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+              <button mat-button (click)="exportToPDF()">PDF</button>
+              <!-- <button mat-button (click)="showAllData()">Show All</button> -->
+
+            </mat-menu>
+            
+          </div>
+          <div class="show-data">
+            <button class="btn-sm show-all-btn" mat-button (click)="showAllData()">Show All</button>
+          <!-- <button class="btn-sm show-all-15" mat-button (click)="showAllDataGreaterthan15days()">>15 Days</button>
+          <button class="btn-sm show-all-715" mat-button (click)="showAllData7to15days()">7-15 Days</button>
+          <button class="btn-sm show-all-7" mat-button (click)="showAllData7days()">7 Days</button> -->
+          </div>
+          
+
+
+        </div>
+  
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+        
+            <!-- Serial Number Column -->
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+              <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+            </ng-container>
+        
+            <!-- Item Code Column -->
+            <ng-container matColumnDef="itemcode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Code </th>
+              <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+            </ng-container>
+        
+            <!-- Item Name Column -->
+            <ng-container matColumnDef="itemname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+              <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+            </ng-container>
+        
+            <!-- Unit Column -->
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+              <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+            </ng-container>
+        
+            <!-- Transfer Date Column -->
+            <ng-container matColumnDef="transferdate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Transfer Date </th>
+              <td mat-cell *matCellDef="let element"> {{ element.transferdate }} </td>
+            </ng-container>
+        
+            <!-- Transfer Qty Column -->
+            <ng-container matColumnDef="transferqty">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Transfer Qty </th>
+              <td mat-cell *matCellDef="let element"> {{ element.transferqty }} </td>
+            </ng-container>
+        
+            <!-- From Warehouse Column -->
+            <ng-container matColumnDef="fromwarehousename">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> From Warehouse </th>
+              <td mat-cell *matCellDef="let element"> {{ element.fromwarehousename }} </td>
+            </ng-container>
+        
+            <!-- To Warehouse Column -->
+            <ng-container matColumnDef="towarehousename">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> To Warehouse </th>
+              <td mat-cell *matCellDef="let element"> {{ element.towarehousename }} </td>
+            </ng-container>
+        
+            <!-- Pending Since Column -->
+            <ng-container matColumnDef="pendingsince">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Pending Since (days) </th>
+              <td mat-cell *matCellDef="let element"> {{ element.pendingsince }} </td>
+            </ng-container>
+        
+            <!-- Header Row -->
+            <tr mat-header-row *matHeaderRowDef="[ 'sno','itemcode','itemname','unit','transferdate','transferqty','fromwarehousename','towarehousename','pendingsince' ]"></tr>
+        
+            <!-- Data Rows -->
+            <tr mat-row *matRowDef="let row; columns: [ 'sno','itemcode','itemname','unit','transferdate','transferqty','fromwarehousename','towarehousename','pendingsince' ]"></tr>
+        
+          </table>
+          </div>
+    
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+    

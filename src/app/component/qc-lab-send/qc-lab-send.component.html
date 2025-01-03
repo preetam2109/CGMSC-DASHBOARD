@@ -1,0 +1,138 @@
+<div class="container-fluid p-4">
+  <!-- Chart Section -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="flex-container mb-3">
+        <button class="btn btn-outline-primary btn-sm" (click)="loadData(0)">Show All</button>
+        <button class="btn btn-outline-info btn-sm" (click)="loadData(1)">Drugs</button>
+        <button class="btn btn-outline-success btn-sm" (click)="loadData(2)">Consumables</button>
+        <button class="btn btn-outline-secondary btn-sm" (click)="loadData(4)">AYUSH</button>
+      </div>
+      <div class="chart-container">
+        <apx-chart 
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [dataLabels]="chartOptions.dataLabels"
+          [plotOptions]="chartOptions.plotOptions"
+          [xaxis]="chartOptions.xaxis"
+          [stroke]="chartOptions.stroke"
+          [fill]="chartOptions.fill"
+          [yaxis]="chartOptions.yaxis"
+          [title]="chartOptions.title"
+          [tooltip]="chartOptions.tooltip"
+          [legend]="chartOptions.legend">
+        </apx-chart>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="row">
+    <div class="col-12 table-container mat-elevation-z8">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <mat-form-field class="filter-field flex-grow-1">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyTextFilter($event)" placeholder="Filter">
+        </mat-form-field>
+        <div class="export-menu-container">
+          <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+          <mat-menu #exportMenu="matMenu">
+            <button mat-menu-item (click)="exporter.exportTable('xlsx', { fileName: 'complaints', sheet: 'complaints', Props: { Author: 'cgmsc' }})">Excel</button>
+            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+            <button mat-button (click)="exportToPDF()">PDF</button>
+          </mat-menu>
+        </div>
+        <div class="show-data">
+          <button class="btn-sm btn btn-primary" (click)="showAllData()">Show All</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+          <!-- Define table columns and rows here -->
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+            <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="itemcode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Code </th>
+            <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="itemname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+            <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="qcdayslab">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> TimeLine For Test </th>
+            <td mat-cell *matCellDef="let element"> {{ element.qcdayslab }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="unit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+            <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="batchno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch No </th>
+            <td mat-cell *matCellDef="let element"> {{ element.batchno }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="rqty">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+            <td mat-cell *matCellDef="let element"> {{ element.rqty }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expdate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Expiration Date </th>
+            <td mat-cell *matCellDef="let element"> {{ element.expdate }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="whReceiptDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse Receipt Date </th>
+            <td mat-cell *matCellDef="let element"> {{ element.whReceiptDate }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="qcReceiptDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> QC Receipt Date </th>
+            <td mat-cell *matCellDef="let element"> {{ element.qcReceiptDT }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="delaypara">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Delay Parameter </th>
+            <td mat-cell *matCellDef="let element"> {{ element.delaypara }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="delayparA1">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Delay Parameter A1 </th>
+            <td mat-cell *matCellDef="let element"> {{ element.delayparA1 }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="mcategory">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Medical Category </th>
+            <td mat-cell *matCellDef="let element"> {{ element.mcategory }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="mcid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Medical Category ID </th>
+            <td mat-cell *matCellDef="let element"> {{ element.mcid }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="itemid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item ID </th>
+            <td mat-cell *matCellDef="let element"> {{ element.itemid }} </td>
+          </ng-container>
+
+          <!-- Header and Data Rows -->
+          <tr mat-header-row *matHeaderRowDef="['sno','itemcode', 'itemname', 'qcdayslab', 'unit', 'batchno', 'rqty', 'expdate', 'whReceiptDate', 'qcReceiptDT', 'delaypara',  'mcategory']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['sno','itemcode', 'itemname', 'qcdayslab', 'unit', 'batchno', 'rqty', 'expdate', 'whReceiptDate', 'qcReceiptDT', 'delaypara',  'mcategory']"></tr>
+        </table>
+      </div>
+      <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

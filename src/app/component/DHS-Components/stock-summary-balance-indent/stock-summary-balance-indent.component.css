@@ -1,0 +1,153 @@
+.chart-container {
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Adjust to your parent container */
+  }
+  
+  .chart-wrapper {
+    width: 110%; /* Reduce the width of the chart */
+    max-width: 800px; /* Optional: Set a max-width to avoid overly large charts */
+    margin: 0 auto; /* Center alignment */
+  }
+
+
+
+
+  .container-fluid {
+    padding: 20px;
+  }
+  
+  .chart-container {
+    /* margin-bottom: 10px; Add margin below the chart to separate it from the table */
+    width: 600px;  /* Set desired width */
+    height: 500px; /* Set desired height */
+    margin: auto;  
+    /* Center the chart horizontally */
+  }
+  
+  .flex-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .table-responsive {
+    margin-top: 0; /* Remove unnecessary top margin */
+  }
+  
+  .filter-field {
+    margin-right: 16px;
+  }
+  
+  .export-menu-container {
+    margin-left: 16px;
+  }
+  
+  .show-data {
+    margin-top: 10px;
+  }
+  
+  .show-all-btn {
+    font-size: x-small;
+    /* color: #0077b6; */
+  }
+  
+  .show-all-15 {
+    font-size: x-small;
+    color: #c1121f;
+  }
+  
+  .show-all-715 {
+    font-size: x-small;
+    color: #f77f00;
+  }
+  
+  .show-all-7 {
+    font-size: x-small;
+    color: #386641;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+  }
+  
+  .table th {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .table td {
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .table td,
+  .table th {
+    border: 1px solid #e0e0e0;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .mat-paginator {
+    margin-top: 20px;
+  }
+  
+  .text p {
+    font-size: small; /* Adjust text size for small screens */
+  }
+  
+  /* Additional styling for mobile view */
+  @media (max-width: 768px) {
+    .table-container {
+      padding: 0;
+    }
+  
+    .table {
+      font-size: 14px;
+    }
+  
+    .filter-field,
+    .export-menu-container {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  
+    .text p {
+      font-size: xx-small; /* Adjust text size for small screens */
+    }
+  
+    .flex-container {
+      display:flex;
+      align-items: flex-start;
+      
+    /* justify-content: center; */
+    align-items: center;
+    }
+  
+    .show-data {
+      position: static;
+      margin-top: 10px;
+    }
+  
+    .chart-container {
+      margin-bottom: 30px; /* Increase space between chart and table for better separation */
+    }
+  
+    .table th, 
+    .table td {
+      padding: 6px; /* Reduce padding for smaller screens */
+    }
+  }
+  
+  

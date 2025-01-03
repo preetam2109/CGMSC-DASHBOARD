@@ -1,0 +1,63 @@
+<div class="container mt-3">
+    <h1 style="color: rgb(50, 50, 164); margin-bottom: 20px;" > <strong>Empanelled Lab Average Time Taken Days For Quality Control Testing  </strong></h1>
+    <div class="d-flex">
+    <button 
+        class="btn btn-outline-info btn-sm" 
+        [ngClass]="{'Active': yearid === 0}" 
+        (click)="loadData(0)">
+        All
+      </button>
+    <button 
+        class="btn btn-outline-success btn-sm" 
+        [ngClass]="{'Active': yearid === 545}" 
+        (click)="loadData(545)">
+        24-25
+      </button>
+      <button 
+        class="btn btn-outline-info btn-sm" 
+        [ngClass]="{'Active': yearid === 544}" 
+        (click)="loadData(544)">
+        23-24
+      </button>
+      <button 
+        class="btn btn-outline-primary btn-sm" 
+        [ngClass]="{'Active': yearid === 542}" 
+        (click)="loadData(542)">
+        22-23
+      </button>
+  </div>
+
+
+    <!-- <div class="row mb-3 text-center">
+      <div class="col-md-3">
+        <button class="btn btn-primary w-100" (click)="loadData(mcid)">60 Days</button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-secondary w-100" (click)="loadData(mcid)">70 Days</button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-secondary w-100" (click)="loadData(mcid)">75 Days</button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-secondary w-100" (click)="loadData(mcid)">90 Days</button>
+      </div>
+    </div> -->
+
+    <div class="row">
+      <div class="col-12">
+        <div class="chart-container">
+          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+            [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+            [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+

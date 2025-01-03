@@ -1,0 +1,117 @@
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="d-flex align-items-center mb-3">
+    <div class="container" style="text-align: center; max-width: 100%; overflow-x: auto;">
+      <h1 style="color: rgb(50, 50, 164);"><strong>In-Transit Issues</strong></h1>
+    </div>
+  </div>
+
+  <!-- Dropdowns and Remarks -->
+  <div class="card p-3">
+    <div class="mb-3">
+      <label for="itemDropdown" class="form-label"><strong>Select Item:</strong></label>
+      <select id="itemDropdown" class="form-select" [(ngModel)]="selectedItem" (change)="onItemChange()">
+        <option *ngFor="let item of items" [value]="item.ponoid">{{ item.details }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="statusDropdown" class="form-label"><strong>Status:</strong></label>
+      <select id="statusDropdown" class="form-select" [(ngModel)]="selectedStatus" (change)="onMasRemarksChange()">
+        <option *ngFor="let status of statuses" [value]="status.remid">{{ status.remarks }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3" *ngIf="isanpractive === 'Y'; else showTextbox">
+      <label for="vehicleDropdown" class="form-label"><strong>Vehicle Number:</strong></label>
+      <select id="vehicleDropdown" class="form-select" [(ngModel)]="selectedVehicleNumber" (change)="onMasVehicleChange()">
+        <option *ngFor="let vhicle of vehicles" [value]="vhicle.tranid">{{ vhicle.vplateno }}</option>
+      </select>
+    </div>
+    
+    <ng-template #showTextbox>
+      <div class="mb-3">
+        <label for="vehicleTextbox" class="form-label"><strong>Vehicle Number:</strong></label>
+        <input 
+          id="vehicleTextbox" 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="plateNo" 
+          placeholder="Enter vehicle number manually" 
+        />
+      </div>
+    </ng-template>
+    
+
+    <div class="mb-3">
+      <label for="remark" class="form-label"><strong>Remark (Optional):</strong></label>
+      <textarea id="remark" class="form-control" rows="2" [(ngModel)]="remark"></textarea>
+    </div>
+
+    <button class="btn btn-primary w-100" (click)="saveData()">Save</button>
+  </div>
+
+  <!-- Table for Displaying Pipeline Details -->
+  <div *ngIf="pipelineDetails.length > 0" class="card p-3 mt-4">
+    <!-- <h4>Pipeline Details </h4> -->
+    <!-- code -->
+    <div *ngFor="let detail of pipelineDetails" class="card p-1 mb-2" style="max-width: 320px; margin: 0 auto;">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <h5 class="text-primary mb-0"><strong>Code:</strong> {{detail.itemcode}}</h5>
+        <h5 class="text-primary mb-0"><strong>PO:</strong> {{detail.pono}}</h5>
+      </div>
+    
+      <div class="d-flex justify-content-between align-items-center">
+        <h6 class="text-secondary mb-0"><strong>Dated:</strong> {{detail.soissuedate}}</h6>
+      </div>
+    </div>
+    
+    
+    
+    <!-- pono -->
+     <!-- soissuedate -->
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Days Since PO</th>
+            <!-- <th>PO No</th> -->
+            <!-- <th>Code</th> -->
+
+            <th>Item</th>
+            <th>Strength</th>
+            <th>SKU</th>
+            <th>NIB Required</th>
+            <th>Ordered QTY</th>
+            <th>Received QTY / %</th>
+            <th>Pipeline QTY</th>
+            <th>Expected Delivery Till</th>
+            <th>Dispatch QTY By Supplier</th>
+            <th>Supplier</th>
+            <th>Contact</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of pipelineDetails">
+            <!-- <td>{{ detail.pono }}</td> -->
+            <td>{{ detail.days }} days</td>
+            <!-- <td>{{ detail.itemcode }}</td> -->
+            <td style="width: 200px;" >{{ detail.itemname }}</td>
+            <td>{{ detail.unit }}</td>
+            <td>{{ detail.strengtH1 }}</td>
+            <td>{{ detail.nablreq }}</td>
+            <td>{{ detail.absqty }}</td>
+            <td>{{ detail.receiptabsqty }}</td>
+            <td>{{ detail.pipelineqty }}</td>
+            <td>{{ detail.expecteddeliverydate }}</td>
+            <td>{{ detail.disqty }}</td>
+            <td>{{ detail.suppliername }}</td>
+            <td style="width: 200px;">{{ detail.phonE1 }} / {{ detail.email }}</td>
+            
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

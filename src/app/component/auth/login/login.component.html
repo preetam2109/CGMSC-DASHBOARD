@@ -1,0 +1,747 @@
+<div class="container-fluid vh-100 d-flex flex-column">
+<!-- new code -->
+    <!-- Header -->
+    <header class="header text-white py-3 bg-success" style="border: 2px solid;">
+      <div class="container d-flex flex-wrap justify-content-between align-items-center">
+          <!-- Left Logo -->
+          <div class="header-logo-container d-flex justify-content-center justify-content-md-start flex-shrink-0">
+              <img src="https://seeklogo.com/images/C/chhattisgarh-govt-logo-CDE4C0558C-seeklogo.com.png" alt="Left Logo"
+                  class="header-logo img-fluid" style="max-height: 60px;">
+          </div>
+  
+          <!-- Title Section -->
+          <div class="header-title text-center flex-grow-1 mx-md-3 my-2 my-md-0">
+              <h1 class="cgmsctitle text-white fs-5 fw-bold mb-1">छत्तीसगढ़ औषधि दर्पण</h1>
+              <p class="collector-title text-white fs-6 fw-bold mb-1">
+                Integrated Dashboard for DPDMIS, Equipment & Infrastructure
+                
+              </p>
+              <p class="sub-title text-white small m-0">
+                An Initiative to Monitor CGMSCL Services in Chhattisgarh
+              </p>
+          </div>
+  
+          <!-- Right Logo -->
+          <div class="header-logo-container d-flex justify-content-center justify-content-md-end flex-shrink-0">
+              <img src="assets/images/cgmsc-logo.png" alt="Right Logo" class="header-logo img-fluid" style="max-height: 60px;">
+          </div>
+      </div>
+  </header>
+  
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-3">
+      <div class="row">
+        <!-- Left Section - Tabs and Card -->
+        <div class="col-lg-4 col-md-12 col-12 p-3">
+          <div class="d-flex flex-column">
+            <!-- Tabs Section -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <!-- <a class="nav-link" id="tutorials-tab" data-bs-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Circulars/User Manuals</a> -->
+                <a class="nav-link" id="manuals-tab" data-bs-toggle="tab" href="#manuals" role="tab" aria-controls="manuals" aria-selected="false">Circulars/User Manuals</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tutorials-tab" data-bs-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Download Mobile App</a>
+                <!-- <a class="nav-link" id="manuals-tab" data-bs-toggle="tab" href="#manuals" role="tab" aria-controls="manuals" aria-selected="false">Download Mobile App</a> -->
+              </li>
+            </ul>
+            <div class="tab-content mt-3">
+
+              <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+                <div class="card">
+                  <div class="card-header bg-success text-white">
+                    <strong>About</strong>
+                  </div>
+                  <div class="card-body">
+                    <p>
+                      <!-- <p> -->
+                        Drug Procurement & Distribution Management System (DPDMIS) के अंतर्गत दवाओं की तत्कालिक जानकारी उँगलियों पर लाने हेतु “औषधि दर्पण” App बनाया गया है जो कि Platform Independent है जिसे Computer /Tablet/Mobile एवं IOS सभी  Device पर आसानी से Monitor किया जा सकता है |
+                      <!-- </p> -->
+                      <!-- <p> -->
+                        इसके माध्यम से राज्य में दवाओं के स्टॉक ,आपूर्ति ,मांग एवं वितरण की निगरानी की जा सकती है  एवं  Drug Supply Chain को Historical Data एवं Present Data के अनुसार Stock Management को बेहतर बनाया जा सकता है ताकि स्टॉक की कमी (Less Stock)/ समाप्ति (Stock-out) एवं अत्यधिक स्टॉक (Over Stocking)  तीनो को रोका जा सके |
+                      <!-- </p> -->
+                      
+                      <span *ngIf="!showFullText">... <a href="javascript:void(0)" (click)="toggleText()">Read More</a></span>
+                      <span style="text-decoration: solid;" *ngIf="showFullText">
+                        Drug Warehouse के मध्य मांग के आधार पर समुचित स्टॉक का प्रबंधन,Quality Control, Rack & FEFO Management, Inter Warehouse Transfer, Transport Vehicle Monitoring and ensuring door delivery to the hospital, reducing stock-out and expiry are the key features.
+राज्य स्तर पर Tender alert ,Rate Contract, Order Planning , Supplier Dispatch एवं Payment System का उपयोग करते हुए Directorate एवं कर्मचारियों के बीच समन्वय बनाने में मदद करता है , अतः यह प्रणाली  Logistic Management Information System  की योजना को बेहतर बनाने में और जनसाधारण के लिए बेहतर स्वास्थ्य सुविधा देने में महत्वपूर्ण है |
+
+                        <a href="javascript:void(0)" (click)="toggleText()">Read Less</a>
+                      </span>
+                    </p>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-pane fade" id="manuals" role="tabpanel" aria-labelledby="manuals-tab">
+                <div class="card">
+                  <div class="card-header bg-success text-white "><strong>PDF Manual Downloads</strong></div>
+                  <div class="card-body">
+                    <ul class="list-unstyled">
+                      <li>1. वेयरहाउस को इंडेंट एवं दवा प्राप्ति हेतु महत्वपूर्ण निर्देश  (Important Instruction for Indent to Warehouse/Receipts)
+                        <a href="assets\docs\Important_Instruction.pdf" target="_blank">
+                          <i style="color: red;" class="bi bi-file-pdf"></i>
+                        </a>
+                      </li>
+                      <li>
+                        2. एम.आई.एस. उपयोग करने हेतु एप्लीकेशन गाइड  Detailed Documentation of Application
+                        <a href="assets\docs\AAM_Manual.pdf" target="_blank">
+                          <i style="color: red;" class="bi bi-file-pdf"></i>
+                        </a>
+                      </li>
+                    
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- <div class="card mt-2">
+                  <div class="card-header bg-success text-white "><strong>Video Tuotorial Downloads</strong></div>
+                  <div class="card-body">
+                    <ul class="list-unstyled">
+  
+  
+                      <li>1. ओपनिंग  स्टॉक की एंट्री कैसे करें (Opening Stock)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <i class="bi bi-youtube" style="color: red;"></i>
+                        </a>
+                      </li>
+                      <li>2. वेयरहाउस को इंडेंट  (Indent to Warehouse)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <i class="bi bi-youtube" style="color: red;"></i>
+                        </a>
+                      </li>
+                      <li>3. संबंधित संस्था को इंडेंट (Indent to PHC/CHC)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                            <i class="bi bi-youtube" style="color: red;"></i>
+                          </a>
+                        </a>
+                      </li>
+                      <li>4. प्राप्ति की जानकारी दर्ज करना (Receipt from Warehouse/Facility)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <i class="bi bi-youtube" style="color: red;"></i>
+                        </a>
+                        
+                      </li>
+                      <li>5. दवा वितरण की जानकारी दर्ज करना (Consumption Entry)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <i class="bi bi-youtube" style="color: red;"></i>
+                        </a>
+                      </li>
+                      <li>6. स्टॉक रिपोर्ट्स  (Stock Reports/ Parent Facility Stock)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <i class="bi bi-youtube" style="color: red;"></i>
+                        </a>
+                      </li>
+                      <li>7. स्टॉक  रजिस्टर के माध्यम से किसी दवा की संपूर्ण जानकारी (Stock Register)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <i class="bi bi-youtube" style="color: red;"></i>
+                        </a>
+                      </li>
+                      <li>8. स्टॉक में रखे हुए नियर एक्सपायरी  बैच की जानकारी ( Near Expiry Reports)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <i class="bi bi-youtube" style="color: red;"></i>
+                        </a>
+                      </li>
+                      <li>9. वितरण पर रोक लगाई गई दवा बैच की जानकारी (Hold Batch Reports)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <i class="bi bi-youtube" style="color: red;"></i>
+                        </a>
+                      </li>
+                      <li>10. वेयरहाउस में रखे स्टॉक की जानकारी (Warehouse Stock)
+                        <a href="https://www.youtube.com/watch?v=ORZaCeumRLs" target="_blank">
+                          
+                          <i class="bi bi-youtube" style="color: red;"></i>
+                        </a>
+                      </li>
+  
+                    </ul>
+                  </div>
+                </div> -->
+
+              </div>
+
+                <!-- Video Tutorials Tab -->
+            <div class="tab-pane fade " id="tutorials" role="tabpanel" aria-labelledby="tutorials-tab">
+              <div class="card mb-4">
+                <div class="card-header bg-success text-white" ><strong>Download APK</strong></div>
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li>
+                      1. Download “औषधि दर्पण” Android Mobile App.
+                    
+                      <a href="assets\apk\Dpdmis.apk" target="_blank">
+                        <i style="color: green;" class="bi bi-android2"></i>
+                      </a>
+                    </li>
+                    <li>
+                      2.  Download “Door Delivery Transport” Android Mobile App.
+                      
+                      <a href="assets\apk\DoorDeliveryTransport.apk" target="_blank">
+                        <i style="color: green;" class="bi bi-android2"></i>
+                      </a>
+                    </li>
+                    <li>
+                      3. Download “Courier Transport” Android Mobile App.
+                      <a href="assets\apk\CourierParcelTracking.apk" target="_blank">
+                        <i style="color: green;" class="bi bi-android2"></i>
+                      </a>
+                    </li>
+                    <li>
+                      4. Download “Nirman Darpan Progress” Android Mobile App  
+                      <a href="assets\apk\Nirman-darpan-progress.apk" target="_blank">
+                        <i style="color: green;" class="bi bi-android2"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            </div>
+            
+     <div class="mt-3">
+
+      
+
+      <div class="card" style="width: 100%;">
+        <div class="card-header bg-success text-white">
+          <strong>Public View Reports</strong>
+        </div>
+        <div class="card-body">
+          <div class="marquee-container">
+            <div class="marquee">
+              <!-- <a href="http://140.238.246.250/DPDMISStock/StockIssue/TotalStock1CGMSCL.aspx" >View  CGMSC Total Stock.<i class="fa fa-hand-pointer-o" style="font-size:48px;color:red"></i></a> -->
+              <li style="color: blue;">
+                 Rate Contracts. 
+                <a href="http://140.238.246.250/DPDMISStock/GernalReport/RC_reprot.aspx" target="_blank">
+                  <i style="color: red;" class="bi bi-hand-index-thumb-fill"></i>
+                </a>
+              </li><br>
+              <li style="color: blue;">
+                View  CGMSC Total Current Stock. 
+                <a href="http://140.238.246.250/DPDMISStock/StockIssue/TotalStock1CGMSCL.aspx" target="_blank">
+                  <i style="color: red;" class="bi bi-hand-index-thumb-fill"></i>
+                </a>
+              </li><br>
+              <li style="color: blue;">
+                CGMSC Item Wise Current Stock. 
+                <a href="http://140.238.246.250/DPDMISStock/Reports/DrugWisewarehousesrptCGMSCL.aspx" target="_blank">
+                  <i style="color: red;" class="bi bi-hand-index-thumb-fill"></i>
+                </a>
+              </li><br>
+              <li style="color: blue;">
+                CGMSC Warehouse Current Stock. 
+                <a href="http://140.238.246.250/DPDMISStock/Reports/RptWarehouseStockCGMSCL.aspx" target="_blank">
+                  <i style="color: red;" class="bi bi-hand-index-thumb-fill"></i>
+                </a>
+              </li><br>
+              <li style="color: blue;">
+                Health Facility-wise Issuance from Warehouse 
+                <a href="http://140.238.246.250/DPDMISStock/FacilityIssue/Facility_Issue_Summary.aspx" target="_blank">
+                  <i style="color: rgb(9, 243, 17);" class="bi bi-hand-index-thumb-fill"></i>
+                </a>
+              </li><br>
+              <li style="color: blue;">
+                Item wise Issuance from Warehouse 
+                <a href="http://140.238.246.250/DPDMISStock/FacilityIssue/Cgmsc_Facility_Issue_Summary.aspx" target="_blank">
+                  <i style="color:rgb(9, 243, 17)" class="bi bi-hand-index-thumb-fill"></i>
+                </a>
+              </li><br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    
+
+    
+
+  </div>
+  <!-- Modal -->
+
+
+<div 
+class="modal fade" 
+id="itemDetailsModal" 
+tabindex="-1" 
+aria-labelledby="itemDetailsModalLabel" 
+aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="itemDetailsModalLabel">Item Details</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <!-- Display warehouse details here -->
+      <p><strong>Facility Name:</strong> {{ selectedWarehouse?.facilityname }}</p>
+      <p><strong>Number of Items:</strong> {{ selectedWarehouse?.nositems }}</p>
+      <p><strong>Drop Date:</strong> {{ selectedWarehouse?.dropdate }}</p>
+      <!-- Add more details as needed -->
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+
+           
+          </div>
+        </div>
+
+
+
+    <!-- map Section -->
+    <!-- map  -->
+    
+      <div class="col-lg-4 col-md-12 col-12 p-3">
+        <div class="card-header bg-success text-white">
+          <strong>Transportation of Medicine </strong>
+          <button class="btn btn-success btn-sm" [ngClass]="{'Active': days === 0}"  (click)="fetchActualDropInfo(0)" >Today</button>
+          <button class="btn btn-success btn-sm"  [ngClass]="{'Active': days === 1}" (click)="fetchActualDropInfo(1)">Yesterday</button>
+          <button class="btn btn-success btn-sm"  [ngClass]="{'Active': days === 7}" (click)="fetchActualDropInfo(7)">Last 7 Days</button>
+        </div>
+        <google-map 
+        height="500px"
+        width="100%"
+        
+        [center]="{lat: 21.2785, lng: 81.866}">  <!-- Center on Chhattisgarh -->
+        <map-marker
+          *ngFor="let warehouse of dropInfo"
+          [position]="warehouse.position"
+          [title]="warehouse.facilityname"
+          [icon]="hospitalIcon"
+          #marker="mapMarker"
+          (mapClick)="onMarkerClick(warehouse, marker)"
+        ></map-marker>
+      
+            <map-info-window>
+              <h3>{{ selectedWarehouse?.facilityname }}</h3>
+              <!-- <p><strong>Facility :</strong> {{ selectedWarehouse?.facilityname }}</p> -->
+              <p><strong>Indent Date:</strong> {{ selectedWarehouse?.indDT }}</p>
+              <p><strong>Delivered On:</strong> {{ selectedWarehouse?.dropdate  }}</p>
+              <p><strong>Vehicle No:</strong> {{ selectedWarehouse?.vehicalno }}</p>
+              <p 
+        data-bs-toggle="modal" 
+        data-bs-target="#itemDetailsModal"
+        (click)="getItemDetails()">
+        <strong>No of Items:</strong> {{ selectedWarehouse?.nositems }}
+      </p>
+              
+            </map-info-window>
+          </google-map>
+      
+  
+      
+  
+  
+      </div>
+      
+
+    
+        <!-- Right Section - Login Card -->
+        <!-- <div class="col-lg-4 col-md-12 col-12 p-3"> -->
+          <div class="col-lg-4 col-md-12 col-12 p-3 order-first order-lg-last">
+
+
+          <div class="d-flex justify-content-end align-items-center">
+            
+            <div class="card shadow login-card w-100 ">
+              <div class="card-header text-white">
+                <ul class="nav nav-tabs card-header-tabs" id="loginTabs" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">Admin</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="cgmscl-tab" data-bs-toggle="tab" data-bs-target="#cgmscl" type="button" role="tab" aria-controls="cgmscl" aria-selected="false">CGMSCL-HO</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="warehouse-tab" data-bs-toggle="tab" data-bs-target="#warehouse" type="button" role="tab" aria-controls="warehouse" aria-selected="false">Warehouse</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="infrastructure-tab" data-bs-toggle="tab" data-bs-target="#infrastructure" type="button" role="tab" aria-controls="infrastructure" aria-selected="false">Infrastructure</button>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body tab-content" id="loginTabsContent">
+                <!-- Login Tab -->
+                <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                  <form #adminLoginForm="ngForm" (ngSubmit)="adminLoginForm.valid && handleLogin()">
+                    <div class="mb-3">
+                      <!-- <label for="emailid" class="form-label">User ID</label>
+                      <input type="text" class="form-control" id="emailid" name="emailid" [(ngModel)]="emailid" required> -->
+                      <ng-select
+                                  [items]="adminDropdownList"
+                                  bindLabel="textfield"
+                                  bindValue="emailid"
+                                  [(ngModel)]="emailid"
+                                  (change)="onUserChange($event)"
+                                  name="emailid"
+                                  #emailidField="ngModel"
+                                  [placeholder]="!emailid ? 'Choose Admin' : ''"
+                                  [searchable]="true"
+                                  [clearable]="true" 
+                                  [appendTo]="'body'"
+                                  required
+                                  class="form-control"
+                                >
+                                </ng-select>
+                      <!-- <label for="emailid" class="form-label">Select User</label>
+                      <select 
+                        id="emailid" 
+                        class="form-select" 
+                        [(ngModel)]="emailid" 
+                        (change)="onUserChange($event)"
+                        name="emailid" 
+                        #emailidField="ngModel" 
+                        required>
+                       
+                        <option value=""  [selected]="emailid === ''">Select Admin User</option>
+                        <option value="undefined" selected disabled>Choose Admin</option>
+                        <option *ngFor="let emaillist of adminDropdownList" [value]="emaillist.emailid">
+                          {{ emaillist.textfield }}
+                        </option>
+                      </select> -->
+                      <div *ngIf="emailidField.invalid && (emailidField.dirty || emailidField.touched)" class="text-danger">
+                        Please select a user.
+                      </div>
+                    </div>
+                    <!-- <div class="mb-3">
+                      <label for="pwd" class="form-label">Password</label>
+                      <input type="password" class="form-control" id="pwd" name="pwd" [(ngModel)]="pwd" placeholder="Enter Password" required>
+                      <i class="fa" [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
+                             (click)="togglePassword()" style="position: absolute; right: 30px; top: 185px; cursor: pointer;"></i>
+                      
+                      
+                    </div> -->
+
+                    <div class="mb-3">
+                      <button type="button" class="btn btn-success btn-sm" (click)="sendOTP()">Generate OTP</button>
+                <input type="text" id="otpInput" class="form-control" maxlength="6" [(ngModel)]="otp" name="otp" placeholder="Enter otp " required>
+
+                    </div>
+                    <div class="mb-3">
+                      <label for="captcha" class="form-label">CAPTCHA</label>
+                      <div class="d-flex align-items-center">
+                        <span class="captcha-box">{{ captcha }}</span>
+                        <button type="button" class="btn btn-link" (click)="generateCaptcha()">Refresh</button>
+                      </div>
+                      <input
+                    type="text"
+                    class="form-control"
+                    id="captcha"
+                    #captchaInput   
+                    placeholder="Enter CAPTCHA"
+                    required>
+                    <div *ngIf="otpField.invalid && (otpField.dirty || otpField.touched)" class="text-danger">
+                      OTP is required.
+                    </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100" [disabled]="adminLoginForm.invalid" >Login through OTP</button>
+                  </form>
+                </div>
+                <!-- Warehouse Tab -->
+                <div class="tab-pane fade" id="warehouse" role="tabpanel" aria-labelledby="warehouse-tab">
+                  <form #warehouseForm="ngForm" (ngSubmit)="warehouseForm.valid && handleWarehouseLogin()">
+                    <div class="mb-3">
+                      <ng-select
+                                  [items]="wHDropdownList"
+                                  bindLabel="textfield"
+                                  bindValue="emailid"
+                                  [(ngModel)]="emailid"
+                                 
+                                  name="emailid"
+                                  #emailidField="ngModel"
+                                  [placeholder]="!emailid ? 'Choose Warehouse' : ''"
+                                  [searchable]="true"
+                                  [clearable]="true" 
+                                  [appendTo]="'body'"
+                                  required
+                                  class="form-control"
+                                >
+                                </ng-select>
+                      <!-- <label for="emailid" class="form-label">Warehouse ID</label>
+                      <select 
+                        id="emailid" 
+                        class="form-select" 
+                        [(ngModel)]="emailid" 
+                        name="emailid" 
+                        #emailidField="ngModel" 
+                        required>
+                        <option value="undefined" disabled selected>Choose Warehouse</option>
+                        <option *ngFor="let whlist of wHDropdownList" [value]="whlist.emailid">
+                          {{ whlist.textfield }}
+                        </option>
+                      </select> -->
+                      <!-- Validation message for Warehouse ID selection -->
+                      <div *ngIf="emailidField.invalid && (emailidField.dirty || emailidField.touched)" class="text-danger">
+                        Please select a warehouse.
+                      </div>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <button type="button" class="btn btn-success btn-sm" (click)="sendOTP()">Generate OTP</button>
+                      <input 
+                        type="text" 
+                        id="otpInput" 
+                        class="form-control" 
+                        maxlength="6" 
+                        [(ngModel)]="otp" 
+                        name="otp" 
+                        #otpField="ngModel" 
+                        placeholder="Enter OTP" 
+                        required>
+                      <!-- Validation message for OTP -->
+                      <div *ngIf="otpField.invalid && (otpField.dirty || otpField.touched)" class="text-danger">
+                        OTP is required.
+                      </div>
+                    </div>
+                  
+                    <div class="mb-3 position-relative">
+                      <label for="pwd" class="form-label">Password</label>
+                      <input 
+                        type="{{ isPasswordVisible ? 'text' : 'password' }}" 
+                        class="form-control" 
+                        id="pwd" 
+                        name="pwd" 
+                        [(ngModel)]="pwd" 
+                        #pwdField="ngModel" 
+                        required>
+                      <i 
+                        class="fa" 
+                        [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
+                        (click)="togglePassword()" 
+                        style="position: absolute; right: 15px; top: 35px; cursor: pointer;">
+                      </i>
+                      <!-- Validation message for Password -->
+                      <div *ngIf="pwdField.invalid && (pwdField.dirty || pwdField.touched)" class="text-danger">
+                        Password is required.
+                      </div>
+                    </div>
+                  
+                    <button type="submit" class="btn btn-success w-100" [disabled]="warehouseForm.invalid">Login to Warehouse</button>
+                  </form>
+                  
+                </div>
+                <!-- CGMSCL Tab -->
+                <div class="tab-pane fade" id="cgmscl" role="tabpanel" aria-labelledby="cgmscl-tab">
+                  <form #cgmsclForm="ngForm" (ngSubmit)="cgmsclForm.valid && handleCgmsclLogin()">
+                    <div class="mb-3">
+                      <label for="emailid" class="form-label">User ID</label>
+                      <ng-select
+                                  [items]="cgmsclDropdownList"
+                                  bindLabel="textfield"
+                                  bindValue="emailid"
+                                  [(ngModel)]="emailid"
+                                 
+                                  name="emailid"
+                                  #emailidField="ngModel"
+                                  [placeholder]="!emailid ? 'Choose CGMSCL User' : ''"
+                                  [searchable]="true"
+                                  [clearable]="true" 
+                                  [appendTo]="'body'"
+                                  required
+                                  class="form-control"
+                                >
+                                </ng-select>
+                      <!-- <select 
+                        id="emailid" 
+                        class="form-select" 
+                        [(ngModel)]="emailid" 
+                        name="emailid" 
+                        #emailidField="ngModel" 
+                        required>
+                        <option value="undefined" disabled selected>Choose CGMSCL User</option>
+                        <option *ngFor="let emaillist of cgmsclDropdownList" [value]="emaillist.emailid">
+                          {{ emaillist.textfield }}
+                        </option>
+                      </select> -->
+                      <!-- Validation message for User ID selection -->
+                      <div *ngIf="emailidField.invalid && (emailidField.dirty || emailidField.touched)" class="text-danger">
+                        Please select a User.
+                      </div>
+                    </div>
+                  
+                    <div class="mb-3">
+                      <button type="button" class="btn btn-success btn-sm" (click)="sendOTP()">Generate OTP</button>
+                      <input 
+                        type="text" 
+                        id="otpInput" 
+                        class="form-control" 
+                        maxlength="6" 
+                        [(ngModel)]="otp" 
+                        name="otp" 
+                        #otpField="ngModel" 
+                        placeholder="Enter OTP" 
+                        required>
+                      <!-- Validation message for OTP -->
+                      <div *ngIf="otpField.invalid && (otpField.dirty || otpField.touched)" class="text-danger">
+                        OTP is required.
+                      </div>
+                    </div>
+                  
+                    <div class="mb-3 position-relative">
+                      <label for="pwd" class="form-label">Password</label>
+                      <input 
+                        type="{{ isPasswordVisible ? 'text' : 'password' }}" 
+                        class="form-control" 
+                        id="pwd" 
+                        name="pwd" 
+                        [(ngModel)]="pwd" 
+                        #pwdField="ngModel" 
+                        required>
+                      <i 
+                        class="fa" 
+                        [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
+                        (click)="togglePassword()" 
+                        style="position: absolute; right: 15px; top: 35px; cursor: pointer;">
+                      </i>
+                      <!-- Validation message for Password -->
+                      <div *ngIf="pwdField.invalid && (pwdField.dirty || pwdField.touched)" class="text-danger">
+                        Password is required.
+                      </div>
+                    </div>
+                  
+                    <button type="submit" class="btn btn-success w-100" [disabled]="cgmsclForm.invalid">Login to CGMSCL</button>
+                  </form>
+                  
+                </div>
+                <div class="tab-pane fade" id="infrastructure" role="tabpanel" aria-labelledby="infrastructure-tab">
+                  <form #infrastructureForm="ngForm" (ngSubmit)="infrastructureForm.valid && handleInfrastructureLogin()">
+                    <div class="mb-3">
+                      <ng-select
+                      [items]="InfraStructureDropdownList"
+                      bindLabel="desig"
+                      bindValue="id"
+                      [(ngModel)]="id" 
+                      (change)="onUserChangeInfrastructure($event)"
+                      name="id" 
+                      #idField="ngModel"
+                      [placeholder]="!id ? 'Select Engineer' : ''"
+                      [searchable]="true"
+                      [clearable]="true" 
+                      [appendTo]="'body'"
+                      required
+                      class="form-control"
+                    >
+                    
+                    </ng-select>
+                      <!-- <label for="id" class="form-label">Select Engineer</label>
+                      <select 
+                        id="id" 
+                        class="form-select" 
+                        [(ngModel)]="id" 
+                        (change)="onUserChangeInfrastructure($event)"
+                        name="id" 
+                        #idField="ngModel"
+                        required>
+                        <option value="undefined" disabled selected>Choose Engineer</option>
+                        <option *ngFor="let emaillist of InfraStructureDropdownList" [value]="emaillist.id">
+                          {{ emaillist.desig }}
+                        </option>
+                      </select> -->
+                      <!-- Validation message for engineer selection -->
+                      <div *ngIf="idField.invalid && (idField.dirty || idField.touched)" class="text-danger">
+                        Please select an engineer.
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="pwd" class="form-label">Password</label>
+                      <input 
+                      [type]="isPasswordVisible ? 'text' : 'password'"
+                        type="password" 
+                        class="form-control" 
+                        id="pwd" 
+                        name="pwd" 
+                        [(ngModel)]="pwd" 
+                        #pwdField="ngModel" 
+                        required>
+                        <i 
+                        class="fa" 
+                        [ngClass]="isPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" 
+                        (click)="togglePassword()" 
+                        style="position: absolute; right: 20px; top: 160px; cursor: pointer;">
+                      </i>
+                      <!-- Validation message for password -->
+                      <div *ngIf="pwdField.invalid && (pwdField.dirty || pwdField.touched)" class="text-danger">
+                        Password is required.
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100" [disabled]="infrastructureForm.invalid">Login</button>
+                  </form>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-2" style="width: 100%;">
+        <!-- <div class="card-header bg-success text-white">
+          <strong>Public View Reports</strong>
+        </div> -->
+        <div class="card-body">
+          <div class="marquee-container2">
+            <div class="marquee2">
+              <div class="marquee-item">
+
+                <img src="assets/images/CM.jpeg" alt="CM Image">
+                <strong>
+                  श्री विष्णु देव साय माननीय मुख्यमंत्री
+                </strong> 
+              </div>
+              <div class="marquee-item" >
+
+                <img src="assets/images/HM.jpeg" alt="HM Image">
+                <strong>
+                  श्री श्याम बिहारी जायसवाल माननीय स्वास्थ्य मंत्री <br>सह अध्यक्ष (सी.जी.एम.एस.सी.)
+                </strong>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+          </div>
+
+
+        </div>
+        
+      </div>
+    </div>
+    
+
+   <!-- Footer -->
+<div class="d-flex flex-column min-vh-50">
+  <!-- Main Content Area -->
+  <div class="container-fluid flex-grow-1">
+    <!-- Your Page Content Here (Tabs, Cards, etc.) -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-success text-white py-2 mt-auto">
+    <div class="container text-center">
+      <p class="mb-0 small">© 2024 Designed and Developed by IT-Cell CGMSCL | All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+  
+ 

@@ -1,0 +1,25 @@
+<!-- <div class="w-100 " style="background-color: #e2e3e5">
+    <h3> 
+      Chhattisgarh Medical Services Corporation Ltd.
+  
+    </h3>
+  </div> -->
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label="QC Time Taken ">
+      <ng-template matTabContent>
+        <app-qctime-taken-yearwise *ngIf="selectedTabIndex === 0"></app-qctime-taken-yearwise>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Empanelled Lab Performance">
+      <ng-template matTabContent>
+        <app-lab-time-taken *ngIf="selectedTabIndex === 1"></app-lab-time-taken>
+      </ng-template>
+    </mat-tab>
+    
+  </mat-tab-group>
+  
+  </div>
+  
