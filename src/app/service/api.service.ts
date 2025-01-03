@@ -80,7 +80,7 @@ import { MasWH } from '../Model/MasWH';
 import { DashLoginDDL } from '../Model/DashLoginDDL';
 import { DisYrGrowth } from '../Model/DisYrGrowth';
 import { DistCGMSCSupplyDHS } from '../Model/DistCGMSCSupplyDHS';
-import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary, WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong } from '../Model/DashProgressCount';
+import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary, WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong, WOpendingTotal, WorkOrderPendingDetailsNew } from '../Model/DashProgressCount';
 
 
 @Injectable({
@@ -652,13 +652,24 @@ GetProgressDetailsLatLong(did:any,divisionId:any,distid:any,mainSchemeId:any,wor
   return this.http.get<ProgressDetailsLatLong[]>(`${this.apiUrl}/Work/getProgressDetailsLatLong?did=${did}&divisionId=${divisionId}&distid=${distid}&mainSchemeId=${mainSchemeId}&workid=${workid}&dayPara=${dayPara}&TotMobile=${TotMobile}`);
 
 }
+WOPendingTotal(RPType:any,divisionId:any){
+  return this.http.get<WOpendingTotal []>(`${this.apiUrl}/WorkOrder/WOPendingTotal?RPType=${RPType}&divisionId=${divisionId}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WOPendingTotal?RPType=Scheme&divisionid=0
+}
+GetWorkOrderPendingDetailsNew(divisionId:any,mainSchemeId:any,distid:any,contractid:any){
+  return this.http.get<WorkOrderPendingDetailsNew[]>(`${this.apiUrl}/WorkOrder/getWorkOrderPendingDetailsNew?divisionId=${divisionId}&workid=${mainSchemeId}&ID=${distid}&area=${contractid}`);
+
+  // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/getWorkOrderPendingDetailsNew?divisionId=0&mainSchemeId=0&distid=0&contractid=0
+}
+
+//#region GET IMAGE
 GetImageBinary(sr: number, imgName: string): Observable<any> {
   const encodedImgName = encodeURIComponent(imgName); // Encode the image name
   const url = `https://cgmsc.gov.in/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}`;
   return this.http.get(url, { responseType: 'text' }); // Use 'text' if the API returns a base64 string
  
 }
-
+//#endregion
 
 
 // #endregion

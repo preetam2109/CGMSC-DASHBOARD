@@ -165,3 +165,48 @@ export class WorkDetails {
     approver!: string;
     position!: { lat: number; lng: number };
   }
+  export class WOpendingTotal {
+    id!: string;
+    name!: string;
+    pendingWork!: string;
+    contrctValuecr!: number;
+    noofWorksGreater7Days!: string;
+   
+  }
+  export class WorkOrderPendingDetailsNew {
+    work_id!: string;
+    letterNo!: string;
+    head!: string;
+    approver!: string;
+    type_name!: string;
+    district!: string;
+    blockname!: string;
+    work!: string;
+    aaamt!: number;
+    tsamt!: number;
+    aaDate!: string;
+    tsDate!: string | null;
+    acceptanceLetterRefNo!: string;
+    acceptLetterDT!: string;
+    pac!: number;
+    totalAmountOfContract!: number;
+    sanctionRate!: number;
+    sanctionDetail!: string;
+    timeAllowed!: number;
+    dateOfSanction!: string;
+    dateOfIssueNIT!: string;
+    cid!: string;
+    contractorNAme!: string;
+    regType!: string;
+    class!: string;
+    englishAddress!: string;
+    mobNo!: string;
+    asPath!: string | null;
+    asLetter!: string | null;
+    groupName!: string;
+    lProgress!: string;
+    pdate!: string;
+    pRemarks!: string;
+    remarks!: string | null;
+    tenderReference!: string;
+  }

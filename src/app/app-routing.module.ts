@@ -81,6 +81,7 @@ import { DistrictProgressComponent } from './component/Infrastructure-Components
 import { DivisionProgressComponent } from './component/Infrastructure-Components/division-progress/division-progress.component';
 import { InfrastructureHomeComponent } from './component/Infrastructure-Components/infrastructure-home/infrastructure-home.component';
 import { SearchingWorkComponent } from './component/Infrastructure-Components/searching-work/searching-work.component';
+import { WorkOrderComponent } from './component/Infrastructure-Components/work-order/work-order.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -182,6 +183,7 @@ const routes: Routes = [
 {path:'SearchingWork',component:SearchingWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'DistrictProgress',component:DistrictProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'DivisionProgress',component:DivisionProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
+{path:'WorkOrder',component:WorkOrderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
 
 
 
