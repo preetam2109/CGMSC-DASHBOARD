@@ -1,0 +1,78 @@
+.category-selector {
+    margin: 20px;
+  }
+  .imp-note{
+    text-align: end; 
+    color:red;
+  }
+  /* Responsive card styling */
+  .category-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .category-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Selected state styling */
+  .category-card.selected {
+    /* background-color: #4caf50; */
+    /* color: white; */
+    box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2);
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .card-description {
+
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+  
+  /* Styling for the selected message */
+  .selected-message {
+    margin: 20px 0;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  /* Responsive behavior */
+  @media (max-width: 768px) {
+    .category-card {
+      margin: 10px 0;
+      padding: 15px;
+    }
+  }
+
+  .category-card {
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .category-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-title {
+    text-align: center;
+  }
+  
+  .selected {
+    border: 2px solid #007bff;
+  }
+  
+  .card-img-top {
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  

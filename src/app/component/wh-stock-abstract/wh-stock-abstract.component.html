@@ -1,0 +1,44 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h3> 
+      <!-- Chhattisgarh Medical Services Corporation Ltd. -->
+
+    </h3>
+  </div>
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <!-- <mat-tab label="Dashboard">
+      <ng-template matTabContent>
+        <app-emd-dashboard *ngIf="selectedTabIndex === 0"></app-emd-dashboard>
+      </ng-template>
+    </mat-tab> -->
+    <mat-tab label="Drugs">
+      <ng-template matTabContent>
+        <app-wh-stock-drugs *ngIf="selectedTabIndex === 0"></app-wh-stock-drugs>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Consumables">
+      <ng-template matTabContent>
+        <app-wh-stock-consumables *ngIf="selectedTabIndex === 1"></app-wh-stock-consumables>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Reagent">
+      <ng-template matTabContent>
+        <app-wh-stock-reagent *ngIf="selectedTabIndex === 2"></app-wh-stock-reagent>
+      </ng-template>
+    </mat-tab>
+  
+    
+    <!-- <mat-tab label="EMD Released">
+      <ng-template matTabContent>
+        <app-emd-released *ngIf="selectedTabIndex === 2"></app-emd-released>
+      </ng-template>
+    </mat-tab> -->
+    
+  </mat-tab-group>
+ 
+  </div>
+  

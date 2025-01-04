@@ -1,0 +1,81 @@
+<h1 mat-dialog-title>
+  <div class="dialog-header">
+    <div class="title-container">
+      <span>Current FY Year of Item</span>
+    </div>
+    <button mat-icon-button (click)="exportToPDF()">
+      <mat-icon>picture_as_pdf</mat-icon>
+    </button>
+  </div>
+</h1>
+
+<div mat-dialog-content>
+  <!-- Item Information Section -->
+  <div class="info-container">
+    <div class="info-item-left">
+      <p><strong>Item Name:</strong> {{ itemname }}</p>
+      <p><strong>SKU:</strong> {{ sku }}</p>
+    </div>
+    <div class="info-item-right">
+
+      <p><strong>Strength:</strong> {{ strengtH1 }}</p>
+      <p><strong>EDL Type:</strong> {{ edltype }}</p>
+    </div>
+  </div>
+
+  <!-- RC Info Section -->
+  <div class="rc-info">
+  <h3 style="color: coral;" >Rate Contract Status</h3>
+    <p><strong>RC Status:</strong> {{ rcstatus }}</p>
+    <p><strong>Rate:</strong> {{ rcrate }}</p>
+    <p><strong>Start Date:</strong> {{ rcstartdt }}</p>
+    <p><strong>End Date:</strong> {{ rcenddt }}</p>
+  </div>
+
+  <!-- Annual Indent Vs Issuance Table -->
+  <h3 style="color: coral;" >CFY Annual Indent Vs Issuance and Purchase Order/Receipt</h3>
+  <table mat-table [dataSource]="dataSourceAnnualIndent" matSort class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="directorate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Directorate </th>
+      <td mat-cell *matCellDef="let element"> {{ element.directorate }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ai">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> AI </th>
+      <td mat-cell *matCellDef="let element"> {{ element.ai }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="issued">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Issued </th>
+      <td mat-cell *matCellDef="let element"> {{ element.issued }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pogiven">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> PO Given </th>
+      <td mat-cell *matCellDef="let element"> {{ element.pogiven }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="poreceived">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> PO Received </th>
+      <td mat-cell *matCellDef="let element"> {{ element.poreceived }} </td>
+    </ng-container>
+
+    <!-- Table Rows -->
+    <tr mat-header-row *matHeaderRowDef="['directorate', 'ai', 'issued', 'pogiven', 'poreceived']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['directorate', 'ai', 'issued', 'pogiven', 'poreceived']"></tr>
+  </table>
+
+  <!-- Stock Status Section -->
+  <h3 style="color: coral; font-weight: bold; " >Current Stock Status</h3>
+  <div class="stock-status">
+    <p><strong>Ready Stock:</strong> {{ readystock }}</p>
+    <p><strong>Under QC Stock:</strong> {{ qcstock }}</p>
+    <p><strong>Pipeline Stock:</strong> {{ totalpiplie }}</p>
+  </div>
+
+</div>
+
+<div mat-dialog-actions class="text-center">
+  <button mat-button mat-dialog-close>Close</button>
+</div>

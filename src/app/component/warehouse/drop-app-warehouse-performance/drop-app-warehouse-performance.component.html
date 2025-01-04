@@ -1,0 +1,47 @@
+<div class="container-fluid p-4">
+    <div class="col-lg-6 col-md-12 mb-4">
+        <mat-form-field class="filter-field w-100" appearance="fill">
+            <mat-label>Date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                <input matStartDate placeholder="Start date" formControlName="start">
+                <input matEndDate placeholder="End date" formControlName="end">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+    </div>
+    <div class="row">
+      <!-- First Chart Container -->
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="chart-container">
+          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+            [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+            [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"></apx-chart>
+        </div>
+      </div>
+      <!-- Second Chart/Table Container -->
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="table-container">
+          <div class="table-responsive">
+            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart" [dataLabels]="chartOptionsLine.dataLabels"
+              [plotOptions]="chartOptionsLine.plotOptions" [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke"
+              [fill]="chartOptionsLine.fill" [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title"
+              [tooltip]="chartOptionsLine.tooltip" [legend]="chartOptionsLine.legend"></apx-chart>
+          </div>
+        </div>
+      </div>
+      <!-- third Chart/Table Container -->
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="table-container">
+          <div class="table-responsive">
+            <apx-chart [series]="chartOptionsLine2.series" [chart]="chartOptionsLine2.chart" [dataLabels]="chartOptionsLine2.dataLabels"
+              [plotOptions]="chartOptionsLine2.plotOptions" [xaxis]="chartOptionsLine2.xaxis" [stroke]="chartOptionsLine2.stroke"
+              [fill]="chartOptionsLine2.fill" [yaxis]="chartOptionsLine2.yaxis" [title]="chartOptionsLine2.title"
+              [tooltip]="chartOptionsLine2.tooltip" [legend]="chartOptionsLine2.legend"></apx-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

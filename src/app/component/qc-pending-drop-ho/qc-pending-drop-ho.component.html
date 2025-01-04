@@ -1,0 +1,125 @@
+<div class="container-fluid p-4">
+    <div class="row">
+  
+      <!-- First Table -->
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="table-container shadow-sm p-3 mb-5 bg-white rounded">
+          <h3 class="text-primary text-center mb-3">Docket wise Pending to Drop from Warehouse</h3>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="flex-grow-1">
+              <!-- Optional: Add filtering functionality here if needed -->
+            </div>
+            <div>
+              <button mat-button class="btn btn-outline-primary" [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item (click)="exporter.exportTable('xlsx')">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-menu-item (click)="exportToPDF1()">PDF</button>
+              </mat-menu>
+            </div>
+          </div>
+  
+          <!-- Mat Table -->
+          <table mat-table [dataSource]="dataSource" class="table table-striped mat-elevation-z8" matSort>
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+              <td mat-cell *matCellDef="let element">{{ element.sno }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="warehousename">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Warehouse</th>
+              <td mat-cell *matCellDef="let element">{{ element.warehousename }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="qdocketno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Docket No</th>
+              <td mat-cell *matCellDef="let element">{{ element.qdocketno }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="pickdate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Pick Date</th>
+              <td mat-cell *matCellDef="let element">{{ element.pickdate }}</td>
+            </ng-container>
+            <ng-container matColumnDef="weight">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th>
+              <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="dayS_SINCE_PICKDATE">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Pending Days</th>
+              <td mat-cell *matCellDef="let element" (click)="OnItemsClick(element.warehouseid)" class="clickable-link" >
+                {{ element.dayS_SINCE_PICKDATE }}
+              </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="['sno','warehousename','qdocketno','pickdate','weight','dayS_SINCE_PICKDATE']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['sno','warehousename','qdocketno','pickdate','weight','dayS_SINCE_PICKDATE']"></tr>
+          </table>
+        </div>
+      </div>
+  
+      <!-- Second Table -->
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="table-container shadow-sm p-3 mb-5 bg-white rounded">
+          <h3 class="text-primary text-center mb-3">Batch wise Pending to Drop from Warehouse</h3>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="flex-grow-1">
+              <input matInput type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div>
+              <button mat-button class="btn btn-outline-primary" [matMenuTriggerFor]="batchExportMenu">Export</button>
+              <mat-menu #batchExportMenu="matMenu">
+                <button mat-menu-item (click)="exporter.exportTable('xlsx')">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-menu-item (click)="exportToPDF2()">PDF</button>
+              </mat-menu>
+            </div>
+          </div>
+  
+          <!-- Mat Table -->
+          <table mat-table [dataSource]="dataSource1" class="table table-striped mat-elevation-z8" matSort>
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+              <td mat-cell *matCellDef="let element">{{ element.sno }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="warehousename">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Warehouse</th>
+              <td mat-cell *matCellDef="let element">{{ element.warehousename }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="itemname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Item Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.itemname }}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="batchno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Batch No</th>
+              <td mat-cell *matCellDef="let element">{{ element.batchno }}</td>
+            </ng-container>
+  
+            <!-- <ng-container  matColumnDef="qdocketno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Pending Days</th>
+              <td mat-cell *matCellDef="let element">{{ element.qdocketno }}</td>
+            </ng-container> -->
+  
+            <ng-container matColumnDef="qdocketno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Docket No</th>
+              <td mat-cell *matCellDef="let element">{{ element.qdocketno }}</td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="[ 'sno','warehousename','itemname','batchno','qdocketno']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['sno','warehousename','itemname','batchno','qdocketno']"></tr>
+          </table>
+        </div>
+  
+        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+      </div>
+  
+    </div>
+  </div>
+  

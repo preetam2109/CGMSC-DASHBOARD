@@ -1,0 +1,41 @@
+<div class="chart-container">
+  <div class="chart-wrapper">
+    <h4 ><strong>DHS  Annual Indent  vs CGMSC Supply</strong></h4>
+    <h4 class="d-flex"  style="color: blue; "><strong>Fin Year</strong></h4>
+    <div class="d-flex">
+      <button 
+        class="btn btn-outline-success btn-sm" 
+        [ngClass]="{'active': yearid === 545}" 
+        (click)="loadData(545)">
+        24-25
+      </button>
+      <button 
+        class="btn btn-outline-info btn-sm" 
+        [ngClass]="{'active': yearid === 544}" 
+        (click)="loadData(544)">
+        23-24
+      </button>
+      <button 
+        class="btn btn-outline-primary btn-sm" 
+        [ngClass]="{'active': yearid === 542}" 
+        (click)="loadData(542)">
+        22-23
+      </button>
+    </div>
+    
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [dataLabels]="chartOptions.dataLabels"
+        [plotOptions]="chartOptions.plotOptions"
+        [xaxis]="chartOptions.xaxis"
+        [stroke]="chartOptions.stroke"
+        [fill]="chartOptions.fill"
+        [yaxis]="chartOptions.yaxis"
+        [title]="chartOptions.title"
+        [tooltip]="chartOptions.tooltip"
+        [legend]="chartOptions.legend"
+      ></apx-chart>
+    </div>
+  </div>
+  

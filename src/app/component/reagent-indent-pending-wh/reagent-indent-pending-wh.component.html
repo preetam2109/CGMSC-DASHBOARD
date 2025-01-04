@@ -1,0 +1,116 @@
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#fff" type="line-scale-party" [fullScreen]="true">
+    <p style="color: white"> Please wait... </p>
+</ngx-spinner> -->
+
+<div class="container-fluid p-4">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="chart-container">
+          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+            [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+            [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"></apx-chart>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12 table-container mat-elevation-z8">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <mat-form-field class="filter-field flex-grow-1">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyTextFilter($event)" placeholder="Filter">
+          </mat-form-field>
+          <div class="export-menu-container ">
+            <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+            <mat-menu #exportMenu="matMenu">
+              <button mat-menu-item
+                (click)="exporter.exportTable('xlsx', { fileName: 'complaints', sheet: 'complaints', Props: { Author: 'cgmsc' }})">Excel</button>
+              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+              <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+              <button mat-button (click)="exportToPDF()">PDF</button>
+            </mat-menu>
+          </div>
+        </div>
+  
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+    
+              <!-- Serial Number Column -->
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+              </ng-container>
+    
+              <!-- warehousename Column -->
+              <ng-container matColumnDef="warehousename">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
+                <td mat-cell *matCellDef="let element"> {{ element.warehousename }} </td>
+              </ng-container>
+    
+              <!-- districtname Column -->
+              <ng-container matColumnDef="districtname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> District </th>
+                <td mat-cell *matCellDef="let element"> {{ element.districtname }} </td>
+              </ng-container>
+    
+              <!-- facilityname Column -->
+              <ng-container matColumnDef="facilityname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Facility </th>
+                <td mat-cell *matCellDef="let element"> {{ element.facilityname }} </td>
+              </ng-container>
+    
+              <!-- eqpname Column -->
+              <ng-container matColumnDef="eqpname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipment </th>
+                <td mat-cell *matCellDef="let element"> {{ element.eqpname }} </td>
+              </ng-container>
+    
+              <!-- make Column -->
+              <ng-container matColumnDef="make">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Make </th>
+                <td mat-cell *matCellDef="let element"> {{ element.make }} </td>
+              </ng-container>
+    
+              <!-- model Column -->
+              <ng-container matColumnDef="model">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
+                <td mat-cell *matCellDef="let element"> {{ element.model }} </td>
+              </ng-container>
+
+              <!-- nositems Column -->
+              <ng-container matColumnDef="nositems">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Items</th>
+                <td mat-cell *matCellDef="let element"> {{ element.nositems }} </td>
+              </ng-container>
+
+              <!-- indentvalue Column -->
+              <ng-container matColumnDef="indentvalue">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Indent Value</th>
+                <td mat-cell *matCellDef="let element"> {{ element.indentvalue }} </td>
+              </ng-container>
+
+              <!-- indentdt -->
+              <ng-container matColumnDef="indentdt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>indent Dt</th>
+                <td mat-cell *matCellDef="let element"> {{ element.indentdt }} </td>
+              </ng-container>
+
+              <!-- nocnumber -->
+              <ng-container matColumnDef="nocnumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>IndentNo</th>
+                <td mat-cell *matCellDef="let element"> {{ element.nocnumber }} </td>
+              </ng-container>
+    
+                <!-- Header Row -->
+                <tr mat-header-row *matHeaderRowDef="[ 'sno','warehousename','facilityname','indentdt','eqpname','nositems','indentvalue','districtname','make','model','nocnumber']"></tr>
+
+                <!-- Data Rows -->
+                <tr mat-row *matRowDef="let row; columns: ['sno','warehousename','facilityname','indentdt','eqpname','nositems','indentvalue','districtname','make','model','nocnumber']"></tr>
+
+            </table>
+          </div>
+    
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+    

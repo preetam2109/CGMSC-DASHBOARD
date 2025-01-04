@@ -1,0 +1,335 @@
+<div class="card shadow">
+  <div class="card-body">
+<div class="w-100" style="background-color: #e2e3e5">
+  <h3></h3>
+</div>
+
+<div class="container-fluid">
+  
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)" (click)="DashProgressCount()">
+    <!-- Total Works Tab -->
+    <mat-tab label="Total Works" >
+      <ng-template matTabContent>
+        <div class="container-fluid mt-4">
+          <div class="container-fluid p-2">
+            <!-- <div class="card shadow">
+                <div class="card-body"> -->
+                    <div class="row ">
+                      <div class="dropdown-container">
+                        <mat-form-field appearance="fill" class="dropdown-field">
+                          <mat-label>Select Scheme</mat-label>
+                          <mat-select (selectionChange)="onselect_mainscheme_data($event.value,$event.source.triggerValue)">
+                            <mat-option
+                              *ngFor="let mainscheme of mainscheme"
+                              [value]="mainscheme.mainSchemeID" >
+                              {{ mainscheme.name }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      <!-- </div>
+                    </div> -->
+                </div>
+            </div>
+          </div>
+
+          
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <!-- Division-wise Tab -->
+    <mat-tab label="Division-wise">
+      <ng-template matTabContent>
+        <div class="card-division">
+          <!-- Label -->
+          <div class="row ">
+            <div class="col-12 col-md-4  p-2 ">
+              <div class="dropdown-container ">
+                <mat-form-field appearance="fill" class="dropdown-field">
+                  <mat-label>Select Scheme</mat-label>
+                  <mat-select (selectionChange)="onselect_mainscheme_data($event.value, $event.source.triggerValue)">
+                    <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
+                      {{ mainscheme.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                
+                <!-- <mat-form-field appearance="fill" class="dropdown-field">
+                  <mat-label>
+                    Select  Scheme
+                  </mat-label>
+                  <mat-select (selectionChange)="onselect_mainscheme_data($event.value)">
+                    <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
+                         {{ mainscheme.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+              </div>
+            </div>
+            <!-- Button Container -->
+            <div class="col-12 col-md-8  p-2 ">
+              <div class="button-container">
+                <label class="division-label align-items-center  pt-2"> Choose Division: </label>
+                <button class="btn btn-sm align-items-center" style="background-color: #D3D3D3;"
+                  *ngFor="let division of divisions" [ngClass]="{'active-button': selectedDistrict === division.id}"
+                  (click)="onButtonClick(division.name, division.id)">
+                  {{ division.name }}
+                </button>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+        <!-- *ngIf="show" -->
+        <label class="division-label" *ngIf="hide">Selected Scheme: {{ selectedName }}</label>&nbsp;
+        <label class="division-label" *ngIf="show">{{ name }}Division</label>
+    
+      </ng-template>
+    </mat-tab>
+
+    <!-- District-wise Tab -->
+    <mat-tab label="District-wise">
+      <ng-template matTabContent>
+        <div class="card-division">
+          <div class="row ">
+            <div class="col-12 col-md-6  p-2 ">
+              <div class="dropdown-container ">
+                <mat-form-field appearance="fill" class="dropdown-field">
+                  <mat-label> Select Scheme </mat-label>
+                  <mat-select (selectionChange)="onselect_mainscheme_data($event.value,$event.source.triggerValue)">
+                    <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
+                      {{ mainscheme.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-12 col-md-6  p-2 ">
+              <div class="dropdown-container">
+                <mat-form-field appearance="fill" class="dropdown-field">
+                  <mat-label>Select Districts</mat-label>
+                  <mat-select (selectionChange)="onGetDistrictsSelect($event.value,$event.source.triggerValue)">
+                    <mat-option *ngFor="let districts of GetDistrict" [value]="districts.districT_ID">
+                      {{ districts.districtname }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+    
+           
+    
+          </div>
+        </div>
+        <label class="division-label" *ngIf="hide">Selected Scheme: {{ selectedName }}</label>&nbsp;
+        <label class="division-label" *ngIf="show">{{ distname }}</label>
+      </ng-template>
+    </mat-tab>
+
+    <!-- <mat-tab label="District-wise">
+      <ng-template matTabContent>
+        <div class="card-division">
+        <div class="dropdown-container">
+          <div class="row ">
+            <div class="col-12 col-md-6  p-2 ">
+              <mat-form-field appearance="fill" class="dropdown-field">
+                <mat-label>Select Districts</mat-label>
+                <mat-select (selectionChange)="onGetDistrictsSelect($event.value)">
+                  <mat-option *ngFor="let districts of GetDistrict" [value]="districts.districT_ID">
+                    {{ districts.districtname }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6  p-2 ">
+              <mat-form-field appearance="fill" class="dropdown-field">
+                <mat-label>Select Main Scheme</mat-label>
+                <mat-select (selectionChange)="onselect_mainscheme_data($event.value)">
+                  <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
+                    {{ mainscheme.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        </div>
+      </ng-template>
+    </mat-tab> -->
+
+    <!-- MedicalCollege-wise Tab -->
+    <mat-tab label="MedicalCollege-wise">
+      <ng-template matTabContent>
+        <div class="card-division">
+          <div class="row ">
+            <div class="col-12 col-md-6  p-2 ">
+              <div class="dropdown-container">
+                <mat-form-field appearance="fill" class="dropdown-field">
+                  <mat-label>Select Districts</mat-label>
+                  <mat-select (selectionChange)="onGetDistrictsSelect($event.value,$event.source.triggerValue)">
+                    <mat-option *ngFor="let districts of GetDistrict" [value]="districts.districT_ID">
+                      {{ districts.districtname }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+    
+            <!-- <div class="col-12 col-md-6  p-2 ">
+              <mat-form-field appearance="fill" class="dropdown-field">
+                <mat-label>Select  Scheme</mat-label>
+                <mat-select (selectionChange)="onselect_mainscheme_data($event.value)">
+                  <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
+                    {{ mainscheme.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+    
+          </div>
+          <div class="container-fluid p-4" *ngIf="showCardss">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 mb-4">
+                <div class="chart-container">
+                  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                    [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                    [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke" [fill]="chartOptions.fill"
+                    [yaxis]="chartOptions.yaxis" [title]="chartOptions.title" [tooltip]="chartOptions.tooltip"
+                    [legend]="chartOptions.legend"></apx-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </ng-template>
+    </mat-tab>
+
+    <!-- <mat-tab label="MedicalCollege-wise">
+      <ng-template matTabContent>
+        <div class="dropdown-container">
+        <div class="row ">
+            <div class="col-12 col-md-6  p-2 ">
+              <mat-form-field appearance="fill" class="dropdown-field">
+                <mat-label>Select Districts</mat-label>
+                <mat-select (selectionChange)="onGetDistrictsSelect($event.value)">
+                  <mat-option *ngFor="let districts of GetDistrict" [value]="districts.districT_ID">
+                    {{ districts.districtname }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+              <div class="col-12 col-md-6  p-2 ">
+                <mat-form-field appearance="fill" class="dropdown-field">
+                  <mat-label>Select Main Scheme</mat-label>
+                  <mat-select (selectionChange)="onselect_mainscheme_data($event.value)">
+                    <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
+                      {{ mainscheme.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        <div class="container-fluid p-4" *ngIf="showCardss">
+          <div class="row">
+              <div class="col-lg-6 col-md-12 mb-4">
+                  <div class="chart-container">
+                      <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                          [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                          [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke" [fill]="chartOptions.fill"
+                          [yaxis]="chartOptions.yaxis" [title]="chartOptions.title" [tooltip]="chartOptions.tooltip"
+                          [legend]="chartOptions.legend"></apx-chart>
+                  </div>
+              </div>
+          </div>
+        </div>
+        
+      </ng-template>
+    </mat-tab> -->
+
+    <!-- <mat-tab label="MedicalCollege-wise">
+      <ng-template matTabContent>
+        Placeholder for future content
+      </ng-template>
+    </mat-tab> -->
+  </mat-tab-group>
+  
+</div>
+
+
+
+<div class="container-fluid mt-4" *ngIf="showCards">
+  <div class="row">
+  <!-- <div class="row"> -->
+    <!-- Static Card for Total Works -->
+    <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngIf="totalNosWorks != 0 ">
+      <!-- <a type="link" (click)="selectdata()"> -->
+      <mat-card class="card-class text-center" style="background-color: #0000FF; color: Black;">
+        <mat-card-header
+          class="mat-card-header"
+          style="border-bottom: none; text-align: center;"  
+        >
+          <mat-icon
+            role="img"
+            mat-card-avatar
+            class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+            style="font-size: 40px; color: white;"
+            aria-hidden="true"
+          >
+            account_balance
+          </mat-icon>
+          <div style="text-align: center; margin-top: -20px; margin-left: 5%;">
+            <h5 style="font-size: 18px; font-weight: bold;">Total Works</h5>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <h3 class="font-weight-bold" style="font-weight: bold; font-size: 16px;">
+            {{ totalNosWorks }}
+          </h3>
+        </mat-card-content>
+      </mat-card>
+    <!-- </a> -->
+    </div>
+
+    <!-- Dynamic Cards for Other District Data -->
+    <div
+      class="col-lg-3 col-md-6 col-sm-12 mb-4"
+      *ngFor="let district of districtData"
+    >
+    <a type="link" (click)="selectdata(district.nosworks)">
+      <mat-card
+        class="card-class text-center"
+        [ngStyle]="{'background-color': getCardColor(district.did), 'color': 'Black'}"
+      >
+        <mat-card-header
+          class="mat-card-header"
+          style="border-bottom: none; text-align: center;"
+        >
+          <mat-icon
+            role="img"
+            mat-card-avatar
+            class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+            style="font-size: 40px; color: white;"
+            aria-hidden="true"
+          >
+            {{ getIcon(district.did) }}
+          </mat-icon>
+          <div style="text-align: center; margin-top: -20px; margin-left: 5%;">
+            <h5 style="font-size: 18px; font-weight: bold;">{{ district.dashname }}</h5>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <h3 class="font-weight-bold" style="font-weight: bold; font-size: 16px;">
+            {{ district.nosworks }}
+          </h3>
+        </mat-card-content>
+      </mat-card>
+      </a>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+ 

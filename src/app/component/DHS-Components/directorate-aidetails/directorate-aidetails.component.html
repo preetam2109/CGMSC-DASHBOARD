@@ -1,0 +1,129 @@
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#fff" type="line-scale-party" [fullScreen]="true">
+    <p style="color: white"> Please wait... </p>
+</ngx-spinner> -->
+
+<div class="container-fluid p-4">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="chart-container">
+          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+            [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+            [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"></apx-chart>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12 table-container mat-elevation-z8">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <mat-form-field class="filter-field flex-grow-1">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyTextFilter($event)" placeholder="Filter">
+          </mat-form-field>
+          <div class="export-menu-container ">
+            <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+            <mat-menu #exportMenu="matMenu">
+              <button mat-menu-item
+                (click)="exporter.exportTable('xlsx', { fileName: 'complaints', sheet: 'complaints', Props: { Author: 'cgmsc' }})">Excel</button>
+              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+              <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+              <button mat-button (click)="exportToPDF()">PDF</button>
+              <!-- <button mat-button (click)="showAllData()">Show All</button> -->
+
+            </mat-menu>
+            
+          </div>
+         
+          <div class="show-data">
+            <button class="btn-sm show-all-btn" mat-button (click)="showAllData()">Show All</button>
+          </div>
+
+
+        </div>
+  
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+    
+              <!-- Serial Number Column -->
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+              </ng-container>
+    
+              <!-- nocnumber Column -->
+              <ng-container matColumnDef="groupname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Group </th>
+                <td mat-cell *matCellDef="let element"> {{ element.groupname }} </td>
+              </ng-container>
+    
+              <!-- warehousename Column -->
+              <ng-container matColumnDef="itemcode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+                <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+              </ng-container>
+    
+              <!-- facilityname Column -->
+              <ng-container matColumnDef="itemtypename">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Type </th>
+                <td mat-cell *matCellDef="let element"> {{ element.itemtypename }} </td>
+              </ng-container>
+    
+              <!-- nositems Column -->
+              <ng-container matColumnDef="strength1">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Strength </th>
+                <td mat-cell *matCellDef="let element"> {{ element.strength1 }} </td>
+              </ng-container>
+    
+              <!-- inddt Column -->
+              <ng-container matColumnDef="unit">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+                <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+              </ng-container>
+    
+              <!-- pendingday Column -->
+              <ng-container matColumnDef="dhsai">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>AI</th>
+                <td mat-cell *matCellDef="let element"> {{ element.dhsai }} </td>
+              </ng-container>
+              <ng-container matColumnDef="poqty">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>PO QTY</th>
+                <td mat-cell *matCellDef="let element"> {{ element.poqty }} </td>
+              </ng-container>
+              <ng-container matColumnDef="edltype">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Edl Type</th>
+                <td mat-cell *matCellDef="let element"> {{ element.edltype }} </td>
+              </ng-container>
+              <ng-container matColumnDef="povalue">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>PO Value(in Cr)</th>
+                <td mat-cell *matCellDef="let element"> {{ element.povalue }} </td>
+              </ng-container>
+              <ng-container matColumnDef="rqty">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Rec. QTY</th>
+                <td mat-cell *matCellDef="let element"> {{ element.rqty }} </td>
+              </ng-container>
+              <ng-container matColumnDef="rvalue">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Rec. Value(in Cr)</th>
+                <td mat-cell *matCellDef="let element"> {{ element.rvalue }} </td>
+              </ng-container>
+              <ng-container matColumnDef="rPercentage">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Rec %</th>
+                <td mat-cell *matCellDef="let element"> {{ element.rPercentage }} </td>
+              </ng-container>
+              <ng-container matColumnDef="itemname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Item</th>
+                <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+              </ng-container>
+    
+                <!-- Header Row -->
+                <tr mat-header-row *matHeaderRowDef="[ 'sno','itemcode','itemname','strength1', 'unit','dhsai','poqty','rqty','rPercentage','povalue','rvalue','itemtypename','groupname','edltype']"></tr>
+
+                <!-- Data Rows -->
+                <tr mat-row *matRowDef="let row; columns: [ 'sno','itemcode','itemname','strength1', 'unit','dhsai','poqty','rqty','rPercentage','povalue','rvalue','itemtypename','groupname','edltype']"></tr>
+
+            </table>
+          </div>
+    
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+    

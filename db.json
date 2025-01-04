@@ -1,0 +1,256 @@
+{
+  "customer": [
+    {
+      "id": 1,
+      "name": "Janesh",
+      "phone": "8989787867",
+      "email": "janesh@in.com",
+      "status": "Active"
+    },
+    {
+      "id": 2,
+      "name": "Bishoi",
+      "phone": "8989787867",
+      "email": "bishoi@in.com",
+      "status": "In Active"
+    },
+    {
+      "id": 3,
+      "name": "surya",
+      "phone": "8989787867",
+      "email": "surya@in.com",
+      "status": "In Active"
+    },
+    {
+      "id": 4,
+      "name": "kamlesh",
+      "phone": "8989787867",
+      "email": "kamlesh@in.com",
+      "status": "IN Active"
+    },
+    {
+      "id": 5,
+      "name": "Kriti shetty",
+      "phone": "8989787867",
+      "email": "kriti@in.com",
+      "status": "Active"
+    },
+    {
+      "id": 6,
+      "name": "Tammanah",
+      "phone": "8989787867",
+      "email": "tam@in.com"
+    },
+    {
+      "id": 7,
+      "name": "Priyanka Mohan",
+      "phone": "8989787867",
+      "email": "priya@in.com",
+      "status": "Active"
+    },
+    {
+      "id": 8,
+      "name": "rashmika",
+      "phone": "8989787867",
+      "email": "rashmika@in.com",
+      "status": "Active"
+    },
+    {
+      "id": 9,
+      "name": "Trisha",
+      "phone": "8989787867",
+      "email": "trisha@in.com",
+      "status": "Active"
+    },
+    {
+      "id": 10,
+      "name": "samanta",
+      "phone": "8989787867",
+      "email": "samantha@in.com",
+      "status": "Active"
+    },
+    {
+      "id": 11,
+      "name": "ananthi",
+      "phone": "8989787867",
+      "email": "ananthi@in.com",
+      "status": "Active"
+    },
+    {
+      "name": "Ravi Kumar",
+      "email": "rn@in.com",
+      "phone": "7899000",
+      "status": true,
+      "id": 12
+    },
+    {
+      "name": "User",
+      "email": "user@in.com",
+      "phone": "777",
+      "status": true,
+      "id": 13
+    },
+    {
+      "name": "Janesh",
+      "email": "janesh@in.com",
+      "phone": "8989787867",
+      "status": "Active",
+      "id": 14
+    },
+    {
+      "name": "kamlesh",
+      "email": "kamlesh@in.com",
+      "phone": "8989787867",
+      "status": "IN Active",
+      "id": 15
+    },
+    {
+      "name": "kamlesh",
+      "email": "kamlesh@in.com",
+      "phone": "8989787867",
+      "status": "IN Active",
+      "id": 16
+    },
+    {
+      "name": "",
+      "email": "",
+      "phone": "",
+      "status": true,
+      "id": 17
+    },
+    {
+      "name": "Bishoi",
+      "email": "bishoi@in.com",
+      "phone": "8989787867",
+      "status": "In Active",
+      "id": 18
+    },
+    {
+      "name": "",
+      "email": "",
+      "phone": "",
+      "status": true,
+      "id": 19
+    },
+    {
+      "name": "Janesh",
+      "email": "janesh@in.com",
+      "phone": "8989787867",
+      "status": "Active",
+      "id": 20
+    },
+    {
+      "name": "",
+      "email": "",
+      "phone": "",
+      "status": true,
+      "id": 21
+    },
+    {
+      "name": "Bishoi",
+      "email": "bishoi@in.com",
+      "phone": "8989787867",
+      "status": "In Active",
+      "id": 22
+    },
+    {
+      "name": "Janesh",
+      "email": "janesh@in.com",
+      "phone": "8989787867",
+      "status": "Active",
+      "id": 23
+    },
+    {
+      "name": "Janesh",
+      "email": "janesh@in.com",
+      "phone": "8989787867",
+      "status": "Active",
+      "id": 24
+    },
+    {
+      "name": "Janesh",
+      "email": "janesh@in.com",
+      "phone": "8989787867",
+      "status": "Active",
+      "id": 25
+    },
+    {
+      "name": "Janesh",
+      "email": "janesh@in.com",
+      "phone": "8989787867",
+      "status": "Active",
+      "id": 26
+    },
+    {
+      "name": "surya",
+      "email": "surya@in.com",
+      "phone": "8989787867",
+      "status": true,
+      "id": 27
+    },
+    {
+      "name": "Janesh",
+      "email": "janesh@in.com",
+      "phone": "8989787867",
+      "status": "Active",
+      "id": 28
+    }
+  ],
+  "associate": [
+    {
+      "id": 1,
+      "name": "Ravi",
+      "address": [
+        {
+          "title": "Address1",
+          "country": "India",
+          "fulladdress": "1st street,new nager,\nchennai"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Kumar",
+      "address": [
+        {
+          "title": "kUmar address1",
+          "country": "Australia",
+          "fulladdress": "Address 1"
+        },
+        {
+          "title": "2",
+          "country": "England",
+          "fulladdress": "Add 2"
+        },
+        {
+          "title": "3",
+          "country": "England",
+          "fulladdress": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Akash",
+      "address": []
+    }
+  ],
+  "country": [
+    {
+      "code": "India",
+      "name": "India"
+    },
+    {
+      "code": "Australia",
+      "name": "Australia"
+    },
+    {
+      "code": "SouthAfrica",
+      "name": "SouthAfrica"
+    },
+    {
+      "code": "England",
+      "name": "England"
+    }
+  ]
+}

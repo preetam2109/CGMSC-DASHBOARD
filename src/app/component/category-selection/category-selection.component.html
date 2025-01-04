@@ -1,0 +1,38 @@
+
+<!-- <div class="card text-center" style="width: 18rem; margin: auto; margin-top: 2rem;" *ngIf="role === 'WH'">
+  <div class="card-body">
+    <h5 class="card-title">Welcome, {{ locationName }}!</h5>
+    <p class="card-text">
+      <strong>User Id:</strong> {{ userId }} <br>
+      <strong>User:</strong> {{ userName || 'Not Available' }} <br>
+      <strong>Mobile:</strong> {{ userMobile || 'Not Available' }}
+    </p>
+     <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  <!-- </div> -->
+<!-- </div> --> 
+
+
+<div class="category-selector" *ngIf="role === 'SEC1' || role === 'DHS' || role === 'CME' || role === 'Collector' ">
+  <!-- <p class="imp-note">Note: Security Deposit Submitted Since 2021-22</p> -->
+  <h1>Verticals of CGMSC</h1>
+
+  <!-- Category Cards -->
+  <div class="row">
+    <div class="col-md-4" *ngFor="let category of categories" (click)="selectCategory(category)">
+      <div class="card category-card" [ngClass]="{ 'selected': selectedCategory === category }">
+        <!-- Direct image path added based on the category -->
+        <img class="card-img-top" [src]="getImageForCategory(category)" alt="Category image">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ category === 'DrugsConsumables' 
+              ? 'Drugs & Consumables' 
+              : (category === 'EquipmentReagent' 
+                ? 'Equipment & Reagents' 
+                : 'Infrastructure') 
+            }}
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

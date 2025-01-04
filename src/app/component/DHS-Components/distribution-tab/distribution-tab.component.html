@@ -1,0 +1,43 @@
+<!-- <div class="w-100 " style="background-color: #e2e3e5">
+    <h3> 
+      Chhattisgarh Medical Services Corporation Ltd.
+  
+    </h3>
+  </div> -->
+   
+  <div class="container-fluid">
+    <mat-tab-group
+      [(selectedIndex)]="selectedTabIndex"
+      (selectedTabChange)="selectedTabValue($event)"
+    >
+      <mat-tab
+        label="Distribution in F.Y"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
+      >
+        <ng-template matTabContent>
+          <app-distribution *ngIf="selectedTabIndex === 0"></app-distribution>
+        </ng-template>
+      </mat-tab>
+      <mat-tab
+        label="Month-wise Distribution"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+      >
+        <ng-template matTabContent>
+          <app-monthwise-issuance
+            *ngIf="selectedTabIndex === 1"
+          ></app-monthwise-issuance>
+        </ng-template>
+      </mat-tab>
+      <mat-tab
+        label="Annual Indent vs Orders"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
+      >
+        <ng-template matTabContent>
+          <app-diswise-issuance
+            *ngIf="selectedTabIndex === 2"
+          ></app-diswise-issuance>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  

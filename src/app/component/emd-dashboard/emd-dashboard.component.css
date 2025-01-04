@@ -1,0 +1,32 @@
+.chart-container {
+  width: 100%; /* Ensure the container takes full width */
+  max-width: 100%; /* Prevent overflow */
+  margin: 0 auto;
+  padding: 0;
+  min-height: 300px; /* Set a minimum height to ensure visibility */
+  display: flex; /* Center the chart horizontally */
+  justify-content: center; /* Center the chart horizontally */
+  align-items: center; /* Center the chart vertically */
+}
+.text p {
+  font-size: small; /* Adjust text size for small screens */
+  /* color: crimson; */
+}
+
+
+@media (max-width: 768px) {
+  .chart-container {
+    min-height: 250px; /* Adjust for medium screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .chart-container {
+    min-height: 200px; /* Adjust for small screens */
+  }
+  
+  .text p {
+    font-size: xx-small; /* Adjust text size for small screens */
+    /* color: crimson; */
+  }
+}

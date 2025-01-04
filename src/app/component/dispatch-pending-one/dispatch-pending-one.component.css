@@ -1,0 +1,39 @@
+.container-fluid {
+  padding: 40px;
+}
+
+.chart-container {
+  width: 100%;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.table-wrapper {
+  display: block;
+  overflow-x: auto;
+}
+
+.mat-table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+}
+
+.mat-header-cell, .mat-cell {
+  border: 1px solid #e0e0e0;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+  background-color: #f5f5f5;
+}
+
+.filter-field {
+  margin-right: 16px;
+}
+
+button[mat-button] {
+  margin-left: 16px;
+}

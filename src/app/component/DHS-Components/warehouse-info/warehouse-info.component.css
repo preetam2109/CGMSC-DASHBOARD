@@ -1,0 +1,36 @@
+.container-fluid {
+  padding: 20px;
+}
+
+.map-container {
+ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* .custom-google-map {
+  height: 599px !important;
+  width: 1228px !important;
+  margin: 0!important;
+  border: 1px solid #ccc!important;
+  border-radius: 8px!important;
+} */
+
+
+
+
+/* ::ng-deep google-map {
+  height: 599px !important;
+  width: 1228px !important;
+  
+} */
+
+
+/* Additional styling for responsive design */
+@media (max-width: 768px) {
+  google-map {
+    width: 100%; /* Adjust to full width for smaller screens */
+  }
+}

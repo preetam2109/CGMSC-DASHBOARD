@@ -1,0 +1,203 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+}
+.district-login-header {
+  /* position: fixed; */
+  top: 50;
+  left: 3;
+  right: 2;
+  background-color: #0056b3;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  z-index: 9999;
+}
+
+
+.marquee-container {
+  position: relative;
+  height: 200px; /* Adjust the height of the card content */
+  width: 90%; /* Adjust the width of the marquee container (reduce the width) */
+  margin: 0 auto; /* Center the marquee container */
+  overflow: hidden;
+}
+
+.marquee {
+  position: absolute;
+  top: 100%;
+  animation: scrollUp 15s linear infinite;
+}
+
+.marquee p {
+  margin: 0;
+  padding: 10px 0;
+  white-space: nowrap;
+}
+
+@keyframes scrollUp {
+  0% {
+    top: 100%;
+  }
+  100% {
+    top: -100%;
+  }
+}
+
+/* second mariquee */
+
+.marquee-container2 {
+position: relative;
+height: 200px; /* Adjust as needed */
+width: 90%; /* Adjust as needed */
+margin: 0 auto;
+overflow: hidden;
+}
+
+.marquee2 {
+display: flex; /* Arrange items in a row */
+position: absolute;
+animation: scrollLeftToRight 15s linear infinite; /* Continuous scrolling */
+}
+
+.marquee-item {
+display: flex;
+flex-direction: column; /* Stack image and text vertically */
+align-items: center; /* Center align text below the image */
+margin-right: 20px; /* Add space between items */
+}
+
+.marquee-item img {
+width: 100px; /* Adjust image width as needed */
+height: auto;
+}
+
+.marquee-item strong {
+margin-top: 10px; /* Add space between image and text */
+text-align: center; /* Center align the text */
+font-size: 14px; /* Adjust font size as needed */
+}
+
+@keyframes scrollLeftToRight {
+0% {
+transform: translateX(100%); /* Start off-screen to the left */
+}
+100% {
+transform: translateX(-100%); /* End off-screen to the right */
+}
+}
+
+
+
+
+
+
+
+
+@keyframes scroll-vertical {
+0% {
+    transform: translateY(100%);
+}
+100% {
+    transform: translateY(-100%);
+}
+}
+
+.marquee-container:hover .marquee {
+  animation-play-state: paused;
+}
+
+
+
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0056b3;
+}
+header .header-logo {
+  height: auto !important;
+  max-height: 100px !important;
+  width: auto !important;
+  max-width: 150px !important;
+  object-fit: contain !important;
+}
+
+
+header img {
+  max-width: 50px;
+}
+
+header h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+header h6 {
+  font-size: 0.9rem;
+  font-weight: normal;
+}
+
+main {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 2rem;
+}
+
+.shadow-lg {
+  background: #ffffff;
+}
+
+form {
+  width: 100%;
+}
+
+/* button {
+  background: #0056b3;
+  border: none;
+  color: white;
+} */
+
+footer {
+  background-color: #343a40;
+  text-align: center;
+}
+
+footer p {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+
+
+@media (max-width: 576px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header-logo {
+    max-height: 80px;
+  }
+
+}
+
+.captcha-box {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.Active {
+  background-color: #4f07f7; /* Example for active button */
+  color: white;
+}

@@ -1,0 +1,59 @@
+.dialog-content {
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  mat-table {
+    width: 100%;
+  }
+  
+  mat-header-cell {
+    font-weight: bold;
+    background-color: #f1f1f1;
+  }
+  
+  mat-cell {
+    padding: 8px;
+  }
+  
+  .mat-elevation-z8 {
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+  }
+  
+  mat-header-row, mat-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  mat-header-cell, mat-cell {
+    flex: 1;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px;
+  }
+  
+  @media (max-width: 600px) {
+    mat-header-cell, mat-cell {
+      font-size: 12px;
+      padding: 4px;
+    }
+  
+    .dialog-content {
+      padding: 8px;
+    }
+  
+    .dialog-actions {
+      padding: 4px;
+    }
+  
+    h1 {
+      font-size: 18px;
+    }
+  }
+  

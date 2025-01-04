@@ -1,0 +1,27 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-sm-8 col-12">
+        <div class="card shadow">
+          <div class="card-header text-center bg-success text-white">
+            <h4>OTP Verification</h4>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="verifyOTP()">
+              <div class="form-group mb-3">
+                <label for="otpInput" class="form-label">
+                  Enter OTP Sent Successfully on {{this.phonE1}}<button type="button" class="btn btn-info btn-sm" (click)="sendOTP()">Send OTP</button>
+  
+                </label>
+                <input type="text" id="otpInput" class="form-control" maxlength="6" [(ngModel)]="otp" name="otp" required>
+              </div>
+              <div>
+  
+                <button type="submit" class="btn btn-primary w-100">Submit OTP & Login</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,16 @@
+h5 {
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333; /* You can change the color to match your theme */
+  }
+.chart-container {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  apx-chart {
+    width: 100% !important;
+    max-width: 350px;
+    margin: auto;
+  }
+  

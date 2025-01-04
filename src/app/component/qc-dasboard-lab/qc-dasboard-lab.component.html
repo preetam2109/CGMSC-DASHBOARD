@@ -1,0 +1,52 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h3> 
+      <!-- Chhattisgarh Medical Services Corporation Ltd. -->
+  
+    </h3>
+  </div>
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label="Pending to Send  Lab">
+      <ng-template matTabContent>
+        <app-qc-lab-send *ngIf="selectedTabIndex === 0"></app-qc-lab-send>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Pending to Pick for Lab ">
+      <ng-template matTabContent>
+        <app-qc-pending-to-pick-lab *ngIf="selectedTabIndex === 1"></app-qc-pending-to-pick-lab>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="In Transit To Lab">
+      <ng-template matTabContent>
+        <!-- <app-cgmscstock-details-reagent *ngIf="selectedTabIndex === 2"></app-cgmscstock-details-reagent> -->
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Pending to be Received in Lab">
+      <ng-template matTabContent>
+        <!-- <app-cgmscstock-details-ayush *ngIf="selectedTabIndex === 3"></app-cgmscstock-details-ayush> -->
+      </ng-template>
+    </mat-tab>
+    <!-- <mat-tab label="Tender Wise">
+      <ng-template matTabContent>
+        <app-emd-pending-tenderwise *ngIf="selectedTabIndex === 2"></app-emd-pending-tenderwise>
+      </ng-template>
+    </mat-tab>
+  
+    <mat-tab label="Details">
+      <ng-template matTabContent>
+        <app-emd-pending *ngIf="selectedTabIndex === 3"></app-emd-pending>
+      </ng-template>
+    </mat-tab>
+     -->
+    <!-- <mat-tab label="EMD Released">
+      <ng-template matTabContent>
+        <app-emd-released *ngIf="selectedTabIndex === 2"></app-emd-released>
+      </ng-template>
+    </mat-tab> -->
+    
+  </mat-tab-group>
+  
+  </div>
+  

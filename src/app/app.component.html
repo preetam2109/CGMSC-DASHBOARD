@@ -1,0 +1,267 @@
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="line-scale-party" [fullScreen]="true">
+  <p style="color: white"> Please wait... </p>
+</ngx-spinner>
+
+
+<ng-container *ngIf="!isLoginPage">
+  <mat-toolbar color="primary" class="mat-elevation-z8">
+    <button (click)="drawer.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="toolbar-title">CGMSC DASHBOARD</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button (click)="logout()" class="logout-button">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer  opened="false" mode="side" position="start" mode="over" >
+      <mat-nav-list>
+        <mat-list-item>
+          <button routerLink="card" mat-button (click)="drawer.close()" ><mat-icon>dashboard</mat-icon> Dashboard</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="home" mat-button (click)="drawer.close()" ><mat-icon>home</mat-icon> Home</button>
+        </mat-list-item>
+       
+          <mat-list-item>
+            <button routerLink="Rcdetail" mat-button (click)="drawer.close()" ><mat-icon>format_list_bulleted</mat-icon> RCDetail</button>
+        </mat-list-item>
+        <mat-list-item>
+            <button routerLink="complaints" mat-button (click)="drawer.close()" ><mat-icon>format_list_bulleted</mat-icon> Complaint</button>
+        </mat-list-item>
+        <mat-list-item>
+            <button routerLink="dispatchPending" mat-button (click)="drawer.close()" ><mat-icon>format_list_bulleted</mat-icon> Pending</button>
+        </mat-list-item>
+        <mat-list-item>
+            <button routerLink="dhs" mat-button (click)="drawer.close()" ><mat-icon>format_list_bulleted</mat-icon> Orders</button>
+        </mat-list-item>
+        <mat-list-item>
+          <button routerLink="emd" mat-button (click)="drawer.close()" ><mat-icon>format_list_bulleted</mat-icon> Emd Drugs Consumables </button>
+      </mat-list-item> 
+        
+
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <div style="text-align: center;min-height: 600px;">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</ng-container>
+
+<ng-container *ngIf="isLoginPage">
+  <router-outlet></router-outlet>
+  <div (click)="handleOutsideClick($event)" class="add-to-home-screen-container"  >
+  <div [class.show]="showButton" class="add-to-home-screen">
+  
+    <button (click)="addToHomeScreen()">Add to Home screen</button>
+    <button class="close-btn" (click)="hideAddToHomeScreen()">×</button>
+  </div>
+</div>
+</ng-container> -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="line-scale-party" [fullScreen]="true">
+  <p style="color: white"> Please wait... </p>
+</ngx-spinner>
+
+<ng-container *ngIf="!isLoginPage">
+  <mat-toolbar color="primary" class="mat-elevation-z8" style="display: flex; align-items: center;">
+    <!-- Menu button on the left -->
+    <button (click)="drawer.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+  
+    <!-- Title on the left -->
+    <span class="toolbar-title" style="margin-left: 1rem;">DASHBOARD</span>
+  
+    <!-- Spacer pushes content to the right -->
+    <span class="example-spacer" style="flex-grow: 1;"></span>
+  
+    <!-- Welcome message on the right -->
+    <h4 class="responsive-h4" style="margin: 0 1rem; white-space: nowrap;" *ngIf="roleName ==='Warehouse' || 'DHS' || 'SEC1' || 'Division' || 'SE' " >
+      Welcome:<strong> {{ firstname }}</strong>
+    </h4>
+  
+    <!-- Logout button on the far right -->
+    <button mat-icon-button (click)="logout()" class="logout-button">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </mat-toolbar>
+  
+
+
+  <!-- <mat-drawer-container autosize>
+    <mat-drawer #drawer opened="false" mode="side" position="start" mode="over">
+      <mat-nav-list>
+        Show the following links only for MD role
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD' || hardcodedAuthemtication.getUserRole() === 'GM' || hardcodedAuthemtication.getUserRole() === 'GMT' ">
+          <button routerLink="card" mat-button (click)="drawer.close()">
+            <mat-icon>dashboard</mat-icon> Dashboard
+          </button>
+        </mat-list-item>
+
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD' || hardcodedAuthemtication.getUserRole() === 'GM' || hardcodedAuthemtication.getUserRole() === 'GMT'">
+          <button routerLink="home" mat-button (click)="drawer.close()">
+            <mat-icon>home</mat-icon> Home
+          </button>
+        </mat-list-item>
+
+        These links are accessible to both MD and GM users
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="Rcdetail" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon> RCDetail
+          </button>
+        </mat-list-item>
+
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="complaints" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon> Complaints
+          </button>
+        </mat-list-item>
+
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="dispatchPending" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon> Pending
+          </button>
+        </mat-list-item>
+
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="dhs" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon> Orders
+          </button>
+        </mat-list-item>
+
+       
+
+        
+
+         Show this link only for GM role
+         <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD' || hardcodedAuthemtication.getUserRole() === 'GM'|| hardcodedAuthemtication.getUserRole() === 'GMT' ">
+          <button routerLink="emd" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon> EMD Drugs/Consumables
+          </button>
+        </mat-list-item>
+
+        whStockAbstract
+
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="whStockAbstract" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon> Stock Abstract
+          </button>
+        </mat-list-item>
+
+        noc approval
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="nocApproval" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon> NOC Approval
+          </button>
+        </mat-list-item>
+
+
+
+
+        stock details
+
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="stockDetails" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon>  Stock Details
+          </button>
+        </mat-list-item>
+
+        indent Pending at Warehouse
+
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="IndentPendingWHdash" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon>   WH Indent Pending
+          </button>
+        </mat-list-item>
+
+        
+        nearExpiry 
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="nearExpiry" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon> Near Expiry
+          </button>
+        </mat-list-item>
+        
+        reagent Issue
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="ReagentIssue" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon>Reagent Issue 
+          </button>
+        </mat-list-item>
+        QC Pendings
+        <mat-list-item *ngIf="hardcodedAuthemtication.getUserRole() === 'MD'">
+          <button routerLink="QcPendings" mat-button (click)="drawer.close()">
+            <mat-icon>format_list_bulleted</mat-icon>QC Pendings
+          </button>
+        </mat-list-item>
+
+
+      </mat-nav-list>
+    </mat-drawer>
+
+    <mat-drawer-content>
+      <div style="text-align: center; min-height: 600px;">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container> -->
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer opened="false" mode="side" position="start" mode="over">
+      <mat-nav-list>
+        <ng-container *ngFor="let item of menuItems">
+          <!-- Main Menu Item -->
+          <mat-list-item>
+            <button mat-button (click)="item.submenu ? toggleSubmenu(item.label) : drawer.close()" [routerLink]="!item.submenu ? item.route : null">
+              <mat-icon>format_list_bulleted</mat-icon> {{ item.label }}
+              
+              <!-- Conditionally Show Arrow for Submenus -->
+              <mat-icon *ngIf="item.submenu">
+                {{ expandedMenus[item.label] ? 'expand_less' : 'expand_more' }}
+              </mat-icon>
+            </button>
+          </mat-list-item>
+  
+          <!-- Submenu -->
+          <div *ngIf="expandedMenus[item.label]" class="submenu">
+            <mat-list-item *ngFor="let subItem of item.submenu">
+              <button [routerLink]="subItem.route" mat-button (click)="drawer.close()">
+                <mat-icon>subdirectory_arrow_right</mat-icon> {{ subItem.label }}
+              </button>
+            </mat-list-item>
+          </div>
+        </ng-container>
+  
+        <ng-container *ngIf="menuItems.length === 0">
+          <mat-list-item>
+            <button mat-button disabled>
+              <mat-icon>error</mat-icon> No menu items available
+            </button>
+          </mat-list-item>
+        </ng-container>
+      </mat-nav-list>
+    </mat-drawer>
+  
+    <mat-drawer-content>
+      <div style="text-align: center; min-height: 100vh;">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  
+  
+  
+  
+</ng-container>
+
+<ng-container *ngIf="isLoginPage">
+  <router-outlet></router-outlet>
+  <div (click)="handleOutsideClick($event)" class="add-to-home-screen-container">
+    <div [class.show]="showButton" class="add-to-home-screen">
+      <button (click)="addToHomeScreen()">Add to Home screen</button>
+      <button class="close-btn" (click)="hideAddToHomeScreen()">×</button>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,87 @@
+
+
+.container-fluid {
+    padding: 20px;
+  }
+  
+  .table-responsive {
+    margin-top: 20px;
+  }
+  
+  .filter-field {
+    margin-right: 16px;
+  }
+  
+  .export-menu-container {
+    margin-left: 16px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+  }
+  
+  .table th {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .table td {
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .table td, .table th {
+    border: 1px solid #e0e0e0;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .mat-paginator {
+    margin-top: 20px;
+  }
+  .text p {
+    font-size: small; /* Adjust text size for small screens */
+    /* color: crimson; */
+  }
+  
+  /* Additional styling for mobile view */
+  @media (max-width: 768px) {
+    .table-container {
+      padding: 0;
+    }
+  
+    .table {
+      font-size: 14px;
+    }
+  
+    .filter-field,
+    .export-menu-container {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    .text p {
+      font-size: xx-small; /* Adjust text size for small screens */
+      /* color: crimson; */
+    }
+  }
+  .clickable-link {
+    color: blue; /* Link color */
+    text-decoration: underline; /* Underline for link appearance */
+    cursor: pointer; /* Pointer cursor to indicate clickable */
+  }
+  
+  .clickable-link:hover {
+    color: darkblue; /* Darker color on hover */
+  }
+  
+  
