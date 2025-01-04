@@ -3,4 +3,5 @@ export interface colorentity{
     // name:string
 
     // hello lomesh  
+    // hello preettam 
 }
