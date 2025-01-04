@@ -82,7 +82,10 @@ export class DivisionProgressComponent {
   zoom = 8;
   selectedWarehouse: any;
   progressdetails: any;
-  
+  TotMobile:any;
+
+  seriesName:any;
+  dayPara:any;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {
     this.chartOptions = {
       series: [],
@@ -238,15 +241,39 @@ loadData(): void {
     }
   );
 }
-
+gatdayPara(){
+  switch (this.seriesName) {
+    case 'Total Works':
+      return this.dayPara=0;
+    case 'Uploaded Today':
+      return this.dayPara=1;
+    case 'Uploaded In Last 7 Days':
+      return this.dayPara=7;
+    case 'Uploaded Before 15 Days':
+      return this.dayPara=15;
+    case 'Total In Last 7 Days':
+      return this.dayPara=7;
+    case 'Total Last 15 Days':
+      return this.dayPara=15; 
+    case ' Total Before 15 Days':
+      return this.dayPara=30; 
+    case 'Total Today':
+      return this.dayPara=1;
+    default:
+      return this.dayPara=0; 
+  }
+}
 fetchDataBasedOnChartSelection(divisionID: number, seriesName: string): void {
   // console.log(`Selected divisionID: ${divisionID}, Series: ${seriesName}`);
   // Add your logic to fetch data based on selected warehouse (whid)
+  if (this.selectedTabIndex === 0) { this.TotMobile = 'Mobile';}else {this.TotMobile = 'Totale';}
+  this.gatdayPara();
+
   var distid=0, mainSchemeId=0;
   this.spinner.show();
   this.isshow=true;
   var workid=0,dayPara=0,TotMobile=0
-  this.api.GetProgressDetailsLatLong(this.DID,divisionID,distid,mainSchemeId,workid,dayPara,TotMobile).subscribe(
+  this.api.GetProgressDetailsLatLong(this.DID,divisionID,distid,mainSchemeId,workid,this.dayPara,this.TotMobile).subscribe(
     (res: any) => {
           // Process the API response and map latitude and longitude to positions
           this.progressdetailsLatLong = res.map((item: any) => ({
