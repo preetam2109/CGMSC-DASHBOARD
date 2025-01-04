@@ -103,9 +103,10 @@ export class DivisionProgressComponent {
             const selectedCategory =
               this.chartOptions?.xaxis?.categories?.[dataPointIndex];
             const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
-
+            
             if (selectedCategory && selectedSeries) {
               const divisionID = this.divisionIDMap[selectedCategory];
+              this.seriesName=selectedSeries;
               if (divisionID) {
                 this.fetchDataBasedOnChartSelection(divisionID, selectedSeries);
               }

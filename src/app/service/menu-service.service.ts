@@ -108,7 +108,6 @@ export class MenuServiceService {
     Collector: {
       categories: {
         DrugsConsumables: [
-       
           { label: 'Home', route: 'home' },
           { label: 'Dashboard', route: 'card' },
           { label: 'Health Facilities Coverage', route: 'FacCoverage' },

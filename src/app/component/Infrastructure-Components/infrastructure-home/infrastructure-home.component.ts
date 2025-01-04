@@ -110,11 +110,13 @@ export class InfrastructureHomeComponent {
 
   loadInitialData() {
     // Load data for "Total Works" tab on initialization
+    this.spinner.show();
     this.api.DashProgressCount(0, 0, 0).subscribe(
       (res: any) => {
         this.originalData = this.sortDistrictData(res); // Save as original data
         this.districtData = [...this.originalData]; // Set for display
         this.calculateTotalNosWorks();
+        this.spinner.hide();
       },
       (error) => {
         console.error('API Error:', error);
@@ -151,7 +153,7 @@ export class InfrastructureHomeComponent {
 
   DashProgressCount() {
     try {
-      // 
+      this.spinner.show();
       // const distid = this.distid || 0;
       // const divisionid = this.divisionid || 0;
       this.distid = this.distid == 0 ? 0 : this.distid;
@@ -180,6 +182,8 @@ export class InfrastructureHomeComponent {
             // console.log('re2=', JSON.stringify(this.districtData));
           }
           this.calculateTotalNosWorks();
+      this.spinner.hide();
+
         },
         (error) => {
           console.error('API Error:', error);
@@ -384,10 +388,14 @@ export class InfrastructureHomeComponent {
     };
     this.loadData();
     this.dataSource = new MatTableDataSource<DMEProgressSummary>([]);
+    this.spinner.hide();
+
   }
 
   loadData(): void {
     console.log("this.distid=", this.distid)
+    this.spinner.show();
+    
     this.api.DMEProgressSummary(0, 0, this.distid, 0).subscribe(
       (data: any) => {
         this.DMEprogresssummary = data;
