@@ -61,6 +61,7 @@ GoogleMapsModule,MatButtonModule,MatMenuModule, MatTableExporterModule, MatTable
   styleUrl: './division-progress.component.css'
 })
 export class DivisionProgressComponent {
+  base64Data: string | undefined;
   progressdetailsLatLong: ProgressDetailsLatLong[] = [];
   mainscheme: MainScheme[] = [];
   divisionprograss:DivisionPrograss[]=[];
@@ -83,9 +84,10 @@ export class DivisionProgressComponent {
   selectedWarehouse: any;
   progressdetails: any;
   TotMobile:any;
-
   seriesName:any;
   dayPara:any;
+  sr:any;
+  ImageName:any;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {
     this.chartOptions = {
       series: [],
@@ -103,9 +105,12 @@ export class DivisionProgressComponent {
             const selectedCategory =
               this.chartOptions?.xaxis?.categories?.[dataPointIndex];
             const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
-            
+            console.log('selectedCategory:',selectedCategory);
+            console.log('selectedSeries:',selectedSeries);
             if (selectedCategory && selectedSeries) {
               const divisionID = this.divisionIDMap[selectedCategory];
+            console.log('divisionID:',divisionID);
+
               this.seriesName=selectedSeries;
               if (divisionID) {
                 this.fetchDataBasedOnChartSelection(divisionID, selectedSeries);
@@ -177,6 +182,7 @@ export class DivisionProgressComponent {
 
 //#region Api callling
 loadData(): void {
+  this.spinner.show();
   
   this.api.GetProgressCount(this.DID,0,0,this.SchemeId).subscribe(
     (data: any) => {
@@ -236,6 +242,8 @@ loadData(): void {
       this.chartOptions.xaxis = { categories: divisionName };
       this.cO = this.chartOptions;
       this.cdr.detectChanges();
+      this.spinner.hide();
+
     },
     (error: any) => {
       console.error('Error fetching data', error);
@@ -279,12 +287,19 @@ fetchDataBasedOnChartSelection(divisionID: number, seriesName: string): void {
           // Process the API response and map latitude and longitude to positions
           this.progressdetailsLatLong = res.map((item: any) => ({
             ...item,
+            
             position: {
               lat: parseFloat(item.latitude),
               lng: parseFloat(item.longitude),
             },
           }));
+          this.sr=this.progressdetailsLatLong[0]?.sr;
+            // alert(this.progressdetailsLatLong[0]?.sr || 'SR not found or is null');
+            this.ImageName=this.progressdetailsLatLong[0]?.imageName;
+            // alert(this.progressdetailsLatLong[0]?.imageName || 'ImageName not found or is null');
+
           this.spinner.hide();
+          this.GetImageBinary();
           console.log('Fetched markers:', this.progressdetailsLatLong);
         },
     (error) => {
@@ -412,5 +427,30 @@ selectedTabValue(event: any): void {
       alert('InfoWindow instance not found');
     }
    
+  }
+  GetImageBinary() {
+    try {
+      // const sr = 90691;
+      // const img = 'CGMSC WORK.jpg';
+      // alert(this.sr);
+      // alert(this.ImageName);
+      this.spinner.show();
+
+      this.api.GetImageBinary(this.sr,this.ImageName).subscribe(
+        (res) => {
+          this.base64Data = res;
+          this.spinner.hide();
+
+          // console.log('Image data: ', this.base64Data);
+          // console.log('parse res:',JSON.parse(res));
+          // Handle the response (e.g., displaying the image)
+        },
+        (error) => {
+          console.error('Error fetching data:', error);
+        }
+      );
+    } catch (ex: any) {
+      console.error('Exception:', ex.message);
+    }
   }
 }

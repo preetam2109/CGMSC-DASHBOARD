@@ -163,6 +163,8 @@ export class WorkDetails {
     subeng!: string;
     ae!: string;
     approver!: string;
+    sr!: number;
+    imageName!: string;
     position!: { lat: number; lng: number };
   }
   export class WOpendingTotal {
