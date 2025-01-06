@@ -160,7 +160,18 @@ this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   // District-wise Tab 
   GetDistricts() {
     try {
-      this.api.GetDistrict(false, 0).subscribe(
+
+
+      var roleName  = localStorage.getItem('roleName');
+      // alert( roleName )
+  if(roleName == 'Division'){
+    this.divisionid = sessionStorage.getItem('divisionID');
+    // this.showDivision=false;
+  } else {
+    this.divisionid =0;
+  }
+  this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+      this.api.GetDistrict(false,this.divisionid).subscribe(
         (res: any) => {
           this.GetDistrict = res;
         },
