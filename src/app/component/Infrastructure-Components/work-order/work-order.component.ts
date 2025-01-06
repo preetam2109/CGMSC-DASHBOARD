@@ -1,10 +1,13 @@
 import { ChangeDetectorRef, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -28,7 +31,7 @@ export type ChartOptions = {
   selector: 'app-work-order',
   standalone: true,
   imports: [NgApexchartsModule,MatSortModule, MatPaginatorModule,MatTableModule,MatTableExporterModule, MatInputModule,
-    MatFormFieldModule,NgbModule],
+    MatFormFieldModule,NgbModule, MatMenuModule],
   templateUrl: './work-order.component.html',
   styleUrl: './work-order.component.css'
 })
@@ -61,19 +64,19 @@ export class WorkOrderComponent {
   District='District'
   idMap: { [key: string]: number } = {};
 
-  displayedColumns: string[] = [
-    'sno', 'work_id', 'letterNo', 'head', 'approver', 'type_name', 'district',
-    'blockname', 'work', 'aaamt', 'tsamt', 'aaDate', 'tsDate', 'acceptanceLetterRefNo',
-    'acceptLetterDT', 'pac', 'totalAmountOfContract', 'sanctionRate', 'sanctionDetail',
-    'timeAllowed', 'dateOfSanction', 'dateOfIssueNIT', 'cid', 'contractorNAme', 'regType',
-    'class', 'englishAddress', 'mobNo', 'asPath', 'asLetter', 'groupName', 'lProgress',
-    'pdate', 'pRemarks', 'remarks', 'tenderReference'
-  ];
+  displayedColumns: string[] = ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
+  // displayedColumns: string[] = [
+  //   'sno', 'work_id', 'letterNo', 'head', 'approver', 'type_name', 'district',
+  //   'blockname', 'work', 'aaamt', 'tsamt', 'aaDate', 'tsDate', 'acceptanceLetterRefNo',
+  //   'acceptLetterDT', 'pac', 'totalAmountOfContract', 'sanctionRate', 'sanctionDetail',
+  //   'timeAllowed', 'dateOfSanction', 'dateOfIssueNIT', 'cid', 'contractorNAme', 'regType',
+  //   'class', 'englishAddress', 'mobNo', 'asPath', 'asLetter', 'groupName', 'lProgress',
+  //   'pdate', 'pRemarks', 'remarks', 'tenderReference'
+  // ];
 
   constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private modalService: NgbModal){
     this.chartOptions = {
       series: [],
-
       chart: {
         type: 'bar',
         stacked: true,
@@ -89,22 +92,15 @@ export class WorkOrderComponent {
             const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
-              // Assuming apiData is a dynamically bound API data from an external source
-              // Replace this line with the actual source of your API data.
               const apiData = this.wOpendingTotal;  // Replace with the actual data source or API response
-          
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find((data) => data.name === selectedCategory);
-          
-              // console.log('selectedCategory:', selectedCategory);
-              // console.log('selectedSeries:', selectedSeries);
-          
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-                // Fetch data based on the selected id and series
                 this.fetchDataBasedOnChartSelection(id, selectedSeries);
-                // data-bs-toggle="modal" data-bs-target="#itemDetailsModal"
-            this.openModalWithChartData(dataPointIndex, seriesIndex);
+                //  this.modalService.open(this.itemDetailsModal, { centered: true });
+
+            // this.openModalWithChartData(dataPointIndex, seriesIndex);
 
               } else {
                 console.log(`No data found for selected category: ${selectedCategory}`);
@@ -415,15 +411,41 @@ export class WorkOrderComponent {
     // this.GetWOPendingContractor();
   // this.GetWOPendingScheme();
   }
-  openModalWithChartData(dataPointIndex: number, seriesIndex: number): void {
-    // Fetch or prepare data based on the selected data point
-    const selectedData = {
-      dataPointIndex,
-      seriesIndex
-    };
-    
-    // Open the modal
-    this.modalService.open(this.itemDetailsModal, { centered: true });
+  exportToPDF() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      // ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
+      { title: "S.No", dataKey: "sno" },
+      { title: "letterNo", dataKey: "letterNo" },
+      { title: "head", dataKey: "head" },
+      { title: "acceptLetterDT", dataKey: "acceptLetterDT" },
+      { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
+      { title: "district", dataKey: "district" },
+      { title: "work", dataKey: "work" },
+      { title: "contractorNAme", dataKey: "contractorNAme" },
+      { title: "work_id", dataKey: "work_id" }
+    ];
+    const rows = this.dispatchPendings.map(row => ({
+      sno: row.sno,
+      letterNo: row.letterNo,
+      head: row.head,
+      acceptLetterDT: row.acceptLetterDT,
+      totalAmountOfContract: row.totalAmountOfContract,
+      district: row.district,
+      work: row.work,
+      contractorNAme: row.contractorNAme,
+      work_id: row.work_id,
+    }));
+
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] }
+    });
+
+    doc.save('WorkOrderPending.pdf');
   }
 
   //#region API get DATA
@@ -455,37 +477,11 @@ export class WorkOrderComponent {
           } else {
             console.warn('Missing whid for warehousename :', item.name);
           }
-
-
         });
-
-        // console.log('whidMap:', this.whidMap); // Log the populated mmidMap
-
         this.chartOptions.series = [
-
-          {
-            name: 'Total Pending Works',
-            data: pendingWork,
-            // color: '#0000FF'
-            color:'#eeba0b'
-          }
-          ,
-          {
-            name: 'Contrct Value cr',
-            data: contrctValuecr,
-            // color:'#00b4d8'
-            // color:  'rgb(0, 128, 0)'
-            // color: '#eeba0b'
-          },
-          {
-            name: 'Noof Works Greater 7 Days',
-            data: noofWorksGreater7Days,
-            color: 'rgb(0, 143, 251)'
-            // color: 'rgb(144, 238, 144)'
-            // color: '#90EE90'
-           
-          },
-        ];
+          {name: 'Total Pending Works', data: pendingWork,color:'#eeba0b'} ,
+          { name: 'Contrct Value cr',data: contrctValuecr },
+          { name: 'Noof Works Greater 7 Days', data: noofWorksGreater7Days, color: 'rgb(0, 143, 251)' }, ];
 
         this.chartOptions.xaxis = { categories: name };
         this.cO = this.chartOptions;
@@ -498,106 +494,6 @@ export class WorkOrderComponent {
       }
     );
   }
-//   GetWOPendingTotal(): void {
-//     // this.spinner.show();
-//     this.api.WOPendingTotal(this.Total, this.divisionid).subscribe(
-//         (data: any) => {
-//           this.wOpendingTotal=data;
-//             const name: string[] = [];
-//             const pendingWork: any[] = [];
-//             const contrctValuecr: number[] = [];
-//             const noofWorksGreater7Days: any[] = [];
-
-//             this.whidMap = {}; // Initialize the map
-//             data.forEach((item: { name: string; id: any; pendingWork: any; contrctValuecr: number; noofWorksGreater7Days: any }) => {
-//                 name.push(item.name);
-//                 pendingWork.push(item.pendingWork);
-//                 contrctValuecr.push(item.contrctValuecr);
-//                 noofWorksGreater7Days.push(item.noofWorksGreater7Days);
-
-//                 if (item.name && item.id) {
-//                     this.whidMap[item.name] = item.id; // Populate the map
-//                 }
-//             });
-
-//             // this.chartOptions.series = [
-//             //     { name: 'Total Pending Works', data: pendingWork, color: '#eeba0b' },
-//             //     { name: 'Contract Value (cr)', data: contrctValuecr },
-//             //     { name: 'No. of Works > 7 Days', data: noofWorksGreater7Days, color: 'rgb(0, 143, 251)' }
-//             // ];
-
-
-//             // jhhhj
-//             // this.chartOptions.series = [
-//             //   {
-//             //     name: 'Total Pending Works',
-//             //     data: pendingWork.map((value, index) => ({
-//             //       x: name[index], // X-axis label
-//             //       y: value, // Y-axis value
-//             //       meta: { id: this.whidMap[name[index]] }, // Retrieve the corresponding ID
-//             //     })),
-//             //     color: '#eeba0b',
-//             //   },
-//             //   {
-//             //     name: 'Contract Value cr',
-//             //     data: contrctValuecr.map((value, index) => ({
-//             //       x: name[index],
-//             //       y: value,
-//             //       meta: { id: this.whidMap[name[index]] },
-//             //     })),
-//             //     color: '#00b4d8',
-//             //   },
-//             //   {
-//             //     name: 'No of Works Greater 7 Days',
-//             //     data: noofWorksGreater7Days.map((value, index) => ({
-//             //       x: name[index],
-//             //       y: value,
-//             //       meta: { id: this.whidMap[name[index]] },
-//             //     })),
-//             //     color: 'rgb(0, 143, 251)',
-//             //   },
-//             // ];
-//             this.chartOptions.series = [
-//               {
-//                 name: 'Total Pending Works',
-//                 data: pendingWork.map((value, index) => ({
-//                   x: name[index], // X-axis label
-//                   y: value, // Y-axis value
-//                   meta: { id: this.whidMap[name[index]] }, // Meta data
-//                 })),
-//                 color: '#eeba0b',
-//               },
-//               {
-//                 name: 'Contract Value cr',
-//                 data: contrctValuecr.map((value, index) => ({
-//                   x: name[index],
-//                   y: value,
-//                   meta: { id: this.whidMap[name[index]] },
-//                 })),
-//                 color: '#00b4d8',
-//               },
-//               {
-//                 name: 'No of Works Greater 7 Days',
-//                 data: noofWorksGreater7Days.map((value, index) => ({
-//                   x: name[index],
-//                   y: value,
-//                   meta: { id: this.whidMap[name[index]] },
-//                 })),
-//                 color: 'rgb(0, 143, 251)',
-//               },
-//             ];
-            
-//             this.chartOptions.xaxis = { categories: name };
-//             this.cdr.detectChanges();
-//             this.spinner.hide();
-//         },
-//         (error: any) => {
-//             console.error('Error fetching data', error);
-//         }
-//     );
-// }
-
-
   GetWOPendingDistrict(): void {
     this.api.WOPendingTotal(this.District,this.divisionid).subscribe(
       (data: any) => {
@@ -793,11 +689,9 @@ export class WorkOrderComponent {
     );
   }
 //#endregion
-//#region 
+//#region  Fetch Data in table form
 fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
   console.log(`Selected WHID: ${divisionID}, Series: ${seriesName}`);
-  // Add your logic to fetch data based on selected warehouse (whid)
-  // this.modalService.open(this.itemDetailsModal, { centered: true });
   const  distid=0;
   const mainSchemeId=0;
   const contractid=0;
@@ -805,25 +699,26 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
  
   this.api.GetWorkOrderPendingDetailsNew(divisionID,mainSchemeId,distid,contractid).subscribe(
     (res) => {
-
-      //   this.dispatchPendings = res.map((item:WorkOrderPendingDetailsNew,index:number) => ({
+      // this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
       //   ...item,
       //   sno: index + 1
       // }));
-      // this.dataSource.data = this.dispatchPendings;
       this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
         ...item,
         sno: index + 1
       }));
       this.dataSource.data = this.dispatchPendings;
+      // this.dataSource.data = this.dispatchPendings;
+      console.log(this.dataSource.data);
       // console.log('Data with serial numbers:', this.dispatchPendings); 
-        console.log("res ",JSON.stringify(res))
+        // console.log("res ",JSON.stringify(res))
         // this.dispatchPendings = res;
         // console.log("Welcome ",JSON.stringify(this.dispatchPendings))
         this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
+      this.modalService.open(this.itemDetailsModal, { centered: true });
       this.spinner.hide();
     },
     (error) => {
@@ -832,7 +727,7 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
   );
 }
 applyTextFilter(event: Event) {
-  ;
+  
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -840,11 +735,5 @@ applyTextFilter(event: Event) {
     this.dataSource.paginator.firstPage();
   }
 }
-openModal() {
-  this.modalService.open(this.itemDetailsModal, { centered: true });
-  // const modalRef = this.modalService.open(this.itemDetailsModal);
-  // modalRef.componentInstance.user = this.user;
-  }
-// Method to open the modal
 //#endregion
 }

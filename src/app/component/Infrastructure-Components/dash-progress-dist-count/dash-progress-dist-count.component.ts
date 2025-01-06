@@ -51,6 +51,7 @@ export class DashProgressDistCountComponent {
   dashprogressdistCount: DashProgressDistCount[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  divisionid: any;
 
   constructor(public api: ApiService, private cdr: ChangeDetectorRef) {
     this.chartOptions = {
@@ -58,7 +59,8 @@ export class DashProgressDistCountComponent {
       chart: {
         type: 'bar',
         stacked: true,
-        height: 1000,
+        // height: 1000,
+        height: 400,
         // width:600,
         events: {
           dataPointSelection: (
@@ -142,7 +144,15 @@ export class DashProgressDistCountComponent {
   }
 
   loadData(): void {
-    this.api.DashProgressDistCount(0, 0, 0).subscribe(
+    var roleName  = localStorage.getItem('roleName');
+    // alert( roleName )
+if(roleName == 'Division'){
+  this.divisionid = sessionStorage.getItem('divisionID');
+  // this.showDivision=false;
+} else {
+  this.divisionid =0;
+}
+    this.api.DashProgressDistCount(this.divisionid , 0, 0).subscribe(
       (data: any) => {
         // district_ID !:  number ; 
         // districtname!: string; 
