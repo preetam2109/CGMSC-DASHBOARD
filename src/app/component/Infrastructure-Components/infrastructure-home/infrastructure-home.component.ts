@@ -15,6 +15,8 @@ import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXA
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -41,7 +43,7 @@ export type ChartOptions = {
     MatIconModule,
     MatTabsModule,
     CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
-    NgApexchartsModule, MatSortModule, MatPaginatorModule
+    NgApexchartsModule, MatSortModule, MatPaginatorModule,NgbModule
     // BrowserModule
   ],
 
@@ -57,16 +59,17 @@ export class InfrastructureHomeComponent {
   totalNosWorks: number = 0;
   selectedTabIndex: number = 0;
   distid = 0;
-  divisionid = 0;
+  divisionid:any = 0;
   mainSchemeID = 0;
-
+  id:any
   selectedDistrict: any | null = null;
   name: any;
   isall: boolean = true;
   show:boolean=false;
   hide:boolean=false;
-  distname:any;
   public showCards: boolean = true; // Control card visibility
+  public showDivision: boolean = true; // Control card visibility
+  distname:any;
   public showCardss: boolean = false; // Control card visibility
   cardOrder: string[] = [
     "Completed/Handover",
@@ -96,22 +99,42 @@ export class InfrastructureHomeComponent {
   @ViewChild(MatSort) sort!: MatSort;
   chartOptions!: ChartOptions;
   selectedName: any;
-  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {
+  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private modalService: NgbModal) {
 
   }
 
   ngOnInit() {
+    var roleName  = localStorage.getItem('roleName');
+    // alert( roleName )
+if(roleName == 'Division'){
+  this.divisionid = sessionStorage.getItem('divisionID');
+  this.showDivision=false;
+// return; 
+// alert( this.divisionid )
 
-    this.loadInitialData();
+
+this.loadInitialData();
+}else{
+this.loadInitialData();
+
+}
     this.GetDistricts();
     this.getmain_scheme();
     //  this.GetDMEProgressSummary();
   }
-
+//#region 
   loadInitialData() {
     // Load data for "Total Works" tab on initialization
     this.spinner.show();
-    this.api.DashProgressCount(0, 0, 0).subscribe(
+    // var roleName  = localStorage.getItem('roleName');
+
+    // if(roleName == 'Division'){
+    //   this.showDivision=false;
+
+    // }
+this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+
+    this.api.DashProgressCount(this.divisionid, 0, 0).subscribe(
       (res: any) => {
         this.originalData = this.sortDistrictData(res); // Save as original data
         this.districtData = [...this.originalData]; // Set for display
@@ -156,6 +179,17 @@ export class InfrastructureHomeComponent {
       this.spinner.show();
       // const distid = this.distid || 0;
       // const divisionid = this.divisionid || 0;
+    
+      var roleName  = localStorage.getItem('roleName');
+      // alert( roleName )
+
+if(roleName == 'Division'){
+  // this.divisionid = sessionStorage.getItem('divisionID');
+  this.showDivision=false;
+
+  // alert( this.divisionid )
+  // return
+}
       this.distid = this.distid == 0 ? 0 : this.distid;
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
       this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
@@ -536,12 +570,17 @@ export class InfrastructureHomeComponent {
     // alert(this.mainSchemeID);
 
   }
-
-  selectdata(data:any){
-    alert(data);
-    // alert('hi');
+//#endregion
+  selectdata(data:any ){
   }
+  open_mobile_modal(type: number, modalDefault_modal: any) {
+    this.modalService.open(modalDefault_modal, {
+      centered: true
+    });
+    // if (type == 1) this.is_edit_mobile = true;
 
+    // else this.is_edit_mobile = false
+  }
   // onselect_mainscheme_data(selectedValue: string, selectedName: string): void {
   //   console.log('Selected ID:', selectedValue);
   //   console.log('Selected Name:', selectedName);
