@@ -174,6 +174,25 @@ isPasswordVisible: boolean = false;
       console.error('Selected user not found in the list.');
     }
   }
+
+  onUserChangeInfrastructure(event: Event): void {
+    
+    // const id = (event.target as HTMLSelectElement).value; // Get the selected email ID
+    const selectedUser = this.InfraStructureDropdownList.find((user: { id: string }) => user.id === this.id); // Find the user object in the list
+  
+    console.log('Selected User:', selectedUser); // Log the selected user object properly
+  
+    if (selectedUser) {
+      this.siMobile = selectedUser.mobile || null;
+      this.id = selectedUser.id || null;
+      this.rolename = selectedUser.role || null;
+      this.firstname=selectedUser.desig || null;
+      this.setRole(this.rolename);
+      sessionStorage.setItem('firstname', this.firstname);
+      sessionStorage.setItem('authenticatedUser',this.firstname);
+      sessionStorage.setItem('divisionID',this.id)
+
+
  
   onUserChangeWarehouse(event: Event): void {
     
