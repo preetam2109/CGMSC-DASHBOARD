@@ -657,8 +657,10 @@ WOPendingTotal(RPType:any,divisionId:any){
   // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WOPendingTotal?RPType=Scheme&divisionid=0
 }
 GetWorkOrderPendingDetailsNew(divisionId:any,mainSchemeId:any,distid:any,contractid:any){
-  return this.http.get<WorkOrderPendingDetailsNew[]>(`${this.apiUrl}/WorkOrder/getWorkOrderPendingDetailsNew?divisionId=${divisionId}&workid=${mainSchemeId}&ID=${distid}&area=${contractid}`);
-
+  // debugger
+  return this.http.get<WorkOrderPendingDetailsNew[]>(`${this.apiUrl}/WorkOrder/getWorkOrderPendingDetailsNew?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&contractid=${contractid}`);
+ // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/getWorkOrderPendingDetailsNew?
+  // divisionId=D1024&mainSchemeId=0&distid=0&contractid=0
   // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/getWorkOrderPendingDetailsNew?divisionId=0&mainSchemeId=0&distid=0&contractid=0
 }
 

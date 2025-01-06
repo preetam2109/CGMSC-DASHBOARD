@@ -98,7 +98,6 @@ this.GetWorkDetails();
 
   GetWorkDetails() {
     try {
-      ;
       this.api.GetWorkDetails(this.workID).subscribe(
         (res) => {
         this.workdetails = res;
