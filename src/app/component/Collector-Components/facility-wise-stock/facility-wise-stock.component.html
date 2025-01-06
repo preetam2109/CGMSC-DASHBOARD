@@ -1,0 +1,170 @@
+
+  
+   
+   <div class="container-fluid py-4">
+    
+    <div class="container" style="text-align: center; max-width: 100%; overflow-x: auto;">
+      <h1 style="color: rgb(50, 50, 164);"><strong>Item Wise Stock Position of District</strong></h1>
+    </div>
+
+
+    <div class="row mb-3">
+        <div class="col-md-6 d-flex flex-wrap">
+          <!-- Drugs or Consumables Selection -->
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" 
+              value="Drugs" (change)="onCategoryChange(1)" />
+            <label class="form-check-label" for="drugs">Drugs</label>
+          </div>
+          
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" 
+              value="Consumables" (change)="onCategoryChange(2)" />
+            <label class="form-check-label" for="consumables">Consumables</label>
+          </div>
+      
+          <!-- EDL or Non-EDL Selection -->
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="edlGroup" id="edl" 
+              value="EDL" (change)="onEDLNonEDLChange('Y')" />
+            <label class="form-check-label" for="edl">EDL</label>
+          </div>
+          
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="edlGroup" id="non-edl" 
+              value="Non-EDL" (change)="onEDLNonEDLChange('N')" />
+            <label class="form-check-label" for="non-edl">Non-EDL</label>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      
+
+
+    <div class="container" style="text-align: center; max-width: 100%; overflow-x: auto;">
+      <!-- <h1 style="color: rgb(50, 50, 164);" > <strong> Current Stock Report</strong></h1> -->
+    </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 table-container mb-4">
+          <!-- <div class="text d-flex mt-3 mb-2">
+            <button class="btn btn-outline-primary btn-sm" (click)="getAllDispatchPending()" >Drugs</button>
+            <button class="btn btn-outline-primary btn-sm" style="margin-left: 3px;" (click)="getAllDispatchPending()">Consumables</button>
+          </div> -->
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div class="export-menu-container">
+              <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-button (click)="exportToPDF()">PDF</button>
+    
+              </mat-menu>
+            </div>
+          </div>
+    
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+
+
+                <ng-container matColumnDef="sno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                  </ng-container>
+    
+        <!-- Item ID Column -->
+        <ng-container matColumnDef="facilityname">
+          <th mat-header-cell *matHeaderCellDef> Facility </th>
+          <td mat-cell *matCellDef="let element"> {{ element.facilityname }} </td>
+        </ng-container>
+  
+        <!-- Item Code Column -->
+        <ng-container matColumnDef="nositems">
+          <th mat-header-cell *matHeaderCellDef> No of EDL  </th>
+          <td mat-cell *matCellDef="let element"> {{ element.nositems }} </td>
+        </ng-container>
+  
+        <!-- EDL Item Code Column -->
+        <ng-container matColumnDef="stockoutnos">
+          <th mat-header-cell *matHeaderCellDef> Stock out </th>
+          <td mat-cell *matCellDef="let element"> {{ element.stockoutnos }} </td>
+        </ng-container>
+  
+        <!-- In-Hand Quantity Column -->
+        <ng-container matColumnDef="facstkcnt">
+          <th mat-header-cell *matHeaderCellDef> Stock Available </th>
+          <td mat-cell *matCellDef="let element"> {{ element.facstkcnt }} </td>
+        </ng-container>
+  
+        <!-- stockoutp Column -->
+        <ng-container matColumnDef="stockoutp">
+          <th mat-header-cell *matHeaderCellDef> Stock out % </th>
+          <td mat-cell *matCellDef="let element"> {{ element.stockoutp }} </td>
+        </ng-container>
+  
+        <!-- Strength Column -->
+        <ng-container matColumnDef="recpendingatfacilily">
+          <th mat-header-cell *matHeaderCellDef> Receipt Pending </th>
+          <td mat-cell *matCellDef="let element"> {{ element.recpendingatfacilily }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="whstkcnt">
+          <th mat-header-cell *matHeaderCellDef> Warehouse Stock Not Picked </th>
+          <td mat-cell *matCellDef="let element"> {{ element.whstkcnt }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cmhostkcnt">
+          <th mat-header-cell *matHeaderCellDef>Current CMHO Stock </th>
+          <td mat-cell *matCellDef="let element"> {{ element.cmhostkcnt }} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="whuqcstkcnt">
+          <th mat-header-cell *matHeaderCellDef>Current Warehouse UQC Stock </th>
+          <td mat-cell *matCellDef="let element"> {{ element.whuqcstkcnt }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="indenT_TOWH_PENDING">
+          <th mat-header-cell *matHeaderCellDef>Indent to Warehouse Pending </th>
+          <td mat-cell *matCellDef="let element"> {{ element.indenT_TOWH_PENDING }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="whissuE_REC_PENDING_L180CNT">
+          <th mat-header-cell *matHeaderCellDef>Warehouse Issue Rec Pending Lab Sent </th>
+          <td mat-cell *matCellDef="let element"> {{ element.whissuE_REC_PENDING_L180CNT }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="balifT6MONTH">
+          <th mat-header-cell *matHeaderCellDef>balifT6MONTH </th>
+          <td mat-cell *matCellDef="let element"> {{ element.balifT6MONTH }} </td>
+        </ng-container>
+        <ng-container matColumnDef="lP_PIPELINE180CNT">
+          <th mat-header-cell *matHeaderCellDef>lP_PIPELINE180CNT </th>
+          <td mat-cell *matCellDef="let element"> {{ element.lP_PIPELINE180CNT }} </td>
+        </ng-container>
+        <ng-container matColumnDef="noctakeN_NO_LPO">
+          <th mat-header-cell *matHeaderCellDef>noctakeN_NO_LPO </th>
+          <td mat-cell *matCellDef="let element"> {{ element.noctakeN_NO_LPO }} </td>
+        </ng-container>
+  
+                  <!-- Header Row -->
+                  <!-- 'whuqcstkcnt','indenT_TOWH_PENDING','whissuE_REC_PENDING_L180CNT','balifT6MONTH','lP_PIPELINE180CNT','noctakeN_NO_LPO' -->
+                  <tr mat-header-row *matHeaderRowDef="['sno','facilityname', 'nositems', 'stockoutnos', 'facstkcnt', 'stockoutp', 'recpendingatfacilily','whstkcnt']"></tr>
+    
+                  <!-- Data Rows -->
+                  <tr mat-row *matRowDef="let row; columns: ['sno','facilityname', 'nositems', 'stockoutnos', 'facstkcnt', 'stockoutp', 'recpendingatfacilily','whstkcnt'];"></tr>
+        
+      </table>
+    </div>      
+    <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+</div>
+  

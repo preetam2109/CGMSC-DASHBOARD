@@ -679,6 +679,10 @@ GetImageBinary(sr: number, imgName: string): Observable<any> {
 
 
 
+getDistDHSStock(disid:any,coll_cmho:any,mcatid:any,userid:any){
+  
+  return this.http.get(`https://dpdmis.in/CGMSCHO_API2/api/District/DistDHSStock?disid=${disid}&coll_cmho=${coll_cmho}&mcatid=${mcatid}&userid=${userid}`);
+}
 
 
 
