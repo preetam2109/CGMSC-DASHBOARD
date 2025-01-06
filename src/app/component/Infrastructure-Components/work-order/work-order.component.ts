@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -27,12 +28,17 @@ export type ChartOptions = {
   selector: 'app-work-order',
   standalone: true,
   imports: [NgApexchartsModule,MatSortModule, MatPaginatorModule,MatTableModule,MatTableExporterModule, MatInputModule,
-    MatFormFieldModule,],
+    MatFormFieldModule,NgbModule],
   templateUrl: './work-order.component.html',
   styleUrl: './work-order.component.css'
 })
 export class WorkOrderComponent {
   @ViewChild('chart') chart: ChartComponent | undefined;
+  // @ViewChild('itemDetailsModal') itemDetailsModal: any;
+  // @ViewChild('itemDetailsModal', { static: true }) itemDetailsModal: any;
+  @Input() public user: any;
+  // @ViewChild('itemDetailsModal') itemDetailsModal!: TemplateRef<any>;
+  @ViewChild('itemDetailsModal') itemDetailsModal: any; 
   public cO: Partial<ChartOptions> | undefined;
   chartOptions: ChartOptions; // For bar chart
   chartOptions2: ChartOptions; // For bar chart
@@ -64,7 +70,7 @@ export class WorkOrderComponent {
     'pdate', 'pRemarks', 'remarks', 'tenderReference'
   ];
 
-  constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef){
+  constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private modalService: NgbModal){
     this.chartOptions = {
       series: [],
 
@@ -81,7 +87,6 @@ export class WorkOrderComponent {
           ) => {
             const selectedCategory = this.chartOptions?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
             const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
-          
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               // Assuming apiData is a dynamically bound API data from an external source
@@ -96,13 +101,11 @@ export class WorkOrderComponent {
           
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-                // const divisionID = this.divisionIDMap[selectedCategory];  // Assuming divisionIDMap is defined elsewhere
-          
-                // console.log('divisionID:', divisionID);
-                // console.log('id:', id);
-          
                 // Fetch data based on the selected id and series
                 this.fetchDataBasedOnChartSelection(id, selectedSeries);
+                // data-bs-toggle="modal" data-bs-target="#itemDetailsModal"
+            this.openModalWithChartData(dataPointIndex, seriesIndex);
+
               } else {
                 console.log(`No data found for selected category: ${selectedCategory}`);
               }
@@ -110,36 +113,6 @@ export class WorkOrderComponent {
               console.log('Selected category or series is invalid.');
             }
           }
-          
-          
-
-          
-          // dataPointSelection: (
-          //   event,
-          //   chartContext,
-          //   { dataPointIndex, seriesIndex }
-          // ) => {
-          //   const selectedCategory =
-          //     this.chartOptions?.xaxis?.categories?.[dataPointIndex];
-          //   const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
-          //   // console.log('selectedCategory:',selectedCategory);
-          //   // console.log('selectedSeries:',selectedSeries);
-          //   if (selectedCategory && selectedSeries) {
-          //     const id = this.idMap[selectedCategory];
-          //     const divisionID = this.divisionIDMap[selectedCategory];
-          //     // console.log('divisionID:',divisionID);
-          //     // console.log('id:',id);
-          //     // this.seriesName=selectedSeries;
-          //   const  distid=0;
-          //   const mainSchemeId=0;
-          //   const contractid=0;
-          //     // alert(id);
-          //     if (id) {
-          //       this.fetchDataBasedOnChartSelection(id, selectedSeries);
-          //     }
-          //   }
-         
-          // },
         },
       },
       plotOptions: {
@@ -442,6 +415,17 @@ export class WorkOrderComponent {
     // this.GetWOPendingContractor();
   // this.GetWOPendingScheme();
   }
+  openModalWithChartData(dataPointIndex: number, seriesIndex: number): void {
+    // Fetch or prepare data based on the selected data point
+    const selectedData = {
+      dataPointIndex,
+      seriesIndex
+    };
+    
+    // Open the modal
+    this.modalService.open(this.itemDetailsModal, { centered: true });
+  }
+
   //#region API get DATA
   GetWOPendingTotal(): void {
     this.spinner.show();
@@ -813,7 +797,7 @@ export class WorkOrderComponent {
 fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
   console.log(`Selected WHID: ${divisionID}, Series: ${seriesName}`);
   // Add your logic to fetch data based on selected warehouse (whid)
-
+  // this.modalService.open(this.itemDetailsModal, { centered: true });
   const  distid=0;
   const mainSchemeId=0;
   const contractid=0;
@@ -822,7 +806,12 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
   this.api.GetWorkOrderPendingDetailsNew(divisionID,mainSchemeId,distid,contractid).subscribe(
     (res) => {
 
-        this.dispatchPendings = res.map((item:WorkOrderPendingDetailsNew,index:number) => ({
+      //   this.dispatchPendings = res.map((item:WorkOrderPendingDetailsNew,index:number) => ({
+      //   ...item,
+      //   sno: index + 1
+      // }));
+      // this.dataSource.data = this.dispatchPendings;
+      this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
         ...item,
         sno: index + 1
       }));
@@ -851,48 +840,11 @@ applyTextFilter(event: Event) {
     this.dataSource.paginator.firstPage();
   }
 }
-
-// onDataPointSelection(event: any): void {
-//   console.log('event:', event);
-//   const selectedData = event.dataPoint; // Get the selected data point
-//   if (selectedData && typeof selectedData === 'object' && 'meta' in selectedData) {
-//     const selectedId = selectedData.meta.id; // Retrieve the ID from meta
-//     console.log('Selected ID:', selectedId);
-//     // Use the ID as needed
-//   } else {
-//     console.warn('Meta information not available for selected data point');
-//   }
-// }
-
-
-
-
-// WorkorderpendingdetailsNew
-//  FetchDataBasedOnChartSelection(divisionID: number,seriesName: string):void {
-//   console.log(`Selected divisionID: ${divisionID}, Series: ${seriesName}`);
-  
-//   var distid=0, mainSchemeId=0;
-//   this.spinner.show();
-//   // this.isshow=true;
-//   var workid=0,dayPara=0
-// var contractid=0;
-//   this.api.GetWorkOrderPendingDetailsNew(divisionID,distid,mainSchemeId,contractid).subscribe(
-//     (res: any) => {
-//           // Process the API response and map latitude and longitude to positions
-//           this.WorkorderpendingdetailsNew = res.map((item: any) => ({
-//             ...item,
-           
-//           }));
-//           this.spinner.hide();
-//           console.log('Fetched markers:', this.WorkorderpendingdetailsNew);
-//         },
-//     (error) => {
-//       console.error('Error fetching drop info:', error);
-//   // this.toastr.error('Failed to load warehouse data');
-//     }
-//   );
-
-// }
+openModal() {
+  this.modalService.open(this.itemDetailsModal, { centered: true });
+  // const modalRef = this.modalService.open(this.itemDetailsModal);
+  // modalRef.componentInstance.user = this.user;
+  }
+// Method to open the modal
 //#endregion
-  
 }

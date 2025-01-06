@@ -3,17 +3,18 @@
         <div class="w-100" style="background-color:#858681"> <!--#e2e3e5-->
             <h3 class="text-light">Work Order Pending</h3>
         </div>
-                <!-- Button trigger modal -->
-
         <div class="container-fluid  p-2">
             <div class="row">
               <div class="col-lg-6 col-md-6 mb-2 border rounded">
                 <div class="chart-container" >
+    <!-- <a type="link" (click)="open_mobile_modal(1,itemDetailsModal)"> -->
+      <!-- <a type="link" data-bs-toggle="modal" data-bs-target="#itemDetailsModal" > -->
                   <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
                     [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
                     [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
                     [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"  
-                   ></apx-chart>
+                     ></apx-chart>
+                    <!-- </a>data-bs-toggle="modal" data-bs-target="#itemDetailsModal"  -->
                 </div>
               </div>
               <div class="col-lg-6 col-md-6 mb-2 border rounded">
@@ -51,10 +52,11 @@
     </div>
 </div>
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemDetailsModal">
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemDetailsModal" >
   Launch demo modal
-</button>
-
+</button> -->
+<!-- <ng-template #itemDetailsModal let-modal> -->
+  <!-- <ng-template #itemDetailsModal let-modal> -->
 <!-- Modal -->
 <div class="modal fade w-100" id="itemDetailsModal" tabindex="-1" aria-labelledby="itemDetailsModalLabel" aria-hidden="true" data-bs-backdrop="false">
   <div class="modal-dialog modal-fullscreen">
@@ -256,8 +258,6 @@
                 </ng-container>
                 <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
-                <!-- <tr mat-header-row *matHeaderRowDef="[ 'sno', 'work_id', ...]"></tr>
-                <tr mat-row *matRowDef="let row; columns: [ 'sno', 'work_id', ...]"></tr> -->
                    <tr mat-header-row *matHeaderRowDef="[ 'sno','work_id','letterNo','head','approver', 'type_name','district','blockname','work'
                   ,'aaamt','tsamt','aaDate','tsDate','acceptanceLetterRefNo','acceptLetterDT','pac','totalAmountOfContract','sanctionRate',
                   'sanctionDetail','timeAllowed','dateOfSanction','dateOfIssueNIT','cid','contractorNAme','regType','class','englishAddress','mobNo',
@@ -276,10 +276,46 @@
             <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
           </div>
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div> -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+      </div>
     </div>
   </div>
 </div>
+<!-- </ng-template>(click)="modal.dismiss('Cross click')" (click)="modal.close()"-->
+<!-- </ng-template> -->
+
+
+<!-- <ng-template #itemDetailsModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template> -->
+<ng-template #itemDetailsModal let-modal>
+  <div class="modal-dialog fullscreen-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Modal content here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 

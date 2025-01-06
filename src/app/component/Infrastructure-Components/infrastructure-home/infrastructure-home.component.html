@@ -38,7 +38,7 @@
     </mat-tab>
 
     <!-- Division-wise Tab -->
-    <mat-tab label="Division-wise">
+    <mat-tab label="Division-wise" *ngIf="showDivision">
       <ng-template matTabContent>
         <div class="card-division">
           <!-- Label -->
@@ -298,6 +298,7 @@
       *ngFor="let district of districtData"
     >
     <a type="link" (click)="selectdata(district.nosworks)">
+    <a type="link" (click)="open_mobile_modal(1,itemDetailsModal)">
       <mat-card
         class="card-class text-center"
         [ngStyle]="{'background-color': getCardColor(district.did), 'color': 'Black'}"
@@ -326,6 +327,7 @@
         </mat-card-content>
       </mat-card>
       </a>
+      </a>
     </div>
   </div>
 </div>
@@ -339,9 +341,9 @@
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemDetailsModal">
   Launch demo modal
 </button>
-
+<ng-template #itemDetailsModal let-modal>
 <!-- Modal -->
-<div class="modal fade w-100" id="itemDetailsModal" tabindex="-1" aria-labelledby="itemDetailsModalLabel" aria-hidden="true" data-bs-backdrop="false">
+<!-- <div class="modal fade w-100" id="itemDetailsModal" tabindex="-1" aria-labelledby="itemDetailsModalLabel" aria-hidden="true" data-bs-backdrop="false"> -->
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
@@ -354,12 +356,12 @@
         <p><strong>Drop Date:</strong> dsd</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Close</button>
       </div>
     </div>
   </div>
-</div>
-
+<!-- </div> -->
+</ng-template>
 <!-- <div class="modal fade w-100" id="itemDetailsModal" tabindex="-1" aria-labelledby="itemDetailsModalLabel" aria-hidden="true" data-bs-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content" >
