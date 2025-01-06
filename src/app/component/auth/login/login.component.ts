@@ -189,7 +189,7 @@ isPasswordVisible: boolean = false;
       this.setRole(this.rolename);
       sessionStorage.setItem('firstname', this.firstname);
       sessionStorage.setItem('authenticatedUser',this.firstname);
-
+      sessionStorage.setItem('divisionID',this.id)
 
  
     } else {
