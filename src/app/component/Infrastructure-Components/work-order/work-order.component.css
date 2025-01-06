@@ -23,6 +23,61 @@
 }
 
 
+  /* .d-block {
+    display: block !important;
+} */
+.modal {
+    margin-top: 0px;
+    padding-top: 0px;
+    /* --bs-modal-margin: 0.1rem;
+    --bs-modal-box-shadow: var(--bs-box-shadow); */
+}
+@media (min-width: 576px) {
+    .modal {
+        --bs-modal-margin: 1.75rem;
+        --bs-modal-box-shadow: var(--bs-box-shadow);
+    }
+}
+
+.full-screen-dialog .mat-dialog-container {
+    height: 100vh; /* Full viewport height */
+    width: 100vw;  /* Full viewport width */
+    margin: 0;     /* Remove any margin */
+    border-radius: 0; /* Remove default dialog border radius */
+  }
+.mat-dialog-content {
+    max-height: 300px; /* Set a max height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    padding: 16px;     /* Optional padding for content */
+  }
+@media (max-width: 600px) {
+    .mat-dialog-container {
+      width: 100% !important;
+      height: auto !important;
+      margin: 0 !important;
+      max-height: 100vh !important;
+    }
+  }
+
+  .custom-dialog-container {
+    height: 110vh; /* Adjust height as needed */
+  }
+  
+  .mat-dialog-content {
+    overflow-y: auto;
+  }
+  .mat-mdc-dialog-content {
+    /* max-height: 65vh; */
+    max-height: 75vh;
+    /* overflow: hidden; */
+}
+  @media (max-width: 768px) {
+    .custom-dialog-container {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+  
 /* table css */
 .container-fluid {
     padding: 20px;
