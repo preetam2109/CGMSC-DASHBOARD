@@ -82,6 +82,7 @@ import { DivisionProgressComponent } from './component/Infrastructure-Components
 import { InfrastructureHomeComponent } from './component/Infrastructure-Components/infrastructure-home/infrastructure-home.component';
 import { SearchingWorkComponent } from './component/Infrastructure-Components/searching-work/searching-work.component';
 import { WorkOrderComponent } from './component/Infrastructure-Components/work-order/work-order.component';
+import { FacilityWiseStockComponent } from './component/Collector-Components/facility-wise-stock/facility-wise-stock.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -122,7 +123,7 @@ const routes: Routes = [
   {path:'drugs',component:WhStockDrugsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
   {path:'consumables',component:WhStockConsumablesComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
   {path:'reagent',component:WhStockReagentComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
-  {path:'stockDetails',component:CGMSCStockDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','QC','Warehouse']} },
+  {path:'stockDetails',component:CGMSCStockDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','QC','Warehouse','Collector']} },
 
 
   // indent pending 
@@ -156,8 +157,8 @@ const routes: Routes = [
 {path:'IssuePerWisePerClick',component:IssuePerWisePerClickComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS']} },
 {path:'IssuedPerWise',component:IssuedPerWiseComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS']} },
 {path:'DistrictWiseStk',component:DistrictWiseStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS']} },
-{path:'DdlItemWiseInHandQty',component:DdlItemWiseInHandQtyComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS']} },
-{path:'DistFACwiseStockPostionNew',component:DistFACwiseStockPostionNewComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS']} },
+{path:'DdlItemWiseInHandQty',component:DdlItemWiseInHandQtyComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS','Collector']} },
+{path:'DistFACwiseStockPostionNew',component:DistFACwiseStockPostionNewComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS','Collector']} },
 {path:'SeasonDrugs',component:SeasonDrugsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS','Warehouse','Collector']} },
 {path:'WarehouseInfo',component:WarehouseInfoComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS','Collector','Warehouse']} },
 {path:'FacCoverage',component:FacCoverageComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS','Collector','Warehouse']} },
@@ -184,6 +185,7 @@ const routes: Routes = [
 {path:'DistrictProgress',component:DistrictProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'DivisionProgress',component:DivisionProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'WorkOrder',component:WorkOrderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
+{path:'FacilityWiseStock',component:FacilityWiseStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
 
 
 

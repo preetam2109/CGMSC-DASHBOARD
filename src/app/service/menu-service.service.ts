@@ -114,6 +114,8 @@ export class MenuServiceService {
           { label: 'Warehouse Information', route: 'WarehouseInfo' },
           { label: 'CGMSC Supplies', route: 'cgmsc-supplies' },
           { label: 'Stock Details', route: 'stockDetails' },
+          { label: 'Facility Wise Stock', route: 'FacilityWiseStock' },
+          { label: 'DdlItemWiseInHandQty', route: 'DdlItemWiseInHandQty' },
 
           { label: 'HODYearWiseIssuance', route: 'HODYearWiseIssuance' },
           { label: 'Warehouse Indent Pending', route: 'IndentPendingWHdash' },

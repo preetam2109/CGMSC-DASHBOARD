@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,30 +12,28 @@ import { NgSelectModule,NgOption } from '@ng-select/ng-select';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DdlItemWiseInHandQty } from 'src/app/Model/DdlItemWiseInHandQty';
+import { DistFACwiseStockPostionNew } from 'src/app/Model/DistFACwiseStockPostionNew';
 import { MasDistrict } from 'src/app/Model/MasDistrict';
 import { ApiService } from 'src/app/service/api.service';
-import { DropdownModule } from 'primeng/dropdown';
-import { SelectDropDownModule } from 'ngx-select-dropdown';
-
-
-
 @Component({
-  selector: 'app-ddl-item-wise-in-hand-qty',
+  selector: 'app-facility-wise-stock',
   standalone: true,
-  imports: [SelectDropDownModule,DropdownModule,MatSelectModule,FormsModule,NgSelectModule,FormsModule,CommonModule,MatButtonModule,MatMenuModule, MatTableExporterModule,MatPaginatorModule, MatTableModule],
-  templateUrl: './ddl-item-wise-in-hand-qty.component.html',
-  styleUrl: './ddl-item-wise-in-hand-qty.component.css'
+    imports: [ SelectDropDownModule,FormsModule,NgSelectModule,FormsModule,CommonModule,MatButtonModule,MatMenuModule, MatTableExporterModule,MatPaginatorModule, MatTableModule],
+  
+  templateUrl: './facility-wise-stock.component.html',
+  styleUrl: './facility-wise-stock.component.css'
 })
-export class DdlItemWiseInHandQtyComponent {
-
-  
+export class FacilityWiseStockComponent{
+  selectedCategory: string = '';
+  selectedEDLCategory: string = '';
   districts :MasDistrict[]= [];
-  
+      
   selectedDistrictId: any | null = null;
-  dataSource!: MatTableDataSource<DdlItemWiseInHandQty>;
-  itemDetails: DdlItemWiseInHandQty[] = [];
+  dataSource!: MatTableDataSource<DistFACwiseStockPostionNew>;
+  itemDetails: DistFACwiseStockPostionNew[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -44,11 +41,12 @@ export class DdlItemWiseInHandQtyComponent {
   constructor(
     private cdr: ChangeDetectorRef,
     private spinner: NgxSpinnerService,private api: ApiService) {
-    this.dataSource = new MatTableDataSource<DdlItemWiseInHandQty>([]);
+    this.dataSource = new MatTableDataSource<DistFACwiseStockPostionNew>([]);
 
   }
 
   ngOnInit(): void {
+    // this.getDistFACwiseStockPostionNew()
     // Fetch district data on component initialization
     this.api.getMasDistrict(false, 0, 0, 0, 0).subscribe((res: MasDistrict[]) => {
       if (res) {
@@ -57,29 +55,44 @@ export class DdlItemWiseInHandQtyComponent {
       }
     });
   }
+    // This method will be called when a category (Drugs or Consumables) is selected
+    onCategoryChange(category: any): void {
+      debugger
+      this.selectedCategory = category;
+      
+      // Call the method when the category is selected
+      this.getDistFACwiseStockPostionNew();
+    }
+    onEDLNonEDLChange(edlCategory: string): void {
+      debugger
+      this.selectedEDLCategory = edlCategory;
+      
+      // Call the method when the EDL/Non-EDL option is selected
+      this.getDistFACwiseStockPostionNew();
+    }
 
   onDistrictChange(): void {
     
     // const selectElement = event.target as HTMLSelectElement;
-    // const parsedDistId = parseInt(selectElement.value, 10);
+    // const parsedDistId = (selectElement.value, 10);
     // this.selectedDistrictId = !isNaN(parsedDistId) ? parsedDistId : null;
-    // this.selectedDistrictId = this.selectedDistrictId.districtid;
 
     if (this.selectedDistrictId !== null) {
       
       // Fetch item-wise quantities after selecting a district
-      this.getDdlItemWiseInHandQty(this.selectedDistrictId.districtid);
-    } 
+      // this.getDistFACwiseStockPostionNew();
+    }
   }
   
   
 
-  getDdlItemWiseInHandQty(distId: any): void {
+  getDistFACwiseStockPostionNew(): void {
+    console.log('Fetching data for:', this.selectedCategory, this.selectedEDLCategory);
     this.spinner.show();
 
     
     // Simulated API call; replace with actual API call
-  this.api.getDdlItemWiseInHandQty(distId).subscribe((res:DdlItemWiseInHandQty[])=>{
+  this.api.getDistFACwiseStockPostionNew(sessionStorage.getItem('districtid'),0,1,0,0,0).subscribe((res:DistFACwiseStockPostionNew[])=>{
     this.itemDetails = res.map((item: any, index: number) => ({
       ...item,
       sno: index + 1
@@ -99,15 +112,6 @@ export class DdlItemWiseInHandQtyComponent {
     );
   }
 
-  applyTextFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
   dropdownConfig = {
     displayKey: 'districtname', // Key to display in dropdown
     search: true,               // Enable search functionality
@@ -118,12 +122,19 @@ export class DdlItemWiseInHandQtyComponent {
     customComparator: undefined,
     // bindValue: 'districtid',
   };
-  
-  
+
+  applyTextFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
-    
+  
     // Get current date and time
     const now = new Date();
     const dateString = now.toLocaleDateString();
@@ -133,50 +144,55 @@ export class DdlItemWiseInHandQtyComponent {
     doc.setFontSize(18);
   
     // Calculate the position to center the title
-    const header=''
-    const title = 'DDL Item Wise In-Hand QTY Report';  
-      // (sessionStorage.getItem('firstname') || 'Indent Details');
+    const title = 'Item Wise Stock Position of District';
     const pageWidth = doc.internal.pageSize.getWidth();
     const titleWidth = doc.getTextWidth(title);
     const xOffset = (pageWidth - titleWidth) / 2;
-    const xOffset1 = (pageWidth - titleWidth) / 2;
   
     // Add centered title with some space above the table
-    doc.setFontSize(18);
-      doc.text(header, xOffset1, 10);
-       // Centered title at position Y=20
-    doc.setFontSize(15);
-       
-      doc.text(title, xOffset, 20);
-      doc.setFontSize(15); // Centered title at position Y=20
+    doc.text(title, xOffset, 20);
   
     // Set font size for the date and time
     doc.setFontSize(10);
   
     // Add the date and time to the top-left corner
     doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
-    
+  
+    // Define columns based on your given structure
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Code", dataKey: "itemcode" },
-      { title: "strength", dataKey: "strengtH1" },
-      { title: "edlitemcode", dataKey: "edlitemcode" },
-      { title: "inhanD_QTY", dataKey: "inhanD_QTY" },
-      { title: "detail", dataKey: "detail" },
-
-     
+      { title: "Facility Name", dataKey: "facilityname" },
+      { title: "No. of Items", dataKey: "nositems" },
+      { title: "Stock Out Nos", dataKey: "stockoutnos" },
+      { title: "Facility Stock Count", dataKey: "facstkcnt" },
+      { title: "Stock Out %", dataKey: "stockoutp" },
+      { title: "Pending at Facility", dataKey: "recpendingatfacilily" },
+      { title: "Warehouse Stock Count", dataKey: "whstkcnt" },
+      { title: "Warehouse UQC Stock Count", dataKey: "whuqcstkcnt" },
+      { title: "Indent to Warehouse Pending", dataKey: "indenT_TOWH_PENDING" },
+      { title: "WH Issue Rec Pending (Last 180 Days)", dataKey: "whissuE_REC_PENDING_L180CNT" },
+      { title: "Balance Lifted (Last 6 Months)", dataKey: "balifT6MONTH" },
+      { title: "Pipeline Stock (Last 180 Days)", dataKey: "lP_PIPELINE180CNT" },
+      { title: "No Taken (No LPO)", dataKey: "noctakeN_NO_LPO" },
     ];
-    
+  
+    // Map your data to match the columns
     const rows = this.itemDetails.map(row => ({
-      sno: row.sno,
-      itemcode: row.itemcode,
-      strengtH1: row.strengtH1,
-      edlitemcode: row.edlitemcode,
-      inhanD_QTY: row.inhanD_QTY,
-      detail: row.detail,
-    
+      facilityname: row.facilityname,
+      nositems: row.nositems,
+      stockoutnos: row.stockoutnos,
+      facstkcnt: row.facstkcnt,
+      stockoutp: row.stockoutp,
+      recpendingatfacilily: row.recpendingatfacilily,
+      whstkcnt: row.whstkcnt,
+      whuqcstkcnt: row.whuqcstkcnt,
+      indenT_TOWH_PENDING: row.indenT_TOWH_PENDING,
+      whissuE_REC_PENDING_L180CNT: row.whissuE_REC_PENDING_L180CNT,
+      balifT6MONTH: row.balifT6MONTH,
+      lP_PIPELINE180CNT: row.lP_PIPELINE180CNT,
+      noctakeN_NO_LPO: row.noctakeN_NO_LPO,
     }));
   
+    // Generate the table
     autoTable(doc, {
       columns: columns,
       body: rows,
@@ -185,6 +201,8 @@ export class DdlItemWiseInHandQtyComponent {
       headStyles: { fillColor: [22, 160, 133] }
     });
   
+    // Save the PDF
     doc.save('ddlitemwiseinhandQTY.pdf');
   }
+  
 }
