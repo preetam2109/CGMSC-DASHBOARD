@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
@@ -13,7 +14,7 @@ import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, A
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DashProgressDistCount, WOpendingTotal, WorkOrderPendingDetailsNew } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
-
+// import {MatDialog, MatDialogConfig} from "@angular/material";
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -30,7 +31,7 @@ export type ChartOptions = {
 @Component({
   selector: 'app-work-order',
   standalone: true,
-  imports: [NgApexchartsModule,MatSortModule, MatPaginatorModule,MatTableModule,MatTableExporterModule, MatInputModule,
+  imports: [NgApexchartsModule,MatSortModule, MatPaginatorModule,MatTableModule,MatTableExporterModule, MatInputModule,MatDialogModule,
     MatFormFieldModule,NgbModule, MatMenuModule],
   templateUrl: './work-order.component.html',
   styleUrl: './work-order.component.css'
@@ -70,14 +71,14 @@ export class WorkOrderComponent {
   //   'pdate', 'pRemarks', 'remarks', 'tenderReference'
   // ];
 
-  constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private modalService: NgbModal){
+  constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private modalService: NgbModal,private dialog: MatDialog){
     this.chartOptions = {
       series: [],
       chart: {
         type: 'bar',
         stacked: true,
-        // height: 400,
-        height: 200,
+        height: 400,
+        // height: 200,
         // width:600,
         events: {
           dataPointSelection: (
@@ -724,7 +725,8 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
-      this.modalService.open(this.itemDetailsModal, { centered: true });
+      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
+      this.openDialog();
       this.spinner.hide();
     },
     (error) => {
@@ -740,6 +742,42 @@ applyTextFilter(event: Event) {
   if (this.dataSource.paginator) {
     this.dataSource.paginator.firstPage();
   }
+}
+
+openDialog() {
+
+  // const dialogConfig = new MatDialogConfig();
+
+  // dialogConfig.disableClose = true;
+  // dialogConfig.autoFocus = true;
+
+  // this.dialog.open(this.itemDetailsModal, dialogConfig);
+
+
+  const dialogRef = this.dialog.open(this.itemDetailsModal, {
+    // width: '100%',
+    // maxWidth: '600px',
+    // height: 'auto',
+
+
+    // width: '100%',
+    // height: '100%',
+    // maxWidth: '100%', // Override default maxWidth
+    // maxHeight: '100%', // Override default maxHeight
+    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+
+    width: '100%',
+    height: 'auto',
+    maxWidth: '100%',
+    panelClass: 'full-screen-dialog', // Optional for additional styling
+    data: { /* pass any data here */ }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Dialog closed');
+  });
+// }
+
 }
 //#endregion
 }
