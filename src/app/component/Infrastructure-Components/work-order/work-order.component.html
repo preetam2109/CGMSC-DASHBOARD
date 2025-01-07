@@ -52,29 +52,22 @@
     </div>
 </div>
 <ng-template class=" " #itemDetailsModal let-modal>
-
-<div class="modal-header">
-  <!-- <h5 class="modal-title" id="itemDetailsModalLabel">Item Details</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-  <h1 mat-dialog-title>Work Order Pending Details</h1>
-<button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+<div class="row align-items-center p-2 m-2 ">
+  <div class="col-lg-6 col-md-8">
+    <h1>Work Order Pending</h1>
+  </div>
+  <div class="col-lg-6 col-md-4 text-end">
+    <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+  </div>
 </div>
-<div mat-dialog-content>
-  <!-- <div class="container-fluid py-4"> -->
-    <!-- <div class="container text-center" style="max-width: 100%; overflow-x: auto;">
-      <h1>Stock Details</h1>
-    </div> -->
-    <div class="row">
-      <!-- <div class="col-lg-12 col-md-12 table-container mb-4"> -->
-        <!-- <div class="text d-flex mt-3">
-          Optional text or warnings
-        </div> -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
+<div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+        <div class="d-flex justify-content-between align-items-center mb-0">
           <div class="filter-field flex-grow-1">
             <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
           </div>
           <div class="export-menu-container">
-            <button class="btn" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+            <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
             <mat-menu #exportMenu="matMenu">
               <button mat-menu-item
                 (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
@@ -85,8 +78,9 @@
             </mat-menu>
           </div>
         </div>
+      
         <div class="table-responsive ">
-          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+          <table class="table table-bordered table-striped border rounded " mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
   
                    <!-- Serial Number Column -->
                    <ng-container matColumnDef="sno">
@@ -128,11 +122,11 @@
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
         </div>
-        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
-      <!-- </div> -->
-    </div>
-  <!-- </div> -->
+      </div>
+  
+   
 </div>
 <!-- <div mat-dialog-actions>
   <button mat-button mat-dialog-close>Close</button>

@@ -761,13 +761,13 @@ openDialog() {
 
 
     // width: '100%',
-    // height: '100%',
+    height: '100%',
     // maxWidth: '100%', // Override default maxWidth
     // maxHeight: '100%', // Override default maxHeight
     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
 
     width: '100%',
-    height: 'auto',
+    // height: 'auto',
     maxWidth: '100%',
     panelClass: 'full-screen-dialog', // Optional for additional styling
     data: { /* pass any data here */ }
