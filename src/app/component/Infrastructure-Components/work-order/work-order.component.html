@@ -119,8 +119,13 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
                     <td mat-cell *matCellDef="let element"> {{ element.work_id }} </td>
                   </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                  <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
+                  <!-- Header Row -->
+                      <tr mat-header-row *matHeaderRowDef="['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',]"></tr>
+            
+                      <!-- Data Rows -->
+                      <tr mat-row *matRowDef="let row; columns: ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];"></tr>
           </table>
           <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
         </div>
@@ -134,4 +139,84 @@
 </ng-template>
 
 
-
+<ng-template class=" " #itemDetailsModals let-modal>
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <h1>Work Order Pending</h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+      <div class="row card shadow card-body ">
+          <div class="d-flex justify-content-between align-items-center mb-0">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div class="export-menu-container">
+              <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-menu-item (click)="exportToPDF()">PDF</button>
+              </mat-menu>
+            </div>
+          </div>
+        
+          <div class="table-responsive ">
+            <table class="table table-bordered table-striped border rounded " mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+    
+                     <!-- Serial Number Column -->
+                     <ng-container matColumnDef="sno">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="letterNo">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>LetterNo</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.letterNo }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="head">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acceptLetterDT">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>AcceptLetterDT</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.acceptLetterDT }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="totalAmountOfContract">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>TotalAmountOfContract</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="district">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.district }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="work">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.work }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="contractorNAme">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>ContractorName</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.contractorNAme }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="work_id">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.work_id }} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+    
+     
+  </div>
+  <!-- <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </div> -->
+  </ng-template>

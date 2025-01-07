@@ -175,8 +175,17 @@ export class WorkDetails {
     noofWorksGreater7Days!: string;
    
   }
+  export class WOpendingScheme{
+    id!: string;
+    name!: string;
+    pendingWork!: string;
+    contrctValuecr!: number;
+    noofWorksGreater7Days!: string;
+   
+  }
   export class WorkOrderPendingDetailsNew {
     
+    sno!: number;
     work_id!: string;
     letterNo!: string;
     head!: string;
@@ -212,6 +221,5 @@ export class WorkDetails {
     pRemarks!: string;
     remarks!: string | null;
     tenderReference!: string;
-    sno!: number;
 
   }

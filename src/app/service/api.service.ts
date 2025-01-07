@@ -81,6 +81,7 @@ import { DashLoginDDL } from '../Model/DashLoginDDL';
 import { DisYrGrowth } from '../Model/DisYrGrowth';
 import { DistCGMSCSupplyDHS } from '../Model/DistCGMSCSupplyDHS';
 import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary, WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong, WOpendingTotal, WorkOrderPendingDetailsNew } from '../Model/DashProgressCount';
+import { DistDHSStock } from '../Model/DistDHSStock';
 
 
 @Injectable({
@@ -657,7 +658,6 @@ WOPendingTotal(RPType:any,divisionId:any){
   // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WOPendingTotal?RPType=Scheme&divisionid=0
 }
 GetWorkOrderPendingDetailsNew(divisionId:any,mainSchemeId:any,distid:any,contractid:any){
-  // debugger
   return this.http.get<WorkOrderPendingDetailsNew[]>(`${this.apiUrl}/WorkOrder/getWorkOrderPendingDetailsNew?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&contractid=${contractid}`);
  // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/getWorkOrderPendingDetailsNew?
   // divisionId=D1024&mainSchemeId=0&distid=0&contractid=0
@@ -681,7 +681,7 @@ GetImageBinary(sr: number, imgName: string): Observable<any> {
 
 getDistDHSStock(disid:any,coll_cmho:any,mcatid:any,userid:any){
   
-  return this.http.get(`https://dpdmis.in/CGMSCHO_API2/api/District/DistDHSStock?disid=${disid}&coll_cmho=${coll_cmho}&mcatid=${mcatid}&userid=${userid}`);
+  return this.http.get<DistDHSStock[]>(`https://dpdmis.in/CGMSCHO_API2/api/District/DistDHSStock?disid=${disid}&coll_cmho=${coll_cmho}&mcatid=${mcatid}&userid=${userid}`);
 }
 
 

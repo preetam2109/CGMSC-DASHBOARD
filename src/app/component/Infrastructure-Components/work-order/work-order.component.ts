@@ -12,7 +12,7 @@ import autoTable from 'jspdf-autotable';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DashProgressDistCount, WOpendingTotal, WorkOrderPendingDetailsNew } from 'src/app/Model/DashProgressCount';
+import { DashProgressDistCount, WOpendingScheme, WOpendingTotal, WorkOrderPendingDetailsNew } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 // import {MatDialog, MatDialogConfig} from "@angular/material";
 export type ChartOptions = {
@@ -39,6 +39,7 @@ export type ChartOptions = {
 export class WorkOrderComponent {
   @ViewChild('chart') chart: ChartComponent | undefined;
   @ViewChild('itemDetailsModal') itemDetailsModal: any; 
+  @ViewChild('itemDetailsModals') itemDetailsModals: any; 
   public cO: Partial<ChartOptions> | undefined;
   chartOptions: ChartOptions; // For bar chart
   chartOptions2: ChartOptions; // For bar chart
@@ -50,6 +51,7 @@ export class WorkOrderComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   wOpendingTotal:WOpendingTotal[]=[];
+  wOpendingScheme:WOpendingScheme[]=[];
   WorkorderpendingdetailsNew:WorkOrderPendingDetailsNew[]=[];
   dispatchPendings: WorkOrderPendingDetailsNew[] = [];
 
@@ -77,7 +79,8 @@ export class WorkOrderComponent {
       chart: {
         type: 'bar',
         stacked: true,
-        height: 400,
+        height: 'auto',
+        // height:400,
         // height: 200,
         // width:600,
         events: {
@@ -93,8 +96,10 @@ export class WorkOrderComponent {
               const apiData = this.wOpendingTotal;  // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find((data) => data.name === selectedCategory);
+              console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
+
                 this.fetchDataBasedOnChartSelection(id, selectedSeries);
                 //  this.modalService.open(this.itemDetailsModal, { centered: true });
 
@@ -163,29 +168,124 @@ export class WorkOrderComponent {
    
     
     this.chartOptions2 = {
+    
       series: [],
       chart: {
         type: 'bar',
         stacked: true,
         height: 600,
         // width:600,
-        events: {
+        // events: {
+        //   dataPointSelection: (
+        //     event,
+        //     chartContext,
+        //     { dataPointIndex, seriesIndex }
+        //   ) => {
+        //     const selectedCategory =
+        //       this.chartOptions2?.xaxis?.categories?.[dataPointIndex];
+        //     const selectedSeries = this.chartOptions2?.series?.[seriesIndex]?.name;
+
+        //     if (selectedCategory && selectedSeries) {
+        //       const whid = this.whidMap[selectedCategory];
+        //       if (whid) {
+        //         // this.fetchDataBasedOnChartSelection();
+        //       }
+        //     }
+        //   },
+        // },
+       events: {
+          // dataPointSelection: (
+          //   event,
+          //   chartContext,
+          //   { dataPointIndex, seriesIndex }
+          // ) => {
+          //   debugger;
+          //   const selectedCategory = this.chartOptions2?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
+          //   const selectedSeries = this.chartOptions2?.series?.[seriesIndex]?.name;
+          //   // Ensure the selectedCategory and selectedSeries are valid
+          //   console.log('selectedSeries:',selectedSeries);
+          //   console.log('selectedCategory:',selectedCategory);
+          //   if (selectedCategory && selectedSeries) {
+          //     const apiData =   this.wOpendingScheme;  // Replace with the actual data source or API response
+          //     console.log('datasch:', apiData)
+          //     // Find the data in your API response that matches the selectedCategory
+          //     // const selectedData = apiData.find((data) => data.name === selectedCategory);
+          //     const selectedData = apiData.find((data) => data.name.trim().toLowerCase() == selectedCategory.trim().toLowerCase());
+
+          //     if (selectedData) {
+          //       const id = selectedData.id;  // Extract the id from the matching entry
+          //       // this.fetchDataBasedOnChartSelection(id, selectedSeries);
+          //       alert("lomesh");
+          //       this.fetchDataBasedOnChartSelectionmainScheme(id, selectedSeries);
+
+          //     } else {
+          //       console.log(`No data found for selected category: ${selectedCategory}`);
+          //     }
+          //   } else {
+          //     console.log('Selected category or series is invalid.');
+          //   }
+          // }
           dataPointSelection: (
             event,
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            const selectedCategory =
-              this.chartOptions2?.xaxis?.categories?.[dataPointIndex];
-            const selectedSeries = this.chartOptions2?.series?.[seriesIndex]?.name;
-
-            if (selectedCategory && selectedSeries) {
-              const whid = this.whidMap[selectedCategory];
-              if (whid) {
-                // this.fetchDataBasedOnChartSelection();
+            debugger
+            if (dataPointIndex !== undefined && seriesIndex !== undefined) {
+              const selectedCategory = this.chartOptions2?.xaxis?.categories?.[dataPointIndex];
+              const selectedSeries = this.chartOptions2?.series?.[seriesIndex]?.name;
+          
+              console.log('selectedSeries:', selectedSeries);
+              console.log('selectedCategory:', selectedCategory);
+          
+              // if (selectedCategory && selectedSeries) {
+              //   const apiData = this.wOpendingScheme;
+              //   console.log('datasch:', apiData);
+          
+              //   const selectedData = apiData.find((data) =>
+              //     data.name.trim().toLowerCase() === selectedCategory.trim().toLowerCase()
+              //   );
+          
+              //   if (selectedData) {
+              //     const id = selectedData.id;
+              //     alert("lomesh");
+              //     this.fetchDataBasedOnChartSelectionmainScheme(id, selectedSeries);
+              //   } else {
+              //     console.log(`No data found for selected category: ${selectedCategory}`);
+              //   }
+              // } else {
+              //   console.log('Selected category or series is invalid.');
+              // }
+              if (selectedCategory && selectedSeries) {
+                const apiData = this.wOpendingScheme;
+                console.log('datasch:', apiData);
+              
+                if (Array.isArray(apiData)) {
+                  // const selectedData = apiData.find((data) =>
+                  //   data.name.trim().toLowerCase() === selectedCategory.trim().toLowerCase()   );
+                  const selectedData = apiData.find((data) => data.name === selectedCategory);
+              console.log("selectedData chart1",selectedData);
+               
+              
+                  if (selectedData) {
+                    const id = selectedData.id;
+                    // alert("lomesh");
+                    this.fetchDataBasedOnChartSelectionmainScheme(id, selectedSeries);
+                  } else {
+                    console.error(`No data found for selected category: ${selectedCategory}`);
+                  }
+                } else {
+                  console.error('API Data is not an array:', apiData);
+                }
+              } else {
+                console.error('Selected category or series is invalid.');
               }
+              
+            } else {
+              console.log('Invalid data point or series index.');
             }
-          },
+          }
+          
         },
       },
       plotOptions: {
@@ -214,7 +314,7 @@ export class WorkOrderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Pending  Works District wise Progress',
+        text: 'Total Pending Works Scheme wise Progress',
         // text: 'RP Type Total Pending Works wise Progress',
         align: 'center',
         style: {
@@ -369,8 +469,7 @@ export class WorkOrderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Pending Works Scheme wise Progress',
-        // text: 'RP Type Total Pending Works wise Progress',
+        text: 'Total Pending  Works District wise Progress',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -394,70 +493,37 @@ export class WorkOrderComponent {
         offsetX: 40,
       },
     };
+
     this.GetWOPendingTotal();
     this.GetWOPendingDistrict();
     this.GetWOPendingScheme();
     this.GetWOPendingContractor();
     this.dataSource = new MatTableDataSource<WorkOrderPendingDetailsNew>([]);
-
-    // this.dataSource = new MatTableDataSource<WOpendingTotal>([]);
   }
  
   ngOnInit() {
+
     // this.GetWOPendingTotal();
     // this.GetWOPendingDistrict();
     // this.GetWOPendingContractor();
   // this.GetWOPendingScheme();
+   // Example condition: Change height if the number of series is greater than a threshold
+  
   }
-  exportToPDF() {
-    const doc = new jsPDF('l', 'mm', 'a4');
-    const columns = [
-      // ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
-      { title: "S.No", dataKey: "sno" },
-      { title: "letterNo", dataKey: "letterNo" },
-      { title: "head", dataKey: "head" },
-      { title: "acceptLetterDT", dataKey: "acceptLetterDT" },
-      { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
-      { title: "district", dataKey: "district" },
-      { title: "work", dataKey: "work" },
-      { title: "contractorNAme", dataKey: "contractorNAme" },
-      { title: "work_id", dataKey: "work_id" }
-    ];
-    const rows = this.dispatchPendings.map(row => ({
-      sno: row.sno,
-      letterNo: row.letterNo,
-      head: row.head,
-      acceptLetterDT: row.acceptLetterDT,
-      totalAmountOfContract: row.totalAmountOfContract,
-      district: row.district,
-      work: row.work,
-      contractorNAme: row.contractorNAme,
-      work_id: row.work_id,
-    }));
-
-    autoTable(doc, {
-      columns: columns,
-      body: rows,
-      startY: 20,
-      theme: 'striped',
-      headStyles: { fillColor: [22, 160, 133] }
-    });
-
-    doc.save('WorkOrderPending.pdf');
-  }
+  
 
   //#region API get DATA
   GetWOPendingTotal(): void {
     this.spinner.show();
-    var roleName  = localStorage.getItem('roleName');
+    var roleName = localStorage.getItem('roleName');
     // alert( roleName )
-if(roleName == 'Division'){
-  this.divisionid = sessionStorage.getItem('divisionID');
-  // this.showDivision=false;
-} else {
-  this.divisionid =0;
-}
-this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      // this.showDivision=false;
+    } else {
+      this.divisionid = 0;
+    }
+    this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.api.WOPendingTotal(this.Total,this.divisionid).subscribe(
       (data: any) => {
         this.wOpendingTotal = data;
@@ -467,7 +533,7 @@ this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
         const contrctValuecr: number[] = [];
         const noofWorksGreater7Days: any[] = [];
         this.whidMap = {}; // Initialize the mmidMap
-        console.log('API Response:', data);
+        // console.log('API Response total:', data);
         data.forEach((item: {
           name: string; id: any; pendingWork: any; contrctValuecr: number;
           noofWorksGreater7Days: any
@@ -485,6 +551,7 @@ this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
             console.warn('Missing whid for warehousename :', item.name);
           }
         });
+        
         this.chartOptions.series = [
           {name: 'Total Pending Works', data: pendingWork,color:'#eeba0b'} ,
           { name: 'Contrct Value cr',data: contrctValuecr },
@@ -493,6 +560,7 @@ this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
         this.chartOptions.xaxis = { categories: name };
         this.cO = this.chartOptions;
         this.cdr.detectChanges();
+
         this.spinner.hide();
 
       },
@@ -624,6 +692,7 @@ this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
         this.chartOptionsLine.xaxis = { categories: name };
         this.cO = this.chartOptionsLine;
         this.cdr.detectChanges();
+
         this.spinner.hide();
       },
       (error: any) => {
@@ -632,16 +701,27 @@ this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     );
   }
   GetWOPendingScheme(): void {
+    // debugger;
+    var roleName = localStorage.getItem('roleName');
+    // alert( roleName )
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      // this.showDivision=false;
+    } else {
+      this.divisionid = 0;
+    }
+    this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.api.WOPendingTotal(this.Scheme,this.divisionid).subscribe(
       (data: any) => {
-        // this.wOpendingTotal = data;
+        this.wOpendingScheme = data;
+        console.log('API Response Scheme:',  this.wOpendingScheme);
         const name: string[] = [];
         const id: string[] = [];
         const pendingWork: any[] = [];
         const contrctValuecr: number[] = [];
         const noofWorksGreater7Days: any[] = [];
         this.whidMap = {}; // Initialize the mmidMap
-        console.log('API Response:', data);
+        
         data.forEach((item: {
           name: string; id: any; pendingWork: any; contrctValuecr: number;
           noofWorksGreater7Days: any
@@ -698,7 +778,7 @@ this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
 //#endregion
 //#region  Fetch Data in table form
 fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
-  console.log(`Selected WHID: ${divisionID}, Series: ${seriesName}`);
+  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   const  distid=0;
   const mainSchemeId=0;
   const contractid=0;
@@ -706,22 +786,29 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
  
   this.api.GetWorkOrderPendingDetailsNew(divisionID,mainSchemeId,distid,contractid).subscribe(
     (res) => {
-      // this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
-      //   ...item,
-      //   sno: index + 1
-      // }));
       this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
         ...item,
         sno: index + 1
       }));
+      // this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
+      //   ...item,
+      //   sno: index + 1
+      // }));
+      // Add serial numbers to the data
+        this.dispatchPendings = res.map((item, index) => ({
+          ...item,
+          sno: index + 1
+        }));
       this.dataSource.data = this.dispatchPendings;
       // this.dataSource.data = this.dispatchPendings;
-      console.log(this.dataSource.data);
+      // console.log(this.dataSource.data);
+      // console.log(this.dispatchPendings);
+      // console.log(this.dataSource);
       // console.log('Data with serial numbers:', this.dispatchPendings); 
         // console.log("res ",JSON.stringify(res))
         // this.dispatchPendings = res;
         // console.log("Welcome ",JSON.stringify(this.dispatchPendings))
-        this.dataSource.data = res;
+        // this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
@@ -734,50 +821,117 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
     }
   );
 }
+fetchDataBasedOnChartSelectionmainScheme(mainSchemeId: any, seriesName: string): void {
+  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+alert("sahu");
+
+  const  distid=0;
+  // const mainSchemeId=0;
+  const divisionID=0;
+  const contractid=0;
+  this.spinner.show();
+ 
+  this.api.GetWorkOrderPendingDetailsNew(divisionID,mainSchemeId,distid,contractid).subscribe(
+    (res) => {
+      this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      console.log('res:',res);
+      this.dataSource.data = this.dispatchPendings;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.detectChanges();
+      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
+      this.openDialogg();
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+// data filter
 applyTextFilter(event: Event) {
-  
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
-
   if (this.dataSource.paginator) {
     this.dataSource.paginator.firstPage();
   }
 }
+exportToPDF() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    // ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
+    { title: "S.No", dataKey: "sno" },
+    { title: "letterNo", dataKey: "letterNo" },
+    { title: "head", dataKey: "head" },
+    { title: "acceptLetterDT", dataKey: "acceptLetterDT" },
+    { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
+    { title: "district", dataKey: "district" },
+    { title: "work", dataKey: "work" },
+    { title: "contractorNAme", dataKey: "contractorNAme" },
+    { title: "work_id", dataKey: "work_id" }
+  ];
+  const rows = this.dispatchPendings.map(row => ({
+    sno: row.sno,
+    letterNo: row.letterNo,
+    head: row.head,
+    acceptLetterDT: row.acceptLetterDT,
+    totalAmountOfContract: row.totalAmountOfContract,
+    district: row.district,
+    work: row.work,
+    contractorNAme: row.contractorNAme,
+    work_id: row.work_id,
+  }));
 
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('WorkOrderPending.pdf');
+}
+// mat-dialog box
 openDialog() {
-
-  // const dialogConfig = new MatDialogConfig();
-
-  // dialogConfig.disableClose = true;
-  // dialogConfig.autoFocus = true;
-
-  // this.dialog.open(this.itemDetailsModal, dialogConfig);
-
-
   const dialogRef = this.dialog.open(this.itemDetailsModal, {
-    // width: '100%',
-    // maxWidth: '600px',
-    // height: 'auto',
-
-
-    // width: '100%',
-    height: '100%',
-    // maxWidth: '100%', // Override default maxWidth
-    // maxHeight: '100%', // Override default maxHeight
-    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-
     width: '100%',
-    // height: 'auto',
+    height: '100%',
     maxWidth: '100%',
     panelClass: 'full-screen-dialog', // Optional for additional styling
     data: { /* pass any data here */ }
+     // width: '100%',
+    // maxWidth: '100%', // Override default maxWidth
+    // maxHeight: '100%', // Override default maxHeight
+    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+    // height: 'auto',
   });
-
   dialogRef.afterClosed().subscribe(result => {
     console.log('Dialog closed');
   });
-// }
 
 }
+openDialogg() {
+  const dialogRef = this.dialog.open(this.itemDetailsModals, {
+    width: '100%',
+    height: '100%',
+    maxWidth: '100%',
+    panelClass: 'full-screen-dialog', // Optional for additional styling
+    data: { /* pass any data here */ }
+     // width: '100%',
+    // maxWidth: '100%', // Override default maxWidth
+    // maxHeight: '100%', // Override default maxHeight
+    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+    // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Dialog closed');
+  });
+
+}
+
 //#endregion
 }

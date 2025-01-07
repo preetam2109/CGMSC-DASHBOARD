@@ -83,6 +83,8 @@ import { InfrastructureHomeComponent } from './component/Infrastructure-Componen
 import { SearchingWorkComponent } from './component/Infrastructure-Components/searching-work/searching-work.component';
 import { WorkOrderComponent } from './component/Infrastructure-Components/work-order/work-order.component';
 import { FacilityWiseStockComponent } from './component/Collector-Components/facility-wise-stock/facility-wise-stock.component';
+import { DistDHSStockComponent } from './component/Collector-Components/dist-dhsstock/dist-dhsstock.component';
+import { DeliveryComponent } from './component/Collector-Components/delivery/delivery.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -186,6 +188,8 @@ const routes: Routes = [
 {path:'DivisionProgress',component:DivisionProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'WorkOrder',component:WorkOrderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'FacilityWiseStock',component:FacilityWiseStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
+{path:'DistDHSStock',component:DistDHSStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
+{path:'Devlivery',component:DeliveryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
 
 
 
