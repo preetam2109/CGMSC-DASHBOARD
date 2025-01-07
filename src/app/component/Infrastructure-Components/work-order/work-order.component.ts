@@ -61,7 +61,7 @@ export class WorkOrderComponent {
   District='District'
   idMap: { [key: string]: number } = {};
 
-  displayedColumns: string[] = ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
+  // displayedColumns: string[] = ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
   // displayedColumns: string[] = [
   //   'sno', 'work_id', 'letterNo', 'head', 'approver', 'type_name', 'district',
   //   'blockname', 'work', 'aaamt', 'tsamt', 'aaDate', 'tsDate', 'acceptanceLetterRefNo',
@@ -77,7 +77,7 @@ export class WorkOrderComponent {
       chart: {
         type: 'bar',
         stacked: true,
-        height: 400,
+        height:400,
         // height: 200,
         // width:600,
         events: {
@@ -710,18 +710,21 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
       //   ...item,
       //   sno: index + 1
       // }));
-      this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
-        ...item,
-        sno: index + 1
-      }));
+      // Add serial numbers to the data
+        this.dispatchPendings = res.map((item, index) => ({
+          ...item,
+          sno: index + 1
+        }));
       this.dataSource.data = this.dispatchPendings;
       // this.dataSource.data = this.dispatchPendings;
-      console.log(this.dataSource.data);
+      // console.log(this.dataSource.data);
+      // console.log(this.dispatchPendings);
+      // console.log(this.dataSource);
       // console.log('Data with serial numbers:', this.dispatchPendings); 
         // console.log("res ",JSON.stringify(res))
         // this.dispatchPendings = res;
         // console.log("Welcome ",JSON.stringify(this.dispatchPendings))
-        this.dataSource.data = res;
+        // this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();

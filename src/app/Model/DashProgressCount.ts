@@ -177,6 +177,7 @@ export class WorkDetails {
   }
   export class WorkOrderPendingDetailsNew {
     
+    sno!: number;
     work_id!: string;
     letterNo!: string;
     head!: string;
@@ -212,6 +213,5 @@ export class WorkDetails {
     pRemarks!: string;
     remarks!: string | null;
     tenderReference!: string;
-    sno!: number;
 
   }
