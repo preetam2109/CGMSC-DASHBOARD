@@ -37,10 +37,6 @@ export type ChartOptions = {
 })
 export class WorkOrderComponent {
   @ViewChild('chart') chart: ChartComponent | undefined;
-  // @ViewChild('itemDetailsModal') itemDetailsModal: any;
-  // @ViewChild('itemDetailsModal', { static: true }) itemDetailsModal: any;
-  @Input() public user: any;
-  // @ViewChild('itemDetailsModal') itemDetailsModal!: TemplateRef<any>;
   @ViewChild('itemDetailsModal') itemDetailsModal: any; 
   public cO: Partial<ChartOptions> | undefined;
   chartOptions: ChartOptions; // For bar chart
@@ -57,7 +53,7 @@ export class WorkOrderComponent {
   dispatchPendings: WorkOrderPendingDetailsNew[] = [];
 
   // divisionid='D1024';
-  divisionid=0;
+  divisionid:any;
   Scheme='Scheme';
   Total='Total';
   Contractor='Contractor';
@@ -80,7 +76,8 @@ export class WorkOrderComponent {
       chart: {
         type: 'bar',
         stacked: true,
-        height: 400,
+        // height: 400,
+        height: 200,
         // width:600,
         events: {
           dataPointSelection: (
@@ -451,6 +448,15 @@ export class WorkOrderComponent {
   //#region API get DATA
   GetWOPendingTotal(): void {
     this.spinner.show();
+    var roleName  = localStorage.getItem('roleName');
+    // alert( roleName )
+if(roleName == 'Division'){
+  this.divisionid = sessionStorage.getItem('divisionID');
+  // this.showDivision=false;
+} else {
+  this.divisionid =0;
+}
+this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.api.WOPendingTotal(this.Total,this.divisionid).subscribe(
       (data: any) => {
         this.wOpendingTotal = data;
