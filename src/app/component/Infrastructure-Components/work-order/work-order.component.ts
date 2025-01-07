@@ -63,7 +63,7 @@ export class WorkOrderComponent {
   District='District'
   idMap: { [key: string]: number } = {};
 
-  // displayedColumns: string[] = ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
+  displayedColumns: string[] = ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
   // displayedColumns: string[] = [
   //   'sno', 'work_id', 'letterNo', 'head', 'approver', 'type_name', 'district',
   //   'blockname', 'work', 'aaamt', 'tsamt', 'aaDate', 'tsDate', 'acceptanceLetterRefNo',
@@ -80,7 +80,7 @@ export class WorkOrderComponent {
         type: 'bar',
         stacked: true,
         height: 'auto',
-        height:400,
+        // height:400,
         // height: 200,
         // width:600,
         events: {
