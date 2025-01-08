@@ -25,29 +25,62 @@
     <div class="row justify-content-center mb-3">
       <div class="col-md-8">
         <div class="input-group">
-          <select class="form-select">
-            <option selected>CHC, Takhatpur-05/NO/A/24-25/01277</option>
-            <!-- Add more options here -->
-          </select>
-          <button class="btn btn-primary">दिखाएँ</button>
+            <ng-select
+            [items]="VehicleNoDropDownList"
+            bindLabel="vehicalno"
+            bindValue="vid"
+            [(ngModel)]="vid"
+            name="vid"
+            (change)="onVSelectChange($event)"
+            #emailidField="ngModel"
+            [placeholder]="!vid ? 'Choose Vehicle' : ''"
+            [searchable]="true"
+            [clearable]="true" 
+            [appendTo]="'body'"
+            required
+            class="form-control"
+          >
+          </ng-select>
+        
         </div>
       </div>
+      <div class="col-md-8">
+        <div class="input-group">
+            <ng-select
+            [items]="TravelVoucherDropDownList"
+            bindLabel="details"
+            bindValue="indentid"
+            [(ngModel)]="indentid"
+            name="indentid"
+            (change)="onTravelVChange($event)"
+            #emailidField="ngModel"
+            [placeholder]="!indentid ? 'Choose Travel Voucher' : ''"
+            [searchable]="true"
+            [clearable]="true" 
+            [appendTo]="'body'"
+            required
+            class="form-control"
+          >
+          </ng-select>
+        </div>
+    </div>
+    <button class="btn btn-primary" (click)="show()">दिखाएँ</button>
     </div>
 
-    <!-- Information Card -->
-    <div class="card">
-      <div class="card-body">
-        <p><b>हॉस्पिटल:</b> CHC, Takhatpur</p>
-        <p><b>जिला:</b> BILASPUR</p>
-        <p><b>मांग दिनांक:</b> 01-01-2025</p>
-        <p><b>वेयरहाउस वाउचर:</b> 05/NO/A/24-25/01277</p>
-        <p><b>वेयरहाउस इशु / प्रदान दिनांक:</b> 01-01-2025</p>
-        <p><b>सामग्रियों की संख्या:</b> 47</p>
-        <p><b>डिलीवरी वाउचर दिनांक:</b> 01-JAN-25</p>
-        <p><b>संस्था का देशांतर:</b> 22.1382616666666</p>
-        <p><b>संस्था का अक्षांश:</b> 81.8666083333333</p>
+    <div class="card" *ngFor="let travel of TravelVoucherDropDownList2">
+        <div class="card-body">
+          <p><b>हॉस्पिटल:</b> {{ travel.facilityname }}</p>
+          <p><b>जिला:</b> {{ travel.districtname }}</p>
+          <p><b>मांग दिनांक:</b> {{ travel.indentid }}</p>
+          <p><b>वेयरहाउस वाउचर:</b> {{ travel.issuevoucher }}</p>
+          <p><b>वेयरहाउस इशु / प्रदान दिनांक:</b> {{ travel.issuevoucherdt }}</p>
+          <p><b>सामग्रियों की संख्या:</b> {{ travel.nositems }}</p>
+          <p><b>डिलीवरी वाउचर दिनांक:</b> {{ travel.travelvoucherissuedt }}</p>
+          <p><b>संस्था का देशांतर:</b> {{ travel.longitude }}</p>
+          <p><b>संस्था का अक्षांश:</b> {{ travel.latitude }}</p>
+        </div>
       </div>
-    </div>
+      
 
     <!-- Action Button -->
     <div class="text-center mt-3">
