@@ -183,6 +183,72 @@ export class WorkDetails {
     noofWorksGreater7Days!: string;
    
   }
+  export class HandoverAbstractDateBY{
+    id!: string;
+    name!: string;
+    totalWorks!: number;
+    tvcValuecr!: number;
+    avgMonthTaken!: number;
+   
+  }
+  export class HandoverAbstractWithoutDate{
+    id!: string;
+    name!: string;
+    totalWorks!: number;
+    tvcValuecr!: number;
+    avgMonthTaken!: number;
+   
+  }
+  export class DistrictEngAllotedWorks{
+  id!: string ;
+  districtID!: string;
+  empid!: string;
+  engName!: string;
+  districtName!: string;
+  totalWorks!: number;
+  tvcValuecr!: number;
+  running!: number;
+  woIssue!: number;
+  ladissue!: number;
+
+  
+  }
+  export class AEDistrictEngAllotedWorks{
+  id!: string ;
+  districtID!: string;
+  empid!: string;
+  engName!: string;
+  districtName!: string;
+  totalWorks!: number;
+  tvcValuecr!: number;
+  running!: number;
+  woIssue!: number;
+  ladissue!: number;
+  }
+  export class SbuEngAllotedWorks{
+  id!: string ;
+  empid!: string;
+  engName!: string;
+  name!: string;
+  totalWorks!: number;
+  tvcValuecr!: number;
+  running!: number;
+  woIssue!: number;
+  ladissue!: number;
+  }
+  export class AEEngAllotedWorks{
+  id!: string ;
+  empid!: string;
+  engName!: string;
+  name!: string;
+  totalWorks!: number;
+  tvcValuecr!: number;
+  running!: number;
+  woIssue!: number;
+  ladissue!: number;
+
+
+  }
   export class WorkOrderPendingDetailsNew {
     
     sno!: number;
