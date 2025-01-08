@@ -1,0 +1,24 @@
+
+<div class="chart-container">
+    <div class="chart-wrapper">
+      <h1 ><strong> District DHS Stock  </strong></h1>
+      <!-- <h4 class="d-flex"  style="color: blue; "><strong>Fin Year</strong></h4> -->
+      <div class="d-flex">
+     
+      </div>
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [dataLabels]="chartOptions.dataLabels"
+          [plotOptions]="chartOptions.plotOptions"
+          [xaxis]="chartOptions.xaxis"
+          [stroke]="chartOptions.stroke"
+          [fill]="chartOptions.fill"
+          [yaxis]="chartOptions.yaxis"
+          [title]="chartOptions.title"
+          [tooltip]="chartOptions.tooltip"
+          [legend]="chartOptions.legend"
+        ></apx-chart>
+      </div>
+    </div>
+

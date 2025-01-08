@@ -80,7 +80,14 @@ import { MasWH } from '../Model/MasWH';
 import { DashLoginDDL } from '../Model/DashLoginDDL';
 import { DisYrGrowth } from '../Model/DisYrGrowth';
 import { DistCGMSCSupplyDHS } from '../Model/DistCGMSCSupplyDHS';
+
 import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary, WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong, WOpendingTotal, WorkOrderPendingDetailsNew, HandoverAbstractDateBY, DistrictEngAllotedWorks, AEDistrictEngAllotedWorks, SbuEngAllotedWorks, AEEngAllotedWorks,} from '../Model/DashProgressCount';
+
+import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary, WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong, WOpendingTotal, WorkOrderPendingDetailsNew } from '../Model/DashProgressCount';
+import { DistDHSStock } from '../Model/DistDHSStock';
+import { GetVehicleNo } from '../Model/GetVehicleNo';
+import { TravelVouchers } from '../Model/TravelVouchers';
+
 
 
 @Injectable({
@@ -705,8 +712,17 @@ GetImageBinary(sr: number, imgName: string): Observable<any> {
 
 getDistDHSStock(disid:any,coll_cmho:any,mcatid:any,userid:any){
   
-  return this.http.get(`https://dpdmis.in/CGMSCHO_API2/api/District/DistDHSStock?disid=${disid}&coll_cmho=${coll_cmho}&mcatid=${mcatid}&userid=${userid}`);
+  return this.http.get<DistDHSStock[]>(`https://dpdmis.in/CGMSCHO_API2/api/District/DistDHSStock?disid=${disid}&coll_cmho=${coll_cmho}&mcatid=${mcatid}&userid=${userid}`);
 }
+
+getGetVehicleNo(){
+  return this.http.get<GetVehicleNo[]>(`https://dpdmis.in/CGMSCHO_API2/api/Warehouse/GetVehicleNo`);
+}
+
+getTravelVouchers(vid:any,indentId:any){
+  return this.http.get<TravelVouchers[]>(`https://dpdmis.in/CGMSCHO_API2/api/Warehouse/TravelVouchers?vid=${vid}&indentId=${indentId}`);
+}
+
 
 
 

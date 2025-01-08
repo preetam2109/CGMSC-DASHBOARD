@@ -82,6 +82,7 @@ export class WorkOrderComponent {
         type: 'bar',
         stacked: true,
         height: 'auto',
+        // height:400,
         // height: 200,
         // width:600,
         events: {
@@ -853,7 +854,25 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
         ...item,
         sno: index + 1
       }));
+      // this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
+      //   ...item,
+      //   sno: index + 1
+      // }));
+      // Add serial numbers to the data
+        this.dispatchPendings = res.map((item, index) => ({
+          ...item,
+          sno: index + 1
+        }));
       this.dataSource.data = this.dispatchPendings;
+      // this.dataSource.data = this.dispatchPendings;
+      // console.log(this.dataSource.data);
+      // console.log(this.dispatchPendings);
+      // console.log(this.dataSource);
+      // console.log('Data with serial numbers:', this.dispatchPendings); 
+        // console.log("res ",JSON.stringify(res))
+        // this.dispatchPendings = res;
+        // console.log("Welcome ",JSON.stringify(this.dispatchPendings))
+        // this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();

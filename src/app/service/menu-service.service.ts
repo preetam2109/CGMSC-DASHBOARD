@@ -36,6 +36,8 @@ export class MenuServiceService {
           { label: 'Growth In Procurment', route: 'GrowthInProcurment' },
           { label: 'Growth in Distribution', route: 'distribution' },
           { label: 'Near Expiry', route: 'nearExpiry' },
+          { label: 'Devlivery', route: 'Devlivery' },
+
           // { label: 'QC Courier', route: 'QcPendings' },
           // { label: 'QC-Lab Issues', route: 'qc-dash' },
 
@@ -117,8 +119,10 @@ export class MenuServiceService {
           { label: 'Warehouse Information', route: 'WarehouseInfo' },
           { label: 'CGMSC Supplies', route: 'cgmsc-supplies' },
           { label: 'Stock Details', route: 'stockDetails' },
+          { label: 'District DHS Stock', route: 'DistDHSStock' },
           { label: 'Facility Wise Stock', route: 'FacilityWiseStock' },
           { label: 'DdlItemWiseInHandQty', route: 'DdlItemWiseInHandQty' },
+          { label: 'Devlivery', route: 'Devlivery' },
 
           { label: 'HODYearWiseIssuance', route: 'HODYearWiseIssuance' },
           { label: 'Warehouse Indent Pending', route: 'IndentPendingWHdash' },
