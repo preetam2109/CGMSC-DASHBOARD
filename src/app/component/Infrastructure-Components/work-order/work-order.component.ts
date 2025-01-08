@@ -51,6 +51,8 @@ export class WorkOrderComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   wOpendingTotal:WOpendingTotal[]=[];
+  wOpendingContractor:WOpendingTotal[]=[];
+  wOpendingDistrict:WOpendingTotal[]=[];
   wOpendingScheme:WOpendingScheme[]=[];
   WorkorderpendingdetailsNew:WorkOrderPendingDetailsNew[]=[];
   dispatchPendings: WorkOrderPendingDetailsNew[] = [];
@@ -100,9 +102,6 @@ export class WorkOrderComponent {
                 const id = selectedData.id;  // Extract the id from the matching entry
 
                 this.fetchDataBasedOnChartSelection(id, selectedSeries);
-                //  this.modalService.open(this.itemDetailsModal, { centered: true });
-
-            // this.openModalWithChartData(dataPointIndex, seriesIndex);
 
               } else {
                 console.log(`No data found for selected category: ${selectedCategory}`);
@@ -172,7 +171,9 @@ export class WorkOrderComponent {
       chart: {
         type: 'bar',
         stacked: true,
-        height: 600,
+        // height: 600,
+        height: 'auto',
+
         // width:600,
         // events: {
         //   dataPointSelection: (
@@ -343,26 +344,57 @@ export class WorkOrderComponent {
       chart: {
         type: 'bar',
         stacked: true,
-        height: 600,
+        // height: 600,
+        height: 'auto',
+
         // width:600,
+        // events: {
+        //   dataPointSelection: (
+        //     event,
+        //     chartContext,
+        //     { dataPointIndex, seriesIndex }
+        //   ) => {
+        //     const selectedCategory =
+        //       this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex];
+        //     const selectedSeries = this.chartOptionsLine?.series?.[seriesIndex]?.name;
+
+        //     if (selectedCategory && selectedSeries) {
+        //       const whid = this.whidMap[selectedCategory];
+        //       if (whid) {
+        //         // this.fetchDataBasedOnChartSelection();
+        //       }
+        //     }
+        //   },
+        // },
         events: {
           dataPointSelection: (
             event,
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            const selectedCategory =
-              this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex];
+            debugger
+            const selectedCategory = this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
             const selectedSeries = this.chartOptionsLine?.series?.[seriesIndex]?.name;
-
+            // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
-              const whid = this.whidMap[selectedCategory];
-              if (whid) {
-                // this.fetchDataBasedOnChartSelection();
+              const apiData = this.wOpendingContractor;  // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find((data) => data.name === selectedCategory);
+              console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id;  // Extract the id from the matching entry
+
+                this.fetchDataBasedOnChartSelectionmaincontract(id, selectedSeries);
+
+              } else {
+                console.log(`No data found for selected category: ${selectedCategory}`);
               }
+            } else {
+              console.log('Selected category or series is invalid.');
             }
-          },
+          }
         },
+
       },
       plotOptions: {
         bar: {
@@ -421,26 +453,58 @@ export class WorkOrderComponent {
       chart: {
         type: 'bar',
         stacked: true,
-        height: 400,
+        // height: 400,
+        height: 'auto',
+
         // width:600,
+        // events: {
+        //   dataPointSelection: (
+        //     event,
+        //     chartContext,
+        //     { dataPointIndex, seriesIndex }
+        //   ) => {
+        //     const selectedCategory =
+        //       this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex];
+        //     const selectedSeries = this.chartOptionsLine2?.series?.[seriesIndex]?.name;
+
+        //     if (selectedCategory && selectedSeries) {
+        //       const whid = this.whidMap[selectedCategory];
+        //       if (whid) {
+        //         // this.fetchDataBasedOnChartSelection();
+        //       }
+        //     }
+        //   },
+        // },
         events: {
+          
           dataPointSelection: (
             event,
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            const selectedCategory =
-              this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex];
+            debugger
+            const selectedCategory = this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
             const selectedSeries = this.chartOptionsLine2?.series?.[seriesIndex]?.name;
-
+            // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
-              const whid = this.whidMap[selectedCategory];
-              if (whid) {
-                // this.fetchDataBasedOnChartSelection();
+              const apiData = this.wOpendingDistrict;  // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find((data) => data.name === selectedCategory);
+              console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id;  // Extract the id from the matching entry
+
+                this.fetchDataBasedOnChartSelectionmainDistrict(id, selectedSeries);
+
+              } else {
+                console.log(`No data found for selected category: ${selectedCategory}`);
               }
+            } else {
+              console.log('Selected category or series is invalid.');
             }
-          },
+          }
         },
+
       },
       plotOptions: {
         bar: {
@@ -571,14 +635,14 @@ export class WorkOrderComponent {
   GetWOPendingDistrict(): void {
     this.api.WOPendingTotal(this.District,this.divisionid).subscribe(
       (data: any) => {
-        // this.wOpendingTotal = data;
+        this.wOpendingDistrict = data;
         const name: string[] = [];
         const id: string[] = [];
         const pendingWork: any[] = [];
         const contrctValuecr: number[] = [];
         const noofWorksGreater7Days: any[] = [];
         this.whidMap = {}; // Initialize the mmidMap
-        console.log('API Response:', data);
+        console.log('API wOpendingDistrict:', this.wOpendingDistrict);
         data.forEach((item: {
           name: string; id: any; pendingWork: any; contrctValuecr: number;
           noofWorksGreater7Days: any
@@ -597,7 +661,7 @@ export class WorkOrderComponent {
           } });
 
 
-        this.chartOptions2.series = [
+        this.chartOptionsLine2.series = [
 
           {
             name: 'Total Pending Works',
@@ -623,8 +687,8 @@ export class WorkOrderComponent {
           },
         ];
 
-        this.chartOptions2.xaxis = { categories: name };
-        this.cO = this.chartOptions2;
+        this.chartOptionsLine2.xaxis = { categories: name };
+        this.cO = this.chartOptionsLine2;
         this.cdr.detectChanges();
       },
       (error: any) => {
@@ -636,7 +700,7 @@ export class WorkOrderComponent {
     // this.spinner.show();
     this.api.WOPendingTotal(this.Contractor,this.divisionid).subscribe(
       (data: any) => {
-        // this.wOpendingTotal = data;
+        this.wOpendingContractor = data;
         const name: string[] = [];
         const id: string[] = [];
         const pendingWork: any[] = [];
@@ -713,7 +777,7 @@ export class WorkOrderComponent {
     this.api.WOPendingTotal(this.Scheme,this.divisionid).subscribe(
       (data: any) => {
         this.wOpendingScheme = data;
-        console.log('API Response Scheme:',  this.wOpendingScheme);
+        // console.log('API Response Scheme:',  this.wOpendingScheme);
         const name: string[] = [];
         const id: string[] = [];
         const pendingWork: any[] = [];
@@ -739,7 +803,7 @@ export class WorkOrderComponent {
           } });
 
 
-        this.chartOptionsLine2.series = [
+        this.chartOptions2.series = [
 
           {
             name: 'Total Pending Works',
@@ -765,8 +829,8 @@ export class WorkOrderComponent {
           },
         ];
 
-        this.chartOptionsLine2.xaxis = { categories: name };
-        this.cO = this.chartOptionsLine2;
+        this.chartOptions2.xaxis = { categories: name };
+        this.cO = this.chartOptions2;
         this.cdr.detectChanges();
       },
       (error: any) => {
@@ -804,7 +868,6 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
 }
 fetchDataBasedOnChartSelectionmainScheme(mainSchemeId: any, seriesName: string): void {
   console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-alert("sahu");
 
   const  distid=0;
   // const mainSchemeId=0;
@@ -824,7 +887,70 @@ alert("sahu");
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
-      this.openDialogg();
+      // this.openDialogg();
+      this.openDialog();
+
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+fetchDataBasedOnChartSelectionmainDistrict(distid: any, seriesName: string): void {
+  console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+  // const  distid=0;
+  const mainSchemeId=0;
+  const divisionID=0;
+  const contractid=0;
+  this.spinner.show();
+ 
+  this.api.GetWorkOrderPendingDetailsNew(divisionID,mainSchemeId,distid,contractid).subscribe(
+    (res) => {
+      this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      console.log('wOpendingDistrict table data:',res);
+      this.dataSource.data = this.dispatchPendings;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.detectChanges();
+      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
+      // this.openDialogg();
+      this.openDialog();
+
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+fetchDataBasedOnChartSelectionmaincontract(contractid: any, seriesName: string): void {
+  console.log(`Selected ID: ${contractid}, Series: ${seriesName}`);
+  const  distid=0;
+  const mainSchemeId=0;
+  const divisionID=0;
+  // const contractid=0;
+  this.spinner.show();
+  // wOpendingContractor:WOpendingTotal[]=[];
+ 
+  this.api.GetWorkOrderPendingDetailsNew(divisionID,mainSchemeId,distid,contractid).subscribe(
+    (res) => {
+      this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      console.log('wOpendingDcontracter table data:',res);
+      this.dataSource.data = this.dispatchPendings;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.detectChanges();
+      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
+      // this.openDialogg();
+      this.openDialog();
+
       this.spinner.hide();
     },
     (error) => {
@@ -895,24 +1021,24 @@ openDialog() {
   });
 
 }
-openDialogg() {
-  const dialogRef = this.dialog.open(this.itemDetailsModals, {
-    width: '100%',
-    height: '100%',
-    maxWidth: '100%',
-    panelClass: 'full-screen-dialog', // Optional for additional styling
-    data: { /* pass any data here */ }
-     // width: '100%',
-    // maxWidth: '100%', // Override default maxWidth
-    // maxHeight: '100%', // Override default maxHeight
-    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-    // height: 'auto',
-  });
-  dialogRef.afterClosed().subscribe(result => {
-    console.log('Dialog closed');
-  });
+// openDialogg() {
+//   const dialogRef = this.dialog.open(this.itemDetailsModals, {
+//     width: '100%',
+//     height: '100%',
+//     maxWidth: '100%',
+//     panelClass: 'full-screen-dialog', // Optional for additional styling
+//     data: { /* pass any data here */ }
+//      // width: '100%',
+//     // maxWidth: '100%', // Override default maxWidth
+//     // maxHeight: '100%', // Override default maxHeight
+//     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+//     // height: 'auto',
+//   });
+//   dialogRef.afterClosed().subscribe(result => {
+//     console.log('Dialog closed');
+//   });
 
-}
+// }
 
 //#endregion
 }

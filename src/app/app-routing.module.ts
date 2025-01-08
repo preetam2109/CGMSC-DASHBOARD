@@ -83,6 +83,9 @@ import { InfrastructureHomeComponent } from './component/Infrastructure-Componen
 import { SearchingWorkComponent } from './component/Infrastructure-Components/searching-work/searching-work.component';
 import { WorkOrderComponent } from './component/Infrastructure-Components/work-order/work-order.component';
 import { FacilityWiseStockComponent } from './component/Collector-Components/facility-wise-stock/facility-wise-stock.component';
+import { HandoverComponent } from './component/Infrastructure-Components/handover/handover.component';
+import { LandIssueComponent } from './component/Infrastructure-Components/land-issue/land-issue.component';
+import { EngineerWorksComponent } from './component/Infrastructure-Components/engineer-works/engineer-works.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -186,6 +189,9 @@ const routes: Routes = [
 {path:'DivisionProgress',component:DivisionProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'WorkOrder',component:WorkOrderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
 {path:'FacilityWiseStock',component:FacilityWiseStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
+{path:'Handover',component:HandoverComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
+{path:'LandIssue',component:LandIssueComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
+{path:'EngineerWorks',component:EngineerWorksComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 
 
 

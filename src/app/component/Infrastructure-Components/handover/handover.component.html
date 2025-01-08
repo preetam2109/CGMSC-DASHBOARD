@@ -1,0 +1,64 @@
+<div class="card shadow">
+    <div class="card-body">
+        <div class="w-100" style="background-color:#858681"> <!--#e2e3e5-->
+            <h3 class="text-light">Total Work Handover Abstract</h3>
+        </div>
+        <div class="container-fluid  p-2">
+            <div class="row">
+            
+                <div class="custom-datepicker-container  rounded">
+                    <mat-form-field class="filter-field w-100" appearance="fill">
+                        <mat-label>Date range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                            <input matStartDate placeholder="Start date" formControlName="start">
+                            <input matEndDate placeholder="End date" formControlName="end">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 mb-2 border rounded">
+                <div class="chart-container" >
+                  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+                    [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+                    [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+                    [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"  
+                     ></apx-chart>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 mb-2 border rounded">
+                <div class="chart-container">
+                  <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [dataLabels]="chartOptions2.dataLabels"
+                    [plotOptions]="chartOptions2.plotOptions" [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
+                    [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis" [title]="chartOptions2.title"
+                    [tooltip]="chartOptions2.tooltip" [legend]="chartOptions2.legend"></apx-chart>
+                </div>
+              </div>
+              
+            
+            </div>
+            <!-- <div class="row">
+                <div class="col-lg-6 col-md-6 mb-2 border rounded">
+                    <div class="chart-container">
+                      <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [dataLabels]="chartOptions2.dataLabels"
+                        [plotOptions]="chartOptions2.plotOptions" [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
+                        [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis" [title]="chartOptions2.title"
+                        [tooltip]="chartOptions2.tooltip" [legend]="chartOptions2.legend"></apx-chart>
+                    </div>
+                  </div>
+              <div class="col-lg-6 col-md-6 mb-2 border rounded">
+                <div class="chart-container">
+                  <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart" [dataLabels]="chartOptionsLine.dataLabels"
+                    [plotOptions]="chartOptionsLine.plotOptions" [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke"
+                    [fill]="chartOptionsLine.fill" [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title"
+                    [tooltip]="chartOptionsLine.tooltip" [legend]="chartOptionsLine.legend"></apx-chart>
+                </div>
+              </div>
+              
+            
+            </div> -->
+          </div>
+    </div>
+</div>
