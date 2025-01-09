@@ -58,9 +58,10 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
   this.chartOptions = {
     series: [],
     chart: {
-      type: 'bar',
       stacked: true,
+      type: 'bar',
       height: 'auto',
+      // height: '100%' ,
       // height: 400,
       // width:600,
       events: {
@@ -71,6 +72,24 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
         ) => {
           const selectedCategory = this.chartOptions?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
           const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
+
+//#region  condtion wise chart height 
+          // // this.chartOptions.chart.height = roleName ? '400px' : 'auto', 
+
+          // var roleName = localStorage.getItem('roleName');
+          // // alert( roleName )
+          // if (roleName == 'Division') {
+          //   // return 
+          //   this.chartOptions.chart.height = '300px';
+          //   // this.showDivision=false;
+          // } else {
+          //   // return
+          //    this.chartOptions.chart.height ='auto';
+          //   // return this.chartOptions.chart.height = roleName ? '400px' : 'auto';
+        
+          // }
+
+
           // Ensure the selectedCategory and selectedSeries are valid
           // if (selectedCategory && selectedSeries) {
           //   // const apiData = this.wOpendingTotal;  // Replace with the actual data source or API response
@@ -91,6 +110,7 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
           // } else {
           //   console.log('Selected category or series is invalid.');
           // }
+          //#endregion
         }
       },
     },
@@ -416,8 +436,6 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
  this.getSBUENDistrictEngAllotedWorks();
  this.GetAEENGDistrictEngAllotedWorks();
 }
-// SBUENDistrictEngAllotedWorks
-// AEENGDistrictEngAllotedWorks
 
 GetDistrictEngAllotedWorks(): void {
   // https://cgmsc.gov.in/HIMIS_APIN/api/Work/DistrictEngAllotedWorks?engtype=Sube&divisionid=D1004&distid=0
@@ -697,6 +715,24 @@ GetAEENGDistrictEngAllotedWorks(): void {
       console.error('Error fetching data', error);
     }
   );
+}
+
+getChartHeight():any {
+  var roleName = localStorage.getItem('roleName');
+  // alert( roleName )
+  if (roleName == 'Division') {
+    // return 
+    this.chartOptions.chart.height = '400px';
+    // this.showDivision=false;
+  } else {
+    // return
+     this.chartOptions.chart.height ='auto';
+    // return this.chartOptions.chart.height = roleName ? '400px' : 'auto';
+
+  }
+  // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  // const condition = /* your condition here */;
+  // return condition ? '500px' : 'auto'; // Return 'auto' or a fixed height based on the condition
 }
 }
 
