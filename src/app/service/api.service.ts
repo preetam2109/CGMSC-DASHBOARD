@@ -83,10 +83,10 @@ import { DistCGMSCSupplyDHS } from '../Model/DistCGMSCSupplyDHS';
 
 import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary, WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong, WOpendingTotal, WorkOrderPendingDetailsNew, HandoverAbstractDateBY, DistrictEngAllotedWorks, AEDistrictEngAllotedWorks, SbuEngAllotedWorks, AEEngAllotedWorks,} from '../Model/DashProgressCount';
 
-import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary, WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong, WOpendingTotal, WorkOrderPendingDetailsNew } from '../Model/DashProgressCount';
 import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
+import { GetLatLong } from '../Model/Warehouse';
 
 
 
@@ -722,6 +722,22 @@ getGetVehicleNo(){
 getTravelVouchers(vid:any,indentId:any){
   return this.http.get<TravelVouchers[]>(`https://dpdmis.in/CGMSCHO_API2/api/Warehouse/TravelVouchers?vid=${vid}&indentId=${indentId}`);
 }
+
+getGetLatLong(indentId:any){
+  return this.http.get<GetLatLong[]>(`https://dpdmis.in/CGMSCHO_API2/api/Warehouse/GetLatLong?indentId=${indentId}`);
+}
+
+updateTBIndentTravaleWH(travelId: any, latitude: any, longitude: any, dt1: any) {
+  return this.http.put(
+    `https://dpdmis.in/CGMSCHO_API2/api/Warehouse/updateTBIndentTravaleWH?travelId=${travelId}&latitude=${latitude}&longitude=${longitude}&dt1=${dt1}`,
+    null, // Pass `null` for the body since it's a PUT request without payload
+    { responseType: 'text' } // Specify the response type as 'text'
+  );
+}
+
+
+
+
 
 
 

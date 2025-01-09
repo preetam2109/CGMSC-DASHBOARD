@@ -28,6 +28,10 @@ export class DeliveryComponent implements OnInit {
   TravelVoucherDropDownList2:any=[];
   vid: any;
   indentid=0;
+  lat:any;
+  long:any;
+  selectedDate: string | null = null;
+  travelid:any
 
 
    constructor(public api:ApiService,private toastr: ToastrService){
@@ -37,6 +41,13 @@ export class DeliveryComponent implements OnInit {
 ngOnInit(): void {
 this.getVehicleNoDropDown()  
 
+}
+getGetLatLong(){
+  debugger
+  this.api.getGetLatLong(this.indentid).subscribe((res:any)=>{
+this.lat=res[0].latitude
+this.long=res[0].longitude
+  })
 }
 getVehicleNoDropDown(){
   debugger
@@ -97,7 +108,9 @@ onTravelVChange(event: Event): void {
 
   if (selectedUser) {
     this.indentid=selectedUser.indentid || null;
-    this.getTravelVouchers()
+    this.travelid=selectedUser.travelid || null;
+    this.getTravelVouchers();
+    this.getGetLatLong();
 
   } else {
     console.error('Selected indentid not found in the list.');
@@ -108,7 +121,7 @@ show(){
   debugger
   this.api.getTravelVouchers(this.vid,this.indentid).subscribe((res:any[])=>{
     console.log('TravelVouchers API dropdown Response:', res);
-    
+    this.getGetLatLong();
       // this.TravelVoucherDropDownList = res.map(item => ({
       //   indentid: item.indentid, // Adjust key names if needed
       //   details: item.details,
@@ -120,7 +133,12 @@ show(){
       //   travelvoucherissuedt:item.travelvoucherissuedt,
       //   longitude:item.longitude,
       //   latitude:item.latitude,
+      debugger
       this.TravelVoucherDropDownList2 = res
+      this.travelid=this.TravelVoucherDropDownList2[0].travaleid
+      
+      console.log('nslnfsdl',this.travelid);
+      this.getGetLatLong();
         
         
       // }));
@@ -128,6 +146,64 @@ show(){
     
   });  
 }
+
+submit() {
+  debugger;
+
+  // Validation: Check if lat, long, or selectedDate are empty
+  if (!this.lat || !this.long) {
+    alert('Latitude and Longitude cannot be empty.');
+    return;
+  }
+
+  if (!this.selectedDate) {
+    alert('Please select a date.');
+    return;
+  }
+
+  // Validation: Ensure selectedDate is not earlier than travelvoucherissuedt
+  const travelVoucherDate = this.formatDate(this.TravelVoucherDropDownList2[0].travelvoucherissuedt); // Ensure proper format
+  const selectedDateFormatted = this.formatDate(this.selectedDate); // Format selectedDate
+
+  if (new Date(selectedDateFormatted) < new Date(travelVoucherDate)) {
+    alert(`Selected date cannot be earlier than the travel voucher issued date: ${travelVoucherDate}`);
+    return;
+  }
+
+  // Format selectedDate to dd-MM-yyyy before the API call
+  const formattedSelectedDate = this.formatDateToDDMMYYYY(this.selectedDate);
+
+  // Make the API call if validations pass
+  this.api
+    .updateTBIndentTravaleWH(this.travelid, this.lat, this.long, formattedSelectedDate)
+    .subscribe(
+      (res: any) => {
+        console.log('API response:', res);
+        alert('Data updated successfully!');
+      },
+      (error: any) => {
+        console.error('API error:', error);
+        alert('Failed to update data. Please try again.');
+      }
+    );
+}
+
+// Utility function to format dates to dd-MM-yyyy
+formatDateToDDMMYYYY(date: string): string {
+  const parsedDate = new Date(date);
+  const day = String(parsedDate.getDate()).padStart(2, '0');
+  const month = String(parsedDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const year = parsedDate.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+// Utility function to parse dd-MM-yyyy format to a comparable date string
+formatDate(dateStr: string): string {
+  const [day, month, year] = dateStr.split('-');
+  return `${year}-${month}-${day}`; // Return in YYYY-MM-DD format for comparison
+}
+
+
 
 
 

@@ -1,73 +1,72 @@
+<div class="container my-4">
+  <!-- Vehicle Current Position -->
+  <div class="text-center">
+    <h1 class="fw-bold">Vehicle Current Position</h1>
+    <p class="mb-3">
+      <span>Latitude: <b>{{ lat }}</b></span> |
+      <span>Longitude: <b>{{ long }}</b></span>
+    </p>
+  </div>
 
-    <!-- <title>Delivery</title> -->
-
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Delivery</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+  <!-- Dropdowns and Date Picker -->
+  <div class="row justify-content-center mb-3">
+    <div class="col-12 col-md-6 mb-3">
+      <label class="form-label">Choose Vehicle:</label>
+      <ng-select
+        [items]="VehicleNoDropDownList"
+        bindLabel="vehicalno"
+        bindValue="vid"
+        [(ngModel)]="vid"
+        name="vid"
+        (change)="onVSelectChange($event)"
+        #emailidField="ngModel"
+        [placeholder]="!vid ? 'Choose Vehicle' : ''"
+        [searchable]="true"
+        [clearable]="true"
+        [appendTo]="'body'"
+        required
+        class="form-control"
+      >
+      </ng-select>
     </div>
-  </nav>
-
-  <div class="container my-4">
-    <!-- Vehicle Current Position -->
-    <div class="text-center">
-      <h1 class="fw-bold">Vehicle Current Position</h1>
-      <p class="mb-3">
-        <span>latitude: <b>21.1365862</b></span> |
-        <span>longitude: <b>81.7866932</b></span>
-      </p>
+    <div class="col-12 col-md-6 mb-3">
+      <label class="form-label">Choose Travel Voucher:</label>
+      <ng-select
+        [items]="TravelVoucherDropDownList"
+        bindLabel="details"
+        bindValue="indentid"
+        [(ngModel)]="indentid"
+        name="indentid"
+        (change)="onTravelVChange($event)"
+        #emailidField="ngModel"
+        [placeholder]="!indentid ? 'Choose Travel Voucher' : ''"
+        [searchable]="true"
+        [clearable]="true"
+        [appendTo]="'body'"
+        required
+        class="form-control"
+      >
+      </ng-select>
     </div>
-
-    <!-- Dropdown and Button -->
-    <div class="row justify-content-center mb-3">
-      <div class="col-md-8">
-        <div class="input-group">
-            <ng-select
-            [items]="VehicleNoDropDownList"
-            bindLabel="vehicalno"
-            bindValue="vid"
-            [(ngModel)]="vid"
-            name="vid"
-            (change)="onVSelectChange($event)"
-            #emailidField="ngModel"
-            [placeholder]="!vid ? 'Choose Vehicle' : ''"
-            [searchable]="true"
-            [clearable]="true" 
-            [appendTo]="'body'"
-            required
-            class="form-control"
-          >
-          </ng-select>
-        
-        </div>
-      </div>
-      <div class="col-md-8">
-        <div class="input-group">
-            <ng-select
-            [items]="TravelVoucherDropDownList"
-            bindLabel="details"
-            bindValue="indentid"
-            [(ngModel)]="indentid"
-            name="indentid"
-            (change)="onTravelVChange($event)"
-            #emailidField="ngModel"
-            [placeholder]="!indentid ? 'Choose Travel Voucher' : ''"
-            [searchable]="true"
-            [clearable]="true" 
-            [appendTo]="'body'"
-            required
-            class="form-control"
-          >
-          </ng-select>
-        </div>
+    <div class="col-12 col-md-6 mb-3">
+      <label class="form-label">Select Date:</label>
+      <input
+        type="date"
+        class="form-control"
+        [(ngModel)]="selectedDate"
+        name="selectedDate"
+        required
+      />
     </div>
-    <button class="btn btn-primary" (click)="show()">दिखाएँ</button>
+    <div class="col-12 text-center">
+      <button class="btn btn-primary w-100 w-md-auto" (click)="show()">दिखाएँ</button>
     </div>
+  </div>
 
-    <div class="card" *ngFor="let travel of TravelVoucherDropDownList2">
+  <!-- Cards Section -->
+  <div class="row">
+    <div class="col-12 col-md-6 col-lg-4 mb-3" *ngFor="let travel of TravelVoucherDropDownList2">
+      <div class="card h-100">
         <div class="card-body">
           <p><b>हॉस्पिटल:</b> {{ travel.facilityname }}</p>
           <p><b>जिला:</b> {{ travel.districtname }}</p>
@@ -78,13 +77,14 @@
           <p><b>डिलीवरी वाउचर दिनांक:</b> {{ travel.travelvoucherissuedt }}</p>
           <p><b>संस्था का देशांतर:</b> {{ travel.longitude }}</p>
           <p><b>संस्था का अक्षांश:</b> {{ travel.latitude }}</p>
+          <p><b>Travel ID:</b> {{ travel.travaleid }}</p>
         </div>
       </div>
-      
-
-    <!-- Action Button -->
-    <div class="text-center mt-3">
-      <button class="btn btn-primary">प्रदान किया गया</button>
     </div>
   </div>
 
+  <!-- Action Button -->
+  <div class="text-center mt-3">
+    <button class="btn btn-primary w-100 w-md-auto" (click)="submit()">प्रदान किया गया</button>
+  </div>
+</div>
