@@ -81,9 +81,11 @@ import { DashLoginDDL } from '../Model/DashLoginDDL';
 import { DisYrGrowth } from '../Model/DisYrGrowth';
 import { DistCGMSCSupplyDHS } from '../Model/DistCGMSCSupplyDHS';
 
-import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary, WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong, WOpendingTotal, WorkOrderPendingDetailsNew, HandoverAbstractDateBY, DistrictEngAllotedWorks, AEDistrictEngAllotedWorks, SbuEngAllotedWorks, AEEngAllotedWorks,} from '../Model/DashProgressCount';
+import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary,
+   WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong,
+    WOpendingTotal, WorkOrderPendingDetailsNew, DistrictEngAllotedWorks, AEDistrictEngAllotedWorks,
+     SbuEngAllotedWorks, AEEngAllotedWorks, LIPendingTotal, HandoverAbstract, GetHandoverDetails,} from '../Model/DashProgressCount';
 
-import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary, WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong, WOpendingTotal, WorkOrderPendingDetailsNew } from '../Model/DashProgressCount';
 import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
@@ -667,16 +669,21 @@ GetWorkOrderPendingDetailsNew(divisionId:any,mainSchemeId:any,distid:any,contrac
   return this.http.get<WorkOrderPendingDetailsNew[]>(`${this.apiUrl}/WorkOrder/getWorkOrderPendingDetailsNew?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&contractid=${contractid}`);
 
 }
-GETHandoverAbstractDateBY(Total:any, dashid:any,divisionId:any,districtid:any,SWId:any,fromdt:any,todt:any){
-  return this.http.get<HandoverAbstractDateBY[]>(`${this.apiUrl}/Handover/HandoverAbstract?RPType=${Total}&dashid=${dashid}&divisionid=${divisionId}&districtid=${districtid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}`);
-  // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=01-05-2023
-}
-GETHandoverAbstractWithoutDate(Total:any, dashid:any,divisionId:any,districtid:any,SWId:any,fromdt:any,todt:any){
-  return this.http.get<HandoverAbstractDateBY[]>(`${this.apiUrl}/Handover/HandoverAbstract?RPType=${Total}&dashid=${dashid}&divisionid=${divisionId}&districtid=${districtid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}`);
-
- 
+//#region Handover
+// GETHandoverAbstractDateBY(Total:any, dashid:any,divisionId:any,districtid:any,SWId:any,fromdt:any,todt:any){
+//   return this.http.get<HandoverAbstractDateBY[]>(`${this.apiUrl}/Handover/HandoverAbstract?RPType=${Total}&dashid=${dashid}&divisionid=${divisionId}&districtid=${districtid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}`);
+//   // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=01-05-2023
+// }
+HandoverAbstract(RPType:any, dashid:any,divisionId:any,districtid:any,SWId:any,fromdt:any,todt:any){
+  return this.http.get<HandoverAbstract[]>(`${this.apiUrl}/Handover/HandoverAbstract?RPType=${RPType}&dashid=${dashid}&divisionid=${divisionId}&districtid=${districtid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}`);
   // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=0
  }
+ GetHandoverDetails(dashid:any,divisionId:any,SWId:any,mainSchemeId:any,distid:any){
+  return this.http.get<GetHandoverDetails[]>(`${this.apiUrl}/Handover/getHandoverDetails?dashid=${dashid}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&SWId=${SWId}`);
+  //https://cgmsc.gov.in/HIMIS_APIN/api/Handover/getHandoverDetails?dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
+ }
+
+ //#endregion
  SubeDistrictEngAllotedWorks(engtype:any,divisionId:any,distid:any){
   return this.http.get<DistrictEngAllotedWorks[]>(`${this.apiUrl}/Work/DistrictEngAllotedWorks?engtype=${engtype}&divisionid=${divisionId}&distid=${distid}`);
   // https://cgmsc.gov.in/HIMIS_APIN/api/Work/DistrictEngAllotedWorks?engtype=Sube&divisionid=D1004&distid=0
@@ -693,7 +700,16 @@ GETHandoverAbstractWithoutDate(Total:any, dashid:any,divisionId:any,districtid:a
   return this.http.get<AEEngAllotedWorks[]>(`${this.apiUrl}/Work/EngAllotedWorks?engtype=${engtype}&divisionid=${divisionId}&distid=${distid}`);
   // https://cgmsc.gov.in/HIMIS_APIN/api/Work/EngAllotedWorks?engtype=AE%20eng&divisionid=D1004&distid=0
  }
-
+ //#region  LandIssue
+GetLIPendingTotal(engtype:any,divisionId:any,districtid:any){
+  return this.http.get<LIPendingTotal[]>(`${this.apiUrl}/LandIssue/LIPendingTotal?RPType=${engtype}&divisionid=${divisionId}&districtid=${districtid}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/LandIssue/LIPendingTotal?RPType=Total&divisionid=0&districtid=0
+ }
+ GetLandIssueDetails(divisionId:any,distid:any,mainSchemeId:any){
+  return this.http.get<LIPendingTotal[]>(`${this.apiUrl}/LandIssue/getLandIssueDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/LandIssue/getLandIssueDetails?divisionId=D1004&mainSchemeId=145&distid=0
+ }
+//#endregion
 
 //#region GET IMAGE
 GetImageBinary(sr: number, imgName: string): Observable<any> {

@@ -15,7 +15,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { HandoverAbstractDateBY, HandoverAbstractWithoutDate } from 'src/app/Model/DashProgressCount';
+import { HandoverAbstract, GetHandoverDetails } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -39,9 +39,9 @@ export type ChartOptions = {
   styleUrl: './handover.component.css'
 })
 export class HandoverComponent {
-  RPType='Total';
+  
   dashid=4001;
-  divisionid=0;
+  divisionid:any;
   districtid=0;
   SWId=0;
   fromdt:any;
@@ -52,20 +52,26 @@ export class HandoverComponent {
   public cO: Partial<ChartOptions> | undefined;
   chartOptions: ChartOptions; // For bar chart
   chartOptions2: ChartOptions; // For bar chart
-  handoverAbstractDateBY:HandoverAbstractDateBY[]=[];
-  WithoutDatehandoverAbstract:HandoverAbstractWithoutDate[]=[];
+  HandoverAbstractTotalData:HandoverAbstract[]=[];
+  HandoverAbstractSchemeData:HandoverAbstract[]=[];
+  GetHandoverDetailsData:GetHandoverDetails[]=[];
   whidMap: { [key: string]: number } = {};
   dateRange!: FormGroup;
   tomorrow = new Date();
+
+  
   constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef, private fb: FormBuilder,
     public datePipe: DatePipe, private modalService: NgbModal,private dialog: MatDialog, private toastr: ToastrService,){
     this.chartOptions = {
       series: [],
       chart: {
         type: 'bar',
+       
         stacked: true,
         height: 'auto',
+        
         // height: 300,
+        // height: '100%' ,
         // width:600,
         events: {
           dataPointSelection: (
@@ -239,28 +245,39 @@ export class HandoverComponent {
     };
      // Initialize dateRange with today and tomorrow
      const today = new Date();
-     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    //  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+     const firstDayOfMonthLastYear = new Date(today.getFullYear() - 1, today.getMonth(), 1);
      const tomorrow = new Date();
      tomorrow.setDate(today.getDate() + 1); // Set tomorrow's date
- 
      this.dateRange = this.fb.group({
-         start: [firstDayOfMonth],    // Set start date to today
-        //  start: [this.fromdt],    // Set start date to today
+         start: [firstDayOfMonthLastYear],    // Set start date to today
+        //  start: [firstDayOfMonth],    // Set start date to today
         //  end: [tomorrow]    // Set end date to tomorrow
          end: [today]    // Set end date to tomorrow
         //  console.log('startdate:',)
      });
-     this.dateRange.valueChanges.subscribe(() => {
-       this.HandoverAbstractDateBY();
+     this.dateRange = this.fb.group({
+         start: [firstDayOfMonthLastYear],    // Set start date to today
+        //  start: [firstDayOfMonth],    // Set start date to today
+        //  end: [tomorrow]    // Set end date to tomorrow
+         end: [today]    // Set end date to tomorrow
+        //  console.log('startdate:',)
      });
-     this.HandoverAbstractDateBY();
-     this.handoverAbstractWithoutDate();
+
+     this.dateRange.valueChanges.subscribe(() => {
+       this.HandoverAbstractRPTypeTotal();
+     });
+     this.HandoverAbstractRPTypeTotal();
+     this.handoverAbstractRPTypeScheme();
   }
  
   ngOnInit() {
   
   }
-  HandoverAbstractDateBY(): void {
+// RPType=Total/Scheme/District/WorkType
+ 
+  HandoverAbstractRPTypeTotal(): void {
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     // Only format dates if both start and end dates are selected
@@ -271,17 +288,17 @@ export class HandoverComponent {
     console.log('enddate:', this.todt)
 
     console.log('startdate:', this.fromdt)
-
+  var RPType='Total';
     // RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=01-05-2023
 
     if (this.fromdt && this.todt) {
       this.spinner.show();
-      this.api.GETHandoverAbstractDateBY(this.RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
+      this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
         (data: any) => {
 
           if (data.length === 0) {
             this.toastr.info('No data found. Please select another date range.');
-            this.handoverAbstractDateBY = data;
+            this.HandoverAbstractTotalData = data;
             this.spinner.hide();
             return;
           }
@@ -329,16 +346,27 @@ export class HandoverComponent {
       );
     }
   }
-handoverAbstractWithoutDate(): void {
-    // RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=01-05-2023
-const startdate=0;
-const enddate=0;
+  handoverAbstractRPTypeScheme(): void {
+    const roleName = localStorage.getItem('roleName');
+    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+const startDate = this.dateRange.value.start;
+const endDate = this.dateRange.value.end;
+// Only format dates if both start and end dates are selected
+this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+console.log('enddate:', this.todt)
+console.log('startdate:', this.fromdt)
+var RPType='Scheme';
 
+
+// const startdate=0;
+// const enddate=0;
+// var RPType='Total';
     this.spinner.show();
-    this.api.GETHandoverAbstractWithoutDate(this.RPType,this.dashid,this.divisionid,this.districtid,this.SWId,startdate,enddate).subscribe(
+    this.api.HandoverAbstract(RPType,this.dashid,this.divisionid,this.districtid,this.SWId,this.fromdt, this.todt).subscribe(
       (data: any) => {
-                  this.WithoutDatehandoverAbstract = data;
-        console.log('WithoutDatehandoverAbstract',this.WithoutDatehandoverAbstract);
+                  this.HandoverAbstractSchemeData = data;
+        console.log('WithoutDatehandoverAbstract',this.HandoverAbstractSchemeData);
         const id: string[] = [];
         const name: string[] = [];
         const totalWorks: any[] = [];
@@ -381,4 +409,6 @@ const enddate=0;
       }
     );
   }
+
+
 }

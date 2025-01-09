@@ -183,7 +183,7 @@ export class WorkDetails {
     noofWorksGreater7Days!: string;
    
   }
-  export class HandoverAbstractDateBY{
+  export class HandoverAbstract{
     id!: string;
     name!: string;
     totalWorks!: number;
@@ -191,7 +191,7 @@ export class WorkDetails {
     avgMonthTaken!: number;
    
   }
-  export class HandoverAbstractWithoutDate{
+  export class GetHandoverDetails{
     id!: string;
     name!: string;
     totalWorks!: number;
@@ -250,7 +250,6 @@ export class WorkDetails {
 
   }
   export class WorkOrderPendingDetailsNew {
-    
     sno!: number;
     work_id!: string;
     letterNo!: string;
@@ -289,3 +288,17 @@ export class WorkDetails {
     tenderReference!: string;
 
   }
+
+  //#region  LandIssue
+  export class LIPendingTotal {
+    id!: string;
+    name!: string;
+    totalWorks!: number;
+    valuecr!: number;
+    woIssued!: number;
+    tvcValuecr!: number;
+    month2Above!: number;
+
+    
+  }
+  //#endregion

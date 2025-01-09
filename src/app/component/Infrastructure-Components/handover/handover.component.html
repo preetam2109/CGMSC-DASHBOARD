@@ -6,7 +6,7 @@
         <div class="container-fluid  p-2">
             <div class="row">
             
-                <div class="custom-datepicker-container  rounded">
+                <div class="custom-datepicker-container  rounded ">
                     <mat-form-field class="filter-field w-100" appearance="fill">
                         <mat-label>Date range</mat-label>
                         <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
@@ -17,7 +17,21 @@
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
                 </div>
-            </div>
+            <!-- </div> -->
+            <!-- <div class="row"> -->
+            
+              <div class="custom-datepicker-container  rounded text-end">
+                  <mat-form-field class="filter-field w-100" appearance="fill">
+                      <mat-label>Date range</mat-label>
+                      <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                          <input matStartDate placeholder="Start date" formControlName="start">
+                          <input matEndDate placeholder="End date" formControlName="end">
+                      </mat-date-range-input>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-date-range-picker #picker></mat-date-range-picker>
+                  </mat-form-field>
+              </div>
+          </div>
             <div class="row">
               <div class="col-lg-6 col-md-6 mb-2 border rounded">
                 <div class="chart-container" >

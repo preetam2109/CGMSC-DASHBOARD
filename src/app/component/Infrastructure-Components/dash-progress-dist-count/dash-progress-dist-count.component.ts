@@ -154,21 +154,14 @@ if(roleName == 'Division'){
 }
     this.api.DashProgressDistCount(this.divisionid , 0, 0).subscribe(
       (data: any) => {
-        // district_ID !:  number ; 
-        // districtname!: string; 
-        // toBeTender1001!: number; 
-        // tenderProcess2001!: number; 
-        // accWorkOrder3001!: number; 
-        // completed4001!: number; 
-        // running5001!: number; 
-        // landIssue6001!: number; 
-        // retunDept8001!: number; 
-        // total!: number; 
-        // divisionID!: string;
+        if (Array.isArray(data)) {
+          this.dashprogressdistCount = data;
+        } else {
+          console.warn('Unexpected data format', data);
+        }
 
 
-
-        this.dashprogressdistCount = data;
+        // this.dashprogressdistCount = data;
         const districtname: string[] = [];
         const accWorkOrder3001: number[] = [];
         const completed4001: number[] = [];

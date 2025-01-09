@@ -174,89 +174,17 @@ export class WorkOrderComponent {
         stacked: true,
         // height: 600,
         height: 'auto',
-
         // width:600,
-        // events: {
-        //   dataPointSelection: (
-        //     event,
-        //     chartContext,
-        //     { dataPointIndex, seriesIndex }
-        //   ) => {
-        //     const selectedCategory =
-        //       this.chartOptions2?.xaxis?.categories?.[dataPointIndex];
-        //     const selectedSeries = this.chartOptions2?.series?.[seriesIndex]?.name;
-
-        //     if (selectedCategory && selectedSeries) {
-        //       const whid = this.whidMap[selectedCategory];
-        //       if (whid) {
-        //         // this.fetchDataBasedOnChartSelection();
-        //       }
-        //     }
-        //   },
-        // },
        events: {
-          // dataPointSelection: (
-          //   event,
-          //   chartContext,
-          //   { dataPointIndex, seriesIndex }
-          // ) => {
-          //   debugger;
-          //   const selectedCategory = this.chartOptions2?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
-          //   const selectedSeries = this.chartOptions2?.series?.[seriesIndex]?.name;
-          //   // Ensure the selectedCategory and selectedSeries are valid
-          //   console.log('selectedSeries:',selectedSeries);
-          //   console.log('selectedCategory:',selectedCategory);
-          //   if (selectedCategory && selectedSeries) {
-          //     const apiData =   this.wOpendingScheme;  // Replace with the actual data source or API response
-          //     console.log('datasch:', apiData)
-          //     // Find the data in your API response that matches the selectedCategory
-          //     // const selectedData = apiData.find((data) => data.name === selectedCategory);
-          //     const selectedData = apiData.find((data) => data.name.trim().toLowerCase() == selectedCategory.trim().toLowerCase());
-
-          //     if (selectedData) {
-          //       const id = selectedData.id;  // Extract the id from the matching entry
-          //       // this.fetchDataBasedOnChartSelection(id, selectedSeries);
-          //       alert("lomesh");
-          //       this.fetchDataBasedOnChartSelectionmainScheme(id, selectedSeries);
-
-          //     } else {
-          //       console.log(`No data found for selected category: ${selectedCategory}`);
-          //     }
-          //   } else {
-          //     console.log('Selected category or series is invalid.');
-          //   }
-          // }
           dataPointSelection: (
             event,
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            debugger
             if (dataPointIndex !== undefined && seriesIndex !== undefined) {
               const selectedCategory = this.chartOptions2?.xaxis?.categories?.[dataPointIndex];
               const selectedSeries = this.chartOptions2?.series?.[seriesIndex]?.name;
           
-              console.log('selectedSeries:', selectedSeries);
-              console.log('selectedCategory:', selectedCategory);
-          
-              // if (selectedCategory && selectedSeries) {
-              //   const apiData = this.wOpendingScheme;
-              //   console.log('datasch:', apiData);
-          
-              //   const selectedData = apiData.find((data) =>
-              //     data.name.trim().toLowerCase() === selectedCategory.trim().toLowerCase()
-              //   );
-          
-              //   if (selectedData) {
-              //     const id = selectedData.id;
-              //     alert("lomesh");
-              //     this.fetchDataBasedOnChartSelectionmainScheme(id, selectedSeries);
-              //   } else {
-              //     console.log(`No data found for selected category: ${selectedCategory}`);
-              //   }
-              // } else {
-              //   console.log('Selected category or series is invalid.');
-              // }
               if (selectedCategory && selectedSeries) {
                 const apiData = this.wOpendingScheme;
                 console.log('datasch:', apiData);
@@ -265,12 +193,11 @@ export class WorkOrderComponent {
                   // const selectedData = apiData.find((data) =>
                   //   data.name.trim().toLowerCase() === selectedCategory.trim().toLowerCase()   );
                   const selectedData = apiData.find((data) => data.name === selectedCategory);
-              console.log("selectedData chart1",selectedData);
+              // console.log("selectedData chart1",selectedData);
                
               
                   if (selectedData) {
                     const id = selectedData.id;
-                    // alert("lomesh");
                     this.fetchDataBasedOnChartSelectionmainScheme(id, selectedSeries);
                   } else {
                     console.error(`No data found for selected category: ${selectedCategory}`);
@@ -349,31 +276,13 @@ export class WorkOrderComponent {
         height: 'auto',
 
         // width:600,
-        // events: {
-        //   dataPointSelection: (
-        //     event,
-        //     chartContext,
-        //     { dataPointIndex, seriesIndex }
-        //   ) => {
-        //     const selectedCategory =
-        //       this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex];
-        //     const selectedSeries = this.chartOptionsLine?.series?.[seriesIndex]?.name;
-
-        //     if (selectedCategory && selectedSeries) {
-        //       const whid = this.whidMap[selectedCategory];
-        //       if (whid) {
-        //         // this.fetchDataBasedOnChartSelection();
-        //       }
-        //     }
-        //   },
-        // },
+       
         events: {
           dataPointSelection: (
             event,
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            debugger
             const selectedCategory = this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
             const selectedSeries = this.chartOptionsLine?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
@@ -381,7 +290,7 @@ export class WorkOrderComponent {
               const apiData = this.wOpendingContractor;  // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find((data) => data.name === selectedCategory);
-              console.log("selectedData chart1",selectedData)
+              // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
 
@@ -457,25 +366,7 @@ export class WorkOrderComponent {
         // height: 400,
         height: 'auto',
 
-        // width:600,
-        // events: {
-        //   dataPointSelection: (
-        //     event,
-        //     chartContext,
-        //     { dataPointIndex, seriesIndex }
-        //   ) => {
-        //     const selectedCategory =
-        //       this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex];
-        //     const selectedSeries = this.chartOptionsLine2?.series?.[seriesIndex]?.name;
-
-        //     if (selectedCategory && selectedSeries) {
-        //       const whid = this.whidMap[selectedCategory];
-        //       if (whid) {
-        //         // this.fetchDataBasedOnChartSelection();
-        //       }
-        //     }
-        //   },
-        // },
+        
         events: {
           
           dataPointSelection: (
@@ -483,7 +374,6 @@ export class WorkOrderComponent {
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            debugger
             const selectedCategory = this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
             const selectedSeries = this.chartOptionsLine2?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
@@ -491,7 +381,7 @@ export class WorkOrderComponent {
               const apiData = this.wOpendingDistrict;  // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find((data) => data.name === selectedCategory);
-              console.log("selectedData chart1",selectedData)
+              // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
 
@@ -566,13 +456,6 @@ export class WorkOrderComponent {
   }
  
   ngOnInit() {
-
-    // this.GetWOPendingTotal();
-    // this.GetWOPendingDistrict();
-    // this.GetWOPendingContractor();
-  // this.GetWOPendingScheme();
-   // Example condition: Change height if the number of series is greater than a threshold
-  
   }
   
 
@@ -580,7 +463,6 @@ export class WorkOrderComponent {
   GetWOPendingTotal(): void {
     this.spinner.show();
     var roleName = localStorage.getItem('roleName');
-    // alert( roleName )
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       // this.showDivision=false;
@@ -698,7 +580,7 @@ export class WorkOrderComponent {
     );
   }
   GetWOPendingContractor(): void {
-    // this.spinner.show();
+    this.spinner.show();
     this.api.WOPendingTotal(this.Contractor,this.divisionid).subscribe(
       (data: any) => {
         this.wOpendingContractor = data;
@@ -765,9 +647,8 @@ export class WorkOrderComponent {
     );
   }
   GetWOPendingScheme(): void {
-    // debugger;
+    this.spinner.show();
     var roleName = localStorage.getItem('roleName');
-    // alert( roleName )
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       // this.showDivision=false;
@@ -833,6 +714,7 @@ export class WorkOrderComponent {
         this.chartOptions2.xaxis = { categories: name };
         this.cO = this.chartOptions2;
         this.cdr.detectChanges();
+        this.spinner.hide();
       },
       (error: any) => {
         console.error('Error fetching data', error);
@@ -886,7 +768,7 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
   );
 }
 fetchDataBasedOnChartSelectionmainScheme(mainSchemeId: any, seriesName: string): void {
-  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
 
   const  distid=0;
   // const mainSchemeId=0;
@@ -917,7 +799,7 @@ fetchDataBasedOnChartSelectionmainScheme(mainSchemeId: any, seriesName: string):
   );
 }
 fetchDataBasedOnChartSelectionmainDistrict(distid: any, seriesName: string): void {
-  console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
   // const  distid=0;
   const mainSchemeId=0;
   const divisionID=0;
@@ -930,7 +812,7 @@ fetchDataBasedOnChartSelectionmainDistrict(distid: any, seriesName: string): voi
         ...item,
         sno: index + 1
       }));
-      console.log('wOpendingDistrict table data:',res);
+      // console.log('wOpendingDistrict table data:',res);
       this.dataSource.data = this.dispatchPendings;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -947,7 +829,7 @@ fetchDataBasedOnChartSelectionmainDistrict(distid: any, seriesName: string): voi
   );
 }
 fetchDataBasedOnChartSelectionmaincontract(contractid: any, seriesName: string): void {
-  console.log(`Selected ID: ${contractid}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${contractid}, Series: ${seriesName}`);
   const  distid=0;
   const mainSchemeId=0;
   const divisionID=0;
@@ -1040,24 +922,6 @@ openDialog() {
   });
 
 }
-// openDialogg() {
-//   const dialogRef = this.dialog.open(this.itemDetailsModals, {
-//     width: '100%',
-//     height: '100%',
-//     maxWidth: '100%',
-//     panelClass: 'full-screen-dialog', // Optional for additional styling
-//     data: { /* pass any data here */ }
-//      // width: '100%',
-//     // maxWidth: '100%', // Override default maxWidth
-//     // maxHeight: '100%', // Override default maxHeight
-//     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-//     // height: 'auto',
-//   });
-//   dialogRef.afterClosed().subscribe(result => {
-//     console.log('Dialog closed');
-//   });
-
-// }
 
 //#endregion
 }
