@@ -115,7 +115,7 @@ export class MenuServiceService {
         DrugsConsumables: [
           { label: 'Home', route: 'home' },
           { label: 'Dashboard', route: 'card' },
-          { label: 'Health Facilities Coverage', route: 'FacCoverage' },
+          { label: 'Facilities Coverage', route: 'FacCoverage' },
           { label: 'Warehouse Information', route: 'WarehouseInfo' },
           { label: 'CGMSC Supplies', route: 'cgmsc-supplies' },
           { label: 'Stock Details', route: 'stockDetails' },
