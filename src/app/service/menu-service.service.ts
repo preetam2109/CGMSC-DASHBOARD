@@ -122,7 +122,7 @@ export class MenuServiceService {
           { label: 'District DHS Stock', route: 'DistDHSStock' },
           { label: 'Facility Wise Stock', route: 'FacilityWiseStock' },
           { label: 'DdlItemWiseInHandQty', route: 'DdlItemWiseInHandQty' },
-          { label: 'Devlivery', route: 'Devlivery' },
+          { label: 'Indent Delivery Entry', route: 'Devlivery' },
 
           { label: 'HODYearWiseIssuance', route: 'HODYearWiseIssuance' },
           { label: 'Warehouse Indent Pending', route: 'IndentPendingWHdash' },
@@ -284,15 +284,16 @@ export class MenuServiceService {
     Warehouse:{    
       items: [
         { label: 'Home', route: 'home' },
-        // { label: 'welcome', route: 'home' },
-
-        { label: 'Health Facilities Coverage', route: 'FacCoverage' },
-        { label: 'Warehouse Information', route: 'WarehouseInfo' },
-        { label: 'WH Indent Pending', route: 'IndentPendingWHdash' },
+        { label: 'Warehouse Indent Pending', route: 'IndentPendingWHdash' },
         { label: 'Stock Details', route: 'stockDetails' },
-        { label: 'Vehicle Tracking', route: 'vehicleTracking' },
+        // { label: 'welcome', route: 'home' },
+        { label: ' Delivery Acknoledgement', route: 'Devlivery' },
+
+        // { label: 'Health Facilities Coverage', route: 'FacCoverage' },
+        // { label: 'Warehouse Information', route: 'WarehouseInfo' },
+        { label: 'Vehicle Check in/out', route: 'vehicleTracking' },
         { label: 'In-Transit Issues', route: 'intransitIssues' },
-        { label: 'DHS Seasonal Drugs', route: 'SeasonDrugs' },
+        // { label: 'DHS Seasonal Drugs', route: 'SeasonDrugs' },
 
 
       ],

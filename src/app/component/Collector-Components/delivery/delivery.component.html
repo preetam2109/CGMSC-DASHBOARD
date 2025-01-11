@@ -1,17 +1,21 @@
 <div class="container my-4">
   <!-- Vehicle Current Position -->
-  <div class="text-center">
+  <!-- <div class="text-center">
     <h1 class="fw-bold">Vehicle Current Position</h1>
     <p class="mb-3">
       <span>Latitude: <b>{{ lat }}</b></span> |
       <span>Longitude: <b>{{ long }}</b></span>
     </p>
-  </div>
+  </div> -->
 
   <!-- Dropdowns and Date Picker -->
+  <h1 class="text-center" style="color: rgb(50, 50, 164);">
+    <strong>Update Delivery Acknoledgement</strong>
+  </h1>
+
   <div class="row justify-content-center mb-3">
     <div class="col-12 col-md-6 mb-3">
-      <label class="form-label">Choose Vehicle:</label>
+      <label class="form-label"><strong>Choose Vehicle</strong>:</label>
       <ng-select
         [items]="VehicleNoDropDownList"
         bindLabel="vehicalno"
@@ -30,7 +34,7 @@
       </ng-select>
     </div>
     <div class="col-12 col-md-6 mb-3">
-      <label class="form-label">Choose Travel Voucher:</label>
+      <label class="form-label"> <strong>Choose Travel Voucher</strong>:</label>
       <ng-select
         [items]="TravelVoucherDropDownList"
         bindLabel="details"
@@ -48,19 +52,11 @@
       >
       </ng-select>
     </div>
-    <div class="col-12 col-md-6 mb-3">
-      <label class="form-label">Select Date:</label>
-      <input
-        type="date"
-        class="form-control"
-        [(ngModel)]="selectedDate"
-        name="selectedDate"
-        required
-      />
+    <div class="col-12 text-center mb-2">
+      <button class="btn btn-primary  w-md-auto" (click)="show()">Show Details</button>
     </div>
-    <div class="col-12 text-center">
-      <button class="btn btn-primary w-100 w-md-auto" (click)="show()">दिखाएँ</button>
-    </div>
+  
+   
   </div>
 
   <!-- Cards Section -->
@@ -68,23 +64,32 @@
     <div class="col-12 col-md-6 col-lg-4 mb-3" *ngFor="let travel of TravelVoucherDropDownList2">
       <div class="card h-100">
         <div class="card-body">
-          <p><b>हॉस्पिटल:</b> {{ travel.facilityname }}</p>
-          <p><b>जिला:</b> {{ travel.districtname }}</p>
-          <p><b>मांग दिनांक:</b> {{ travel.indentid }}</p>
-          <p><b>वेयरहाउस वाउचर:</b> {{ travel.issuevoucher }}</p>
-          <p><b>वेयरहाउस इशु / प्रदान दिनांक:</b> {{ travel.issuevoucherdt }}</p>
-          <p><b>सामग्रियों की संख्या:</b> {{ travel.nositems }}</p>
-          <p><b>डिलीवरी वाउचर दिनांक:</b> {{ travel.travelvoucherissuedt }}</p>
-          <p><b>संस्था का देशांतर:</b> {{ travel.longitude }}</p>
-          <p><b>संस्था का अक्षांश:</b> {{ travel.latitude }}</p>
+          <p><b>Health Facility:</b> {{ travel.facilityname }}</p>
+          <p><b>District:</b> {{ travel.districtname }}</p>
+          <p><b>INdent Date :</b> {{ travel.indentid }}</p>
+          <p><b>Warehouse Voucher:</b> {{ travel.issuevoucher }}</p>
+          <p><b>Number of Items Issued:</b> {{ travel.nositems }}</p>
+          <p><b>Warehouse Issue Date :</b> {{ travel.issuevoucherdt }}</p>
+          <p><b>Transport Voucher Date:</b> {{ travel.travelvoucherissuedt }}</p>
+          <p><b>Longitude of Facility:</b> {{ travel.longitude }}</p>
+          <p><b>Latitude of Facility:</b> {{ travel.latitude }}</p>
           <p><b>Travel ID:</b> {{ travel.travaleid }}</p>
         </div>
       </div>
     </div>
   </div>
-
+  <div class="col-12 col-md-6 mb-3">
+    <label class="form-label"><strong>Select Date & Time of Delivery</strong>:</label>
+    <input
+      type="datetime-local"
+      class="form-control"
+      [(ngModel)]="selectedDate"
+      name="selectedDate"
+      required
+    />
+  </div>
   <!-- Action Button -->
   <div class="text-center mt-3">
-    <button class="btn btn-primary w-100 w-md-auto" (click)="submit()">प्रदान किया गया</button>
+    <button class="btn btn-primary  w-md-auto" (click)="submit()">Update Delivery </button>
   </div>
 </div>

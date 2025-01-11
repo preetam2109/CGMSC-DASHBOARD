@@ -90,7 +90,7 @@ export class CgmscstockDetailsAyushComponent {
           this.whid=sessionStorage.getItem('facilityid')
       }
     this.spinner.show();
-    this.api.CGMSCStockDetails(1,'Y',0,this.whid,0,0,0).subscribe(
+    this.api.CGMSCStockDetails(4,'Y',0,this.whid,0,0,0).subscribe(
       (res) => {
         // Add serial numbers to the data
         this.dispatchPendings = res.map((item: any, index: number) => ({
