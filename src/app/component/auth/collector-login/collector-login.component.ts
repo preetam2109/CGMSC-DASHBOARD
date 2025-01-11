@@ -35,6 +35,7 @@ export class CollectorLoginComponent implements OnInit,AfterViewInit {
   selectedDistrictId: any | null = null;
   showFullText = false;
   districtid:any=''
+  himisDistrictid:any=''
   days:any=0
   emailid: any;
   pwd : any;
@@ -93,6 +94,7 @@ isPasswordVisible: boolean = false;
     
   }
   adminLoginDropdown(){
+    debugger
     this.api.masddlUser('DC').subscribe((res:any[])=>{
       console.log(' Admin API dropdown Response:', res);
       if (res && res.length > 0) {
@@ -104,7 +106,8 @@ isPasswordVisible: boolean = false;
           roleid: item.roleid,
           rolename: item.rolename,
           firstname: item.firstname,
-          districtid:item.districtid
+          districtid:item.districtid,
+          himisDistrictid:item.himisDistrictid
           
         }));
         // 
@@ -263,11 +266,14 @@ onUserChange(event: Event): void {
     this.rolename =selectedUser.rolename || null;
     this.firstname =selectedUser.firstname || null;
     this.districtid=selectedUser.districtid ||null;
+    this.himisDistrictid=selectedUser.himisDistrictid ||null;
+
     this.setRole(this.rolename);
     sessionStorage.setItem('firstname', this.firstname);
       sessionStorage.setItem('roleId', this.roleid);
       sessionStorage.setItem('authenticatedUser', this.emailid);
       sessionStorage.setItem('districtid', this.districtid);
+      sessionStorage.setItem('himisDistrictid', this.himisDistrictid);
 
 
     // Log individual values to ensure they are being set correctly
@@ -275,6 +281,7 @@ onUserChange(event: Event): void {
     console.log('userid:', this.userid);
     console.log('roleid:', this.roleid);
     console.log('rolename:', this.rolename);
+    console.log('firstname:', this.firstname);
     console.log('firstname:', this.firstname);
   } else {
     console.error('Selected user not found in the list.');

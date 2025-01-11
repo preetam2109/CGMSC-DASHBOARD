@@ -35,6 +35,7 @@ export class CgmscstockDetailsDrugsComponent {
   pipiLineDetails:PipelineDetails[]=[];
   itemDetails:ItemDetailsPopup[]=[];
   whid:any=0
+  roleName = localStorage.getItem('roleName')
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -84,8 +85,8 @@ export class CgmscstockDetailsDrugsComponent {
   // }
     getAllDispatchPending() {
       
-    
-      if(this.loginService.getRole().roleName==='WH'){
+    debugger
+      if(this.loginService.getRole().roleName==='Warehouse'){
           this.whid=sessionStorage.getItem('facilityid')
       }
     this.spinner.show();

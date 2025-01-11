@@ -9,7 +9,7 @@
   <!-- Dropdowns and Remarks -->
   <div class="card p-3">
     <div class="mb-3">
-      <label for="itemDropdown" class="form-label"><strong>Select Item:</strong></label>
+      <label for="itemDropdown" class="form-label"><strong>Select Pipeline Purchase Order:</strong></label>
       <select id="itemDropdown" class="form-select" [(ngModel)]="selectedItem" (change)="onItemChange()">
         <option *ngFor="let item of items" [value]="item.ponoid">{{ item.details }}</option>
       </select>
@@ -48,7 +48,7 @@
       <textarea id="remark" class="form-control" rows="2" [(ngModel)]="remark"></textarea>
     </div>
 
-    <button class="btn btn-primary w-100" (click)="saveData()">Save</button>
+    <button class="btn btn-primary " (click)="saveData()">Update Progress</button>
   </div>
 
   <!-- Table for Displaying Pipeline Details -->

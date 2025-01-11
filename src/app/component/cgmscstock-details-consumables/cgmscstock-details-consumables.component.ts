@@ -35,6 +35,7 @@ export class CgmscstockDetailsConsumablesComponent {
   pipiLineDetails:PipelineDetails[]=[];
   itemDetails:ItemDetailsPopup[]=[];
   whid:any=0
+  roleName = localStorage.getItem('roleName')
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -84,12 +85,12 @@ export class CgmscstockDetailsConsumablesComponent {
   //   );
   // }
     getAllDispatchPending() {
-      if(this.loginService.getRole().roleName==='WH'){
+      if(this.loginService.getRole().roleName==='Warehouse'){
         this.whid=sessionStorage.getItem('facilityid')
     }
     this.spinner.show();
 
-    this.api.CGMSCStockDetails(1,'Y',0,this.whid,0,0,0).subscribe(
+    this.api.CGMSCStockDetails(2,'Y',0,this.whid,0,0,0).subscribe(
       (res) => {
         // Add serial numbers to the data
         this.dispatchPendings = res.map((item: any, index: number) => ({

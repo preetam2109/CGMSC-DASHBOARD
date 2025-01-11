@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -32,9 +32,10 @@ export class DeliveryComponent implements OnInit {
   long:any;
   selectedDate: string | null = null;
   travelid:any
+  formattedDate: string | null = null;
 
 
-   constructor(public api:ApiService,private toastr: ToastrService){
+   constructor(public api:ApiService,private toastr: ToastrService,private datePipe: DatePipe){
 
     }
 
@@ -49,9 +50,19 @@ this.lat=res[0].latitude
 this.long=res[0].longitude
   })
 }
+onDateChange(event: any) {
+  // Get the raw value from the input field
+  const inputValue = event.target.value;
+
+  // Format the date using DatePipe (dd-MM-yyyy, h:mm a)
+  const formatted = this.datePipe.transform(inputValue, 'yyyy-MM-ddTHH:mm');
+  if (formatted) {
+    this.formattedDate = formatted; // Update the input field with the formatted value
+  }
+}
 getVehicleNoDropDown(){
   debugger
-  this.api.getGetVehicleNo().subscribe((res:any[])=>{
+  this.api.getGetVehicleNo(sessionStorage.getItem('facilityid')).subscribe((res:any[])=>{
     // console.log(' Vehicle API dropdown Response:', res);
     if (res && res.length > 0) {
       this.VehicleNoDropDownList = res.map(item => ({
@@ -162,16 +173,16 @@ submit() {
   }
 
   // Validation: Ensure selectedDate is not earlier than travelvoucherissuedt
-  const travelVoucherDate = this.formatDate(this.TravelVoucherDropDownList2[0].travelvoucherissuedt); // Ensure proper format
-  const selectedDateFormatted = this.formatDate(this.selectedDate); // Format selectedDate
+  const travelVoucherDate = this.convertToExactFormat(this.TravelVoucherDropDownList2[0].travelvoucherissuedt); // Ensure proper format
+  const selectedDateFormatted = this.convertToExactFormat(this.selectedDate); // Format selectedDate
 
-  if (new Date(selectedDateFormatted) < new Date(travelVoucherDate)) {
-    alert(`Selected date cannot be earlier than the travel voucher issued date: ${travelVoucherDate}`);
+  if (new Date(this.convertToISO(selectedDateFormatted)) < new Date(this.convertToISO(travelVoucherDate))) {
+    alert(`Delivery date cannot be earlier than the travel voucher issued date: ${travelVoucherDate}`);
     return;
   }
 
-  // Format selectedDate to dd-MM-yyyy before the API call
-  const formattedSelectedDate = this.formatDateToDDMMYYYY(this.selectedDate);
+  // Format selectedDate to dd-MM-yyyy HH:mm:ss before the API call
+  const formattedSelectedDate = this.convertToExactFormat(this.selectedDate);
 
   // Make the API call if validations pass
   this.api
@@ -180,6 +191,9 @@ submit() {
       (res: any) => {
         console.log('API response:', res);
         alert('Data updated successfully!');
+        
+        this.reloadPage()
+
       },
       (error: any) => {
         console.error('API error:', error);
@@ -187,21 +201,37 @@ submit() {
       }
     );
 }
+reloadPage() {
+  window.location.reload();
+}
 
-// Utility function to format dates to dd-MM-yyyy
-formatDateToDDMMYYYY(date: string): string {
+convertToExactFormat(date: string | Date): string {
   const parsedDate = new Date(date);
   const day = String(parsedDate.getDate()).padStart(2, '0');
   const month = String(parsedDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
   const year = parsedDate.getFullYear();
-  return `${day}-${month}-${year}`;
+  const hours = String(parsedDate.getHours()).padStart(2, '0');
+  const minutes = String(parsedDate.getMinutes()).padStart(2, '0');
+  const seconds = String(parsedDate.getSeconds()).padStart(2, '0');
+  return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 }
 
-// Utility function to parse dd-MM-yyyy format to a comparable date string
-formatDate(dateStr: string): string {
-  const [day, month, year] = dateStr.split('-');
-  return `${year}-${month}-${day}`; // Return in YYYY-MM-DD format for comparison
+
+convertToISO(dateStr: string): string {
+  const [datePart, timePart] = dateStr.split(' ');
+  const [day, month, year] = datePart.split('-');
+  const [hours = '00', minutes = '00', seconds = '00'] = timePart ? timePart.split(':') : [];
+  return new Date(
+    Number(year),
+    Number(month) - 1, // Months are 0-indexed
+    Number(day),
+    Number(hours),
+    Number(minutes),
+    Number(seconds)
+  ).toISOString();
 }
+
+
 
 
 
