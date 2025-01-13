@@ -465,6 +465,7 @@ export class WorkOrderComponent {
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
+      // this.divisionid = sessionStorage.getItem('divisionID');
       // this.showDivision=false;
     } else {
       this.divisionid = 0;

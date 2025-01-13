@@ -69,6 +69,7 @@ export class InfrastructureHomeComponent {
   hide:boolean=false;
   public showCards: boolean = true; // Control card visibility
   public showDivision: boolean = true; // Control card visibility
+  public showDistrict: boolean = true; // Control card visibility
   distname:any;
   public showCardss: boolean = false; // Control card visibility
   cardOrder: string[] = [
@@ -99,6 +100,7 @@ export class InfrastructureHomeComponent {
   @ViewChild(MatSort) sort!: MatSort;
   chartOptions!: ChartOptions;
   selectedName: any;
+  himisDistrictid:any;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private modalService: NgbModal) {
 
   }
@@ -109,16 +111,22 @@ export class InfrastructureHomeComponent {
 if(roleName == 'Division'){
   this.divisionid = sessionStorage.getItem('divisionID');
   this.showDivision=false;
+  this.himisDistrictid=0;
 // return; 
 // alert( this.divisionid )
-
-
 this.loadInitialData();
-}else{
+}  else if (roleName == 'Collector') {
+ this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+ this.loadInitialData();
+ this.showDistrict=false;
+ this.showDivision=false;
+//  alert( this.himisDistrictid );
+} else{
 this.loadInitialData();
-
-}
-    this.GetDistricts();
+this.himisDistrictid=0;
+// this.divisionid=0;
+} 
+ this.GetDistricts();
     this.getmain_scheme();
     //  this.GetDMEProgressSummary();
   }
@@ -133,9 +141,11 @@ this.loadInitialData();
 
     // }
 this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
 
-    this.api.DashProgressCount(this.divisionid, 0, 0).subscribe(
+    this.api.DashProgressCount(this.divisionid, 0,this.himisDistrictid).subscribe(
       (res: any) => {
+        // alert(JSON.stringify(res));
         this.originalData = this.sortDistrictData(res); // Save as original data
         this.districtData = [...this.originalData]; // Set for display
         this.calculateTotalNosWorks();
@@ -160,8 +170,6 @@ this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   // District-wise Tab 
   GetDistricts() {
     try {
-
-
       var roleName  = localStorage.getItem('roleName');
       // alert( roleName )
   if(roleName == 'Division'){
@@ -201,13 +209,13 @@ if(roleName == 'Division'){
   // alert( this.divisionid )
   // return
 }
-      this.distid = this.distid == 0 ? 0 : this.distid;
+      // this.distid = this.distid == 0 ? 0 : this.distid;
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
       this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
-
-      // console.error('dist id:', this.distid  );
-      console.error('mainSchemeID:', this.mainSchemeID);
-      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.distid).subscribe(
+      this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+      // console.error('dist id:', this.himisDistrictid  );
+      // console.error('mainSchemeID:', this.mainSchemeID);
+      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid).subscribe(
         (res: any) => {
           if (this.selectedTabIndex === 0) {
             // Do not overwrite the original data for "Total Works"

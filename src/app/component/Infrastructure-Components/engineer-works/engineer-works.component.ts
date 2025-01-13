@@ -43,7 +43,7 @@ export class EngineerWorksComponent {
   // engtype=
 // divisionid='D1004';
 divisionid:any;
-distid=0
+distid=0;
   @ViewChild('chart') chart: ChartComponent | undefined;
   public cO: Partial<ChartOptions> | undefined;
   chartOptions!: ChartOptions; // For bar chart
@@ -67,6 +67,7 @@ distid=0
   visibale: boolean = false;
 
   // database table
+  @ViewChild('itemDetailsModal') itemDetailsModal: any;
   dispatchPendings3:WorkDetailsWithEng[]=[];
   dataSource3!: MatTableDataSource<WorkDetailsWithEng>;
   dispatchPendings1:sbuDistrictEngAllotedWorks[]=[];
@@ -111,11 +112,13 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.SbuEngAllotedWorks; 
-              const selectedData = apiData.find((data) => data.name === selectedCategory);
+              console.log("apiData",apiData)
+              const selectedData = apiData.find((data) => data.engName === selectedCategory);
               console.log("selectedData chart1",selectedData)
               if (selectedData) {
-                const id = selectedData.id;  // Extract the id from the matching entry
-                this.fetchDataBasedWorkDetailsWithEng(id, selectedSeries);
+                const empid = selectedData.empid; 
+                const empname=selectedData.engName; // Extract the id from the matching entry
+                this.fetchDataBasedWorkDetailsWithEng(empid, selectedSeries,empname);
   
               } else {
                 console.log(`No data found for selected category: ${selectedCategory}`);
@@ -192,29 +195,23 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
             const selectedCategory = this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
             const selectedSeries = this.chartOptionsLine2?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
-            // if (selectedCategory && selectedSeries) {
-            //   const apiData = this.AeengAllotedWorks;  // Replace with the actual data source or API response
-            //   // Find the data in your API response that matches the selectedCategory
-            //   const selectedData = apiData.find((data) => data.name === selectedCategory);
-            //   console.log("selectedData chart1",selectedData)
-            //   if (selectedData) {
-            //     const id = selectedData.id;  // Extract the id from the matching entry
-            //     // var roleName = localStorage.getItem('roleName');
-            //     // if (roleName == 'Division') {
-            //     //   this.chartOptions.chart.height = '500px';
-            //     //   // this.showDivision=false;
-            //     // } else {
-            //     //    this.chartOptions.chart.height ='1500';
-              
-            //     // }
-            //     // this.fetchDataBasedOnChartSelection(id, selectedSeries);
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.AeengAllotedWorks;  // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find((data) => data.engName === selectedCategory);
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const empid = selectedData.empid;  // Extract the id from the matching entry
+                const engName = selectedData.engName;  // Extract the id from the matching entry
+
+                this.fetchDataBasedWorkDetailsWithEngAE(empid, selectedSeries,engName);
   
-            //   } else {
-            //     console.log(`No data found for selected category: ${selectedCategory}`);
-            //   }
-            // } else {
-            //   console.log('Selected category or series is invalid.');
-            // }
+              } else {
+                console.log(`No data found for selected category: ${selectedCategory}`);
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
           }
         },
       },
@@ -277,19 +274,19 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
 
       this.dataSource.paginator = this.paginator;
   }
-
 getSBUENEngAllotedWorks(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine.chart.height = '600px';
     this.show=false;
-    this.divisionid = sessionStorage.getItem('divisionID');} else {
+    this.divisionid = sessionStorage.getItem('divisionID');} 
+    else {
       if(this.name!= undefined){
         this.chartOptionsLine.chart.height = '600px';
        }else{
         this.chartOptionsLine.chart.height ='1500';
        } this.show=true;}
-  this.spinner.show();
+     this.spinner.show();
   this.api.SbuEngAllotedWorks('Sbu eng',this.divisionid,this.distid).subscribe(
     (data: any) => {
                 this.SbuEngAllotedWorks = data;
@@ -362,10 +359,10 @@ GetAEENGEngAllotedWorks(): void {
        
      
   this.spinner.show();
-  this.api.AEEngAllotedWorks('AE eng',this.divisionid,this.distid).subscribe(
+  this.api.AEEngAllotedWorks('AE',this.divisionid,this.distid).subscribe(
     (data: any) => {
                 this.AeengAllotedWorks = data;
-      // console.log('AeengDistrictEngAllotedWorks',this.AeengAllotedWorks);
+      console.log('AeengAllotedWorks',this.AeengAllotedWorks);
       const id: string[] = [];
       const empid: string[] = [];
       const engName: string[] = [];
@@ -483,23 +480,64 @@ fetchDataBasedOnChartSelectionSbu(): void {
     }
   );
 }
-fetchDataBasedWorkDetailsWithEng(id:any, selectedSeries:any): void {
+distidd:any;empname:any;
+fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): void {
+  this.empname=empname;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.show=true;}
+    this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
+    // this.distidd = sessionStorage.getItem('himisDistrictid')==0?0:this.distidd;
+    // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   const  distid=0;
   this.spinner.show();
-  this.api.GetWorkDetailsWithEng(0,0,0,0,0,0).subscribe(
+  // dahid:any,divisionId:any,mainSchemeId:any,distid:any,engtype:any,empcode:any
+  // dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157
+  const engtype='SubE', dahid=0,mainSchemeId=0;
+  this.api.GetWorkDetailsWithEng(dahid,this.divisionid,mainSchemeId,distid,engtype,empcode).subscribe(
     (res) => {
       this.dispatchPendings3 = res.map((item: WorkDetailsWithEng, index: number) => ({
         ...item,
         sno: index + 1
       }));
       this.dataSource3.data = this.dispatchPendings3;
-        // console.log("dispatchPendings1= ",JSON.stringify(this.dispatchPendings1))
+        // console.log(" this.dataSource3.data= ",JSON.stringify( this.dataSource3.data))
       this.dataSource3.paginator = this.paginator;
       this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
+      this.openDialog();
+      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+fetchDataBasedWorkDetailsWithEngAE(empcode:any, selectedSeries:any,empname:any): void {
+
+  this.empname=empname;
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
+    // this.distidd = sessionStorage.getItem('himisDistrictid')==0?0:this.distidd;
+    // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  const  distid=0;
+  this.spinner.show();
+  // dahid:any,divisionId:any,mainSchemeId:any,distid:any,engtype:any,empcode:any
+  // dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157
+  const engtype='AE', dahid=0,mainSchemeId=0;
+  this.api.GetWorkDetailsWithEng(dahid,this.divisionid,mainSchemeId,distid,engtype,empcode).subscribe(
+    (res) => {
+      this.dispatchPendings3 = res.map((item: WorkDetailsWithEng, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      this.dataSource3.data = this.dispatchPendings3;
+        console.log(" this.dataSource4= ",JSON.stringify( this.dataSource3.data))
+      this.dataSource3.paginator = this.paginator;
+      this.dataSource3.sort = this.sort;
+      this.cdr.detectChanges();
+      this.openDialog();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
       this.spinner.hide();
     },
@@ -521,6 +559,13 @@ SapplyTextFilter(event: Event) {
   this.dataSource1.filter = filterValue.trim().toLowerCase();
   if (this.dataSource1.paginator) {
     this.dataSource1.paginator.firstPage();
+  }
+}
+subAEapplyTextFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource3.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource3.paginator) {
+    this.dataSource3.paginator.firstPage();
   }
 }
 
@@ -604,7 +649,65 @@ SexportToPDF() {
 
   doc.save('SbuDistrictEngAllotedWorks.pdf');
 }
+subAEexportToPDF() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    // 'sno','letterNo', 'head','aaDate','totalAmountOfContract','district','work','aaamt','tsamt','work_id',
+    { title: "S.No", dataKey: "sno" },
+    { title: "letterNo", dataKey: "letterNo" },
+    { title: "head", dataKey: "head" },
+    { title: "aaDate", dataKey: "aaDate" },
+    { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
+    { title: "district", dataKey: "district" },
+    { title: "work", dataKey: "work" },
+    { title: "aaamt", dataKey: "aaamt" },
+    { title: "tsamt", dataKey: "tsamt" },
+    { title: "work_id", dataKey: "work_id" },
+    // { title: "id", dataKey: "id" }
+  ];
+  const rows = this.dispatchPendings3.map(row => ({
+    sno: row.sno,
+    letterNo: row.letterNo,
+    head: row.head,
+    aaDate: row.aaDate,
+    totalAmountOfContract: row.totalAmountOfContract,
+    district: row.district,
+    work: row.work,
+    aaamt: row.aaamt,
+    tsamt: row.tsamt,
+    work_id: row.work_id,
+    // id: row.id,
+  }));
 
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('WorkDetailsWithEng.pdf');
+}
+  // mat-dialog box
+  openDialog() {
+    const dialogRef = this.dialog.open(this.itemDetailsModal, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: { /* pass any data here */ }
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed');
+    });
+
+  }
 selectDivision(division: { id: string, name: string }): void {
   this.visibale=true;
   this.selectedDivision = division.id;

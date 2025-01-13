@@ -187,12 +187,12 @@ const routes: Routes = [
 
 
 
-{path:'InfrastructureHome',component:InfrastructureHomeComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
-{path:'DashProgressIstCount',component:DashProgressIstCountComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
-{path:'SearchingWork',component:SearchingWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
-{path:'DistrictProgress',component:DistrictProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
-{path:'DivisionProgress',component:DivisionProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
-{path:'WorkOrder',component:WorkOrderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division']} },
+{path:'InfrastructureHome',component:InfrastructureHomeComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division','Collector']} },
+{path:'DashProgressIstCount',component:DashProgressIstCountComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division','Collector']} },
+{path:'SearchingWork',component:SearchingWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division','Collector']} },
+{path:'DistrictProgress',component:DistrictProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division','Collector']} },
+{path:'DivisionProgress',component:DivisionProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division','Collector']} },
+{path:'WorkOrder',component:WorkOrderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division','Collector']} },
 {path:'FacilityWiseStock',component:FacilityWiseStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
 
 {path:'Handover',component:HandoverComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },

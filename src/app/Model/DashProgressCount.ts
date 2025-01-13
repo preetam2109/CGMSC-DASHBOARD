@@ -284,6 +284,7 @@ export class WorkDetails {
 
   }
   export class WorkDetailsWithEng{
+    sno!:any;
     work_id!: string;
     letterNo!: string;
     head!: string;
