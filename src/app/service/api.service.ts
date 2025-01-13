@@ -703,6 +703,7 @@ HandoverAbstract(RPType:any, dashid:any,divisionId:any,districtid:any,SWId:any,f
   // https://cgmsc.gov.in/HIMIS_APIN/api/Work/EngAllotedWorks?engtype=AE%20eng&divisionid=D1004&distid=0
  }
  GetWorkDetailsWithEng(dahid:any,divisionId:any,mainSchemeId:any,distid:any,engtype:any,empcode:any){
+
   return this.http.get<WorkDetailsWithEng[]>(`${this.apiUrl}/Work/getWorkDetailsWithEng?dahid=${dahid}&divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&engtype=${engtype}&empcode=${empcode}`);
   //https://cgmsc.gov.in/HIMIS_APIN/api/Work/getWorkDetailsWithEng?
   // dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157

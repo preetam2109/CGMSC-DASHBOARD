@@ -77,7 +77,6 @@
                 </button>
               </div>
             </div>
-           
           </div>
         </div>
         <!-- *ngIf="show" -->
@@ -88,7 +87,7 @@
     </mat-tab>
 
     <!-- District-wise Tab -->
-    <mat-tab label="District-wise">
+    <mat-tab label="District-wise"  *ngIf="showDistrict">
       <ng-template matTabContent>
         <div class="card-division">
           <div class="row ">

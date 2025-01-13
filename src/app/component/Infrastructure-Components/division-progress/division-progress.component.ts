@@ -179,12 +179,28 @@ export class DivisionProgressComponent {
     // this.getMarkers();
   }
 
-
+ himisDistrictid:any;
+ divisionid:any;
 //#region Api callling
 loadData(): void {
+  var roleName  = localStorage.getItem('roleName');
+  // alert( roleName )
+if(roleName == 'Division'){
+this.divisionid = sessionStorage.getItem('divisionID');
+this.himisDistrictid=0; 
+}  else if (roleName == 'Collector') {
+this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+this.divisionid=0;
+}
+else{
+  this.divisionid=0;
+  this.himisDistrictid=0; 
+}
   this.spinner.show();
-  
-  this.api.GetProgressCount(this.DID,0,0,this.SchemeId).subscribe(
+  // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  // // this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+  // this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+  this.api.GetProgressCount(this.DID, this.divisionid,this.himisDistrictid,this.SchemeId).subscribe(
     (data: any) => {
       this.divisionprograss = data;
       const divisionID: string[] = [];
