@@ -192,14 +192,46 @@ export class WorkDetails {
    
   }
   export class GetHandoverDetails{
-    id!: string;
-    name!: string;
-    totalWorks!: number;
-    tvcValuecr!: number;
-    avgMonthTaken!: number;
+    sno!:number;
+    work_id!: string;
+  letterNo!: string;
+  head!: string;
+  approver!: string;
+  type_name!: string;
+  district!: string;
+  blockname!: string;
+  work!: string;
+  aaamt!: number;
+  tsamt!: number;
+  aaDate!: string;
+  tsDate!: string;
+  acceptanceLetterRefNo!: string | null;
+  acceptLetterDT!: string | null;
+  pac!: number | null;
+  totalAmountOfContract!: number | null;
+  sanctionRate!: number | null;
+  sanctionDetail!: string | null;
+  timeAllowed!: number | null;
+  dateOfSanction!: string | null;
+  dateOfIssueNIT!: string | null;
+  cid!: string | null;
+  contractorNAme!: string | null;
+  regType!: string | null;
+  class!: string | null;
+  englishAddress!: string | null;
+  mobNo!: string | null;
+  asPath!: string;
+  asLetter!: string;
+  groupName!: string;
+  lProgress!: string;
+  pdate!: string;
+  pRemarks!: string;
+  remarks!: string | null;
+  tenderReference!: string | null;
+  delayReason!: string | null;
    
   }
-  export class DistrictEngAllotedWorks{
+  export class sbuDistrictEngAllotedWorks{
   id!: string ;
   districtID!: string;
   empid!: string;
@@ -210,7 +242,7 @@ export class WorkDetails {
   running!: number;
   woIssue!: number;
   ladissue!: number;
-
+  sno!:number;
   
   }
   export class AEDistrictEngAllotedWorks{
@@ -224,6 +256,8 @@ export class WorkDetails {
   running!: number;
   woIssue!: number;
   ladissue!: number;
+  sno!:number;
+
   }
   export class SbuEngAllotedWorks{
   id!: string ;
@@ -249,6 +283,49 @@ export class WorkDetails {
 
 
   }
+  export class WorkDetailsWithEng{
+    work_id!: string;
+    letterNo!: string;
+    head!: string;
+    approver!: string;
+    type_name!: string;
+    district!: string;
+    blockname!: string;
+    work!: string;
+    aaamt!: number;
+    tsamt!: number;
+    aaDate!: string;
+    tsDate!: string;
+    acceptanceLetterRefNo!: string;
+    acceptLetterDT!: string;
+    pac!: number;
+    totalAmountOfContract!: number;
+    sanctionRate!: number;
+    sanctionDetail!: string;
+    timeAllowed!: number;
+    dateOfSanction!: string;
+    dateOfIssueNIT!: string;
+    cid!: string;
+    contractorNAme!: string;
+    regType!: string;
+    class!: string;
+    englishAddress!: string;
+    mobNo!: string;
+    asPath!: string;
+    asLetter!: string;
+    groupName!: string;
+    lProgress!: string;
+    pdate!: string;
+    pRemarks!: string;
+    remarks!: string | null;
+    tenderReference!: string;
+    delayReason!: string | null;
+  
+
+
+  }
+
+
   export class WorkOrderPendingDetailsNew {
     sno!: number;
     work_id!: string;
@@ -300,5 +377,44 @@ export class WorkDetails {
     month2Above!: number;
 
     
+  }
+  export class LandIssueDetails {
+    sno!:number;
+    work_id!: string;
+    letterNo!: string;
+    head!: string;
+    approver!: string;
+    type_name!: string;
+    district!: string;
+    blockname!: string;
+    work!: string;
+    aaamt!: number;
+    tsamt!: number;
+    aaDate!: string;
+    tsDate!: string;
+    acceptanceLetterRefNo!: string | null;
+    acceptLetterDT!: string | null;
+    pac!: string | null;
+    totalAmountOfContract!: string | null;
+    sanctionRate!: string | null;
+    sanctionDetail!: string | null;
+    timeAllowed!: string | null;
+    dateOfSanction!: string | null;
+    dateOfIssueNIT!: string | null;
+    cid!: string | null;
+    contractorNAme!: string | null;
+    regType!: string | null;
+    class!: string | null;
+    englishAddress!: string | null;
+    mobNo!: string | null;
+    asPath!: string;
+    asLetter!: string;
+    groupName!: string;
+    lProgress!: string;
+    pdate!: string;
+    pRemarks!: string;
+    remarks!: string;
+    tenderReference!: string | null;
+    delayReason!: string;
   }
   //#endregion
