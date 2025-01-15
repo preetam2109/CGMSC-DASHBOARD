@@ -298,7 +298,8 @@
       *ngFor="let district of districtData"
     >
     <a type="link" (click)="selectdata(district.nosworks)">
-    <a type="link" (click)="open_mobile_modal(1,itemDetailsModal)">
+    <!-- <a type="link" (click)="open_mobile_modal(1,itemDetailsModal)"> -->
+    <a type="link">
       <mat-card
         class="card-class text-center"
         [ngStyle]="{'background-color': getCardColor(district.did), 'color': 'Black'}"

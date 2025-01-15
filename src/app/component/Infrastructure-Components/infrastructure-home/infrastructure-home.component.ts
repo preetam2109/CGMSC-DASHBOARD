@@ -15,8 +15,6 @@ import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXA
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -43,7 +41,7 @@ export type ChartOptions = {
     MatIconModule,
     MatTabsModule,
     CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
-    NgApexchartsModule, MatSortModule, MatPaginatorModule,NgbModule
+    NgApexchartsModule, MatSortModule, MatPaginatorModule,
     // BrowserModule
   ],
 
@@ -103,7 +101,7 @@ export class InfrastructureHomeComponent {
   selectedName: any;
   himisDistrictid:any;
   divid:any;
-  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private modalService: NgbModal) {
+  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {
 
   }
 
@@ -121,8 +119,8 @@ export class InfrastructureHomeComponent {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.showDistrict = false;
       this.showDivision = false;
+      // alert( this.himisDistrictid );
       this.loadInitialData();
-      //  alert( this.himisDistrictid );
     } else {
       this.himisDistrictid = 0;
       this.divisionid = 0;
@@ -150,10 +148,11 @@ var mainSchemeId=0;
 //   this.mainSchemeID=0;
 //   console.log('2 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
 // }
-if (this.selectedTabIndex == 0) {
-  this.mainSchemeID=0;
-  this.himisDistrictid = 0;//this.divisionid =0;
-} 
+// if (this.selectedTabIndex == 0) {
+//   this.mainSchemeID=0;
+//   this.himisDistrictid = 0;//this.divisionid =0;
+// } 
+debugger
     this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid).subscribe(
       (res: any) => {
         // alert(JSON.stringify(res));
@@ -204,7 +203,6 @@ if (this.selectedTabIndex == 0) {
   }
   getDistrictNameDME() {
     try {
-      debugger;
       // showCardss
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
@@ -342,7 +340,6 @@ if (this.selectedTabIndex == 0) {
 
   }
   onselectDistrictsDME(districT_ID: any,distname:any){
-    debugger
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       // this.divisionid = sessionStorage.getItem('divisionID');
@@ -666,14 +663,6 @@ if (this.selectedTabIndex == 0) {
   }
 //#endregion
   selectdata(data:any ){
-  }
-  open_mobile_modal(type: number, modalDefault_modal: any) {
-    this.modalService.open(modalDefault_modal, {
-      centered: true
-    });
-    // if (type == 1) this.is_edit_mobile = true;
-
-    // else this.is_edit_mobile = false
   }
 
 }
