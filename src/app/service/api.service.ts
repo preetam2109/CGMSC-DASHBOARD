@@ -84,7 +84,7 @@ import { DistCGMSCSupplyDHS } from '../Model/DistCGMSCSupplyDHS';
 import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary,
    WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong,
     WOpendingTotal, WorkOrderPendingDetailsNew,  AEDistrictEngAllotedWorks,
-     SbuEngAllotedWorks, AEEngAllotedWorks, LIPendingTotal, HandoverAbstract, GetHandoverDetails, sbuDistrictEngAllotedWorks, LandIssueDetails, WorkDetailsWithEng,} from '../Model/DashProgressCount';
+     SbuEngAllotedWorks, AEEngAllotedWorks, LIPendingTotal, HandoverAbstract, GetHandoverDetails, sbuDistrictEngAllotedWorks, LandIssueDetails, WorkDetailsWithEng, DistrictNameDME,} from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
@@ -643,8 +643,17 @@ DMEProgressSummary(divisionId: any, mainSchemeId: any,distid:any,dashID:any) {
   (`${this.apiUrl}/Work/DMEProgressSummary?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&dashID=${dashID}`);
 
 }
+GetDistrictNameDME(divisionid: any, districtid:any) {
+  // https://cgmsc.gov.in/HIMIS_APIN/api/Work/DistrictNameDME?divisionid=0&districtid=0
+  return this.http.get<DistrictNameDME[]>
+  (`${this.apiUrl}/Work/DistrictNameDME?divisionId=${divisionid}&districtid=${districtid}`);
+
+}
+
+
 WorkFill(searchtext: any, workid: any,divisionId:any,distid:any,mainSchemeId:any): Observable<WorkFill[]> {
   return this.http.get<WorkFill[]>(`${this.apiUrl}/Work/WorkFill?searchtext=${searchtext}&workid=${workid}&divisionId=${divisionId}&distid=${distid}&mainSchemeId=${mainSchemeId}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
 }
 // https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
 GetWorkDetails(workid: any): Observable<WorkDetails[]> {
@@ -705,8 +714,7 @@ HandoverAbstract(RPType:any, dashid:any,divisionId:any,districtid:any,SWId:any,f
  GetWorkDetailsWithEng(dahid:any,divisionId:any,mainSchemeId:any,distid:any,engtype:any,empcode:any){
 
   return this.http.get<WorkDetailsWithEng[]>(`${this.apiUrl}/Work/getWorkDetailsWithEng?dahid=${dahid}&divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&engtype=${engtype}&empcode=${empcode}`);
-  //https://cgmsc.gov.in/HIMIS_APIN/api/Work/getWorkDetailsWithEng?
-  // dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157
+  // https://cgmsc.gov.in/HIMIS_APIN/api/Work/getWorkDetailsWithEng?dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157
  }
  // #endregion
  //#region  LandIssue

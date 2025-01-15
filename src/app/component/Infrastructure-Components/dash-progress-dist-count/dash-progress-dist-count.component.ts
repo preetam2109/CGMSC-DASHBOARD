@@ -152,6 +152,29 @@ if(roleName == 'Division'){
 } else {
   this.divisionid =0;
 }
+
+// var roleName = localStorage.getItem('roleName');
+// // alert( roleName )
+// if (roleName == 'Division') {
+//   this.divisionid = sessionStorage.getItem('divisionID');
+//   this.himisDistrictid = 0;
+//   this.showDivision = false;
+//   // return; 
+//   // alert( this.divisionid )
+//   this.loadInitialData();
+// } else if (roleName == 'Collector') {
+//   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+//   this.showDistrict = false;
+//   this.showDivision = false;
+//   this.loadInitialData();
+//   //  alert( this.himisDistrictid );
+// } else {
+//   this.himisDistrictid = 0;
+//   this.divisionid = 0;
+//   this.loadInitialData();
+
+// }
+// divisionId: any, mainSchemeId: any,dashID:any
     this.api.DashProgressDistCount(this.divisionid , 0, 0).subscribe(
       (data: any) => {
         if (Array.isArray(data)) {

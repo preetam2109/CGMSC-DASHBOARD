@@ -1,3 +1,4 @@
+import { CommonModule, NgFor } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -32,7 +33,7 @@ export type ChartOptions = {
   selector: 'app-work-order',
   standalone: true,
   imports: [NgApexchartsModule,MatSortModule, MatPaginatorModule,MatTableModule,MatTableExporterModule, MatInputModule,MatDialogModule,
-    MatFormFieldModule,NgbModule, MatMenuModule],
+    MatFormFieldModule,NgbModule, MatMenuModule, NgFor, CommonModule,],
   templateUrl: './work-order.component.html',
   styleUrl: './work-order.component.css'
 })
@@ -41,10 +42,10 @@ export class WorkOrderComponent {
   @ViewChild('itemDetailsModal') itemDetailsModal: any; 
   @ViewChild('itemDetailsModals') itemDetailsModals: any; 
   public cO: Partial<ChartOptions> | undefined;
-  chartOptions: ChartOptions; // For bar chart
-  chartOptions2: ChartOptions; // For bar chart
-  chartOptionsLine: ChartOptions; // For line chart
-  chartOptionsLine2: ChartOptions; // For line chart
+  chartOptions!: ChartOptions; // For bar chart
+  chartOptions2!: ChartOptions; // For bar chart
+  chartOptionsLine!: ChartOptions; // For line chart
+  chartOptionsLine2!: ChartOptions; // For line chart
   whidMap: { [key: string]: number } = {};
   divisionIDMap: { [key: string]: number } = {};
   dataSource!: MatTableDataSource<WorkOrderPendingDetailsNew>;
@@ -66,6 +67,7 @@ export class WorkOrderComponent {
   idMap: { [key: string]: number } = {};
 
   displayedColumns: string[] = ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
+  himisDistrictid: any;
   // displayedColumns: string[] = [
   //   'sno', 'work_id', 'letterNo', 'head', 'approver', 'type_name', 'district',
   //   'blockname', 'work', 'aaamt', 'tsamt', 'aaDate', 'tsDate', 'acceptanceLetterRefNo',
@@ -76,12 +78,29 @@ export class WorkOrderComponent {
   // ];
 
   constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private modalService: NgbModal,private dialog: MatDialog){
+  
+
+    // this.GetWOPendingTotal();
+    // this.GetWOPendingDistrict();
+    // this.GetWOPendingScheme();
+    // this.GetWOPendingContractor();
+    this.dataSource = new MatTableDataSource<WorkOrderPendingDetailsNew>([]);
+  }
+ 
+  ngOnInit() {
+    this.initializeChartOptions();
+    this.GetWOPendingTotal();
+    this.GetWOPendingDistrict();
+    this.GetWOPendingScheme();
+    this.GetWOPendingContractor();
+  }
+  initializeChartOptions() {
     this.chartOptions = {
       series: [],
       chart: {
         type: 'bar',
         stacked: true,
-        height: 'auto',
+        // height: 'auto',
         // height:400,
         // height: 200,
         // width:600,
@@ -173,7 +192,7 @@ export class WorkOrderComponent {
         type: 'bar',
         stacked: true,
         // height: 600,
-        height: 'auto',
+        // height: 'auto',
         // width:600,
        events: {
           dataPointSelection: (
@@ -273,7 +292,7 @@ export class WorkOrderComponent {
         type: 'bar',
         stacked: true,
         // height: 600,
-        height: 'auto',
+        // height: 'auto',
 
         // width:600,
        
@@ -364,7 +383,7 @@ export class WorkOrderComponent {
         type: 'bar',
         stacked: true,
         // height: 400,
-        height: 'auto',
+        // height: 'auto',
 
         
         events: {
@@ -447,17 +466,7 @@ export class WorkOrderComponent {
         offsetX: 40,
       },
     };
-
-    this.GetWOPendingTotal();
-    this.GetWOPendingDistrict();
-    this.GetWOPendingScheme();
-    this.GetWOPendingContractor();
-    this.dataSource = new MatTableDataSource<WorkOrderPendingDetailsNew>([]);
   }
- 
-  ngOnInit() {
-  }
-  
 
   //#region API get DATA
   GetWOPendingTotal(): void {
@@ -465,13 +474,26 @@ export class WorkOrderComponent {
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      // this.divisionid = sessionStorage.getItem('divisionID');
-      // this.showDivision=false;
+      this.chartOptions.chart.height = '200px';
     } else {
       this.divisionid = 0;
+      this.chartOptions.chart.height = 'auto';
     }
+  //   var roleName  = localStorage.getItem('roleName');
+  // if(roleName == 'Division'){
+  // this.divisionid = sessionStorage.getItem('divisionID');
+  // this.himisDistrictid=0; 
+  // }  else if (roleName == 'Collector') {
+  // this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+  // this.divisionid=0;
+  // }
+  // else{
+  //   this.divisionid=0;
+  //   this.himisDistrictid=0; 
+  // }
+  var RPType ='Total';
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-    this.api.WOPendingTotal(this.Total,this.divisionid).subscribe(
+    this.api.WOPendingTotal(RPType,this.divisionid).subscribe(
       (data: any) => {
         this.wOpendingTotal = data;
         const name: string[] = [];
@@ -517,7 +539,17 @@ export class WorkOrderComponent {
     );
   }
   GetWOPendingDistrict(): void {
-    this.api.WOPendingTotal(this.District,this.divisionid).subscribe(
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptionsLine2.chart.height = '500px';
+    } else {
+      this.divisionid = 0;
+      this.chartOptionsLine2.chart.height = '1000';
+
+    }
+   var RPType ='District';
+    this.api.WOPendingTotal(RPType,this.divisionid).subscribe(
       (data: any) => {
         this.wOpendingDistrict = data;
         const name: string[] = [];
@@ -582,7 +614,16 @@ export class WorkOrderComponent {
   }
   GetWOPendingContractor(): void {
     this.spinner.show();
-    this.api.WOPendingTotal(this.Contractor,this.divisionid).subscribe(
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptionsLine.chart.height = '500px';
+    } else {
+      this.divisionid = 0;
+      this.chartOptionsLine.chart.height = '1000';
+    }
+   var RPType ='Contractor';
+    this.api.WOPendingTotal(RPType,this.divisionid).subscribe(
       (data: any) => {
         this.wOpendingContractor = data;
         const name: string[] = [];
@@ -652,12 +693,16 @@ export class WorkOrderComponent {
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      // this.showDivision=false;
+      this.chartOptionsLine.chart.height = '500px';
+
     } else {
       this.divisionid = 0;
+      this.chartOptionsLine.chart.height = '1000';
+
     }
+   var RPType ='Scheme';
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-    this.api.WOPendingTotal(this.Scheme,this.divisionid).subscribe(
+    this.api.WOPendingTotal(RPType,this.divisionid).subscribe(
       (data: any) => {
         this.wOpendingScheme = data;
         // console.log('API Response Scheme:',  this.wOpendingScheme);

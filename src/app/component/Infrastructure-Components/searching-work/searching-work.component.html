@@ -29,7 +29,7 @@
                 </div> -->
                     <div class="row border mb-0 mt-0">
                         <div class="col-12 border text-center font-weight-bold  py-1 text-white" style="background: #000;">
-                            <strong>Work Details</strong>
+                            <strong>Basic Details</strong>
                         </div>
                         <div class="col-12 col-md-8 border p-2 d-flex">
                             <strong>Work Name:</strong>
@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-12 col-md-5 border p-2 d-flex">
                             <strong>Type of Work:</strong>
-                            <span class="ml-2">{{detail.tType}}</span>
+                            <span class="ml-2">{{detail.type_name}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex">
                             <strong>Grant:</strong>
@@ -60,18 +60,18 @@
                             <span class="ml-2">{{detail.divName_En}}</span>
                         </div>
                         <div class="col-6 col-md-4 border p-2 d-flex flex-row">
-                            <strong>AS Letter Refrence:</strong>
+                            <strong>AS Letter Number:</strong>
                             <span class="ml-2"> {{detail.letterNo}}</span>
                         </div>
                         <div class="col-6 col-md-5 border p-2 d-flex flex-row">
-                            <strong>Fund Head</strong><span class="ml-2">{{detail.head}}</span>
+                            <strong>Fund Head:</strong><span class="ml-2">{{detail.head}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex">
                             <strong> Approver:</strong>
                             <span class="ml-2">{{detail.approver}}</span>
                         </div>
                         <div class="col-6 col-md-4 border p-2 d-flex flex-row">
-                            <strong>AS Amount(in Lacs)</strong><span class="ml-2">{{detail.aaamt}}</span>
+                            <strong>AS Amount (in Lacs)</strong><span class="ml-2">{{detail.aaamt}}</span>
                         </div>
 
                         <div class="col-12 col-md-5 border p-2 d-flex flex-row">
@@ -85,7 +85,7 @@
                         </div>
 
                         <div class="col-12 col-md-4 border p-2 d-flex flex-row">
-                            <strong>TS Amount:</strong>
+                            <strong>TS Amount (in Lacs):</strong>
                             <span class="ml-2">{{detail.tsamt}}</span>
                         </div>
                         <!-- <div class="col-12 col-md-3 border p-2 d-flex">
@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <strong>NIT Issue Date:</strong>
+                            <strong>NIT Issued Date:</strong>
                             <span class="ml-2">{{detail.dateOfIssueNIT}}</span>
                         </div>
                         <div class="col-12 col-md-5 border p-2 d-flex flex-row">
@@ -125,14 +125,14 @@
                             <span class="ml-2">{{detail.pac}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex flex-row">
-                            <strong>Sanctioned:</strong> <span class="ml-2">{{detail.sanctionDetail}}</span>
+                            <strong>Sanction Rate:</strong> <span class="ml-2">{{detail.sanctionDetail}}</span>
                         </div>
                         <div class="col-12 col-md-2 border p-2 d-flex">
-                            <strong>Approved Rate:</strong>
-                            <span class="ml-2">{{detail.sanctionRate}}</span>
+                            <strong>Sanction Rate:</strong>
+                            <span class="ml-2">{{detail.sanctionRate | percent}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <strong>Contract Amount(in Lacs):</strong>
+                            <strong>Contract Amount (in Lacs):</strong>
                             <span class="ml-2">{{detail.totalAmountOfContract}}</span>
                         </div>
 
@@ -184,7 +184,7 @@
 
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>Work Order Ref No Govt:</strong>
+                            <strong>Work Order Ref No:</strong>
                             <span class="ml-2">{{detail.workorderRefNoGovt}}</span>
                         </div>
 
@@ -195,7 +195,7 @@
 
 
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>Time Allowed:</strong>
+                            <strong>Time Allowed (In Month):</strong>
                             <span class="ml-2">{{detail.timeAllowed}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
@@ -252,7 +252,7 @@
                             <span class="ml-2">{{detail.fBill}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>Pending Bill Amount(In Lacs):</strong>
+                            <strong>Unpaid Bill Amount (In Lacs):</strong>
                             <span class="ml-2">{{detail.expPending}}</span>
                         </div>
                     </div>
@@ -289,7 +289,7 @@
                             <span class="ml-2">{{detail.pRemarks}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <strong>Genreal Remarks:</strong>
+                            <strong>Delay Remarks:</strong>
                             <span class="ml-2">{{detail.remarks}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
@@ -298,7 +298,7 @@
                         </div>
 
                         <div class="col-12 col-md-5 border p-2 d-flex">
-                            <strong>Desig:</strong>
+                            <strong>Designation:</strong>
                             <span class="ml-2">{{detail.desig}}</span>
                         </div>
                         <!-- <div class="col-12 col-md-3 border p-2 d-flex">
@@ -306,16 +306,16 @@
                             <span class="ml-2">{{detail.desig}}</span>
                         </div> -->
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <strong>Progress Enter By:</strong>
+                            <strong>Entered By:</strong>
                             <span class="ml-2">{{ detail.progressEnterby }}</span>
                         </div>
                         <div class="col-12 col-md-9 border p-2 d-flex">
-                            <strong>Progress Entry Time:</strong>
+                            <strong>Entry Date/Time:</strong>
                             <span class="ml-2">{{ detail.progressEntryTime | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <!-- <strong>Ismongo:</strong> -->
-                            <!-- <span class="ml-2">{{detail.ismongo}}</span> -->
+                            <strong>Expected Completion Date(If Running):</strong>
+                            <span class="ml-2">{{detail.expCompDT | date: 'dd-MM-yyyy' }}</span>
                         </div>
                     </div>
                 </div>
@@ -326,7 +326,7 @@
                 <div class="card-body">
                     <div class="row  mb-0">
                         <div class="col-12 text-center font-weight-bold  py-1 text-light" style="background-color: #00008B;">
-                            <strong>Uploaded Image</strong>
+                            <strong>Current Progress Image</strong>
 
                         </div>
                         <!-- <div class="col-12 text-center font-weight-bold pl-2 pr-2 ">

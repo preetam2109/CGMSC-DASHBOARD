@@ -57,7 +57,7 @@ distid=0;
   divisions = [
     { id: 'D1004', name: 'Raipur ', color: ' rgb(0, 227, 150)' },
     { id: 'D1017', name: 'Saruguja ', color: 'rgb(0, 143, 251)' },
-    { id: 'D1024', name: 'Bilaspur ', color: 'rgb(255, 69, 96)' },
+    { id: 'D1024', name: 'Bilaspur ', color: '#8f5ced' },
     { id: 'D1001', name: 'Durg ', color: '#f687fa' },
     { id: 'D1031', name: 'Baster ', color: 'rgb(238, 186, 11)' },
   ];
@@ -155,7 +155,7 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
         colors: ['#fff'],
       },
       title: {
-        text: 'Allotted Works Sub Engineer',
+        text: 'Sub Engineer',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -241,7 +241,7 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
         colors: ['#fff'],
       },
       title: {
-        text: 'Allotted Works Assistant Engineer',
+        text: 'Assistant Engineer',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -270,9 +270,9 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
   }
 
   ngAfterViewInit() {
-      this.dataSource1.paginator=this.paginator;
+      // this.dataSource1.paginator=this.paginator;
 
-      this.dataSource.paginator = this.paginator;
+      // this.dataSource.paginator = this.paginator;
   }
 getSBUENEngAllotedWorks(): void {
   var roleName = localStorage.getItem('roleName');
@@ -327,11 +327,12 @@ getSBUENEngAllotedWorks(): void {
       });
       
       this.chartOptionsLine.series = [
-        {name: 'Total Works', data: totalWorks,color:'#eeba0b'} ,
-        { name: 'Running', data: running}, 
-        { name: 'TVC Value cr',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
-        { name: 'Lad Issue',data: ladissue },
-        { name: 'WoIssue',data: woIssue,color: '#db0413'},];
+        {name: 'Total Alloted Works', data: totalWorks,color:'#eeba0b'} ,
+        { name: 'Contract Value (in Cr)',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
+        { name: 'Running Works', data: running,color:'rgb(0, 227, 150)' }, 
+        { name: 'Work Order Issued',data: woIssue,color: '#8f5ced'},
+        { name: 'Land Issue Works',data: ladissue,color:'#f687fa' },
+      ];
 
       this.chartOptionsLine.xaxis = { categories: engName };
       this.cO = this.chartOptionsLine;
@@ -397,11 +398,17 @@ GetAEENGEngAllotedWorks(): void {
       });
       
       this.chartOptionsLine2.series = [
-        {name: 'Total Works', data: totalWorks,color:'#eeba0b'} ,
-        { name: 'Running', data: running}, 
-        { name: 'TVC Value cr',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
-        { name: 'Lad Issue',data: ladissue },
-        { name: 'WoIssue',data: woIssue,color: '#db0413'},];
+        // {name: 'Total Works', data: totalWorks,color:'#eeba0b'} ,
+        // { name: 'Running', data: running}, 
+        // { name: 'TVC Value cr',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
+        // { name: 'Lad Issue',data: ladissue },
+        // { name: 'WoIssue',data: woIssue,color: '#db0413'},
+        {name: 'Total Alloted Works', data: totalWorks,color:'#eeba0b'} ,
+        { name: 'Contract Value (in Cr)',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
+        { name: 'Running Works', data: running,color:'rgb(0, 227, 150)' }, 
+        { name: 'Work Order Issued',data: woIssue,color: '#8f5ced'},
+        { name: 'Land Issue Works',data: ladissue,color:'#f687fa' },
+      ];
 
       this.chartOptionsLine2.xaxis = { categories: engName };
       this.cO = this.chartOptionsLine2;
@@ -483,16 +490,17 @@ fetchDataBasedOnChartSelectionSbu(): void {
 distidd:any;empname:any;
 fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): void {
   this.empname=empname;
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
+  // var roleName = localStorage.getItem('roleName');
+  // if (roleName == 'Division') {
+  //   this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
     // this.distidd = sessionStorage.getItem('himisDistrictid')==0?0:this.distidd;
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   const  distid=0;
+  this.divisionid = 0;
   this.spinner.show();
   // dahid:any,divisionId:any,mainSchemeId:any,distid:any,engtype:any,empcode:any
   // dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157
-  const engtype='SubE', dahid=0,mainSchemeId=0;
+  const engtype='SubE', dahid=0, mainSchemeId=0;
   this.api.GetWorkDetailsWithEng(dahid,this.divisionid,mainSchemeId,distid,engtype,empcode).subscribe(
     (res) => {
       this.dispatchPendings3 = res.map((item: WorkDetailsWithEng, index: number) => ({
@@ -500,7 +508,7 @@ fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): v
         sno: index + 1
       }));
       this.dataSource3.data = this.dispatchPendings3;
-        // console.log(" this.dataSource3.data= ",JSON.stringify( this.dataSource3.data))
+        console.log(" this.dataSource3.data= ",JSON.stringify( this.dataSource3.data))
       this.dataSource3.paginator = this.paginator;
       this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
@@ -516,12 +524,13 @@ fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): v
 fetchDataBasedWorkDetailsWithEngAE(empcode:any, selectedSeries:any,empname:any): void {
 
   this.empname=empname;
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
+  // var roleName = localStorage.getItem('roleName');
+  // if (roleName == 'Division') {
+  //   this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
     // this.distidd = sessionStorage.getItem('himisDistrictid')==0?0:this.distidd;
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   const  distid=0;
+  this.divisionid = 0;
   this.spinner.show();
   // dahid:any,divisionId:any,mainSchemeId:any,distid:any,engtype:any,empcode:any
   // dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157

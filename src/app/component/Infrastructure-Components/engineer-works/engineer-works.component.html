@@ -1,14 +1,14 @@
 <div class="card shadow">
   <div class="card-body">
-    <div class="w-100" style="background-color:#858681">
-      <!--#e2e3e5-->
-      <h3 class="text-light">Alloted Running Works </h3>
+    <div class="w-100" >
+      <!--#e2e3e5 style="background-color:#858681"-->
+      <h3 class="bold text-light bg-dark">Alloted Running Works </h3>
     </div>
     <div class="row" *ngIf="show">
       <div class="col-12 col-md-11 p-1">
         <div class="button-container">
           <h3 class="division-label align-items-center pt-2 text-align bold">Choose Division:</h3>
-          <button class="btn btn-sm align-items-center btn-outline-secondary btn-secondary"
+          <button class="btn btn-sm align-items-center btn-outline-secondary btn-secondary bold text-light"
             *ngFor="let division of divisions" [ngClass]="{'active-button': selectedDivision === division.id}"
             [ngStyle]="{'background-color': division.color}" (click)="selectDivision(division)">
             {{ division.name }}
@@ -19,6 +19,15 @@
     </div>
     <div class="container-fluid  p-2">
       <div class="row">
+        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="SbuEngAllotedWorks.length > 0">
+          <div class="chart-container">
+            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
+              [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
+              [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
+              [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title" [tooltip]="chartOptionsLine.tooltip"
+              [legend]="chartOptionsLine.legend"></apx-chart>
+          </div>
+        </div>
         <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="AeengAllotedWorks.length > 0">
           <div class="chart-container">
             <apx-chart [series]="chartOptionsLine2.series" [chart]="chartOptionsLine2.chart"
@@ -29,23 +38,112 @@
           </div>
 
         </div>
-        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="SbuEngAllotedWorks.length > 0">
-          <div class="chart-container">
-            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
-              [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
-              [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
-              [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title" [tooltip]="chartOptionsLine.tooltip"
-              [legend]="chartOptionsLine.legend"></apx-chart>
-          </div>
-        </div>
+        
 
 
       </div>
 
     </div>
-    <div class="w-100" style="background-color:#6dbffc">
+     <!-- sbueng -->
+     <div class="w-100 ">
+      <!--#e2e3e5 style="background-color:#858681"-->
+      <h3 class="bold text-light bg-dark">District Sub Engineer Alloted Works</h3>
+  </div>
+<div class="row card shadow card-body mt-3" *ngIf="dispatchPendings1.length > 0">
+<div class="d-flex justify-content-between align-items-center mb-0">
+<div class="filter-field flex-grow-1">
+  <input type="text" class="form-control" placeholder="Filter" (keyup)="SapplyTextFilter($event)">
+</div>
+<div class="export-menu-container">
+  <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+  <mat-menu #exportMenu="matMenu">
+    <button mat-menu-item
+      (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+    <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+    <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+    <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+    <button mat-menu-item (click)="SexportToPDF()">PDF</button>
+  </mat-menu>
+</div>
+</div>
+<div class="table-responsive ">
+<table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+  [dataSource]="dataSource1" #exporter="matTableExporter" matSort>
+
+  <!-- Serial Number Column -->
+  <ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+  </ng-container>
+
+  <!-- nocnumber Column -->
+  <ng-container matColumnDef="engName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sub Engineer </th>
+    <td mat-cell *matCellDef="let element"> {{ element.engName }} </td>
+  </ng-container>
+  <ng-container matColumnDef="empid">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>EmpId </th>
+    <td mat-cell *matCellDef="let element"> {{ element.empid }} </td>
+  </ng-container>
+
+  <!-- warehousename Column -->
+  <ng-container matColumnDef="districtName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>District </th>
+    <td mat-cell *matCellDef="let element"> {{ element.districtName }} </td>
+  </ng-container>
+
+  <!-- facilityname Column -->
+  <ng-container matColumnDef="totalWorks">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Alloted Works </th>
+    <td mat-cell *matCellDef="let element"> {{ element.totalWorks }} </td>
+  </ng-container>
+
+  <!-- nositems Column -->
+  <ng-container matColumnDef="tvcValuecr">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value (in cr) </th>
+    <td mat-cell *matCellDef="let element"> {{ element.tvcValuecr }} </td>
+  </ng-container>
+
+  <!-- inddt Column -->
+  <ng-container matColumnDef="running">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Running Works </th>
+    <td mat-cell *matCellDef="let element"> {{ element.running }} </td>
+  </ng-container>
+
+  <!-- pendingday Column -->
+  <ng-container matColumnDef="woIssue">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order Issued</th>
+    <td mat-cell *matCellDef="let element"> {{ element.woIssue }} </td>
+  </ng-container>
+  <ng-container matColumnDef="ladissue">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Land Issue</th>
+    <td mat-cell *matCellDef="let element"> {{ element.ladissue }} </td>
+  </ng-container>
+  <ng-container matColumnDef="districtID">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>DistrictID</th>
+    <td mat-cell *matCellDef="let element"> {{ element.districtID }} </td>
+  </ng-container> 
+ <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+    <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+  </ng-container>
+  <!-- Header Row -->
+  <tr mat-header-row
+    *matHeaderRowDef="[ 'sno','engName','empid','districtName','totalWorks','tvcValuecr', 'running','woIssue','ladissue','districtID' ,'id'  ]">
+  </tr>
+
+  <!-- Data Rows -->
+  <tr mat-row
+    *matRowDef="let row; columns: [ 'sno','engName','empid','districtName','totalWorks','tvcValuecr','running','woIssue','ladissue','districtID' ,'id' ]">
+  </tr>
+
+</table>
+</div>
+<mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+</div>
+    <div class="w-100 mt-2" style="background-color:#050382">
       <!--#e2e3e5-->
-      <h3 class="bold text dark">District Wise Alloted Works </h3>
+      <h3 class="bold text-light">District  Assistant Engineer Alloted Works </h3>
     </div>
 
     <div class="row card shadow card-body" *ngIf="dispatchPendings.length > 0">
@@ -77,53 +175,53 @@
 
           <!-- nocnumber Column -->
           <ng-container matColumnDef="engName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> engName </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ass. Engineer </th>
             <td mat-cell *matCellDef="let element"> {{ element.engName }} </td>
           </ng-container>
           <ng-container matColumnDef="empid">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> empid </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>EmpId </th>
             <td mat-cell *matCellDef="let element"> {{ element.empid }} </td>
           </ng-container>
 
           <!-- warehousename Column -->
           <ng-container matColumnDef="districtName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> districtName </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>District </th>
             <td mat-cell *matCellDef="let element"> {{ element.districtName }} </td>
           </ng-container>
 
           <!-- facilityname Column -->
           <ng-container matColumnDef="totalWorks">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>totalWorks </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Alloted Works </th>
             <td mat-cell *matCellDef="let element"> {{ element.totalWorks }} </td>
           </ng-container>
 
           <!-- nositems Column -->
           <ng-container matColumnDef="tvcValuecr">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> tvcValuecr </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Contract Value (in cr) </th>
             <td mat-cell *matCellDef="let element"> {{ element.tvcValuecr }} </td>
           </ng-container>
 
           <!-- inddt Column -->
           <ng-container matColumnDef="running">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> running </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Running Works  </th>
             <td mat-cell *matCellDef="let element"> {{ element.running }} </td>
           </ng-container>
 
           <!-- pendingday Column -->
           <ng-container matColumnDef="woIssue">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>woIssue</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order Issued</th>
             <td mat-cell *matCellDef="let element"> {{ element.woIssue }} </td>
           </ng-container>
           <ng-container matColumnDef="ladissue">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ladissue</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Land Issue</th>
             <td mat-cell *matCellDef="let element"> {{ element.ladissue }} </td>
           </ng-container>
           <ng-container matColumnDef="districtID">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>districtID</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>DistrictID</th>
             <td mat-cell *matCellDef="let element"> {{ element.districtID }} </td>
           </ng-container>
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>id</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
             <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
           </ng-container>
           <!-- Header Row -->
@@ -140,99 +238,7 @@
       </div>
       <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
     </div>
-    <!-- sbueng -->
-    <div class="row card shadow card-body mt-3" *ngIf="dispatchPendings1.length > 0">
-      <div class="d-flex justify-content-between align-items-center mb-0">
-        <div class="filter-field flex-grow-1">
-          <input type="text" class="form-control" placeholder="Filter" (keyup)="SapplyTextFilter($event)">
-        </div>
-        <div class="export-menu-container">
-          <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
-          <mat-menu #exportMenu="matMenu">
-            <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
-            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-            <button mat-menu-item (click)="SexportToPDF()">PDF</button>
-          </mat-menu>
-        </div>
-      </div>
-      <div class="table-responsive ">
-        <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
-          [dataSource]="dataSource1" #exporter="matTableExporter" matSort>
-
-          <!-- Serial Number Column -->
-          <ng-container matColumnDef="sno">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
-            <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
-          </ng-container>
-
-          <!-- nocnumber Column -->
-          <ng-container matColumnDef="engName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> engName </th>
-            <td mat-cell *matCellDef="let element"> {{ element.engName }} </td>
-          </ng-container>
-          <ng-container matColumnDef="empid">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> empid </th>
-            <td mat-cell *matCellDef="let element"> {{ element.empid }} </td>
-          </ng-container>
-
-          <!-- warehousename Column -->
-          <ng-container matColumnDef="districtName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> districtName </th>
-            <td mat-cell *matCellDef="let element"> {{ element.districtName }} </td>
-          </ng-container>
-
-          <!-- facilityname Column -->
-          <ng-container matColumnDef="totalWorks">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>totalWorks </th>
-            <td mat-cell *matCellDef="let element"> {{ element.totalWorks }} </td>
-          </ng-container>
-
-          <!-- nositems Column -->
-          <ng-container matColumnDef="tvcValuecr">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> tvcValuecr </th>
-            <td mat-cell *matCellDef="let element"> {{ element.tvcValuecr }} </td>
-          </ng-container>
-
-          <!-- inddt Column -->
-          <ng-container matColumnDef="running">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> running </th>
-            <td mat-cell *matCellDef="let element"> {{ element.running }} </td>
-          </ng-container>
-
-          <!-- pendingday Column -->
-          <ng-container matColumnDef="woIssue">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>woIssue</th>
-            <td mat-cell *matCellDef="let element"> {{ element.woIssue }} </td>
-          </ng-container>
-          <ng-container matColumnDef="ladissue">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ladissue</th>
-            <td mat-cell *matCellDef="let element"> {{ element.ladissue }} </td>
-          </ng-container>
-          <ng-container matColumnDef="districtID">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>districtID</th>
-            <td mat-cell *matCellDef="let element"> {{ element.districtID }} </td>
-          </ng-container>
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>id</th>
-            <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
-          </ng-container>
-          <!-- Header Row -->
-          <tr mat-header-row
-            *matHeaderRowDef="[ 'sno','engName','empid','districtName','totalWorks','tvcValuecr', 'running','woIssue','ladissue','districtID' ,'id'  ]">
-          </tr>
-
-          <!-- Data Rows -->
-          <tr mat-row
-            *matRowDef="let row; columns: [ 'sno','engName','empid','districtName','totalWorks','tvcValuecr','running','woIssue','ladissue','districtID' ,'id' ]">
-          </tr>
-
-        </table>
-      </div>
-      <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
-    </div>
+   
   </div>
 </div>
 <ng-template class=" " #itemDetailsModal let-modal>
