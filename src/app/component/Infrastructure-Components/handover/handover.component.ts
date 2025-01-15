@@ -705,9 +705,9 @@ export class HandoverComponent {
     this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     var RPType = 'WorkType'
     if (roleName == 'Division') {
-      this.chartOptions4.chart.height = '600px';
+      this.chartOptions4.chart.height = '9000';
     } else {
-      this.chartOptions4.chart.height = '5000';
+      this.chartOptions4.chart.height = '9000';
     }
     if (this.fromdt && this.todt) {
       this.spinner.show();
