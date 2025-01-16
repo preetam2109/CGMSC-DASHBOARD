@@ -74,7 +74,12 @@ distid=0;
   dataSource1!: MatTableDataSource<sbuDistrictEngAllotedWorks>;
   dispatchPendings: AEDistrictEngAllotedWorks[] = [];
   dataSource!: MatTableDataSource<AEDistrictEngAllotedWorks>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('paginator') paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator ;
+  @ViewChild('paginatorPageSize2') paginatorPageSize2!: MatPaginator;
+
   @ViewChild(MatSort) sort!: MatSort;
 constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef, private fb: FormBuilder,
   public datePipe: DatePipe, private modalService: NgbModal,private dialog: MatDialog, private toastr: ToastrService,){
@@ -92,6 +97,8 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
     this.initializeChartOptions();
     this.getSBUENEngAllotedWorks();
     this.GetAEENGEngAllotedWorks();
+    this.fetchDataBasedOnChartSelection();
+    this.fetchDataBasedOnChartSelectionSbu();
   }
   initializeChartOptions() {
     this.chartOptionsLine = {
@@ -112,9 +119,9 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.SbuEngAllotedWorks; 
-              console.log("apiData",apiData)
+              // console.log("apiData",apiData)
               const selectedData = apiData.find((data) => data.engName === selectedCategory);
-              console.log("selectedData chart1",selectedData)
+              // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const empid = selectedData.empid; 
                 const empname=selectedData.engName; // Extract the id from the matching entry
@@ -265,15 +272,18 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
         offsetX: 40,
       },
     };
-    this.fetchDataBasedOnChartSelection();
-    this.fetchDataBasedOnChartSelectionSbu();
+   
   }
+
+  
 
   ngAfterViewInit() {
-      // this.dataSource1.paginator=this.paginator;
-
-      // this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
+      this.dataSource1.paginator = this.paginatorPageSize;
+      // this.dataSource3.paginator = this.paginatorPageSize2;
+    // this.dataSource.sort = this.sort;
   }
+
 getSBUENEngAllotedWorks(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
@@ -436,21 +446,17 @@ fetchDataBasedOnChartSelection(): void {
         ...item,
         sno: index + 1
       }));
-      // // Add serial numbers to the data
-      //   this.dispatchPendings = res.map((item, index) => ({
-      //     ...item,
-      //     sno: index + 1
-      //   }));
       this.dataSource.data = this.dispatchPendings;
+      console.log('Data with serial numbers:', this.dispatchPendings); 
       // this.dataSource.data = this.dispatchPendings;
       // console.log(this.dataSource.data);
       // console.log(this.dispatchPendings);
       // console.log(this.dataSource);
-      // console.log('Data with serial numbers:', this.dispatchPendings); 
         // console.log("res ",JSON.stringify(res))
         // this.dispatchPendings = res;
         // console.log("Welcome ",JSON.stringify(this.dispatchPendings))
         // this.dataSource.data = res;
+
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
@@ -474,10 +480,13 @@ fetchDataBasedOnChartSelectionSbu(): void {
         ...item,
         sno: index + 1
       }));
+      debugger
       this.dataSource1.data = this.dispatchPendings1;
-        // console.log("dispatchPendings1= ",JSON.stringify(this.dispatchPendings1))
-      this.dataSource1.paginator = this.paginator;
-      this.dataSource1.sort = this.sort;
+      this.dataSource1.paginator = this.paginatorPageSize;;
+      // this.dataSource1.sort = this.sort;
+        console.log("dispatchPendings1= ",JSON.stringify(this.dispatchPendings1))
+        console.log(" this.dataSource1.data= ",JSON.stringify( this.dataSource1.data))
+        console.log("this.dataSource1.paginator= ",JSON.stringify( this.dataSource1.paginator))
       this.cdr.detectChanges();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
       this.spinner.hide();
@@ -509,8 +518,8 @@ fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): v
       }));
       this.dataSource3.data = this.dispatchPendings3;
         console.log(" this.dataSource3.data= ",JSON.stringify( this.dataSource3.data))
-      this.dataSource3.paginator = this.paginator;
-      this.dataSource3.sort = this.sort;
+      // this.dataSource3.paginator = this.paginator;
+      // this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
       this.openDialog();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
@@ -543,8 +552,8 @@ fetchDataBasedWorkDetailsWithEngAE(empcode:any, selectedSeries:any,empname:any):
       }));
       this.dataSource3.data = this.dispatchPendings3;
         console.log(" this.dataSource4= ",JSON.stringify( this.dataSource3.data))
-      this.dataSource3.paginator = this.paginator;
-      this.dataSource3.sort = this.sort;
+      // this.dataSource3.paginator = this.paginator;
+      // this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
       this.openDialog();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
