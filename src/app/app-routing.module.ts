@@ -90,6 +90,7 @@ import { EngineerWorksComponent } from './component/Infrastructure-Components/en
 
 import { DistDHSStockComponent } from './component/Collector-Components/dist-dhsstock/dist-dhsstock.component';
 import { DeliveryComponent } from './component/Collector-Components/delivery/delivery.component';
+import { TechnicalSanctionComponent } from './component/Infrastructure-Components/technical-sanction/technical-sanction.component';
 
 
 const routes: Routes = [
@@ -198,6 +199,7 @@ const routes: Routes = [
 {path:'Handover',component:HandoverComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 {path:'LandIssue',component:LandIssueComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 {path:'EngineerWorks',component:EngineerWorksComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
+{path:'TechnicalSanction',component:TechnicalSanctionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 
 {path:'DistDHSStock',component:DistDHSStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
 {path:'Devlivery',component:DeliveryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
