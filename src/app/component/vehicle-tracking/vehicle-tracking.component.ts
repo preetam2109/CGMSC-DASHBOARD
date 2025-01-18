@@ -151,7 +151,7 @@ const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy
           sno: index + 1
         }));
 
-        // console.log('consumption report :', this.consumptionR);
+        console.log('res:',res);
         this.dataSource.data = this.vehicleInfo;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -247,8 +247,9 @@ const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy
   
   
 
-
-
+  
+  
+  
 
 
 

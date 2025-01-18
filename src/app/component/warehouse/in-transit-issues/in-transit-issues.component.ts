@@ -24,6 +24,10 @@ export class InTransitIssuesComponent implements OnInit {
   plateNo:any=0
   remark: string = '';
   isanpractive:any
+  supplierid=0;
+  selectedSupplier: any;
+  SupplierDropDownList: any = []; 
+
 
   constructor(private spinner: NgxSpinnerService,private api: ApiService, private http: HttpClient) {}
 
@@ -33,11 +37,38 @@ export class InTransitIssuesComponent implements OnInit {
     this.getWarehouseInfo();
     this.loadItems();
     this.loadStatuses();
+this.getSupplierDropDown();
+
     // this.loadGetVehicleEntriesExits()
     // if(this.isanpractive==='Y'){
 
     // }
   }
+   // Method to fetch suppliers
+   getSupplierDropDown() {
+    this.api.MasSupplierPipeline(sessionStorage.getItem('facilityid')).subscribe((res: any[]) => {
+      if (res && res.length > 0) {
+        this.SupplierDropDownList = res.map(item => ({
+          supplierid: item.supplierid,  // Adjust key names as needed
+          suppliername: item.suppliername
+        }));
+      } else {
+        console.error('No suppliers found or incorrect structure:', res);
+      }
+    });
+  }
+    // Handle change when a supplier is selected
+    onSupplierChange(event: any): void {
+      debugger
+      const selectedSupplier = this.SupplierDropDownList.find((supplier: { supplierId: string }) => supplier.supplierId === this.selectedSupplier);
+  
+      if (selectedSupplier) {
+        console.log('Selected Supplier:', selectedSupplier);
+        // You can do further operations here after selecting a supplier
+      } else {
+        console.error('Selected supplier not found in the list.');
+      }
+    }
 
   getWarehouseInfo(){
     this.api.GetWarehouseInfo(sessionStorage.getItem('facilityid')).subscribe((res:any)=>{
@@ -58,8 +89,8 @@ export class InTransitIssuesComponent implements OnInit {
       // Ensure selectedItem is available before making the API call
       const ponoid = this.selectedItem;
       console.log('Fetching pipeline details for PONOID:', ponoid);
-
-      this.api.getPipelineDetailsGrid(ponoid, 0, 0, sessionStorage.getItem('facilityid'), sessionStorage.getItem('userid')).subscribe(
+debugger
+      this.api.getPipelineDetailsGrid(ponoid, 0, 0, sessionStorage.getItem('facilityid'), sessionStorage.getItem('userid'),this.supplierid).subscribe(
         (response: PipelineDetailsGrid[]) => {
           this.pipelineDetails = response; // Store the response data
           console.log('Pipeline Details:', this.pipelineDetails);

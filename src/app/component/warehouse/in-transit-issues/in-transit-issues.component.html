@@ -7,7 +7,28 @@
   </div>
 
   <!-- Dropdowns and Remarks -->
-  <div class="card p-3">
+
+ <!-- New Supplier Dropdown -->
+ 
+ <div class="card p-3">
+    <div class=" mb-3">
+      <label class="form-label"><strong>Choose Supplier</strong>:</label>
+      <ng-select
+        [items]="SupplierDropDownList"
+        bindLabel="suppliername"
+        bindValue="supplierid"
+        [(ngModel)]="supplierid"
+        name="supplierid"
+        (change)="onSupplierChange($event)"
+        [placeholder]="!supplierid ? 'Choose Supplier' : ''"
+        [searchable]="true"
+        [clearable]="true"
+        [appendTo]="'body'"
+        required
+        class="form-control"
+      >
+      </ng-select>
+    </div> 
     <div class="mb-3">
       <label for="itemDropdown" class="form-label"><strong>Select Pipeline Purchase Order:</strong></label>
       <select id="itemDropdown" class="form-select" [(ngModel)]="selectedItem" (change)="onItemChange()">

@@ -16,44 +16,44 @@ export class MenuServiceService {
     SEC1: {
       categories: {
         DrugsConsumables: [
-          { label: 'Home', route: 'home' },
+          { label: 'Home', route:  '/home' },
           // {
           //   label: 'Health Facilities Coverage',
-          //   route: 'FacCoverage',
+          //   route:  '/FacCoverage',
           //   submenu: [
-          //     { label: 'District Details', route: 'districtDetails' },
-          //     { label: 'Facility Details', route: 'facilityDetails' }
+          //     { label: 'District Details', route:  '/districtDetails' },
+          //     { label: 'Facility Details', route:  '/facilityDetails' }
           //   ]
           // },
-          { label: 'EMD Drugs/Consumables', route: '/emd' },
-          { label: 'Health Facilities Coverage', route: 'FacCoverage' },
-          { label: 'Warehouse Information', route: 'WarehouseInfo' },
-          { label: 'Stock Abstract', route: 'whStockAbstract' },
-          { label: 'Stock Details', route: 'stockDetails' },
-          { label: 'Warehouse Stock-out %', route: 'StockoutSummary' },
-          { label: 'Warehouse Indent Pending', route: 'IndentPendingWHdash' },
-          { label: 'Seasonal Drugs', route: 'SeasonDrugs' },
-          { label: 'Growth In Procurment', route: 'GrowthInProcurment' },
-          { label: 'Growth in Distribution', route: 'distribution' },
-          { label: 'Near Expiry', route: 'nearExpiry' },
-          { label: 'Devlivery', route: 'Devlivery' },
+          { label: 'EMD Drugs/Consumables', route:  '/emd' },
+          { label: 'Health Facilities Coverage', route:  '/FacCoverage' },
+          { label: 'Warehouse Information', route:  '/WarehouseInfo' },
+          { label: 'Stock Abstract', route:  '/whStockAbstract' },
+          { label: 'Stock Details', route:  '/stockDetails' },
+          { label: 'Warehouse Stock-out %', route:  '/StockoutSummary' },
+          { label: 'Warehouse Indent Pending', route:  '/IndentPendingWHdash' },
+          { label: 'Seasonal Drugs', route:  '/SeasonDrugs' },
+          { label: 'Growth In Procurment', route:  '/GrowthInProcurment' },
+          { label: 'Growth in Distribution', route:  '/distribution' },
+          { label: 'Near Expiry', route:  '/nearExpiry' },
+          { label: 'Devlivery', route:  '/Devlivery' },
 
-          // { label: 'QC Courier', route: 'QcPendings' },
-          // { label: 'QC-Lab Issues', route: 'qc-dash' },
+          // { label: 'QC Courier', route:  '/QcPendings' },
+          // { label: 'QC-Lab Issues', route:  '/qc-dash' },
 
           { label: 'Quality Controll',
             submenu:[
-            { label: 'QC Courier', route: 'QcPendings' },
-          { label: 'QC-Lab Issues', route: 'qc-dash' },
+            { label: 'QC Courier', route:  '/QcPendings' },
+          { label: 'QC-Lab Issues', route:  '/qc-dash' },
 
         ],
-        route: '' },
+        route:  '/' },
 
 
 
-          { label: 'IWH Pendings', route: 'iwhPending' },
-          { label: 'NOC', route: 'noc' },
-          { label: 'ANPR Report ', route: 'vehicleTracking' },
+          { label: 'IWH Pendings', route:  '/iwhPending' },
+          { label: 'NOC', route:  '/noc' },
+          { label: 'ANPR Report ', route:  '/vehicleTracking' },
 
           // {label:'Quality Controll'
 
@@ -63,28 +63,46 @@ export class MenuServiceService {
             label: 'Time-Based Analysis',
 
             submenu: [
-              { label: 'Door Delivery App Uses', route: 'DropAppWarehousePerformance' },
-              { label: 'Time Taken By Supplier', route: 'timetakenBySupplier' },
-              { label: 'Paid Time Taken', route: 'PaidTimeTaken' },
-              { label: 'QC Time Taken', route: 'QcTimeTaken' },
+              { label: 'Door Delivery App Uses', route:  '/DropAppWarehousePerformance' },
+              { label: 'Time Taken By Supplier', route:  '/timetakenBySupplier' },
+              { label: 'Paid Time Taken', route:  '/PaidTimeTaken' },
+              { label: 'QC Time Taken', route:  '/QcTimeTaken' },
 
-              // { label: 'Facility Details', route: 'facilityDetails' }
+              // { label: 'Facility Details', route:  '/facilityDetails' }
 
             ],
-            route: ''
+            route:  '/'
           },
 
-          // { label: 'In-Transit Issues', route: 'intransitIssues' },
+          // { label: 'In-Transit Issues', route:  '/intransitIssues' },
         ],
         EquipmentReagent: [
-          { label: 'Home', route: 'home' },
-          { label: 'RCDetail', route: 'Rcdetail' },
-          { label: 'Complaints', route: 'complaints' },
-          { label: 'Supply/Installation Status', route: 'dispatchPending' },
-          { label: 'Orders', route: 'dhs' },
-          { label: 'Reagent Issue', route: 'ReagentIssue' },
+          { label: 'Home', route:  '/home' },
+          { label: 'RCDetail', route:  '/Rcdetail' },
+          { label: 'Complaints', route:  '/complaints' },
+          { label: 'Supply/Installation Status', route:  '/dispatchPending' },
+          { label: 'Orders', route:  '/dhs' },
+          { label: 'Reagent Issue', route:  '/ReagentIssue' },
         ],
         Infrastructure: [
+
+          { label: 'Verticals', route:  '/home' },
+
+          // { label: 'Home', route:  '/InfrastructureHome' },
+          // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
+          // { label: 'SearchingWork', route:  '/SearchingWork' },
+          // { label: 'DistrictProgress', route:  '/DistrictProgress' },
+          // { label: 'DivisionProgress', route:  '/DivisionProgress' },
+          { label: 'Search Work', route:  '/SearchingWork' },
+          { label: 'Progeress Abstract', route:  '/InfrastructureHome' },
+          { label: 'District-wise Progress', route:  '/DashProgressIstCount' },
+          { label: 'Division Progress Monitoring', route:  '/DivisionProgress' },
+          { label: 'Distric Progress Monitoring', route:  '/DistrictProgress' },
+          { label: 'Work Order', route:  '/WorkOrder' },
+          { label: 'Handover', route:  '/Handover' },
+          { label: 'Land Issue', route:  '/LandIssue' },
+          { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
           { label: 'Verticals', route: 'home' },
 
           // { label: 'Home', route: 'InfrastructureHome' },
@@ -100,33 +118,33 @@ export class MenuServiceService {
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Handover', route: 'Handover' },
-          { label: 'Engineer-Works', route: 'EngineerWorks' },
+          { label: 'Engineer-Works', route: 'EngineerWorks' 
           
-          { label: 'RCDetail', route: 'Rcdetail' },
-          { label: 'Complaints', route: 'complaints' },
-          { label: 'Pending', route: 'dispatchPending' },
-          { label: 'Orders', route: 'dhs' },
-          { label: 'Reagent Issue', route: 'ReagentIssue' },
+          { label: 'RCDetail', route:  '/Rcdetail' },
+          { label: 'Complaints', route:  '/complaints' },
+          { label: 'Pending', route:  '/dispatchPending' },
+          { label: 'Orders', route:  '/dhs' },
+          { label: 'Reagent Issue', route:  '/ReagentIssue' },
         ],
       },
     },
     Collector: {
       categories: {
         DrugsConsumables: [
-          { label: 'Home', route: 'home' },
-          { label: 'Dashboard', route: 'card' },
-          { label: 'Facilities Coverage', route: 'FacCoverage' },
-          { label: 'Warehouse Information', route: 'WarehouseInfo' },
-          { label: 'CGMSC Supplies', route: 'cgmsc-supplies' },
-          { label: 'Stock Details', route: 'stockDetails' },
-          { label: 'District DHS Stock', route: 'DistDHSStock' },
-          { label: 'Facility Wise Stock', route: 'FacilityWiseStock' },
-          { label: 'DdlItemWiseInHandQty', route: 'DdlItemWiseInHandQty' },
-          { label: 'Indent Delivery Entry', route: 'Devlivery' },
+          { label: 'Home', route:  '/home' },
+          { label: 'Dashboard', route:  '/card' },
+          { label: 'Facilities Coverage', route:  '/FacCoverage' },
+          { label: 'Warehouse Information', route:  '/WarehouseInfo' },
+          { label: 'CGMSC Supplies', route:  '/cgmsc-supplies' },
+          { label: 'Stock Details', route:  '/stockDetails' },
+          { label: 'District DHS Stock', route:  '/DistDHSStock' },
+          { label: 'Facility Wise Stock', route:  '/FacilityWiseStock' },
+          { label: 'DdlItemWiseInHandQty', route:  '/DdlItemWiseInHandQty' },
+          { label: 'Indent Delivery Entry', route:  '/Devlivery' },
 
-          { label: 'HODYearWiseIssuance', route: 'HODYearWiseIssuance' },
-          { label: 'Warehouse Indent Pending', route: 'IndentPendingWHdash' },
-          { label: 'Seasonal Drugs', route: 'SeasonDrugs' },
+          { label: 'HODYearWiseIssuance', route:  '/HODYearWiseIssuance' },
+          { label: 'Warehouse Indent Pending', route:  '/IndentPendingWHdash' },
+          { label: 'Seasonal Drugs', route:  '/SeasonDrugs' },
         
 
        
@@ -134,10 +152,27 @@ export class MenuServiceService {
           
         ],
         EquipmentReagent: [
-          { label: 'Home', route: 'home' },
+          { label: 'Home', route:  '/home' },
       
         ],
         Infrastructure: [
+
+          { label: 'Verticals', route:  '/home' },
+          // { label: 'Home', route:  '/InfrastructureHome' },
+          // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
+          // { label: 'SearchingWork', route:  '/SearchingWork' },
+          // { label: 'DistrictProgress', route:  '/DistrictProgress' },
+          // { label: 'DivisionProgress', route:  '/DivisionProgress' },
+          { label: 'Search Work', route:  '/SearchingWork' },
+          { label: 'Progeress Abstract', route:  '/InfrastructureHome' },
+          { label: 'District-wise Progress', route:  '/DashProgressIstCount' },
+          { label: 'Division Progress Monitoring', route:  '/DivisionProgress' },
+          { label: 'Distric Progress Monitoring', route:  '/DistrictProgress' },
+          { label: 'Work Order', route:  '/WorkOrder' },
+          { label: 'Handover', route:  '/Handover' },
+          { label: 'Land Issue', route:  '/LandIssue' },
+          { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
           { label: 'Verticals', route: 'home' },
           // { label: 'Home', route: 'InfrastructureHome' },
           // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
@@ -153,42 +188,43 @@ export class MenuServiceService {
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Handover', route: 'Handover' },
           { label: 'Engineer-Works', route: 'EngineerWorks' },
+
         ],
       },
     },
     DHS: {
       categories: {
         DrugsConsumables: [
-          { label: 'Home', route: 'home' },
-          { label: 'Health Facilities Coverage', route: 'FacCoverage' },
-          { label: 'Warehouse Information', route: 'WarehouseInfo' },
-          { label: 'Stock Abstract', route: 'whStockAbstract' },
-          { label: 'DHS Seasonal Drugs', route: 'SeasonDrugs' },
-          { label: 'Growth In Procurment', route: 'GrowthInProcurment' },
-          { label: 'Growth in Distribution',route: 'distribution'},
-          { label: 'Demand vs Supply', route: 'EdlNonEdlIssuePercentSummary' },
-          // { label: 'Issue Per Wise Per Click', route: 'IssuePerWisePerClick' },
-          { label: 'DHS Supplied %', route: 'IssuedPerWise' },
-          { label: 'DHS Stock Availablity %', route: 'StockSummaryBalanceIndent' },
-          { label: 'WH Indent Pending', route: 'IndentPendingWHdash' },
-          { label: 'Warehouse Stock-out %', route: 'StockoutSummary' },
+          { label: 'Home', route:  '/home' },
+          { label: 'Health Facilities Coverage', route:  '/FacCoverage' },
+          { label: 'Warehouse Information', route:  '/WarehouseInfo' },
+          { label: 'Stock Abstract', route:  '/whStockAbstract' },
+          { label: 'DHS Seasonal Drugs', route:  '/SeasonDrugs' },
+          { label: 'Growth In Procurment', route:  '/GrowthInProcurment' },
+          { label: 'Growth in Distribution',route:  '/distribution'},
+          { label: 'Demand vs Supply', route:  '/EdlNonEdlIssuePercentSummary' },
+          // { label: 'Issue Per Wise Per Click', route:  '/IssuePerWisePerClick' },
+          { label: 'DHS Supplied %', route:  '/IssuedPerWise' },
+          { label: 'DHS Stock Availablity %', route:  '/StockSummaryBalanceIndent' },
+          { label: 'WH Indent Pending', route:  '/IndentPendingWHdash' },
+          { label: 'Warehouse Stock-out %', route:  '/StockoutSummary' },
 
-          { label: 'Near Expiry', route: 'nearExpiry' },
-          { label: 'NOC', route: 'noc' },
-          { label: 'District EDL Counts', route: 'DistrictWiseStk' },
-          { label: 'DdlItemWiseInHandQty', route: 'DdlItemWiseInHandQty' },
-          { label: 'Stock Position', route: 'DistFACwiseStockPostionNew' },
+          { label: 'Near Expiry', route:  '/nearExpiry' },
+          { label: 'NOC', route:  '/noc' },
+          { label: 'District EDL Counts', route:  '/DistrictWiseStk' },
+          { label: 'DdlItemWiseInHandQty', route:  '/DdlItemWiseInHandQty' },
+          { label: 'Stock Position', route:  '/DistFACwiseStockPostionNew' },
             {
               label: 'Time-Based Analysis',
 
               submenu: [
-                { label: 'Time Taken By Supplier', route: 'timetakenBySupplier' },
-                { label: 'Paid Time Taken', route: 'PaidTimeTaken' },
-                { label: 'QC Time Taken', route: 'QcTimeTaken' },
-                // { label: 'Facility Details', route: 'facilityDetails' }
+                { label: 'Time Taken By Supplier', route:  '/timetakenBySupplier' },
+                { label: 'Paid Time Taken', route:  '/PaidTimeTaken' },
+                { label: 'QC Time Taken', route:  '/QcTimeTaken' },
+                // { label: 'Facility Details', route:  '/facilityDetails' }
 
               ],
-              route: ''
+              route:  '/'
             },
           
 
@@ -198,9 +234,27 @@ export class MenuServiceService {
 
         ],
         EquipmentReagent: [
-          { label: 'Home', route: 'home' },
+          { label: 'Home', route:  '/home' },
         ],
         Infrastructure: [
+
+          { label: 'Verticals', route:  '/home' },
+
+          // { label: 'Home', route:  '/InfrastructureHome' },
+          // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
+          // { label: 'SearchingWork', route:  '/SearchingWork' },
+          // { label: 'DistrictProgress', route:  '/DistrictProgress' },
+          // { label: 'DivisionProgress', route:  '/DivisionProgress' }
+          { label: 'Search Work', route:  '/SearchingWork' },
+          { label: 'Progeress Abstract', route:  '/InfrastructureHome' },
+          { label: 'District-wise Progress', route:  '/DashProgressIstCount' },
+          { label: 'Division Progress Monitoring', route:  '/DivisionProgress' },
+          { label: 'Distric Progress Monitoring', route:  '/DistrictProgress' },
+          { label: 'Work Order', route:  '/WorkOrder' },
+          { label: 'Handover', route:  '/Handover' },
+          { label: 'Land Issue', route:  '/LandIssue' },
+          { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
           { label: 'Verticals', route: 'home' },
 
           // { label: 'Home', route: 'InfrastructureHome' },
@@ -218,21 +272,40 @@ export class MenuServiceService {
           { label: 'Handover', route: 'Handover' },
           { label: 'Engineer-Works', route: 'EngineerWorks' },
 
+
         ],
       },
     },
     CME: {
       categories: {
         DrugsConsumables: [
-          { label: 'Home', route: 'home' },
-          { label: 'Stock Abstract', route: 'whStockAbstract' },
-          { label: 'Growth in Distribution', route: 'distribution' },
+          { label: 'Home', route:  '/home' },
+          { label: 'Stock Abstract', route:  '/whStockAbstract' },
+          { label: 'Growth in Distribution', route:  '/distribution' },
         ],
         EquipmentReagent: [
-          { label: 'Home', route: 'home' },
+          { label: 'Home', route:  '/home' },
 
         ],
         Infrastructure: [
+
+          { label: 'Verticals', route:  '/home' },
+
+          // { label: 'Home', route:  '/InfrastructureHome' },
+          // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
+          // { label: 'SearchingWork', route:  '/SearchingWork' },
+          // { label: 'DistrictProgress', route:  '/DistrictProgress' },
+          // { label: 'DivisionProgress', route:  '/DivisionProgress' },
+          { label: 'Search Work', route:  '/SearchingWork' },
+          { label: 'Progeress Abstract', route:  '/InfrastructureHome' },
+          { label: 'District-wise Progress', route:  '/DashProgressIstCount' },
+          { label: 'Division Progress Monitoring', route:  '/DivisionProgress' },
+          { label: 'Distric Progress Monitoring', route:  '/DistrictProgress' },
+          { label: 'Work Order', route:  '/WorkOrder' },
+          { label: 'Handover', route:  '/Handover' },
+          { label: 'Land Issue', route:  '/LandIssue' },
+          { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
           { label: 'Verticals', route: 'home' },
 
           // { label: 'Home', route: 'InfrastructureHome' },
@@ -250,20 +323,38 @@ export class MenuServiceService {
           { label: 'Handover', route: 'Handover' },
           { label: 'Engineer-Works', route: 'EngineerWorks' },
 
+
         ],
       },
     },
     
     QC: {
       items: [
-        { label: 'Home', route: 'home' },
-        { label: 'Stock Details', route: 'stockDetails' },
-        { label: 'QC Courier', route: 'QcPendings' },
-        { label: 'QC-Lab Issues', route: 'qc-dash' },
+        { label: 'Home', route:  '/home' },
+        { label: 'Stock Details', route:  '/stockDetails' },
+        { label: 'QC Courier', route:  '/QcPendings' },
+        { label: 'QC-Lab Issues', route:  '/qc-dash' },
       ],
     },
     SE:{
       items: [
+
+        // { label: 'Verticals', route:  '/home' },
+        // { label: 'Home', route:  '/InfrastructureHome' },
+        // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
+        // { label: 'SearchingWork', route:  '/SearchingWork' },
+        // { label: 'DistrictProgress', route:  '/DistrictProgress' },
+        // { label: 'DivisionProgress', route:  '/DivisionProgress' },
+        { label: 'Search Work', route:  '/SearchingWork' },
+        { label: 'Progeress Abstract', route:  '/InfrastructureHome' },
+        { label: 'District-wise Progress', route:  '/DashProgressIstCount' },
+        { label: 'Division Progress Monitoring', route:  '/DivisionProgress' },
+        { label: 'Distric Progress Monitoring', route:  '/DistrictProgress' },
+        { label: 'Work Order', route:  '/WorkOrder' },
+        { label: 'Handover', route:  '/Handover' },
+        { label: 'Land Issue', route:  '/LandIssue' },
+        { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
         // { label: 'Verticals', route: 'home' },
         // { label: 'Home', route: 'InfrastructureHome' },
         // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
@@ -279,21 +370,23 @@ export class MenuServiceService {
         { label: 'Land Issue', route: 'LandIssue' },
         { label: 'Handover', route: 'Handover' },
         { label: 'Engineer-Works', route: 'EngineerWorks' },
+
       ],
     },
     Warehouse:{    
       items: [
-        { label: 'Home', route: 'home' },
-        { label: 'Warehouse Indent Pending', route: 'IndentPendingWHdash' },
-        { label: 'Stock Details', route: 'stockDetails' },
-        // { label: 'welcome', route: 'home' },
-        { label: ' Delivery Acknoledgement', route: 'Devlivery' },
+        { label: 'Home', route:  '/home' },
+        { label: 'Warehouse Indent Pending', route:  '/IndentPendingWHdash' },
+        { label: 'Stock Details', route:  '/stockDetails' },
+        // { label: 'welcome', route:  '/home' },
+        { label: ' Delivery Acknowledgement', route:  '/Devlivery' },
+        
 
-        // { label: 'Health Facilities Coverage', route: 'FacCoverage' },
-        // { label: 'Warehouse Information', route: 'WarehouseInfo' },
-        { label: 'Vehicle Check in/out', route: 'vehicleTracking' },
-        { label: 'In-Transit Issues', route: 'intransitIssues' },
-        // { label: 'DHS Seasonal Drugs', route: 'SeasonDrugs' },
+        // { label: 'Health Facilities Coverage', route:  '/FacCoverage' },
+        // { label: 'Warehouse Information', route:  '/WarehouseInfo' },
+        { label: 'Vehicle Check in/out', route:  '/vehicleTracking' },
+        { label: 'In-Transit Issues', route:  '/intransitIssues' },
+        // { label: 'DHS Seasonal Drugs', route:  '/SeasonDrugs' },
 
 
       ],
@@ -301,12 +394,12 @@ export class MenuServiceService {
 
     // Collector: {
     //   items: [
-    //     { label: 'Home', route: 'home' },
-    //     { label: 'Dashboard', route: 'card' },
-    //     { label: 'Health Facilities Coverage', route: 'FacCoverage' },
-    //       { label: 'Warehouse Information', route: 'WarehouseInfo' },
-    //     { label: 'Growth in Distribution', route: 'distribution' },
-    //     { label: 'HODYearWiseIssuance', route: 'HODYearWiseIssuance' },
+    //     { label: 'Home', route:  '/home' },
+    //     { label: 'Dashboard', route:  '/card' },
+    //     { label: 'Health Facilities Coverage', route:  '/FacCoverage' },
+    //       { label: 'Warehouse Information', route:  '/WarehouseInfo' },
+    //     { label: 'Growth in Distribution', route:  '/distribution' },
+    //     { label: 'HODYearWiseIssuance', route:  '/HODYearWiseIssuance' },
 
 
 
@@ -314,12 +407,23 @@ export class MenuServiceService {
     // },
     Division: {
       items: [
-        // { label: 'Home', route: 'InfrastructureHome' },
-        // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
-        // { label: 'SearchingWork', route: 'SearchingWork' },
-        // { label: 'DistrictProgress', route: 'DistrictProgress' },
-        // { label: 'DivisionProgress', route: 'DivisionProgress' },
+        // { label: 'Home', route:  '/InfrastructureHome' },
+        // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
+        // { label: 'SearchingWork', route:  '/SearchingWork' },
+        // { label: 'DistrictProgress', route:  '/DistrictProgress' },
+        // { label: 'DivisionProgress', route:  '/DivisionProgress' },
        
+
+        { label: 'Search Work', route:  '/SearchingWork' },
+        { label: 'Progeress Abstract', route:  '/InfrastructureHome' },
+        { label: 'District-wise Progress', route:  '/DashProgressIstCount' },
+        { label: 'Division Progress Monitoring', route:  '/DivisionProgress' },
+        { label: 'Distric Progress Monitoring', route:  '/DistrictProgress' },
+        { label: 'Work Order', route:  '/WorkOrder' },
+        { label: 'Handover', route:  '/Handover' },
+        { label: 'Land Issue', route:  '/LandIssue' },
+        { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
         { label: 'Search Work', route: 'SearchingWork' },
         { label: 'Progress Abstract', route: 'InfrastructureHome' },
         { label: 'District-wise Progress', route: 'DashProgressIstCount' },
@@ -329,6 +433,7 @@ export class MenuServiceService {
         { label: 'Land Issue', route: 'LandIssue' },
         { label: 'Handover', route: 'Handover' },
         { label: 'Engineer-Works', route: 'EngineerWorks' },
+
 
       ],
     },
@@ -379,17 +484,17 @@ getSubmenu(label: string): { label: string; route: string }[] | undefined {
   const submenus:any = {
 
     'Time-Based Analysis': [
-      { label: 'Time Taken By Supplier', route: 'timetakenBySupplier' },
-      { label: 'Payement Time Taken', route: 'PaidTimeTaken' },
-      { label: 'QC Time Taken', route: 'QcTimeTaken' },
-      { label: 'Door Delivery App Uses', route: 'DropAppWarehousePerformance' },
+      { label: 'Time Taken By Supplier', route:  '/timetakenBySupplier' },
+      { label: 'Payement Time Taken', route:  '/PaidTimeTaken' },
+      { label: 'QC Time Taken', route:  '/QcTimeTaken' },
+      { label: 'Door Delivery App Uses', route:  '/DropAppWarehousePerformance' },
 
 
     ],
 
     'Quality Controll': [
-      { label: 'QC Courier', route: 'QcPendings' },
-      { label: 'QC-Lab Issues', route: 'qc-dash' },
+      { label: 'QC Courier', route:  '/QcPendings' },
+      { label: 'QC-Lab Issues', route:  '/qc-dash' },
 
 
     ],

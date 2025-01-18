@@ -85,7 +85,7 @@ export class CgmscstockDetailsDrugsComponent {
   // }
     getAllDispatchPending() {
       
-    debugger
+    
       if(this.loginService.getRole().roleName==='Warehouse'){
           this.whid=sessionStorage.getItem('facilityid')
       }

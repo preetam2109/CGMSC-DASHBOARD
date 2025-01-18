@@ -1,20 +1,21 @@
-.container {
-    text-align:right;
-    /* padding: 20px; Adds padding to the container */
+.card {
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
   
-  .title {
-    display: inline-block;
-    font-size: 25px; /* Larger font size */
-    font-weight: bold;
-    font-family: "Poppins", sans-serif; /* Use a modern font */
-    margin-right: 10px; /* Adds space between title and username */
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
   }
   
-  .username {
-    text-transform: capitalize;
-    display: inline-block;
-    font-size: 20px;
-    font-family: "Roboto", sans-serif; /* Use a different font for contrast */
-    color: #888; /* Slightly darker color */
+  .card-title button {
+    font-size: 18px;
+    color: #007bff;
+    cursor: pointer;
   }
+  
+  .card-title button:hover {
+    text-decoration: underline;
+  }
+  
