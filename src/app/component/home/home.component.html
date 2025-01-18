@@ -1,18 +1,36 @@
-<!-- <div class="container">
-    <h1 class="title">{{ title }}</h1>
-    <h2 class="username">{{ username  }}</h2>
-  </div> -->
-<!-- <h2>Angular 15 - Material UI Tutorial</h2>
-<div>
-<button matBadge="2" matBadgeColor="accent" matBadgeOverlap="false" mat-raised-button color="primary">Welcome</button>
-</div>
-<br>
-<div>
-    <button matBadge="2" matBadgeColor="accent" matBadgeSize="small" mat-raised-button color="primary">Welcome</button>
-</div>
-<br>
-<div>
-    <button matBadge="2" matBadgeHidden="false" matBadgeColor="accent" matBadgePosition="before" matBadgeOverlap="false" matBadgeSize="large" mat-raised-button color="primary">Welcome</button>
-</div>
-<br>
-<mat-icon matBadge="3">home</mat-icon> -->
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems let i = index" >
+        <!-- Card Display for Menu Items -->
+        <div
+          [style.background-color]="colors[i % colors.length]"
+          class="card mb-4 shadow-sm"
+          [routerLink]="item.route"
+          style="cursor: pointer;"
+        >
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title">{{ item.label }}</h5>
+              <mat-icon *ngIf="item.submenu" (click)="toggleSubmenu(item.label); $event.stopPropagation();">
+                {{ expandedMenus[item.label] ? 'expand_less' : 'expand_more' }}
+              </mat-icon>
+            </div>
+            <div *ngIf="expandedMenus[item.label]" class="submenu">
+              <div *ngFor="let subItem of item.submenu">
+                <button
+                  [routerLink]="subItem.route"
+                  class="btn btn-link"
+                  (click)="closeSubmenu(); $event.stopPropagation();"
+                >
+                  <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
+                  {{ subItem.label }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

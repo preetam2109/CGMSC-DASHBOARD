@@ -285,7 +285,7 @@ isPasswordVisible: boolean = false;
   }
 
   togglePassword(): void {
-    // debugger
+    // 
     this.isPasswordVisible = !this.isPasswordVisible; // Toggle visibility
     const passwordField = document.getElementById('pwd') as HTMLInputElement;
     if (passwordField) {
@@ -383,11 +383,11 @@ isPasswordVisible: boolean = false;
     
     
     
-    if (captchaValue !== this.captcha) {
-      alert('Incorrect CAPTCHA. Please try again.');
-      this.generateCaptcha(); // Refresh CAPTCHA
-      return;
-    }
+    // if (captchaValue !== this.captcha) {
+    //   alert('Incorrect CAPTCHA. Please try again.');
+    //   this.generateCaptcha(); // Refresh CAPTCHA
+    //   return;
+    // }
     // unhide after fully selly selection
     sessionStorage.removeItem
     localStorage.removeItem
@@ -580,7 +580,7 @@ handleInfrastructureLogin() {
 }
 
 togglePasswordVisibility() {
-  debugger
+  
   this.isPasswordVisible = !this.isPasswordVisible;
 }
 

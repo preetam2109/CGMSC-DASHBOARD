@@ -10,8 +10,28 @@
 
   <!-- Dropdowns and Date Picker -->
   <h1 class="text-center" style="color: rgb(50, 50, 164);">
-    <strong>Update Delivery Acknoledgement</strong>
+    <strong>Update Delivery Acknowledgement</strong>
   </h1>
+
+  <!-- New Supplier Dropdown -->
+  <!-- <div class="col-12 col-md-6 mb-3">
+    <label class="form-label"><strong>Choose Supplier</strong>:</label>
+    <ng-select
+      [items]="SupplierDropDownList"
+      bindLabel="suppliername"
+      bindValue="supplierid"
+      [(ngModel)]="supplierid"
+      name="supplierid"
+      (change)="onSupplierChange($event)"
+      [placeholder]="!supplierid ? 'Choose Supplier' : ''"
+      [searchable]="true"
+      [clearable]="true"
+      [appendTo]="'body'"
+      required
+      class="form-control"
+    >
+    </ng-select>
+  </div> -->
 
   <div class="row justify-content-center mb-3">
     <div class="col-12 col-md-6 mb-3">

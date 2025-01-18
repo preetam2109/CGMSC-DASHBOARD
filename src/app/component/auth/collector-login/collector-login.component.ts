@@ -38,7 +38,7 @@ export class CollectorLoginComponent implements OnInit,AfterViewInit {
   himisDistrictid:any=''
   days:any=0
   emailid: any;
-  pwd : any;
+  pwd : any='Admin@cgmsc123';
   errorMessage="Invalid Credential";
   invalidLogin=false;
   googleMap: GoogleMap = new GoogleMap;  // Access Google Map instance
@@ -94,7 +94,7 @@ isPasswordVisible: boolean = false;
     
   }
   adminLoginDropdown(){
-    debugger
+    
     this.api.masddlUser('DC').subscribe((res:any[])=>{
       console.log(' Admin API dropdown Response:', res);
       if (res && res.length > 0) {
@@ -211,11 +211,11 @@ isPasswordVisible: boolean = false;
     
     
     
-    if (captchaValue !== this.captcha) {
-      alert('Incorrect CAPTCHA. Please try again.');
-      this.generateCaptcha(); // Refresh CAPTCHA
-      return;
-    }
+    // if (captchaValue !== this.captcha) {
+    //   alert('Incorrect CAPTCHA. Please try again.');
+    //   this.generateCaptcha(); // Refresh CAPTCHA
+    //   return;
+    // }
     // unhide after fully selly selection
     sessionStorage.removeItem
     localStorage.removeItem
