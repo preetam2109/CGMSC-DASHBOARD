@@ -196,10 +196,12 @@ else{
   this.divisionid=0;
   this.himisDistrictid=0; 
 }
+
   this.spinner.show();
-  // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  // // this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
-  // this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+  this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  // this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+  this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+  // console.log('himisDistrictid=', this.himisDistrictid,'divisionid=', this.divisionid,' this.SchemeId=', this.SchemeId);
   this.api.GetProgressCount(this.DID, this.divisionid,this.himisDistrictid,this.SchemeId).subscribe(
     (data: any) => {
       this.divisionprograss = data;

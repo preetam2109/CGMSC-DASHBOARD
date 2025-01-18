@@ -57,13 +57,24 @@ export class LandIssueComponent {
   //#endregion
   //#region data Table
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
+  // dispatchPendings1: LandIssueDetails[] = [];
+  // dispatchPendings2: LandIssueDetails[] = [];
   dispatchPendings: LandIssueDetails[] = [];
   dataSource!: MatTableDataSource<LandIssueDetails>;
+  // dataSource1!: MatTableDataSource<LandIssueDetails>;
+  // dataSource2!: MatTableDataSource<LandIssueDetails>;
+  // @ViewChild(MatPaginator) paginator1!: MatPaginator;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator2!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  districtid: any;;
+  // @ViewChild(MatSort) sort1!: MatSort;
+  // @ViewChild(MatSort) sort2!: MatSort;
   //#endregion
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private modalService: NgbModal, private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<LandIssueDetails>([]);
+    // this.dataSource1 = new MatTableDataSource<LandIssueDetails>([]);
+    // this.dataSource2 = new MatTableDataSource<LandIssueDetails>([]);
   }
 
   ngOnInit() {
@@ -491,24 +502,37 @@ export class LandIssueComponent {
     //   },
     // };
   }
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
+  // ngAfterViewInit() {
+  //   this.dataSource.paginator = this.paginator;
+  //   this.dataSource1.paginator = this.paginator1;
+  //   this.dataSource2.paginator = this.paginator2;
+  // }
   //#region API get DATA
   LOPendingTotal(): void {
-    const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
-    const districtid = 0;
+    // const roleName = localStorage.getItem('roleName');
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    // const districtid = 0;
 
+    var roleName = localStorage.getItem('roleName');
+    // alert( roleName )
     if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptions.chart.height = '200px';
-    } else {
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+     this.districtid = sessionStorage.getItem('himisDistrictid');
+     this.chartOptions.chart.height = '400px';
+      this.divisionid=0;
+    }
+    else {
+      this.districtid = 0;
+      this.divisionid=0;
       this.chartOptions.chart.height = 'auto';
     }
 
     this.spinner.show();
 
-    this.api.GetLIPendingTotal(this.Total, this.divisionid, districtid).subscribe(
+    this.api.GetLIPendingTotal(this.Total, this.divisionid,this.districtid).subscribe(
       (data: any) => {
         if (Array.isArray(data) && data.length > 0) {
           this.LIPendingTotalData = data;
@@ -556,15 +580,31 @@ export class LandIssueComponent {
   }
   LOPendingScheme(): void {
     this.spinner.show();
-    const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
-    const districtid = 0;
+    // const roleName = localStorage.getItem('roleName');
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    // const districtid = 0;
+    // if (roleName == 'Division') {
+    //   this.chartOptions2.chart.height = '500px';
+    // } else {
+    //   this.chartOptions2.chart.height = '800';
+    // }
+
+    var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptions2.chart.height = '500px';
-    } else {
-      this.chartOptions2.chart.height = '800';
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+     this.districtid = sessionStorage.getItem('himisDistrictid');
+     this.chartOptions.chart.height = '400px';
+      this.divisionid=0;
     }
-    this.api.GetLIPendingTotal(this.Scheme, this.divisionid, districtid).subscribe(
+    else {
+      this.districtid = 0;
+      this.divisionid=0;
+      this.chartOptions.chart.height = 'auto';
+    }
+    this.api.GetLIPendingTotal(this.Scheme, this.divisionid,this.districtid).subscribe(
       (data: any) => {
         if (Array.isArray(data) && data.length > 0) {
           this.LIPendingSchemeData = data;
@@ -613,15 +653,30 @@ export class LandIssueComponent {
   }
   LOPendingDistrict(): void {
     this.spinner.show();
-    const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
-    const districtid = 0;
+    // const roleName = localStorage.getItem('roleName');
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    // const districtid = 0;
+    // if (roleName == 'Division') {
+    //   this.chartOptionsLine.chart.height = '600px';
+    // } else {
+    //   this.chartOptionsLine.chart.height = '1500';
+    // }
+    var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
-      this.chartOptionsLine.chart.height = '600px';
-    } else {
-      this.chartOptionsLine.chart.height = '1500';
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptions2.chart.height = '500px';
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+     this.districtid = sessionStorage.getItem('himisDistrictid');
+     this.chartOptions.chart.height = '200px';
+      this.divisionid=0;
     }
-    this.api.GetLIPendingTotal(this.District, this.divisionid, districtid).subscribe(
+    else {
+      this.districtid = 0;
+      this.divisionid=0;
+      this.chartOptions.chart.height = 'auto';
+    }
+    this.api.GetLIPendingTotal(this.District, this.divisionid,this.districtid).subscribe(
       (data: any) => {
         if (Array.isArray(data) && data.length > 0) {
           this.LIPendingDistrictData = data;
@@ -684,13 +739,18 @@ export class LandIssueComponent {
     this.spinner.show();
     this.api.GetLandIssueDetails(divisionID, mainSchemeId, distid).subscribe(
       (res) => {
-        this.dispatchPendings = res.map((item: LandIssueDetails, index: number) => ({
+        this.dispatchPendings = res.map((item: any, index: any) => ({
           ...item,
           sno: index + 1
         }));
+        debugger;
         this.dataSource.data = this.dispatchPendings;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        console.log(' this.dataSource.data =', this.dataSource.data );
+        console.log('this.dataSource1.paginator ', this.paginator );
+        console.log(' this.dataSource.sort', this.sort );
+
         this.cdr.detectChanges();
         this.openDialog();
         this.spinner.hide();
@@ -714,10 +774,10 @@ export class LandIssueComponent {
           sno: index + 1
         }));
         this.dataSource.data = this.dispatchPendings;
-        // console.log('this.dataSource.data',this.dataSource.data);
-
+        
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        // console.log('this.dataSource1.paginator ',this.dataSource1.paginator );
         this.cdr.detectChanges();
         this.openDialog();
         this.spinner.hide();

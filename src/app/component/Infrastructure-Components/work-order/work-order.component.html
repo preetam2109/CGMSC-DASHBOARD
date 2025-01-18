@@ -1,11 +1,11 @@
 <div class="card shadow">
     <div class="card-body">
-        <div class="w-100" style="background-color:#858681"> <!--#e2e3e5-->
-            <h3 class="text-light">Work Order Pending</h3>
+        <div class="w-100 "> <!--#e2e3e5-->
+            <h3 class=" bold text-light bg-dark">Work Order Pending</h3>
         </div>
         <div class="container-fluid  p-2">
             <div class="row">
-              <div class="col-lg-6 col-md-6 mb-2 border rounded">
+              <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingTotal.length > 0">
                 <div class="chart-container" >
                   <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
                     [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
@@ -14,7 +14,7 @@
                      ></apx-chart>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-6 mb-2 border rounded">
+              <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingDistrict.length > 0" >
                 <div class="chart-container">
                   <apx-chart [series]="chartOptionsLine2.series" [chart]="chartOptionsLine2.chart" [dataLabels]="chartOptionsLine2.dataLabels"
                     [plotOptions]="chartOptionsLine2.plotOptions" [xaxis]="chartOptionsLine2.xaxis" [stroke]="chartOptionsLine2.stroke"
@@ -26,7 +26,7 @@
             
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-6 mb-2 border rounded">
+                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingScheme.length > 0">
                     <div class="chart-container">
                       <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [dataLabels]="chartOptions2.dataLabels"
                         [plotOptions]="chartOptions2.plotOptions" [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
@@ -34,7 +34,7 @@
                         [tooltip]="chartOptions2.tooltip" [legend]="chartOptions2.legend"></apx-chart>
                     </div>
                   </div>
-              <div class="col-lg-6 col-md-6 mb-2 border rounded">
+              <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingContractor.length > 0">
                 <div class="chart-container">
                   <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart" [dataLabels]="chartOptionsLine.dataLabels"
                     [plotOptions]="chartOptionsLine.plotOptions" [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke"

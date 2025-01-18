@@ -1,4 +1,4 @@
-import { DatePipe, NgFor, NgStyle } from '@angular/common';
+import { CommonModule, DatePipe, NgFor, NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -20,7 +20,7 @@ import jsPDF from 'jspdf';
   standalone: true,
   imports: [FormsModule,ReactiveFormsModule,MatSelectModule,
     MatInputModule,MatFormFieldModule,MatAutocompleteModule ,NgFor,NgSelectModule,
-    SelectDropDownModule,
+    SelectDropDownModule,CommonModule ,
     NgStyle,DatePipe
   ],
   templateUrl: './searching-work.component.html',
@@ -37,6 +37,8 @@ export class SearchingWorkComponent {
   workID:any;
   sr: any;
   ImageName: any;
+  himisDistrictid:any;
+  divisionid: any;
 constructor(public api:ApiService,public spinner:NgxSpinnerService, public DatePipe:DatePipe){
 
 }
@@ -67,10 +69,27 @@ config = {
 
 getworkfill(): void {
   try {
-    this.api.WorkFill(0,0,0,0,0).subscribe(
+    var roleName  = localStorage.getItem('roleName');
+    // alert( roleName )
+if(roleName == 'Division'){
+  this.divisionid = sessionStorage.getItem('divisionID');
+  this.himisDistrictid=0;
+// return; 
+// alert( this.divisionid )
+}  else if (roleName == 'Collector') {
+ this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+ this.divisionid=0;
+//  alert( this.himisDistrictid );
+} 
+else{
+this.himisDistrictid=0;
+this.divisionid=0;
+} 
+// searchtext: any, workid: any,divisionId:any,distid:any,mainSchemeId:any
+    this.api.WorkFill(0,0,this.divisionid,this.himisDistrictid,0).subscribe(
       (res) => {
         // alert('res');
-        // console.log('res', JSON.stringify(res));
+        console.log('res', JSON.stringify(res));
         this.workfill = res; // Bind the API response to workfill
       
         this.spinner.hide();

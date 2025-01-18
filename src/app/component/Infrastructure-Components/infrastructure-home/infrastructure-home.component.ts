@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DashProgressCount, DMEProgressSummary, GetDistrict, MainScheme } from 'src/app/Model/DashProgressCount';
+import { DashProgressCount, DistrictNameDME, DMEProgressSummary, GetDistrict, MainScheme } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 // import { BrowserModule } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,8 +15,6 @@ import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXA
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -43,7 +41,7 @@ export type ChartOptions = {
     MatIconModule,
     MatTabsModule,
     CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
-    NgApexchartsModule, MatSortModule, MatPaginatorModule,NgbModule
+    NgApexchartsModule, MatSortModule, MatPaginatorModule,
     // BrowserModule
   ],
 
@@ -54,6 +52,7 @@ export class InfrastructureHomeComponent {
   mainscheme: MainScheme[] = [];
   districtData: DashProgressCount[] = [];
   DMEprogresssummary: DMEProgressSummary[] = [];
+  DistrictNameDMEData: DistrictNameDME[] = [];
   originalData: DashProgressCount[] = []; // To store the original data for "Total Works"
   GetDistrict: GetDistrict[] = [];
   totalNosWorks: number = 0;
@@ -101,32 +100,35 @@ export class InfrastructureHomeComponent {
   chartOptions!: ChartOptions;
   selectedName: any;
   himisDistrictid:any;
-  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private modalService: NgbModal) {
+  divid:any;
+  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {
 
   }
 
   ngOnInit() {
-    var roleName  = localStorage.getItem('roleName');
+    var roleName = localStorage.getItem('roleName');
     // alert( roleName )
-if(roleName == 'Division'){
-  this.divisionid = sessionStorage.getItem('divisionID');
-  this.showDivision=false;
-  this.himisDistrictid=0;
-// return; 
-// alert( this.divisionid )
-this.loadInitialData();
-}  else if (roleName == 'Collector') {
- this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
- this.loadInitialData();
- this.showDistrict=false;
- this.showDivision=false;
-//  alert( this.himisDistrictid );
-} else{
-this.loadInitialData();
-this.himisDistrictid=0;
-// this.divisionid=0;
-} 
- this.GetDistricts();
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      this.showDivision = false;
+      // return; 
+      // alert( this.divisionid )
+      this.loadInitialData();
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      this.showDistrict = false;
+      this.showDivision = false;
+      // alert( this.himisDistrictid );
+      this.loadInitialData();
+    } else {
+      this.himisDistrictid = 0;
+      this.divisionid = 0;
+      this.loadInitialData();
+
+    }
+    this.GetDistricts();
+    this.getDistrictNameDME();
     this.getmain_scheme();
     //  this.GetDMEProgressSummary();
   }
@@ -134,16 +136,24 @@ this.himisDistrictid=0;
   loadInitialData() {
     // Load data for "Total Works" tab on initialization
     this.spinner.show();
-    // var roleName  = localStorage.getItem('roleName');
-
-    // if(roleName == 'Division'){
-    //   this.showDivision=false;
-
-    // }
-this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-
-    this.api.DashProgressCount(this.divisionid, 0,this.himisDistrictid).subscribe(
+    this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+    console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+var mainSchemeId=0;
+// divisionid= D1024 himisDistrictid= 0 mainSchemeID= 103
+// if( this.mainSchemeID != null ){
+//   alert('hi');
+//   // || this.himisDistrictid != 0 || this.mainSchemeID != 0
+//   this.himisDistrictid = 0;//this.divisionid =0;
+//   this.mainSchemeID=0;
+//   console.log('2 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+// }
+// if (this.selectedTabIndex == 0) {
+//   this.mainSchemeID=0;
+//   this.himisDistrictid = 0;//this.divisionid =0;
+// } 
+debugger
+    this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid).subscribe(
       (res: any) => {
         // alert(JSON.stringify(res));
         this.originalData = this.sortDistrictData(res); // Save as original data
@@ -159,9 +169,11 @@ this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
 
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
+    // alert(this.selectedTabIndex )
     if (this.selectedTabIndex === 0) {
       // Restore original data for "Total Works"
       this.districtData = [...this.originalData];
+      this.loadInitialData();
       this.showCards = true;
     } else {
       this.showCards = false;
@@ -171,10 +183,8 @@ this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
   GetDistricts() {
     try {
       var roleName  = localStorage.getItem('roleName');
-      // alert( roleName )
   if(roleName == 'Division'){
     this.divisionid = sessionStorage.getItem('divisionID');
-    // this.showDivision=false;
   } else {
     this.divisionid =0;
   }
@@ -191,40 +201,76 @@ this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
       alert(ex.message);
     }
   }
+  getDistrictNameDME() {
+    try {
+      // showCardss
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');this.himisDistrictid=0;
+  } else if (roleName == 'Collector') {
+    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
+  } else{
+    this.himisDistrictid=0;
+    this.divisionid =0;
+  }
+  // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  console.log('divisionid1=', this.divisionid, 'himisDistrictid1=', this.himisDistrictid);
 
-
+      this.api.GetDistrictNameDME(this.divisionid,this.himisDistrictid).subscribe(
+        (res: any) => {
+          this.DistrictNameDMEData = res;
+          console.log('DistrictNameDME1=', this.DistrictNameDMEData);
+        },
+        (error) => {
+          alert(JSON.stringify(error));
+        }
+      );
+    } catch (ex: any) {
+      alert(ex.message);
+    }
+  }
   DashProgressCount() {
     try {
       this.spinner.show();
       // const distid = this.distid || 0;
       // const divisionid = this.divisionid || 0;
-    
-      var roleName  = localStorage.getItem('roleName');
-      // alert( roleName )
 
-if(roleName == 'Division'){
-  // this.divisionid = sessionStorage.getItem('divisionID');
-  this.showDivision=false;
-
-  // alert( this.divisionid )
-  // return
-}
+      var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        this.divisionid = sessionStorage.getItem('divisionID');
+        this.showDivision = false;
+        // if(this.divid != 0){
+        //   this.divisionid  = this.divid ;
+        //   alert(this.divisionid );
+        // }
+        // alert( this.divisionid )
+        // return
+      } else if (roleName == 'Collector') {
+        this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+        // this.himisDistrictid = this.distid;
+        if(this.distid!=0){
+          this.himisDistrictid = this.distid;
+          alert(this.himisDistrictid);
+        }
+      }
+      // 
       // this.distid = this.distid == 0 ? 0 : this.distid;
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
       this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
       this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
       // console.error('dist id:', this.himisDistrictid  );
       // console.error('mainSchemeID:', this.mainSchemeID);
+      console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
       this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid).subscribe(
         (res: any) => {
           if (this.selectedTabIndex === 0) {
             // Do not overwrite the original data for "Total Works"
             this.districtData = [...this.originalData];
-            if(this.mainSchemeID!==0){
+            if (this.mainSchemeID !== 0) {
 
               this.districtData = this.sortDistrictData(res);
-            }else{
-            // this.districtData = [...this.originalData];
+            } else {
+              // this.districtData = [...this.originalData];
 
             }
             // console.log('retotalwork=', JSON.stringify(this.districtData));
@@ -235,7 +281,7 @@ if(roleName == 'Division'){
             // console.log('re2=', JSON.stringify(this.districtData));
           }
           this.calculateTotalNosWorks();
-      this.spinner.hide();
+          this.spinner.hide();
 
         },
         (error) => {
@@ -246,14 +292,14 @@ if(roleName == 'Division'){
       console.error('Exception:', ex.message);
     }
   }
-
   onButtonClick(name: string, id: any): void {
     this.showCards = true;
     // this.hide=false;
+    this.divid=id;
     this.show=true;
     this.divisionid = id;
     this.distid = 0;
-    this.mainSchemeID = 0;
+    this.mainSchemeID = this.mainSchemeID;
     this.name = name;
     this.selectedDistrict = id;
     if(this.selectedName==null){
@@ -270,7 +316,9 @@ if(roleName == 'Division'){
     this.distname=distname;
     this.showCards = true;
     this.distid = districT_ID;
-    this.mainSchemeID = 0;
+    this.himisDistrictid = districT_ID;
+    // this.mainSchemeID = 0;
+    this.mainSchemeID = this.mainSchemeID;
     this.divisionid = 0;
     this.show=true;
     if(this.selectedName==null){
@@ -283,14 +331,38 @@ if(roleName == 'Division'){
     // console.error('onGetDistrictsSelect', this.distid  );
     if (this.selectedTabIndex === 3) {
       this.showCards = false;
+      // this.GetDMEProgressSummary();
       this.DashProgressCount();
-      this.GetDMEProgressSummary();
 
     }
 
 
 
   }
+  onselectDistrictsDME(districT_ID: any,distname:any){
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      // this.divisionid = sessionStorage.getItem('divisionID');
+      if (this.selectedTabIndex === 2) {
+        this.distid = districT_ID;
+        // this.himisDistrictid = districT_ID;
+        this.showCards = false;
+        this.showCardss=true;
+        this.GetDMEProgressSummary();
+        // this.DashProgressCount();
+  
+      }
+    } 
+    // else if (roleName == 'Collector') {
+    //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
+    // } 
+    else{
+      this.distid = districT_ID;
+      this.GetDMEProgressSummary();
+      this.showCardss=true;
+    }
+  }
+
   sortDistrictData(data: DashProgressCount[]): DashProgressCount[] {
 
     return data.sort((a, b) =>
@@ -367,8 +439,8 @@ if(roleName == 'Division'){
       chart: {
         type: 'bar',
         stacked: true,
-        // height: 'auto',
-        height: 400,
+        height: 'auto',
+        // height: 400,
         // width:600,
         events: {
           dataPointSelection: (
@@ -478,7 +550,7 @@ if(roleName == 'Division'){
           toBeTender1001.push(item.toBeTender1001);
           total.push(item.total);
 
-          console.log('districtname:', item.districtname, 'whid:', item.district_ID);
+          // console.log('districtname:', item.districtname, 'whid:', item.district_ID);
           if (item.districtname && item.district_ID) {
             this.whidMap[item.districtname] = item.district_ID;
           } else {
@@ -488,7 +560,7 @@ if(roleName == 'Division'){
 
         });
 
-        console.log('whidMap:', this.whidMap); // Log the populated mmidMap
+        // console.log('whidMap:', this.whidMap); // Log the populated mmidMap
 
         this.chartOptions.series = [
 
@@ -576,7 +648,7 @@ if(roleName == 'Division'){
    this.hide=true;
    this.selectedName=selectedName
     this.mainSchemeID = mainSchemeID;
-    this.divisionid = 0;
+    // this.divisionid = 0;
     this.distid = 0;
     this.showCards = true;
     if(this.name||this.distname ==null){
@@ -592,47 +664,6 @@ if(roleName == 'Division'){
 //#endregion
   selectdata(data:any ){
   }
-  open_mobile_modal(type: number, modalDefault_modal: any) {
-    this.modalService.open(modalDefault_modal, {
-      centered: true
-    });
-    // if (type == 1) this.is_edit_mobile = true;
-
-    // else this.is_edit_mobile = false
-  }
-  // onselect_mainscheme_data(selectedValue: string, selectedName: string): void {
-  //   console.log('Selected ID:', selectedValue);
-  //   console.log('Selected Name:', selectedName);
-  //   // Handle your logic here
-  // }
-  
-  // try {
-  //   this.api.DMEProgressSummary(0,0,this.distid,0).subscribe(
-  //     (res: any) => {
-  //       //  this.DMEprogresssummary = res;
-  //       if (this.selectedTabIndex === 0) {
-  //         // Do not overwrite the original data for "Total Works"
-  //         this.districtData = [...this.originalData];
-  //         // console.log('retotalwork=', JSON.stringify(this.districtData));
-  //       } else {
-  //         // this.districtData = res;
-  //         this.DMEprogresssummary = res;
-  //        console.log('res:', this.DMEprogresssummary);
-
-  //         console.log('re1=', JSON.stringify(this.districtData));
-  //         this.districtData = this.sortDistrictData(res);
-  //         // console.log('re2=', JSON.stringify(this.districtData));
-  //       }
-  //       this.calculateTotalNosWorks();
-
-  //     },
-  //     (error) => {
-  //       alert(JSON.stringify(error));
-  //     }
-  //   );
-  // } catch (ex: any) {
-  //   alert(ex.message);
-  // }
 
 }
 

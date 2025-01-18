@@ -43,7 +43,7 @@ export type ChartOptions = {
 export class HandoverComponent {
   dashid = 4001;
   divisionid: any;
-  districtid = 0;
+  districtid :any;
   SWId = 0;
   fromdt: any;
   todt: any;
@@ -488,19 +488,38 @@ export class HandoverComponent {
   }
   // RPType=Total/Scheme/District/WorkType
   HandoverAbstractRPTypeTotal(): void {
-    const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    // const roleName = localStorage.getItem('roleName');
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+
+    var roleName = localStorage.getItem('roleName');
+
+
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     const datePipe = new DatePipe('en-US');
     this.fromdt = startDate ? datePipe.transform(new Date(startDate), 'dd-MM-yyyy') : '';
     this.todt = endDate ? datePipe.transform(new Date(endDate), 'dd-MM-yyyy') : '';
-    if (roleName == 'Division') {
-      this.chartOptions.chart.height = '300px';
-    } else {
-      this.chartOptions.chart.height = '400';
-    }
+    // if (roleName == 'Division') {
+    //   this.chartOptions.chart.height = '300px';
+    // } else {
+    //   this.chartOptions.chart.height = '400';
+    // }
 
+    // alert( roleName )
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptions.chart.height = '400px';
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+     this.districtid = sessionStorage.getItem('himisDistrictid');
+     this.chartOptions.chart.height = '400px';
+      this.divisionid=0;
+    }
+    else {
+      this.districtid = 0;
+      this.divisionid=0;
+      this.chartOptions.chart.height = 'auto';
+    }
     var RPType = 'Total'
     // RPType=Total/Scheme/District/WorkType
     if (this.fromdt && this.todt) {
@@ -564,13 +583,29 @@ export class HandoverComponent {
     this.fromdt = endDate ? datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
     this.todt = endDate ? datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
-    var RPType = 'Scheme'
+
     if (roleName == 'Division') {
-      this.chartOptions2.chart.height = '600px';
-    } else {
-      this.chartOptions2.chart.height = 'auto';
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptions.chart.height = '200px';
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+     this.districtid = sessionStorage.getItem('himisDistrictid');
+     this.chartOptions.chart.height = '400px';
+      this.divisionid=0;
     }
+    else {
+      this.districtid = 0;
+      this.divisionid=0;
+      this.chartOptions.chart.height = 'auto';
+    }
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+
+    var RPType = 'Scheme'
+    // if (roleName == 'Division') {
+    //   this.chartOptions2.chart.height = '600px';
+    // } else {
+    //   this.chartOptions2.chart.height = 'auto';
+    // }
     if (this.fromdt && this.todt) {
       this.spinner.show();
       this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
@@ -633,13 +668,28 @@ export class HandoverComponent {
     this.todt = endDate ? datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
 
     const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
-    var RPType = 'District'
+
     if (roleName == 'Division') {
-      this.chartOptions3.chart.height = '600px';
-    } else {
-      this.chartOptions3.chart.height = '2000';
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptions.chart.height = '200px';
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+     this.districtid = sessionStorage.getItem('himisDistrictid');
+     this.chartOptions.chart.height = '400px';
+      this.divisionid=0;
     }
+    else {
+      this.districtid = 0;
+      this.divisionid=0;
+      this.chartOptions.chart.height = 'auto';
+    }
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    var RPType = 'District'
+    // if (roleName == 'Division') {
+    //   this.chartOptions3.chart.height = '600px';
+    // } else {
+    //   this.chartOptions3.chart.height = '2000';
+    // }
     if (this.fromdt && this.todt) {
       this.spinner.show();
       this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
@@ -701,14 +751,31 @@ export class HandoverComponent {
     this.fromdt = startDate ? datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
     this.todt = endDate ? datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
 
-    const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    // const roleName = localStorage.getItem('roleName');
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     var RPType = 'WorkType'
+    // if (roleName == 'Division') {
+    //   this.chartOptions4.chart.height = '9000';
+    // } else {
+    //   this.chartOptions4.chart.height = '9000';
+    // }
+    const roleName = localStorage.getItem('roleName');
+
     if (roleName == 'Division') {
-      this.chartOptions4.chart.height = '600px';
-    } else {
-      this.chartOptions4.chart.height = '5000';
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptions.chart.height = '200px';
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+     this.districtid = sessionStorage.getItem('himisDistrictid');
+     this.chartOptions.chart.height = '400px';
+      this.divisionid=0;
     }
+    else {
+      this.districtid = 0;
+      this.divisionid=0;
+      this.chartOptions.chart.height = 'auto';
+    }
+
     if (this.fromdt && this.todt) {
       this.spinner.show();
       this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(

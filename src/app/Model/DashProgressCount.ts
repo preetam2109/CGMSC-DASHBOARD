@@ -49,6 +49,11 @@ export class WorkFill{
     aadt!: string;
     searchname!: string;
 }
+export class DistrictNameDME{
+    districT_ID!: string;
+    districtname! : string;
+    diV_ID!: any;
+}
 
 export class WorkDetails {
     work_id!: string;
@@ -112,6 +117,7 @@ export class WorkDetails {
     progressEnterby!:any;
     progressEntryTime!:any;
     nonMongoImage!:any;
+    expCompDT!:any;
   }
   export class MainScheme {
     mainSchemeID!: number;

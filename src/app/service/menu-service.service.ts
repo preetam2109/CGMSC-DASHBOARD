@@ -85,6 +85,7 @@ export class MenuServiceService {
           { label: 'Reagent Issue', route:  '/ReagentIssue' },
         ],
         Infrastructure: [
+
           { label: 'Verticals', route:  '/home' },
 
           // { label: 'Home', route:  '/InfrastructureHome' },
@@ -101,6 +102,23 @@ export class MenuServiceService {
           { label: 'Handover', route:  '/Handover' },
           { label: 'Land Issue', route:  '/LandIssue' },
           { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
+          { label: 'Verticals', route: 'home' },
+
+          // { label: 'Home', route: 'InfrastructureHome' },
+          // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
+          // { label: 'SearchingWork', route: 'SearchingWork' },
+          // { label: 'DistrictProgress', route: 'DistrictProgress' },
+          // { label: 'DivisionProgress', route: 'DivisionProgress' },
+          { label: 'Search Work', route: 'SearchingWork' },
+          { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          { label: 'District-wise Progress', route: 'DashProgressIstCount' },
+          { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+          // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+          { label: 'Work Order', route: 'WorkOrder' },
+          { label: 'Land Issue', route: 'LandIssue' },
+          { label: 'Handover', route: 'Handover' },
+          { label: 'Engineer-Works', route: 'EngineerWorks' 
           
           { label: 'RCDetail', route:  '/Rcdetail' },
           { label: 'Complaints', route:  '/complaints' },
@@ -138,6 +156,7 @@ export class MenuServiceService {
       
         ],
         Infrastructure: [
+
           { label: 'Verticals', route:  '/home' },
           // { label: 'Home', route:  '/InfrastructureHome' },
           // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
@@ -153,6 +172,23 @@ export class MenuServiceService {
           { label: 'Handover', route:  '/Handover' },
           { label: 'Land Issue', route:  '/LandIssue' },
           { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
+          { label: 'Verticals', route: 'home' },
+          // { label: 'Home', route: 'InfrastructureHome' },
+          // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
+          // { label: 'SearchingWork', route: 'SearchingWork' },
+          // { label: 'DistrictProgress', route: 'DistrictProgress' },
+          // { label: 'DivisionProgress', route: 'DivisionProgress' },
+          { label: 'Search Work', route: 'SearchingWork' },
+          { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          { label: 'District-wise Progress', route: 'DashProgressIstCount' },
+          { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+          // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+          { label: 'Work Order', route: 'WorkOrder' },
+          { label: 'Land Issue', route: 'LandIssue' },
+          { label: 'Handover', route: 'Handover' },
+          { label: 'Engineer-Works', route: 'EngineerWorks' },
+
         ],
       },
     },
@@ -201,6 +237,7 @@ export class MenuServiceService {
           { label: 'Home', route:  '/home' },
         ],
         Infrastructure: [
+
           { label: 'Verticals', route:  '/home' },
 
           // { label: 'Home', route:  '/InfrastructureHome' },
@@ -218,6 +255,24 @@ export class MenuServiceService {
           { label: 'Land Issue', route:  '/LandIssue' },
           { label: 'Engineer-Works', route:  '/EngineerWorks' },
 
+          { label: 'Verticals', route: 'home' },
+
+          // { label: 'Home', route: 'InfrastructureHome' },
+          // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
+          // { label: 'SearchingWork', route: 'SearchingWork' },
+          // { label: 'DistrictProgress', route: 'DistrictProgress' },
+          // { label: 'DivisionProgress', route: 'DivisionProgress' }
+          { label: 'Search Work', route: 'SearchingWork' },
+          { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          { label: 'District-wise Progress', route: 'DashProgressIstCount' },
+          { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+          // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+          { label: 'Work Order', route: 'WorkOrder' },
+          { label: 'Land Issue', route: 'LandIssue' },
+          { label: 'Handover', route: 'Handover' },
+          { label: 'Engineer-Works', route: 'EngineerWorks' },
+
+
         ],
       },
     },
@@ -233,6 +288,7 @@ export class MenuServiceService {
 
         ],
         Infrastructure: [
+
           { label: 'Verticals', route:  '/home' },
 
           // { label: 'Home', route:  '/InfrastructureHome' },
@@ -250,6 +306,24 @@ export class MenuServiceService {
           { label: 'Land Issue', route:  '/LandIssue' },
           { label: 'Engineer-Works', route:  '/EngineerWorks' },
 
+          { label: 'Verticals', route: 'home' },
+
+          // { label: 'Home', route: 'InfrastructureHome' },
+          // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
+          // { label: 'SearchingWork', route: 'SearchingWork' },
+          // { label: 'DistrictProgress', route: 'DistrictProgress' },
+          // { label: 'DivisionProgress', route: 'DivisionProgress' },
+          { label: 'Search Work', route: 'SearchingWork' },
+          { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          { label: 'District-wise Progress', route: 'DashProgressIstCount' },
+          { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+          // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+          { label: 'Work Order', route: 'WorkOrder' },
+          { label: 'Land Issue', route: 'LandIssue' },
+          { label: 'Handover', route: 'Handover' },
+          { label: 'Engineer-Works', route: 'EngineerWorks' },
+
+
         ],
       },
     },
@@ -264,6 +338,7 @@ export class MenuServiceService {
     },
     SE:{
       items: [
+
         // { label: 'Verticals', route:  '/home' },
         // { label: 'Home', route:  '/InfrastructureHome' },
         // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
@@ -279,6 +354,23 @@ export class MenuServiceService {
         { label: 'Handover', route:  '/Handover' },
         { label: 'Land Issue', route:  '/LandIssue' },
         { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
+        // { label: 'Verticals', route: 'home' },
+        // { label: 'Home', route: 'InfrastructureHome' },
+        // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
+        // { label: 'SearchingWork', route: 'SearchingWork' },
+        // { label: 'DistrictProgress', route: 'DistrictProgress' },
+        // { label: 'DivisionProgress', route: 'DivisionProgress' },
+        { label: 'Search Work', route: 'SearchingWork' },
+        { label: 'Progress Abstract', route: 'InfrastructureHome' },
+        { label: 'District-wise Progress', route: 'DashProgressIstCount' },
+        { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+        // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+        { label: 'Work Order', route: 'WorkOrder' },
+        { label: 'Land Issue', route: 'LandIssue' },
+        { label: 'Handover', route: 'Handover' },
+        { label: 'Engineer-Works', route: 'EngineerWorks' },
+
       ],
     },
     Warehouse:{    
@@ -321,6 +413,7 @@ export class MenuServiceService {
         // { label: 'DistrictProgress', route:  '/DistrictProgress' },
         // { label: 'DivisionProgress', route:  '/DivisionProgress' },
        
+
         { label: 'Search Work', route:  '/SearchingWork' },
         { label: 'Progeress Abstract', route:  '/InfrastructureHome' },
         { label: 'District-wise Progress', route:  '/DashProgressIstCount' },
@@ -330,6 +423,17 @@ export class MenuServiceService {
         { label: 'Handover', route:  '/Handover' },
         { label: 'Land Issue', route:  '/LandIssue' },
         { label: 'Engineer-Works', route:  '/EngineerWorks' },
+
+        { label: 'Search Work', route: 'SearchingWork' },
+        { label: 'Progress Abstract', route: 'InfrastructureHome' },
+        { label: 'District-wise Progress', route: 'DashProgressIstCount' },
+        { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+        // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+        { label: 'Work Order', route: 'WorkOrder' },
+        { label: 'Land Issue', route: 'LandIssue' },
+        { label: 'Handover', route: 'Handover' },
+        { label: 'Engineer-Works', route: 'EngineerWorks' },
+
 
       ],
     },

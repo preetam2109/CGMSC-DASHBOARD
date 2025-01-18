@@ -57,7 +57,7 @@ distid=0;
   divisions = [
     { id: 'D1004', name: 'Raipur ', color: ' rgb(0, 227, 150)' },
     { id: 'D1017', name: 'Saruguja ', color: 'rgb(0, 143, 251)' },
-    { id: 'D1024', name: 'Bilaspur ', color: 'rgb(255, 69, 96)' },
+    { id: 'D1024', name: 'Bilaspur ', color: '#8f5ced' },
     { id: 'D1001', name: 'Durg ', color: '#f687fa' },
     { id: 'D1031', name: 'Baster ', color: 'rgb(238, 186, 11)' },
   ];
@@ -74,7 +74,12 @@ distid=0;
   dataSource1!: MatTableDataSource<sbuDistrictEngAllotedWorks>;
   dispatchPendings: AEDistrictEngAllotedWorks[] = [];
   dataSource!: MatTableDataSource<AEDistrictEngAllotedWorks>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('paginator') paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator ;
+  @ViewChild('paginatorPageSize2') paginatorPageSize2!: MatPaginator;
+
   @ViewChild(MatSort) sort!: MatSort;
 constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef, private fb: FormBuilder,
   public datePipe: DatePipe, private modalService: NgbModal,private dialog: MatDialog, private toastr: ToastrService,){
@@ -92,6 +97,8 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
     this.initializeChartOptions();
     this.getSBUENEngAllotedWorks();
     this.GetAEENGEngAllotedWorks();
+    this.fetchDataBasedOnChartSelection();
+    this.fetchDataBasedOnChartSelectionSbu();
   }
   initializeChartOptions() {
     this.chartOptionsLine = {
@@ -112,9 +119,9 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.SbuEngAllotedWorks; 
-              console.log("apiData",apiData)
+              // console.log("apiData",apiData)
               const selectedData = apiData.find((data) => data.engName === selectedCategory);
-              console.log("selectedData chart1",selectedData)
+              // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const empid = selectedData.empid; 
                 const empname=selectedData.engName; // Extract the id from the matching entry
@@ -155,7 +162,7 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
         colors: ['#fff'],
       },
       title: {
-        text: 'Allotted Works Sub Engineer',
+        text: 'Sub Engineer',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -241,7 +248,7 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
         colors: ['#fff'],
       },
       title: {
-        text: 'Allotted Works Assistant Engineer',
+        text: 'Assistant Engineer',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -265,15 +272,18 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
         offsetX: 40,
       },
     };
-    this.fetchDataBasedOnChartSelection();
-    this.fetchDataBasedOnChartSelectionSbu();
+   
   }
+
+  
 
   ngAfterViewInit() {
-      this.dataSource1.paginator=this.paginator;
-
-      this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
+      this.dataSource1.paginator = this.paginatorPageSize;
+      // this.dataSource3.paginator = this.paginatorPageSize2;
+    // this.dataSource.sort = this.sort;
   }
+
 getSBUENEngAllotedWorks(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
@@ -327,11 +337,12 @@ getSBUENEngAllotedWorks(): void {
       });
       
       this.chartOptionsLine.series = [
-        {name: 'Total Works', data: totalWorks,color:'#eeba0b'} ,
-        { name: 'Running', data: running}, 
-        { name: 'TVC Value cr',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
-        { name: 'Lad Issue',data: ladissue },
-        { name: 'WoIssue',data: woIssue,color: '#db0413'},];
+        {name: 'Total Alloted Works', data: totalWorks,color:'#eeba0b'} ,
+        { name: 'Contract Value (in Cr)',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
+        { name: 'Running Works', data: running,color:'rgb(0, 227, 150)' }, 
+        { name: 'Work Order Issued',data: woIssue,color: '#8f5ced'},
+        { name: 'Land Issue Works',data: ladissue,color:'#f687fa' },
+      ];
 
       this.chartOptionsLine.xaxis = { categories: engName };
       this.cO = this.chartOptionsLine;
@@ -397,11 +408,17 @@ GetAEENGEngAllotedWorks(): void {
       });
       
       this.chartOptionsLine2.series = [
-        {name: 'Total Works', data: totalWorks,color:'#eeba0b'} ,
-        { name: 'Running', data: running}, 
-        { name: 'TVC Value cr',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
-        { name: 'Lad Issue',data: ladissue },
-        { name: 'WoIssue',data: woIssue,color: '#db0413'},];
+        // {name: 'Total Works', data: totalWorks,color:'#eeba0b'} ,
+        // { name: 'Running', data: running}, 
+        // { name: 'TVC Value cr',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
+        // { name: 'Lad Issue',data: ladissue },
+        // { name: 'WoIssue',data: woIssue,color: '#db0413'},
+        {name: 'Total Alloted Works', data: totalWorks,color:'#eeba0b'} ,
+        { name: 'Contract Value (in Cr)',data: tvcValuecr, color: 'rgb(0, 143, 251)'  },
+        { name: 'Running Works', data: running,color:'rgb(0, 227, 150)' }, 
+        { name: 'Work Order Issued',data: woIssue,color: '#8f5ced'},
+        { name: 'Land Issue Works',data: ladissue,color:'#f687fa' },
+      ];
 
       this.chartOptionsLine2.xaxis = { categories: engName };
       this.cO = this.chartOptionsLine2;
@@ -429,21 +446,17 @@ fetchDataBasedOnChartSelection(): void {
         ...item,
         sno: index + 1
       }));
-      // // Add serial numbers to the data
-      //   this.dispatchPendings = res.map((item, index) => ({
-      //     ...item,
-      //     sno: index + 1
-      //   }));
       this.dataSource.data = this.dispatchPendings;
+      console.log('Data with serial numbers:', this.dispatchPendings); 
       // this.dataSource.data = this.dispatchPendings;
       // console.log(this.dataSource.data);
       // console.log(this.dispatchPendings);
       // console.log(this.dataSource);
-      // console.log('Data with serial numbers:', this.dispatchPendings); 
         // console.log("res ",JSON.stringify(res))
         // this.dispatchPendings = res;
         // console.log("Welcome ",JSON.stringify(this.dispatchPendings))
         // this.dataSource.data = res;
+
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
@@ -467,10 +480,13 @@ fetchDataBasedOnChartSelectionSbu(): void {
         ...item,
         sno: index + 1
       }));
+      debugger
       this.dataSource1.data = this.dispatchPendings1;
-        // console.log("dispatchPendings1= ",JSON.stringify(this.dispatchPendings1))
-      this.dataSource1.paginator = this.paginator;
-      this.dataSource1.sort = this.sort;
+      this.dataSource1.paginator = this.paginatorPageSize;;
+      // this.dataSource1.sort = this.sort;
+        console.log("dispatchPendings1= ",JSON.stringify(this.dispatchPendings1))
+        console.log(" this.dataSource1.data= ",JSON.stringify( this.dataSource1.data))
+        console.log("this.dataSource1.paginator= ",JSON.stringify( this.dataSource1.paginator))
       this.cdr.detectChanges();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
       this.spinner.hide();
@@ -483,16 +499,17 @@ fetchDataBasedOnChartSelectionSbu(): void {
 distidd:any;empname:any;
 fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): void {
   this.empname=empname;
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
+  // var roleName = localStorage.getItem('roleName');
+  // if (roleName == 'Division') {
+  //   this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
     // this.distidd = sessionStorage.getItem('himisDistrictid')==0?0:this.distidd;
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   const  distid=0;
+  this.divisionid = 0;
   this.spinner.show();
   // dahid:any,divisionId:any,mainSchemeId:any,distid:any,engtype:any,empcode:any
   // dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157
-  const engtype='SubE', dahid=0,mainSchemeId=0;
+  const engtype='SubE', dahid=0, mainSchemeId=0;
   this.api.GetWorkDetailsWithEng(dahid,this.divisionid,mainSchemeId,distid,engtype,empcode).subscribe(
     (res) => {
       this.dispatchPendings3 = res.map((item: WorkDetailsWithEng, index: number) => ({
@@ -500,9 +517,9 @@ fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): v
         sno: index + 1
       }));
       this.dataSource3.data = this.dispatchPendings3;
-        // console.log(" this.dataSource3.data= ",JSON.stringify( this.dataSource3.data))
-      this.dataSource3.paginator = this.paginator;
-      this.dataSource3.sort = this.sort;
+        console.log(" this.dataSource3.data= ",JSON.stringify( this.dataSource3.data))
+      // this.dataSource3.paginator = this.paginator;
+      // this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
       this.openDialog();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
@@ -516,12 +533,13 @@ fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): v
 fetchDataBasedWorkDetailsWithEngAE(empcode:any, selectedSeries:any,empname:any): void {
 
   this.empname=empname;
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
+  // var roleName = localStorage.getItem('roleName');
+  // if (roleName == 'Division') {
+  //   this.divisionid = sessionStorage.getItem('divisionID'); } else {this.divisionid=0;this.show=true;}
     // this.distidd = sessionStorage.getItem('himisDistrictid')==0?0:this.distidd;
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   const  distid=0;
+  this.divisionid = 0;
   this.spinner.show();
   // dahid:any,divisionId:any,mainSchemeId:any,distid:any,engtype:any,empcode:any
   // dahid=0&divisionId=D1004&mainSchemeId=0&distid=0&engtype=SubE&empcode=Empcode0000157
@@ -534,8 +552,8 @@ fetchDataBasedWorkDetailsWithEngAE(empcode:any, selectedSeries:any,empname:any):
       }));
       this.dataSource3.data = this.dispatchPendings3;
         console.log(" this.dataSource4= ",JSON.stringify( this.dataSource3.data))
-      this.dataSource3.paginator = this.paginator;
-      this.dataSource3.sort = this.sort;
+      // this.dataSource3.paginator = this.paginator;
+      // this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
       this.openDialog();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
