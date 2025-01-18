@@ -21,7 +21,8 @@ import { ApiService } from 'src/app/service/api.service';
 @Component({
   selector: 'app-dist-facwise-stock-postion-new',
   standalone: true,
-  imports: [ SelectDropDownModule,FormsModule,NgSelectModule,FormsModule,CommonModule,MatButtonModule,MatMenuModule, MatTableExporterModule,MatPaginatorModule, MatTableModule],
+  imports: [ SelectDropDownModule,FormsModule,NgSelectModule,FormsModule,CommonModule,MatButtonModule,MatMenuModule,
+     MatTableExporterModule,MatPaginatorModule, MatTableModule],
 
   templateUrl: './dist-facwise-stock-postion-new.component.html',
   styleUrl: './dist-facwise-stock-postion-new.component.css'
@@ -73,7 +74,7 @@ export class DistFACwiseStockPostionNewComponent {
       getDistFACwiseStockPostionNew(distId: any): void {
         
         this.spinner.show();
-    
+    debugger;
         
         // Simulated API call; replace with actual API call
       this.api.getDistFACwiseStockPostionNew(distId,0,1,0,0,0).subscribe((res:DistFACwiseStockPostionNew[])=>{
@@ -88,6 +89,8 @@ export class DistFACwiseStockPostionNewComponent {
             this.dataSource.sort = this.sort;
             this.spinner.hide();
             this.cdr.detectChanges();
+            console.log('this.paginator;=',this.paginator)
+            console.log('this.sort=',this.sort)
           },
           (error) => {
             console.error('Error fetching data', error);

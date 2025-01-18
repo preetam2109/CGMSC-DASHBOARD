@@ -57,24 +57,14 @@ export class LandIssueComponent {
   //#endregion
   //#region data Table
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
-  // dispatchPendings1: LandIssueDetails[] = [];
-  // dispatchPendings2: LandIssueDetails[] = [];
   dispatchPendings: LandIssueDetails[] = [];
   dataSource!: MatTableDataSource<LandIssueDetails>;
-  // dataSource1!: MatTableDataSource<LandIssueDetails>;
-  // dataSource2!: MatTableDataSource<LandIssueDetails>;
-  // @ViewChild(MatPaginator) paginator1!: MatPaginator;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // @ViewChild(MatPaginator) paginator2!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  districtid: any;;
-  // @ViewChild(MatSort) sort1!: MatSort;
-  // @ViewChild(MatSort) sort2!: MatSort;
+  districtid: any;
   //#endregion
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private modalService: NgbModal, private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<LandIssueDetails>([]);
-    // this.dataSource1 = new MatTableDataSource<LandIssueDetails>([]);
-    // this.dataSource2 = new MatTableDataSource<LandIssueDetails>([]);
   }
 
   ngOnInit() {
@@ -502,11 +492,10 @@ export class LandIssueComponent {
     //   },
     // };
   }
-  // ngAfterViewInit() {
-  //   this.dataSource.paginator = this.paginator;
-  //   this.dataSource1.paginator = this.paginator1;
-  //   this.dataSource2.paginator = this.paginator2;
-  // }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   //#region API get DATA
   LOPendingTotal(): void {
     // const roleName = localStorage.getItem('roleName');
@@ -752,13 +741,13 @@ export class LandIssueComponent {
         console.log(' this.dataSource.sort', this.sort );
 
         this.cdr.detectChanges();
-        this.openDialog();
         this.spinner.hide();
       },
       (error) => {
         console.error('Error fetching data', error);
       }
-    );
+      );
+      this.openDialog();
   }
   fetchDataBasedOnChartSelectionmainScheme(mainSchemeId: any, seriesName: string): void {
     //  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
@@ -779,13 +768,13 @@ export class LandIssueComponent {
         this.dataSource.sort = this.sort;
         // console.log('this.dataSource1.paginator ',this.dataSource1.paginator );
         this.cdr.detectChanges();
-        this.openDialog();
         this.spinner.hide();
       },
       (error) => {
         console.error('Error fetching data', error);
       }
-    );
+      );
+      this.openDialog();
   }
 
   fetchDataBasedOnChartSelectionDistrict(distid: any, seriesName: string): void {
@@ -806,13 +795,14 @@ export class LandIssueComponent {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
-        this.openDialog();
         this.spinner.hide();
       },
       (error) => {
         console.error('Error fetching data', error);
       }
     );
+    this.openDialog();
+
   }
   // data filter
   applyTextFilter(event: Event) {

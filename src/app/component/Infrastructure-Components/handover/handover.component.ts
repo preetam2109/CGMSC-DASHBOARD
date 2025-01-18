@@ -75,7 +75,7 @@ export class HandoverComponent {
   //  GetHandoverDetailsData:GetHandoverDetails[]=[];
 
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private fb: FormBuilder,
-    public datePipe: DatePipe, private modalService: NgbModal, private dialog: MatDialog, private toastr: ToastrService,) {
+    public datePipe: DatePipe, private dialog: MatDialog, private toastr: ToastrService,) {
     this.dataSource = new MatTableDataSource<GetHandoverDetails>([]);
   }
 
@@ -226,7 +226,6 @@ export class HandoverComponent {
         offsetX: 40,
       },
     };
-
     this.chartOptions2 = {
       series: [],
       chart: {
@@ -486,10 +485,15 @@ export class HandoverComponent {
       },
     };
   }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   // RPType=Total/Scheme/District/WorkType
   HandoverAbstractRPTypeTotal(): void {
     // const roleName = localStorage.getItem('roleName');
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    this.spinner.show();
 
     var roleName = localStorage.getItem('roleName');
 
@@ -513,17 +517,17 @@ export class HandoverComponent {
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
      this.chartOptions.chart.height = '400px';
+     
       this.divisionid=0;
     }
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions.chart.height = 'auto';
+      this.chartOptions.chart.height ='1500';
     }
     var RPType = 'Total'
     // RPType=Total/Scheme/District/WorkType
     if (this.fromdt && this.todt) {
-      this.spinner.show();
       this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
         (data: any) => {
           this.HandoverAbstractTotalData = data;
@@ -575,6 +579,8 @@ export class HandoverComponent {
   }
 
   handoverAbstractRPTypeScheme(): void {
+    this.spinner.show();
+
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     // const StartDate = this.dateRange.value.Start;
@@ -586,28 +592,22 @@ export class HandoverComponent {
 
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartOptions.chart.height = '200px';
+      this.chartOptions2.chart.height = '600px';
       this.districtid = 0;
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
-     this.chartOptions.chart.height = '400px';
+     this.chartOptions2.chart.height = '400px';
       this.divisionid=0;
     }
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions.chart.height = 'auto';
+      this.chartOptions2.chart.height ='1500';
     }
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
 
     var RPType = 'Scheme'
-    // if (roleName == 'Division') {
-    //   this.chartOptions2.chart.height = '600px';
-    // } else {
-    //   this.chartOptions2.chart.height = 'auto';
-    // }
     if (this.fromdt && this.todt) {
-      this.spinner.show();
       this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
         (data: any) => {
           this.HandoverAbstractSchemeData = data;
@@ -661,6 +661,8 @@ export class HandoverComponent {
   handoverAbstractRPTypeDistrict(): void {
     // const StartDate = this.dateRange2.value.dstart;
     // const EndDate = this.dateRange2.value.dend;
+    this.spinner.show();
+
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     const datePipe = new DatePipe('en-US');
@@ -671,27 +673,21 @@ export class HandoverComponent {
 
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartOptions.chart.height = '200px';
+      this.chartOptions3.chart.height = '600px';
       this.districtid = 0;
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
-     this.chartOptions.chart.height = '400px';
+     this.chartOptions3.chart.height = '300px';
       this.divisionid=0;
     }
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions.chart.height = 'auto';
+      this.chartOptions3.chart.height = '2000';
     }
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     var RPType = 'District'
-    // if (roleName == 'Division') {
-    //   this.chartOptions3.chart.height = '600px';
-    // } else {
-    //   this.chartOptions3.chart.height = '2000';
-    // }
     if (this.fromdt && this.todt) {
-      this.spinner.show();
       this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
         (data: any) => {
           this.HandoverAbstractDistrictData = data;
@@ -743,6 +739,7 @@ export class HandoverComponent {
     }
   }
   handoverAbstractRPTypeWorkType(): void {
+    this.spinner.show();
     // const StartDate = this.dateRange3.value.wstart;
     // const EndDate = this.dateRange3.value.wend;
     const startDate = this.dateRange.value.start;
@@ -754,34 +751,29 @@ export class HandoverComponent {
     // const roleName = localStorage.getItem('roleName');
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     var RPType = 'WorkType'
-    // if (roleName == 'Division') {
-    //   this.chartOptions4.chart.height = '9000';
-    // } else {
-    //   this.chartOptions4.chart.height = '9000';
-    // }
     const roleName = localStorage.getItem('roleName');
 
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartOptions.chart.height = '200px';
+      this.chartOptions4.chart.height = '8000';
       this.districtid = 0;
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
-     this.chartOptions.chart.height = '400px';
+     this.chartOptions4.chart.height = '400px';
       this.divisionid=0;
     }
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions.chart.height = 'auto';
+      this.chartOptions4.chart.height = '9000';
     }
 
+   
     if (this.fromdt && this.todt) {
-      this.spinner.show();
       this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
         (data: any) => {
           this.HandoverAbstractWorkTypeData = data;
-          console.log('HandoverAbstractWorkTypeData', this.HandoverAbstractWorkTypeData);
+          // console.log('HandoverAbstractWorkTypeData', this.HandoverAbstractWorkTypeData);
           const id: string[] = [];
           const name: string[] = [];
           const totalWorks: any[] = [];
@@ -829,19 +821,11 @@ export class HandoverComponent {
   }
 
   fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
-    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
     const SWId=0;
     const dashid=4001;
-    // var roleName = localStorage.getItem('roleName');
-    // if (roleName == 'Division') {
-    //   this.chartOptions.chart.height = '50px';
-    //   alert("divi")
-    //   // this.divisionid = sessionStorage.getItem('divisionID');
-    // } else {
-    //       this.chartOptions.chart.height ='1500';
-    //      } 
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
     this.api.GetHandoverDetails(dashid,divisionID, mainSchemeId, distid,SWId).subscribe(
@@ -851,32 +835,25 @@ export class HandoverComponent {
           sno: index + 1
         }));
         this.dataSource.data = this.dispatchPendings;
-        console.log(this.dataSource.data);
+        // console.log(this.dataSource.data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
-        this.openDialog();
         this.spinner.hide();
       },
       (error) => {
         console.error('Error fetching data', error);
       }
     );
+    this.openDialog();
+
   }
   fetchDataBasedOnChartSelectionScheme(mainSchemeId: any, seriesName: string): void {
-    console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
     const distid = 0;
     // const mainSchemeId = 0;
     const SWId=0;
     const dashid=4001;
-    // var roleName = localStorage.getItem('roleName');
-    // if (roleName == 'Division') {
-    //   this.chartOptions.chart.height = '50px';
-    //   alert("divi")
-    //   // this.divisionid = sessionStorage.getItem('divisionID');
-    // } else {
-    //       this.chartOptions.chart.height ='1500';
-    //      } 
     const roleName = localStorage.getItem('roleName');
     this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
@@ -888,33 +865,28 @@ export class HandoverComponent {
           sno: index + 1
         }));
         this.dataSource.data = this.dispatchPendings;
-        console.log(this.dataSource.data);
+        // console.log(this.dataSource.data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
-        this.openDialog();
         this.spinner.hide();
       },
       (error) => {
         console.error('Error fetching data', error);
       }
     );
+    this.openDialog();
+
   }
   fetchDataBasedOnChartSelectionDistrict(distid: any, seriesName: string): void {
     
     console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+   
+    // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
     // const distid = 0;
     const mainSchemeId = 0;
     const SWId=0;
-    const dashid=4001;
-    // var roleName = localStorage.getItem('roleName');
-    // if (roleName == 'Division') {
-    //   this.chartOptions.chart.height = '50px';
-    //   alert("divi")
-    //   // this.divisionid = sessionStorage.getItem('divisionID');
-    // } else {
-    //       this.chartOptions.chart.height ='1500';
-    //      } 
+    const dashid=4001; 
     const roleName = localStorage.getItem('roleName');
     this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
@@ -926,32 +898,25 @@ export class HandoverComponent {
           sno: index + 1
         }));
         this.dataSource.data = this.dispatchPendings;
-        console.log(this.dataSource.data);
+        // console.log(this.dataSource.data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
-        this.openDialog();
         this.spinner.hide();
       },
       (error) => {
         console.error('Error fetching data', error);
       }
     );
+    this.openDialog();
+
   }
   fetchDataBasedOnChartSelectionWorkType(SWId: any, seriesName: string): void {
     // console.log(`Selected ID: ${SWId}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
     // const SWId=0;
-    const dashid=4001;
-    // var roleName = localStorage.getItem('roleName');
-    // if (roleName == 'Division') {
-    //   this.chartOptions.chart.height = '50px';
-    //   alert("divi")
-    //   // this.divisionid = sessionStorage.getItem('divisionID');
-    // } else {
-    //       this.chartOptions.chart.height ='1500';
-    //      } 
+    const dashid=4001; 
     const roleName = localStorage.getItem('roleName');
     this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
@@ -963,17 +928,18 @@ export class HandoverComponent {
           sno: index + 1
         }));
         this.dataSource.data = this.dispatchPendings;
-        console.log(this.dataSource.data);
+        // console.log(this.dataSource.data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
-        this.openDialog();
         this.spinner.hide();
       },
       (error) => {
         console.error('Error fetching data', error);
       }
     );
+    this.openDialog();
+
   }
 
   // data filter
