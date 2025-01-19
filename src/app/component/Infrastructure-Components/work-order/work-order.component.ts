@@ -47,7 +47,7 @@ export class WorkOrderComponent {
   chartOptionsLine!: ChartOptions; // For line chart
   chartOptionsLine2!: ChartOptions; // For line chart
   whidMap: { [key: string]: number } = {};
-  divisionIDMap: { [key: string]: number } = {};
+  // divisionIDMap: { [key: string]: number } = {};
   dataSource!: MatTableDataSource<WorkOrderPendingDetailsNew>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -64,8 +64,6 @@ export class WorkOrderComponent {
   Total='Total';
   Contractor='Contractor';
   District='District'
-  idMap: { [key: string]: number } = {};
-
   displayedColumns: string[] = ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
   himisDistrictid: any;
   // displayedColumns: string[] = [
@@ -79,11 +77,6 @@ export class WorkOrderComponent {
 
   constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private modalService: NgbModal,private dialog: MatDialog){
   
-
-    // this.GetWOPendingTotal();
-    // this.GetWOPendingDistrict();
-    // this.GetWOPendingScheme();
-    // this.GetWOPendingContractor();
     this.dataSource = new MatTableDataSource<WorkOrderPendingDetailsNew>([]);
   }
  
@@ -117,7 +110,7 @@ export class WorkOrderComponent {
               const apiData = this.wOpendingTotal;  // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find((data) => data.name === selectedCategory);
-              console.log("selectedData chart1",selectedData)
+              // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
 
@@ -183,8 +176,6 @@ export class WorkOrderComponent {
         offsetX: 40,
       },
     };
-   
-    
     this.chartOptions2 = {
     
       series: [],
@@ -468,6 +459,10 @@ export class WorkOrderComponent {
     };
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   //#region API get DATA
   GetWOPendingTotal(): void {
     this.spinner.show();
@@ -512,13 +507,6 @@ export class WorkOrderComponent {
           pendingWork.push(item.pendingWork);
           contrctValuecr.push(item.contrctValuecr);
           noofWorksGreater7Days.push(item.noofWorksGreater7Days);
-
-          // console.log('name:', item.name, 'id:', item.id);
-          if (item.name && item.id) {
-            this.whidMap[item.name] = item.id;
-          } else {
-            console.warn('Missing whid for warehousename :', item.name);
-          }
         });
         
         this.chartOptions.series = [
@@ -782,36 +770,18 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
         ...item,
         sno: index + 1
       }));
-      // this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
-      //   ...item,
-      //   sno: index + 1
-      // }));
-      // Add serial numbers to the data
-        this.dispatchPendings = res.map((item, index) => ({
-          ...item,
-          sno: index + 1
-        }));
       this.dataSource.data = this.dispatchPendings;
-      // this.dataSource.data = this.dispatchPendings;
-      // console.log(this.dataSource.data);
-      // console.log(this.dispatchPendings);
-      // console.log(this.dataSource);
-      // console.log('Data with serial numbers:', this.dispatchPendings); 
-        // console.log("res ",JSON.stringify(res))
-        // this.dispatchPendings = res;
-        // console.log("Welcome ",JSON.stringify(this.dispatchPendings))
-        // this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
-      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
-      this.openDialog();
       this.spinner.hide();
     },
     (error) => {
       console.error('Error fetching data', error);
     }
   );
+  this.openDialog();
+
 }
 fetchDataBasedOnChartSelectionmainScheme(mainSchemeId: any, seriesName: string): void {
   // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
@@ -833,9 +803,6 @@ fetchDataBasedOnChartSelectionmainScheme(mainSchemeId: any, seriesName: string):
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
-      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
-      // this.openDialogg();
-      this.openDialog();
 
       this.spinner.hide();
     },
@@ -843,6 +810,8 @@ fetchDataBasedOnChartSelectionmainScheme(mainSchemeId: any, seriesName: string):
       console.error('Error fetching data', error);
     }
   );
+  this.openDialog();
+
 }
 fetchDataBasedOnChartSelectionmainDistrict(distid: any, seriesName: string): void {
   // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
@@ -863,9 +832,6 @@ fetchDataBasedOnChartSelectionmainDistrict(distid: any, seriesName: string): voi
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
-      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
-      // this.openDialogg();
-      this.openDialog();
 
       this.spinner.hide();
     },
@@ -873,6 +839,8 @@ fetchDataBasedOnChartSelectionmainDistrict(distid: any, seriesName: string): voi
       console.error('Error fetching data', error);
     }
   );
+  this.openDialog();
+
 }
 fetchDataBasedOnChartSelectionmaincontract(contractid: any, seriesName: string): void {
   // console.log(`Selected ID: ${contractid}, Series: ${seriesName}`);
@@ -889,21 +857,20 @@ fetchDataBasedOnChartSelectionmaincontract(contractid: any, seriesName: string):
         ...item,
         sno: index + 1
       }));
-      console.log('wOpendingDcontracter table data:',res);
+
+      // console.log('wOpendingDcontracter table data:',res);
       this.dataSource.data = this.dispatchPendings;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
-      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
-      // this.openDialogg();
-      this.openDialog();
-
       this.spinner.hide();
     },
     (error) => {
       console.error('Error fetching data', error);
     }
   );
+  this.openDialog();
+
 }
 // data filter
 applyTextFilter(event: Event) {

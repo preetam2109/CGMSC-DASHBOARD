@@ -52,7 +52,6 @@ distid=0;
   chartOptionsLine2!: ChartOptions; // For bar chart
   SbuEngAllotedWorks:SbuEngAllotedWorks[]=[];
   AeengAllotedWorks:AEEngAllotedWorks[]=[];
-  whidMap: { [key: string]: number } = {};
   // button
   divisions = [
     { id: 'D1004', name: 'Raipur ', color: ' rgb(0, 227, 150)' },
@@ -70,35 +69,39 @@ distid=0;
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   dispatchPendings3:WorkDetailsWithEng[]=[];
   dataSource3!: MatTableDataSource<WorkDetailsWithEng>;
-  dispatchPendings1:sbuDistrictEngAllotedWorks[]=[];
+  sbuDistrictEngAllotedWorks:sbuDistrictEngAllotedWorks[]=[];
   dataSource1!: MatTableDataSource<sbuDistrictEngAllotedWorks>;
-  dispatchPendings: AEDistrictEngAllotedWorks[] = [];
-  dataSource!: MatTableDataSource<AEDistrictEngAllotedWorks>;
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild('paginator') paginator!: MatPaginator;
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator ;
-  @ViewChild('paginatorPageSize2') paginatorPageSize2!: MatPaginator;
 
-  @ViewChild(MatSort) sort!: MatSort;
+  AEDistrictEngAllotedWorks: AEDistrictEngAllotedWorks[] = [];
+  dataSource!: MatTableDataSource<AEDistrictEngAllotedWorks>;
+  @ViewChild('paginator') paginator!: MatPaginator;
+  @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator;
+  @ViewChild('sort1') sort1!: MatSort;
+  @ViewChild('sort2') sort2!: MatSort;
+  @ViewChild('paginator1') paginator1!: MatPaginator;
+  @ViewChild('sort') sort!: MatSort;
+  
+
 constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef, private fb: FormBuilder,
-  public datePipe: DatePipe, private modalService: NgbModal,private dialog: MatDialog, private toastr: ToastrService,){
+  public datePipe: DatePipe,private dialog: MatDialog, private toastr: ToastrService,){
     this.dataSource = new MatTableDataSource<AEDistrictEngAllotedWorks>([]);
     this.dataSource1 = new MatTableDataSource<sbuDistrictEngAllotedWorks>([]);
     this.dataSource3 = new MatTableDataSource<WorkDetailsWithEng>([]);
-    // this.dataSource.paginator = this.paginator;
-
+ 
 
   }
 
 
   ngOnInit() {
     // Initialize dateRange with today and tomorrow
+    
     this.initializeChartOptions();
     this.getSBUENEngAllotedWorks();
     this.GetAEENGEngAllotedWorks();
-    this.fetchDataBasedOnChartSelection();
-    this.fetchDataBasedOnChartSelectionSbu();
+    this.fetchDataBasedOnChartAE();
+    this.fetchDataBasedOnChartSbu();
+
+   
   }
   initializeChartOptions() {
     this.chartOptionsLine = {
@@ -278,10 +281,13 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
   
 
   ngAfterViewInit() {
+    
     this.dataSource.paginator = this.paginator;
-      this.dataSource1.paginator = this.paginatorPageSize;
-      // this.dataSource3.paginator = this.paginatorPageSize2;
-    // this.dataSource.sort = this.sort;
+    this.dataSource.sort = this.sort1;
+    this.dataSource1.paginator = this.paginatorPageSize;
+    this.dataSource1.sort = this.sort2;
+    this.dataSource3.paginator = this.paginator1;
+    this.dataSource3.sort = this.sort;
   }
 
 getSBUENEngAllotedWorks(): void {
@@ -312,8 +318,6 @@ getSBUENEngAllotedWorks(): void {
       const woIssue: any[] = [];
       const running: any[] = [];
       const ladissue: any[] = [];
-      this.whidMap = {}; // Initialize the mmidMap
-      // console.log('API Response total:', data);
       data.forEach((item: {
         engName: string; id: any; totalWorks: any; districtID: any;
         empid: any;name:any;tvcValuecr:any;woIssue:any;running:any;ladissue:any;
@@ -327,13 +331,6 @@ getSBUENEngAllotedWorks(): void {
         woIssue.push(item.woIssue);
         running.push(item.running);
         ladissue.push(item.ladissue);
-
-        // console.log('name:', item.name, 'id:', item.id);
-        if (item.engName && item.id) {
-          this.whidMap[item.engName] = item.id;
-        } else {
-          console.warn('Missing whid for handover Abstract :', item.engName);
-        }
       });
       
       this.chartOptionsLine.series = [
@@ -383,7 +380,6 @@ GetAEENGEngAllotedWorks(): void {
       const woIssue: any[] = [];
       const running: any[] = [];
       const ladissue: any[] = [];
-      this.whidMap = {}; // Initialize the mmidMap
       // console.log('API Response total:', data);
       data.forEach((item: {
         engName: string; id: any; totalWorks: any; districtID: any;
@@ -398,13 +394,6 @@ GetAEENGEngAllotedWorks(): void {
         woIssue.push(item.woIssue);
         running.push(item.running);
         ladissue.push(item.ladissue);
-
-        // console.log('name:', item.name, 'id:', item.id);
-        if (item.engName && item.id) {
-          this.whidMap[item.engName] = item.id;
-        } else {
-          console.warn('Missing whid for handover Abstract :', item.engName);
-        }
       });
       
       this.chartOptionsLine2.series = [
@@ -432,8 +421,30 @@ GetAEENGEngAllotedWorks(): void {
     }
   );
 }
-
-fetchDataBasedOnChartSelection(): void {
+fetchDataBasedOnChartSbu(): void {
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.show=true;}
+  const  distid=0;
+  this.spinner.show();
+  this.api.SubeDistrictEngAllotedWorks('Sube', this.divisionid,distid).subscribe(
+    (res) => {
+     this.sbuDistrictEngAllotedWorks = res.map((item: sbuDistrictEngAllotedWorks, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      this.dataSource1.data = this.sbuDistrictEngAllotedWorks
+      this.dataSource1.paginator = this.paginatorPageSize;
+      this.dataSource1.sort = this.sort2;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+fetchDataBasedOnChartAE(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.show=true;}
@@ -442,25 +453,14 @@ fetchDataBasedOnChartSelection(): void {
   // AE&divisionid=D1004&distid=0
   this.api.AEDistrictEngAllotedWorks('AE', this.divisionid,distid).subscribe(
     (res) => {
-      this.dispatchPendings = res.map((item: AEDistrictEngAllotedWorks, index: number) => ({
+      this.AEDistrictEngAllotedWorks = res.map((item: AEDistrictEngAllotedWorks, index: number) => ({
         ...item,
         sno: index + 1
       }));
-      this.dataSource.data = this.dispatchPendings;
-      console.log('Data with serial numbers:', this.dispatchPendings); 
-      // this.dataSource.data = this.dispatchPendings;
-      // console.log(this.dataSource.data);
-      // console.log(this.dispatchPendings);
-      // console.log(this.dataSource);
-        // console.log("res ",JSON.stringify(res))
-        // this.dispatchPendings = res;
-        // console.log("Welcome ",JSON.stringify(this.dispatchPendings))
-        // this.dataSource.data = res;
-
+      this.dataSource.data = this.AEDistrictEngAllotedWorks;
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.dataSource.sort = this.sort1;
       this.cdr.detectChanges();
-      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
       this.spinner.hide();
     },
     (error) => {
@@ -468,34 +468,7 @@ fetchDataBasedOnChartSelection(): void {
     }
   );
 }
-fetchDataBasedOnChartSelectionSbu(): void {
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.show=true;}
-  const  distid=0;
-  this.spinner.show();
-  this.api.SubeDistrictEngAllotedWorks('Sube', this.divisionid,distid).subscribe(
-    (res) => {
-      this.dispatchPendings1 = res.map((item: sbuDistrictEngAllotedWorks, index: number) => ({
-        ...item,
-        sno: index + 1
-      }));
-      debugger
-      this.dataSource1.data = this.dispatchPendings1;
-      this.dataSource1.paginator = this.paginatorPageSize;;
-      // this.dataSource1.sort = this.sort;
-        console.log("dispatchPendings1= ",JSON.stringify(this.dispatchPendings1))
-        console.log(" this.dataSource1.data= ",JSON.stringify( this.dataSource1.data))
-        console.log("this.dataSource1.paginator= ",JSON.stringify( this.dataSource1.paginator))
-      this.cdr.detectChanges();
-      // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
-      this.spinner.hide();
-    },
-    (error) => {
-      console.error('Error fetching data', error);
-    }
-  );
-}
+
 distidd:any;empname:any;
 fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): void {
   this.empname=empname;
@@ -518,10 +491,9 @@ fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): v
       }));
       this.dataSource3.data = this.dispatchPendings3;
         console.log(" this.dataSource3.data= ",JSON.stringify( this.dataSource3.data))
-      // this.dataSource3.paginator = this.paginator;
-      // this.dataSource3.sort = this.sort;
+      this.dataSource3.paginator = this.paginator1;
+      this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
-      this.openDialog();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
       this.spinner.hide();
     },
@@ -529,6 +501,8 @@ fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): v
       console.error('Error fetching data', error);
     }
   );
+  this.openDialog();
+
 }
 fetchDataBasedWorkDetailsWithEngAE(empcode:any, selectedSeries:any,empname:any): void {
 
@@ -552,10 +526,9 @@ fetchDataBasedWorkDetailsWithEngAE(empcode:any, selectedSeries:any,empname:any):
       }));
       this.dataSource3.data = this.dispatchPendings3;
         console.log(" this.dataSource4= ",JSON.stringify( this.dataSource3.data))
-      // this.dataSource3.paginator = this.paginator;
-      // this.dataSource3.sort = this.sort;
+      this.dataSource3.paginator = this.paginator1;
+      this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
-      this.openDialog();
       // this.modalService.open(this.itemDetailsModal, { centered: true,backdrop:false, });
       this.spinner.hide();
     },
@@ -563,6 +536,8 @@ fetchDataBasedWorkDetailsWithEngAE(empcode:any, selectedSeries:any,empname:any):
       console.error('Error fetching data', error);
     }
   );
+  this.openDialog();
+
 }
 
 applyTextFilter(event: Event) {
@@ -603,7 +578,7 @@ exportToPDF() {
     { title: "districtID", dataKey: "districtID" },
     { title: "id", dataKey: "id" }
   ];
-  const rows = this.dispatchPendings.map(row => ({
+  const rows = this.AEDistrictEngAllotedWorks.map(row => ({
     sno: row.sno,
     engName: row.engName,
     empid: row.empid,
@@ -643,7 +618,7 @@ SexportToPDF() {
     { title: "districtID", dataKey: "districtID" },
     { title: "id", dataKey: "id" }
   ];
-  const rows = this.dispatchPendings1.map(row => ({
+  const rows = this.sbuDistrictEngAllotedWorks.map(row => ({
     sno: row.sno,
     engName: row.engName,
     empid: row.empid,
@@ -733,8 +708,8 @@ selectDivision(division: { id: string, name: string }): void {
   this.name = division.name;
   this.GetAEENGEngAllotedWorks();
   this.getSBUENEngAllotedWorks();
- this.fetchDataBasedOnChartSelection();
- this.fetchDataBasedOnChartSelectionSbu();
+ this.fetchDataBasedOnChartAE();
+ this.fetchDataBasedOnChartSbu();
   //  var roleName = localStorage.getItem('roleName');
   //               if (roleName == 'Division'||name!=this.name) {
   //                 this.chartOptionsLine2.chart.height = '500px';

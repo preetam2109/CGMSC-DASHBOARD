@@ -447,6 +447,12 @@ export class TSDetail {
   // "asValuecr": 661.21,
   // "above2crWork": 5,
   // "below2crWork": 45
+  // "id": "45",
+  // "name": "Bastar",
+  // "nosWorks": 12,
+  // "asValuecr": 3.17,
+  // "above2crWork": 0,
+  // "below2crWork": 12
 
 }
 export class TSDetailallData {
