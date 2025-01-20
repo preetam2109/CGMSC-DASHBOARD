@@ -69,56 +69,17 @@ export class SearchingWorkComponent {
   ngOnInit(): void {
 this.initializeChartOptions();
     this.getworkfill(); // Fetch data on initialization
-    this.GetProjectTimeline();
+    // this.GetProjectTimeline(0);
     this.spinner.show();
   }
   
 
   initializeChartOptions() {
-    // this.chartOptions = {
-    //   series: [],
-    //   chart: {
-    //     type: 'rangeBar',
-    //     height: 'auto'
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: false,
-    //       dataLabels: {
-    //         position: 'center' // Place labels inside the bars
-    //       }
-    //     }
-    //   },
-    //   dataLabels: {
-    //     enabled: true,
-    //     formatter: function (val: any, opts: any) {
-    //       return opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex].level;
-    //     },
-    //     style: {
-    //       colors: ['#fff']
-    //     }
-    //   },
-    //   xaxis: {
-    //     categories: []
-    //   },
-    //   tooltip: {
-    //     y: {
-    //       formatter: function (val: any, opts: any) {
-    //         const dataPoint = opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex];
-    //         return `sinceAS: ${dataPoint.sinceAS}, sinceLastProg: ${dataPoint.sinceLastProg}`;
-    //       }
-    //     }
-    //   }
-    // };
-   
-
-    
-
     this.chartOptions = {
       series: [],
       chart: {
         type: 'rangeBar',
-        height: 'auto',
+        height: '300',
         events: {
           dataPointMouseEnter: function (event: any, chartContext: any, config: any) {
             const dataPoint = config.w.config.series[config.seriesIndex].data[config.dataPointIndex];
@@ -129,34 +90,89 @@ this.initializeChartOptions();
       plotOptions: {
         bar: {
           horizontal: true,
+          distributed: true,
+         
           colors: {
             ranges: [],
             backgroundBarColors: ['#f8f9fa', '#e9ecef', '#dee2e6'],
             backgroundBarOpacity: 1
           },
           dataLabels: {
-            position: 'center' // Place labels inside the bars
+            hideOverflowingLabels: true,
+            position: 'center', // Place labels inside the bars
           }
         }
       },
       dataLabels: {
         enabled: true,
         formatter: function (val: any, opts: any) {
-          console.log('opts',opts.level);
-          console.log('val',val);
-          debugger;
-          return opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex].level;
+          const w = opts.w; // Accessing the wider context
+          const seriesIndex = opts.seriesIndex;
+          const dataPointIndex = opts.dataPointIndex;
+        
+          // Ensure we are accessing the correct data structure
+          if (w.config && w.config.series && w.config.series[seriesIndex] && w.config.series[seriesIndex].data[dataPointIndex]) {
+            const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
+            // console.log('DataPoint:', dataPoint); // Log to verify structure
+            if (dataPoint && dataPoint.level) {
+              return dataPoint.level; // Return the `level` value
+            }
+          }
+          return ''; // Default return if `level` is not available
         },
         style: {
-          colors: ['#000']
+          colors: ['#fff']
         }
       },
-
-     
-      
-      
       xaxis: {
-        categories: []
+        categories: [], // Already set based on `res.map(item => item.pdate)`
+        labels: {
+          style: {
+            fontSize: '12px',
+            colors: ['#000']
+          }
+        },
+        opposite: true // Ensure larger values appear at the top
+
+      },
+      yaxis: {
+        // categories: [], 
+        labels: {
+          style: {
+            fontSize: '12px',
+            colors: ['#000']
+          }
+        },
+        categories: [], // Reversed in GetProjectTimeline
+        // opposite: true // Ensure larger values appear at the top
+        title: {
+          text: ' Progress Date ',
+          align: 'center',
+          style: {
+            fontSize: '12px',
+            // color: '#000'
+            color: '#6e0d25',
+            
+          },
+        },
+      },
+      title: {
+        text: 'Project Timeline Progress',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25'
+        },
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetx: 50,
+      },
+      stroke: {
+        width: 1,
+        colors: ['#fff'],
       },
       tooltip: {
         custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
@@ -167,7 +183,7 @@ this.initializeChartOptions();
                     <div><strong>sinceLastProg:</strong> ${dataPoint.sinceLastProg}</div>
                   </div>`;
         }
-      }
+      },
     };
   }
 
@@ -228,6 +244,7 @@ this.initializeChartOptions();
     this.spinner.show();
 
     this.GetWorkDetails();
+    this.GetProjectTimeline(this.workID);
   }
 
   GetWorkDetails() {
@@ -319,6 +336,7 @@ this.initializeChartOptions();
           // console.log('Image data: ', this.base64Data);
           // console.log('parse res:',JSON.parse(res));
           // Handle the response (e.g., displaying the image)
+          // this.spinner.hide();
         },
         (error) => {
           console.error('Error fetching data:', error);
@@ -328,77 +346,35 @@ this.initializeChartOptions();
       console.error('Exception:', ex.message);
     }
   }
-  // GetProjectTimeline() {
-  //   this.api.GetProjectTimeline('W4100398').subscribe(
-  //     (res) => {
-  //       const seriesData = res.map(item => ({
-  //         x: item.pdate,
-  //         y: [item.sinceAS, item.sinceAS + item.sinceLastProg],
-  //         level: item.level,
-  //         sinceAS: item.sinceAS,
-  //         sinceLastProg: item.sinceLastProg
-  //       }));
-
-  //       this.chartOptions.series = [{ name: 'Progress', data: seriesData }];
-  //       this.chartOptions.xaxis.categories = res.map(item => item.pdate);
-  //     },
-  //     (error) => {
-  //       alert(`Error fetching data: ${error.message || error}`);
-  //     }
-  //   );
-  // }
- 
-
-
-
-//  GetProjectTimeline() {
-//     debugger
-//     this.api.GetProjectTimeline('W4100398').subscribe(
-//       (res) => {
-//         console.log('res=',res);
-//         const seriesData = res.map(item => ({
-//           // y: new Date(item.pdate),
-//           y: item.pdate,
-//           // .getTime(), // Convert date to timestamp
-//           x: [item.sinceAS, item.sinceAS + item.sinceLastProg], // Ensure y is an array with two values
-//           level: item.level // Include level for tooltip
-//         }));
-        
-//         const categories = res.map(item => item.pdate);
-        
-//         this.chartOptions.series = [
-//           { name: 'Progress', data: seriesData }
-//         ];
-//         console.log('categories=',categories);
-//         console.log('seriesData=',seriesData);
-//         // this.chartOptions.yaxis.categories = categories;
-//         this.chartOptions.xaxis.categories = categories;
-//       },
-//       (error) => {
-//         alert(`Error fetching data: ${error.message || error}`);
-//       }
-//     );
-//   }
+  
   
 
 
 
-GetProjectTimeline() {
-  this.api.GetProjectTimeline('W4100398').subscribe(
+GetProjectTimeline(workID:any) {
+  // this.workID
+  // console.log('workID',workID);
+  // this.api.GetProjectTimeline('W4100398').subscribe(
+  this.api.GetProjectTimeline(workID).subscribe(
     (res) => {
      this.ProjectTimelinedata=res;
       const seriesData = res.map(item => ({
-        // x: item.level,
-        x: item.pdate,
-        y: [item.sinceAS, item.sinceAS + item.sinceLastProg],
+        x:item.pdate,
+        // y: [item.sinceLastProg, item.sinceLastProg + item.sinceAS],
+        y: [item.sinceAS , item.sinceAS + item.sinceLastProg],
         level: item.level,
         sinceAS: item.sinceAS,
         sinceLastProg: item.sinceLastProg,
         fillColor: this.getRandomColor() // Generate random color for each bar
       }));
 
+      // console.log("seriesData",seriesData);
       this.chartOptions.series = [{ name: 'Progress', data: seriesData }];
-      this.chartOptions.xaxis.categories = res.map(item => item.pdate);
+      this.chartOptions.xaxis.categories = res.map(item => item.pdate).reverse(); 
+      // this.chartOptions.yaxis.categories = res.map(item => item.pdate);
+      // this.chartOptions.xaxis.categories = res.map(item => item.pdate);
+      this.chartOptions.yaxis.categories = res.map(item => item.pdate).reverse(); // Reverse the order for y-axis
+      this.spinner.hide();
     },
     (error) => {
       alert(`Error fetching data: ${error.message || error}`);

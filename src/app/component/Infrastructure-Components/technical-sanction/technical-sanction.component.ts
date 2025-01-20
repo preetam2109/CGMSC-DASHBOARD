@@ -73,7 +73,7 @@ export class TechnicalSanctionComponent {
     // Initialize dateRange with today and tomorrow
     this.initializeChartOptions();
     this.TSPendingTotal();
-    // this.TSPendingScheme();
+    this.TSPendingScheme();
     this.TSPendingDistrict();
   }
 
