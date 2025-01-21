@@ -1,36 +1,267 @@
-<div class="container mt-4">
-    <div class="row">
-      <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems let i = index" >
-        <!-- Card Display for Menu Items -->
-        <div
-          [style.background-color]="colors[i % colors.length]"
-          class="card mb-4 shadow-sm"
-          [routerLink]="item.route"
-          style="cursor: pointer;"
-        >
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-              <h5 class="card-title">{{ item.label }}</h5>
-              <mat-icon *ngIf="item.submenu" (click)="toggleSubmenu(item.label); $event.stopPropagation();">
-                {{ expandedMenus[item.label] ? 'expand_less' : 'expand_more' }}
-              </mat-icon>
-            </div>
-            <div *ngIf="expandedMenus[item.label]" class="submenu">
-              <div *ngFor="let subItem of item.submenu">
-                <button
-                  [routerLink]="subItem.route"
-                  class="btn btn-link"
-                  (click)="closeSubmenu(); $event.stopPropagation();"
-                >
-                  <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
-                  {{ subItem.label }}
-                </button>
-              </div>
+<!-- <div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems; let i = index">
+      
+      <div
+        [style.background-color]="colors[i % colors.length]"
+        class="card mb-4 shadow-sm"
+        [routerLink]="item.route"
+        style="cursor: pointer;"
+      >
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            
+            <mat-icon class="mat-icon">{{ item.icon }}</mat-icon> 
+            <h5 class="card-title ">{{ item.label }}</h5>
+            <mat-icon *ngIf="item.submenu" (click)="toggleSubmenu(item.label); $event.stopPropagation();">
+              {{ expandedMenus[item.label] ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </div>
+          <div *ngIf="expandedMenus[item.label]" class="submenu">
+            <div *ngFor="let subItem of item.submenu">
+              <button
+                [routerLink]="subItem.route"
+                class="btn btn-link"
+                (click)="closeSubmenu(); $event.stopPropagation();"
+              >
+                <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
+                {{ subItem.label }}
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
-  
+</div> -->
+
+<!-- <div class="container mt-4">
+  <div class="card shadow">
+   
+    <div class="card-header d-flex align-items-center">
+      <img src="https://via.placeholder.com/40" alt="Card Title Image" class="me-2" />
+      <h5 class="mb-0">Card Title</h5>
+    </div>
+    
+    <div class="card-body d-flex align-items-center">
+      <img src="https://via.placeholder.com/80" alt="Body Image" class="me-3" />
+      <p class="mb-0 text-center flex-fill">
+        This is the body text of the card. It is centered within the body and complements the image on the left.
+      </p>
+    </div>
+  </div>
+</div> -->
+
+
+
+ <!-- <div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems let i = index">
+      <div [style.background-color]="colors[i % colors.length]" class="card mb-4 shadow-sm" [routerLink]="item.route" style="cursor: pointer;">
+        <div class="card-body">
+
+          <div class="d-flex justify-content-between align-items-center">
+              <div class="col-sm-12 col-md-4">
+
+                <img *ngIf="labelToIconMap[item.label]" [src]="labelToIconMap[item.label]" alt="{{item.label}} icon" class="w-100">
+              </div>
+              <div class="col-sm-12 col-md-8">
+                <h5 class="card-title">{{ item.label }}</h5>
+
+              </div>            
+
+            <mat-icon *ngIf="item.submenu" (click)="toggleSubmenu(item.label); $event.stopPropagation();">
+              {{ expandedMenus[item.label] ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+
+          </div>
+
+          <div *ngIf="expandedMenus[item.label]" class="submenu">
+            <div *ngFor="let subItem of item.submenu">
+              <button [routerLink]="subItem.route" class="btn btn-link" (click)="closeSubmenu(); $event.stopPropagation();">
+                <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
+                {{ subItem.label }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  -->
+
+
+
+
+<div class="container my-4 mb-4">
+  <div class="row">
+    <!-- Card 1 -->
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
+        <div class="card-body">
+          <h6 class="card-title">Orders Received</h6>
+          <h2 class="card-value">358</h2>
+          <p class="card-text">18% Higher Than Last Month</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
+        <div class="card-body">
+          <h6 class="card-title">Delivered</h6>
+          <h2 class="card-value">865</h2>
+          <p class="card-text">21% Higher Than Last Month</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
+        <div class="card-body">
+          <h6 class="card-title">New Orders</h6>
+          <h2 class="card-value">128</h2>
+          <p class="card-text">37% Higher Than Last Month</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #43a0ff, #68d8ff); color: white;">
+        <div class="card-body">
+          <h6 class="card-title">Total Earning</h6>
+          <h2 class="card-value">$25698</h2>
+          <p class="card-text">10% Higher Than Last Month</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<div class="container my-4 mb-4">
+  <div class="row">
+    <!-- Card 1 -->‌
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card shadow p-0 m-0" style="height: auto; width: auto;">
+        <div class="card-body">
+          <apx-chart class="border rounded" style="background-color: #f8ecb7;"
+            [series]="chart1.series"
+            [chart]="chart1.chart"
+            [xaxis]="chart1.xaxis"
+            [stroke]="chart1.stroke"
+            [colors]="chart1.colors"
+            [fill]="chart1.fill">
+          </apx-chart>‍‍‌
+          <h5 class="card-title mt-3">Daily Sales</h5>
+          <p class="card-text text-success">
+            <i class="bi bi-arrow-up"></i> 55% increase in today's sales.
+          </p>
+          <p class="card-text text-muted">
+            <small>Updated 4 minutes ago</small>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
+        <div class="card-body">
+          <apx-chart  class="border rounded" style="background-color: #bafaec;"
+            [series]="chart2.series"
+            [chart]="chart2.chart"
+            [xaxis]="chart2.xaxis"
+            [colors]="chart2.colors"
+            [fill]="chart2.fill">
+          </apx-chart>
+          <h5 class="card-title mt-3">Email Subscriptions</h5>
+          <p class="card-text">Last Campaign Performance</p>
+          <p class="card-text text-muted">
+            <small>Campaign sent 2 days ago</small>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card shadow p-0 m-0" style="height: auto; width: auto;">
+        <div class="card-body">
+          <apx-chart  class="border rounded" style="background-color: #90fbb2;"
+            [series]="chart3.series"
+            [chart]="chart3.chart"
+            [xaxis]="chart3.xaxis"
+            [stroke]="chart3.stroke"
+            [colors]="chart3.colors"
+            [fill]="chart3.fill">
+          </apx-chart>
+          <h5 class="card-title mt-3">Completed Tasks</h5>
+          <p class="card-text">Last Campaign Performance</p>
+          <p class="card-text text-muted">
+            <small>Campaign sent 2 days ago</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems; let i = index">
+      <div [style.background-color]="colors[i % colors.length]" class="card mb-4 shadow-sm" [routerLink]="item.route" style="cursor: pointer;">
+        <!-- Card Header -->
+        <!-- <div class="card-header d-flex align-items-center">
+          <img *ngIf="labelToIconMap[item.label]" [src]="labelToIconMap[item.label]" alt="{{item.label}} icon" class="me-2" style="width: 30px; height: 30px;" />
+          <h5 class="mb-0">{{ item.label }}</h5>
+        </div> -->
+        <!-- Card Body -->
+        <div class="card-body d-flex flex-wrap align-items-center">
+          <!-- Image Section -->
+          <div class="col-12 col-md-6 d-flex justify-content-start">
+            <img 
+              *ngIf="labelToIconMap[item.label]" 
+              [src]="labelToIconMap[item.label]" 
+              alt="{{item.label}} icon" 
+              style="width: 80px; height: 80px;" 
+            />
+          </div>
+        
+          <!-- Text Section -->
+          <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
+            <h5 class="card-title">{{ item.label }}</h5>
+          </div>
+        </div>
+        
+
+        <!-- Submenu -->
+        <div *ngIf="expandedMenus[item.label]" class="submenu">
+          <div *ngFor="let subItem of item.submenu">
+            <button [routerLink]="subItem.route" class="btn btn-link" (click)="closeSubmenu(); $event.stopPropagation();">
+              <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
+              {{ subItem.label }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

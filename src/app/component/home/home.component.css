@@ -1,21 +1,70 @@
 .card {
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .card-title button {
-    font-size: 18px;
-    color: #007bff;
-    cursor: pointer;
-  }
-  
-  .card-title button:hover {
-    text-decoration: underline;
-  }
-  
+  height: 100px;  /* Set the height of the card */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+  text-align: center;
+  padding: 10px;  /* Reduced padding to fit within 100px height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute space vertically */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 20px;  /* Adjust title size to fit */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  text-align: left;  /* Align title to the left */
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* Center remaining content */
+  align-items: center;
+  height: 100%;  /* Ensure content takes the full height */
+}
+
+.card-icon {
+  width: 40px;  /* Reduced icon size */
+  height: 40px; /* Reduced icon size */
+  background-color: #f1f1f1;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;  /* Reduced margin */
+}
+
+.mat-icon{
+  font-size: 90px;
+  width: 100px;
+  height: 100px;
+  /* background-color: #f1f1f1; */
+  /* border-radius: 50%; */
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  margin-bottom: 10px;
+  /* margin-left: -130px; */
+  margin-left : -187px;
+}
+
+.card-data {
+  font-size: 18px;  /* Reduced data font size */
+  font-weight: bold;
+  color: #555;
+}
+
+.card-label {
+  font-size: 12px;  /* Reduced label font size */
+  color: #999;
+}

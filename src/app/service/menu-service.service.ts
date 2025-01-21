@@ -25,7 +25,7 @@ export class MenuServiceService {
           //     { label: 'Facility Details', route:  '/facilityDetails' }
           //   ]
           // },
-          { label: 'EMD Drugs/Consumables', route:  '/emd' },
+          { label: 'EMD Drugs/Consumables', route:  '/emd'},
           { label: 'Health Facilities Coverage', route:  '/FacCoverage' },
           { label: 'Warehouse Information', route:  '/WarehouseInfo' },
           { label: 'Stock Abstract', route:  '/whStockAbstract' },
@@ -41,7 +41,7 @@ export class MenuServiceService {
           // { label: 'QC Courier', route:  '/QcPendings' },
           // { label: 'QC-Lab Issues', route:  '/qc-dash' },
 
-          { label: 'Quality Controll',
+          { label: 'Quality Control',
             submenu:[
             { label: 'QC Courier', route:  '/QcPendings' },
           { label: 'QC-Lab Issues', route:  '/qc-dash' },
@@ -114,11 +114,12 @@ export class MenuServiceService {
           { label: 'Progress Abstract', route: 'InfrastructureHome' },
           { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
-          // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+          // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Handover', route: 'Handover' },
-          { label: 'Engineer-Works', route: 'EngineerWorks' 
+          { label: 'Engineer-Works', route: 'EngineerWorks' },
+          { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
           
           { label: 'RCDetail', route:  '/Rcdetail' },
           { label: 'Complaints', route:  '/complaints' },
@@ -183,11 +184,12 @@ export class MenuServiceService {
           { label: 'Progress Abstract', route: 'InfrastructureHome' },
           { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
-          // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+          // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Handover', route: 'Handover' },
           { label: 'Engineer-Works', route: 'EngineerWorks' },
+          { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
 
         ],
       },
@@ -266,12 +268,12 @@ export class MenuServiceService {
           { label: 'Progress Abstract', route: 'InfrastructureHome' },
           { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
-          // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+          // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Handover', route: 'Handover' },
           { label: 'Engineer-Works', route: 'EngineerWorks' },
-
+          { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
 
         ],
       },
@@ -317,11 +319,12 @@ export class MenuServiceService {
           { label: 'Progress Abstract', route: 'InfrastructureHome' },
           { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
-          // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+          // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Handover', route: 'Handover' },
           { label: 'Engineer-Works', route: 'EngineerWorks' },
+          { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
 
 
         ],
@@ -365,11 +368,12 @@ export class MenuServiceService {
         { label: 'Progress Abstract', route: 'InfrastructureHome' },
         { label: 'District-wise Progress', route: 'DashProgressIstCount' },
         { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
-        // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+        // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
         { label: 'Work Order', route: 'WorkOrder' },
         { label: 'Land Issue', route: 'LandIssue' },
         { label: 'Handover', route: 'Handover' },
         { label: 'Engineer-Works', route: 'EngineerWorks' },
+        { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
 
       ],
     },
@@ -380,7 +384,9 @@ export class MenuServiceService {
         { label: 'Stock Details', route:  '/stockDetails' },
         // { label: 'welcome', route:  '/home' },
         { label: ' Delivery Acknowledgement', route:  '/Devlivery' },
-        
+        { label: 'QC Courier', route:  '/QcPendings' },
+        { label: 'Warehouse Stock-out %', route:  '/StockoutSummary' },
+        { label: 'Near Expiry', route:  '/nearExpiry' },
 
         // { label: 'Health Facilities Coverage', route:  '/FacCoverage' },
         // { label: 'Warehouse Information', route:  '/WarehouseInfo' },
@@ -428,12 +434,12 @@ export class MenuServiceService {
         { label: 'Progress Abstract', route: 'InfrastructureHome' },
         { label: 'District-wise Progress', route: 'DashProgressIstCount' },
         { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
-        // { label: 'Distric Progress Monitoring', route: 'DistrictProgress' },
+        // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
         { label: 'Work Order', route: 'WorkOrder' },
         { label: 'Land Issue', route: 'LandIssue' },
         { label: 'Handover', route: 'Handover' },
         { label: 'Engineer-Works', route: 'EngineerWorks' },
-
+        { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
 
       ],
     },
@@ -492,7 +498,7 @@ getSubmenu(label: string): { label: string; route: string }[] | undefined {
 
     ],
 
-    'Quality Controll': [
+    'Quality Control': [
       { label: 'QC Courier', route:  '/QcPendings' },
       { label: 'QC-Lab Issues', route:  '/qc-dash' },
 

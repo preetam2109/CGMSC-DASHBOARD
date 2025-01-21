@@ -81,10 +81,14 @@ import { DashLoginDDL } from '../Model/DashLoginDDL';
 import { DisYrGrowth } from '../Model/DisYrGrowth';
 import { DistCGMSCSupplyDHS } from '../Model/DistCGMSCSupplyDHS';
 
-import { DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary,
-   WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong,
-    WOpendingTotal, WorkOrderPendingDetailsNew,  AEDistrictEngAllotedWorks,
-     SbuEngAllotedWorks, AEEngAllotedWorks, LIPendingTotal, HandoverAbstract, GetHandoverDetails, sbuDistrictEngAllotedWorks, LandIssueDetails, WorkDetailsWithEng, DistrictNameDME,} from '../Model/DashProgressCount';
+import {
+  DashProgressCount, GetDistrict, DashProgressDistCount, DMEProgressSummary,
+  WorkFill, WorkDetails, MainScheme, DivisionPrograss, ProgressDetailsLatLong,
+  WOpendingTotal, WorkOrderPendingDetailsNew, AEDistrictEngAllotedWorks,
+  SbuEngAllotedWorks, AEEngAllotedWorks, LIPendingTotal, HandoverAbstract,
+  GetHandoverDetails, sbuDistrictEngAllotedWorks, LandIssueDetails,
+  WorkDetailsWithEng, DistrictNameDME,ProjectTimeline, TSDetail, TSDetailallData,
+} from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
@@ -656,10 +660,17 @@ WorkFill(searchtext: any, workid: any,divisionId:any,distid:any,mainSchemeId:any
   return this.http.get<WorkFill[]>(`${this.apiUrl}/Work/WorkFill?searchtext=${searchtext}&workid=${workid}&divisionId=${divisionId}&distid=${distid}&mainSchemeId=${mainSchemeId}`);
   // https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
 }
-// https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
 GetWorkDetails(workid: any): Observable<WorkDetails[]> {
+  // https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
   return this.http.get<WorkDetails[]>(`${this.apiUrl}/Work/GetWorkInfo?workid=${workid}`);
 }
+GetProjectTimeline(workid: any): Observable<ProjectTimeline[]> {
+  return this.http.get<ProjectTimeline[]>(`${this.apiUrl}/Work/GetProjectTimeline?workid=${workid}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/Work/GetProjectTimeline?workid=W4100398
+}
+
+
+
 getMainScheme(isall: any): Observable<MainScheme[]> {
   return this.http.get<MainScheme[]>(`${this.apiUrl}/Progress/getMainScheme?isall=${isall}`);
 }
@@ -724,10 +735,24 @@ GetLIPendingTotal(engtype:any,divisionId:any,districtid:any){
   // https://cgmsc.gov.in/HIMIS_APIN/api/LandIssue/LIPendingTotal?RPType=Total&divisionid=0&districtid=0
  }
  GetLandIssueDetails(divisionId:any,mainSchemeId:any,distid:any){
-  return this.http.get<LandIssueDetails[]>(`${this.apiUrl}/LandIssue/getLandIssueDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}`);
+  return this.http.get<LandIssueDetails[]> (`${this.apiUrl}/LandIssue/getLandIssueDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}`);
   //https://cgmsc.gov.in/HIMIS_APIN/api/LandIssue/getLandIssueDetails?divisionId=D1004&mainSchemeId=0&distid=0
  
  }
+//#endregion
+//#region Technical Sanction
+GetTSDetail(engtype:any,divisionid:any,districtid:any,mainschemeid:any){
+  return this.http.get<TSDetail[]>
+  (`${this.apiUrl}/TSDetail/TSPending?RPType=${engtype}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/TSDetail/TSPending?RPType=Total&divisionid=0&districtid=0&mainschemeid=0
+}
+
+GetTSDetailall(divisionId:any,mainSchemeId:any,distid:any){
+  return this.http.get<TSDetailallData[]> (`${this.apiUrl}/TSDetail/getTSDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}`);
+  //https://cgmsc.gov.in/HIMIS_APIN/api/TSDetail/getTSDetails?divisionId=D1004&mainSchemeId=0&distid=0
+ 
+ }
+
 //#endregion
 
 //#region GET IMAGE

@@ -237,8 +237,20 @@
  
   
   
- 
+  #chart {
+    max-width: 650px;
+    margin: 35px auto;
+  }
 
+
+  .tooltip-box {
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    text-align: left;
+  }
+  
   
   
   
