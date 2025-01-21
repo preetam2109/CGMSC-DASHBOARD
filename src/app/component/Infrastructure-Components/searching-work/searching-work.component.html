@@ -31,26 +31,26 @@
 
 <ng-container *ngFor="let detail of workdetails">
     <div class="container-fluid p-2" *ngIf="ProjectTimelinedata.length > 0">
-        <div class="row">
-            <div class="col-12 col-md-11 mb-2 border rounded">
+        <div class="row p-3">
+            <div class="col-12 col-md-11 mb-2 border rounded  card">
                 <div class="chart-container">
-                    <!-- <div id="chart"> -->
-                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
-                            [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels"[title]="chartOptions.title"
+                    <!-- <div class=" card shadow"> -->
+                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+                    [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels"[title]="chartOptions.title"
                             [stroke]="chartOptions.stroke"[legend]="chartOptions.legend" 
                             [tooltip]="chartOptions.tooltip" [plotOptions]="chartOptions.plotOptions">
                         </apx-chart>
-                    <!-- </div> -->
+                        <!-- </div> -->
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-1">
-
-                <span class="d-flex  flex-row-reverse p-2 ">
-                    <button class="btn btn-light btn-sm btn-outline-secondary align-items-center" (click)="exportAsPDF()">
-                        <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
-                    </button>
-                </span>
-            </div>
+                 <div class="col-12 col-md-1 mb-2 card  border rounded">
+                    <span class="d-flex  flex-row-reverse p-2 ">
+                        <button class="btn btn-light btn-sm btn-outline-secondary align-items-center" (click)="exportAsPDF()">
+                            <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                        </button>
+                    </span>
+                    
+                </div>
         </div>
 
     </div>

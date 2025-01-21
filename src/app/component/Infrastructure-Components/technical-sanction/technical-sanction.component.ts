@@ -390,7 +390,7 @@ var RPType='Total'
             below2crWork.push(item.below2crWork ?? 0);
           }
         });
-// console.log('res data=',data);
+console.log('res data Total=',data);
         if (name.length > 0) {
           this.chartOptions.series = [
             { name: 'Total Pending Works', data: nosWorks, color: '#eeba0b' },

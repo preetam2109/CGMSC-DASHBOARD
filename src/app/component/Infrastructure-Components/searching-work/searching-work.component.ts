@@ -98,7 +98,7 @@ this.initializeChartOptions();
             backgroundBarOpacity: 1
           },
           dataLabels: {
-            hideOverflowingLabels: true,
+            hideOverflowingLabels: false,
             position: 'center', // Place labels inside the bars
           }
         }
