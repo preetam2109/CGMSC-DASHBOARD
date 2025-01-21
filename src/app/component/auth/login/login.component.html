@@ -386,44 +386,35 @@ aria-hidden="true">
                 <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                   <form #adminLoginForm="ngForm" (ngSubmit)="adminLoginForm.valid && handleLogin()">
                     <div class="mb-3">
-                      <!-- <label for="emailid" class="form-label">User ID</label>
-                      <input type="text" class="form-control" id="emailid" name="emailid" [(ngModel)]="emailid" required> -->
-                      <ng-select
-                                  [items]="adminDropdownList"
-                                  bindLabel="textfield"
-                                  bindValue="emailid"
-                                  [(ngModel)]="emailid"
-                                  (change)="onUserChange($event)"
-                                  name="emailid"
-                                  #emailidField="ngModel"
-                                  [placeholder]="!emailid ? 'Choose Admin' : ''"
-                                  [searchable]="true"
-                                  [clearable]="true" 
-                                  [appendTo]="'body'"
-                                  required
-                                  class="form-control"
-                                >
-                                </ng-select>
-                      <!-- <label for="emailid" class="form-label">Select User</label>
-                      <select 
-                        id="emailid" 
-                        class="form-select" 
-                        [(ngModel)]="emailid" 
-                        (change)="onUserChange($event)"
-                        name="emailid" 
-                        #emailidField="ngModel" 
-                        required>
-                       
-                        <option value=""  [selected]="emailid === ''">Select Admin User</option>
-                        <option value="undefined" selected disabled>Choose Admin</option>
-                        <option *ngFor="let emaillist of adminDropdownList" [value]="emaillist.emailid">
-                          {{ emaillist.textfield }}
-                        </option>
-                      </select> -->
-                      <div *ngIf="emailidField.invalid && (emailidField.dirty || emailidField.touched)" class="text-danger">
+                      <div class="input-group">
+                        <span class="input-group-text bg-light">
+                          <i class="fas fa-user"></i>
+                        </span>
+                        <ng-select
+                          [items]="adminDropdownList"
+                          bindLabel="textfield"
+                          bindValue="emailid"
+                          [(ngModel)]="emailid"
+                          (change)="onUserChange($event)"
+                          name="emailid"
+                          #emailidField="ngModel"
+                          [placeholder]="!emailid ? 'Choose Admin' : ''"
+                          [searchable]="true"
+                          [clearable]="true"
+                          [appendTo]="'body'"
+                          required
+                          class="form-control"
+                        >
+                        </ng-select>
+                      </div>
+                      <div
+                        *ngIf="emailidField.invalid && (emailidField.dirty || emailidField.touched)"
+                        class="text-danger mt-1"
+                      >
                         Please select a user.
                       </div>
                     </div>
+                    
                     <!-- <div class="mb-3">
                       <label for="pwd" class="form-label">Password</label>
                       <input type="password" class="form-control" id="pwd" name="pwd" [(ngModel)]="pwd" placeholder="Enter Password" required>
@@ -463,12 +454,16 @@ aria-hidden="true">
                 <div class="tab-pane fade" id="warehouse" role="tabpanel" aria-labelledby="warehouse-tab">
                   <form #warehouseForm="ngForm" (ngSubmit)="warehouseForm.valid && handleWarehouseLogin()">
                     <div class="mb-3">
+                      <div class="input-group">
+                        <span class="input-group-text bg-light">
+                          <i class="fas fa-user"></i>
+                        </span>
                       <ng-select
                                   [items]="wHDropdownList"
                                   bindLabel="textfield"
                                   bindValue="emailid"
                                   [(ngModel)]="emailid"
-                                 
+                                  (change)="onUserChangeWarehouse($event)"
                                   name="emailid"
                                   #emailidField="ngModel"
                                   [placeholder]="!emailid ? 'Choose Warehouse' : ''"
@@ -479,6 +474,7 @@ aria-hidden="true">
                                   class="form-control"
                                 >
                                 </ng-select>
+                                </div>
                       <!-- <label for="emailid" class="form-label">Warehouse ID</label>
                       <select 
                         id="emailid" 
@@ -547,6 +543,10 @@ aria-hidden="true">
                   <form #cgmsclForm="ngForm" (ngSubmit)="cgmsclForm.valid && handleCgmsclLogin()">
                     <div class="mb-3">
                       <label for="emailid" class="form-label">User ID</label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-light">
+                          <i class="fas fa-user"></i>
+                        </span>
                       <ng-select
                                   [items]="cgmsclDropdownList"
                                   bindLabel="textfield"
@@ -563,6 +563,7 @@ aria-hidden="true">
                                   class="form-control"
                                 >
                                 </ng-select>
+                                </div>
                       <!-- <select 
                         id="emailid" 
                         class="form-select" 
@@ -628,6 +629,10 @@ aria-hidden="true">
                 <div class="tab-pane fade" id="infrastructure" role="tabpanel" aria-labelledby="infrastructure-tab">
                   <form #infrastructureForm="ngForm" (ngSubmit)="infrastructureForm.valid && handleInfrastructureLogin()">
                     <div class="mb-3">
+                      <div class="input-group">
+                        <span class="input-group-text bg-light">
+                          <i class="fas fa-user"></i>
+                        </span>
                       <ng-select
                       [items]="InfraStructureDropdownList"
                       bindLabel="desig"
@@ -645,6 +650,7 @@ aria-hidden="true">
                     >
                     
                     </ng-select>
+                    </div>
                       <!-- <label for="id" class="form-label">Select Engineer</label>
                       <select 
                         id="id" 
@@ -665,7 +671,12 @@ aria-hidden="true">
                       </div>
                     </div>
                     <div class="mb-3">
+                      
                       <label for="pwd" class="form-label">Password</label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-light">
+                          <i class="fas fa-user"></i>
+                        </span>
                       <input 
                       [type]="isPasswordVisible ? 'text' : 'password'"
                         type="password" 
@@ -681,6 +692,7 @@ aria-hidden="true">
                         (click)="togglePassword()" 
                         style="position: absolute; right: 20px; top: 160px; cursor: pointer;">
                       </i>
+                      </div>
                       <!-- Validation message for password -->
                       <div *ngIf="pwdField.invalid && (pwdField.dirty || pwdField.touched)" class="text-danger">
                         Password is required.
@@ -703,31 +715,31 @@ aria-hidden="true">
             <div class="marquee2">
               <div class="marquee-item">
 
-                <img src="assets/images/CM.jpeg" alt="CM Image">
+                <!-- <img src="assets/images/CM.jpeg" alt="CM Image">
                 <strong>
                   श्री विष्णु देव साय माननीय मुख्यमंत्री
-                </strong> 
+                </strong>  -->
               </div>
               <div class="marquee-item" >
 
-                <img src="assets/images/HM.jpeg" alt="HM Image">
+                <!-- <img src="assets/images/HM.jpeg" alt="HM Image">
                 <strong>
                   श्री श्याम बिहारी जायसवाल माननीय स्वास्थ्य मंत्री <br>सह अध्यक्ष (सी.जी.एम.एस.सी.)
-                </strong>
+                </strong> -->
               </div>
               <div class="marquee-item" >
 
-                <img src="assets/images/MD.jpeg" alt="MD Image">
+                <!-- <img src="assets/images/MD.jpeg" alt="MD Image">
                 <strong>
                   श्श्रीमती पद्मिनी भोई साहू <br>प्रबंध संचालक (सी.जी.एम.एस.सी.)
-                </strong>
+                </strong> -->
               </div>
               <div class="marquee-item" >
 
-                <img src="assets/images/Dr.Priyanka_Sukla.jpeg" alt="DHS  Image">
+                <!-- <img src="assets/images/Dr.Priyanka_Sukla.jpeg" alt="DHS  Image">
                 <strong>
                   डॉ. प्रियंका शुक्ला <br>आयुक्त सह संचालक स्वास्थ्य सेवाएं
-                </strong>
+                </strong> -->
               </div>
              
             </div>

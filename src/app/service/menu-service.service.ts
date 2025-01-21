@@ -25,7 +25,7 @@ export class MenuServiceService {
           //     { label: 'Facility Details', route:  '/facilityDetails' }
           //   ]
           // },
-          { label: 'EMD Drugs/Consumables', route:  '/emd' },
+          { label: 'EMD Drugs/Consumables', route:  '/emd'},
           { label: 'Health Facilities Coverage', route:  '/FacCoverage' },
           { label: 'Warehouse Information', route:  '/WarehouseInfo' },
           { label: 'Stock Abstract', route:  '/whStockAbstract' },
@@ -41,7 +41,7 @@ export class MenuServiceService {
           // { label: 'QC Courier', route:  '/QcPendings' },
           // { label: 'QC-Lab Issues', route:  '/qc-dash' },
 
-          { label: 'Quality Controll',
+          { label: 'Quality Control',
             submenu:[
             { label: 'QC Courier', route:  '/QcPendings' },
           { label: 'QC-Lab Issues', route:  '/qc-dash' },
@@ -384,7 +384,9 @@ export class MenuServiceService {
         { label: 'Stock Details', route:  '/stockDetails' },
         // { label: 'welcome', route:  '/home' },
         { label: ' Delivery Acknowledgement', route:  '/Devlivery' },
-        
+        { label: 'QC Courier', route:  '/QcPendings' },
+        { label: 'Warehouse Stock-out %', route:  '/StockoutSummary' },
+        { label: 'Near Expiry', route:  '/nearExpiry' },
 
         // { label: 'Health Facilities Coverage', route:  '/FacCoverage' },
         // { label: 'Warehouse Information', route:  '/WarehouseInfo' },
@@ -496,7 +498,7 @@ getSubmenu(label: string): { label: string; route: string }[] | undefined {
 
     ],
 
-    'Quality Controll': [
+    'Quality Control': [
       { label: 'QC Courier', route:  '/QcPendings' },
       { label: 'QC-Lab Issues', route:  '/qc-dash' },
 
