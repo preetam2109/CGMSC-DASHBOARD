@@ -32,3 +32,8 @@ export class masddlUser{
     this.siMobile = siMobile;
   }
 }
+
+export class MasSupplierPipeline{
+     public supplierid!: number;
+        public suppliername!: string;
+}

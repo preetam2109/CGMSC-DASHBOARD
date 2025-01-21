@@ -57,14 +57,14 @@ export class FacilityWiseStockComponent{
   }
     // This method will be called when a category (Drugs or Consumables) is selected
     onCategoryChange(category: any): void {
-      debugger
+      
       this.selectedCategory = category;
       
       // Call the method when the category is selected
       this.getDistFACwiseStockPostionNew();
     }
     onEDLNonEDLChange(edlCategory: string): void {
-      debugger
+      
       this.selectedEDLCategory = edlCategory;
       
       // Call the method when the EDL/Non-EDL option is selected

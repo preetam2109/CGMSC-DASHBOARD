@@ -26,8 +26,11 @@ export class DeliveryComponent implements OnInit {
   VehicleNoDropDownList:any=[];
   TravelVoucherDropDownList:any=[];
   TravelVoucherDropDownList2:any=[];
+  SupplierDropDownList: any = []; 
   vid: any;
   indentid=0;
+  supplierid=0;
+  selectedSupplier: any;
   lat:any;
   long:any;
   selectedDate: string | null = null;
@@ -41,10 +44,11 @@ export class DeliveryComponent implements OnInit {
 
 ngOnInit(): void {
 this.getVehicleNoDropDown()  
+this.getSupplierDropDown();
 
 }
 getGetLatLong(){
-  debugger
+  
   this.api.getGetLatLong(this.indentid).subscribe((res:any)=>{
 this.lat=res[0].latitude
 this.long=res[0].longitude
@@ -60,8 +64,22 @@ onDateChange(event: any) {
     this.formattedDate = formatted; // Update the input field with the formatted value
   }
 }
+  // Method to fetch suppliers
+  getSupplierDropDown() {
+    this.api.MasSupplierPipeline(sessionStorage.getItem('facilityid')).subscribe((res: any[]) => {
+      if (res && res.length > 0) {
+        this.SupplierDropDownList = res.map(item => ({
+          supplierid: item.supplierid,  // Adjust key names as needed
+          suppliername: item.suppliername
+        }));
+      } else {
+        console.error('No suppliers found or incorrect structure:', res);
+      }
+    });
+  }
+  
 getVehicleNoDropDown(){
-  debugger
+  
   this.api.getGetVehicleNo(sessionStorage.getItem('facilityid')).subscribe((res:any[])=>{
     // console.log(' Vehicle API dropdown Response:', res);
     if (res && res.length > 0) {
@@ -77,8 +95,19 @@ getVehicleNoDropDown(){
     }
   });  
 }
+  // Handle change when a supplier is selected
+  onSupplierChange(event: any): void {
+    const selectedSupplier = this.SupplierDropDownList.find((supplier: { supplierId: string }) => supplier.supplierId === this.selectedSupplier);
+
+    if (selectedSupplier) {
+      console.log('Selected Supplier:', selectedSupplier);
+      // You can do further operations here after selecting a supplier
+    } else {
+      console.error('Selected supplier not found in the list.');
+    }
+  }
 getTravelVouchers(){
-  debugger
+  
   this.api.getTravelVouchers(this.vid,this.indentid).subscribe((res:any[])=>{
     console.log('TravelVouchers API dropdown Response:', res);
     
@@ -102,7 +131,7 @@ getTravelVouchers(){
   });  
 }
 onVSelectChange(event: Event): void {
-    debugger
+    
   const selectedUser = this.VehicleNoDropDownList.find((user: { vid: string }) => user.vid === this.vid); 
 
   if (selectedUser) {
@@ -114,7 +143,7 @@ onVSelectChange(event: Event): void {
   }
 }
 onTravelVChange(event: Event): void {
-    debugger
+    
   const selectedUser = this.VehicleNoDropDownList.find((user: { indentid: any }) => user.indentid === this.indentid); 
 
   if (selectedUser) {
@@ -129,7 +158,7 @@ onTravelVChange(event: Event): void {
 }
 
 show(){
-  debugger
+  
   this.api.getTravelVouchers(this.vid,this.indentid).subscribe((res:any[])=>{
     console.log('TravelVouchers API dropdown Response:', res);
     this.getGetLatLong();
@@ -144,7 +173,7 @@ show(){
       //   travelvoucherissuedt:item.travelvoucherissuedt,
       //   longitude:item.longitude,
       //   latitude:item.latitude,
-      debugger
+      
       this.TravelVoucherDropDownList2 = res
       this.travelid=this.TravelVoucherDropDownList2[0].travaleid
       
@@ -159,7 +188,7 @@ show(){
 }
 
 submit() {
-  debugger;
+  ;
 
   // Validation: Check if lat, long, or selectedDate are empty
   if (!this.lat || !this.long) {

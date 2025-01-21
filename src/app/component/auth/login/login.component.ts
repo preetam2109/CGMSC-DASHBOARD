@@ -176,12 +176,13 @@ isPasswordVisible: boolean = false;
   }
  
   onUserChangeWarehouse(event: Event): void {
-    
-    const emailid = (event.target as HTMLSelectElement).value; // Get the selected email ID
-    const selectedUser = this.wHDropdownList.find((user: { emailid: string }) => user.emailid === emailid); // Find the user object in the list
-  
+
+    debugger
+    // const emailid = (event.target as HTMLSelectElement).value; // Get the selected email ID
+    const selectedUser = this.wHDropdownList.find((user: { emailid: string }) => user.emailid === this.emailid); // Find the user object in the list
+  debugger
     console.log('Selected User:', selectedUser); // Log the selected user object properly
-  
+  debugger
     if (selectedUser) {
       this.siMobile = selectedUser.siMobile || null;
       this.userid = selectedUser.userid || null;
@@ -285,7 +286,7 @@ isPasswordVisible: boolean = false;
   }
 
   togglePassword(): void {
-    // debugger
+    // 
     this.isPasswordVisible = !this.isPasswordVisible; // Toggle visibility
     const passwordField = document.getElementById('pwd') as HTMLInputElement;
     if (passwordField) {
@@ -383,11 +384,11 @@ isPasswordVisible: boolean = false;
     
     
     
-    if (captchaValue !== this.captcha) {
-      alert('Incorrect CAPTCHA. Please try again.');
-      this.generateCaptcha(); // Refresh CAPTCHA
-      return;
-    }
+    // if (captchaValue !== this.captcha) {
+    //   alert('Incorrect CAPTCHA. Please try again.');
+    //   this.generateCaptcha(); // Refresh CAPTCHA
+    //   return;
+    // }
     // unhide after fully selly selection
     sessionStorage.removeItem
     localStorage.removeItem
@@ -580,7 +581,7 @@ handleInfrastructureLogin() {
 }
 
 togglePasswordVisibility() {
-  debugger
+  
   this.isPasswordVisible = !this.isPasswordVisible;
 }
 

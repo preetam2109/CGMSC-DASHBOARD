@@ -147,13 +147,13 @@ const routes: Routes = [
   {path:'stockDetailsReagent',component:CgmscstockReagentComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','QC','Warehouse','Collector']} },
 
 // near expiry
-{path:'nearExpiry',component:NearExpiryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS']} },
+{path:'nearExpiry',component:NearExpiryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS','Warehouse']} },
 
 // reagent issue
 {path:'ReagentIssue',component:ReagentIssueComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
 
 //qc pendings
-{path:'QcPendings',component:QcPendingsComponent,canActivate:[RouteGuardService], data: { allowedRoles: ['SEC1']} },
+{path:'QcPendings',component:QcPendingsComponent,canActivate:[RouteGuardService], data: { allowedRoles: ['SEC1','Warehouse']} },
 {path:'nocApproval',component:NocApprovalComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
 {path:'noc',component:NOCComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS']} },
 {path:'iwhPending',component:IwhPendingComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
@@ -176,10 +176,10 @@ const routes: Routes = [
 {path:'PaidTimeTaken',component:PaidTimeTakenComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
 // {path:'QcTimeTaken',component:QCTimeTakenYearwiseComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS']} },
 {path:'QcTimeTaken',component:QCTimeTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
-{path:'StockoutSummary',component:StockoutSummaryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
+{path:'StockoutSummary',component:StockoutSummaryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Warehouse']} },
 {path:'HODYearWiseIssuance',component:HODYearWiseIssuanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Collector']} },
-// {path:'GrowthInProcurment',component:GrowthInProcurmentComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS']} },
-{path:'GrowthInProcurment',component:GrowthInProcurmentTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS']} },
+{path:'GrowthInProcurment',component:GrowthInProcurmentComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
+{path:'GrowthInProcurment',component:GrowthInProcurmentTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
 // {path:'DirectorateAIDetails',component:DirectorateAIDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS']} },
 {path:'distribution',component:DistributionTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
 {path:'DropAppWarehousePerformance',component:DropAppWarehousePerformanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','Collector']} },

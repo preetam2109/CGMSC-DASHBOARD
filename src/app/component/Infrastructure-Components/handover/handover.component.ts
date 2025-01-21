@@ -879,6 +879,8 @@ export class HandoverComponent {
 
   }
   fetchDataBasedOnChartSelectionDistrict(distid: any, seriesName: string): void {
+    
+    console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
    
     // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
     // const distid = 0;

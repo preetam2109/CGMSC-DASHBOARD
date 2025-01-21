@@ -75,7 +75,7 @@ import { Monthwise_Issuance } from '../Model/GroupItemtypeRCStock';
 import { Diswise_Issuance } from '../Model/Diswise_Issuance';
 import { DropAppWarehousePerformance } from '../Model/DropAppWarehousePerformance';
 import { DelvieryDash } from '../Model/DelvieryDash';
-import { masddlUser } from '../Model/masddlUser';
+import { masddlUser, MasSupplierPipeline } from '../Model/masddlUser';
 import { MasWH } from '../Model/MasWH';
 import { DashLoginDDL } from '../Model/DashLoginDDL';
 import { DisYrGrowth } from '../Model/DisYrGrowth';
@@ -399,14 +399,15 @@ getMasRecRemarks(whid:any,whsup:any){
 return this.http.get<MasRecRemarks[]>(`https://dpdmis.in/CGMSCHO_API2/api/Master/MasRecRemarks?whid=${whid}&whsup=${whsup}`);
 }
 
-getPipelineDetailsGrid(ponoid: any, itemid: number, mcid: number, whid: any, userid: any): Observable<any> {
+getPipelineDetailsGrid(ponoid: any, itemid: number, mcid: number, whid: any, userid: any,supid:any): Observable<any> {
   // Construct the query parameters
   const params = new HttpParams()
     .set('ponoid', ponoid.toString())
     .set('itemid', itemid.toString())
     .set('mcid', mcid.toString())
     .set('whid', whid.toString())
-    .set('userid', userid.toString());
+    .set('userid', userid.toString())
+    .set('supid', supid.toString());
 
   // Make the HTTP GET request
   return this.http.get<PipelineDetailsGrid[]>(`https://dpdmis.in/CGMSCHO_API2/api/HO/getPipelineDetails`, { params });
@@ -805,6 +806,12 @@ updateTBIndentTravaleWH(travelId: any, latitude: any, longitude: any, dt1: any) 
     { responseType: 'text' } // Specify the response type as 'text'
   );
 }
+
+
+MasSupplierPipeline(wh:any){
+  return this.http.get<MasSupplierPipeline[]>(`https://dpdmis.in/CGMSCHO_API2/api/Master/MasSupplierPipeline?wh=${wh}`);
+}
+
 
 
 
