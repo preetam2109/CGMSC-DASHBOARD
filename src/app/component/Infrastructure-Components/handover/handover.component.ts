@@ -36,7 +36,7 @@ export type ChartOptions = {
   selector: 'app-handover',
   standalone: true,
   imports: [NgApexchartsModule, MatSortModule, MatPaginatorModule, MatTableModule, MatTableExporterModule, MatInputModule, MatDialogModule,
-    MatFormFieldModule, NgbModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, FormsModule, NgFor, CommonModule,],
+    MatFormFieldModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, FormsModule, NgFor, CommonModule,],
   templateUrl: './handover.component.html',
   styleUrl: './handover.component.css'
 })
@@ -45,8 +45,8 @@ export class HandoverComponent {
   divisionid: any;
   districtid :any;
   SWId = 0;
-  fromdt: any;
-  todt: any;
+      fromdt: any;
+      todt: any;
   // fromdt='01-04-2023';
   // todt='01-05-2023';
   @ViewChild('chart') chart: ChartComponent | undefined;
@@ -531,7 +531,7 @@ export class HandoverComponent {
       this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
         (data: any) => {
           this.HandoverAbstractTotalData = data;
-          console.log('HandoverAbstractTotalData', this.HandoverAbstractTotalData);
+          // console.log('HandoverAbstractTotalData', this.HandoverAbstractTotalData);
 
           const id: string[] = [];
           const name: string[] = [];

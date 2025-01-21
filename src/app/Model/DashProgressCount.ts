@@ -9,7 +9,6 @@ export class GetDistrict {
   districtname: string | undefined;
   diV_ID: number | undefined;
 }
-
 export class DMEProgressSummary {
   hc_id!: string; // Unique identifier for the health center
   nAme_eng!: string; // Name of the health center in English
@@ -25,7 +24,6 @@ export class DMEProgressSummary {
   total!: number; // Total count of projects/issues
   divisionID!: string; // ID of the division
 }
-
 export class DashProgressDistCount {
 
   district_ID !: number;
@@ -54,7 +52,6 @@ export class DistrictNameDME {
   districtname!: string;
   diV_ID!: any;
 }
-
 export class WorkDetails {
   work_id!: string;
   head!: string;
@@ -180,6 +177,7 @@ export class ProgressDetailsLatLong {
   imageName!: string;
   position!: { lat: number; lng: number };
 }
+//#region Work Order
 export class WOpendingTotal {
   id!: string;
   name!: string;
@@ -196,6 +194,32 @@ export class WOpendingScheme {
   noofWorksGreater7Days!: string;
 
 }
+export class WorkOrderIssued {
+  id!: string;
+  name!: string;
+  totalWorks!: string;
+  totalTVC!: number;
+  avgDaysSinceAcceptance!: number;
+  zonalWorks!: number;
+  tenderWorks!: number;
+  totalZonalTVC!: number;
+  totalNormalTVC!: number;
+
+//   {
+//     "id": "D1024",
+//     "name": "Bilaspur Division",
+//     "totalWorks": "1754",
+//     "totalTVC": 470.42,
+//     "avgDaysSinceAcceptance": 35,
+//     "zonalWorks": 389,
+//     "tenderWorks": 1365,
+//     "totalZonalTVC": 46.72,
+//     "totalNormalTVC": 423.69
+// },
+}
+
+//#endregion
+//#region Handover
 export class HandoverAbstract {
   id!: string;
   name!: string;
@@ -244,6 +268,8 @@ export class GetHandoverDetails {
   delayReason!: string | null;
 
 }
+//#endregion
+//#region EngAlloted Works
 export class sbuDistrictEngAllotedWorks {
   id!: string;
   districtID!: string;
@@ -338,8 +364,6 @@ export class WorkDetailsWithEng {
 
 
 }
-
-
 export class WorkOrderPendingDetailsNew {
   sno!: number;
   work_id!: string;
@@ -379,7 +403,7 @@ export class WorkOrderPendingDetailsNew {
   tenderReference!: string;
 
 }
-
+//#endregion
 //#region  LandIssue
 export class LIPendingTotal {
   id!: string;
@@ -389,8 +413,6 @@ export class LIPendingTotal {
   woIssued!: number;
   tvcValuecr!: number;
   month2Above!: number;
-
-
 }
 export class LandIssueDetails {
   sno!: number;
@@ -440,20 +462,6 @@ export class TSDetail {
   asValuecr!: number;
   above2crWork!: number;
   below2crWork!: number;
-
-  // "id": "D1031",
-  // "name": "Bastar Division",
-  // "nosWorks": 50,
-  // "asValuecr": 661.21,
-  // "above2crWork": 5,
-  // "below2crWork": 45
-  // "id": "45",
-  // "name": "Bastar",
-  // "nosWorks": 12,
-  // "asValuecr": 3.17,
-  // "above2crWork": 0,
-  // "below2crWork": 12
-
 }
 export class TSDetailallData {
   sno!: number;
