@@ -80,6 +80,7 @@ this.initializeChartOptions();
       chart: {
         type: 'rangeBar',
         height: '300',
+        // stacked: false,
         events: {
           dataPointMouseEnter: function (event: any, chartContext: any, config: any) {
             const dataPoint = config.w.config.series[config.seriesIndex].data[config.dataPointIndex];

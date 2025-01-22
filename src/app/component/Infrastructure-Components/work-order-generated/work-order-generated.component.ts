@@ -50,7 +50,7 @@ export class WorkOrderGeneratedComponent {
   //#region DataBase Table
   //#endregion
   WoIssuedTotal:WorkOrderIssued[]=[];
-  wOIssuedContractor:WorkOrderIssued[]=[];
+  wOIssuedGTotal:WorkOrderIssued[]=[];
   wOIssuedDistrict:WorkOrderIssued[]=[];
   wOIssuedScheme:WorkOrderIssued[]=[];
   divisionid:any;himisDistrictid:any;
@@ -81,7 +81,7 @@ ngOnInit(){
   this.GetWOIssueTotal();
   this.GetWOIssueDistrict();
   this.GetWOIssueScheme();
-  // this.GetWOIssueContractor();
+  this.GetWOIssueGTotal();
   
 }
   
@@ -149,7 +149,7 @@ ngOnInit(){
         colors: ['#fff'],
       },
       title: {
-        text: 'Work Order Issued Total Works wise Progress',
+        text: 'Total Works Order Issued Division wise Progress',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -236,7 +236,7 @@ ngOnInit(){
         colors: ['#fff'],
       },
       title: {
-        text: 'Work Order Issued Total Works District wise Progress',
+        text: 'Total Works Order Issued District wise Progress',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -323,7 +323,7 @@ ngOnInit(){
         colors: ['#fff'],
       },
       title: {
-        text: 'Work Order Issued Total Works Scheme wise Progress',
+        text: 'Total Works Order Issued Scheme wise Progress',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -351,7 +351,7 @@ ngOnInit(){
       series: [],
       chart: {
         type: 'bar',
-        stacked: true,
+        stacked: false,
         // height: 'auto',
         // height:400,
         // height: 200,
@@ -386,11 +386,15 @@ ngOnInit(){
       },
       plotOptions: {
         bar: {
-          horizontal: true,
-        },
+          horizontal: false,
+          dataLabels: {
+            position: 'top', // top, center, bottom
+          }
+        }, 
       },
       xaxis: {
         categories: [],
+        // position: 'top',
       },
       yaxis: {
         title: {
@@ -410,7 +414,7 @@ ngOnInit(){
         colors: ['#fff'],
       },
       title: {
-        text: 'Work Order Issued Total Works Contractor wise Progress',
+        text: 'Total Works Order Issued',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -497,7 +501,8 @@ this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
         this.chartOptions.series = [
           {name: 'Total Pending Works', data: totalWorks,color:'#eeba0b'} ,
           { name: 'Contract Value cr',data: totalTVC,color: 'rgb(0, 143, 251)' },
-          { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' }, 
+          { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:'rgba(93, 243, 174, 0.85)' }, 
+          // { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' }, 
           // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
           { name: 'Zonal Works', data: zonalWorks,color:'rgba(31, 225, 11, 0.85)'},
           { name: 'Tender Works', data: tenderWorks,color:'rgba(2, 202, 227, 0.85)'},
@@ -577,7 +582,8 @@ var RPType ='District';
         this.chartOptions2.series = [
           {name: 'Total Pending Works', data: totalWorks,color:'#eeba0b'} ,
           { name: 'Contract Value cr',data: totalTVC,color: 'rgb(0, 143, 251)' },
-          { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' }, 
+          { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:'rgba(93, 243, 174, 0.85)' }, 
+          // { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' }, 
           // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
           { name: 'Zonal Works', data: zonalWorks,color:'rgba(31, 225, 11, 0.85)'},
           { name: 'Tender Works', data: tenderWorks,color:'rgba(2, 202, 227, 0.85)'},
@@ -677,35 +683,35 @@ var RPType ='Scheme';
     );
   }
   }
-  GetWOIssueContractor(): void {
+  GetWOIssueGTotal(): void {
     this.spinner.show();
     var roleName  = localStorage.getItem('roleName');
   if(roleName == 'Division'){
   this.divisionid = sessionStorage.getItem('divisionID');
-  this.chartOptionsLine2.chart.height = '400';
+  this.chartOptionsLine2.chart.height = '300';
   this.himisDistrictid=0; 
   }  else if (roleName == 'Collector') {
   this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
   this.divisionid=0;
-  this.chartOptionsLine2.chart.height = '400';
+  this.chartOptionsLine2.chart.height = '300';
   }
   else{
     this.divisionid=0;
     this.himisDistrictid=0; 
-    this.chartOptionsLine2.chart.height = '900';
+    this.chartOptionsLine2.chart.height = '300';
   }
   const startDate = this.dateRange.value.start;
   const endDate = this.dateRange.value.end;
 this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
 this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-var RPType ='Contractor';
+var RPType ='GTotal';
   console.log('fromdt=',this.fromdt,'todt=',this.todt)
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
     this.api.GETWorkOrderGenerated(RPType,this.divisionid,this.himisDistrictid,this.fromdt,this.todt).subscribe(
       (data: any) => {
-        this.wOIssuedContractor = data;
+        this.wOIssuedGTotal = data;
         console.log('API Response total:', this.WoIssuedTotal);
         console.log('API Response data:', data);
         const id: string[] = [];
