@@ -348,7 +348,6 @@ this.initializeChartOptions();
     }
   }
   
-  
 
 
 

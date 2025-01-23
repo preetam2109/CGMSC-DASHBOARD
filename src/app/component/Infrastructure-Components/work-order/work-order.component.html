@@ -1,4 +1,6 @@
 <div class="card shadow">
+  
+
   <div class="card-body">
     <!-- <div class="container-fluid"> -->
       <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
@@ -57,7 +59,7 @@
             <!-- </div> -->
           </ng-template>
         </mat-tab>
-        <mat-tab label="Work Order issued">
+        <mat-tab label="Work Order Issued">
           <ng-template matTabContent>
             <app-work-order-generated *ngIf="selectedTabIndex === 1"></app-work-order-generated>
           </ng-template>

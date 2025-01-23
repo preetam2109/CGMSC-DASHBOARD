@@ -88,6 +88,8 @@ import {
   SbuEngAllotedWorks, AEEngAllotedWorks, LIPendingTotal, HandoverAbstract,
   GetHandoverDetails, sbuDistrictEngAllotedWorks, LandIssueDetails,
   WorkDetailsWithEng, DistrictNameDME,ProjectTimeline, TSDetail, TSDetailallData, WorkOrderIssued,
+  WorkGenDetails,
+  LiveTenderdata,
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -699,6 +701,11 @@ GetProgressDetailsLatLong(did:any,divisionId:any,distid:any,mainSchemeId:any,wor
     // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
 
   }
+  GETWorkGenDetails(divisionId: any,mainSchemeId:any,distid: any,work_id:any,fromdt: any,todt: any){
+    return this.http.get<WorkGenDetails[]>(`${this.apiUrl}/WorkOrder/getWorkGenDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&work_id=${work_id}&fromdt=${fromdt}&todt=${todt}`);
+    //https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/getWorkGenDetails?divisionId=D1004&mainSchemeId=0&distid=0&work_id=0&fromdt=01-Apr-2023&todt=01-Jan-2025
+ 
+  }
   //#endregion
   //#region Handover
   // GETHandoverAbstractDateBY(Total:any, dashid:any,divisionId:any,districtid:any,SWId:any,fromdt:any,todt:any){
@@ -776,7 +783,14 @@ GetProgressDetailsLatLong(did:any,divisionId:any,distid:any,mainSchemeId:any,wor
   }
 //#endregion
 
+//#region 
+GETLiveTender(RPType:any,divisionId:any,districtid:any,mainschemeid:any,TimeStatus:any) {
+  return this.http.get<LiveTenderdata[]>(`${this.apiUrl}/TenderStatus/LiveTender?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&TimeStatus=${TimeStatus}`);
 
+
+  // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/LiveTender?RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+}
+//#endregion
 
 
 
