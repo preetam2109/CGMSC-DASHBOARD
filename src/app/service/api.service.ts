@@ -94,6 +94,7 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
+import { DeliveryInMonthconst } from '../Model/DashCards';
 
 
 
@@ -102,6 +103,7 @@ import { GetLatLong } from '../Model/Warehouse';
 })
 export class ApiService {
   private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
+  private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
 
 
   constructor(private http:HttpClient) { }
@@ -811,6 +813,16 @@ updateTBIndentTravaleWH(travelId: any, latitude: any, longitude: any, dt1: any) 
 MasSupplierPipeline(wh:any){
   return this.http.get<MasSupplierPipeline[]>(`https://dpdmis.in/CGMSCHO_API2/api/Master/MasSupplierPipeline?wh=${wh}`);
 }
+
+CGMSCIndentPending(){
+  return this.http.get(`${this.CGMSCHO_API2}/DashboardHome/CGMSCIndentPending`);
+}
+
+DeliveryInMonth(IndentfromDT:any,Indenttodt:any){
+  return this.http.get<DeliveryInMonthconst[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}`);
+}
+
+
 
 
 

@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { ApexAxisChartSeries, ApexChart, ApexStroke, ApexXAxis, ApexFill } from 'ng-apexcharts';
+import { Component, ViewChild } from '@angular/core';
+import { ApexAxisChartSeries, ApexChart, ApexStroke, ApexXAxis, ApexFill, ApexPlotOptions, ChartComponent } from 'ng-apexcharts';
+import { ApiService } from 'src/app/service/api.service';
 import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
 import { HardcodedAuthenticationService } from 'src/app/service/authentication/hardcoded-authentication.service'; // Assuming you have a service for getting the username
 import { MenuServiceService } from 'src/app/service/menu-service.service';
+import { ChartOptions } from '../card/card.component';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +12,16 @@ import { MenuServiceService } from 'src/app/service/menu-service.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  @ViewChild('chart') chart: ChartComponent | undefined;
+  public cO: Partial<ChartOptions> | undefined;
+  chartOptions: ChartOptions;
   title: string = 'welcome';
   username: any = '';
   menuItems: {  label: string; route: string; submenu?: { label: string; route: string }[], icon?: string }[] = [];
   expandedMenus: { [key: string]: boolean } = {};
+  nosIndent: number = 0; // Default value
+  nosfac: number = 0;    // Default value
+  nositems: number = 0;
 // Define an array of colors for the cards
 // colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FFC300', '#DAF7A6', '#C70039'];
 
@@ -66,32 +74,93 @@ export class HomeComponent {
   };
 
   // Chart 3 - Completed Tasks
-  chart3 = {
-    series: <ApexAxisChartSeries>[{
-      name: "Tasks",
-      data: [800, 600, 400, 200, 300, 100]
-    }],
-    chart: <ApexChart>{
-      type: 'line',
-      height: 150
-    },
-    stroke: <ApexStroke>{
-      curve: 'smooth'
-    },
-    xaxis: <ApexXAxis>{
-      categories: ['12p', '3p', '6p', '9p', '12a', '3a']
-    },
-    colors: ['#f44336'],
-    fill: <ApexFill>{
-      type: 'gradient',
-      gradient: {
-        shade: 'light',
-        type: "vertical",
-        gradientToColors: ['#f44336'],
-        stops: [0, 100]
-      }
-    }
-  };
+  // chart3 = {
+  //   series: <ApexAxisChartSeries>[
+  //     {
+  //        // Series name
+  //       data: [] // Dynamically populated
+  //     }
+  //   ],
+  //   chart: <ApexChart>{
+  //     type: 'bar', // Keep the type as 'bar'
+  //     height: 400,
+  //   },
+  //   plotOptions: <ApexPlotOptions>{
+  //     bar: {
+  //       horizontal: true, // Set the bars to horizontal
+  //     }
+  //   },
+  //   stroke: <ApexStroke>{
+  //     width: 1, // Bar border width
+  //     colors: ['#fff'] // Optional: Border color for the bars
+  //   },
+  //   xaxis: <ApexXAxis>{
+  //     categories: [] ,// Dynamically populated
+  //     opposite:false
+  //   },
+  //   tooltip: {
+  //     enabled: true,
+  //     y: {
+  //       formatter: (val: any) => `${val}` // Show only the value in the tooltip
+  //     }
+  //   },
+  //   colors: ['#f44336'], // Customize bar colors
+  //   fill: <ApexFill>{
+  //     type: 'gradient',
+  //     gradient: {
+  //       shade: 'light',
+  //       type: 'vertical', // Gradient direction for horizontal bars
+  //       gradientToColors: ['#ff7961'], // Second color in the gradient
+  //       stops: [0, 100] // Define where the gradient starts and ends
+  //     }
+    
+  //   }
+  // };
+  // chart3 = {
+  //   series: <ApexAxisChartSeries>[
+  //     {
+  //       data: [] // Dynamically populated data
+  //     }
+  //   ],
+  //   chart: <ApexChart> {
+  //     type: 'bar',
+  //     height: 400
+  //   },
+  //   plotOptions: <ApexPlotOptions> {
+  //     bar: {
+  //       horizontal: true, // Ensures the bars are horizontal
+  //       columnWidth: '50%', // You can adjust the width of the bars
+  //       endingShape: 'rounded' // Optional: rounded end for bars
+  //     }
+  //   },
+  //   stroke: <ApexStroke> {
+  //     width: 1, // Bar border width
+  //     colors: ['#fff'] // Border color for the bars
+  //   },
+  //   xaxis: <ApexXAxis> {
+  //     categories: [] // Dynamically populated categories
+  //   },
+  //   tooltip: {
+  //     enabled: true,
+  //     y: {
+  //       formatter: (val: any) => `${val}` // Corrected: Use template literals for value display
+  //     }
+  //   },
+  //   colors: ['#f44336'], // Custom bar color
+  //   fill: <ApexFill> {
+  //     type: 'gradient',
+  //     gradient: {
+  //       shade: 'light',
+  //       type: 'vertical', // Gradient direction
+  //       gradientToColors: ['#ff7961'], // Second color for gradient
+  //       stops: [0, 100] // Gradient stops
+  //     }
+  //   }
+  // };
+  
+  
+  
+  
 
 
 colors = [];
@@ -115,7 +184,98 @@ colors = [];
     'Handover':'assets/dash-icon/hand-over.png',
     'Work Order':'assets/dash-icon/cooperation.png'
   };
-  constructor(private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService) {}
+  constructor(  private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService) {
+    this.chartOptions = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: false,
+        height: 150
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories:{
+          // color:'#d90429'
+        },
+        labels:{
+          style:{
+            colors:'#390099',
+            fontWeight:'bold',
+            fontSize:'30px'
+          }
+        },
+
+        title: {
+          text: 'Year',
+
+        },
+ 
+      },
+      yaxis:{
+        
+        title: {
+          text: '',
+          style:{
+            color:'#d90429'
+          }
+        },
+        labels:{
+          style:{
+          fontWeight:'bold',
+          fontSize:'15px',
+          // colors:'#0000F'
+          },
+          // formatter: function (value) {
+          //   return value.toFixed(0); // This will show the values without decimals
+          // }
+        },
+        
+        
+        
+        
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#000814'] 
+        }
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#fff'],
+      },
+      title: {
+        text:'',
+        align: 'center',
+        style: {
+          fontWeight:'bold',
+          fontSize: '16px',
+          color:'rgb(50, 50, 164)'
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        // position: 'right',
+        // horizontalAlign: 'center',
+        // offsetX: 40,
+        // fontWeight:'bold'
+        show: false
+      },
+    };
+  }
 
   ngOnInit() {
      this.username = sessionStorage.getItem('authenticatedUser');
@@ -124,6 +284,19 @@ colors = [];
      console.log('Role:', this.role);
      this.updateMenu();
     //  this.addIconsToMenu();
+    debugger
+    this.CGMSCIndentPending()
+    this.loadData();
+
+  }
+  CGMSCIndentPending(){
+    debugger
+    this.api.CGMSCIndentPending().subscribe((res:any)=>{
+      console.log('dsds',res);
+      this.nosIndent=res[0].nosIndent
+  this.nosfac=res[0].nosfac
+  this.nositems=res[0].nositems
+    })
   }
   menuIcons(){
       
@@ -194,8 +367,111 @@ colors = [];
   }
 
 
+  // loadData() {
+  //   debugger
+  //   // Replace the API call with your endpoint and parameters
+  //   const fromDate = '01-Jan-2025'; // Example date
+  //   const toDate = '30-Jan-2025'; // Example date
+  //   this.api.DeliveryInMonth(fromDate,toDate).subscribe((data:any)=>{
+  //     console.log('data',data[0])
+  //     this.chart3.series[0].data = [
+  //       data[0].nooffacIndented,
+  //       data[0].nosindent,
+  //       data[0].indentIssued,
+  //       data[0].dropindentid,
+  //       data[0].dropfac
+  //     ];
+  //     this.chart3.xaxis.categories = [
+  //       'No. of Facilities Indented',
+  //       'No. of Indents',
+  //       'Indents Issued',
+  //       'Drop Indents',
+  //       'Drop Facilities'
+  //     ];
+  //   });
+  //   }
+  loadData(): void {
+    debugger;
+    const fromDate = '01-Jan-2025'; // Example date
+    const toDate = '30-Jan-2025'; // Example date
+        this.api.DeliveryInMonth(fromDate,toDate).subscribe(
+          (data:any) => {
+            const nooffacIndented: number[] = [];
+            const nosindent: number[] = [];
+            const indentIssued: number[] = [];
+            const dropindentid: number[] = [];
+            const dropfac: number[] = [];
+            console.log('API Response:', data);
+    
+    
+            data.forEach((item:any)=> {
+               
+              nooffacIndented.push(item.nooffacIndented);
+              nosindent.push(item.nosindent);
+              indentIssued.push(item.indentIssued);
+              // dropindentid.push(item.dropindentid);
+              dropfac.push(item.dropfac);
+             
+    
+          
+              
+            });
+    
+    
+            this.chartOptions.series = [
+    
+               
+            
+           
+              { 
+              name: 'No. of Facilities Indented', 
+              data: nooffacIndented,
+               
+            },
+              { 
+                name: 'No. of Indents',
+                data: nosindent ,
+              },
+              { 
+                name: 'Indents Issued',
+                data: indentIssued ,
+              },
+              { 
+                name: 'Drop Facilities',
+                data: dropfac ,
+              },
+
+    
+    
+              
+            ];
+    
+            this.chartOptions.xaxis = {
+              categories: '',
+              labels:{
+                style:{
+                  // colors:'#390099',
+                  fontWeight:'bold',
+                  fontSize:'15px'
+                }
+              }
+              
+    
+              
+             };
+            this.cO = this.chartOptions;
+   
+          },
+          (error: any) => {
+            console.error('Error fetching data', error);
+            
+          }
+        );
+      }
+    
+  }
 
 
 
 
-}
+

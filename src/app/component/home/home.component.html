@@ -110,7 +110,7 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
         <div class="card-body">
-          <h6 class="card-title">Delivered</h6>
+          <h6 class="card-title">Delivered : This Month</h6>
           <h2 class="card-value">865</h2>
           <p class="card-text">21% Higher Than Last Month</p>
         </div>
@@ -132,9 +132,19 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #43a0ff, #68d8ff); color: white;">
         <div class="card-body">
-          <h6 class="card-title">Total Earning</h6>
-          <h2 class="card-value">$25698</h2>
-          <p class="card-text">10% Higher Than Last Month</p>
+          <h6 class="card-title">Indent Pending At Warehouse</h6>
+          <ul class="list-unstyled">
+              <li>
+                  <span class="card-value">No of Facility: {{ nosfac }}</span>
+              </li>
+              <li>
+                  <span class="card-value">No of Indent: {{ nosIndent }}</span>
+              </li>
+              <li>
+                  <span class="card-value">No of Items: {{ nositems }}</span>
+              </li>
+          </ul>
+          <!-- <p class="card-text">10% Higher Than Last Month</p> -->
         </div>
       </div>
     </div>
@@ -197,17 +207,15 @@
       <div class="card shadow p-0 m-0" style="height: auto; width: auto;">
         <div class="card-body">
           <apx-chart  class="border rounded" style="background-color: #90fbb2;"
-            [series]="chart3.series"
-            [chart]="chart3.chart"
-            [xaxis]="chart3.xaxis"
-            [stroke]="chart3.stroke"
-            [colors]="chart3.colors"
-            [fill]="chart3.fill">
+          [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+          [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+          [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+          [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend">
           </apx-chart>
-          <h5 class="card-title mt-3">Completed Tasks</h5>
-          <p class="card-text">Last Campaign Performance</p>
+          <h5 class="card-title mt-3">Delevered from Warehouse</h5>
+          <p class="card-text">this month</p>
           <p class="card-text text-muted">
-            <small>Campaign sent 2 days ago</small>
+            <!-- <small>Campaign sent 2 days ago</small> -->
           </p>
         </div>
       </div>
