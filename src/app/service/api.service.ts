@@ -96,7 +96,7 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst } from '../Model/DashCards';
+import { DeliveryInMonthconst, Last7DaysIssue, Last7DaysReceipt } from '../Model/DashCards';
 
 
 
@@ -834,6 +834,14 @@ CGMSCIndentPending(){
 
 DeliveryInMonth(IndentfromDT:any,Indenttodt:any){
   return this.http.get<DeliveryInMonthconst[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}`);
+}
+
+Last7DaysIssue(days:any,mcid:any,yrid:any){
+  return this.http.get<Last7DaysIssue[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysIssue?days=${days}&mcid=${mcid}&yrid=${yrid}`);
+}
+
+Last7DaysReceipt(days:any,mcid:any,yrid:any){
+  return this.http.get<Last7DaysReceipt[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysReceipt?days=${days}&mcid=${mcid}&yrid=${yrid}`);
 }
 
 

@@ -15,6 +15,8 @@ export class HomeComponent {
   @ViewChild('chart') chart: ChartComponent | undefined;
   public cO: Partial<ChartOptions> | undefined;
   chartOptions: ChartOptions;
+  chartOptions1: ChartOptions;
+  chartOptions2: ChartOptions;
   title: string = 'welcome';
   username: any = '';
   menuItems: {  label: string; route: string; submenu?: { label: string; route: string }[], icon?: string }[] = [];
@@ -27,32 +29,32 @@ export class HomeComponent {
 
 
    // Chart 1 - Daily Sales
-   chart1 = {
-    series: <ApexAxisChartSeries>[{
-      name: "Sales",
-      data: [10, 20, 15, 25, 30, 35]
-    }],
-    chart: <ApexChart>{
-      type: 'line',
-      height: 150
-    },
-    stroke: <ApexStroke>{
-      curve: 'smooth'
-    },
-    xaxis: <ApexXAxis>{
-      categories: ['M', 'T', 'W', 'T', 'F', 'S']
-    },
-    colors: ['#4caf50'],
-    fill: <ApexFill>{
-      type: 'gradient',
-      gradient: {
-        shade: 'light',
-        type: "vertical",
-        gradientToColors: ['#4caf50'],
-        stops: [0, 100]
-      }
-    }
-  };
+  //  chart1 = {
+  //   series: <ApexAxisChartSeries>[{
+  //     name: "Sales",
+  //     data: [10, 20, 15, 25, 30, 35]
+  //   }],
+  //   chart: <ApexChart>{
+  //     type: 'line',
+  //     height: 150
+  //   },
+  //   stroke: <ApexStroke>{
+  //     curve: 'smooth'
+  //   },
+  //   xaxis: <ApexXAxis>{
+  //     categories: ['M', 'T', 'W', 'T', 'F', 'S']
+  //   },
+  //   colors: ['#4caf50'],
+  //   fill: <ApexFill>{
+  //     type: 'gradient',
+  //     gradient: {
+  //       shade: 'light',
+  //       type: "vertical",
+  //       gradientToColors: ['#4caf50'],
+  //       stops: [0, 100]
+  //     }
+  //   }
+  // };
 
   // Chart 2 - Email Subscriptions
   chart2 = {
@@ -275,6 +277,143 @@ colors = [];
         show: false
       },
     };
+
+     this.chartOptions1 = {
+      series: [],
+      chart: {
+        type: 'line',
+        stacked: true,
+        height: 150
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+        },
+      },
+      xaxis: {
+        categories: [],
+        
+        
+      },
+      yaxis: {
+        
+        title: {
+          text: undefined,
+        },
+        labels:{
+          formatter: function (value) {
+            return value.toFixed(0); // This will show the values without decimals
+          }
+        },
+        
+        
+        
+        
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000'] 
+        }
+      },
+      stroke: {
+        width: 4,
+        // colors: ['#fff'],
+      },
+      title: {
+        text:'',
+        align: 'center',
+        style: {
+          fontWeight:'bold',
+          fontSize: '16px',
+          color:'#FF3C00'
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        // position: 'right',
+        // horizontalAlign: 'center',
+        // offsetX: 40,
+        show: false
+      },
+    };
+     this.chartOptions2 = {
+      series: [],
+      chart: {
+        type: 'line',
+        stacked: true,
+        height: 150
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+        },
+      },
+      xaxis: {
+        categories: [],
+        
+        
+      },
+      yaxis: {
+        
+        title: {
+          text: undefined,
+        },
+        labels:{
+          formatter: function (value) {
+            return value.toFixed(0); // This will show the values without decimals
+          }
+        },
+        
+        
+        
+        
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000'] 
+        }
+      },
+      stroke: {
+        width: 4,
+        // colors: ['#fff'],
+      },
+      title: {
+        text:'',
+        align: 'center',
+        style: {
+          fontWeight:'bold',
+          fontSize: '16px',
+          color:'#FF3C00'
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        // position: 'right',
+        // horizontalAlign: 'center',
+        // offsetX: 40,
+        show: false
+      },
+    };
   }
 
   ngOnInit() {
@@ -287,6 +426,8 @@ colors = [];
     debugger
     this.CGMSCIndentPending()
     this.loadData();
+    this.loadData1();
+    this.loadData2();
 
   }
   CGMSCIndentPending(){
@@ -402,8 +543,7 @@ colors = [];
             const dropindentid: number[] = [];
             const dropfac: number[] = [];
             console.log('API Response:', data);
-    
-    
+
             data.forEach((item:any)=> {
                
               nooffacIndented.push(item.nooffacIndented);
@@ -460,6 +600,166 @@ colors = [];
               
              };
             this.cO = this.chartOptions;
+   
+          },
+          (error: any) => {
+            console.error('Error fetching data', error);
+            
+          }
+        );
+      }
+  loadData1(): void {
+    debugger;
+    
+        this.api.Last7DaysIssue(7,1,545).subscribe(
+          (data:any) => {
+            const nositems: number[] = [];
+            const indentDT: any[] = [];
+            const indentdate: any[] = [];
+            const totalValuecr: number[] = [];
+            const nosfacility: number[] = [];
+            console.log('API Response:', data);
+
+            data.forEach((item:any)=> {
+               
+              nositems.push(item.nositems);
+              indentDT.push(item.indentDT);
+              indentdate.push(item.indentdate);
+              totalValuecr.push(item.totalValuecr);
+              nosfacility.push(item.nosfacility);
+             
+    
+          
+              
+            });
+    
+    
+            this.chartOptions1.series = [
+    
+               
+            
+           
+              { 
+              name: 'nositems', 
+              data: nositems,
+               
+            },
+              // { 
+              //   name: 'indentDT',
+              //   data: indentDT ,
+              // },
+              // { 
+              //   name: 'indentdate',
+              //   data: indentdate ,
+              // },
+              { 
+                name: 'totalValuecr',
+                data: totalValuecr ,
+              },
+              { 
+                name: 'nosfacility',
+                data: nosfacility ,
+              },
+
+    
+    
+              
+            ];
+    
+            this.chartOptions1.xaxis = {
+              categories: '',
+              labels:{
+                style:{
+                  // colors:'#390099',
+                  fontWeight:'bold',
+                  fontSize:'15px'
+                }
+              }
+              
+    
+              
+             };
+            this.cO = this.chartOptions1;
+   
+          },
+          (error: any) => {
+            console.error('Error fetching data', error);
+            
+          }
+        );
+      }
+  loadData2(): void {
+    debugger;
+    
+        this.api.Last7DaysReceipt(7,1,545).subscribe(
+          (data:any) => {
+            const nosPO: number[] = [];
+            const nositems: any[] = [];
+            const receiptdate: any[] = [];
+            const receiptDT: number[] = [];
+            const rvalue: number[] = [];
+            console.log('API Response:', data);
+
+            data.forEach((item:any)=> {
+               
+              nosPO.push(item.nosPO);
+              nositems.push(item.nositems);
+              receiptdate.push(item.receiptdate);
+              receiptDT.push(item.receiptDT);
+              rvalue.push(item.rvalue);
+             
+    
+          
+              
+            });
+    
+    
+            this.chartOptions2.series = [
+    
+               
+            
+           
+              { 
+              name: 'nosPO', 
+              data: nosPO,
+               
+            },
+              // { 
+              //   name: 'indentDT',
+              //   data: indentDT ,
+              // },
+              // { 
+              //   name: 'indentdate',
+              //   data: indentdate ,
+              // },
+              { 
+                name: 'nositems',
+                data: nositems ,
+              },
+              { 
+                name: 'rvalue',
+                data: rvalue ,
+              },
+
+    
+    
+              
+            ];
+    
+            this.chartOptions2.xaxis = {
+              categories: '',
+              labels:{
+                style:{
+                  // colors:'#390099',
+                  fontWeight:'bold',
+                  fontSize:'15px'
+                }
+              }
+              
+    
+              
+             };
+            this.cO = this.chartOptions2;
    
           },
           (error: any) => {

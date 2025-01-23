@@ -164,16 +164,14 @@
       <div class="card shadow p-0 m-0" style="height: auto; width: auto;">
         <div class="card-body">
           <apx-chart class="border rounded" style="background-color: #f8ecb7;"
-            [series]="chart1.series"
-            [chart]="chart1.chart"
-            [xaxis]="chart1.xaxis"
-            [stroke]="chart1.stroke"
-            [colors]="chart1.colors"
-            [fill]="chart1.fill">
+          [series]="chartOptions1.series" [chart]="chartOptions1.chart" [dataLabels]="chartOptions1.dataLabels"
+          [plotOptions]="chartOptions1.plotOptions" [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke"
+          [fill]="chartOptions1.fill" [yaxis]="chartOptions1.yaxis" [title]="chartOptions1.title"
+          [tooltip]="chartOptions1.tooltip" [legend]="chartOptions1.legend">
           </apx-chart>‍‍‌
-          <h5 class="card-title mt-3">Daily Sales</h5>
+          <h5 class="card-title mt-3">Receint Issued</h5>
           <p class="card-text text-success">
-            <i class="bi bi-arrow-up"></i> 55% increase in today's sales.
+            <!-- <i class="bi bi-arrow-up"></i> 55% increase in today's sales. -->
           </p>
           <p class="card-text text-muted">
             <small>Updated 4 minutes ago</small>
@@ -187,16 +185,15 @@
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
           <apx-chart  class="border rounded" style="background-color: #bafaec;"
-            [series]="chart2.series"
-            [chart]="chart2.chart"
-            [xaxis]="chart2.xaxis"
-            [colors]="chart2.colors"
-            [fill]="chart2.fill">
+          [series]="chartOptions2.series" [chart]="chartOptions2.chart" [dataLabels]="chartOptions2.dataLabels"
+          [plotOptions]="chartOptions2.plotOptions" [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
+          [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis" [title]="chartOptions2.title"
+          [tooltip]="chartOptions2.tooltip" [legend]="chartOptions2.legend">
           </apx-chart>
-          <h5 class="card-title mt-3">Email Subscriptions</h5>
-          <p class="card-text">Last Campaign Performance</p>
+          <h5 class="card-title mt-3">Recent Receipt</h5>
+          <!-- <p class="card-text">Last Campaign Performance</p> -->
           <p class="card-text text-muted">
-            <small>Campaign sent 2 days ago</small>
+            <!-- <small>Campaign sent 2 days ago</small> -->
           </p>
         </div>
       </div>
@@ -227,49 +224,25 @@
 
 
 
-
-
-
-
 <div class="container mt-4">
   <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems; let i = index">
       <div [style.background-color]="colors[i % colors.length]" class="card mb-4 shadow-sm" [routerLink]="item.route" style="cursor: pointer;">
-        <!-- Card Header -->
-        <!-- <div class="card-header d-flex align-items-center">
-          <img *ngIf="labelToIconMap[item.label]" [src]="labelToIconMap[item.label]" alt="{{item.label}} icon" class="me-2" style="width: 30px; height: 30px;" />
-          <h5 class="mb-0">{{ item.label }}</h5>
-        </div> -->
-        <!-- Card Body -->
-        <div class="card-body d-flex flex-wrap align-items-center">
+        <div class="card-body d-flex flex-column align-items-center text-center">
           <!-- Image Section -->
-          <div class="col-12 col-md-6 d-flex justify-content-start">
+          <div class="card-icon">
             <img 
               *ngIf="labelToIconMap[item.label]" 
               [src]="labelToIconMap[item.label]" 
               alt="{{item.label}} icon" 
-              style="width: 80px; height: 80px;" 
+              class="responsive-img"
             />
           </div>
-        
-          <!-- Text Section -->
-          <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
-            <h5 class="card-title">{{ item.label }}</h5>
-          </div>
-        </div>
-        
 
-        <!-- Submenu -->
-        <div *ngIf="expandedMenus[item.label]" class="submenu">
-          <div *ngFor="let subItem of item.submenu">
-            <button [routerLink]="subItem.route" class="btn btn-link" (click)="closeSubmenu(); $event.stopPropagation();">
-              <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
-              {{ subItem.label }}
-            </button>
-          </div>
+          <!-- Text Section -->
+          <h5 class="card-title mb-0 text-center">{{ item.label }}</h5>
         </div>
       </div>
     </div>
   </div>
 </div>
-
