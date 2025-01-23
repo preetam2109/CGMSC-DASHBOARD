@@ -4,6 +4,7 @@ export class DashProgressCount {
   dashname: string | undefined;
   nosworks: number | undefined;
 }
+
 export class GetDistrict {
   districT_ID: number | undefined;
   districtname: string | undefined;
@@ -204,19 +205,52 @@ export class WorkOrderIssued {
   tenderWorks!: number;
   totalZonalTVC!: number;
   totalNormalTVC!: number;
-
-//   {
-//     "id": "D1024",
-//     "name": "Bilaspur Division",
-//     "totalWorks": "1754",
-//     "totalTVC": 470.42,
-//     "avgDaysSinceAcceptance": 35,
-//     "zonalWorks": 389,
-//     "tenderWorks": 1365,
-//     "totalZonalTVC": 46.72,
-//     "totalNormalTVC": 423.69
-// },
 }
+export class WorkGenDetails {
+  sno!: number;
+  work_id!: string;
+  letterNo!: string;
+  head!: string;
+  approver!: string;
+  type_name!: string;
+  district!: string;
+  blockname!: string;
+  work!: string;
+  aaamt!: number;
+  tsamt!: number;
+  aaDate!: string;
+  tsDate!: string | null;
+  acceptanceLetterRefNo!: string;
+  acceptLetterDT!: string;
+  pac!: number;
+  totalAmountOfContract!: number;
+  sanctionRate!: number;
+  sanctionDetail!: string;
+  timeAllowed!: number;
+  dateOfSanction!: string;
+  dateOfIssueNIT!: string;
+  cid!: string;
+  contractorNAme!: string;
+  regType!: string;
+  class!: string;
+  englishAddress!: string;
+  mobNo!: string;
+  asPath!: string;
+  asLetter!: string;
+  groupName!: string;
+  lProgress!: string;
+  pdate!: string;
+  pRemarks!: string;
+  remarks!: string | null;
+  tenderReference!: string;
+  delayReason!: string | null;
+  wrokOrderDT!: string;
+  hoAllotedDT!: string;
+  agreementRefNo!: string;
+  workorderRefNoGovt!: string;
+  dueDTTimePerAdded!: string;
+}
+
 
 //#endregion
 //#region Handover
@@ -478,3 +512,15 @@ export class TSDetailallData {
   dayssinceAS!: number;
 }
   //#endregion
+
+//#region Live Tender
+
+export class LiveTenderdata {
+  id!: string;
+  name!: string;
+  nosWorks!: number;
+  nosTender!: number;
+  totalValuecr!: number;
+}
+//#endregion
+
