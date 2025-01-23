@@ -1,15 +1,12 @@
 .card {
-  height: 100px;  /* Set the height of the card */
+  height: auto; /* Allow flexible height */
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
   background-color: #fff;
+  padding: 10px; /* Padding to fit content */
   text-align: center;
-  padding: 10px;  /* Reduced padding to fit within 100px height */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Distribute space vertically */
 }
 
 .card:hover {
@@ -17,54 +14,34 @@
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-.card-title {
-  font-size: 15px;  /* Adjust title size to fit */
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
-  text-align: left;  /* Align title to the left */
-}
-
 .card-body {
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* Center remaining content */
   align-items: center;
-  height: 100%;  /* Ensure content takes the full height */
-}
-
-.card-icon {
-  width: 40px;  /* Reduced icon size */
-  height: 40px; /* Reduced icon size */
-  background-color: #f1f1f1;
-  border-radius: 50%;
-  display: flex;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 5px;  /* Reduced margin */
 }
 
-.mat-icon{
-  font-size: 90px;
-  width: 100px;
-  height: 100px;
-  /* background-color: #f1f1f1; */
-  /* border-radius: 50%; */
-  display: flex;
-  justify-content: flex-start; 
-  align-items: center;
-  margin-bottom: 10px;
-  /* margin-left: -130px; */
-  margin-left : -187px;
-}
-
-.card-data {
-  font-size: 18px;  /* Reduced data font size */
+.card-title {
+  font-size: 14px; /* Adjusted title size for better fit */
   font-weight: bold;
-  color: #555;
+  color: #333;
+  margin-top: 8px; /* Space between image and text */
+  text-align: center;
+  word-wrap: break-word; /* Prevent overflow of long text */
 }
 
-.card-label {
-  font-size: 12px;  /* Reduced label font size */
-  color: #999;
+.card-icon img {
+  width: 70px; /* Default image size */
+  height: 70px;
+}
+
+@media (max-width: 576px) { /* Small screens */
+  .card-title {
+    font-size: 13px; /* Reduce font size on smaller screens */
+  }
+
+  .card-icon img {
+    width: 50px; /* Reduce image size */
+    height: 50px;
+  }
 }
