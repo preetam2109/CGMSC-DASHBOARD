@@ -10,7 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
@@ -19,8 +19,7 @@ import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-
-import { LiveTenderdata } from 'src/app/Model/DashProgressCount';
+import { LiveTenderdata, TenderDetails } from 'src/app/Model/DashProgressCount';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -72,17 +71,16 @@ export class LiveTenderComponent {
     chartOptionsLine2!: ChartOptions; // For line chart
     //#endregion
      //#region DataBase Table
-      // dataSource!: MatTableDataSource<WorkGenDetails>;
+      dataSource!: MatTableDataSource<TenderDetails>;
       @ViewChild(MatPaginator) paginator!: MatPaginator;
       @ViewChild(MatSort) sort!: MatSort;
-      // dispatchPending: WorkGenDetails[] = [];
+      dispatchData: TenderDetails[] = [];
     
       //#endregion
       LiveTenderTotal: LiveTenderdata[] = [];
-      // wOIssuedGTotal: LiveTenderdata[] = [];
-      // wOIssuedDistrict: LiveTenderdata[] = [];
-      // wOIssuedScheme: LiveTenderdata[] = [];
-    // 
+      LiveTenderDivision: LiveTenderdata[] = [];
+      LiveTenderScheme: LiveTenderdata[] = [];
+      LiveTenderDistrict: LiveTenderdata[] = [];
   selectedTabIndex: number=0;
     divisionid: any;
     himisDistrictid: any;
@@ -95,7 +93,7 @@ export class LiveTenderComponent {
     private dialog: MatDialog,
     public datePipe: DatePipe
   ) {
-    // this.dataSource = new MatTableDataSource<WorkGenDetails>([]);
+    this.dataSource = new MatTableDataSource<TenderDetails>([]);
   }
 
   ngOnInit() {
@@ -103,299 +101,19 @@ export class LiveTenderComponent {
     
   if(this.selectedTabIndex == 0){
     this.GETLiveTenderTotal();
+    this.GETLiveTenderDivision();
+    this.GETLiveTenderScheme();
+    this.GETLiveTenderDistrict();
 
   }
-  // else{
-  //   this.TimeStatus='Timeover';
-  // }
-    // this.GetWOIssueDistrict();
-    // this.GetWOIssueScheme();
-    // this.GetWOIssueGTotal();
   }
 
   initializeChartOptions() {
-    // this.chartOptions = {
-    //   series: [],
-    //   chart: {
-    //     type: 'bar',
-    //     stacked: true,
-    //     // height: 'auto',
-    //     // height:400,
-    //     // height: 200,
-    //     // width:600,
-    //     events: {
-    //       dataPointSelection: (
-    //         event,
-    //         chartContext,
-    //         { dataPointIndex, seriesIndex }
-    //       ) => {
-    //         const selectedCategory =
-    //           this.chartOptions?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-    //         const selectedSeries =
-    //           this.chartOptions?.series?.[seriesIndex]?.name;
-    //         // Ensure the selectedCategory and selectedSeries are valid
-    //         if (selectedCategory && selectedSeries) {
-    //           const apiData = this.WoIssuedTotal; // Replace with the actual data source or API response
-    //           // Find the data in your API response that matches the selectedCategory
-    //           const selectedData = apiData.find(
-    //             (data) => data.name === selectedCategory
-    //           );
-    //           // console.log("selectedData chart1",selectedData)
-    //           if (selectedData) {
-    //             const id = selectedData.id; // Extract the id from the matching entry
-
-    //             this.fetchDataBasedOnChartSelectionTotal(id, selectedSeries);
-    //           } else {
-    //             console.log(
-    //               `No data found for selected category: ${selectedCategory}`
-    //             );
-    //           }
-    //         } else {
-    //           console.log('Selected category or series is invalid.');
-    //         }
-    //       },
-    //     },
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //     },
-    //   },
-    //   xaxis: {
-    //     categories: [],
-    //   },
-    //   yaxis: {
-    //     title: {
-    //       text: undefined,
-    //     },
-    //   },
-    //   dataLabels: {
-    //     enabled: true,
-    //     style: {
-    //       // colors: ['#FF0000']
-    //       colors: ['#000'],
-    //     },
-    //   },
-    //   stroke: {
-    //     width: 1,
-    //     // colors: ['#000'],
-    //     colors: ['#fff'],
-    //   },
-    //   title: {
-    //     text: 'Total Works Order Issued Division wise Progress',
-    //     align: 'center',
-    //     style: {
-    //       fontSize: '12px',
-    //       // color: '#000'
-    //       color: '#6e0d25',
-    //     },
-    //   },
-    //   tooltip: {
-    //     y: {
-    //       formatter: function (val: any) {
-    //         return val.toString();
-    //       },
-    //     },
-    //   },
-    //   fill: {
-    //     opacity: 1,
-    //   },
-    //   legend: {
-    //     position: 'top',
-    //     horizontalAlign: 'center',
-    //     offsetX: 40,
-    //   },
-    // };
-    // this.chartOptions2 = {
-    //   series: [],
-    //   chart: {
-    //     type: 'bar',
-    //     stacked: true,
-    //     // height: 'auto',
-    //     // height:400,
-    //     // height: 200,
-    //     // width:600,
-    //     events: {
-    //       dataPointSelection: (
-    //         event,
-    //         chartContext,
-    //         { dataPointIndex, seriesIndex }
-    //       ) => {
-    //         const selectedCategory =
-    //           this.chartOptions2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-    //         const selectedSeries =
-    //           this.chartOptions2?.series?.[seriesIndex]?.name;
-    //         // Ensure the selectedCategory and selectedSeries are valid
-    //         debugger;
-    //         if (selectedCategory && selectedSeries) {
-    //           const apiData = this.wOIssuedDistrict; // Replace with the actual data source or API response
-    //           // Find the data in your API response that matches the selectedCategory
-    //           const selectedData = apiData.find(
-    //             (data) => data.name === selectedCategory
-    //           );
-    //           // console.log("selectedData chart1",selectedData)
-    //           if (selectedData) {
-    //             const id = selectedData.id; // Extract the id from the matching entry
-
-    //             this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
-    //           } else {
-    //             console.log(
-    //               `No data found for selected category: ${selectedCategory}`
-    //             );
-    //           }
-    //         } else {
-    //           console.log('Selected category or series is invalid.');
-    //         }
-    //       },
-    //     },
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //     },
-    //   },
-    //   xaxis: {
-    //     categories: [],
-    //   },
-    //   yaxis: {
-    //     title: {
-    //       text: undefined,
-    //     },
-    //   },
-    //   dataLabels: {
-    //     enabled: true,
-    //     style: {
-    //       // colors: ['#FF0000']
-    //       colors: ['#000'],
-    //     },
-    //   },
-    //   stroke: {
-    //     width: 1,
-    //     // colors: ['#000'],
-    //     colors: ['#fff'],
-    //   },
-    //   title: {
-    //     text: 'Total Works Order Issued District wise Progress',
-    //     align: 'center',
-    //     style: {
-    //       fontSize: '12px',
-    //       // color: '#000'
-    //       color: '#6e0d25',
-    //     },
-    //   },
-    //   tooltip: {
-    //     y: {
-    //       formatter: function (val: any) {
-    //         return val.toString();
-    //       },
-    //     },
-    //   },
-    //   fill: {
-    //     opacity: 1,
-    //   },
-    //   legend: {
-    //     position: 'top',
-    //     horizontalAlign: 'center',
-    //     offsetX: 40,
-    //   },
-    // };
-    // this.chartOptionsLine = {
-    //   series: [],
-    //   chart: {
-    //     type: 'bar',
-    //     stacked: true,
-    //     // height: 'auto',
-    //     // height:400,
-    //     // height: 200,
-    //     // width:600,
-    //     events: {
-    //       dataPointSelection: (
-    //         event,
-    //         chartContext,
-    //         { dataPointIndex, seriesIndex }
-    //       ) => {
-    //         const selectedCategory =
-    //           this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-    //         const selectedSeries =
-    //           this.chartOptionsLine?.series?.[seriesIndex]?.name;
-    //         // Ensure the selectedCategory and selectedSeries are valid
-    //         if (selectedCategory && selectedSeries) {
-    //           const apiData = this.wOIssuedScheme; // Replace with the actual data source or API response
-    //           // Find the data in your API response that matches the selectedCategory
-    //           const selectedData = apiData.find(
-    //             (data) => data.name === selectedCategory
-    //           );
-    //           // console.log("selectedData chart1",selectedData)
-    //           if (selectedData) {
-    //             const id = selectedData.id; // Extract the id from the matching entry
-
-    //             this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
-    //           } else {
-    //             console.log(
-    //               `No data found for selected category: ${selectedCategory}`
-    //             );
-    //           }
-    //         } else {
-    //           console.log('Selected category or series is invalid.');
-    //         }
-    //       },
-    //     },
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //     },
-    //   },
-    //   xaxis: {
-    //     categories: [],
-    //   },
-    //   yaxis: {
-    //     title: {
-    //       text: undefined,
-    //     },
-    //   },
-    //   dataLabels: {
-    //     enabled: true,
-    //     style: {
-    //       // colors: ['#FF0000']
-    //       colors: ['#000'],
-    //     },
-    //   },
-    //   stroke: {
-    //     width: 1,
-    //     // colors: ['#000'],
-    //     colors: ['#fff'],
-    //   },
-    //   title: {
-    //     text: 'Total Works Order Issued Scheme wise Progress',
-    //     align: 'center',
-    //     style: {
-    //       fontSize: '12px',
-    //       // color: '#000'
-    //       color: '#6e0d25',
-    //     },
-    //   },
-    //   tooltip: {
-    //     y: {
-    //       formatter: function (val: any) {
-    //         return val.toString();
-    //       },
-    //     },
-    //   },
-    //   fill: {
-    //     opacity: 1,
-    //   },
-    //   legend: {
-    //     position: 'top',
-    //     horizontalAlign: 'center',
-    //     offsetX: 40,
-    //   },
-    // };
-    this.chartOptionsLine2 = {
+    this.chartOptions = {
       series: [],
       chart: {
         type: 'bar',
-        stacked: false,
+        stacked: true,
         // height: 'auto',
         // height:400,
         // height: 200,
@@ -407,11 +125,287 @@ export class LiveTenderComponent {
             { dataPointIndex, seriesIndex }
           ) => {
             const selectedCategory =
+              this.chartOptions?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartOptions?.series?.[seriesIndex]?.name;
+            // Ensure the selectedCategory and selectedSeries are valid
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.LiveTenderDivision; // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+
+                this.fetchDataBasedOnChartSelectionDivision(id, selectedSeries);
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Total Live Tender  Division wise Progress',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+    this.chartOptions2 = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: true,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:600,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
+              this.chartOptions2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartOptions2?.series?.[seriesIndex]?.name;
+            // Ensure the selectedCategory and selectedSeries are valid
+            debugger;
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.LiveTenderScheme; // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+
+                this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Total Live Tender Scheme wise Progress',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+    this.chartOptionsLine = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: true,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:600,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
+              this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartOptionsLine?.series?.[seriesIndex]?.name;
+            // Ensure the selectedCategory and selectedSeries are valid
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.LiveTenderDistrict; // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+
+                this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Total Live Tender District wise Progress',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+    this.chartOptionsLine2 = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: false,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:500,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
               this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
             const selectedSeries =
               this.chartOptionsLine2?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
-            debugger;
             if (selectedCategory && selectedSeries) {
               const apiData = this.LiveTenderTotal; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
@@ -422,7 +416,7 @@ export class LiveTenderComponent {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
 
-                this.fetchDataBasedOnChartSelection(0, selectedSeries);
+                this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -464,7 +458,7 @@ export class LiveTenderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Works Order Issued',
+        text: 'Total Live Tender ',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -489,12 +483,19 @@ export class LiveTenderComponent {
       },
     };
   }
-  fetchDataBasedOnChartSelection(arg0: number, selectedSeries: string) {
-    throw new Error('Method not implemented.');
-  }
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
+    if(this.selectedTabIndex == 0){
+      this.GETLiveTenderTotal();
+      this.GETLiveTenderDivision();
+      this.GETLiveTenderScheme();
+      this.GETLiveTenderDistrict();
+    }else{
     this.GETLiveTenderTotal();
+    this.GETLiveTenderDivision();
+    this.GETLiveTenderScheme();
+    this.GETLiveTenderDistrict();
+    }
   }
 //#region Get API data
 GETLiveTenderTotal(): void {
@@ -502,7 +503,7 @@ GETLiveTenderTotal(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
-  var RPType ='Divsion';
+  var RPType ='Division';
     this.chartOptionsLine2.chart.height = '200px';
     this.himisDistrictid = 0;
     this.mainschemeid=0;
@@ -516,10 +517,9 @@ GETLiveTenderTotal(): void {
     this.divisionid = 0;
     this.himisDistrictid = 0;
     this.mainschemeid=0;
-    this.chartOptionsLine2.chart.height = 'auto';
+    this.chartOptionsLine2.chart.height = '300';
   }
   this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
-  // alert( this.TimeStatus)
   var RPType = 'Total';
   // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainschemeid,this.TimeStatus )
@@ -592,6 +592,110 @@ GETLiveTenderTotal(): void {
             // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
           ];
           this.chartOptionsLine2.xaxis = { categories: name };
+          this.cO = this.chartOptionsLine2;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
+GETLiveTenderDivision(): void {
+  this.spinner.show();
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');
+  var RPType ='Division';
+    this.chartOptions.chart.height = '200px';
+    this.himisDistrictid = 0;
+    this.mainschemeid=0;
+  } else if (roleName == 'Collector') {
+    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+   var RPType="District";
+    this.divisionid = 0;
+    this.mainschemeid=0;
+    this.chartOptions.chart.height = '400px';
+  } else {
+    this.divisionid = 0;
+    this.himisDistrictid = 0;
+    this.mainschemeid=0;
+    this.chartOptions.chart.height = '300';
+  }
+  this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+  var RPType = 'Division';
+  // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainschemeid,this.TimeStatus )
+      .subscribe(
+        (data: any) => {
+          this.LiveTenderDivision = data;
+          // console.log('API Response total:', this.WoIssuedTotal);
+          // console.log('API Response data:', data);
+
+          const id: string[] = [];
+          const name: string[] = [];
+          const nosWorks: any[] = [];
+          const nosTender: number[] = [];
+          const totalValuecr: number[] = [];
+
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              nosWorks: any;
+              nosTender: number;
+              totalValuecr: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              nosWorks.push(item.nosWorks);
+              nosTender.push(item.nosTender);
+              totalValuecr.push(item.totalValuecr);
+            }
+          );
+
+          this.chartOptions.series = [
+            {
+              name: 'Total Numbers of Works',
+              data: nosWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'Total Numbers of Tender',
+              data: nosTender,
+              color: 'rgb(0, 143, 251)',
+            },
+            {
+              name: 'Total Value in Cr',
+              data: totalValuecr,
+              color: 'rgba(93, 243, 174, 0.85)',
+            },
+            // { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' },
+            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
+            // {
+            //   name: 'Zonal Works',
+            //   data: zonalWorks,
+            //   color: 'rgba(31, 225, 11, 0.85)',
+            // },
+            // {
+            //   name: 'Tender Works',
+            //   data: tenderWorks,
+            //   color: 'rgba(2, 202, 227, 0.85)',
+            // },
+            // {
+            //   name: 'Zonal Tender Value',
+            //   data: totalZonalTVC,
+            //   color: 'rgba(172, 5, 26, 0.85)',
+            // },
+            // {
+            //   name: 'Works Tender Value',
+            //   data: totalNormalTVC,
+            //   color: 'rgba(250, 199, 161, 0.85)',
+            // },
+            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+          ];
+          this.chartOptions.xaxis = { categories: name };
           this.cO = this.chartOptions;
           this.cdr.detectChanges();
 
@@ -602,4 +706,417 @@ GETLiveTenderTotal(): void {
         }
       );
   }
+GETLiveTenderScheme(): void {
+  this.spinner.show();
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');
+  var RPType ='Division';
+    this.chartOptions2.chart.height = '200px';
+    this.himisDistrictid = 0;
+    this.mainschemeid=0;
+  } else if (roleName == 'Collector') {
+    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+   var RPType="District";
+    this.divisionid = 0;
+    this.mainschemeid=0;
+    this.chartOptions2.chart.height = '400px';
+  } else {
+    this.divisionid = 0;
+    this.himisDistrictid = 0;
+    this.mainschemeid=0;
+    this.chartOptions2.chart.height = '300';
+  }
+  this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+  // alert( this.TimeStatus)
+  var RPType = 'Scheme';
+  // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainschemeid,this.TimeStatus )
+      .subscribe(
+        (data: any) => {
+          this.LiveTenderScheme = data;
+          // console.log('API Response total:', this.WoIssuedTotal);
+          // console.log('API Response data:', data);
+
+          const id: string[] = [];
+          const name: string[] = [];
+          const nosWorks: any[] = [];
+          const nosTender: number[] = [];
+          const totalValuecr: number[] = [];
+
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              nosWorks: any;
+              nosTender: number;
+              totalValuecr: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              nosWorks.push(item.nosWorks);
+              nosTender.push(item.nosTender);
+              totalValuecr.push(item.totalValuecr);
+            }
+          );
+
+          this.chartOptions2.series = [
+            {
+              name: 'Total Numbers of Works',
+              data: nosWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'Total Numbers of Tender',
+              data: nosTender,
+              color: 'rgb(0, 143, 251)',
+            },
+            {
+              name: 'Total Value in Cr',
+              data: totalValuecr,
+              color: 'rgba(93, 243, 174, 0.85)',
+            },
+            // { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' },
+            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
+            // {
+            //   name: 'Zonal Works',
+            //   data: zonalWorks,
+            //   color: 'rgba(31, 225, 11, 0.85)',
+            // },
+            // {
+            //   name: 'Tender Works',
+            //   data: tenderWorks,
+            //   color: 'rgba(2, 202, 227, 0.85)',
+            // },
+            // {
+            //   name: 'Zonal Tender Value',
+            //   data: totalZonalTVC,
+            //   color: 'rgba(172, 5, 26, 0.85)',
+            // },
+            // {
+            //   name: 'Works Tender Value',
+            //   data: totalNormalTVC,
+            //   color: 'rgba(250, 199, 161, 0.85)',
+            // },
+            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+          ];
+          this.chartOptions2.xaxis = { categories: name };
+          this.cO = this.chartOptions2;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
+GETLiveTenderDistrict(): void {
+  this.spinner.show();
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');
+  var RPType ='Division';
+    this.chartOptionsLine.chart.height = '200px';
+    this.himisDistrictid = 0;
+    this.mainschemeid=0;
+  } else if (roleName == 'Collector') {
+    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+   var RPType="District";
+    this.divisionid = 0;
+    this.mainschemeid=0;
+    this.chartOptionsLine.chart.height = '400px';
+  } else {
+    this.divisionid = 0;
+    this.himisDistrictid = 0;
+    this.mainschemeid=0;
+    this.chartOptionsLine.chart.height = 'auto';
+  }
+  this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+  // alert( this.TimeStatus)
+  var RPType = 'District';
+  // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainschemeid,this.TimeStatus )
+      .subscribe(
+        (data: any) => {
+          this.LiveTenderDistrict = data;
+          // console.log('API Response total:', this.WoIssuedTotal);
+          // console.log('API Response data:', data);
+
+          const id: string[] = [];
+          const name: string[] = [];
+          const nosWorks: any[] = [];
+          const nosTender: number[] = [];
+          const totalValuecr: number[] = [];
+
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              nosWorks: any;
+              nosTender: number;
+              totalValuecr: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              nosWorks.push(item.nosWorks);
+              nosTender.push(item.nosTender);
+              totalValuecr.push(item.totalValuecr);
+            }
+          );
+
+          this.chartOptionsLine.series = [
+            {
+              name: 'Total Numbers of Works',
+              data: nosWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'Total Numbers of Tender',
+              data: nosTender,
+              color: 'rgb(0, 143, 251)',
+            },
+            {
+              name: 'Total Value in Cr',
+              data: totalValuecr,
+              color: 'rgba(93, 243, 174, 0.85)',
+            },
+            // { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' },
+            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
+            // {
+            //   name: 'Zonal Works',
+            //   data: zonalWorks,
+            //   color: 'rgba(31, 225, 11, 0.85)',
+            // },
+            // {
+            //   name: 'Tender Works',
+            //   data: tenderWorks,
+            //   color: 'rgba(2, 202, 227, 0.85)',
+            // },
+            // {
+            //   name: 'Zonal Tender Value',
+            //   data: totalZonalTVC,
+            //   color: 'rgba(172, 5, 26, 0.85)',
+            // },
+            // {
+            //   name: 'Works Tender Value',
+            //   data: totalNormalTVC,
+            //   color: 'rgba(250, 199, 161, 0.85)',
+            // },
+            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+          ];
+          this.chartOptionsLine.xaxis = { categories: name };
+          this.cO = this.chartOptionsLine;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
+  // #endregion
+
+// #region dataBase 
+ fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): void {
+    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    const mainSchemeId = 0;
+   const TimeStatus="Live";
+    this.spinner.show();
+    // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+    this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+    // alert(this.TimeStatus);
+    this.api.GETTenderDetails(divisionID,mainSchemeId,distid,this.TimeStatus)
+      .subscribe(
+        (res) => {
+          this.dispatchData = res.map(
+            (item: TenderDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          console.log('res:', res);
+          console.log('dispatchData=:', this.dispatchData);
+          this.dataSource.data = this.dispatchData;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog();
+  }
+ fetchDataBasedOnChartSelectionDivision(  divisionID: any, seriesName: string ): void {
+    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    const mainSchemeId = 0;
+   const TimeStatus="Live";
+    this.spinner.show();
+    // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+    this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+    // alert(this.TimeStatus);
+    this.api.GETTenderDetails(divisionID,mainSchemeId,distid,this.TimeStatus)
+      .subscribe(
+        (res) => {
+          this.dispatchData = res.map(
+            (item: TenderDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          console.log('res:', res);
+          console.log('dispatchData=:', this.dispatchData);
+          this.dataSource.data = this.dispatchData;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog();
+  }
+  fetchDataBasedOnChartSelectionDistrict(  distid: any, seriesName: string ): void {
+    console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+    const divisionID = 0;
+    const mainSchemeId = 0;
+   const TimeStatus="Live";
+    this.spinner.show();
+    // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+    this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+    // alert(this.TimeStatus);
+    this.api.GETTenderDetails(divisionID,mainSchemeId,distid,this.TimeStatus)
+      .subscribe(
+        (res) => {
+          this.dispatchData = res.map(
+            (item: TenderDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          console.log('res:', res);
+          console.log('dispatchData=:', this.dispatchData);
+          this.dataSource.data = this.dispatchData;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog();
+  }
+  fetchDataBasedOnChartSelectionScheme(  mainSchemeId: any, seriesName: string ): void {
+    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    const divisionID = 0;
+    const distid = 0;
+   const TimeStatus="Live";
+    this.spinner.show();
+    // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+    this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+    // alert(this.TimeStatus);
+    this.api.GETTenderDetails(divisionID,mainSchemeId,distid,this.TimeStatus)
+      .subscribe(
+        (res) => {
+          this.dispatchData = res.map(
+            (item: TenderDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          console.log('res:', res);
+          console.log('dispatchData=:', this.dispatchData);
+          this.dataSource.data = this.dispatchData;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog();
+  }
+//#endregion
+ // data filter
+ applyTextFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource.paginator) {
+    this.dataSource.paginator.firstPage();
+  }
+}
+exportToPDF() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'AS Letter No', dataKey: 'letterno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'AS Date', dataKey: 'aA_RAA_Date' },
+    { title: 'AS Amount', dataKey: 'asAmt' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Work ID', dataKey: 'work_id' },
+    { title: 'Work Name', dataKey: 'workname' },
+    { title: 'Start Dt', dataKey: 'startdt' },
+    { title: 'End Dt', dataKey: 'enddt' },
+    { title: 'NO of Calls', dataKey: 'noofcalls' },
+    { title: 'e-Procno', dataKey: 'eprocno' },
+    { title: 'NIT NO', dataKey: 'tenderno' },
+  ];
+  const rows = this.dispatchData.map((row) => ({
+    sno: row.sno,
+    letterNo: row.letterno,
+    head: row.head,
+    aA_RAA_Date: row.aA_RAA_Date,
+    asAmt: row.asAmt,
+    district: row.district,
+    work_id: row.work_id,
+    workname: row.workname,
+    startdt: row.startdt,
+    enddt: row.enddt,
+    noofcalls: row.noofcalls,
+    tenderno: row.tenderno,
+    eprocno: row.eprocno,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('TenderDetails.pdf');
+}
+// mat-dialog box
+openDialog() {
+  const dialogRef = this.dialog.open(this.itemDetailsModal, {
+    width: '100%',
+    height: '100%',
+    maxWidth: '100%',
+    panelClass: 'full-screen-dialog', // Optional for additional styling
+    data: {
+      /* pass any data here */
+    },
+    // width: '100%',
+    // maxWidth: '100%', // Override default maxWidth
+    // maxHeight: '100%', // Override default maxHeight
+    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+    // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log('Dialog closed');
+  });
+}
 }

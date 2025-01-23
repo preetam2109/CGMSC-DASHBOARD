@@ -522,5 +522,27 @@ export class LiveTenderdata {
   nosTender!: number;
   totalValuecr!: number;
 }
+
+export class TenderDetails {
+  sno!: number;
+  work_id!: string;
+  letterno!: string;
+  district!: string;
+  head!: string;
+  division!: string;
+  detailS_ENG!: string;
+  workname!: string;
+  block_Name_En!: string;
+  asAmt!: number;
+  aA_RAA_Date!: string;
+  dayssinceAS!: number;
+  startdt!: string;
+  enddt!: string;
+  noofcalls!: number;
+  daystoEnd!: number;
+  tenderno!:string;
+  eprocno!:string;
+}
+
 //#endregion
 

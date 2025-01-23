@@ -90,6 +90,7 @@ import {
   WorkDetailsWithEng, DistrictNameDME,ProjectTimeline, TSDetail, TSDetailallData, WorkOrderIssued,
   WorkGenDetails,
   LiveTenderdata,
+  TenderDetails,
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -791,6 +792,11 @@ GETLiveTender(RPType:any,divisionId:any,districtid:any,mainschemeid:any,TimeStat
 
 
   // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/LiveTender?RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+}
+GETTenderDetails(divisionId:any,mainschemeid:any,distid:any,TimeStatus:any) {
+  return this.http.get<TenderDetails[]>(`${this.apiUrl}/TenderStatus/getTenderDetails?divisionId=${divisionId}&mainschemeid=${mainschemeid}&distid=${distid}&TimeStatus=${TimeStatus}`);
+  // TenderDetails
+  //https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
 }
 //#endregion
 
