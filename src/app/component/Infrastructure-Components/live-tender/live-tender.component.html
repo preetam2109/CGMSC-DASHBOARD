@@ -14,6 +14,7 @@
               <div class="row">
                 <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderTotal.length > 0">
                   <div class="chart-container">
+
                     <apx-chart [series]="chartOptionsLine2.series" [chart]="chartOptionsLine2.chart"
                       [dataLabels]="chartOptionsLine2.dataLabels" [plotOptions]="chartOptionsLine2.plotOptions"
                       [xaxis]="chartOptionsLine2.xaxis" [stroke]="chartOptionsLine2.stroke"
@@ -26,6 +27,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderDivision.length > 0">
                   <div class="chart-container">
+
                     <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
                       [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
                       [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke" [fill]="chartOptions.fill"
@@ -37,6 +39,7 @@
               <div class="row">
                 <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderScheme.length > 0">
                   <div class="chart-container">
+
                     <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
                       [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
                       [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke" [fill]="chartOptions2.fill"
@@ -46,6 +49,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderDistrict.length > 0">
                   <div class="chart-container">
+
                     <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
                       [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
                       [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
@@ -59,7 +63,7 @@
           <!-- </div> -->
         </ng-template>
       </mat-tab>
-      <mat-tab label="Timeover">
+      <mat-tab label="Pending To Open">
         <ng-template matTabContent>
           <!-- <div class="card shadow"> -->
           <div class="card-body">
@@ -103,6 +107,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderDistrict.length > 0">
                   <div class="chart-container">
+
                     <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
                       [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
                       [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
@@ -129,6 +134,7 @@
     <div class="col-lg-6 col-md-4 text-end">
       <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
     </div>
+    
   </div>
   <div class="" mat-dialog-content>
     <div class="row card shadow card-body ">
@@ -224,8 +230,8 @@
 
 
   </div>
-  <div mat-dialog-actions>
-    <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg">
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
       <mat-icon role="img" mat-card-avatar 
                 class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color" 
                 aria-hidden="true">

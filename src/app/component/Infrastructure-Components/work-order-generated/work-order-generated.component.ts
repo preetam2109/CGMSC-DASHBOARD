@@ -209,7 +209,7 @@ export class WorkOrderGeneratedComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Works Order Issued Division wise Progress',
+        text: 'Division-wise Works Order Issued',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -302,7 +302,7 @@ export class WorkOrderGeneratedComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Works Order Issued District wise Progress',
+        text: 'District-wise Work Order Issued',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -394,7 +394,7 @@ export class WorkOrderGeneratedComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Works Order Issued Scheme wise Progress',
+        text: 'Scheme-wise Work Order Issued',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -491,7 +491,7 @@ export class WorkOrderGeneratedComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Works Order Issued',
+        text: 'Work Order Issued',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -590,45 +590,45 @@ export class WorkOrderGeneratedComponent {
                 totalNormalTVC.push(item.totalNormalTVC);
               }
             );
-
+            
             this.chartOptions.series = [
               {
-                name: 'Total Pending Works',
+                name: 'No of Works',
                 data: totalWorks,
                 color: '#eeba0b',
               },
               {
-                name: 'Contract Value cr',
+                name: 'Contract Value (in Cr)',
                 data: totalTVC,
-                color: 'rgb(0, 143, 251)',
+                color: 'rgba(93, 243, 174, 0.85)' ,
               },
               {
                 name: 'Avg Days Since Acceptance',
                 data: avgDaysSinceAcceptance,
-                color: 'rgba(93, 243, 174, 0.85)',
+                color:  'rgba(250, 199, 161, 0.85)',
               },
               // { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' },
               // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-              {
-                name: 'Zonal Works',
-                data: zonalWorks,
-                color: 'rgba(31, 225, 11, 0.85)',
-              },
-              {
-                name: 'Tender Works',
-                data: tenderWorks,
-                color: 'rgba(2, 202, 227, 0.85)',
-              },
-              {
-                name: 'Zonal Tender Value',
-                data: totalZonalTVC,
-                color: 'rgba(172, 5, 26, 0.85)',
-              },
-              {
-                name: 'Works Tender Value',
-                data: totalNormalTVC,
-                color: 'rgba(250, 199, 161, 0.85)',
-              },
+              // {
+              //   name: 'Zonal Works',
+              //   data: zonalWorks,
+              //   color: 'rgba(31, 225, 11, 0.85)',
+              // },
+              // {
+              //   name: 'Tender Works',
+              //   data: tenderWorks,
+              //   color: 'rgba(2, 202, 227, 0.85)',
+              // },
+              // {
+              //   name: 'Zonal Tender Value',
+              //   data: totalZonalTVC,
+              //   color: 'rgba(172, 5, 26, 0.85)',
+              // },
+              // {
+              //   name: 'Works Tender Value',
+              //   data: totalNormalTVC,
+              //   color: 'rgba(250, 199, 161, 0.85)',
+              // },
               // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
             ];
             this.chartOptions.xaxis = { categories: name };
@@ -719,42 +719,42 @@ export class WorkOrderGeneratedComponent {
 
             this.chartOptions2.series = [
               {
-                name: 'Total Pending Works',
+                name: 'No of Works',
                 data: totalWorks,
                 color: '#eeba0b',
               },
               {
-                name: 'Contract Value cr',
+                name: 'Contract Value (in Cr)',
                 data: totalTVC,
-                color: 'rgb(0, 143, 251)',
+                color: 'rgba(93, 243, 174, 0.85)'  ,
               },
               {
                 name: 'Avg Days Since Acceptance',
                 data: avgDaysSinceAcceptance,
-                color: 'rgba(93, 243, 174, 0.85)',
+                color:'rgba(250, 199, 161, 0.85)' ,
               },
               // { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' },
               // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-              {
-                name: 'Zonal Works',
-                data: zonalWorks,
-                color: 'rgba(31, 225, 11, 0.85)',
-              },
-              {
-                name: 'Tender Works',
-                data: tenderWorks,
-                color: 'rgba(2, 202, 227, 0.85)',
-              },
-              {
-                name: 'Zonal Tender Value',
-                data: totalZonalTVC,
-                color: 'rgba(172, 5, 26, 0.85)',
-              },
-              {
-                name: 'Works Tender Value',
-                data: totalNormalTVC,
-                color: 'rgba(250, 199, 161, 0.85)',
-              },
+              // {
+              //   name: 'Zonal Works',
+              //   data: zonalWorks,
+              //   color: 'rgba(31, 225, 11, 0.85)',
+              // },
+              // {
+              //   name: 'Tender Works',
+              //   data: tenderWorks,
+              //   color: 'rgba(2, 202, 227, 0.85)',
+              // },
+              // {
+              //   name: 'Zonal Tender Value',
+              //   data: totalZonalTVC,
+              //   color: 'rgba(172, 5, 26, 0.85)',
+              // },
+              // {
+              //   name: 'Works Tender Value',
+              //   data: totalNormalTVC,
+              //   color: 'rgba(250, 199, 161, 0.85)',
+              // },
             ];
             this.chartOptions2.xaxis = { categories: name };
             this.cO = this.chartOptions2;
@@ -844,41 +844,41 @@ export class WorkOrderGeneratedComponent {
 
             this.chartOptionsLine.series = [
               {
-                name: 'Total Pending Works',
+                name: 'No of Works',
                 data: totalWorks,
                 color: '#eeba0b',
               },
               {
-                name: 'Contract Value cr',
+                name: 'Contract Value (in Cr)',
                 data: totalTVC,
-                color: 'rgb(0, 143, 251)',
+                color: 'rgba(93, 243, 174, 0.85)'  ,
               },
               {
                 name: 'Avg Days Since Acceptance',
                 data: avgDaysSinceAcceptance,
-                color: ' rgba(181, 7, 212, 0.85)',
+                color:'rgba(250, 199, 161, 0.85)' ,
               },
               // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-              {
-                name: 'Zonal Works',
-                data: zonalWorks,
-                color: 'rgba(31, 225, 11, 0.85)',
-              },
-              {
-                name: 'Tender Works',
-                data: tenderWorks,
-                color: 'rgba(2, 202, 227, 0.85)',
-              },
-              {
-                name: 'Zonal Tender Value',
-                data: totalZonalTVC,
-                color: 'rgba(172, 5, 26, 0.85)',
-              },
-              {
-                name: 'Works Tender Value',
-                data: totalNormalTVC,
-                color: 'rgba(250, 199, 161, 0.85)',
-              },
+              // {
+              //   name: 'Zonal Works',
+              //   data: zonalWorks,
+              //   color: 'rgba(31, 225, 11, 0.85)',
+              // },
+              // {
+              //   name: 'Tender Works',
+              //   data: tenderWorks,
+              //   color: 'rgba(2, 202, 227, 0.85)',
+              // },
+              // {
+              //   name: 'Zonal Tender Value',
+              //   data: totalZonalTVC,
+              //   color: 'rgba(172, 5, 26, 0.85)',
+              // },
+              // {
+              //   name: 'Works Tender Value',
+              //   data: totalNormalTVC,
+              //   color: 'rgba(250, 199, 161, 0.85)',
+              // },
             ];
             this.chartOptionsLine.xaxis = { categories: name };
             this.cO = this.chartOptionsLine;
@@ -965,44 +965,43 @@ export class WorkOrderGeneratedComponent {
                 totalNormalTVC.push(item.totalNormalTVC);
               }
             );
-
             this.chartOptionsLine2.series = [
               {
-                name: 'Total Pending Works',
+                name: 'No of Works',
                 data: totalWorks,
                 color: '#eeba0b',
               },
               {
-                name: 'Contract Value cr',
+                name: 'Contract Value (in Cr)',
                 data: totalTVC,
-                color: 'rgb(0, 143, 251)',
+                color: 'rgba(93, 243, 174, 0.85)'  ,
               },
               {
                 name: 'Avg Days Since Acceptance',
                 data: avgDaysSinceAcceptance,
-                color: ' rgba(181, 7, 212, 0.85)',
+                color:'rgba(250, 199, 161, 0.85)' ,
               },
               // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-              {
-                name: 'Zonal Works',
-                data: zonalWorks,
-                color: 'rgba(31, 225, 11, 0.85)',
-              },
-              {
-                name: 'Tender Works',
-                data: tenderWorks,
-                color: 'rgba(2, 202, 227, 0.85)',
-              },
-              {
-                name: 'Zonal Tender Value',
-                data: totalZonalTVC,
-                color: 'rgba(172, 5, 26, 0.85)',
-              },
-              {
-                name: 'Works Tender Value',
-                data: totalNormalTVC,
-                color: 'rgba(250, 199, 161, 0.85)',
-              },
+              // {
+              //   name: 'Zonal Works',
+              //   data: zonalWorks,
+              //   color: 'rgba(31, 225, 11, 0.85)',
+              // },
+              // {
+              //   name: 'Tender Works',
+              //   data: tenderWorks,
+              //   color: 'rgba(2, 202, 227, 0.85)',
+              // },
+              // {
+              //   name: 'Zonal Tender Value',
+              //   data: totalZonalTVC,
+              //   color: 'rgba(172, 5, 26, 0.85)',
+              // },
+              // {
+              //   name: 'Works Tender Value',
+              //   data: totalNormalTVC,
+              //   color: 'rgba(250, 199, 161, 0.85)',
+              // },
             ];
             this.chartOptionsLine2.xaxis = { categories: name };
             this.cO = this.chartOptionsLine2;

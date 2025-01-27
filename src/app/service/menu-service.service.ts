@@ -110,9 +110,8 @@ export class MenuServiceService {
           { label: 'Search Work', route: 'SearchingWork' },
           { label: 'Progress Abstract', route: 'InfrastructureHome' },
           { label: 'Live Tender', route: 'LiveTender' },
-          // { label: 'Tender Evaluation', route: 'LiveTender' },
-          // { label: 'Price Evaluation', route: 'LiveTender' },
-          // { label: 'TO be Tender', route: 'LiveTender' },
+          { label: ' Evaluation', route: 'TenderEvaluation' },
+          { label: 'TO be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
@@ -124,6 +123,9 @@ export class MenuServiceService {
           { label: 'Handover', route: 'Handover' },
 
           { label: 'Engineer-Works', route: 'EngineerWorks' },
+          { label: 'Payment', route: 'PriceEvaluation' },
+
+          // { label: 'Payment', route: 'Payment' },
 
           // { label: 'RCDetail', route:  '/Rcdetail' },
           // { label: 'Complaints', route:  '/complaints' },
@@ -181,9 +183,8 @@ export class MenuServiceService {
           { label: 'Search Work', route: 'SearchingWork' },
           { label: 'Progress Abstract', route: 'InfrastructureHome' },
           { label: 'Live Tender', route: 'LiveTender' },
-          { label: 'Tender Evaluation', route: 'TenderEvaluation' },
-          // { label: 'Price Evaluation', route: 'LiveTender' },
-          // { label: 'TO be Tender', route: 'LiveTender' },
+          { label: 'Evaluation', route: 'TenderEvaluation' },
+          { label: 'TO be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
@@ -195,6 +196,8 @@ export class MenuServiceService {
           { label: 'Handover', route: 'Handover' },
 
           { label: 'Engineer-Works', route: 'EngineerWorks' },
+          // { label: 'Payment', route: 'PriceEvaluation' },
+
         ],
       },
     },
@@ -249,9 +252,8 @@ export class MenuServiceService {
           { label: 'Search Work', route: 'SearchingWork' },
           { label: 'Progress Abstract', route: 'InfrastructureHome' },
           { label: 'Live Tender', route: 'LiveTender' },
-          { label: 'Tender Evaluation', route: 'TenderEvaluation' },
-          // { label: 'Price Evaluation', route: 'LiveTender' },
-          // { label: 'TO be Tender', route: 'LiveTender' },
+          { label: 'Evaluation', route: 'TenderEvaluation' },
+          { label: 'TO be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
@@ -263,6 +265,7 @@ export class MenuServiceService {
           { label: 'Handover', route: 'Handover' },
 
           { label: 'Engineer-Works', route: 'EngineerWorks' },
+          { label: 'Payment', route: 'PriceEvaluation' },
 
           // // { label: 'Home', route: 'InfrastructureHome' },
           // // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
@@ -302,9 +305,8 @@ export class MenuServiceService {
           { label: 'Search Work', route: 'SearchingWork' },
           { label: 'Progress Abstract', route: 'InfrastructureHome' },
           { label: 'Live Tender', route: 'LiveTender' },
-          { label: 'Tender Evaluation', route: 'TenderEvaluation' },
-          // { label: 'Price Evaluation', route: 'LiveTender' },
-          // { label: 'TO be Tender', route: 'LiveTender' },
+          { label: 'Evaluation', route: 'TenderEvaluation' },
+          { label: 'TO be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
@@ -316,6 +318,7 @@ export class MenuServiceService {
           { label: 'Handover', route: 'Handover' },
 
           { label: 'Engineer-Works', route: 'EngineerWorks' },
+          { label: 'Payment', route: 'PriceEvaluation' },
 
           // // { label: 'Home', route: 'InfrastructureHome' },
           // // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
@@ -357,9 +360,8 @@ export class MenuServiceService {
         { label: 'Search Work', route: 'SearchingWork' },
         { label: 'Progress Abstract', route: 'InfrastructureHome' },
         { label: 'Live Tender', route: 'LiveTender' },
-        { label: 'Tender Evaluation', route: 'TenderEvaluation' },
-        // { label: 'Price Evaluation', route: 'LiveTender' },
-        // { label: 'TO be Tender', route: 'LiveTender' },
+        { label: 'Evaluation', route: 'TenderEvaluation' },
+        { label: 'TO be Tender', route: 'ToBeTender' },
 
         { label: 'Work Order', route: 'WorkOrder' },
         { label: 'Land Issue', route: 'LandIssue' },
@@ -371,6 +373,7 @@ export class MenuServiceService {
         { label: 'Handover', route: 'Handover' },
 
         { label: 'Engineer-Works', route: 'EngineerWorks' },
+        { label: 'Payment', route: 'PriceEvaluation' },
 
         // // { label: 'Verticals', route: 'home' },
         // // { label: 'Home', route: 'InfrastructureHome' },
@@ -433,9 +436,9 @@ export class MenuServiceService {
         { label: 'Search Work', route: 'SearchingWork' },
         { label: 'Progress Abstract', route: 'InfrastructureHome' },
         { label: 'Live Tender', route: 'LiveTender' },
-        { label: 'Tender Evaluation', route: 'TenderEvaluation' },
-        // { label: 'Price Evaluation', route: 'LiveTender' },
-        // { label: 'TO be Tender', route: 'LiveTender' },
+        { label: 'Evaluation', route: 'TenderEvaluation' },
+        // { label: 'Price Evaluation', route: 'PriceEvaluation' },
+        { label: 'TO be Tender', route: 'ToBeTender' },
 
         { label: 'Work Order', route: 'WorkOrder' },
         { label: 'Land Issue', route: 'LandIssue' },
@@ -447,6 +450,8 @@ export class MenuServiceService {
         { label: 'Handover', route: 'Handover' },
 
         { label: 'Engineer-Works', route: 'EngineerWorks' },
+        { label: 'Payment', route: 'PriceEvaluation' },
+
         // // { label: 'Home', route:  '/InfrastructureHome' },
         // // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
         // // { label: 'SearchingWork', route:  '/SearchingWork' },
@@ -522,7 +527,7 @@ export class MenuServiceService {
 
     return roleMenu.items || [];
   }
-
+ 
   // Example submenu provider (optional)
   getSubmenu(label: string): { label: string; route: string }[] | undefined {
     const submenus: any = {

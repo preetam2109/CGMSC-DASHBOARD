@@ -411,7 +411,7 @@ export class WorkOrderPendingDetailsNew {
   aaamt!: number;
   tsamt!: number;
   aaDate!: string;
-  tsDate!: string | null;
+  tsDate!: string;
   acceptanceLetterRefNo!: string;
   acceptLetterDT!: string;
   pac!: number;
@@ -544,5 +544,99 @@ export class TenderDetails {
   eprocno!:string;
 }
 
+export class TenderEvaluation {
+  id!: string;
+  name!: string;
+  nosWorks!: number;
+  nosTender!: number;
+  totalValuecr!: number;
+  avgDaysSince!: number;
+}
+export class TenderEvaluationDetails {
+  sno!: number;
+  work_id!: string;
+  letterno!: string;
+  district!: string;
+  head!: string;
+  division!: string;
+  detailS_ENG!: string;
+  workname!: string;
+  block_Name_En!: string;
+  asAmt!: number;
+  aA_RAA_Date!: string;
+  dayssinceAS!: number;
+  startdt!: string;
+  enddt!: string;
+  noofcalls!: number;
+  daysSinceOpen!: number;
+  tOpnedDT!: string;
+  topnedbdt!: string | null;
+  tenderno!: string;
+  eprocno!: string;
+}
+
+export class PriceEvaluation {
+  id!: string;
+  name!: string;
+  nosWorks!: number;
+  nosTender!: number;
+  totalValuecr!: number;
+  avgDaysSince!: number;
+}
+export class PriceEvaluationDetails {
+  sno!: number;
+    work_id!: string;
+    letterno!: string;
+    district!: string;
+    head!: string;
+    division!: string;
+    workname!: string;
+    asAmt!: number;
+    tsAmt!: number;
+    valueworksinlas!: number;
+    aA_RAA_Date!: string;
+    startdt!: string;
+    enddt!: string;
+    noofcalls!: number;
+    daysSinceOpen!: number;
+    tOpnedDT!: string;
+    tenderno!: string;
+    eprocno!: string;
+    topnedpricedt!: string;
+    cid!: string;
+    sanctionDetail!: string;
+    sanctionRate!: number;
+    cnAme!: string;
+    mobNo!: string;
+  
+
+
+}
 //#endregion
 
+//#region Payment
+export class PaidSummary {
+  id!: string;
+  name!: string;
+  avgDaysSinceMeasurement!: number;
+  grossPaidcr!: number;
+}
+export class UnPaidSummary {
+  id!: string;
+  name!: string;
+  noofWorks!: number;
+  unpaidcr!: number;
+  avgDaySinceM!: number;
+}
+
+//#endregion
+
+//#region Payment
+export class TenderStatus{
+
+  id!: string;
+  name!: string;
+  nosWorks!:number;
+  tValue!: number;
+}
+//#endregion

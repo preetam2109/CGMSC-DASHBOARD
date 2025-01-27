@@ -91,6 +91,13 @@ import {
   WorkGenDetails,
   LiveTenderdata,
   TenderDetails,
+  TenderEvaluation,
+  TenderEvaluationDetails,
+  PaidSummary,
+  UnPaidSummary,
+  PriceEvaluationDetails,
+  PriceEvaluation,
+  TenderStatus,
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -786,24 +793,56 @@ GetProgressDetailsLatLong(did:any,divisionId:any,distid:any,mainSchemeId:any,wor
   }
 //#endregion
 
-//#region 
+//#region Tender 
 GETLiveTender(RPType:any,divisionId:any,districtid:any,mainschemeid:any,TimeStatus:any) {
   return this.http.get<LiveTenderdata[]>(`${this.apiUrl}/TenderStatus/LiveTender?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&TimeStatus=${TimeStatus}`);
-
-
-  // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/LiveTender?RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+// https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/LiveTender?RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
 }
 GETTenderDetails(divisionId:any,mainschemeid:any,distid:any,TimeStatus:any) {
   return this.http.get<TenderDetails[]>(`${this.apiUrl}/TenderStatus/getTenderDetails?divisionId=${divisionId}&mainschemeid=${mainschemeid}&distid=${distid}&TimeStatus=${TimeStatus}`);
-  // TenderDetails
   //https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+}
+GETTenderEvaluation(RPType:any,divisionId:any,districtid:any,mainschemeid:any) {
+  return this.http.get<TenderEvaluation[]>(`${this.apiUrl}/TenderStatus/TenderEvaluation?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
+
+  //https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/TenderEvaluation?RPType=Total&divisionid=0&districtid=0&mainschemeid=0
+}
+GETTenderEvaluationDetails(divisionId:any,mainschemeid:any,distid:any) {
+  return this.http.get<TenderEvaluationDetails[]>(`${this.apiUrl}/TenderStatus/getTenderEvaluationDetails?divisionId=${divisionId}&mainschemeid=${mainschemeid}&distid=${distid}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/getTenderEvaluationDetails?divisionId=0&mainSchemeId=0&distid=0
+}
+GETPriceEvaluation(RPType:any,divisionId:any,districtid:any,mainschemeid:any) {
+  return this.http.get<PriceEvaluation[]>(`${this.apiUrl}/TenderStatus/PriceEvaluation?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
+// https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/PriceEvaluation?RPType=Total&divisionid=0&districtid=0&mainschemeid=0
+}
+GETPriceEvaluationDetails(divisionId:any,mainschemeid:any,distid:any) {
+  return this.http.get<PriceEvaluationDetails[]>(`${this.apiUrl}/TenderStatus/getPriceEvaluationDetails?divisionId=${divisionId}&mainschemeid=${mainschemeid}&distid=${distid}`);
+  
+  // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/getPriceEvaluationDetails?divisionId=0&mainSchemeId=0&distid=0
 }
 //#endregion
 
+//#region Payment 
+GETPaidSummary(RPType:any,divisionId:any,districtid:any,mainschemeid:any,fromdt:any,todt:any) {
+  return this.http.get<PaidSummary[]>(`${this.apiUrl}/Payment/PaidSummary?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&fromdt=${fromdt}&todt=${todt}`);
 
+  //https://cgmsc.gov.in/HIMIS_APIN/api/Payment/PaidSummary?RPType=Division&divisionid=0&districtid=0&mainschemeid=0&fromdt=01-Dec-2023&todt=31-Dec-2023
+}
+GETUnPaidSummary(RPType:any,divisionId:any,districtid:any,mainschemeid:any) {
+  return this.http.get<UnPaidSummary[]>(`${this.apiUrl}/Payment/UnPaidSummary?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
 
+  //https://cgmsc.gov.in/HIMIS_APIN/api/Payment/UnPaidSummary?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
+}
 
+//#endregion
+//#region TenderStatus
+GETTenderStatus(RPType:any,divisionid:any,districtid:any,mainschemeid:any) {
+  return this.http.get<TenderStatus[]>(`${this.apiUrl}/Payment/UnPaidSummary?RPType=${RPType}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
+// https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/TobeTender?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
 
+  
+}
+//#endregion
 getDistDHSStock(disid:any,coll_cmho:any,mcatid:any,userid:any){
   
   return this.http.get<DistDHSStock[]>(`https://dpdmis.in/CGMSCHO_API2/api/District/DistDHSStock?disid=${disid}&coll_cmho=${coll_cmho}&mcatid=${mcatid}&userid=${userid}`);

@@ -93,6 +93,9 @@ import { DeliveryComponent } from './component/Collector-Components/delivery/del
 import { TechnicalSanctionComponent } from './component/Infrastructure-Components/technical-sanction/technical-sanction.component';
 import { LiveTenderComponent } from './component/Infrastructure-Components/live-tender/live-tender.component';
 import { TenderEvaluationComponent } from './component/Infrastructure-Components/tender-evaluation/tender-evaluation.component';
+import { PriceEvaluationComponent } from './component/Infrastructure-Components/price-evaluation/price-evaluation.component';
+import { ToBeTenderComponent } from './component/Infrastructure-Components/to-be-tender/to-be-tender.component';
+
 
 
 
@@ -188,9 +191,6 @@ const routes: Routes = [
 {path:'DropAppWarehousePerformance',component:DropAppWarehousePerformanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','Collector']} },
 // {path:'cgmsc-supplies',component:CgmscSuppliesComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Collector']} },
 {path:'cgmsc-supplies',component:CgmscSuppliesDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Collector']} },
-
-
-
 {path:'InfrastructureHome',component:InfrastructureHomeComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division','Collector']} },
 {path:'DashProgressIstCount',component:DashProgressIstCountComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division','Collector']} },
 {path:'SearchingWork',component:SearchingWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','Division','Collector']} },
@@ -205,6 +205,8 @@ const routes: Routes = [
 {path:'TechnicalSanction',component:TechnicalSanctionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 {path:'LiveTender',component:LiveTenderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 {path:'TenderEvaluation',component:TenderEvaluationComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
+{path:'PriceEvaluation',component:PriceEvaluationComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
+{path:'ToBeTender',component:ToBeTenderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 
 {path:'DistDHSStock',component:DistDHSStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
 {path:'Devlivery',component:DeliveryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },

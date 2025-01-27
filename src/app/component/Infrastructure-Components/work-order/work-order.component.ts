@@ -165,8 +165,8 @@ export class WorkOrderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Pending Total Works wise Progress',
-        // text: 'RP Type Total Pending Works wise Progress',
+        // text: 'Total Pending Total Works wise Progress ',
+        text: 'Work Order Pending',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -266,8 +266,8 @@ export class WorkOrderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Pending Works Scheme wise Progress',
-        // text: 'RP Type Total Pending Works wise Progress',
+        // text: 'Total Pending Works Scheme wise Progress District-wise Pending',
+        text: 'Scheme-wise Pending Work Order Pending ',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -356,8 +356,9 @@ export class WorkOrderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Pending Works Contractor  wise Progress',
-        // text: 'RP Type Total Pending Works wise Progress',
+        // text: 'Total Pending Works Contractor  wise Progress',
+                text: 'Contractor-wise Pending Work Order Pending',
+
         align: 'center',
         style: {
           fontSize: '12px',
@@ -447,7 +448,7 @@ export class WorkOrderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Pending  Works District wise Progress',
+        text: 'District-wise Pending Work Order Pending',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -527,11 +528,11 @@ export class WorkOrderComponent {
           contrctValuecr.push(item.contrctValuecr);
           noofWorksGreater7Days.push(item.noofWorksGreater7Days);
         });
-        
         this.chartOptions.series = [
-          {name: 'Total Pending Works', data: pendingWork,color:'#eeba0b'} ,
-          { name: 'Contrct Value cr',data: contrctValuecr },
-          { name: 'Noof Works Greater 7 Days', data: noofWorksGreater7Days, color: 'rgb(0, 143, 251)' }, ];
+          // {name: 'Total Pending Works', data: pendingWork,color:'#eeba0b'} ,
+          {name: ' No of Works', data: pendingWork,color:'#eeba0b'} ,
+          { name: 'Contact Value(in Cr)',data: contrctValuecr },
+          { name: 'Pending more than 7 Days', data: noofWorksGreater7Days, color: '#fc7c84' }, ];
 
         this.chartOptions.xaxis = { categories: name };
         this.cO = this.chartOptions;
@@ -604,23 +605,23 @@ export class WorkOrderComponent {
         this.chartOptionsLine2.series = [
 
           {
-            name: 'Total Pending Works',
+            name: 'No of Works',
             data: pendingWork,
             // color: '#0000FF'
             color:'#eeba0b'
           }
           ,
           {
-            name: 'Contrct Value cr',
+            name: 'Contact Value(in Cr)',
             data: contrctValuecr,
             // color:'#00b4d8'
             // color:  'rgb(0, 128, 0)'
             // color: '#eeba0b'
           },
           {
-            name: 'Noof Works Greater 7 Days',
+            name: 'Pending more than 7 Days',
             data: noofWorksGreater7Days,
-            color: 'rgb(0, 143, 251)'
+            color: '#fc7c84'
             // color: 'rgb(144, 238, 144)'
             // color: '#90EE90'
            
@@ -694,23 +695,23 @@ export class WorkOrderComponent {
         this.chartOptionsLine.series = [
 
           {
-            name: 'Total Pending Works',
+            name: 'No of Works ',
             data: pendingWork,
             // color: '#0000FF'
             color:'#eeba0b'
           }
           ,
           {
-            name: 'Contrct Value cr',
+            name: 'Contact Value(in Cr)',
             data: contrctValuecr,
             // color:'#00b4d8'
             // color:  'rgb(0, 128, 0)'
             // color: '#eeba0b'
           },
           {
-            name: 'Noof Works Greater 7 Days',
+            name: 'Pending more than 7 Days',
             data: noofWorksGreater7Days,
-            color: 'rgb(0, 143, 251)'
+            color: '#fc7c84'
             // color: 'rgb(144, 238, 144)'
             // color: '#90EE90'
            
@@ -786,28 +787,26 @@ export class WorkOrderComponent {
           } else {
             console.warn('Missing whid for warehousename :', item.name);
           } });
-
-
         this.chartOptions2.series = [
 
           {
-            name: 'Total Pending Works',
+            name: 'No of Works ',
             data: pendingWork,
             // color: '#0000FF'
             color:'#eeba0b'
           }
           ,
           {
-            name: 'Contrct Value cr',
+            name: 'Contact Value(in Cr)',
             data: contrctValuecr,
             // color:'#00b4d8'
             // color:  'rgb(0, 128, 0)'
             // color: '#eeba0b'
           },
           {
-            name: 'Noof Works Greater 7 Days',
+            name: 'Pending more than 7 Days',
             data: noofWorksGreater7Days,
-            color: 'rgb(0, 143, 251)'
+            color: '#fc7c84'
             // color: 'rgb(144, 238, 144)'
             // color: '#90EE90'
            
