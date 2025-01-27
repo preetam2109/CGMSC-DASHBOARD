@@ -146,7 +146,7 @@ mcid:any='1';
         enabled: true,
       },
       title: {
-        text: 'Current Year Ayush Facilities Supplies',
+        text: 'C.F.Y Ayush Facilities Supplies',
         align: 'center',
       },
       fill: {
@@ -335,8 +335,8 @@ mcid:any='1';
       
           this.chartOptionsLine.series = [
            
-            { name: 'nosissueitems', data: nosissueitems,  },
-            { name: 'facvalue', data: facvalue }
+            { name: 'No of AYUSH Drugs ', data: nosissueitems,  },
+            { name: 'Supplied Value (in Lakhs)', data: facvalue }
           ];
       
           // Use defaultBarNames if warehousename is null or undefined

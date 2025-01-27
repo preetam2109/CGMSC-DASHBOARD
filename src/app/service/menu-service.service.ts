@@ -139,7 +139,7 @@ export class MenuServiceService {
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/card' },
           { label: 'Facilities Coverage', route: '/FacCoverage' },
-          { label: 'Warehouse Information', route: '/WarehouseInfo' },
+          // { label: 'Warehouse Information', route: '/WarehouseInfo' },
           { label: 'CGMSC Supplies', route: '/cgmsc-supplies' },
           { label: 'Stock Details', route: '/stockDetails' },
           { label: 'District DHS Stock', route: '/DistDHSStock' },

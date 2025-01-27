@@ -184,7 +184,13 @@ colors = [];
     'NOC':'assets/dash-icon/approved.png',
     'Quality Control':'assets/dash-icon/biochemist.png',
     'Handover':'assets/dash-icon/hand-over.png',
-    'Work Order':'assets/dash-icon/cooperation.png'
+    'Work Order':'assets/dash-icon/clipboard.png',
+    'cgmsc-supplies':'assets/dash-icon/drugs.png',
+    'TenderEvaluation':'assets/dash-icon/check-list.png',
+    'Progress Abstract':'assets/dash-icon/hospital.png',
+    'Tender Evaluation':'assets/dash-icon/check-list.png',
+    'Live Tender':'assets/dash-icon/tender.png',
+
   };
   constructor(  private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService) {
     this.chartOptions = {

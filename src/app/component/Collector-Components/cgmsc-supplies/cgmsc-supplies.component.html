@@ -1,4 +1,7 @@
 <div class="container mt-3">
+  <h1 class="text-center" style="color: rgb(50, 50, 164);">
+    <strong>Year-wise Supply Growth </strong>
+  </h1>
     <div class="row mb-3">
       <div class="col-md-6 d-flex flex-wrap">
         <div class="form-check me-3">
@@ -31,23 +34,23 @@
           <button class="btn btn-secondary w-100" [ngClass]="{'Active': btn === 'All'}" (click)="loadData(mcid, hodid)">Show All</button>
         </div> -->
        
-        <div class="col-6 col-sm-4 col-md-3 mb-2">
+        <div class="col-12 col-sm-6 col-md-4 mb-2">
           <button class="btn btn-secondary w-100" [ngClass]="{'Active': btn === 'DME'}" (click)="loadDataDME(mcid, hodid)">Medical College/Hospital</button>
         </div>
-        <div class="col-6 col-sm-4 col-md-3 mb-2">
-          <button class="btn btn-secondary w-100" [ngClass]="{'Active': btn === 'AYUSH'}" (click)="loadDataAYUSH(mcid, hodid)">AYUSH</button>
-        </div>
-        <div class="col-6 col-sm-4 col-md-3 mb-2">
-          <button class="btn btn-secondary w-100" [ngClass]="{'Active': btn === 'CMHO'}" (click)="loadDataCMHOItem(mcid, hodid)">CMHO</button>
-        </div>
-         <div class="col-6 col-sm-4 col-md-3 mb-2">
+        <div class="col-12 col-sm-6 col-md-4 mb-2">
           <button class="btn btn-secondary w-100" [ngClass]="{'Active': btn === 'DHS'}" (click)="loadDataDHS(mcid, hodid)">DIstrict Hospital</button>
         </div>
-        <div class="col-6 col-sm-4 col-md-3 mb-2">
+        <div class="col-12 col-sm-6 col-md-4 mb-2">
+          <button class="btn btn-secondary w-100" [ngClass]="{'Active': btn === 'CMHO'}" (click)="loadDataCMHOItem(mcid, hodid)">CMHO</button>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 mb-2">
           <button class="btn btn-secondary w-100" [ngClass]="{'Active': btn === 'CHC'}" (click)="loadDataCHCItem(mcid, hodid)">CHC/CH</button>
         </div>
-        <div class="col-6 col-sm-4 col-md-3 mb-2">
+        <div class="col-12 col-sm-6 col-md-4 mb-2">
           <button class="btn btn-secondary w-100" [ngClass]="{'Active': btn === 'OTHER'}" (click)="loadDataOtherfacitems(mcid, hodid)">PHC/UPSC/SSK</button>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 mb-2">
+          <button class="btn btn-secondary w-100" [ngClass]="{'Active': btn === 'AYUSH'}" (click)="loadDataAYUSH(mcid, hodid)">AYUSH</button>
         </div>
       </div>
     </div>
