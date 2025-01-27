@@ -86,6 +86,10 @@ export class LiveTenderComponent {
     himisDistrictid: any;
     TimeStatus:any;
     mainschemeid:any;
+    titleTotal:any
+    titleDivision:any;
+    titleScheme:any;
+    titleDist:any;
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
@@ -94,9 +98,14 @@ export class LiveTenderComponent {
     public datePipe: DatePipe
   ) {
     this.dataSource = new MatTableDataSource<TenderDetails>([]);
+  //   this.titleTotal="Live Tenders";
+  //   this.titleDivision="Division-wise Live Tenders";
+  //  this.titleScheme="Scheme-wise Live Tenders";
+  //   this.titleDist="District-wise Live Tenders";
   }
 
   ngOnInit() {
+
     this.initializeChartOptions();
     
   if(this.selectedTabIndex == 0){
@@ -177,7 +186,7 @@ export class LiveTenderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender  Division wise Progress',
+        // text: 'Division-wise Live Tenders',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -270,7 +279,7 @@ export class LiveTenderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender Scheme wise Progress',
+        // text: 'Scheme-wise Live Tenders',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -362,7 +371,7 @@ export class LiveTenderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender District wise Progress',
+        // text: 'District-wise Live Tenders',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -458,7 +467,7 @@ export class LiveTenderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender ',
+        // text: 'Live Tenders ',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -486,11 +495,19 @@ export class LiveTenderComponent {
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
     if(this.selectedTabIndex == 0){
+    //  this.titleTotal="Live Tenders";
+    //   this.titleDivision="Division-wise Live Tenders";
+    //  this.titleScheme="Scheme-wise Live Tenders";
+    //   this.titleDist="District-wise Live Tenders";
       this.GETLiveTenderTotal();
       this.GETLiveTenderDivision();
       this.GETLiveTenderScheme();
       this.GETLiveTenderDistrict();
     }else{
+    // this.titleTotal = "Pending To Open Tenders";
+    //  this.titleDivision=" Division-wise Pending To Open Tenders";
+    // this.titleScheme="Scheme-wise Pending To Open Tenders";
+    //  this.titleDist="District-wise Pending To Open Tenders";
     this.GETLiveTenderTotal();
     this.GETLiveTenderDivision();
     this.GETLiveTenderScheme();
@@ -553,17 +570,17 @@ GETLiveTenderTotal(): void {
 
           this.chartOptionsLine2.series = [
             {
-              name: 'Total Numbers of Works',
+              name: 'No of Works ',
               data: nosWorks,
               color: '#eeba0b',
             },
             {
-              name: 'Total Numbers of Tender',
+              name: 'No of Tenders',
               data: nosTender,
               color: 'rgb(0, 143, 251)',
             },
             {
-              name: 'Total Value in Cr',
+              name: 'Tender Value(in Cr)',
               data: totalValuecr,
               color: 'rgba(93, 243, 174, 0.85)',
             },
@@ -593,6 +610,35 @@ GETLiveTenderTotal(): void {
           ];
           this.chartOptionsLine2.xaxis = { categories: name };
           this.cO = this.chartOptionsLine2;
+          if(this.selectedTabIndex == 0){
+            this.chartOptionsLine2.title={text: 'Live Tenders ',
+            //   this.titleTotal = "Pending To Open Tenders";
+            //   this.titleDivision=" Division-wise Pending To Open Tenders";
+            //  this.titleScheme="Scheme-wise Pending To Open Tenders";
+            //   this.titleDist="District-wise Pending To Open Tenders";
+              // text: 'Live Tenders ',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+
+          }else{
+            this.chartOptionsLine2.title={text: 'Pending To Open Tenders',
+          
+              // text: 'Live Tenders ',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+          }
+
+         
           this.cdr.detectChanges();
 
           this.spinner.hide();
@@ -657,17 +703,17 @@ GETLiveTenderDivision(): void {
 
           this.chartOptions.series = [
             {
-              name: 'Total Numbers of Works',
+              name: 'No of Works ',
               data: nosWorks,
               color: '#eeba0b',
             },
             {
-              name: 'Total Numbers of Tender',
+              name: 'No of Tenders',
               data: nosTender,
               color: 'rgb(0, 143, 251)',
             },
             {
-              name: 'Total Value in Cr',
+              name: 'Tender Value(in Cr)',
               data: totalValuecr,
               color: 'rgba(93, 243, 174, 0.85)',
             },
@@ -697,6 +743,33 @@ GETLiveTenderDivision(): void {
           ];
           this.chartOptions.xaxis = { categories: name };
           this.cO = this.chartOptions;
+          if(this.selectedTabIndex == 0){
+            this.chartOptions.title={text: 'Division-wise Live Tenders ',
+            //   this.titleTotal = "Pending To Open Tenders";
+            //   this.titleDivision=" Division-wise Pending To Open Tenders";
+            //  this.titleScheme="Scheme-wise Pending To Open Tenders";
+            //   this.titleDist="District-wise Pending To Open Tenders";
+              // text: 'Live Tenders ',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+
+          }else{
+            this.chartOptions.title={text: 'Division-wise Pending To Open Tenders',
+          
+              // text: 'Live Tenders ',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+          }
           this.cdr.detectChanges();
 
           this.spinner.hide();
@@ -762,17 +835,17 @@ GETLiveTenderScheme(): void {
 
           this.chartOptions2.series = [
             {
-              name: 'Total Numbers of Works',
+              name: 'No of Works ',
               data: nosWorks,
               color: '#eeba0b',
             },
             {
-              name: 'Total Numbers of Tender',
+              name: 'No of Tenders',
               data: nosTender,
               color: 'rgb(0, 143, 251)',
             },
             {
-              name: 'Total Value in Cr',
+              name: 'Tender Value(in Cr)',
               data: totalValuecr,
               color: 'rgba(93, 243, 174, 0.85)',
             },
@@ -802,6 +875,33 @@ GETLiveTenderScheme(): void {
           ];
           this.chartOptions2.xaxis = { categories: name };
           this.cO = this.chartOptions2;
+          if(this.selectedTabIndex == 0){
+            this.chartOptions2.title={text: 'Scheme-wise Live Tenders ',
+            //   this.titleTotal = "Pending To Open Tenders";
+            //   this.titleDivision=" Division-wise Pending To Open Tenders";
+            //  this.titleScheme="Scheme-wise Pending To Open Tenders";
+            //   this.titleDist="District-wise Pending To Open Tenders";
+              // text: 'Live Tenders ',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+
+          }else{
+            this.chartOptions2.title={text: 'Scheme-wise Pending To Open Tenders',
+          
+              // text: 'Live Tenders ',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+          }
           this.cdr.detectChanges();
 
           this.spinner.hide();
@@ -867,17 +967,17 @@ GETLiveTenderDistrict(): void {
 
           this.chartOptionsLine.series = [
             {
-              name: 'Total Numbers of Works',
+              name: 'No of Works ',
               data: nosWorks,
               color: '#eeba0b',
             },
             {
-              name: 'Total Numbers of Tender',
+              name: 'No of Tenders',
               data: nosTender,
               color: 'rgb(0, 143, 251)',
             },
             {
-              name: 'Total Value in Cr',
+              name: 'Tender Value(in Cr)',
               data: totalValuecr,
               color: 'rgba(93, 243, 174, 0.85)',
             },
@@ -907,6 +1007,26 @@ GETLiveTenderDistrict(): void {
           ];
           this.chartOptionsLine.xaxis = { categories: name };
           this.cO = this.chartOptionsLine;
+          if(this.selectedTabIndex == 0){
+            this.chartOptionsLine.title={text: 'District-wise Live Tenders ',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+
+          }else{
+            this.chartOptionsLine.title={text: 'District-wise Pending To Open Tenders',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+          }
           this.cdr.detectChanges();
 
           this.spinner.hide();
