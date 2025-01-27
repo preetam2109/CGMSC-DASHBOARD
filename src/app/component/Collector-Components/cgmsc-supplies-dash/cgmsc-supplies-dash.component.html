@@ -4,43 +4,61 @@
   
     </h3>
   </div> -->
-   
+  <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
+    <strong style="text-align: center;">District CGMSC Supplies</strong>
+    <img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="home()">
+  </h1>
+  
+  
   <div class="container-fluid">
     <mat-tab-group
       [(selectedIndex)]="selectedTabIndex"
       (selectedTabChange)="selectedTabValue($event)"
     >
-    <mat-tab
-    label="Current Year"
+  <mat-tab
+    label="Current F.Y."
     [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
   >
     <ng-template matTabContent>
-      <mat-tab-group>
+      <mat-tab-group
+        [(selectedIndex)]="selectedSubTabIndex"
+        (selectedTabChange)="selectedSubTabValue($event)"
+      >
         <!-- Nested Tab 1: DHS Facilities Supplies -->
-        <mat-tab label=" District Supplies (DHS) ">
+        <mat-tab
+          label="District Supplies (DHS)"
+          [ngClass]="{ 'active-sub-tab': selectedSubTabIndex === 0 }"
+        >
           <ng-template matTabContent>
-            <app-cgmsc-current-year *ngIf="selectedTabIndex === 0"></app-cgmsc-current-year>
+            <app-cgmsc-current-year></app-cgmsc-current-year>
           </ng-template>
         </mat-tab>
 
-
-
-        <!-- Nested Tab 2: Medical College Supplies -->
-        <mat-tab label="DHS Facillity Wise Supplies">
+        <!-- Nested Tab 2: DHS Facility Wise Supplies -->
+        <mat-tab
+          label="DHS Facility Wise Supplies"
+          [ngClass]="{ 'active-sub-tab': selectedSubTabIndex === 1 }"
+        >
           <ng-template matTabContent>
             <app-cgmsc-facility-wise-supplies></app-cgmsc-facility-wise-supplies>
           </ng-template>
         </mat-tab>
 
-        <!-- Nested Tab 2: Medical College Supplies -->
-        <mat-tab label="Medical College Supplies">
+        <!-- Nested Tab 3: Medical College Supplies -->
+        <mat-tab
+          label="Medical College Supplies"
+          [ngClass]="{ 'active-sub-tab': selectedSubTabIndex === 2 }"
+        >
           <ng-template matTabContent>
             <app-cgmsc-supplies-dme></app-cgmsc-supplies-dme>
           </ng-template>
         </mat-tab>
 
-        <!-- Nested Tab 3: Ayush Facilities Supplies -->
-        <mat-tab label="Ayush Facilities Supplies">
+        <!-- Nested Tab 4: Ayush Facilities Supplies -->
+        <mat-tab
+          label="AYUSH Supplies"
+          [ngClass]="{ 'active-sub-tab': selectedSubTabIndex === 3 }"
+        >
           <ng-template matTabContent>
             <app-cgmsc-supplies-ayush></app-cgmsc-supplies-ayush>
           </ng-template>
@@ -50,7 +68,7 @@
   </mat-tab>
 
       <mat-tab
-        label="Supply Growth"
+        label="F.Y. Wise Growth in Supply"
         [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
       >
         <ng-template matTabContent>

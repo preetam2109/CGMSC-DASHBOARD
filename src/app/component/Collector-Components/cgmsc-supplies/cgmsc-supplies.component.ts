@@ -322,7 +322,7 @@ export class CgmscSuppliesComponent {
 
            
           { 
-            name: 'DH Issued Items', 
+            name: 'Supplied Items to DH', 
             data: dhItem ,
             color:'#800000'
           },
@@ -564,7 +564,7 @@ export class CgmscSuppliesComponent {
 
            
           { 
-            name: 'CMHO Issued Items', 
+            name: 'Supplied Items to DH', 
             data: cmhoItem ,
             color:'#800000'
 

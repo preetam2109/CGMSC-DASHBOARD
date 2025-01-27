@@ -100,13 +100,15 @@ mcid:any='1';
         colors: ['#fff'],
       },
       title: {
-        text: 'Total No of Drugs Supplied',
+        text: 'C.F.Y Demand & CGMSC Total Supply',
         align: 'center',
       },
       fill: {
         opacity: 1,
       },
       legend: {
+        fontSize:'15px',
+        fontWeight:'bold',
         position: 'top',
         horizontalAlign: 'center',
         offsetX: 40,
@@ -147,13 +149,15 @@ mcid:any='1';
         enabled: true,
       },
       title: {
-        text: 'Total No of Drugs Supplied against DHS fixed Annual Indent',
+        text: 'DHS Approved Demand Vs CGMSC Supply of C.F.Y.',
         align: 'center',
       },
       fill: {
         opacity: 1,
       },
       legend: {
+        fontSize:'15px',
+        fontWeight:'bold',
         position: 'top',
         horizontalAlign: 'center',
       },
@@ -194,13 +198,15 @@ mcid:any='1';
         colors: ['#fff'],
       },
       title: {
-        text: 'Total No of Consumables Supplied',
+        text: 'C.F.Y Demand & CGMSC Total Supply',
         align: 'center',
       },
       fill: {
         opacity: 1,
       },
       legend: {
+        fontSize:'15px',
+        fontWeight:'bold',
         position: 'top',
         horizontalAlign: 'center',
         offsetX: 40,
@@ -241,13 +247,15 @@ mcid:any='1';
         enabled: true,
       },
       title: {
-        text: 'Total No of Consumables Supplied against DHS fixed Annual Indent',
+        text: 'DHS Approved Demand Vs CGMSC Supply  of C.F.Y.',
         align: 'center',
       },
       fill: {
         opacity: 1,
       },
       legend: {
+        fontSize:'15px',
+        fontWeight:'bold',
         position: 'top',
         horizontalAlign: 'center',
       },
@@ -294,10 +302,11 @@ mcid:any='1';
           const defaultBarNames = data.map((_: any, index: number) => ``);
 
           this.chartOptions.series = [
-            { name: 'DHS Approved Annual Indent', data: dhsaiFixed  },
-            { name: 'Total Supplied Items', data: totalIssuedCGMSCitems  },
-            { name: 'Total Supplied %', data: totalPEr }
+            { name: 'No of Approved Drugs', data: dhsaiFixed,color:'#0077b6'  },
+            { name: 'No of Total Supplied Drugs', data: totalIssuedCGMSCitems,color:'#007200'  },
+            { name: 'Total Supplied %', data: totalPEr,color:'#e85d04' }
           ];
+
           this.chartOptions.xaxis = { categories: defaultBarNames };
           this.cO = this.chartOptions;
           this.cdr.detectChanges();
@@ -336,9 +345,9 @@ mcid:any='1';
           const defaultBarNames = data.map((_: any, index: number) => ``);
       
           this.chartOptionsLine.series = [
-            { name: 'DHS Approved Annual Indent', data: dhsaiFixed,  },
-            { name: 'Total Issued', data: issueaainstIndent,  },
-            { name: 'Total Supplied Items', data: aginAI_Perc }
+            { name: 'No of Approved Drugs', data: dhsaiFixed,color:'#0077b6'  },
+            { name: 'No of Supplied Drugs ', data: issueaainstIndent,color:'#007200'  },
+            { name: 'Supplied %', data: aginAI_Perc,color:'#e85d04' }
           ];
       
           // Use defaultBarNames if warehousename is null or undefined
@@ -379,9 +388,9 @@ mcid:any='1';
           const defaultBarNames = data.map((_: any, index: number) => ``);
 
           this.chartOptions2.series = [
-            { name: 'DHS Approved Annual Indent', data: dhsaiFixed },
-            { name: 'Total Supplied Items', data: totalIssuedCGMSCitems  },
-            { name: 'Total Supplied %', data: totalPEr }
+            { name: 'No of Approved Consumables', data: dhsaiFixed,color:'#0077b6' },
+            { name: 'No of Total Supplied Consumables ', data: totalIssuedCGMSCitems,color:'#007200'  },
+            { name: 'Total Supplied %', data: totalPEr,color:'#e85d04' }
           ];
           this.chartOptions2.xaxis = { categories: defaultBarNames };
           this.cO = this.chartOptions2;
@@ -421,9 +430,9 @@ mcid:any='1';
           const defaultBarNames = data.map((_: any, index: number) => ``);
       
           this.chartOptionsLine2.series = [
-            { name: 'DHS Approved Annual Indent', data: dhsaiFixed },
-            { name: 'Total Issued', data: issueaainstIndent },
-            { name: 'Total Supplied Items', data: aginAI_Perc },
+            { name: 'No of Approved Consumables', data: dhsaiFixed ,color:'#0077b6'},
+            { name: 'No of Supplied Consumables', data: issueaainstIndent,color:'#007200' },
+            { name: 'Supplied %', data: aginAI_Perc,color:'#e85d04' },
           ];
       
           // Use defaultBarNames if warehousename is null or undefined

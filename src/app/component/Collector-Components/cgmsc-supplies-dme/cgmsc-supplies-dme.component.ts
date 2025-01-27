@@ -99,7 +99,7 @@ mcid:any='1';
         colors: ['#fff'],
       },
       title: {
-        text: 'Current Year Medical Colleges/Hospitals Drugs Supplied',
+        text: 'C.F.Y. Medical Colleges/Hospitals Drugs Supplied',
         align: 'center',
       },
       fill: {
