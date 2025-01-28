@@ -98,6 +98,7 @@ import {
   PriceEvaluationDetails,
   PriceEvaluation,
   TenderStatus,
+  PaidDetails,
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -833,11 +834,16 @@ GETUnPaidSummary(RPType:any,divisionId:any,districtid:any,mainschemeid:any) {
 
   //https://cgmsc.gov.in/HIMIS_APIN/api/Payment/UnPaidSummary?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
 }
+GETPaidDetails(divisionId:any,mainSchemeId: any, distid: any, fromdt: any,todt: any) {
+  debugger;
+  return this.http.get<PaidDetails[]>(`${this.apiUrl}/Payment/PaidDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&fromdt=${fromdt}&todt=${todt}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
+}
 
 //#endregion
 //#region TenderStatus
 GETTenderStatus(RPType:any,divisionid:any,districtid:any,mainschemeid:any) {
-  return this.http.get<TenderStatus[]>(`${this.apiUrl}/Payment/UnPaidSummary?RPType=${RPType}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
+  return this.http.get<TenderStatus[]>(`${this.apiUrl}/TenderStatus/TobeTender?RPType=${RPType}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
 // https://cgmsc.gov.in/HIMIS_APIN/api/TenderStatus/TobeTender?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
 
   

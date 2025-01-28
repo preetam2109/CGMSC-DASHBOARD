@@ -628,15 +628,51 @@ export class UnPaidSummary {
   unpaidcr!: number;
   avgDaySinceM!: number;
 }
+export class PaidDetails {
+  sno!: number;
+  worK_ID!: string;
+  head!: string;
+  division!: string;
+  district!: string;
+  workname!: string;
+  wrokOrderDT!: string;
+  billno!: number;
+  agrbillstatus!: string;
+  totalamountofcontract!: number;
+  grosspaid!: number;
+  mesurementDT!: string;
+  billdate!: string;
+  chequeDT!: string;
+  dayssincemeasurement!: number;
+  totalpaidtillinlac!: number;
+
+  // "worK_ID": "W5800201",
+  // "head": "Old CGMSC Ltd(Dont Use)",
+  // "division": "Raipur Division",
+  // "district": "Mahasamund",
+  // "workname": "Drug Ware House Mahasamund - Repair Renovation work at Drug Ware House Mahasamund",
+  // "wrokOrderDT": "11-01-2023",
+  // "billno": 1,
+  // "agrbillstatus": "Final",
+  // "totalamountofcontract": 2.92,
+  // "grosspaid": 2.36,
+  // "mesurementDT": "25-07-2023",
+  // "billdate": "29-10-2023",
+  // "chequeDT": "01-01-2024",
+  // "dayssincemeasurement": 160,
+  // "totalpaidtillinlac": 2.36
+}
 
 //#endregion
 
-//#region Payment
+//#region To be Tender
 export class TenderStatus{
 
   id!: string;
   name!: string;
   nosWorks!:number;
   tValue!: number;
+  nosValue!:number;
+
 }
 //#endregion

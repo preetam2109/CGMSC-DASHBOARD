@@ -19,7 +19,7 @@ import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { LiveTenderdata, PaidSummary, TenderDetails, UnPaidSummary } from 'src/app/Model/DashProgressCount';
+import { LiveTenderdata, PaidDetails, PaidSummary, TenderDetails, UnPaidSummary } from 'src/app/Model/DashProgressCount';
 import { FormBuilder,FormGroup, FormsModule, ReactiveFormsModule,} from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -77,12 +77,16 @@ export class PriceEvaluationComponent {
   chartOptions2!: ChartOptions; // For bar charta
   chartOptionsLine!: ChartOptions; // For line chart
   chartOptionsLine2!: ChartOptions; // For line chart
+  chartOptions1!: ChartOptions; // For bar chart
+  chartOptionss!: ChartOptions; // For bar charta
+  chartOptionsLine1!: ChartOptions; // For line chart
+  chartOptionsLinee!: ChartOptions; // For line chart
   //#endregion
   //#region DataBase Table
-  dataSource!: MatTableDataSource<TenderDetails>;
+  dataSource!: MatTableDataSource<PaidDetails>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  dispatchData: TenderDetails[] = [];
+  dispatchData: PaidDetails[] = [];
 
   //#endregion
   PaidSummaryTotal: PaidSummary[] = [];
@@ -110,7 +114,7 @@ export class PriceEvaluationComponent {
     public datePipe: DatePipe,
     private fb: FormBuilder
   ) {
-    this.dataSource = new MatTableDataSource<TenderDetails>([]);
+    this.dataSource = new MatTableDataSource<PaidDetails>([]);
   }
 
   ngOnInit() {
@@ -148,9 +152,6 @@ export class PriceEvaluationComponent {
         type: 'bar',
         stacked: true,
         // height: 'auto',
-        // height:400,
-        // height: 200,
-        // width:600,
         events: {
           dataPointSelection: (
             event,
@@ -172,7 +173,7 @@ export class PriceEvaluationComponent {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
 
-                // this.fetchDataBasedOnChartSelectionDivision(id, selectedSeries);
+                this.fetchDataBasedOnChartSelectionDivision(id, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -210,7 +211,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender  Division wise Progress',
+        text: 'Division-wise Total Payment',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -240,9 +241,6 @@ export class PriceEvaluationComponent {
         type: 'bar',
         stacked: true,
         // height: 'auto',
-        // height:400,
-        // height: 200,
-        // width:600,
         events: {
           dataPointSelection: (
             event,
@@ -265,7 +263,7 @@ export class PriceEvaluationComponent {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
 
-                // this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
+                this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -303,7 +301,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender Scheme wise Progress',
+        text: 'Scheme-wise Total Payment',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -333,9 +331,6 @@ export class PriceEvaluationComponent {
         type: 'bar',
         stacked: true,
         // height: 'auto',
-        // height:400,
-        // height: 200,
-        // width:600,
         events: {
           dataPointSelection: (
             event,
@@ -425,9 +420,6 @@ export class PriceEvaluationComponent {
         type: 'bar',
         stacked: false,
         // height: 'auto',
-        // height:400,
-        // height: 200,
-        // width:500,
         events: {
           dataPointSelection: (
             event,
@@ -449,7 +441,7 @@ export class PriceEvaluationComponent {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
 
-                // this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
+                this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -491,7 +483,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender ',
+        text: 'Total Payment',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -517,7 +509,7 @@ export class PriceEvaluationComponent {
     };
   }
   initializeChartOptions2() {
-    this.chartOptions = {
+    this.chartOptions1 = {
       series: [],
       chart: {
         type: 'bar',
@@ -533,9 +525,9 @@ export class PriceEvaluationComponent {
             { dataPointIndex, seriesIndex }
           ) => {
             const selectedCategory =
-              this.chartOptions?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+              this.chartOptions1?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
             const selectedSeries =
-              this.chartOptions?.series?.[seriesIndex]?.name;
+              this.chartOptions1?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.UnPaidSummaryDivision; // Replace with the actual data source or API response
@@ -585,7 +577,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender  Division wise Progress',
+        text: 'Division-wise Total Payment Pending',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -609,7 +601,7 @@ export class PriceEvaluationComponent {
         offsetX: 40,
       },
     };
-    this.chartOptions2 = {
+    this.chartOptionss = {
       series: [],
       chart: {
         type: 'bar',
@@ -677,7 +669,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender Scheme wise Progress',
+        text: 'Scheme-wise Total Payment Pending',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -701,7 +693,7 @@ export class PriceEvaluationComponent {
         offsetX: 40,
       },
     };
-    this.chartOptionsLine = {
+    this.chartOptionsLine1 = {
       series: [],
       chart: {
         type: 'bar',
@@ -769,7 +761,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender District wise Progress',
+        text: 'Designation-wise Total Payment Pending',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -793,7 +785,7 @@ export class PriceEvaluationComponent {
         offsetX: 40,
       },
     };
-    this.chartOptionsLine2 = {
+    this.chartOptionsLinee = {
       series: [],
       chart: {
         type: 'bar',
@@ -809,9 +801,9 @@ export class PriceEvaluationComponent {
             { dataPointIndex, seriesIndex }
           ) => {
             const selectedCategory =
-              this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+              this.chartOptionsLinee?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
             const selectedSeries =
-              this.chartOptionsLine2?.series?.[seriesIndex]?.name;
+              this.chartOptionsLinee?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.UnPaidSummaryTotal; // Replace with the actual data source or API response
@@ -865,7 +857,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Live Tender ',
+        text: 'Total Payment Pending',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -914,7 +906,6 @@ export class PriceEvaluationComponent {
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       var RPType = 'GTotal';
-
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
       this.chartOptionsLine2.chart.height = '200px';
@@ -1379,6 +1370,141 @@ export class PriceEvaluationComponent {
       );
   }
   // #endregion
+  //#region dataTable  in PaidSummary
+ fetchDataBasedOnChartSelectionTotal(
+    divisionID: any,
+    seriesName: string
+  ): void {
+    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    const mainSchemeId = 0;
+    const contractid = 0;
+    // const fromdt="01-jan-2024";
+    // const todt="01-jan-2025";
+    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.spinner.show();
+    // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
+    this.api
+      .GETPaidDetails(
+        divisionID,
+        mainSchemeId,
+        distid,
+        this.fromdt,
+        this.todt
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchData = res.map(
+            (item: PaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('PaidDetails:', res);
+          // console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSource.data = this.dispatchData;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog();
+  }
+  fetchDataBasedOnChartSelectionDivision(
+    divisionID: any,
+    seriesName: string
+  ): void {
+    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    const mainSchemeId = 0;
+    const contractid = 0;
+    // const fromdt="01-jan-2024";
+    // const todt="01-jan-2025";
+    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.spinner.show();
+    // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
+    this.api
+      .GETPaidDetails(
+        divisionID,
+        mainSchemeId,
+        distid,
+        this.fromdt,
+        this.todt
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchData = res.map(
+            (item: PaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          console.log('PaidDetails:', res);
+          console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSource.data = this.dispatchData;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog();
+  }
+  fetchDataBasedOnChartSelectionScheme(
+    mainSchemeId: any,
+    seriesName: string
+  ): void {
+    console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    const distid = 0;
+    const divisionID = 0;
+    const contractid = 0;
+    // const fromdt="01-jan-2024";
+    // const todt="01-jan-2025";
+    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.spinner.show();
+    // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
+    this.api
+      .GETPaidDetails(
+        divisionID,
+        mainSchemeId,
+        distid,
+        this.fromdt,
+        this.todt
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchData = res.map(
+            (item: PaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('PaidDetails:', res);
+          console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSource.data = this.dispatchData;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog();
+  }
+  // #endregion
+
   // UnPaidSummary
   //#region Get API data in UnPaidSummary
   GETUnPaidSummaryTotal(): void {
@@ -1390,7 +1516,7 @@ export class PriceEvaluationComponent {
 
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
-      this.chartOptionsLine2.chart.height = '200px';
+      this.chartOptionsLinee.chart.height = '200px';
     }
     // else if (roleName == 'Collector') {
     //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
@@ -1405,7 +1531,7 @@ export class PriceEvaluationComponent {
       this.mainschemeid = 0;
       var RPType = 'GTotal';
 
-      this.chartOptionsLine2.chart.height = '300';
+      this.chartOptionsLinee.chart.height = '300';
     }
    
     this.api
@@ -1443,7 +1569,7 @@ export class PriceEvaluationComponent {
             }
           );
 
-          this.chartOptionsLine2.series = [
+          this.chartOptionsLinee.series = [
             {
               name: 'Numbers of Works',
               data: noofWorks,
@@ -1452,7 +1578,8 @@ export class PriceEvaluationComponent {
             {
               name: 'Un Paid (in Cr)',
               data: unpaidcr,
-              color: 'rgb(0, 143, 251)',
+              color:'rgb(0, 227, 150)',
+              // color: 'rgb(0, 143, 251)',
             },
             // {
             //   name: 'Total Value in Cr',
@@ -1493,8 +1620,8 @@ export class PriceEvaluationComponent {
             // },
             // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
           ];
-          this.chartOptionsLine2.xaxis = { categories: name };
-          this.cO = this.chartOptionsLine2;
+          this.chartOptionsLinee.xaxis = { categories: name };
+          this.cO = this.chartOptionsLinee;
           this.cdr.detectChanges();
 
           this.spinner.hide();
@@ -1512,7 +1639,7 @@ export class PriceEvaluationComponent {
       var RPType = 'Division';
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
-      this.chartOptions.chart.height = '200px';
+      this.chartOptions1.chart.height = '200px';
     }
     // else if (roleName == 'Collector') {
     //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
@@ -1526,7 +1653,7 @@ export class PriceEvaluationComponent {
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
       var RPType = 'Division';
-      this.chartOptions.chart.height = '300';
+      this.chartOptions1.chart.height = '300';
     }
    
     this.api
@@ -1564,7 +1691,7 @@ export class PriceEvaluationComponent {
             }
           );
 
-          this.chartOptions.series = [
+          this.chartOptions1.series = [
             {
               name: 'Numbers of Works',
               data: noofWorks,
@@ -1573,7 +1700,8 @@ export class PriceEvaluationComponent {
             {
               name: 'Un Paid (in Cr)',
               data: unpaidcr,
-              color: 'rgb(0, 143, 251)',
+              color: 'rgb(0, 227, 150)',
+              // color: 'rgb(0, 143, 251)',
             },
             // {
             //   name: 'Total Value in Cr',
@@ -1611,8 +1739,8 @@ export class PriceEvaluationComponent {
             // },
             // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
           ];
-          this.chartOptions.xaxis = { categories: name };
-          this.cO = this.chartOptions;
+          this.chartOptions1.xaxis = { categories: name };
+          this.cO = this.chartOptions1;
           this.cdr.detectChanges();
 
           this.spinner.hide();
@@ -1628,7 +1756,7 @@ export class PriceEvaluationComponent {
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       var RPType = 'Scheme';
-      this.chartOptions2.chart.height = '200px';
+      this.chartOptionss.chart.height = '200px';
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
     }
@@ -1644,7 +1772,7 @@ export class PriceEvaluationComponent {
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
       var RPType = 'Scheme';
-      this.chartOptions2.chart.height = '500';
+      this.chartOptionss.chart.height = '500';
     }
     this.api
       .GETUnPaidSummary(
@@ -1681,7 +1809,7 @@ export class PriceEvaluationComponent {
             }
           );
 
-          this.chartOptions2.series = [
+          this.chartOptionss.series = [
             {
               name: 'Numbers of Works',
               data: noofWorks,
@@ -1690,7 +1818,8 @@ export class PriceEvaluationComponent {
             {
               name: 'Un Paid (in Cr)',
               data: unpaidcr,
-              color: 'rgb(0, 143, 251)',
+              color: 'rgb(0, 227, 150)',
+              // color: 'rgb(0, 143, 251)',
             },
             // {
             //   name: 'Total Value in Cr',
@@ -1727,8 +1856,8 @@ export class PriceEvaluationComponent {
             // },
             // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
           ];
-          this.chartOptions2.xaxis = { categories: name };
-          this.cO = this.chartOptions2;
+          this.chartOptionss.xaxis = { categories: name };
+          this.cO = this.chartOptionss;
           this.cdr.detectChanges();
 
           this.spinner.hide();
@@ -1744,7 +1873,7 @@ export class PriceEvaluationComponent {
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       var RPType = 'Designation';
-      this.chartOptionsLine.chart.height = '200px';
+      this.chartOptionsLine1.chart.height = '200px';
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
     }
@@ -1760,7 +1889,7 @@ export class PriceEvaluationComponent {
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
       var RPType = 'Designation';
-      this.chartOptionsLine.chart.height = 'auto';
+      this.chartOptionsLine1.chart.height = 'auto';
     }
   
     // UnPaidSummary?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
@@ -1799,7 +1928,7 @@ export class PriceEvaluationComponent {
             }
           );
 
-          this.chartOptionsLine.series = [
+          this.chartOptionsLine1.series = [
             {
               name: 'Numbers of Works',
               data: noofWorks,
@@ -1808,7 +1937,8 @@ export class PriceEvaluationComponent {
             {
               name: 'Un Paid (in Cr)',
               data: unpaidcr,
-              color: 'rgb(0, 143, 251)',
+              color: 'rgb(0, 227, 150)',
+              // color: 'rgb(0, 143, 251)',
             },
             // {
             //   name: 'Total Value in Cr',
@@ -1845,8 +1975,8 @@ export class PriceEvaluationComponent {
             // },
             // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
           ];
-          this.chartOptionsLine.xaxis = { categories: name };
-          this.cO = this.chartOptionsLine;
+          this.chartOptionsLine1.xaxis = { categories: name };
+          this.cO = this.chartOptionsLine1;
           this.cdr.detectChanges();
 
           this.spinner.hide();
@@ -1858,4 +1988,79 @@ export class PriceEvaluationComponent {
   }
   // #endregion
   // GETUnPaidSummary  GTotal,Division,Designation,Scheme
+ // data filter
+ applyTextFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource.paginator) {
+    this.dataSource.paginator.firstPage();
+  }
 }
+exportToPDF() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'letterno', dataKey: 'letterno' },
+    { title: 'head', dataKey: 'head' },
+    { title: 'district', dataKey: 'district' },
+    { title: 'division', dataKey: 'division' },
+    { title: 'workname', dataKey: 'workname' },
+    { title: 'wrokOrderDT', dataKey: 'wrokOrderDT' },
+    { title: 'billno', dataKey: 'billno' },
+    { title: 'agrbillstatus', dataKey: 'agrbillstatus' },
+    { title: 'totalamountofcontract', dataKey: 'totalamountofcontract' },
+    { title: 'grosspaid', dataKey: 'grosspaid' },
+    { title: 'totalpaidtillinlac', dataKey: 'totalpaidtillinlac' },
+    { title: 'chequeDT', dataKey: 'chequeDT' },
+    { title: 'mesurementDT', dataKey: 'mesurementDT' },
+    { title: 'worK_ID', dataKey: 'worK_ID' },
+  ];
+  const rows = this.dispatchData.map((row) => ({
+    sno: row.sno,
+    head: row.head,
+    district: row.district,
+    division: row.division,
+    workname: row.workname,
+    wrokOrderDT: row.wrokOrderDT,
+    billno: row.billno,
+    agrbillstatus: row.agrbillstatus,
+    totalamountofcontract: row.totalamountofcontract,
+    grosspaid: row.grosspaid,
+    totalpaidtillinlac: row.totalpaidtillinlac,
+    chequeDT: row.chequeDT,
+    mesurementDT: row.mesurementDT,
+    worK_ID: row.worK_ID,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('PaymentDetail.pdf');
+}
+// mat-dialog box
+openDialog() {
+  const dialogRef = this.dialog.open(this.itemDetailsModal, {
+    width: '100%',
+    height: '100%',
+    maxWidth: '100%',
+    panelClass: 'full-screen-dialog', // Optional for additional styling
+    data: {
+      /* pass any data here */
+    },
+    // width: '100%',
+    // maxWidth: '100%', // Override default maxWidth
+    // maxHeight: '100%', // Override default maxHeight
+    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+    // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log('Dialog closed');
+  });
+}
+}
+

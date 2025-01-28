@@ -1,1 +1,53 @@
-<p>to-be-tender works!</p>
+<div class="card shadow">
+    <div class="card-body">
+       
+        <div class="container-fluid  p-0">
+            <div class="w-100 ">
+                <h3 class=" bold text-light bg-dark">To be Tender</h3>
+              </div>
+          <div class="row p-2">
+            <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="TobetenderGTotal.length > 0">
+              <div class="chart-container">
+                <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
+                  [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
+                  [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke"
+                  [fill]="chartOptionsLine.fill" [yaxis]="chartOptionsLine.yaxis"
+                  [title]="chartOptionsLine.title" [tooltip]="chartOptionsLine.tooltip"
+                  [legend]="chartOptionsLine.legend"></apx-chart>
+
+
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="TobetenderProgress.length > 0">
+              <div class="chart-container">
+                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                  [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                  [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke" [fill]="chartOptions.fill"
+                  [yaxis]="chartOptions.yaxis" [title]="chartOptions.title" [tooltip]="chartOptions.tooltip"
+                  [legend]="chartOptions.legend"></apx-chart>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PriceEvaluationScheme.length > 0">
+              <div class="chart-container">
+                <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
+                  [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
+                  [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke" [fill]="chartOptions2.fill"
+                  [yaxis]="chartOptions2.yaxis" [title]="chartOptions2.title" [tooltip]="chartOptions2.tooltip"
+                  [legend]="chartOptions2.legend"></apx-chart>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PriceEvaluationDistrict.length > 0">
+              <div class="chart-container">
+                <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
+                  [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
+                  [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
+                  [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title"
+                  [tooltip]="chartOptionsLine.tooltip" [legend]="chartOptionsLine.legend"></apx-chart>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      </div>
