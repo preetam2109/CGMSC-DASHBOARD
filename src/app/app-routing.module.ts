@@ -95,6 +95,7 @@ import { LiveTenderComponent } from './component/Infrastructure-Components/live-
 import { TenderEvaluationComponent } from './component/Infrastructure-Components/tender-evaluation/tender-evaluation.component';
 import { PriceEvaluationComponent } from './component/Infrastructure-Components/price-evaluation/price-evaluation.component';
 import { ToBeTenderComponent } from './component/Infrastructure-Components/to-be-tender/to-be-tender.component';
+import { CgmscFieldStockComponent } from './cgmsc-field-stock/cgmsc-field-stock.component';
 
 
 
@@ -210,6 +211,7 @@ const routes: Routes = [
 
 {path:'DistDHSStock',component:DistDHSStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
 {path:'Devlivery',component:DeliveryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
+{path:'field-stock',component:CgmscFieldStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
 
 
 

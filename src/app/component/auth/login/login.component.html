@@ -313,46 +313,36 @@ aria-hidden="true">
     <!-- map  -->
     
       <div class="col-lg-4 col-md-12 col-12 p-3">
-        <div class="card-header bg-success text-white">
-          <strong>Transportation of Medicine </strong>
-          <button class="btn btn-success btn-sm" [ngClass]="{'Active': days === 0}"  (click)="fetchActualDropInfo(0)" >Today</button>
-          <button class="btn btn-success btn-sm"  [ngClass]="{'Active': days === 1}" (click)="fetchActualDropInfo(1)">Yesterday</button>
-          <button class="btn btn-success btn-sm"  [ngClass]="{'Active': days === 7}" (click)="fetchActualDropInfo(7)">Last 7 Days</button>
+        <div class="card border-white shadow rounded-3">
+          <div class="card-header bg-success text-white rounded-top">
+            <strong>Transportation of Medicine </strong>
+            <button class="btn btn-success btn-sm" [ngClass]="{'Active': days === 0}"
+              (click)="fetchActualDropInfo(0)">Today</button>
+            <button class="btn btn-success btn-sm" [ngClass]="{'Active': days === 1}"
+              (click)="fetchActualDropInfo(1)">Yesterday</button>
+            <button class="btn btn-success btn-sm" [ngClass]="{'Active': days === 7}" (click)="fetchActualDropInfo(7)">Last 7
+              Days</button>
+          </div>
+          <div class="card-body">
+      
+            <google-map height="500px" width="100%" [center]="{lat: 21.2785, lng: 81.866}"> <!-- Center on Chhattisgarh -->
+              <map-marker *ngFor="let warehouse of dropInfo" [position]="warehouse.position" [title]="warehouse.facilityname"
+                [icon]="hospitalIcon" #marker="mapMarker" (mapClick)="onMarkerClick(warehouse, marker)"></map-marker>
+      
+              <map-info-window>
+                <h3>{{ selectedWarehouse?.facilityname }}</h3>
+                <!-- <p><strong>Facility :</strong> {{ selectedWarehouse?.facilityname }}</p> -->
+                <p><strong>Indent Date:</strong> {{ selectedWarehouse?.indDT }}</p>
+                <p><strong>Delivered On:</strong> {{ selectedWarehouse?.dropdate }}</p>
+                <p><strong>Vehicle No:</strong> {{ selectedWarehouse?.vehicalno }}</p>
+                <p data-bs-toggle="modal" data-bs-target="#itemDetailsModal" (click)="getItemDetails()">
+                  <strong>No of Items:</strong> {{ selectedWarehouse?.nositems }}
+                </p>
+      
+              </map-info-window>
+            </google-map>
+          </div>
         </div>
-        <google-map 
-        height="500px"
-        width="100%"
-        
-        [center]="{lat: 21.2785, lng: 81.866}">  <!-- Center on Chhattisgarh -->
-        <map-marker
-          *ngFor="let warehouse of dropInfo"
-          [position]="warehouse.position"
-          [title]="warehouse.facilityname"
-          [icon]="hospitalIcon"
-          #marker="mapMarker"
-          (mapClick)="onMarkerClick(warehouse, marker)"
-        ></map-marker>
-      
-            <map-info-window>
-              <h3>{{ selectedWarehouse?.facilityname }}</h3>
-              <!-- <p><strong>Facility :</strong> {{ selectedWarehouse?.facilityname }}</p> -->
-              <p><strong>Indent Date:</strong> {{ selectedWarehouse?.indDT }}</p>
-              <p><strong>Delivered On:</strong> {{ selectedWarehouse?.dropdate  }}</p>
-              <p><strong>Vehicle No:</strong> {{ selectedWarehouse?.vehicalno }}</p>
-              <p 
-        data-bs-toggle="modal" 
-        data-bs-target="#itemDetailsModal"
-        (click)="getItemDetails()">
-        <strong>No of Items:</strong> {{ selectedWarehouse?.nositems }}
-      </p>
-              
-            </map-info-window>
-          </google-map>
-      
-  
-      
-  
-  
       </div>
       
 

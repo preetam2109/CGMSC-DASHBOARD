@@ -22,3 +22,18 @@ export class Last7DaysReceipt{
         receiptDT!: string;
         rvalue!: number;
 }
+
+export class POCountCFY{
+    id!: number;
+    totalpoitems!: number;
+    dhspoitems!: number;
+    dhspovalue!: number;
+    dhsrecvalue!: number;
+    dmepoitems!: number;
+    dmepovalue!: number;
+    dmerecvalue!: number;
+    totalpovalue!: number;
+    totalrecvalue!: number;
+    accyrsetid!: number;
+    shaccyear!: string;
+}

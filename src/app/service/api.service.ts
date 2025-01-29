@@ -108,7 +108,13 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst, Last7DaysIssue, Last7DaysReceipt } from '../Model/DashCards';
+import { DeliveryInMonthconst, Last7DaysIssue, Last7DaysReceipt, POCountCFY } from '../Model/DashCards';
+import { MasIndentitems } from '../Model/MasIndentitems';
+import { MasfacilityInfo } from '../Model/MasfacilityInfo';
+import { Masitems } from '../Model/Masitems';
+import { getItemDetailsWithHOD } from '../Model/ItemDetailsWithHod';
+import { DHSDMEStock } from '../Model/DHSDmeStock';
+import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuanceCoonsumptionm';
 
 
 
@@ -915,6 +921,41 @@ Last7DaysIssue(days:any,mcid:any,yrid:any){
 Last7DaysReceipt(days:any,mcid:any,yrid:any){
   return this.http.get<Last7DaysReceipt[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysReceipt?days=${days}&mcid=${mcid}&yrid=${yrid}`);
 }
+
+MasIndentitems(mcid:any,yearid:any){
+  return this.http.get<MasIndentitems[]>(`${this.CGMSCHO_API2}/DashboardHome/MasIndentitems?mcid=${mcid}&yearid=${yearid}`);
+}
+MasfacilityInfo(hod:any,disid:any,factypeid:any,whid:any,facid:any){
+  return this.http.get<MasfacilityInfo[]>(`${this.CGMSCHO_API2}/Master/MasfacilityInfo?hod=${hod}&disid=${disid}&factypeid=${factypeid}&whid=${whid}&facid=${facid}`);
+}
+
+Masitems(itemid:any,mcid:any,edl:any,groupid:any,itemtypeid:any,edlcat:any){
+  return this.http.get<Masitems[]>(`${this.CGMSCHO_API2}/Master/Masitems?itemid=${itemid}&mcid=${mcid}&edl=${edl}&groupid=${groupid}&itemtypeid=${itemtypeid}&edlcat=${edlcat}`);
+}
+
+getItemDetailsWithHOD(mcid:any,itemid:any,groupid:any,itemtypeid:any,edlcat:any,edltype:any,yearid:any,dhsai:any,dmai:any,totalai:any,redycnt:any,uqccnt:any,pipelinecnt:any,rccnt:any,whid:any){
+  return this.http.get<getItemDetailsWithHOD[]>(`${this.CGMSCHO_API2}/HO/getItemDetailsWithHOD?mcid=${mcid}&itemid=${itemid}&groupid=${groupid}&itemtypeid=${itemtypeid}&edltype=${edltype}&edlcat=${edlcat}&yearid=${yearid}&dhsai=${dhsai}&dmai=${dmai}&totalai=${totalai}&redycnt=${redycnt}&uqccnt=${uqccnt}&pipelinecnt=${pipelinecnt}&rccnt=${rccnt}&whid=${whid}`);
+}
+
+getDhsDmeStock(hodid:any,itemid:any,distid:any,facilityid:any,userid:any,coll_cmho:any,whid:any){
+  return this.http.get<DHSDMEStock[]>(`${this.CGMSCHO_API2}/HO/getDhsDmeStock?itemid=${itemid}&hodid=${hodid}&whid=${whid}&distid=${distid}&facilityid=${facilityid}&userid=${userid}&coll_cmho=${coll_cmho}`);
+}
+
+getfacwiseSTockIssuanceCoonsumptionm(hodid:any,itemid:any,distid:any,userid:any,coll_cmho:any){
+  return this.http.get<facwiseSTockIssuanceCoonsumptionm[]>(`${this.CGMSCHO_API2}/HO/getfacwiseSTockIssuanceCoonsumptionm?itemid=${itemid}&hodid=${hodid}&distid=${distid}&userid=${userid}&coll_cmho=${coll_cmho}`);
+}
+
+// getIssuedCFY(){
+//   return this.http.get<facwiseSTockIssuanceCoonsumptionm[]>(`${this.CGMSCHO_API2}/DashboardHome/IssuedCFY?yrid=0&mcid=0`);
+// }
+
+getPOCountCFY(yrid:any,mcid:any){
+  return this.http.get<POCountCFY[]>(`${this.CGMSCHO_API2}/DashboardHome/POCountCFY?yrid=${yrid}&mcid=${mcid}`);
+}
+getDeliveryInMonth(IndentfromDT:any,Indenttodt:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}`);
+}
+
 
 
 

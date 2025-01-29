@@ -99,9 +99,9 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
         <div class="card-body">
-          <h6 class="card-title">Orders Received</h6>
-          <h2 class="card-value">358</h2>
-          <p class="card-text">18% Higher Than Last Month</p>
+          <h6 class="card-title">No of Ordered Items</h6>
+          <h2 class="card-value">{{totalpoitems}}</h2>
+          <!-- <p class="card-text">18% Higher Than Last Month</p> -->
         </div>
       </div>
     </div>
@@ -110,9 +110,9 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
         <div class="card-body">
-          <h6 class="card-title">Delivered : This Month</h6>
-          <h2 class="card-value">865</h2>
-          <p class="card-text">21% Higher Than Last Month</p>
+          <h6 class="card-title">Droped Indent to Facility</h6>
+          <h2 class="card-value">{{dropindentid}}</h2>
+          <!-- <p class="card-text">21% Higher Than Last Month</p> -->
         </div>
       </div>
     </div>
@@ -123,7 +123,7 @@
         <div class="card-body">
           <h6 class="card-title">New Orders</h6>
           <h2 class="card-value">128</h2>
-          <p class="card-text">37% Higher Than Last Month</p>
+          <!-- <p class="card-text">37% Higher Than Last Month</p> -->
         </div>
       </div>
     </div>
@@ -133,7 +133,9 @@
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #43a0ff, #68d8ff); color: white;">
         <div class="card-body">
           <h6 class="card-title">Indent Pending At Warehouse</h6>
-          <ul class="list-unstyled">
+          <h2 class="card-value"> {{ nosIndent }}</h2>
+          <p class="card-text">No of Facility: {{ nosfac }}, No of Items: {{ nositems }}</p>
+          <!-- <ul class="list-unstyled">
               <li>
                   <span class="card-value">No of Facility: {{ nosfac }}</span>
               </li>
@@ -143,7 +145,7 @@
               <li>
                   <span class="card-value">No of Items: {{ nositems }}</span>
               </li>
-          </ul>
+          </ul> -->
           <!-- <p class="card-text">10% Higher Than Last Month</p> -->
         </div>
       </div>
@@ -193,7 +195,7 @@
           <h5 class="card-title mt-3">Recent Receipt</h5>
           <!-- <p class="card-text">Last Campaign Performance</p> -->
           <p class="card-text text-muted">
-            <!-- <small>Campaign sent 2 days ago</small> -->
+            <small>Last 7 days Receipt</small>
           </p>
         </div>
       </div>

@@ -23,13 +23,12 @@ declare var google: any;
   selector: 'app-collector-login',
   standalone: true,
   imports:[ NgSelectModule,MapMarker,MapInfoWindow,GoogleMap,SelectDropDownModule,DropdownModule,MatSelectModule,FormsModule,NgSelectModule,FormsModule,CommonModule,MatButtonModule,MatMenuModule, MatTableExporterModule,MatPaginatorModule, MatTableModule],
-
   templateUrl: './collector-login.component.html',
   styleUrl: './collector-login.component.css'
 })
 export class CollectorLoginComponent implements OnInit,AfterViewInit {
   @ViewChild('captchaInput') captchaInput: ElementRef | undefined;  // Reference to CAPTCHA input
-  @ViewChild(GoogleMap)
+  @ViewChild(GoogleMap, { static: false }) googleMap!: GoogleMap;
 
   districts :any= [];
   selectedDistrictId: any | null = null;
@@ -41,7 +40,7 @@ export class CollectorLoginComponent implements OnInit,AfterViewInit {
   pwd : any='Admin@cgmsc123';
   errorMessage="Invalid Credential";
   invalidLogin=false;
-  googleMap: GoogleMap = new GoogleMap;  // Access Google Map instance
+  // googleMap: GoogleMap = new GoogleMap;  // Access Google Map instance
   warehouseid: any;
 warehousePwd: any;
 cgmsclUserId: any;
