@@ -628,15 +628,125 @@ export class UnPaidSummary {
   unpaidcr!: number;
   avgDaySinceM!: number;
 }
+export class PaidDetails {
+  sno!: number;
+  worK_ID!: string;
+  head!: string;
+  division!: string;
+  district!: string;
+  workname!: string;
+  wrokOrderDT!: string;
+  billno!: number;
+  agrbillstatus!: string;
+  totalamountofcontract!: number;
+  grosspaid!: number;
+  mesurementDT!: string;
+  billdate!: string;
+  chequeDT!: string;
+  dayssincemeasurement!: number;
+  totalpaidtillinlac!: number;
+}
+export class UnPaidDetails {
+  sno!: number;
+  worK_ID!: string;
+  head!: string;
+  division!: string;
+  district!: string;
+  workname!: string;
+  wrokOrderDT!: string;
+  billno!: number;
+  agrbillstatus!: string;
+  totalamountofcontract!: number;
+  grossAmtNew!: number;
+  mesurementDT!: string | null;
+  billdate!: string;
+  chequeDT!: string | null;
+  dayssincemeasurement!: number;
+  totalpaidtillinlac!: number;
+  workStatus!: string;
+  engName!: string;
+  designation!: string;
+}
 
 //#endregion
 
-//#region Payment
+//#region To be Tender
 export class TenderStatus{
 
   id!: string;
   name!: string;
   nosWorks!:number;
   tValue!: number;
+  nosValue!:number;
+
+}
+export class TobeTenderDetailsAS{
+  sno!: number;
+  work_id!: string;
+  letterno!: string;
+  district!: string;
+  head!: string;
+  division!: string;
+  detailS_ENG!: string;
+  workname!: string;
+  block_Name_En!: string;
+  valueWorks!: number;
+  asDate!: string;
+  parentprogress!: string;
+  dashName!: string;
+  groupName!: string;
+  ppid!: number;
+  wocancelletterno!: string;
+  pDate!: string;
+  woCancelProposalLetterNo!: string;
+
+  
+
+}
+export class TobeTenderRejection{
+  sno!: number;
+  work_id!: string;
+  letterno!: string;
+  district!: string;
+  head!: string;
+  division!: string;
+  detailS_ENG!: string;
+  workname!: string;
+  block_Name_En!: string;
+  valueWorks!: number;
+  asDate!: string;
+  parentprogress!: string;
+  pDate!: string;
+  rejReason!: string;
+  rejectedDT!: string;
+  dashName!: string;
+  groupName!: string;
+  lastNIT!: string;
+  ppid!: number;
+  lastEprocno!: number;
+
+ 
+}
+export class TobeTenderAppliedZonalPermission{
+  sno!: number;
+  work_id!: string;
+    letterno!: string;
+    district!: string;
+    head!: string;
+    division!: string;
+    detailS_ENG!: string;
+    workname!: string;
+    block_Name_En!: string;
+    value!: number;
+    asDate!: string;
+    lProgress!: string;
+    progressDT!: string;
+    zonalType!: string;
+    nitNo!: string;
+    ppid!: number;
+    tenderID!: number;
+    apild!: number;
+
+ 
 }
 //#endregion

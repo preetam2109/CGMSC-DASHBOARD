@@ -152,7 +152,6 @@ var mainSchemeId=0;
 //   this.mainSchemeID=0;
 //   this.himisDistrictid = 0;//this.divisionid =0;
 // } 
-debugger
     this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid).subscribe(
       (res: any) => {
         // alert(JSON.stringify(res));
