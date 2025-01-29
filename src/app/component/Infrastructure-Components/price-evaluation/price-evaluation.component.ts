@@ -19,7 +19,7 @@ import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { LiveTenderdata, PaidDetails, PaidSummary, TenderDetails, UnPaidSummary } from 'src/app/Model/DashProgressCount';
+import { LiveTenderdata, PaidDetails, PaidSummary, TenderDetails, UnPaidDetails, UnPaidSummary } from 'src/app/Model/DashProgressCount';
 import { FormBuilder,FormGroup, FormsModule, ReactiveFormsModule,} from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -84,9 +84,13 @@ export class PriceEvaluationComponent {
   //#endregion
   //#region DataBase Table
   dataSource!: MatTableDataSource<PaidDetails>;
+  dataSource1!: MatTableDataSource<UnPaidDetails>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('sort1') sort1!: MatSort;
   dispatchData: PaidDetails[] = [];
+  dispatchData1: UnPaidDetails[] = [];
 
   //#endregion
   PaidSummaryTotal: PaidSummary[] = [];
@@ -115,6 +119,7 @@ export class PriceEvaluationComponent {
     private fb: FormBuilder
   ) {
     this.dataSource = new MatTableDataSource<PaidDetails>([]);
+    this.dataSource1 = new MatTableDataSource<UnPaidDetails>([]);
   }
 
   ngOnInit() {
@@ -815,7 +820,7 @@ export class PriceEvaluationComponent {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
 
-                // this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
+                // this.fetchDataBasedOnChartSelectionTotalUNP(0, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -899,7 +904,6 @@ export class PriceEvaluationComponent {
   }
   
   //#region Get API data in PaidSummary
-  // ,GTotal,Division,Scheme
   GETPaidSummaryTotal(): void {
     this.spinner.show();
     var roleName = localStorage.getItem('roleName');
@@ -1987,7 +1991,42 @@ export class PriceEvaluationComponent {
       );
   }
   // #endregion
-  // GETUnPaidSummary  GTotal,Division,Designation,Scheme
+   //#region dataTable  in UNPaidSummary
+   fetchDataBasedOnChartSelectionTotalUNP(divisionID: any,seriesName: string): void {
+    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    const mainSchemeId = 0;
+    const contractid = 0;
+    // const fromdt="01-jan-2024";
+    // const todt="01-jan-2025";
+    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.spinner.show();
+    // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid).subscribe(
+        (res) => {
+          this.dispatchData = res.map(
+            (item: PaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('PaidDetails:', res);
+          // console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSource.data = this.dispatchData;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog();
+  }
+
+  // #endregion
  // data filter
  applyTextFilter(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;

@@ -645,22 +645,27 @@ export class PaidDetails {
   chequeDT!: string;
   dayssincemeasurement!: number;
   totalpaidtillinlac!: number;
-
-  // "worK_ID": "W5800201",
-  // "head": "Old CGMSC Ltd(Dont Use)",
-  // "division": "Raipur Division",
-  // "district": "Mahasamund",
-  // "workname": "Drug Ware House Mahasamund - Repair Renovation work at Drug Ware House Mahasamund",
-  // "wrokOrderDT": "11-01-2023",
-  // "billno": 1,
-  // "agrbillstatus": "Final",
-  // "totalamountofcontract": 2.92,
-  // "grosspaid": 2.36,
-  // "mesurementDT": "25-07-2023",
-  // "billdate": "29-10-2023",
-  // "chequeDT": "01-01-2024",
-  // "dayssincemeasurement": 160,
-  // "totalpaidtillinlac": 2.36
+}
+export class UnPaidDetails {
+  sno!: number;
+  worK_ID!: string;
+  head!: string;
+  division!: string;
+  district!: string;
+  workname!: string;
+  wrokOrderDT!: string;
+  billno!: number;
+  agrbillstatus!: string;
+  totalamountofcontract!: number;
+  grossAmtNew!: number;
+  mesurementDT!: string | null;
+  billdate!: string;
+  chequeDT!: string | null;
+  dayssincemeasurement!: number;
+  totalpaidtillinlac!: number;
+  workStatus!: string;
+  engName!: string;
+  designation!: string;
 }
 
 //#endregion
@@ -674,5 +679,74 @@ export class TenderStatus{
   tValue!: number;
   nosValue!:number;
 
+}
+export class TobeTenderDetailsAS{
+  sno!: number;
+  work_id!: string;
+  letterno!: string;
+  district!: string;
+  head!: string;
+  division!: string;
+  detailS_ENG!: string;
+  workname!: string;
+  block_Name_En!: string;
+  valueWorks!: number;
+  asDate!: string;
+  parentprogress!: string;
+  dashName!: string;
+  groupName!: string;
+  ppid!: number;
+  wocancelletterno!: string;
+  pDate!: string;
+  woCancelProposalLetterNo!: string;
+
+  
+
+}
+export class TobeTenderRejection{
+  sno!: number;
+  work_id!: string;
+  letterno!: string;
+  district!: string;
+  head!: string;
+  division!: string;
+  detailS_ENG!: string;
+  workname!: string;
+  block_Name_En!: string;
+  valueWorks!: number;
+  asDate!: string;
+  parentprogress!: string;
+  pDate!: string;
+  rejReason!: string;
+  rejectedDT!: string;
+  dashName!: string;
+  groupName!: string;
+  lastNIT!: string;
+  ppid!: number;
+  lastEprocno!: number;
+
+ 
+}
+export class TobeTenderAppliedZonalPermission{
+  sno!: number;
+  work_id!: string;
+    letterno!: string;
+    district!: string;
+    head!: string;
+    division!: string;
+    detailS_ENG!: string;
+    workname!: string;
+    block_Name_En!: string;
+    value!: number;
+    asDate!: string;
+    lProgress!: string;
+    progressDT!: string;
+    zonalType!: string;
+    nitNo!: string;
+    ppid!: number;
+    tenderID!: number;
+    apild!: number;
+
+ 
 }
 //#endregion
