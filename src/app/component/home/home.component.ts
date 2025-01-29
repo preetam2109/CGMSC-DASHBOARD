@@ -24,6 +24,8 @@ export class HomeComponent {
   nosIndent: number = 0; // Default value
   nosfac: number = 0;    // Default value
   nositems: number = 0;
+  totalpoitems:any
+  dropindentid:any
 // Define an array of colors for the cards
 // colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FFC300', '#DAF7A6', '#C70039'];
 
@@ -186,10 +188,13 @@ colors = [];
     'Handover':'assets/dash-icon/hand-over.png',
     'Work Order':'assets/dash-icon/clipboard.png',
     'cgmsc-supplies':'assets/dash-icon/drugs.png',
-    'TenderEvaluation':'assets/dash-icon/check-list.png',
+    'Evaluation':'assets/dash-icon/check-list.png',
     'Progress Abstract':'assets/dash-icon/hospital.png',
     'Tender Evaluation':'assets/dash-icon/check-list.png',
     'Live Tender':'assets/dash-icon/tender.png',
+    'TO be Tender':'assets/dash-icon/project.png',
+    'Payment':'assets/dash-icon/payment.png',
+    'Search Work':'assets/dash-icon/analysis.png',
 
   };
   constructor(  private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService) {
@@ -431,10 +436,23 @@ colors = [];
     //  this.addIconsToMenu();
     debugger
     this.CGMSCIndentPending()
+    this.GetDeliveryInMonth()
+    this.GetPOCountCFY()
     this.loadData();
     this.loadData1();
     this.loadData2();
 
+
+  }
+  GetDeliveryInMonth(){
+    this.api.getDeliveryInMonth('01-Apr-2024','31-Mar-2025').subscribe((res:any)=>{
+      this.dropindentid=res[0].dropindentid
+        })
+  }
+  GetPOCountCFY(){
+    this.api.getPOCountCFY(0,1).subscribe((res:any)=>{
+  this.totalpoitems=res[0].totalpoitems
+    })
   }
   CGMSCIndentPending(){
     debugger

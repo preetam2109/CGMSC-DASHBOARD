@@ -1,0 +1,29 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h3> 
+      <!-- Chhattisgarh Medical Services Corporation Ltd. -->
+  
+    </h3>
+  </div>
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label="DHS Stock">
+      <ng-template matTabContent>
+        <app-cgmsc-field-stock-dhs *ngIf="selectedTabIndex === 0"></app-cgmsc-field-stock-dhs>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="DME Stock">
+      <ng-template matTabContent>
+        <app-cgmsc-field-stock-dme *ngIf="selectedTabIndex === 1"></app-cgmsc-field-stock-dme>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Ayush Stock">
+      <ng-template matTabContent>
+        <app-cgmsc-field-stock-ayush *ngIf="selectedTabIndex === 2"></app-cgmsc-field-stock-ayush>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+  </div>
+  
