@@ -699,9 +699,46 @@ export class TobeTenderDetailsAS{
   wocancelletterno!: string;
   pDate!: string;
   woCancelProposalLetterNo!: string;
-
-  
-
+}
+export class TobeTenderDetailsCancelled{
+  sno!: number;
+  work_id!: string;
+  letterno!: string;
+  district!: string;
+  head!: string;
+  division!: string;
+  detailS_ENG!: string;
+  workname!: string;
+  block_Name_En!: string;
+  valueWorks!: number;
+  asDate!: string;
+  parentprogress!: string;
+  dashName!: string;
+  groupName!: string;
+  ppid!: number;
+  wocancelletterno!: string;
+  pDate!: string;
+  woCancelProposalLetterNo!: string;
+}
+export class TobeTenderDetailsProposedCancelled{
+  sno!: number;
+  work_id!: string;
+  letterno!: string;
+  district!: string;
+  head!: string;
+  division!: string;
+  detailS_ENG!: string;
+  workname!: string;
+  block_Name_En!: string;
+  valueWorks!: number;
+  asDate!: string;
+  parentprogress!: string;
+  dashName!: string;
+  groupName!: string;
+  ppid!: number;
+  wocancelletterno!: string;
+  pDate!: string;
+  woCancelProposalLetterNo!: string;
 }
 export class TobeTenderRejection{
   sno!: number;
@@ -724,6 +761,8 @@ export class TobeTenderRejection{
   lastNIT!: string;
   ppid!: number;
   lastEprocno!: number;
+
+  
 
  
 }
@@ -748,5 +787,51 @@ export class TobeTenderAppliedZonalPermission{
     apild!: number;
 
  
+}
+//#endregion
+//#region
+
+export class ASPendingDetails{
+  sno!: number;
+  asid!: number;
+  login_name!: string;
+  head!: string;
+  letterno!: string;
+  asDate!: string;
+  totalWorks!: string;
+  enteredWorks!: number;
+  baltobeEnter!: number;
+  totalASAmt!: number;
+  enteredTotalAS!: number;
+  balanceASAmount!: number;
+}
+export class ASCompletedDetails{
+  sno!: number;
+  asid!: number;
+  login_name!: string;
+  head!: string;
+  letterno!: string;
+  asDate!: string;
+  totalWorks!: string;
+  enteredWorks!: number;
+  baltobeEnter!: number;
+  totalASAmt!: number;
+  enteredTotalAS!: number;
+  balanceASAmount!: number;
+}
+export class DivisionWiseASPendingDetails{
+  sno!: number;
+  id!: string;
+  divisionID!: string;
+  division!: string;
+  login_name!: string;
+  head!: string;
+  letterno!: string;
+  asDate!: string;
+  asid!: number;
+  totalWorks!: number;
+  enteredWorks!: number;
+  balanceWork!: number;
+
 }
 //#endregion
