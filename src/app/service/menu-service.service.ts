@@ -102,15 +102,19 @@ export class MenuServiceService {
           { label: 'Reagent Issue', route: '/ReagentIssue' },
         ],
         Infrastructure: [
-          { label: 'Verticals', route: '/home' },
+          { label: 'Home', route: '/home' },
           // { label: 'Home', route: 'InfrastructureHome' },
           // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
           // { label: 'SearchingWork', route: 'SearchingWork' },
           // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
-          { label: 'Work Abstract ', route: 'InfrastructureHome' },
+
+          { label: 'Work Abstract', route: 'InfrastructureHome' },
+
+        
         { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+
 
           { label: 'Live Tender', route: 'LiveTender' },
           { label: ' Evaluation', route: 'TenderEvaluation' },

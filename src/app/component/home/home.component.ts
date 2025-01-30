@@ -26,6 +26,8 @@ export class HomeComponent {
   nositems: number = 0;
   totalpoitems:any
   dropindentid:any
+  roleName = localStorage.getItem('roleName')
+
 // Define an array of colors for the cards
 // colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FFC300', '#DAF7A6', '#C70039'];
 
