@@ -834,4 +834,21 @@ export class DivisionWiseASPendingDetails{
   balanceWork!: number;
 
 }
+export class ASEnteredDetails{
+  sno!: number;
+  work_id!: string;
+  division!: string;
+  district!: string;
+  block_Name_En!: string;
+  login_name!: string;
+  head!: string;
+  letterno!: string;
+  asDate!: string;
+  workname!: string;
+  asAmt!: string;
+  asid!: number;
+
+
+
+}
 //#endregion
