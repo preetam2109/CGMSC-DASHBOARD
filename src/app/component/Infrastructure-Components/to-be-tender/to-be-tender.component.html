@@ -48,12 +48,11 @@
           </div> -->
         </div>
 
-
-        <div class="mt-1 p-2"   *ngIf="Visible">
+<!-- Administrative Sanction - 1 -->
+     <div class="mt-1 p-2"   *ngIf="Visible">
     
           <div class="w-100 p-0 m-0" style="background-color:#050382">
-            <!--#e2e3e5 *ngIf="AEDistrictEngAllotedWorks.length > 0"-->
-            <h3 class="bold text-light">{{name}}(To be Tender)</h3>
+            <h3 class="bold text-light">To be Tender: {{name}}</h3>
           </div>
         
           <div class="row card shadow card-body" >
@@ -77,13 +76,11 @@
               <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
                 [dataSource]="dataSource" #exporter="matTableExporter"  matSort #sort="matSort">
         
-                <!-- Serial Number Column -->
                 <ng-container matColumnDef="sno">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
                   <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
                 </ng-container>
         
-                <!-- nocnumber Column -->
                 <ng-container matColumnDef="head">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
                   <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
@@ -93,7 +90,6 @@
                   <td mat-cell *matCellDef="let element"> {{ element.division}} </td>
                 </ng-container>
         
-                <!-- warehousename Column -->
                 <ng-container matColumnDef="district">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>District </th>
                   <td mat-cell *matCellDef="let element"> {{ element.district}} </td>
@@ -103,69 +99,386 @@
                   <td mat-cell *matCellDef="let element"> {{ element.block_Name_En}} </td>
                 </ng-container>
                 <ng-container matColumnDef="letterno">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Letter NO.</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO.</th>
                   <td mat-cell *matCellDef="let element"> {{ element.letterno}} </td>
                 </ng-container>
         
-                <!-- facilityname Column -->
                 <ng-container matColumnDef="detailS_ENG">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>DetailS</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Health Center</th>
                   <td mat-cell *matCellDef="let element"> {{ element.detailS_ENG}} </td>
                 </ng-container>
         
-                <!-- nositems Column -->
                 <ng-container matColumnDef="workname">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
                   <td mat-cell *matCellDef="let element"> {{ element.workname }} </td>
                 </ng-container>
         
-                <!-- inddt Column -->
                 <ng-container matColumnDef="valueWorks">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Value of Works(In Cr)</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount (In Lacs)</th>
                   <td mat-cell *matCellDef="let element"> {{ element.valueWorks}} </td>
                 </ng-container>
         
-                <!-- pendingday Column -->
                 <ng-container matColumnDef="asDate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>AS DT</th>
                   <td mat-cell *matCellDef="let element"> {{ element.asDate }} </td>
                 </ng-container>
-                <ng-container matColumnDef="parentprogress">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Parent Progress</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.parentprogress}} </td>
-                </ng-container>
-                <ng-container matColumnDef="dashName">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Dash</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.dashName }} </td>
-                </ng-container>
-                <ng-container matColumnDef="groupName">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Group</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.groupName}} </td>
-                </ng-container>
+               
                 <ng-container matColumnDef="work_id">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
                   <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
                 </ng-container>
-                <!-- Header Row -->
                 <tr mat-header-row
-                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'parentprogress','dashName','groupName','work_id']">
+                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','work_id']">
                 </tr>
         
-                <!-- Data Rows -->
                 <tr mat-row
-                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'parentprogress','dashName','groupName','work_id']">
+                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','work_id']">
                 </tr>
         
               </table>
               <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
             </div>
           </div>
+        </div> 
+<!--To be Tender:Work Order/Acceptance Cancelled 19 -->
+        <div class="mt-1 p-2"   *ngIf="VisibleCAN">
+    
+          <div class="w-100 p-0 m-0" style="background-color:#050382">
+            <h3 class="bold text-light">To be Tender: {{name}}</h3>
+          </div>
+        
+          <div class="row card shadow card-body" >
+            <div class="d-flex justify-content-between align-items-center mb-0">
+              <div class="filter-field flex-grow-1">
+                <input type="text" class="form-control" placeholder="Filter" (keyup)="CANapplyTextFilter($event)">
+              </div>
+              <div class="export-menu-container">
+                <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                <mat-menu #exportMenu="matMenu">
+                  <button mat-menu-item
+                    (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                  <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                  <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                  <button mat-menu-item (click)="CANexportToPDF()">PDF</button>
+                </mat-menu>
+              </div>
+            </div>
+            <div class="table-responsive ">
+              <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+                [dataSource]="dataSourceCancelled" #exporter="matTableExporter"  matSort #sort3="matSort">
+        
+                <!-- <ng-container matColumnDef="sno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                </ng-container>
+                <ng-container matColumnDef="head">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
+                </ng-container>
+                <ng-container matColumnDef="division">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.division}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="district">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>District </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.district}} </td>
+                </ng-container>
+                <ng-container matColumnDef="block_Name_En">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.block_Name_En}} </td>
+                </ng-container>
+                <ng-container matColumnDef="letterno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO.</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.letterno}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="detailS_ENG">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Health Center</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.detailS_ENG}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="workname">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.workname }} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="valueWorks">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount (In Lacs)</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.valueWorks}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="asDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>AS DT</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.asDate }} </td>
+                </ng-container>
+                <ng-container matColumnDef="woCancelProposalLetterNo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Proposed Letter No</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.woCancelProposalLetterNo }} </td>
+                </ng-container> -->
+                  <ng-container matColumnDef="sno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="head">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="division">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.division}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="district">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>District </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.district}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="block_Name_En">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.block_Name_En}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="letterno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO.</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.letterno}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="detailS_ENG">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Health Center</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.detailS_ENG}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="workname">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.workname }} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="valueWorks">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount (In Lacs)</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.valueWorks}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="asDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>AS DT</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.asDate }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="woCancelProposalLetterNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Proposed Letter No</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.woCancelProposalLetterNo }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="wocancelletterno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cancelled LetterNo_HO</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.wocancelletterno}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="pDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cancelled DT</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.pDate}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="work_id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
+                  </ng-container>
+                  <tr mat-header-row
+                    *matHeaderRowDef="['sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id']">
+                  </tr>
+          
+                  <tr mat-row
+                    *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id']">
+                  </tr>
+              </table>
+              <mat-paginator #paginatorcan [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+            </div>
+          </div>
         </div>
+<!--To be Tender:Work Order/Acceptance Cancelled 34 -->
 
+        <div class="mt-1 p-2"   *ngIf="VisiblePROCAN">
+    
+          <div class="w-100 p-0 m-0" style="background-color:#050382">
+            <h3 class="bold text-light">To be Tender: {{name}}</h3>
+          </div>
+        
+          <div class="row card shadow card-body" >
+            <div class="d-flex justify-content-between align-items-center mb-0">
+              <div class="filter-field flex-grow-1">
+                <input type="text" class="form-control" placeholder="Filter" (keyup)="CANapplyTextFilter($event)">
+              </div>
+              <div class="export-menu-container">
+                <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                <mat-menu #exportMenu="matMenu">
+                  <button mat-menu-item
+                    (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                  <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                  <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                  <button mat-menu-item (click)="CANexportToPDF()">PDF</button>
+                </mat-menu>
+              </div>
+            </div>
+            <div class="table-responsive ">
+              <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+                [dataSource]="dataSourceProposedCancelled" #exporter="matTableExporter"  matSort #sort4="matSort">
+                  <ng-container matColumnDef="sno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="head">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="division">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.division}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="district">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>District </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.district}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="block_Name_En">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.block_Name_En}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="letterno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO.</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.letterno}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="detailS_ENG">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Health Center</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.detailS_ENG}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="workname">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.workname }} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="valueWorks">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount (In Lacs)</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.valueWorks}} </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="asDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>AS DT</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.asDate }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="woCancelProposalLetterNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Proposed Letter No</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.woCancelProposalLetterNo }} </td>
+                  </ng-container>
+                  <!-- <ng-container matColumnDef="wocancelletterno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Proposed Let No</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.wocancelletterno}} </td>
+                  </ng-container> -->
+                  <ng-container matColumnDef="pDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Proposed DT</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.pDate}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="work_id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
+                  </ng-container>
+                  <!-- <tr mat-header-row
+                    *matHeaderRowDef="['sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id']">
+                  </tr>
+          
+                  <tr mat-row
+                    *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id']">
+                  </tr> -->
+    
+    
+                  <tr mat-header-row
+                    *matHeaderRowDef="['sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','pDate','work_id']">
+                  </tr>
+          
+                  <tr mat-row
+                    *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','pDate','work_id']">
+                  </tr>
+            <!-- <ng-template #CancelledID34>
+              <ng-container matColumnDef="sno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+              </ng-container>
+              <ng-container matColumnDef="head">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+                <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
+              </ng-container>
+              <ng-container matColumnDef="division">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+                <td mat-cell *matCellDef="let element"> {{ element.division}} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="district">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>District </th>
+                <td mat-cell *matCellDef="let element"> {{ element.district}} </td>
+              </ng-container>
+              <ng-container matColumnDef="block_Name_En">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+                <td mat-cell *matCellDef="let element"> {{ element.block_Name_En}} </td>
+              </ng-container>
+              <ng-container matColumnDef="letterno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO.</th>
+                <td mat-cell *matCellDef="let element"> {{ element.letterno}} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="detailS_ENG">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Health Center</th>
+                <td mat-cell *matCellDef="let element"> {{ element.detailS_ENG}} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="workname">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+                <td mat-cell *matCellDef="let element"> {{ element.workname }} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="valueWorks">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount (In Lacs)</th>
+                <td mat-cell *matCellDef="let element"> {{ element.valueWorks}} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="asDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>AS DT</th>
+                <td mat-cell *matCellDef="let element"> {{ element.asDate }} </td>
+              </ng-container>
+              <ng-container matColumnDef="woCancelProposalLetterNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Proposed Letter No</th>
+                <td mat-cell *matCellDef="let element"> {{ element.woCancelProposalLetterNo }} </td>
+              </ng-container>
+              <ng-container matColumnDef="wocancelletterno">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Proposed Let No</th>
+                <td mat-cell *matCellDef="let element"> {{ element.wocancelletterno}} </td>
+              </ng-container>
+              <ng-container matColumnDef="pDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Proposed DT</th>
+                <td mat-cell *matCellDef="let element"> {{ element.pDate}} </td>
+              </ng-container>
+              <ng-container matColumnDef="work_id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+                <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
+              </ng-container>
+              <tr mat-header-row
+                *matHeaderRowDef="['sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id']">
+              </tr>
+      
+              <tr mat-row
+                *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id']">
+              </tr>
+
+
+            </ng-template> -->
+
+
+              </table>
+              <mat-paginator #paginatorProcan [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+            </div>
+          </div>
+        </div>
+<!-- To be Tender: Rejected/To be Tender 23 -->
         <div class="p-2" *ngIf="isVisible" >
           <div class="w-100 " style="background-color:#050382">
             <!--#e2e3e5 style="background-color:#858681" *ngIf="sbuDistrictEngAllotedWorks.length > 0"-->
-            <h3 class="bold text-light">{{name}}(To be Tender)</h3>
+            <h3 class="bold text-light">To be Tender: {{name}}</h3>
           </div>
           <div class="row card shadow card-body mt-3" >
             <div class="d-flex justify-content-between align-items-center mb-0">
@@ -220,7 +533,7 @@
         
                 <!-- facilityname Column -->
                 <ng-container matColumnDef="detailS_ENG">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>DetailS</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Health Center</th>
                   <td mat-cell *matCellDef="let element"> {{ element.detailS_ENG}} </td>
                 </ng-container>
         
@@ -232,7 +545,7 @@
         
                 <!-- inddt Column -->
                 <ng-container matColumnDef="valueWorks">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Value of Works(In Cr)</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount (In Lacs)</th>
                   <td mat-cell *matCellDef="let element"> {{ element.valueWorks}} </td>
                 </ng-container>
         
@@ -241,17 +554,21 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>AS DT</th>
                   <td mat-cell *matCellDef="let element"> {{ element.asDate }} </td>
                 </ng-container>
-                <ng-container matColumnDef="parentprogress">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Parent Progress</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.parentprogress}} </td>
+                <ng-container matColumnDef="lastNIT">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Last NIT NO</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.lastNIT}} </td>
                 </ng-container>
-                <ng-container matColumnDef="dashName">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Dash</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.dashName }} </td>
+                <ng-container matColumnDef="lastEprocno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Eproc NO</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.lastEprocno }} </td>
                 </ng-container>
-                <ng-container matColumnDef="groupName">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Group</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.groupName}} </td>
+                <ng-container matColumnDef="rejReason">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Reason</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.rejReason}} </td>
+                </ng-container>
+                <ng-container matColumnDef="rejectedDT">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Rejected DT</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.rejectedDT}} </td>
                 </ng-container>
                 <ng-container matColumnDef="work_id">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
@@ -259,12 +576,12 @@
                 </ng-container>
                 <!-- Header Row -->
                 <tr mat-header-row
-                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'parentprogress','dashName','groupName','work_id']">
+                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'lastNIT','lastEprocno','rejReason','rejectedDT','work_id']">
                 </tr>
         
                 <!-- Data Rows -->
                 <tr mat-row
-                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'parentprogress','dashName','groupName','work_id']">
+                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'lastNIT','lastEprocno','rejReason','rejectedDT','work_id']">
                 </tr>
               </table>
               <!-- <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
@@ -272,11 +589,11 @@
             </div>
           </div>
         </div>
-
+<!-- To be Tender:Applied for Zonal Permission 25 -->
         <div class="p-2" *ngIf="onVisible">
           <div class="w-100 " style="background-color:#050382">
             <!--#e2e3e5 style="background-color:#858681" *ngIf="sbuDistrictEngAllotedWorks.length > 0"-->
-            <h3 class="bold text-light ">{{name}}(To be Tender)</h3>
+            <h3 class="bold text-light ">To be Tender: {{name}}</h3>
           </div>
           <div class="row card shadow card-body mt-3" >
             <div class="d-flex justify-content-between align-items-center mb-0">
@@ -291,7 +608,7 @@
                   <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                   <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                   <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-                  <button mat-menu-item (click)="SexportToPDF()">PDF</button>
+                  <button mat-menu-item (click)="ZexportToPDF()">PDF</button>
                 </mat-menu>
               </div>
             </div>
@@ -331,7 +648,7 @@
         
                 <!-- facilityname Column -->
                 <ng-container matColumnDef="detailS_ENG">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>DetailS</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Health Center</th>
                   <td mat-cell *matCellDef="let element"> {{ element.detailS_ENG}} </td>
                 </ng-container>
         
@@ -342,9 +659,9 @@
                 </ng-container>
         
                 <!-- inddt Column -->
-                <ng-container matColumnDef="valueWorks">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Value of Works(In Cr)</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.valueWorks}} </td>
+                <ng-container matColumnDef="value">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Amount (In Lacs)</th>
+                  <td mat-cell *matCellDef="let element">{{ element.value}} </td>
                 </ng-container>
         
                 <!-- pendingday Column -->
@@ -352,17 +669,17 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>AS DT</th>
                   <td mat-cell *matCellDef="let element"> {{ element.asDate }} </td>
                 </ng-container>
-                <ng-container matColumnDef="parentprogress">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Parent Progress</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.parentprogress}} </td>
+                <ng-container matColumnDef="progressDT">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied DT</th>
+                  <td mat-cell *matCellDef="let element">{{element.progressDT}} </td>
                 </ng-container>
-                <ng-container matColumnDef="dashName">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Dash</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.dashName }} </td>
+                <ng-container matColumnDef="zonalType">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Zonal Type</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.zonalType }} </td>
                 </ng-container>
-                <ng-container matColumnDef="groupName">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Group</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.groupName}} </td>
+                <ng-container matColumnDef="nitNo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Nit No</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.nitNo}} </td>
                 </ng-container>
                 <ng-container matColumnDef="work_id">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
@@ -370,15 +687,14 @@
                 </ng-container>
                 <!-- Header Row -->
                 <tr mat-header-row
-                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'parentprogress','dashName','groupName','work_id']">
+                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','value','asDate' ,'progressDT','zonalType','nitNo','work_id']">
                 </tr>
         
                 <!-- Data Rows -->
                 <tr mat-row
-                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'parentprogress','dashName','groupName','work_id']">
+                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','value','asDate' ,'progressDT','zonalType','nitNo','work_id']">
                 </tr>
               </table>
-              <!-- <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
               <mat-paginator #paginator1 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
             </div>
           </div>

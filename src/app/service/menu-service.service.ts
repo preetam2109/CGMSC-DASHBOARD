@@ -109,14 +109,20 @@ export class MenuServiceService {
           // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
+
           { label: 'Work Abstract', route: 'InfrastructureHome' },
+
+        
+        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+
+
           { label: 'Live Tender', route: 'LiveTender' },
           { label: ' Evaluation', route: 'TenderEvaluation' },
-          { label: 'TO be Tender', route: 'ToBeTender' },
+          { label: 'To be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
-          { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+          { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
           { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
@@ -162,7 +168,7 @@ export class MenuServiceService {
           // // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // // { label: 'DivisionProgress', route: 'DivisionProgress' },
           // { label: 'Search Work', route: 'SearchingWork' },
-          // { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          // { label: 'Work Abstract ', route: 'InfrastructureHome' },
           // { label: 'Live Tender', route: 'LiveTender' },
 
           // { label: 'District-wise Progress', route: 'DashProgressIstCount' },
@@ -173,7 +179,7 @@ export class MenuServiceService {
 
           // { label: 'Handover', route: 'Handover' },
           // { label: 'Engineer-Works', route: 'EngineerWorks' },
-          // { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+          // { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
           { label: 'Verticals', route: '/home' },
           // { label: 'Home', route: 'InfrastructureHome' },
@@ -182,14 +188,14 @@ export class MenuServiceService {
           // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
-          { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          { label: 'Work Abstract ', route: 'InfrastructureHome' },
           { label: 'Live Tender', route: 'LiveTender' },
           { label: 'Evaluation', route: 'TenderEvaluation' },
-          { label: 'TO be Tender', route: 'ToBeTender' },
+          { label: 'To be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
-          { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+          { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
           { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
@@ -251,14 +257,16 @@ export class MenuServiceService {
           // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
-          { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          { label: 'Work Abstract ', route: 'InfrastructureHome' },
+        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+
           { label: 'Live Tender', route: 'LiveTender' },
           { label: 'Evaluation', route: 'TenderEvaluation' },
-          { label: 'TO be Tender', route: 'ToBeTender' },
+          { label: 'To be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
-          { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+          { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
           { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
@@ -274,7 +282,7 @@ export class MenuServiceService {
           // // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // // { label: 'DivisionProgress', route: 'DivisionProgress' }
           // { label: 'Search Work', route: 'SearchingWork' },
-          // { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          // { label: 'Work Abstract ', route: 'InfrastructureHome' },
           // { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
           // // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
@@ -284,7 +292,7 @@ export class MenuServiceService {
 
           // { label: 'Handover', route: 'Handover' },
           // { label: 'Engineer-Works', route: 'EngineerWorks' },
-          // { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+          // { label: 'Technical Sanction', route: 'TechnicalSanction' },
         ],
       },
     },
@@ -304,14 +312,16 @@ export class MenuServiceService {
           // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
-          { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          { label: 'Work Abstract ', route: 'InfrastructureHome' },
+        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+
           { label: 'Live Tender', route: 'LiveTender' },
           { label: 'Evaluation', route: 'TenderEvaluation' },
-          { label: 'TO be Tender', route: 'ToBeTender' },
+          { label: 'To be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
           { label: 'Land Issue', route: 'LandIssue' },
-          { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+          { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
           { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
@@ -327,7 +337,7 @@ export class MenuServiceService {
           // // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // // { label: 'DivisionProgress', route: 'DivisionProgress' },
           // { label: 'Search Work', route: 'SearchingWork' },
-          // { label: 'Progress Abstract', route: 'InfrastructureHome' },
+          // { label: 'Work Abstract ', route: 'InfrastructureHome' },
           // { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
           // // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
@@ -337,7 +347,7 @@ export class MenuServiceService {
 
           // { label: 'Handover', route: 'Handover' },
           // { label: 'Engineer-Works', route: 'EngineerWorks' },
-          // { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+          // { label: 'Technical Sanction', route: 'TechnicalSanction' },
         ],
       },
     },
@@ -359,14 +369,16 @@ export class MenuServiceService {
         // { label: 'DistrictProgress', route: 'DistrictProgress' },
         // { label: 'DivisionProgress', route: 'DivisionProgress' },
         { label: 'Search Work', route: 'SearchingWork' },
-        { label: 'Progress Abstract', route: 'InfrastructureHome' },
+        { label: 'Work Abstract ', route: 'InfrastructureHome' },
+        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+
         { label: 'Live Tender', route: 'LiveTender' },
         { label: 'Evaluation', route: 'TenderEvaluation' },
-        { label: 'TO be Tender', route: 'ToBeTender' },
+        { label: 'To be Tender', route: 'ToBeTender' },
 
         { label: 'Work Order', route: 'WorkOrder' },
         { label: 'Land Issue', route: 'LandIssue' },
-        { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+        { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
         { label: 'District-wise Progress', route: 'DashProgressIstCount' },
         { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
@@ -383,7 +395,7 @@ export class MenuServiceService {
         // // { label: 'DistrictProgress', route: 'DistrictProgress' },
         // // { label: 'DivisionProgress', route: 'DivisionProgress' },
         // { label: 'Search Work', route: 'SearchingWork' },
-        // { label: 'Progress Abstract', route: 'InfrastructureHome' },
+        // { label: 'Work Abstract ', route: 'InfrastructureHome' },
         // { label: 'District-wise Progress', route: 'DashProgressIstCount' },
         // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
         // // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
@@ -392,7 +404,7 @@ export class MenuServiceService {
         // { label: 'Live Tender', route: 'LiveTender' },
         // { label: 'Handover', route: 'Handover' },
         // { label: 'Engineer-Works', route: 'EngineerWorks' },
-        // { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+        // { label: 'Technical Sanction', route: 'TechnicalSanction' },
         // LiveTenderComponent
       ],
     },
@@ -435,15 +447,16 @@ export class MenuServiceService {
         // { label: 'DistrictProgress', route: 'DistrictProgress' },
         // { label: 'DivisionProgress', route: 'DivisionProgress' },
         { label: 'Search Work', route: 'SearchingWork' },
-        { label: 'Progress Abstract', route: 'InfrastructureHome' },
+        { label: 'Work Abstract ', route: 'InfrastructureHome' },
+        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
         { label: 'Live Tender', route: 'LiveTender' },
         { label: 'Evaluation', route: 'TenderEvaluation' },
         // { label: 'Price Evaluation', route: 'PriceEvaluation' },
-        { label: 'TO be Tender', route: 'ToBeTender' },
+        { label: 'To be Tender', route: 'ToBeTender' },
 
         { label: 'Work Order', route: 'WorkOrder' },
         { label: 'Land Issue', route: 'LandIssue' },
-        { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
+        { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
         { label: 'District-wise Progress', route: 'DashProgressIstCount' },
         { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
@@ -460,7 +473,7 @@ export class MenuServiceService {
         // // { label: 'DivisionProgress', route:  '/DivisionProgress' },
 
         // { label: 'Search Work', route: 'SearchingWork' },
-        // { label: 'Progress Abstract', route: 'InfrastructureHome' },
+        // { label: 'Work Abstract ', route: 'InfrastructureHome' },
         // { label: 'District-wise Progress', route: 'DashProgressIstCount' },
         // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
         // // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
