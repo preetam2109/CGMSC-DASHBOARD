@@ -19,7 +19,7 @@ import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import {  PriceEvaluation, TenderEvaluation, TenderEvaluationDetails, TenderStatus, TobeTenderAppliedZonalPermission, TobeTenderDetailsAS, TobeTenderRejection } from 'src/app/Model/DashProgressCount';
+import {  PriceEvaluation, TenderEvaluation, TenderEvaluationDetails, TenderStatus, TobeTenderAppliedZonalPermission, TobeTenderDetailsAS, TobeTenderDetailsCancelled, TobeTenderDetailsProposedCancelled, TobeTenderRejection } from 'src/app/Model/DashProgressCount';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -64,7 +64,7 @@ export type ChartOptions = {
 export class ToBeTenderComponent {
   //#region chart
   @ViewChild('chart') chart: ChartComponent | undefined;
-  @ViewChild('itemDetailsModal') itemDetailsModal: any;
+  @ViewChild('itemDetailsModal') itemDetailsModal: any; 
   public cO: Partial<ChartOptions> | undefined;
   chartOptions!: ChartOptions; // For bar chart
   chartOptions2!: ChartOptions; // For bar charta
@@ -73,6 +73,8 @@ export class ToBeTenderComponent {
   //#endregion
   //#region DataBase Table
   dataSource!: MatTableDataSource<TobeTenderDetailsAS>;
+  dataSourceCancelled!: MatTableDataSource<TobeTenderDetailsCancelled>;
+  dataSourceProposedCancelled!: MatTableDataSource<TobeTenderDetailsProposedCancelled>;
   dataSource1!: MatTableDataSource<TobeTenderRejection>;
   dataSourceZonal!: MatTableDataSource<TobeTenderAppliedZonalPermission>;
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -80,13 +82,19 @@ export class ToBeTenderComponent {
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator;
   @ViewChild('paginator1') paginator1!: MatPaginator;
+  @ViewChild('paginatorcan') paginatorcan!: MatPaginator;
+  @ViewChild('paginatorProcan') paginatorProcan!: MatPaginator;
   @ViewChild('sort1') sort1!: MatSort;
   @ViewChild('sort2') sort2!: MatSort;
+  @ViewChild('sort3') sort3!: MatSort;
+  @ViewChild('sort4') sort4!: MatSort;
   @ViewChild('sort') sort!: MatSort;
   dispatchData: TobeTenderDetailsAS[] = [];
+  dispatchDataCancelled: TobeTenderDetailsCancelled[] = [];
+  dispatchDataProposedCancelled: TobeTenderDetailsProposedCancelled[] = [];
   dispatchData1: TobeTenderRejection[] = [];
   dispatchDataZonal: TobeTenderAppliedZonalPermission[] = [];
-  TobeTenderAppliedZonalPermission:TobeTenderAppliedZonalPermission[]=[];
+
   //#endregion
   
   TobetenderGTotal: TenderStatus[] = [];
@@ -95,6 +103,8 @@ export class ToBeTenderComponent {
   Visible:boolean=false;
   isVisible:boolean=false;
   onVisible:boolean=false;
+  VisibleCAN:boolean=false;
+  VisiblePROCAN:boolean=false;
 
   name:any;
   divisionid: any;
@@ -108,6 +118,9 @@ export class ToBeTenderComponent {
     public datePipe: DatePipe
   ) {
     this.dataSource = new MatTableDataSource<TobeTenderDetailsAS>([]);
+    this.dataSourceCancelled = new MatTableDataSource<TobeTenderDetailsCancelled>([]);
+    this.dataSourceProposedCancelled = new MatTableDataSource<TobeTenderDetailsProposedCancelled>([]);
+    this.dataSource = new MatTableDataSource<TobeTenderDetailsAS>([]);
      this.dataSource1 = new MatTableDataSource<TobeTenderRejection>([]);
      this.dataSourceZonal = new MatTableDataSource<TobeTenderAppliedZonalPermission>([]);
   }
@@ -118,7 +131,6 @@ export class ToBeTenderComponent {
     this.TenderStatusProgress();
   }
   initializeChartOptions() {
-    console.log('dispatchData1:', this.dispatchData);
     this.chartOptions = {
       series: [],
       chart: {
@@ -146,31 +158,35 @@ export class ToBeTenderComponent {
                   this.Visible=true;
                   this. isVisible=false;
                   this.onVisible=false;
-                  // alert("AS")
                 this.fetchDataBasedOnChartSelectionTotal(id, selectedSeries);
                 }else if (selectedData.id == '19') {
-                  // alert("19")
-                  this.Visible=true;
+                  this.VisibleCAN=true;
+                  this.Visible=false;
                   this. isVisible=false;
                   this.onVisible=false;
+                  this.VisiblePROCAN=false;
                  this.GETTobeTenderDetailsWOCancelled(id, selectedSeries);
                 }else if(selectedData.id == '34') {
-                  // alert("34")
-                  this.Visible=true;
+                  this.VisiblePROCAN=true;
+                  this.Visible=false;
                   this. isVisible=false;
                   this.onVisible=false;
-                  this.GETTobeTenderDetailsWOCancelled(id, selectedSeries);
+                  this.GETTobeTenderDetailsWOCancelled34(id, selectedSeries);
                 }else if(selectedData.id == '23') {
-                  // alert("reject")
                   this.Visible=false;
+                  this.VisibleCAN=false;
                   this. isVisible=true;
                   this.onVisible=false;
+                  this.VisiblePROCAN=false;
+
                   this.GETTobeTenderRejection(id, selectedSeries);
                 }else if(selectedData.id == '25') {
-                  // alert("25")
                   this.Visible=false;
+                  this.VisibleCAN=false;
                   this. isVisible=false;
                   this.onVisible=true;
+                  this.VisiblePROCAN=false;
+
                   this.GETTobeTenderAppliedZonalPermission(id, selectedSeries);
                 }
                 // else {
@@ -514,17 +530,46 @@ GETTobeTenderDetailsWOCancelled(ppid: any, seriesName: string ): void {
   this.api.GETTobeTenderDetailsWOCancelled(divisionID,mainSchemeId,distid,ppid)
     .subscribe(
       (res) => {
-        this.dispatchData = res.map(
+        this.dispatchDataCancelled = res.map(
           (item: TobeTenderDetailsAS, index: number) => ({
             ...item,
             sno: index + 1,
           })
         );
         // console.log('res:', res);
-        console.log('dispatchData=:', this.dispatchData);
-        this.dataSource.data = this.dispatchData;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        console.log('dispatchData=:', this.dispatchDataCancelled);
+        this.dataSourceCancelled.data = this.dispatchDataCancelled;
+        this.dataSourceCancelled.paginator = this.paginatorcan;
+        this.dataSourceCancelled.sort = this.sort3;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+  // this.openDialog();
+ }
+GETTobeTenderDetailsWOCancelled34(ppid: any, seriesName: string ): void {
+  console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
+  const distid = 0;
+  const mainSchemeId = 0;
+  const divisionID = 0;
+  this.spinner.show();
+  this.api.GETTobeTenderDetailsWOCancelled(divisionID,mainSchemeId,distid,ppid)
+    .subscribe(
+      (res) => {
+        this.dispatchDataProposedCancelled = res.map(
+          (item: TobeTenderDetailsAS, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        // console.log('res:', res);
+        // console.log('dispatchData=:', this.dispatchDataProposedCancelled);
+        this.dataSourceProposedCancelled.data = this.dispatchDataProposedCancelled;
+        this.dataSourceProposedCancelled.paginator = this.paginatorProcan;
+        this.dataSourceProposedCancelled.sort = this.sort4;
         this.cdr.detectChanges();
         this.spinner.hide();
       },
@@ -535,7 +580,7 @@ GETTobeTenderDetailsWOCancelled(ppid: any, seriesName: string ): void {
   // this.openDialog();
  }
 GETTobeTenderRejection(ppid: any, seriesName: string ): void {
-  console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
   const distid = 0;
   const mainSchemeId = 0;
   const divisionID = 0;
@@ -550,7 +595,7 @@ GETTobeTenderRejection(ppid: any, seriesName: string ): void {
           })
         );
         // console.log('res:', res);
-        console.log('dispatchDatareject =:', this.dispatchData1);
+        // console.log('dispatchDatareject =:', this.dispatchData1);
         this.dataSource1.data = this.dispatchData1;
         this.dataSource1.paginator = this.paginatorPageSize;
         this.dataSource1.sort = this.sort1;
@@ -572,7 +617,6 @@ GETTobeTenderAppliedZonalPermission(ppid: any, seriesName: string ): void {
   this.api.GETTobeTenderAppliedZonalPermission25(divisionID,mainSchemeId,distid)
     .subscribe(
       (res) => {
-        this.TobeTenderAppliedZonalPermission=res;
         this.dispatchDataZonal = res.map(
           (item: TobeTenderAppliedZonalPermission, index: number) => ({
             ...item,
@@ -595,6 +639,13 @@ GETTobeTenderAppliedZonalPermission(ppid: any, seriesName: string ): void {
  }
  //#endregion
  // data filter
+CANapplyTextFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceProposedCancelled.filter = filterValue.trim().toLowerCase();
+  if (this.dataSourceProposedCancelled.paginator) {
+   this.dataSourceProposedCancelled.paginator.firstPage();
+  }
+  }
 applyTextFilter(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -609,7 +660,14 @@ applyTextFilter(event: Event) {
       this.dataSource1.paginator.firstPage();
     }
   }
-  exportToPDF() {
+  ZapplyTextFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceZonal.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceZonal.paginator) {
+      this.dataSourceZonal.paginator.firstPage();
+    }
+  }
+  CANexportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
      //  'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG',
@@ -619,18 +677,17 @@ applyTextFilter(event: Event) {
    { title: 'Head', dataKey: 'head' },
    { title: 'Division', dataKey: 'division' },
    { title: 'District', dataKey: 'district' },
-   { title: 'block_Name_En', dataKey: 'block_Name_En' },
+   { title: 'Block', dataKey: 'block_Name_En' },
    { title: 'Work ID', dataKey: 'work_id' },
    { title: 'Work Name', dataKey: 'workname' },
-   { title: 'detailS_ENG', dataKey: 'detailS_ENG' },
-   { title: 'valueWorks', dataKey: 'valueWorks' },
-   { title: 'asDate', dataKey: 'asDate' },
-   { title: 'parentprogress', dataKey: 'parentprogress' },
-   { title: 'dashName', dataKey: 'dashName' },
-   { title: 'groupName', dataKey: 'groupName' },
+   { title: 'Health Center', dataKey: 'detailS_ENG' },
+   { title: 'AS Amount (In Lacs)', dataKey: 'valueWorks' },
+   { title: 'AS DT', dataKey: 'asDate' },
+  //  { title: 'parentprogress', dataKey: 'parentprogress' },
+  //  { title: 'dashName', dataKey: 'dashName' },
+  //  { title: 'groupName', dataKey: 'groupName' },
   ];
-  const rows = this.dispatchData.map((row) => ({
-   
+  const rows = this.dispatchDataProposedCancelled.map((row) => ({
    sno: row.sno,
    head: row.head,
    division: row.division,
@@ -642,9 +699,9 @@ applyTextFilter(event: Event) {
    workname: row.workname,
    valueWorks: row.valueWorks,
    asDate: row.asDate,
-   parentprogress: row.parentprogress,
-   dashName: row.dashName,
-   groupName: row.groupName,
+  //  parentprogress: row.parentprogress,
+  //  dashName: row.dashName,
+  //  groupName: row.groupName,
   }));
   
   autoTable(doc, {
@@ -657,7 +714,53 @@ applyTextFilter(event: Event) {
   
   doc.save('TenderDetails.pdf');
   }
-
+  exportToPDF() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+     //  'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG',
+    //  'workname','valueWorks','asDate' ,'parentprogress','dashName','groupName','work_id'
+   { title: 'S.No', dataKey: 'sno' },
+   { title: 'AS Letter No', dataKey: 'letterno' },
+   { title: 'Head', dataKey: 'head' },
+   { title: 'Division', dataKey: 'division' },
+   { title: 'District', dataKey: 'district' },
+   { title: 'Block', dataKey: 'block_Name_En' },
+   { title: 'Work ID', dataKey: 'work_id' },
+   { title: 'Work Name', dataKey: 'workname' },
+   { title: 'Health Center', dataKey: 'detailS_ENG' },
+   { title: 'AS Amount (In Lacs)', dataKey: 'valueWorks' },
+   { title: 'AS DT', dataKey: 'asDate' },
+  //  { title: 'parentprogress', dataKey: 'parentprogress' },
+  //  { title: 'dashName', dataKey: 'dashName' },
+  //  { title: 'groupName', dataKey: 'groupName' },
+  ];
+  const rows = this.dispatchData.map((row) => ({
+   sno: row.sno,
+   head: row.head,
+   division: row.division,
+   district: row.district,
+   block_Name_En: row.block_Name_En,
+   letterNo: row.letterno,
+   detailS_ENG: row.detailS_ENG,
+   work_id: row.work_id,
+   workname: row.workname,
+   valueWorks: row.valueWorks,
+   asDate: row.asDate,
+  //  parentprogress: row.parentprogress,
+  //  dashName: row.dashName,
+  //  groupName: row.groupName,
+  }));
+  
+  autoTable(doc, {
+   columns: columns,
+   body: rows,
+   startY: 20,
+   theme: 'striped',
+   headStyles: { fillColor: [22, 160, 133] },
+  });
+  
+  doc.save('TenderDetails.pdf');
+  }
   SexportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -669,15 +772,20 @@ applyTextFilter(event: Event) {
       { title: 'block_Name_En', dataKey: 'block_Name_En' },
       { title: 'Work ID', dataKey: 'work_id' },
       { title: 'Work Name', dataKey: 'workname' },
-      { title: 'detailS_ENG', dataKey: 'detailS_ENG' },
-      { title: 'valueWorks', dataKey: 'valueWorks' },
-      { title: 'asDate', dataKey: 'asDate' },
-      { title: 'parentprogress', dataKey: 'parentprogress' },
-      { title: 'dashName', dataKey: 'dashName' },
-      { title: 'groupName', dataKey: 'groupName' },
+      { title: 'DetailS', dataKey: 'detailS_ENG' },
+      { title: 'Value Works', dataKey: 'valueWorks' },
+      { title: 'AS Date', dataKey: 'asDate' },
+      { title: 'Parent Progress', dataKey: 'parentprogress' },
+      { title: 'Dash Name', dataKey: 'dashName' },
+      { title: 'Group Name', dataKey: 'groupName' },
+      { title: 'P Date', dataKey: 'pDate' },
+      { title: 'RejReason', dataKey: 'rejReason' },
+      { title: 'RejectedDT', dataKey: 'rejectedDT' },
+      { title: 'LastNIT', dataKey: 'lastNIT' },
+      { title: 'Ppid', dataKey: 'ppid' },
+      { title: 'Last Eprocno', dataKey: 'lastEprocno' },
     ];
     const rows = this.dispatchData1.map(row => ({
-      
    sno: row.sno,
    head: row.head,
    division: row.division,
@@ -690,8 +798,14 @@ applyTextFilter(event: Event) {
    valueWorks: row.valueWorks,
    asDate: row.asDate,
    parentprogress: row.parentprogress,
+   pDate: row.pDate,
    dashName: row.dashName,
    groupName: row.groupName,
+   rejReason: row.rejReason,
+   rejectedDT: row.rejectedDT,
+   lastNIT: row.lastNIT,
+   ppid: row.ppid,
+   lastEprocno: row.lastEprocno,
     }));
   
     autoTable(doc, {
@@ -702,7 +816,60 @@ applyTextFilter(event: Event) {
       headStyles: { fillColor: [22, 160, 133] }
     });
   
-    doc.save('SbuDistrictEngAllotedWorks.pdf');
+    doc.save('TenderDetails.pdf');
+  }
+  ZexportToPDF() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'AS Letter No', dataKey: 'letterno' },
+      { title: 'Head', dataKey: 'head' },
+      { title: 'Division', dataKey: 'division' },
+      { title: 'District', dataKey: 'district' },
+      { title: 'Block Name', dataKey: 'block_Name_En' },
+      { title: 'Work ID', dataKey: 'work_id' },
+      { title: 'Work Name', dataKey: 'workname' },
+      { title: 'DetailS', dataKey: 'detailS_ENG' },
+      { title: 'Value', dataKey: 'value' },
+      { title: 'AS Date', dataKey: 'asDate' },
+      { title: 'lProgress', dataKey: 'lProgress' },
+      { title: 'Progress DT', dataKey: 'progressDT' },
+      { title: 'Zonal Type', dataKey: 'zonalType' },
+      { title: 'Nit No', dataKey: 'nitNo' },
+      { title: 'Ppid', dataKey: 'ppid' },
+      { title: 'Tender ID', dataKey: 'tenderID' },
+      { title: 'Apild', dataKey: 'apild' },
+    ];
+    const rows = this.dispatchDataZonal.map(row => ({
+   sno: row.sno,
+   head: row.head,
+   division: row.division,
+   district: row.district,
+   block_Name_En: row.block_Name_En,
+   letterNo: row.letterno,
+   detailS_ENG: row.detailS_ENG,
+   work_id: row.work_id,
+   workname: row.workname,
+   value: row.value,
+   asDate: row.asDate,
+   lProgress: row.lProgress,
+   progressDT: row.progressDT,
+   zonalType: row.zonalType,
+   nitNo: row.nitNo,
+   ppid: row.ppid,
+   tenderID: row.tenderID,
+   apild: row.apild,
+    }));
+  
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] }
+    });
+  
+    doc.save('TenderDetails.pdf');
   }
   // mat-dialog box
   openDialog() {

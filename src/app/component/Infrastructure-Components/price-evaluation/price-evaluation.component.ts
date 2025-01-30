@@ -72,6 +72,7 @@ export class PriceEvaluationComponent {
   //#region chart
   @ViewChild('chart') chart: ChartComponent | undefined;
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
+  @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
   public cO: Partial<ChartOptions> | undefined;
   chartOptions!: ChartOptions; // For bar chart
   chartOptions2!: ChartOptions; // For bar charta
@@ -544,7 +545,7 @@ export class PriceEvaluationComponent {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
 
-                // this.fetchDataBasedOnChartSelectionDivision(id, selectedSeries);
+                this.fetchDataBasedOnChartSelectiondivisionUNP(id, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -636,7 +637,7 @@ export class PriceEvaluationComponent {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
 
-                // this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
+                this.fetchDataBasedOnChartSelectionmainSchemeUNP(id, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -728,7 +729,7 @@ export class PriceEvaluationComponent {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
 
-                // this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
+                this.fetchDataBasedOnChartSelectionmainDesignationUNP(id, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -820,7 +821,7 @@ export class PriceEvaluationComponent {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
 
-                // this.fetchDataBasedOnChartSelectionTotalUNP(0, selectedSeries);
+                this.fetchDataBasedOnChartSelectionTotalUNP(0, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -1907,7 +1908,7 @@ export class PriceEvaluationComponent {
       .subscribe(
         (data: any) => {
           this.UnPaidSummaryDesignation = data;
-          // console.log('API Response total:', this.WoIssuedTotal);
+          console.log('UnPaidSummaryDesignation:', this.UnPaidSummaryDesignation);
           // console.log('API Response data:', data);
 
           const id: string[] = [];
@@ -2005,17 +2006,17 @@ export class PriceEvaluationComponent {
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
     this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid).subscribe(
         (res) => {
-          this.dispatchData = res.map(
-            (item: PaidDetails, index: number) => ({
+          this.dispatchData1 = res.map(
+            (item: UnPaidDetails, index: number) => ({
               ...item,
               sno: index + 1,
             })
           );
           // console.log('PaidDetails:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
-          this.dataSource.data = this.dispatchData;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          this.dataSource1.data = this.dispatchData1;
+          this.dataSource1.paginator = this.paginator;
+          this.dataSource1.sort = this.sort;
           this.cdr.detectChanges();
           this.spinner.hide();
         },
@@ -2023,7 +2024,106 @@ export class PriceEvaluationComponent {
           console.error('Error fetching data', error);
         }
       );
-    this.openDialog();
+    this.openDialog1();
+  }
+   fetchDataBasedOnChartSelectiondivisionUNP(divisionID: any,seriesName: string): void {
+    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    const mainSchemeId = 0;
+    const contractid = 0;
+    // const fromdt="01-jan-2024";
+    // const todt="01-jan-2025";
+    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.spinner.show();
+    // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid).subscribe(
+        (res) => {
+          this.dispatchData1 = res.map(
+            (item: UnPaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          console.log('UNDetails:', res);
+          // console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSource1.data = this.dispatchData1;
+          this.dataSource1.paginator = this.paginator;
+          this.dataSource1.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog1();
+  }
+   fetchDataBasedOnChartSelectionmainSchemeUNP(mainSchemeId: any,seriesName: string): void {
+    console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    const distid = 0;
+    const divisionID = 0;
+    const contractid = 0;
+    // const fromdt="01-jan-2024";
+    // const todt="01-jan-2025";
+    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.spinner.show();
+    // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid).subscribe(
+        (res) => {
+          this.dispatchData1 = res.map(
+            (item: UnPaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          console.log('UNDetails:', res);
+          // console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSource1.data = this.dispatchData1;
+          this.dataSource1.paginator = this.paginator;
+          this.dataSource1.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog1();
+  }
+   fetchDataBasedOnChartSelectionmainDesignationUNP(mainSchemeId: any,seriesName: string): void {
+    console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    const distid = 0;
+    const divisionID = 0;
+    const contractid = 0;
+    // const fromdt="01-jan-2024";
+    // const todt="01-jan-2025";
+    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.spinner.show();
+    // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid).subscribe(
+        (res) => {
+          this.dispatchData1 = res.map(
+            (item: UnPaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          console.log('UNDetails:', res);
+          // console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSource1.data = this.dispatchData1;
+          this.dataSource1.paginator = this.paginator;
+          this.dataSource1.sort = this.sort;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialog1();
   }
 
   // #endregion
@@ -2033,6 +2133,13 @@ export class PriceEvaluationComponent {
   this.dataSource.filter = filterValue.trim().toLowerCase();
   if (this.dataSource.paginator) {
     this.dataSource.paginator.firstPage();
+  }
+}
+UNapplyTextFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource1.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource1.paginator) {
+    this.dataSource1.paginator.firstPage();
   }
 }
 exportToPDF() {
@@ -2081,9 +2188,79 @@ exportToPDF() {
 
   doc.save('PaymentDetail.pdf');
 }
+UNexportToPDF() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'letterno', dataKey: 'letterno' },
+    { title: 'head', dataKey: 'head' },
+    { title: 'district', dataKey: 'district' },
+    { title: 'division', dataKey: 'division' },
+    { title: 'workname', dataKey: 'workname' },
+    { title: 'wrokOrderDT', dataKey: 'wrokOrderDT' },
+    { title: 'billno', dataKey: 'billno' },
+    { title: 'agrbillstatus', dataKey: 'agrbillstatus' },
+    { title: 'totalamountofcontract', dataKey: 'totalamountofcontract' },
+    { title: 'Gross Amt', dataKey: 'grossAmtNew' },
+    { title: 'Total Paid Tillinlac', dataKey: 'totalpaidtillinlac' },
+    { title: 'ChequeDT', dataKey: 'chequeDT' },
+    { title: 'MesurementDT', dataKey: 'mesurementDT' },
+    { title: 'WorK ID', dataKey: 'worK_ID' },
+  ];
+  const rows = this.dispatchData1.map((row) => ({
+    sno: row.sno,
+    head: row.head,
+    district: row.district,
+    division: row.division,
+    workname: row.workname,
+    wrokOrderDT: row.wrokOrderDT,
+    billno: row.billno,
+    billdate:row.billdate,
+    agrbillstatus: row.agrbillstatus,
+    totalamountofcontract: row.totalamountofcontract,
+    grossAmtNew: row.grossAmtNew,
+    totalpaidtillinlac: row.totalpaidtillinlac,
+    chequeDT: row.chequeDT,
+    mesurementDT: row.mesurementDT,
+    dayssincemeasurement: row.dayssincemeasurement,
+    workStatus: row.workStatus,
+    worK_ID: row.worK_ID,
+    designation: row.designation,
+    engName: row.engName,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('UnPaidDetails.pdf');
+}
 // mat-dialog box
 openDialog() {
   const dialogRef = this.dialog.open(this.itemDetailsModal, {
+    width: '100%',
+    height: '100%',
+    maxWidth: '100%',
+    panelClass: 'full-screen-dialog', // Optional for additional styling
+    data: {
+      /* pass any data here */
+    },
+    // width: '100%',
+    // maxWidth: '100%', // Override default maxWidth
+    // maxHeight: '100%', // Override default maxHeight
+    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+    // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log('Dialog closed');
+  });
+}
+openDialog1() {
+  const dialogRef = this.dialog.open(this.itemDetailsModal1, {
     width: '100%',
     height: '100%',
     maxWidth: '100%',
