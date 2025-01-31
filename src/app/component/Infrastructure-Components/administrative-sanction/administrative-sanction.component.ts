@@ -20,7 +20,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { ASCompletedDetails, ASPendingDetails, DivisionWiseASPendingDetails } from 'src/app/Model/DashProgressCount';
+import { ASCompletedDetails, ASEnteredDetails, ASPendingDetails, DivisionWiseASPendingDetails } from 'src/app/Model/DashProgressCount';
 @Component({
   selector: 'app-administrative-sanction',
   standalone: true,
@@ -58,7 +58,8 @@ export class AdministrativeSanctionComponent {
 
   //#region DataBase Table
         dataSource!: MatTableDataSource<ASPendingDetails>;
-        dataSource1!: MatTableDataSource<ASCompletedDetails>;
+        dataSource1!: MatTableDataSource<ASEnteredDetails>;
+        // dataSource1!: MatTableDataSource<ASCompletedDetails>;
         dataSourceDivision!: MatTableDataSource<DivisionWiseASPendingDetails>;
         @ViewChild('paginator') paginator!: MatPaginator;
         @ViewChild('paginator1') paginator1!: MatPaginator;
@@ -67,7 +68,8 @@ export class AdministrativeSanctionComponent {
         @ViewChild('sort1') sort1!: MatSort;
         @ViewChild('sort2') sort2!: MatSort;
         dispatchData: ASPendingDetails[] = [];
-        dispatchData1: ASCompletedDetails[] = [];
+        dispatchData1: ASEnteredDetails[] = [];
+        // dispatchData1: ASCompletedDetails[] = [];
         dispatchDataDivision: DivisionWiseASPendingDetails[] = [];
       
         //#endregion
@@ -88,7 +90,8 @@ export class AdministrativeSanctionComponent {
     private fb: FormBuilder
   ) {
     this.dataSource = new MatTableDataSource<ASPendingDetails>([]);
-    this.dataSource1 = new MatTableDataSource<ASCompletedDetails>([]);
+    // this.dataSource1 = new MatTableDataSource<ASCompletedDetails>([]);
+    this.dataSource1 = new MatTableDataSource<ASEnteredDetails>([]);
     this.dataSourceDivision = new MatTableDataSource<DivisionWiseASPendingDetails>([]);
   }
   ngOnInit() {
@@ -107,21 +110,25 @@ export class AdministrativeSanctionComponent {
     }
   }
 
-  // GETASPendingDetails
 
-  getASCompletedDetails(): void {
+// GETASEnteredDetails(ASID:any,divisionId:any,mainSchemeId:any){
+//   return this.http.get<ASEnteredDetails[]>(`${this.apiUrl}/ASDetails/ASEnteredDetails?ASID=${ASID}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}`);
+
+
+//   //https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASEnteredDetails?ASID=22&divisionId=D1017&mainSchemeId=0
+  getASEnteredDetails(ASID:any,divisionId:any,mainSchemeId:any): void {
+    console.log(ASID, divisionId , mainSchemeId )
   this.spinner.show();
-  this.api.GETASCompleted()
+  this.api.GETASEnteredDetails(ASID,divisionId,mainSchemeId)
     .subscribe(
       (res) => {
         this.dispatchData1 = res.map(
-          (item: ASCompletedDetails, index: number) => ({
+          (item: ASEnteredDetails, index: number) => ({
             ...item,
             sno: index + 1,
           })
         );
         // console.log('res:', res);
-        console.log('dataSource:', this.dataSource);
         // console.log('dispatchData=:', this.dispatchData);
         this.dataSource1.data = this.dispatchData1;
         this.dataSource1.paginator = this.paginator1;
@@ -135,6 +142,32 @@ export class AdministrativeSanctionComponent {
     );
   this.openDialog();
  }
+//   getASCompletedDetails(): void {
+//   this.spinner.show();
+//   this.api.GETASCompleted()
+//     .subscribe(
+//       (res) => {
+//         this.dispatchData1 = res.map(
+//           (item: ASCompletedDetails, index: number) => ({
+//             ...item,
+//             sno: index + 1,
+//           })
+//         );
+//         // console.log('res:', res);
+//         console.log('dataSource:', this.dataSource);
+//         // console.log('dispatchData=:', this.dispatchData);
+//         this.dataSource1.data = this.dispatchData1;
+//         this.dataSource1.paginator = this.paginator1;
+//         this.dataSource1.sort = this.sort2;
+//         this.cdr.detectChanges();
+//         this.spinner.hide();
+//       },
+//       (error) => {
+//         console.error('Error fetching data', error);
+//       }
+//     );
+//   this.openDialog();
+//  }
   getASPendingDetails(): void {
   this.spinner.show();
   this.api.GETASPendingDetails()
@@ -197,7 +230,7 @@ export class AdministrativeSanctionComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-  applyTextFilterCom(event: Event) {
+  applyTextFilterENT(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource1.filter = filterValue.trim().toLowerCase();
     if (this.dataSource1.paginator) {
@@ -254,33 +287,37 @@ export class AdministrativeSanctionComponent {
   
     doc.save('ASDivisionDetails.pdf');
   }
-  exportToPDFCom() {
+  exportToPDFENT() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
       { title: 'S.No', dataKey: 'sno' },
       { title: 'Head', dataKey: 'head' },
       { title: 'AS Letter No', dataKey: 'letterno' },
       { title: 'AS Date', dataKey: 'asDate' },
-      { title: 'Total Works', dataKey: 'totalWorks' },
-      { title: 'Entered Works', dataKey: 'enteredWorks' },
-      { title: 'Baltobe Enter', dataKey: 'baltobeEnter' },
-      { title: 'Total AS Amount', dataKey: 'totalASAmt' },
+      { title: 'Division', dataKey: 'division' },
+      { title: 'District', dataKey: 'district' },
+      { title: 'Block', dataKey: 'block_Name_En' },
+      // { title: 'Entered Works', dataKey: 'enteredWorks' },
+      { title: 'Name', dataKey: 'login_name' },
+      { title: 'Work', dataKey: 'workname' },
+      { title: 'AS Amount', dataKey: 'asAmt' },
       { title: 'Entered Total AS', dataKey: 'enteredTotalAS' },
-      { title: 'Balance AS Amount', dataKey: 'balanceASAmount' },
+      { title: 'Work ID', dataKey: 'work_id' },
       { title: 'AS ID', dataKey: 'asid' },
     ];
     const rows = this.dispatchData1.map((row) => ({
-      sno: row.sno,
+      sno: row.sno,//
       login_name:row.login_name,
       head: row.head,
       letterno: row.letterno,
+      division: row.division,//
       asDate: row.asDate,
-      totalWorks: row.totalWorks,
-      enteredWorks: row.enteredWorks,
-      baltobeEnter: row.baltobeEnter,
-      totalASAmt: row.totalASAmt,
-      enteredTotalAS: row.enteredTotalAS,
-      balanceASAmount: row.balanceASAmount,
+      work_id: row.work_id,//
+      district: row.district,//
+      block_Name_En: row.block_Name_En,//
+      asAmt: row.asAmt,//
+      workname: row.workname,//
+      // balanceASAmount: row.balanceASAmount,
       asid: row.asid,
     }));
   

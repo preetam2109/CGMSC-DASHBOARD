@@ -107,6 +107,7 @@ import {
   ASPendingDetails,
   DivisionWiseASPendingDetails,
   ASCompletedDetails,
+  ASEnteredDetails,
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -894,7 +895,14 @@ GETDivisionWiseASPending(divisionId:any,mainSchemeId:any){
 GETASCompleted(){
   return this.http.get<ASCompletedDetails[]>(`${this.apiUrl}/ASDetails/ASCompleted`);
 
-  // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASCompleted
+  //md :otp=11344
+  // // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASCompleted
+}
+GETASEnteredDetails(ASID:any,divisionId:any,mainSchemeId:any){
+  return this.http.get<ASEnteredDetails[]>(`${this.apiUrl}/ASDetails/ASEnteredDetails?ASID=${ASID}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}`);
+
+
+  //https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASEnteredDetails?ASID=22&divisionId=D1017&mainSchemeId=0
 }
 
 //#endregion
