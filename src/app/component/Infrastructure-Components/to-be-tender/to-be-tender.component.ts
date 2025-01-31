@@ -158,6 +158,8 @@ export class ToBeTenderComponent {
                   this.Visible=true;
                   this. isVisible=false;
                   this.onVisible=false;
+                  this.VisibleCAN=false;
+                  this.VisiblePROCAN=false;
                 this.fetchDataBasedOnChartSelectionTotal(id, selectedSeries);
                 }else if (selectedData.id == '19') {
                   this.VisibleCAN=true;
@@ -168,6 +170,7 @@ export class ToBeTenderComponent {
                  this.GETTobeTenderDetailsWOCancelled(id, selectedSeries);
                 }else if(selectedData.id == '34') {
                   this.VisiblePROCAN=true;
+                  this.VisibleCAN=false;
                   this.Visible=false;
                   this. isVisible=false;
                   this.onVisible=false;
@@ -537,7 +540,7 @@ GETTobeTenderDetailsWOCancelled(ppid: any, seriesName: string ): void {
           })
         );
         // console.log('res:', res);
-        console.log('dispatchData=:', this.dispatchDataCancelled);
+        // console.log('dispatchData=:', this.dispatchDataCancelled);
         this.dataSourceCancelled.data = this.dispatchDataCancelled;
         this.dataSourceCancelled.paginator = this.paginatorcan;
         this.dataSourceCancelled.sort = this.sort3;
@@ -639,11 +642,18 @@ GETTobeTenderAppliedZonalPermission(ppid: any, seriesName: string ): void {
  }
  //#endregion
  // data filter
-CANapplyTextFilter(event: Event) {
+CANapplyTextFilter34(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSourceProposedCancelled.filter = filterValue.trim().toLowerCase();
   if (this.dataSourceProposedCancelled.paginator) {
    this.dataSourceProposedCancelled.paginator.firstPage();
+  }
+  }
+CANapplyTextFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceCancelled.filter = filterValue.trim().toLowerCase();
+  if (this.dataSourceCancelled.paginator) {
+   this.dataSourceCancelled.paginator.firstPage();
   }
   }
 applyTextFilter(event: Event) {
@@ -667,25 +677,22 @@ applyTextFilter(event: Event) {
       this.dataSourceZonal.paginator.firstPage();
     }
   }
-  CANexportToPDF() {
+  CANexportToPDF34() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
-     //  'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG',
-    //  'workname','valueWorks','asDate' ,'parentprogress','dashName','groupName','work_id'
    { title: 'S.No', dataKey: 'sno' },
-   { title: 'AS Letter No', dataKey: 'letterno' },
    { title: 'Head', dataKey: 'head' },
    { title: 'Division', dataKey: 'division' },
    { title: 'District', dataKey: 'district' },
    { title: 'Block', dataKey: 'block_Name_En' },
-   { title: 'Work ID', dataKey: 'work_id' },
-   { title: 'Work Name', dataKey: 'workname' },
+   { title: 'Proposed Letter No', dataKey: 'letterno' },
    { title: 'Health Center', dataKey: 'detailS_ENG' },
-   { title: 'AS Amount (In Lacs)', dataKey: 'valueWorks' },
+   { title: 'Work', dataKey: 'workname' },
+   { title: 'AS Amount(In Lacs)', dataKey: 'valueWorks' },
    { title: 'AS DT', dataKey: 'asDate' },
-  //  { title: 'parentprogress', dataKey: 'parentprogress' },
-  //  { title: 'dashName', dataKey: 'dashName' },
-  //  { title: 'groupName', dataKey: 'groupName' },
+   { title: 'Proposed Letter No', dataKey: 'woCancelProposalLetterNo' },
+   { title: 'Proposed DT', dataKey: 'pDate' },
+   { title: 'Work ID', dataKey: 'work_id' },
   ];
   const rows = this.dispatchDataProposedCancelled.map((row) => ({
    sno: row.sno,
@@ -693,15 +700,14 @@ applyTextFilter(event: Event) {
    division: row.division,
    district: row.district,
    block_Name_En: row.block_Name_En,
-   letterNo: row.letterno,
+   letterno: row.letterno,
    detailS_ENG: row.detailS_ENG,
    work_id: row.work_id,
    workname: row.workname,
    valueWorks: row.valueWorks,
    asDate: row.asDate,
-  //  parentprogress: row.parentprogress,
-  //  dashName: row.dashName,
-  //  groupName: row.groupName,
+   woCancelProposalLetterNo: row.woCancelProposalLetterNo,
+   pDate: row.pDate,
   }));
   
   autoTable(doc, {
@@ -712,7 +718,54 @@ applyTextFilter(event: Event) {
    headStyles: { fillColor: [22, 160, 133] },
   });
   
-  doc.save('TenderDetails.pdf');
+  doc.save('ProposedCancelledDetails.pdf');
+  }
+  CANexportToPDF() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+   { title: 'S.No', dataKey: 'sno' },
+   { title: 'Head', dataKey: 'head' },
+   { title: 'Division', dataKey: 'division' },
+   { title: 'District', dataKey: 'district' },
+   { title: 'Block', dataKey: 'block_Name_En' },
+   { title: 'AS Letter No', dataKey: 'letterno' },
+   { title: 'Health Center', dataKey: 'detailS_ENG' },
+   { title: 'Work', dataKey: 'workname' },
+   { title: 'AS Amount (In Lacs)', dataKey: 'valueWorks' },
+   { title: 'AS DT', dataKey: 'asDate' },
+    { title: 'Proposed Letter No', dataKey: 'woCancelProposalLetterNo' },
+     { title: 'Cancelled LetterNo_HO', dataKey: 'wocancelletterno' },
+      { title: 'Cancelled DT', dataKey: 'pDate' },
+   { title: 'Work ID', dataKey: 'work_id' },
+  ];
+  const rows = this.dispatchDataCancelled.map((row) => ({
+     //  'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname',
+    // 'valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id'
+   sno: row.sno,
+   head: row.head,
+   division: row.division,
+   district: row.district,
+   block_Name_En: row.block_Name_En,
+   letterno: row.letterno,
+   detailS_ENG: row.detailS_ENG,
+   workname: row.workname,
+   valueWorks: row.valueWorks,
+   asDate: row.asDate,
+   woCancelProposalLetterNo: row.woCancelProposalLetterNo,
+   wocancelletterno: row.wocancelletterno,
+    pDate: row.pDate,
+   work_id: row.work_id,
+  }));
+  
+  autoTable(doc, {
+   columns: columns,
+   body: rows,
+   startY: 20,
+   theme: 'striped',
+   headStyles: { fillColor: [22, 160, 133] },
+  });
+  
+  doc.save('AcceptanceCancelledDetails.pdf');
   }
   exportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
@@ -759,7 +812,7 @@ applyTextFilter(event: Event) {
    headStyles: { fillColor: [22, 160, 133] },
   });
   
-  doc.save('TenderDetails.pdf');
+  doc.save('AdministrativeSanctionDetails.pdf');
   }
   SexportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
@@ -816,7 +869,7 @@ applyTextFilter(event: Event) {
       headStyles: { fillColor: [22, 160, 133] }
     });
   
-    doc.save('TenderDetails.pdf');
+    doc.save('TobeTenderRejectionDetails.pdf');
   }
   ZexportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
@@ -869,7 +922,7 @@ applyTextFilter(event: Event) {
       headStyles: { fillColor: [22, 160, 133] }
     });
   
-    doc.save('TenderDetails.pdf');
+    doc.save('AZonalPermissionDetails.pdf');
   }
   // mat-dialog box
   openDialog() {
