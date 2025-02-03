@@ -187,7 +187,7 @@ const routes: Routes = [
 {path:'StockoutSummary',component:StockoutSummaryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Warehouse']} },
 {path:'HODYearWiseIssuance',component:HODYearWiseIssuanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Collector']} },
 {path:'GrowthInProcurment',component:GrowthInProcurmentComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
-{path:'GrowthInProcurment',component:GrowthInProcurmentTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
+{path:'GrowthInProcurmentTab',component:GrowthInProcurmentTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
 // {path:'DirectorateAIDetails',component:DirectorateAIDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS']} },
 {path:'distribution',component:DistributionTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1']} },
 {path:'DropAppWarehousePerformance',component:DropAppWarehousePerformanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','Collector']} },

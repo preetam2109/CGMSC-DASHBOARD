@@ -32,6 +32,7 @@ import { DistDrugCount } from 'src/app/Model/DistDrugCount';
 import { WHDrugCount } from 'src/app/Model/WHDrugCount';
 
 export type ChartOptions = {
+labels: string[]|undefined;
   series: ApexAxisChartSeries;
   chart: ApexChart;
   dataLabels: ApexDataLabels;

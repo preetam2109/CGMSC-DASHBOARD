@@ -93,15 +93,15 @@
 
 
 
-<div class="container my-4 mb-4" *ngif="roleName==='SEC1'" >
+<div class="container my-4 mb-4"  >
   <div class="row">
     <!-- Card 1 -->
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
         <div class="card-body">
-          <h6 class="card-title">No of Ordered Items</h6>
+          <h6 class="card-title">No of Ordered Drugs C.F.Y.</h6>
           <h2 class="card-value">{{totalpoitems}}</h2>
-          <!-- <p class="card-text">18% Higher Than Last Month</p> -->
+          <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
         </div>
       </div>
     </div>
@@ -110,9 +110,10 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
         <div class="card-body">
-          <h6 class="card-title">Droped Indent to Facility</h6>
-          <h2 class="card-value">{{dropindentid}}</h2>
-          <!-- <p class="card-text">21% Higher Than Last Month</p> -->
+          <h6 class="card-title">Distribution of Drugs C.F.Y.</h6>
+          <h2 class="card-value">{{nositemsI}}</h2>
+          <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p>
+
         </div>
       </div>
     </div>
@@ -121,9 +122,9 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
         <div class="card-body">
-          <h6 class="card-title">New Orders</h6>
-          <h2 class="card-value">128</h2>
-          <!-- <p class="card-text">37% Higher Than Last Month</p> -->
+          <h6 class="card-title">Indent Received in Warehouse C.F.Y.</h6>
+          <h2 class="card-value">{{nosindent}}</h2>
+          <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
         </div>
       </div>
     </div>
@@ -132,9 +133,9 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #43a0ff, #68d8ff); color: white;">
         <div class="card-body">
-          <h6 class="card-title">Indent Pending At Warehouse</h6>
+          <h6 class="card-title">Indent Pending in Warehouse</h6>
           <h2 class="card-value"> {{ nosIndent }}</h2>
-          <p class="card-text">No of Facility: {{ nosfac }}, No of Items: {{ nositems }}</p>
+          <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p>
           <!-- <ul class="list-unstyled">
               <li>
                   <span class="card-value">No of Facility: {{ nosfac }}</span>
@@ -150,6 +151,18 @@
         </div>
       </div>
     </div>
+
+    <!-- Card 5
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #3f5efb, #fc466b); color: white;">
+        <div class="card-body">
+          <h6 class="card-title">Total RC Drugs</h6>
+          <h2 class="card-value">{{nosindent}}</h2>
+          <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
+        </div>
+      </div>
+    </div> -->
+    
   </div>
 </div>
 
@@ -162,65 +175,167 @@
 <div class="container my-4 mb-4" >
   <div class="row">
     <!-- Card 1 -->‌
-    <div class="col-12 col-md-4 mb-3">
-      <div class="card shadow p-0 m-0" style="height: auto; width: auto;">
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
-          <apx-chart class="border rounded" style="background-color: #f8ecb7;"
+          <apx-chart class="border rounded" style="background-color: #ff8fa3;"
           [series]="chartOptions1.series" [chart]="chartOptions1.chart" [dataLabels]="chartOptions1.dataLabels"
           [plotOptions]="chartOptions1.plotOptions" [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke"
           [fill]="chartOptions1.fill" [yaxis]="chartOptions1.yaxis" [title]="chartOptions1.title"
-          [tooltip]="chartOptions1.tooltip" [legend]="chartOptions1.legend">
+          [tooltip]="chartOptions1.tooltip" [legend]="chartOptions1.legend"  >
           </apx-chart>‍‍‌
-          <h5 class="card-title mt-3">Receint Issued</h5>
+          <h5 class="card-title mt-3">Last 7 Days Distribution</h5>
           <p class="card-text text-success">
             <!-- <i class="bi bi-arrow-up"></i> 55% increase in today's sales. -->
           </p>
           <p class="card-text text-muted">
-            <small>Updated 4 minutes ago</small>
+            <small>Value in Cr.</small>
           </p>
         </div>
       </div>
     </div>
 
     <!-- Card 2 -->
-    <div class="col-12 col-md-4 mb-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
-          <apx-chart  class="border rounded" style="background-color: #bafaec;"
+          <apx-chart  class="border rounded" style="background-color: #ecf39e;"
           [series]="chartOptions2.series" [chart]="chartOptions2.chart" [dataLabels]="chartOptions2.dataLabels"
           [plotOptions]="chartOptions2.plotOptions" [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
           [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis" [title]="chartOptions2.title"
-          [tooltip]="chartOptions2.tooltip" [legend]="chartOptions2.legend">
+          [tooltip]="chartOptions2.tooltip" [legend]="chartOptions2.legend" >
           </apx-chart>
-          <h5 class="card-title mt-3">Recent Receipt</h5>
+          <h5 class="card-title mt-3">Last 7 days Receipt</h5>
           <!-- <p class="card-text">Last Campaign Performance</p> -->
           <p class="card-text text-muted">
-            <small>Last 7 days Receipt</small>
+            <small>Value in Cr.</small>
+
           </p>
         </div>
       </div>
     </div>
 
     <!-- Card 3 -->
-    <div class="col-12 col-md-4 mb-3">
-      <div class="card shadow p-0 m-0" style="height: auto; width: auto;">
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
-          <apx-chart  class="border rounded" style="background-color: #90fbb2;"
+          <apx-chart  class="border rounded" style="background-color: #c77dff;"
           [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+          [labels]="chartOptions.labels"
           [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
           [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
           [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend">
           </apx-chart>
-          <h5 class="card-title mt-3">Delevered from Warehouse</h5>
-          <p class="card-text">this month</p>
+          <div class="d-flex align-items-center">
+            <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon">
+            <div>
+              
+              <h5 class="card-title ml-3">Indent Vs Delivery</h5>
+              <p class="card-text">{{currentMonth}} Month</p>
+            </div>
+          </div>
+          <p class="card-text text-muted">
+          </p>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- edl non edl pie chart  Card 4 -->
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
+        <div class="card-body">
+          <apx-chart  class="border rounded" style="background-color: #ecf39e;"
+          [series]="chartOptions3.series" [chart]="chartOptions3.chart" [dataLabels]="chartOptions3.dataLabels"
+          [labels]="chartOptions3.labels"
+          [plotOptions]="chartOptions3.plotOptions" [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
+          [fill]="chartOptions3.fill" [yaxis]="chartOptions3.yaxis" [title]="chartOptions3.title"
+          [tooltip]="chartOptions3.tooltip" [legend]="chartOptions3.legend">
+          </apx-chart>
+          <div class="d-flex align-items-center">
+            <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+            <div>
+              
+              <h5 class="card-title ml-3">Drugs  Rate Contract </h5>
+              <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+            </div>
+          </div>
           <p class="card-text text-muted">
             <!-- <small>Campaign sent 2 days ago</small> -->
           </p>
         </div>
       </div>
     </div>
+    <!-- current stock home  Card 5 -->
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
+        <div class="card-body">
+          <apx-chart  class="border rounded" style="background-color: #aade9f;"
+          [series]="chartOptions4.series" [chart]="chartOptions4.chart" [dataLabels]="chartOptions4.dataLabels"
+          [labels]="chartOptions4.labels"
+          [plotOptions]="chartOptions4.plotOptions" [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
+          [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis" [title]="chartOptions4.title"
+          [tooltip]="chartOptions4.tooltip" [legend]="chartOptions4.legend">
+          </apx-chart>
+          <div class="d-flex align-items-center">
+            <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+            <div>
+              
+              <h5 class="card-title ml-3">Current Stock</h5>
+              <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+            </div>
+          </div>
+          <p class="card-text text-muted">
+            <!-- <small>Campaign sent 2 days ago</small> -->
+          </p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+
+
+
+
+<div class="container my-4 mb-4" style="height: 20vh;">
+  <div class="row justify-content-center" style="height: 20vh;">
+    <div class="col-12">
+      <div class="card shadow p-3 w-100" style="height: 80%;">
+        <div class="card-body">
+          <!-- <h5 class="card-title text-center">Search Item</h5> -->
+          <div class="mb-3 w-100 d-flex align-items-center">
+            <div class="me-2 w-100" >
+            <!-- <label class="form-label d-block w-100"><strong>Choose Item</strong>:</label> -->
+            <ng-select
+              [items]="MasIndentitemslist"
+              bindLabel="nameText"
+              bindValue="itemid"
+              [(ngModel)]="itemid"
+              name="itemid"
+              (change)="onISelectChange($event)"
+              #emailidField="ngModel"
+              [placeholder]="!itemid ? 'Search Item' : ''"
+              [searchable]="true"
+              [clearable]="true"
+              [appendTo]="'body'"
+              required
+              class="form-control "
+            >
+            </ng-select>
+          </div>
+          <img  (click)="searchItem()"  style="width: 50px;height: 50px;" src="assets/dash-icon/magnifier.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 
 
