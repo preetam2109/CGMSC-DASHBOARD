@@ -789,8 +789,150 @@ export class TobeTenderAppliedZonalPermission{
  
 }
 //#endregion
-//#region
+//#endregion
+//#region AS
+export class WORunningHandDetails{
+  work_id!: string;
+  letterNo!: string;
+  head!: string;
+  approver!: string;
+  type_name!: string;
+  divName_En!: string;
+  district!: string;
+  blockname!: string;
+  work!: string;
+  asAmt!: number;
+  tsamt!: number;
+  aadt!: string;
+  tsDate!: string;
+  tType!: string;
+  tenderReference!: string;
+  acceptanceLetterRefNo!: string;
+  acceptLetterDT!: string;
+  totalAmountOfContract!: number;
+  sanctionRate!: number;
+  sanctionDetail!: string;
+  wrokOrderDT!: string | null;
+  hoAllotedDT!: string;
+  agreementRefNo!: string | null;
+  workorderRefNoGovt!: string;
+  dueDTTimePerAdded!: string | null;
+  timeAllowed!: number;
+  dateOfSanction!: string;
+  dateOfIssueNIT!: string;
+  cid!: string;
+  contractorNAme!: string;
+  regType!: string;
+  class!: string;
+  englishAddress!: string;
+  mobNo!: string;
+  asPath!: string;
+  asLetter!: string;
+  groupName!: string;
+  lProgress!: string;
+  progressDT!: string;
+  pRemarks!: string;
+  remarks!: string | null;
+  display!: string;
+  descri!: string;
+  fmrcode!: string | null;
+  expcompdt!: string;
+  delayreason!: string;
+  subengname!: string;
+  aeName!: string;
+}
+export class LandIssue_RetToDeptDetatails{
+  work_id!: string;
+  letterNo!: string;
+  head!: string;
+  approver!: string;
+  type_name!: string;
+  divName_En!: string;
+  district!: string;
+  blockname!: string;
+  work!: string;
+  asAmt!: number;
+  tsamt!: number;
+  aadt!: string;
+  tsDate!: string;
+  tType!: string;
+  tenderReference!: string;
+  acceptanceLetterRefNo!: string;
+  acceptLetterDT!: string;
+  totalAmountOfContract!: number;
+  sanctionRate!: number;
+  sanctionDetail!: string;
+  wrokOrderDT!: string | null;
+  hoAllotedDT!: string;
+  agreementRefNo!: string | null;
+  workorderRefNoGovt!: string;
+  dueDTTimePerAdded!: string | null;
+  timeAllowed!: number;
+  dateOfSanction!: string;
+  dateOfIssueNIT!: string;
+  cid!: string;
+  contractorNAme!: string;
+  regType!: string;
+  class!: string;
+  englishAddress!: string;
+  mobNo!: string;
+  asPath!: string;
+  asLetter!: string;
+  groupName!: string;
+  lProgress!: string;
+  progressDT!: string;
+  pRemarks!: string;
+  remarks!: string | null;
+  display!: string;
+  descri!: string;
+  fmrcode!: string | null;
+  expcompdt!: string;
+  delayreason!: string;
+  subengname!: string;
+  aeName!: string;
+}
+export class DetailProgressTinP{
+  work_id!: string;
+  letterNo!: string;
+  head!: string;
+  approver!: string;
+  type_name!: string;
+  divName_En!: string;
+  district!: string;
+  blockname!: string;
+  work!: string;
+  asAmt!: number;
+  tsamt!: number;
+  tsDate!: string;
+  aadt!: string;
+  lProgress!: string;
+  progressDT!: string;
+  remarks!: string | null;
+  groupName!: string;
+  dashName!: string;
+  asPath!: string;
+  asLetter!: string;
+  asid!: string | null;
+  descri!: string;
+  fmrcode!: string | null;
+  startdt!: string | null;
+  enddt!: string | null;
+  noofcalls!: number;
+  tenderno!: string | null;
+  eprocno!: string | null;
+  covOpenedDT!: string | null;
+  topnedpricedt!: string | null;
 
+}
+
+//#endregion
+//#region AS
+export class ASFile{
+  id!:number;
+  asPath!: string;
+  asLetterName!: string;
+  filename!: string;
+}
 export class ASPendingDetails{
   sno!: number;
   asid!: number;

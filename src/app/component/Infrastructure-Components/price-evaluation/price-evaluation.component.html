@@ -166,7 +166,7 @@
       
             <div class="table-responsive ">
               <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
-                [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+                [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
       
                 <!-- Serial Number Column -->
                 <ng-container matColumnDef="sno">
@@ -181,24 +181,25 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter No</th>
                   <td mat-cell *matCellDef="let element"> {{ element.letterNo }}/DT:{{ element.aaDate }} </td>
                 </ng-container> -->
-                <ng-container matColumnDef="district">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
-                  <td mat-cell *matCellDef="let element"> {{ element.district }} </td>
-                </ng-container>
                 <ng-container matColumnDef="division">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
                   <td mat-cell *matCellDef="let element"> {{ element.division }} </td>
                 </ng-container>
+                <ng-container matColumnDef="district">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.district }} </td>
+                </ng-container>
+               
                 <ng-container matColumnDef="workname">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
                   <td mat-cell *matCellDef="let element"> {{ element.workname}} </td>
                 </ng-container>
                 <ng-container matColumnDef="wrokOrderDT">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Wrok Order DT</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order DT</th>
                   <td mat-cell *matCellDef="let element"> {{ element.wrokOrderDT}} </td>
                 </ng-container>
                 <ng-container matColumnDef="billno">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Billn No.</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill No.</th>
                   <td mat-cell *matCellDef="let element"> {{ element.billno }}/DT:{{element.billdate}} </td>
                 </ng-container>
                 <ng-container matColumnDef="agrbillstatus">
@@ -257,15 +258,15 @@
                         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
                 <!-- Header Row -->
                 <tr mat-header-row
-                  *matHeaderRowDef="['sno', 'head','district','division','workname','wrokOrderDT','billno','agrbillstatus','totalamountofcontract','grosspaid','totalpaidtillinlac','chequeDT','mesurementDT','worK_ID']">
+                  *matHeaderRowDef="['sno', 'head','division','district','workname','wrokOrderDT','billno','agrbillstatus','totalamountofcontract','grosspaid','totalpaidtillinlac','chequeDT','mesurementDT','worK_ID']">
                 </tr>
       
                 <!-- Data Rows -->
                 <tr mat-row
-                  *matRowDef="let row; columns: ['sno', 'head','district','division','workname','wrokOrderDT','billno','agrbillstatus','totalamountofcontract','grosspaid','totalpaidtillinlac','chequeDT','mesurementDT','worK_ID'];">
+                  *matRowDef="let row; columns: ['sno', 'head','division','district','workname','wrokOrderDT','billno','agrbillstatus','totalamountofcontract','grosspaid','totalpaidtillinlac','chequeDT','mesurementDT','worK_ID'];">
                 </tr>
               </table>
-              <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+              <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
             </div>
           </div>
       
@@ -284,7 +285,7 @@
       <ng-template class=" " #itemDetailsModal1 let-modal>
         <div class="row align-items-center p-2 m-2 ">
           <div class="col-lg-6 col-md-8">
-            <h1>Payment Pending Details</h1>
+            <h1>Payment Due Details</h1>
           </div>
           <div class="col-lg-6 col-md-4 text-end">
             <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
@@ -304,14 +305,14 @@
                   <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                   <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                   <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-                  <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                  <button mat-menu-item (click)="UNexportToPDF()">PDF</button>
                 </mat-menu>
               </div>
             </div>
       
             <div class="table-responsive ">
               <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
-                [dataSource]="dataSource1" #exporter="matTableExporter" matSort>
+                [dataSource]="dataSource1" #exporter="matTableExporter" matSort #sort1="matSort">
       
                 <!-- Serial Number Column -->
                 <ng-container matColumnDef="sno">
@@ -423,7 +424,7 @@
                   *matRowDef="let row; columns: ['sno', 'head','district','division','workname','wrokOrderDT','billno','agrbillstatus','totalamountofcontract','grossAmtNew','totalpaidtillinlac','dayssincemeasurement','mesurementDT','engName','designation','worK_ID'];">
                 </tr>
               </table>
-              <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+              <mat-paginator #paginatorPageSize [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
             </div>
           </div>
       

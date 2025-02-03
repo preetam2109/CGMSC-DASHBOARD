@@ -297,9 +297,9 @@
       class="col-lg-3 col-md-6 col-sm-12 mb-4"
       *ngFor="let district of districtData"
     >
-    <a type="link" (click)="selectdata(district.nosworks)">
-    <!-- <a type="link" (click)="open_mobile_modal(1,itemDetailsModal)"> -->
-    <a type="link">
+    <a type="link" (click)="DetailProgress(district.did)" >
+    <!-- <a type="link" (click)="open_mobile_modal(1,itemDetailsModal)"> DetailProgress-->
+    <!-- <a type="link"> -->
       <mat-card
         class="card-class text-center"
         [ngStyle]="{'background-color': getCardColor(district.did), 'color': 'Black'}"
@@ -327,7 +327,7 @@
           </h3>
         </mat-card-content>
       </mat-card>
-      </a>
+      <!-- </a> -->
       </a>
     </div>
   </div>
@@ -337,47 +337,137 @@
 </div>
 
 
-
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemDetailsModal">
-  Launch demo modal
-</button> -->
-<ng-template #itemDetailsModal let-modal>
-<!-- Modal -->
-<!-- <div class="modal fade w-100" id="itemDetailsModal" tabindex="-1" aria-labelledby="itemDetailsModalLabel" aria-hidden="true" data-bs-backdrop="false"> -->
-  <div class="modal-dialog modal-fullscreen">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="itemDetailsModalLabel">Item Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<ng-template class=" " #itemDetailsModal let-modal>
+  <div class="row align-items-center p-2 m-2 ">
+      <div class="col-lg-6 col-md-8">
+          <!-- <h1>AS Completed Details</h1> -->
+          <h1>Progress Details</h1>
       </div>
-      <div class="modal-body w-100">
-        <p><strong>Facility Name:</strong> dsds</p>
-        <p><strong>Number of Items:</strong> dsd</p>
-        <p><strong>Drop Date:</strong> dsd</p>
+      <div class="col-lg-6 col-md-4 text-end">
+          <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')">Close</button>
-      </div>
-    </div>
   </div>
-<!-- </div> -->
+  <div class="" mat-dialog-content>
+      <div class="row card shadow card-body ">
+          <div class="d-flex justify-content-between align-items-center mb-0">
+              <div class="filter-field flex-grow-1">
+                  <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+              </div>
+              <div class="export-menu-container">
+                  <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                      [matMenuTriggerFor]="exportMenu">Export</button>
+                  <mat-menu #exportMenu="matMenu">
+                      <button mat-menu-item
+                          (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                      <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                      <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                      <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                      <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                  </mat-menu>
+              </div>
+          </div>
+
+          <div class="table-responsive ">
+              <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+                  [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+
+                  <!-- Serial Number Column -->
+                  <ng-container matColumnDef="sno">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                  </ng-container>
+
+                  <!-- nocnumber Column -->
+                  <ng-container matColumnDef="login_name">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.login_name }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="head">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+                      <td mat-cell *matCellDef="let element">{{ element.head}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="division">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.division}} </td>
+                </ng-container>
+                <ng-container matColumnDef="district">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.district}} </td>
+                </ng-container>
+                <ng-container matColumnDef="block_Name_En">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.block_Name_En}} </td>
+                </ng-container>
+                  <!-- warehousename Column -->
+                  <ng-container matColumnDef="letterno">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO</th>
+                      <td mat-cell *matCellDef="let element">{{ element.letterno }} </td>
+                  </ng-container>
+
+                  <!-- facilityname Column -->
+                  <ng-container matColumnDef="asDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Date</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.asDate}} </td>
+                  </ng-container>
+
+                  <!-- nositems Column -->
+                  <ng-container matColumnDef="workname">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Works</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.workname}} </td>
+                  </ng-container>
+
+                  <!-- inddt Column -->
+                  <!-- <ng-container matColumnDef="enteredWorks">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Entered Works</th>
+                      <td mat-cell *matCellDef="let element">{{ element.enteredWorks}} </td>
+                  </ng-container> -->
+
+                  <!-- pendingday Column -->
+                 
+                  <ng-container matColumnDef="asAmt">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount (In Lacs)</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.asAmt}} </td>
+                  </ng-container>
+                  <!-- <ng-container matColumnDef="enteredTotalAS">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Entered Total AS</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.enteredTotalAS}} </td>
+                  </ng-container> -->
+                  <!-- <ng-container matColumnDef="balanceASAmount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance ASAmount(In Lacs)</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.balanceASAmount}} </td>
+                  </ng-container> -->
+                  <!-- <ng-container matColumnDef="asid">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>ASID</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.asid}} </td>
+                  </ng-container> -->
+                  <ng-container matColumnDef="work_id">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+                      <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
+                  </ng-container>
+                  
+                  <!-- Header Row -->
+                  <tr mat-header-row
+                      *matHeaderRowDef="['sno','login_name','head','division','district','block_Name_En','letterno','asDate','workname','asAmt','work_id']">
+                  </tr>
+
+                  <!-- Data Rows -->
+                  <tr mat-row
+                      *matRowDef="let row; columns: ['sno','login_name','head','division','district','block_Name_En','letterno','asDate','workname','asAmt','work_id']">
+                  </tr>
+              </table>
+              <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          </div>
+      </div>
+
+
+  </div>
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <mat-icon role="img" mat-card-avatar 
+                  class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color" 
+                  aria-hidden="true">
+          exit_to_app
+        </mat-icon>
+      </button>
+    </div>
 </ng-template>
-<!-- <div class="modal fade w-100" id="itemDetailsModal" tabindex="-1" aria-labelledby="itemDetailsModalLabel" aria-hidden="true" data-bs-backdrop="false">
-  <div class="modal-dialog">
-    <div class="modal-content" >
-      <div class="modal-header">
-        <h5 class="modal-title" id="itemDetailsModalLabel">Item Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body w-100">
-        <p><strong>Facility Name:</strong> dsds</p>
-        <p><strong>Number of Items:</strong> dsd</p>
-        <p><strong>Drop Date:</strong> dsd</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div> -->

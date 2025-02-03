@@ -20,7 +20,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { ASCompletedDetails, ASEnteredDetails, ASPendingDetails, DivisionWiseASPendingDetails } from 'src/app/Model/DashProgressCount';
+import { ASCompletedDetails, ASEnteredDetails, ASFile, ASPendingDetails, DivisionWiseASPendingDetails } from 'src/app/Model/DashProgressCount';
+// import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-administrative-sanction',
   standalone: true,
@@ -59,19 +60,22 @@ export class AdministrativeSanctionComponent {
   //#region DataBase Table
         dataSource!: MatTableDataSource<ASPendingDetails>;
         dataSource1!: MatTableDataSource<ASEnteredDetails>;
-        // dataSource1!: MatTableDataSource<ASCompletedDetails>;
+        dataSource2!: MatTableDataSource<ASCompletedDetails>;
         dataSourceDivision!: MatTableDataSource<DivisionWiseASPendingDetails>;
-        @ViewChild('paginator') paginator!: MatPaginator;
+        @ViewChild('paginatorval') paginatorval!: MatPaginator;
         @ViewChild('paginator1') paginator1!: MatPaginator;
+        @ViewChild('paginator3') paginator3!: MatPaginator;
         @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator;
         @ViewChild('sort') sort!: MatSort;
         @ViewChild('sort1') sort1!: MatSort;
         @ViewChild('sort2') sort2!: MatSort;
+        @ViewChild('sort3') sort3!: MatSort;
         dispatchData: ASPendingDetails[] = [];
         dispatchData1: ASEnteredDetails[] = [];
-        // dispatchData1: ASCompletedDetails[] = [];
+        dispatchData2: ASCompletedDetails[] = [];
         dispatchDataDivision: DivisionWiseASPendingDetails[] = [];
-      
+        ASFileData: ASFile[] = [];
+        value='Active';
         //#endregion
       divisionid: any;
       himisDistrictid: any;
@@ -90,32 +94,74 @@ export class AdministrativeSanctionComponent {
     private fb: FormBuilder
   ) {
     this.dataSource = new MatTableDataSource<ASPendingDetails>([]);
-    // this.dataSource1 = new MatTableDataSource<ASCompletedDetails>([]);
     this.dataSource1 = new MatTableDataSource<ASEnteredDetails>([]);
+    this.dataSource2 = new MatTableDataSource<ASCompletedDetails>([]);
     this.dataSourceDivision = new MatTableDataSource<DivisionWiseASPendingDetails>([]);
   }
   ngOnInit() {
   if(this.selectedTabIndex == 0){
     this.getASPendingDetails();
+    this.getDivisionWiseASPendingDetails();
+
   }
+  }
+
+  ngAfterViewInit() {
+    // this.dataSource.paginator = this.paginatorval;
+    // this.dataSource.sort = this.sort;
+    this.dataSource2.paginator = this.paginator3;
+    this.dataSource2.sort = this.sort3;
+    this.dataSource1.paginator = this.paginator1;
+    this.dataSource1.sort = this.sort1;
+    // this.dataSourceDivision.paginator = this.paginatorPageSize;
+    // this.dataSourceDivision.sort = this.sort2;
   }
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
     if (this.selectedTabIndex == 0) {
       // this.getASPendingDetails();
+      // this.getASPendingDetails();
+      this.dataSource.paginator = this.paginatorval;
+    this.dataSource.sort = this.sort;
+    this.dataSourceDivision.paginator = this.paginatorPageSize;
+    this.dataSourceDivision.sort = this.sort2;
 
     } else {
-      this.getDivisionWiseASPendingDetails();
+      // this.getDivisionWiseASPendingDetails();
+      this.getASCompletedDetails();
 
     }
   }
 
 
-// GETASEnteredDetails(ASID:any,divisionId:any,mainSchemeId:any){
-//   return this.http.get<ASEnteredDetails[]>(`${this.apiUrl}/ASDetails/ASEnteredDetails?ASID=${ASID}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}`);
+  onButtonClick(ASID:any,workid:any): void {
+  //  this.value='Active';
+  // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+    // alert(ASID);
+    // alert(this.value);
+    // return;
+    this.spinner.show();
+    this.api.GETASFile(ASID,workid)
+      .subscribe(
+        (res) => {
+         this.ASFileData=res;
+         const URL=res[0].asLetterName;
+        //  const URL =this.ASFileData[0].asLetterName;
+         window.open(URL, '_blank');
+        // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+
+          // console.log('res:', res);
+          console.log('ASFileData:',this.ASFileData);
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          alert(`Error fetching data: ${error.message}`);
+        }
+      );
+   }
 
 
-//   //https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASEnteredDetails?ASID=22&divisionId=D1017&mainSchemeId=0
   getASEnteredDetails(ASID:any,divisionId:any,mainSchemeId:any): void {
     console.log(ASID, divisionId , mainSchemeId )
   this.spinner.show();
@@ -132,42 +178,44 @@ export class AdministrativeSanctionComponent {
         // console.log('dispatchData=:', this.dispatchData);
         this.dataSource1.data = this.dispatchData1;
         this.dataSource1.paginator = this.paginator1;
-        this.dataSource1.sort = this.sort2;
+        this.dataSource1.sort = this.sort1;
         this.cdr.detectChanges();
         this.spinner.hide();
       },
       (error) => {
-        console.error('Error fetching data', error);
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
       }
     );
   this.openDialog();
  }
-//   getASCompletedDetails(): void {
-//   this.spinner.show();
-//   this.api.GETASCompleted()
-//     .subscribe(
-//       (res) => {
-//         this.dispatchData1 = res.map(
-//           (item: ASCompletedDetails, index: number) => ({
-//             ...item,
-//             sno: index + 1,
-//           })
-//         );
-//         // console.log('res:', res);
-//         console.log('dataSource:', this.dataSource);
-//         // console.log('dispatchData=:', this.dispatchData);
-//         this.dataSource1.data = this.dispatchData1;
-//         this.dataSource1.paginator = this.paginator1;
-//         this.dataSource1.sort = this.sort2;
-//         this.cdr.detectChanges();
-//         this.spinner.hide();
-//       },
-//       (error) => {
-//         console.error('Error fetching data', error);
-//       }
-//     );
-//   this.openDialog();
-//  }
+
+  getASCompletedDetails(): void {
+  this.spinner.show();
+  this.api.GETASCompleted()
+    .subscribe(
+      (res) => {
+        this.dispatchData2 = res.map(
+          (item: ASCompletedDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        // console.log('res:', res);
+        console.log('dataSource2:', this.dataSource2);
+        console.log('dispatchData2 =:', this.dispatchData2);
+        this.dataSource2.data = this.dispatchData2;
+        this.dataSource2.paginator = this.paginator3;
+        this.dataSource2.sort = this.sort3;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+       alert(`Error fetching data: ${error.message}`);
+      }
+    );
+  // this.openDialog();
+ }
   getASPendingDetails(): void {
   this.spinner.show();
   this.api.GETASPendingDetails()
@@ -183,13 +231,14 @@ export class AdministrativeSanctionComponent {
         console.log('dataSource:', this.dataSource);
         // console.log('dispatchData=:', this.dispatchData);
         this.dataSource.data = this.dispatchData;
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.paginator = this.paginatorval;
         this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
         this.spinner.hide();
       },
       (error) => {
-        console.error('Error fetching data', error);
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
       }
     );
   // this.openDialog();
@@ -212,12 +261,13 @@ export class AdministrativeSanctionComponent {
         // console.log('dispatchData=:', this.dispatchData);
         this.dataSourceDivision.data = this.dispatchDataDivision;
         this.dataSourceDivision.paginator = this.paginatorPageSize;
-        this.dataSourceDivision.sort = this.sort1;
+        this.dataSourceDivision.sort = this.sort2;
         this.cdr.detectChanges();
         this.spinner.hide();
       },
       (error) => {
-        console.error('Error fetching data', error);
+        this.spinner.hide();
+       alert(`Error fetching data: ${error.message}`);
       }
     );
   // this.openDialog();
@@ -391,4 +441,11 @@ export class AdministrativeSanctionComponent {
        console.log('Dialog closed');
       });
       }
+
+      // onButtonClick(ASID: any,id:any): void {
+      //   this.asid=ASID;
+      //   // Implement your logic here
+      //   console.log('Button clicked for element:', ASID);
+      // }
+      
 }

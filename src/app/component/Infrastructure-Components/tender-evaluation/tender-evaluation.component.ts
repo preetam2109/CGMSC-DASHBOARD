@@ -1207,13 +1207,13 @@ this.spinner.show();
 var roleName = localStorage.getItem('roleName');
 if (roleName == 'Division') {
  this.divisionid = sessionStorage.getItem('divisionID');
-var RPType ='Division';
+// var RPType ='Division';
  this.chartOptionsLine.chart.height = '200px';
  this.himisDistrictid = 0;
  this.mainschemeid=0;
 } else if (roleName == 'Collector') {
  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-var RPType="District";
+// var RPType="District";
  this.divisionid = 0;
  this.mainschemeid=0;
  this.chartOptionsLine.chart.height = '400px';
@@ -1221,7 +1221,7 @@ var RPType="District";
  this.divisionid = 0;
  this.himisDistrictid = 0;
  this.mainschemeid=0;
- this.chartOptionsLine.chart.height = 'auto';
+ this.chartOptionsLine.chart.height = '900';
 }
 this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
 // alert( this.TimeStatus)
@@ -1318,13 +1318,13 @@ GETPEvaluationTotal(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
-  var RPType ='Division';
+  // var RPType ='Division';
    this.chartOptionsLine2.chart.height = '200px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-  var RPType="District";
+  // var RPType="District";
    this.divisionid = 0;
    this.mainschemeid=0;
    this.chartOptionsLine2.chart.height = '400px';
@@ -1425,13 +1425,13 @@ GETPEvaluationTotal(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
-  var RPType ='Division';
+  // var RPType ='Division';
    this.chartOptions.chart.height = '200px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-  var RPType="District";
+  // var RPType="District";
    this.divisionid = 0;
    this.mainschemeid=0;
    this.chartOptions.chart.height = '400px';
@@ -1533,13 +1533,13 @@ GETPEvaluationTotal(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
-  var RPType ='Division';
+  // var RPType ='Division';
    this.chartOptions2.chart.height = '200px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-  var RPType="District";
+  // var RPType="District";
    this.divisionid = 0;
    this.mainschemeid=0;
    this.chartOptions2.chart.height = '400px';
@@ -1642,13 +1642,13 @@ GETPEvaluationTotal(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
-  var RPType ='Division';
+  // var RPType ='Division';
    this.chartOptionsLine.chart.height = '200px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-  var RPType="District";
+  // var RPType="District";
    this.divisionid = 0;
    this.mainschemeid=0;
    this.chartOptionsLine.chart.height = '400px';
@@ -1656,7 +1656,7 @@ GETPEvaluationTotal(): void {
    this.divisionid = 0;
    this.himisDistrictid = 0;
    this.mainschemeid=0;
-   this.chartOptionsLine.chart.height = 'auto';
+   this.chartOptionsLine.chart.height = '500';
   }
   this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
   // alert( this.TimeStatus)

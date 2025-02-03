@@ -86,9 +86,9 @@ export class PriceEvaluationComponent {
   //#region DataBase Table
   dataSource!: MatTableDataSource<PaidDetails>;
   dataSource1!: MatTableDataSource<UnPaidDetails>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('sort') sort!: MatSort;
   @ViewChild('sort1') sort1!: MatSort;
   dispatchData: PaidDetails[] = [];
   dispatchData1: UnPaidDetails[] = [];
@@ -2015,8 +2015,8 @@ export class PriceEvaluationComponent {
           // console.log('PaidDetails:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource1.data = this.dispatchData1;
-          this.dataSource1.paginator = this.paginator;
-          this.dataSource1.sort = this.sort;
+          this.dataSource1.paginator = this.paginatorPageSize;
+          this.dataSource1.sort = this.sort1;
           this.cdr.detectChanges();
           this.spinner.hide();
         },
@@ -2048,8 +2048,8 @@ export class PriceEvaluationComponent {
           console.log('UNDetails:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource1.data = this.dispatchData1;
-          this.dataSource1.paginator = this.paginator;
-          this.dataSource1.sort = this.sort;
+          this.dataSource1.paginator = this.paginatorPageSize;
+          this.dataSource1.sort = this.sort1;
           this.cdr.detectChanges();
           this.spinner.hide();
         },
@@ -2081,8 +2081,8 @@ export class PriceEvaluationComponent {
           console.log('UNDetails:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource1.data = this.dispatchData1;
-          this.dataSource1.paginator = this.paginator;
-          this.dataSource1.sort = this.sort;
+          this.dataSource1.paginator = this.paginatorPageSize;
+          this.dataSource1.sort = this.sort1;
           this.cdr.detectChanges();
           this.spinner.hide();
         },
@@ -2114,8 +2114,8 @@ export class PriceEvaluationComponent {
           console.log('UNDetails:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource1.data = this.dispatchData1;
-          this.dataSource1.paginator = this.paginator;
-          this.dataSource1.sort = this.sort;
+          this.dataSource1.paginator = this.paginatorPageSize;
+          this.dataSource1.sort = this.sort1;
           this.cdr.detectChanges();
           this.spinner.hide();
         },
@@ -2145,21 +2145,23 @@ UNapplyTextFilter(event: Event) {
 exportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
+    // 'sno', 'head','district','division','workname','wrokOrderDT','billno','agrbillstatus',
+    // 'totalamountofcontract','grosspaid','totalpaidtillinlac','chequeDT','mesurementDT','worK_ID'
     { title: 'S.No', dataKey: 'sno' },
-    { title: 'letterno', dataKey: 'letterno' },
-    { title: 'head', dataKey: 'head' },
-    { title: 'district', dataKey: 'district' },
-    { title: 'division', dataKey: 'division' },
-    { title: 'workname', dataKey: 'workname' },
-    { title: 'wrokOrderDT', dataKey: 'wrokOrderDT' },
-    { title: 'billno', dataKey: 'billno' },
-    { title: 'agrbillstatus', dataKey: 'agrbillstatus' },
-    { title: 'totalamountofcontract', dataKey: 'totalamountofcontract' },
-    { title: 'grosspaid', dataKey: 'grosspaid' },
-    { title: 'totalpaidtillinlac', dataKey: 'totalpaidtillinlac' },
-    { title: 'chequeDT', dataKey: 'chequeDT' },
-    { title: 'mesurementDT', dataKey: 'mesurementDT' },
-    { title: 'worK_ID', dataKey: 'worK_ID' },
+    // { title: 'letterno', dataKey: 'letterno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'division' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Work', dataKey: 'workname' },
+    { title: 'Work Order DT', dataKey: 'wrokOrderDT' },
+    { title: 'Bill No.', dataKey: 'billno' },
+    { title: 'AGR Bill Status', dataKey: 'agrbillstatus' },
+    { title: 'Contract Value (In lacs)', dataKey: 'totalamountofcontract' },
+    { title: 'Gross Paid Value (In lacs)', dataKey: 'grosspaid' },
+    { title: 'Total Paid Till(In lacs)', dataKey: 'totalpaidtillinlac' },
+    { title: 'Cheque DT.', dataKey: 'chequeDT' },
+    { title: 'Measurement DT', dataKey: 'mesurementDT' },
+    { title: 'WorK ID', dataKey: 'worK_ID' },
   ];
   const rows = this.dispatchData.map((row) => ({
     sno: row.sno,
@@ -2192,41 +2194,42 @@ UNexportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
-    { title: 'letterno', dataKey: 'letterno' },
-    { title: 'head', dataKey: 'head' },
-    { title: 'district', dataKey: 'district' },
-    { title: 'division', dataKey: 'division' },
-    { title: 'workname', dataKey: 'workname' },
-    { title: 'wrokOrderDT', dataKey: 'wrokOrderDT' },
-    { title: 'billno', dataKey: 'billno' },
-    { title: 'agrbillstatus', dataKey: 'agrbillstatus' },
-    { title: 'totalamountofcontract', dataKey: 'totalamountofcontract' },
-    { title: 'Gross Amt', dataKey: 'grossAmtNew' },
-    { title: 'Total Paid Tillinlac', dataKey: 'totalpaidtillinlac' },
-    { title: 'ChequeDT', dataKey: 'chequeDT' },
-    { title: 'MesurementDT', dataKey: 'mesurementDT' },
+    // { title: 'letterno', dataKey: 'letterno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'division' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Work', dataKey: 'workname' },
+    { title: 'Wrok Order DT', dataKey: 'wrokOrderDT' },
+    { title: 'Bill No.', dataKey: 'billno' },
+    { title: 'Bill Type', dataKey: 'agrbillstatus' },
+    { title: 'Contract Value (In lacs)', dataKey: 'totalamountofcontract' },
+    { title: 'Gross Amount Due(In lacs)', dataKey: 'grossAmtNew' },
+    { title: 'Total Paid Till(In lacs)', dataKey: 'totalpaidtillinlac' },
+    // { title: 'ChequeDT', dataKey: 'chequeDT' },
+    { title: 'Measurement DT', dataKey: 'mesurementDT' },
     { title: 'WorK ID', dataKey: 'worK_ID' },
   ];
   const rows = this.dispatchData1.map((row) => ({
     sno: row.sno,
+    // letterno: row.letterno,
     head: row.head,
-    district: row.district,
     division: row.division,
+    district: row.district,
     workname: row.workname,
     wrokOrderDT: row.wrokOrderDT,
     billno: row.billno,
-    billdate:row.billdate,
+    // billdate:row.billdate,
     agrbillstatus: row.agrbillstatus,
     totalamountofcontract: row.totalamountofcontract,
     grossAmtNew: row.grossAmtNew,
     totalpaidtillinlac: row.totalpaidtillinlac,
-    chequeDT: row.chequeDT,
+    // chequeDT: row.chequeDT,
     mesurementDT: row.mesurementDT,
-    dayssincemeasurement: row.dayssincemeasurement,
-    workStatus: row.workStatus,
+    // dayssincemeasurement: row.dayssincemeasurement,
+    // workStatus: row.workStatus,
     worK_ID: row.worK_ID,
-    designation: row.designation,
-    engName: row.engName,
+    // designation: row.designation,
+    // engName: row.engName,
   }));
 
   autoTable(doc, {
