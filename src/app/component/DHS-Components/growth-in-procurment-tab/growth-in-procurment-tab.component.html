@@ -10,24 +10,25 @@
       [(selectedIndex)]="selectedTabIndex"
       (selectedTabChange)="selectedTabValue($event)"
     >
+    <mat-tab
+      label="Orders against Annual Indent in F.Y"
+      [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
+    >
+      <ng-template matTabContent>
+        <app-growth-in-procurment-two
+          *ngIf="selectedTabIndex === 0"
+        ></app-growth-in-procurment-two>
+      </ng-template>
+    </mat-tab>
       <mat-tab
         label="Orders in F.Y"
-        [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
-      >
-        <ng-template matTabContent>
-          <app-growth-in-procurment *ngIf="selectedTabIndex === 0"></app-growth-in-procurment>
-        </ng-template>
-      </mat-tab>
-      <mat-tab
-        label="Orders against Annual Indent in F.Y"
         [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
       >
         <ng-template matTabContent>
-          <app-growth-in-procurment-two
-            *ngIf="selectedTabIndex === 1"
-          ></app-growth-in-procurment-two>
+          <app-growth-in-procurment *ngIf="selectedTabIndex === 1"></app-growth-in-procurment>
         </ng-template>
       </mat-tab>
+      
       <mat-tab
         label="Annual Indent vs Orders"
         [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"

@@ -557,6 +557,7 @@ WHDrugCount(districtId:any,mcid:any,whid:any): Observable<any> {
 }
 
 HODPOYear_AgAI(mcatid:any,hodid:any,Isall:any,IsagainstAI:any): Observable<any> {
+  debugger
   
   return this.http.get<HODPOYear_AgAI[]>(`https://dpdmis.in/CGMSCHO_API2/api/HO/HODPOYear_AgAI?mcatid=${mcatid}&hodid=${hodid}&Isall=${Isall}&IsagainstAI=${IsagainstAI}`);
 }
@@ -953,8 +954,8 @@ Last7DaysReceipt(days:any,mcid:any,yrid:any){
   return this.http.get<Last7DaysReceipt[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysReceipt?days=${days}&mcid=${mcid}&yrid=${yrid}`);
 }
 
-MasIndentitems(mcid:any,yearid:any){
-  return this.http.get<MasIndentitems[]>(`${this.CGMSCHO_API2}/DashboardHome/MasIndentitems?mcid=${mcid}&yearid=${yearid}`);
+MasIndentitems(mcid:any,yearid:any,hodid:any,medclgid:any){
+  return this.http.get<MasIndentitems[]>(`${this.CGMSCHO_API2}/DashboardHome/MasIndentitems?mcid=${mcid}&yearid=${yearid}&hodid=${hodid}&medclgid=${medclgid}`);
 }
 MasfacilityInfo(hod:any,disid:any,factypeid:any,whid:any,facid:any){
   return this.http.get<MasfacilityInfo[]>(`${this.CGMSCHO_API2}/Master/MasfacilityInfo?hod=${hod}&disid=${disid}&factypeid=${factypeid}&whid=${whid}&facid=${facid}`);
@@ -986,6 +987,19 @@ getPOCountCFY(yrid:any,mcid:any){
 getDeliveryInMonth(IndentfromDT:any,Indenttodt:any){
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}`);
 }
+
+getTotalRC(mcid:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOTender/TotalRCMC?mcid=${mcid}`);
+}
+
+getNearExpRC(mcid:any){
+return this.http.get<any[]>(`${this.CGMSCHO_API2}/TimeTaken/NearExpRC?mcid=${mcid}`);
+}
+
+CGMSCStockHome(mcid:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/CGMSCStockHome?mcid=${mcid}`);
+  }
+
 
 
 
