@@ -88,26 +88,13 @@ import {
   SbuEngAllotedWorks, AEEngAllotedWorks, LIPendingTotal, HandoverAbstract,
   GetHandoverDetails, sbuDistrictEngAllotedWorks, LandIssueDetails,
   WorkDetailsWithEng, DistrictNameDME,ProjectTimeline, TSDetail, TSDetailallData, WorkOrderIssued,
-  WorkGenDetails,
-  LiveTenderdata,
-  TenderDetails,
-  TenderEvaluation,
-  TenderEvaluationDetails,
-  PaidSummary,
-  UnPaidSummary,
-  PriceEvaluationDetails,
-  PriceEvaluation,
-  TenderStatus,
-  PaidDetails,
-  TobeTenderDetailsAS,
-  TobeTenderRejection,
-  TobeTenderAppliedZonalPermission,
-  UnPaidDetails,
-  TobeTenderDetailsCancelled,
-  ASPendingDetails,
-  DivisionWiseASPendingDetails,
-  ASCompletedDetails,
-  ASEnteredDetails,
+  WorkGenDetails, LiveTenderdata,TenderDetails, TenderEvaluation, TenderEvaluationDetails,PaidSummary,
+  UnPaidSummary, PriceEvaluationDetails, PriceEvaluation, TenderStatus, PaidDetails, TobeTenderDetailsAS,
+  TobeTenderRejection, TobeTenderAppliedZonalPermission, UnPaidDetails,TobeTenderDetailsCancelled,
+  ASPendingDetails, DivisionWiseASPendingDetails,  ASCompletedDetails, ASEnteredDetails,ASFile,
+  WORunningHandDetails,
+  DetailProgressTinP,
+  LandIssue_RetToDeptDetatails
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -652,7 +639,23 @@ getDHSissueItems(districtId:any,mcid:any){
 // Infrastructure
 
 
-// #region 
+//#region DetailProgress
+
+
+GETWORunningHandDetails(did:any,divisionId: any, distId: number, mainSchemeId: any,) {
+  return this.http.get<WORunningHandDetails[]>(`${this.apiUrl}/DetailProgress/WORunningHandDetails?did=${did}&divisionid=${divisionId}&districtid=${distId}&mainSchemeId=${mainSchemeId}`);
+ // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/WORunningHandDetails?did=3001&divisionid=0&districtid=0&mainschemeid=0
+// WORunningHandDetails
+}
+GETLandIssueRetToDeptDetatails(did:any,divisionid: any, districtid: number,mainschemeid:any) {
+  return this.http.get<LandIssue_RetToDeptDetatails[]>(`${this.apiUrl}/DetailProgress/LandIssue_RetToDeptDetatails?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/LandIssue_RetToDeptDetatails?did=6001&divisionid=0&districtid=0&mainschemeid=0
+}
+GETTobeTenderAll(did:any,divisionid: any, districtid: number,mainschemeid:any) {
+  return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TobeTenderAll?did=1001&divisionid=0&districtid=0&mainschemeid=0
+}
+
 
 DashProgressCount(divisionId: any, mainSchemeId: number, distId: number) {
   return this.http.get<DashProgressCount[]>(
@@ -733,6 +736,7 @@ GetProgressDetailsLatLong(did:any,divisionId:any,distid:any,mainSchemeId:any,wor
  
   }
   //#endregion
+
   //#region Handover
   // GETHandoverAbstractDateBY(Total:any, dashid:any,divisionId:any,districtid:any,SWId:any,fromdt:any,todt:any){
   //   return this.http.get<HandoverAbstractDateBY[]>(`${this.apiUrl}/Handover/HandoverAbstract?RPType=${Total}&dashid=${dashid}&divisionid=${divisionId}&districtid=${districtid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}`);
@@ -838,6 +842,7 @@ GETPriceEvaluationDetails(divisionId:any,mainschemeid:any,distid:any) {
 }
 //#endregion
 
+
 //#region Payment 
 GETPaidSummary(RPType:any,divisionId:any,districtid:any,mainschemeid:any,fromdt:any,todt:any) {
   return this.http.get<PaidSummary[]>(`${this.apiUrl}/Payment/PaidSummary?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&fromdt=${fromdt}&todt=${todt}`);
@@ -898,6 +903,12 @@ GETASCompleted(){
   //md :otp=11344
   // // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASCompleted
 }
+GETASFile(ASID:any,workid:any){
+  return this.http.get<ASFile[]>(`${this.apiUrl}/ASDetails/getASFile?ASID=${ASID}&workid=${workid}`);
+
+  //md :otp=11344
+  // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
+}
 GETASEnteredDetails(ASID:any,divisionId:any,mainSchemeId:any){
   return this.http.get<ASEnteredDetails[]>(`${this.apiUrl}/ASDetails/ASEnteredDetails?ASID=${ASID}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}`);
 
@@ -906,6 +917,10 @@ GETASEnteredDetails(ASID:any,divisionId:any,mainSchemeId:any){
 }
 
 //#endregion
+
+
+
+
 
 getDistDHSStock(disid:any,coll_cmho:any,mcatid:any,userid:any){
   

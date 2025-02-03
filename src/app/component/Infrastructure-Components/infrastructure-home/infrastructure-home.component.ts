@@ -6,15 +6,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DashProgressCount, DistrictNameDME, DMEProgressSummary, GetDistrict, MainScheme } from 'src/app/Model/DashProgressCount';
+import { DashProgressCount, DistrictNameDME, DMEProgressSummary, GetDistrict, MainScheme, WORunningHandDetails } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
-// import { BrowserModule } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ApexYAxis, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexFill, ApexLegend, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
-import { MatTableDataSource } from '@angular/material/table';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ApexYAxis, 
+  ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexFill, ApexLegend, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatMenuModule } from '@angular/material/menu';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -35,14 +39,12 @@ export type ChartOptions = {
   imports: [
     NgFor,
     NgStyle,
-    // BrowserModule,
-    // BrowserAnimationsModule,
     MatCardModule,
     MatIconModule,
     MatTabsModule,
     CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
-    NgApexchartsModule, MatSortModule, MatPaginatorModule,
-    // BrowserModule
+    NgApexchartsModule, MatSortModule, MatPaginatorModule,MatTableModule,
+        MatTableExporterModule, MatDialogModule, MatMenuModule,
   ],
 
   templateUrl: './infrastructure-home.component.html',
@@ -88,21 +90,43 @@ export class InfrastructureHomeComponent {
     { id: 'D1031', name: 'Baster ', color: '#9C27B0' },
   ];
 
+  
+  //#region DataBase Table
+  dataSource!: MatTableDataSource<WORunningHandDetails>;
+  // dataSource1!: MatTableDataSource<ASEnteredDetails>;
+  // dataSource1!: MatTableDataSource<ASCompletedDetails>;
+  // dataSourceDivision!: MatTableDataSource<DivisionWiseASPendingDetails>;
+  @ViewChild('itemDetailsModal') itemDetailsModal: any;
+          @ViewChild('paginator') paginator!: MatPaginator;
+          @ViewChild('paginator1') paginator1!: MatPaginator;
+          @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator;
+          @ViewChild('sort') sort!: MatSort;
+          @ViewChild('sort1') sort1!: MatSort;
+          @ViewChild('sort2') sort2!: MatSort;
+          dispatchData: WORunningHandDetails[] = [];
+          // dispatchData1: ASEnteredDetails[] = [];
+          // dispatchData1: ASCompletedDetails[] = [];
+          // dispatchDataDivision: DivisionWiseASPendingDetails[] = [];
+          // ASFileData: ASFile[] = [];
+ //#endregion
   // ChartOptions
   @ViewChild('chart') chart: ChartComponent | undefined;
   public cO: Partial<ChartOptions> | undefined;
   // chartOptions: ChartOptions;
   whidMap: { [key: string]: number } = {};
-  dataSource!: MatTableDataSource<DMEProgressSummary>;
+  // dataSource!: MatTableDataSource<DMEProgressSummary>;
   DMEProgressSummary: DMEProgressSummary[] = [];
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatSort) sort!: MatSort;
   chartOptions!: ChartOptions;
   selectedName: any;
   himisDistrictid:any;
   divid:any;
-  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {
-
+  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,private dialog: MatDialog,) {
+  this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
+    // this.dataSource1 = new MatTableDataSource<ASCompletedDetails>([]);
+    // this.dataSource1 = new MatTableDataSource<ASEnteredDetails>([]);
+    // this.dataSourceDivision = new MatTableDataSource<DivisionWiseASPendingDetails>([]);
   }
 
   ngOnInit() {
@@ -154,7 +178,7 @@ var mainSchemeId=0;
 // } 
     this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid).subscribe(
       (res: any) => {
-        // alert(JSON.stringify(res));
+        console.log("res=",JSON.stringify(res));
         this.originalData = this.sortDistrictData(res); // Save as original data
         this.districtData = [...this.originalData]; // Set for display
         this.calculateTotalNosWorks();
@@ -218,7 +242,7 @@ var mainSchemeId=0;
       this.api.GetDistrictNameDME(this.divisionid,this.himisDistrictid).subscribe(
         (res: any) => {
           this.DistrictNameDMEData = res;
-          console.log('DistrictNameDME1=', this.DistrictNameDMEData);
+          // console.log('DistrictNameDME1=', this.DistrictNameDMEData);
         },
         (error) => {
           alert(JSON.stringify(error));
@@ -249,7 +273,7 @@ var mainSchemeId=0;
         // this.himisDistrictid = this.distid;
         if(this.distid!=0){
           this.himisDistrictid = this.distid;
-          alert(this.himisDistrictid);
+          // alert(this.himisDistrictid);
         }
       }
       // 
@@ -259,7 +283,7 @@ var mainSchemeId=0;
       this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
       // console.error('dist id:', this.himisDistrictid  );
       // console.error('mainSchemeID:', this.mainSchemeID);
-      console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+      // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
       this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid).subscribe(
         (res: any) => {
           if (this.selectedTabIndex === 0) {
@@ -275,10 +299,12 @@ var mainSchemeId=0;
             // console.log('retotalwork=', JSON.stringify(this.districtData));
           } else {
             this.districtData = res;
-            console.log('re1=', JSON.stringify(this.districtData));
+            // console.log('re1=', JSON.stringify(this.districtData));
             this.districtData = this.sortDistrictData(res);
             // console.log('re2=', JSON.stringify(this.districtData));
           }
+          // console.log('res =', JSON.stringify(this.districtData));
+
           this.calculateTotalNosWorks();
           this.spinner.hide();
 
@@ -511,7 +537,7 @@ var mainSchemeId=0;
       },
     };
     this.loadData();
-    this.dataSource = new MatTableDataSource<DMEProgressSummary>([]);
+    // this.dataSource = new MatTableDataSource<DMEProgressSummary>([]);
     this.spinner.hide();
 
   }
@@ -661,8 +687,139 @@ var mainSchemeId=0;
 
   }
 //#endregion
-  selectdata(data:any ){
-  }
+  // selectdata(data:any ){
+  // }
 
+
+  //#region Data table 
+  // 
+  DetailProgress(did:any): void {
+    // console.log( divisionId , mainSchemeId )
+    // alert(did);
+  this.spinner.show();
+  // var did=3001;
+  
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');
+    this.showDivision = false;
+    // if(this.divid != 0){
+    //   this.divisionid  = this.divid ;
+    //   alert(this.divisionid );
+    // }
+    // alert( this.divisionid )
+    // return
+  } else if (roleName == 'Collector') {
+    this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+    // this.himisDistrictid = this.distid;
+    if(this.distid!=0){
+      this.himisDistrictid = this.distid;
+      // alert(this.himisDistrictid);
+    }
+  }
+  // 
+  // this.distid = this.distid == 0 ? 0 : this.distid;
+  this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+  this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+  console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+  const divisionid=0; 
+  const districtid=0;
+  const mainschemeid=0
+  this.api.GETWORunningHandDetails(did,divisionid,districtid,mainschemeid)
+    .subscribe(
+      (res) => {
+        this.dispatchData = res.map(
+          (item: WORunningHandDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('dispatchData=:', this.dispatchData);
+        this.dataSource.data = this.dispatchData;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      }
+    );
+  this.openDialog();
+ }
+
+ applyTextFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource.paginator) {
+    this.dataSource.paginator.firstPage();
+  }
+}
+exportToPDF() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    // 'sno','login_name','head','letterno','asDate','totalWorks','enteredWorks','balanceWork','divisionID','division','id','asid'
+
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'AS Letter No', dataKey: 'letterno' },
+    { title: 'AS Date', dataKey: 'asDate' },
+    { title: 'Total Works', dataKey: 'totalWorks' },
+    { title: 'Entered Works', dataKey: 'enteredWorks' },
+    { title: 'Balance Work', dataKey: 'balanceWork' },
+    { title: 'Division ID', dataKey: 'divisionID' },
+    { title: 'Division', dataKey: 'division' },
+    { title: 'ID', dataKey: 'id' },
+    { title: 'AS ID', dataKey: 'asid' },
+  ];
+  const rows = this.dispatchData.map((row) => ({
+
+    // sno: row.sno,
+    // login_name:row.login_name,
+    // head: row.head,
+    // letterno: row.letterno,
+    // asDate: row.asDate,
+    // totalWorks: row.totalWorks,
+    // enteredWorks: row.enteredWorks,
+    // balanceWork: row.balanceWork,
+    // divisionID: row.divisionID,
+    // division: row.division,
+    // id: row.id,
+    // asid: row.asid,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('ASDivisionDetails.pdf');
+}
+ // mat-dialog box
+ openDialog() {
+  const dialogRef = this.dialog.open(this.itemDetailsModal, {
+   width: '100%',
+   height: '100%',
+   maxWidth: '100%',
+   panelClass: 'full-screen-dialog', // Optional for additional styling
+   data: {
+     /* pass any data here */
+   },
+   // width: '100%',
+   // maxWidth: '100%', // Override default maxWidth
+   // maxHeight: '100%', // Override default maxHeight
+   // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+   // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+   console.log('Dialog closed');
+  });
+  }
+  //#endregion
 }
 

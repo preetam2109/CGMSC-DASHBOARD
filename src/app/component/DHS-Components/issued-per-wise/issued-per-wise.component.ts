@@ -225,7 +225,7 @@ export class IssuedPerWiseComponent {
     );
   
     // Open the URL in a new browser tab
-    window.open(url, '_blank');
+    window.open(url,'_blank');
   }
   
   ngOnInit() {

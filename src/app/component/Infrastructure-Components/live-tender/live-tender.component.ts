@@ -520,13 +520,17 @@ GETLiveTenderTotal(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
-  var RPType ='Division';
+  // var RPType ='Division';
+  var RPType = 'Total';
+
     this.chartOptionsLine2.chart.height = '200px';
     this.himisDistrictid = 0;
     this.mainschemeid=0;
   } else if (roleName == 'Collector') {
     this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-   var RPType="District";
+  //  var RPType="District";
+  var RPType = 'Total';
+
     this.divisionid = 0;
     this.mainschemeid=0;
     this.chartOptionsLine2.chart.height = '400px';
@@ -534,10 +538,11 @@ GETLiveTenderTotal(): void {
     this.divisionid = 0;
     this.himisDistrictid = 0;
     this.mainschemeid=0;
+  var RPType = 'Total';
+
     this.chartOptionsLine2.chart.height = '300';
   }
   this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
-  var RPType = 'Total';
   // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainschemeid,this.TimeStatus )
       .subscribe(
@@ -653,13 +658,15 @@ GETLiveTenderDivision(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
-  var RPType ='Division';
+  // var RPType ='Division';
+  var RPType = 'Division';
     this.chartOptions.chart.height = '200px';
     this.himisDistrictid = 0;
     this.mainschemeid=0;
   } else if (roleName == 'Collector') {
     this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-   var RPType="District";
+  //  var RPType="District";
+  var RPType = 'Division';
     this.divisionid = 0;
     this.mainschemeid=0;
     this.chartOptions.chart.height = '400px';
@@ -667,10 +674,11 @@ GETLiveTenderDivision(): void {
     this.divisionid = 0;
     this.himisDistrictid = 0;
     this.mainschemeid=0;
+    var RPType = 'Division';
     this.chartOptions.chart.height = '300';
   }
   this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
-  var RPType = 'Division';
+  
   // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainschemeid,this.TimeStatus )
       .subscribe(
@@ -784,13 +792,17 @@ GETLiveTenderScheme(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
-  var RPType ='Division';
+  // var RPType ='Division';
+  var RPType = 'Scheme';
+
     this.chartOptions2.chart.height = '200px';
     this.himisDistrictid = 0;
     this.mainschemeid=0;
   } else if (roleName == 'Collector') {
     this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-   var RPType="District";
+  //  var RPType="District";
+   var RPType = 'Scheme';
+
     this.divisionid = 0;
     this.mainschemeid=0;
     this.chartOptions2.chart.height = '400px';
@@ -799,10 +811,10 @@ GETLiveTenderScheme(): void {
     this.himisDistrictid = 0;
     this.mainschemeid=0;
     this.chartOptions2.chart.height = '300';
+    var RPType = 'Scheme';
   }
   this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
   // alert( this.TimeStatus)
-  var RPType = 'Scheme';
   // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainschemeid,this.TimeStatus )
       .subscribe(
@@ -916,7 +928,9 @@ GETLiveTenderDistrict(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
-  var RPType ='Division';
+  // var RPType ='Division';
+  var RPType="District";
+
     this.chartOptionsLine.chart.height = '200px';
     this.himisDistrictid = 0;
     this.mainschemeid=0;
@@ -930,11 +944,11 @@ GETLiveTenderDistrict(): void {
     this.divisionid = 0;
     this.himisDistrictid = 0;
     this.mainschemeid=0;
-    this.chartOptionsLine.chart.height = 'auto';
+    this.chartOptionsLine.chart.height = '900';
+    var RPType = 'District';
   }
   this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
   // alert( this.TimeStatus)
-  var RPType = 'District';
   // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainschemeid,this.TimeStatus )
       .subscribe(
