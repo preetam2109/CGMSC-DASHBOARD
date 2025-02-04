@@ -217,7 +217,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Division-wise Total Payment',
+        text: 'Division-wise',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -307,7 +307,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Scheme-wise Total Payment',
+        text: 'Scheme-wise',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -489,7 +489,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Payment',
+        text: 'Paid Summary',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -2263,6 +2263,7 @@ openDialog() {
   });
 }
 openDialog1() {
+
   const dialogRef = this.dialog.open(this.itemDetailsModal1, {
     width: '100%',
     height: '100%',

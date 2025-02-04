@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
-import { DashProgressCount, DistrictNameDME, DMEProgressSummary, GetDistrict, MainScheme, WORunningHandDetails } from 'src/app/Model/DashProgressCount';
+import { ASFile, DashProgressCount, DetailProgressTinP, DistrictNameDME, DMEProgressSummary, GetDistrict, LandIssue_RetToDeptDetatails, MainScheme, TenderInProcess, WORunningHandDetails } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ApexYAxis, 
@@ -93,40 +93,48 @@ export class InfrastructureHomeComponent {
   
   //#region DataBase Table
   dataSource!: MatTableDataSource<WORunningHandDetails>;
-  // dataSource1!: MatTableDataSource<ASEnteredDetails>;
-  // dataSource1!: MatTableDataSource<ASCompletedDetails>;
+  dataSource1!: MatTableDataSource<LandIssue_RetToDeptDetatails>;
+  dataSource2!: MatTableDataSource<DetailProgressTinP>;
+  dataSource3!: MatTableDataSource<TenderInProcess>;
   // dataSourceDivision!: MatTableDataSource<DivisionWiseASPendingDetails>;
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
+  @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
+  @ViewChild('itemDetailsModal2') itemDetailsModal2: any;
+  @ViewChild('itemDetailsModal3') itemDetailsModal3: any;
           @ViewChild('paginator') paginator!: MatPaginator;
           @ViewChild('paginator1') paginator1!: MatPaginator;
-          @ViewChild('paginatorPageSize') paginatorPageSize!: MatPaginator;
+          @ViewChild('paginator2') paginator2!: MatPaginator;
+          @ViewChild('paginator3') paginator3!: MatPaginator;
           @ViewChild('sort') sort!: MatSort;
           @ViewChild('sort1') sort1!: MatSort;
           @ViewChild('sort2') sort2!: MatSort;
+          @ViewChild('sort3') sort3!: MatSort;
           dispatchData: WORunningHandDetails[] = [];
-          // dispatchData1: ASEnteredDetails[] = [];
-          // dispatchData1: ASCompletedDetails[] = [];
-          // dispatchDataDivision: DivisionWiseASPendingDetails[] = [];
+          dispatchData1: LandIssue_RetToDeptDetatails[] = [];
+          dispatchData2: DetailProgressTinP[] = [];
+          dispatchData3: TenderInProcess[] = [];
           // ASFileData: ASFile[] = [];
+          ASFileData: ASFile[] = [];
  //#endregion
   // ChartOptions
   @ViewChild('chart') chart: ChartComponent | undefined;
   public cO: Partial<ChartOptions> | undefined;
   // chartOptions: ChartOptions;
   whidMap: { [key: string]: number } = {};
-  // dataSource!: MatTableDataSource<DMEProgressSummary>;
   DMEProgressSummary: DMEProgressSummary[] = [];
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // @ViewChild(MatSort) sort!: MatSort;
   chartOptions!: ChartOptions;
   selectedName: any;
   himisDistrictid:any;
   divid:any;
+  roleName:any;
+  contractorid=0;
+  dashname:any;
+  nosworks:any;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,private dialog: MatDialog,) {
   this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
-    // this.dataSource1 = new MatTableDataSource<ASCompletedDetails>([]);
-    // this.dataSource1 = new MatTableDataSource<ASEnteredDetails>([]);
-    // this.dataSourceDivision = new MatTableDataSource<DivisionWiseASPendingDetails>([]);
+    this.dataSource1 = new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
+    this.dataSource2 = new MatTableDataSource<DetailProgressTinP>([]);
+    this.dataSource3 = new MatTableDataSource<TenderInProcess>([]);
   }
 
   ngOnInit() {
@@ -405,20 +413,24 @@ var mainSchemeId=0;
     if (did == 1001) {
       return '#FFC0CB';
     } else if (did == 2001) {
-      return '#FF8C00';
+      return '#faf557';
       // return '#ADFF2F';
       // return '#FF9800'; 
     } else if (did == 3001) {
-      return '#ADD8E6';
+      // return '#ADD8E6';
+      return '#FF8C00';
     }
     else if (did == 4001) {
-      return '#008000';
+      return '#62f562';
+      // return '#008000';
     }
     else if (did == 5001) {
-      return '#90EE90';//#4CAF50
+      return '#e7fa57';//#4CAF50
+      // return '#90EE90';//#4CAF50
     }
     else if (did == 6001) {
-      return '#FF0000';
+      return '#fa5795';
+      // return '#FF0000';
     }
     else if (did == 7001) {
       return '#FFA500';
@@ -687,46 +699,249 @@ var mainSchemeId=0;
 
   }
 //#endregion
-  // selectdata(data:any ){
-  // }
-
-
-  //#region Data table 
-  // 
-  DetailProgress(did:any): void {
-    // console.log( divisionId , mainSchemeId )
-    // alert(did);
-  this.spinner.show();
-  // var did=3001;
   
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
+
+
+  //#region Data table GETTobeTenderAll
+//   DetailProgress2(did:any): void {
+//     // console.log( divisionId , mainSchemeId )
+//     alert(did);
+//   this.spinner.show();
+//   // var did=3001;
+  
+//   var roleName = localStorage.getItem('roleName');
+//   if (roleName == 'Division') {
+//     this.divisionid = sessionStorage.getItem('divisionID');
+//     this.showDivision = false;
+//     // if(this.divid != 0){
+//     //   this.divisionid  = this.divid ;
+//     //   alert(this.divisionid );
+//     // }
+//     // alert( this.divisionid )
+//     // return
+//   } else if (roleName == 'Collector') {
+//     this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+//     // this.himisDistrictid = this.distid;
+//     if(this.distid!=0){
+//       this.himisDistrictid = this.distid;
+//       // alert(this.himisDistrictid);
+//     }
+//   }
+//   // 
+//   // this.distid = this.distid == 0 ? 0 : this.distid;
+//   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+//   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+//   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+//   console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+//   const divisionid=0; 
+//   const districtid=0;
+//   const mainschemeid=0
+//   this.api.GETTobeTenderAll(did,divisionid,districtid,mainschemeid)
+//     .subscribe(
+//       (res) => {
+//         this.dispatchData2 = res.map(
+//           (item: DetailProgressTinP, index: number) => ({
+//             ...item,
+//             sno: index + 1,
+//           })
+//         );
+//         console.log('dispatchData2=:', this.dispatchData2);
+//         this.dataSource2.data = this.dispatchData2;
+//         this.dataSource2.paginator = this.paginator2;
+//         this.dataSource2.sort = this.sort2;
+//         this.cdr.detectChanges();
+//         this.spinner.hide();
+//       },
+//       (error) => {
+//         this.spinner.hide();
+//         alert(`Error fetching data: ${error.message}`);
+//       }
+//     );
+//   this.openDialog2();
+//  }
+//   DetailProgress1(did:any): void {
+//     // console.log( divisionId , mainSchemeId )
+//     // alert(did);
+//   this.spinner.show();
+//   // var did=3001;
+  
+//   var roleName = localStorage.getItem('roleName');
+//   if (roleName == 'Division') {
+//     this.divisionid = sessionStorage.getItem('divisionID');
+//     this.showDivision = false;
+//     // if(this.divid != 0){
+//     //   this.divisionid  = this.divid ;
+//     //   alert(this.divisionid );
+//     // }
+//     // alert( this.divisionid )
+//     // return
+//   } else if (roleName == 'Collector') {
+//     this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+//     // this.himisDistrictid = this.distid;
+//     if(this.distid!=0){
+//       this.himisDistrictid = this.distid;
+//       // alert(this.himisDistrictid);
+//     }
+//   }
+//   // 
+//   // this.distid = this.distid == 0 ? 0 : this.distid;
+//   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+//   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+//   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+//   console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+//   const divisionid=0; 
+//   const districtid=0;
+//   const mainschemeid=0
+//   this.api.GETLandIssueRetToDeptDetatails(did,divisionid,districtid,mainschemeid)
+//     .subscribe(
+//       (res) => {
+//         this.dispatchData1 = res.map(
+//           (item: LandIssue_RetToDeptDetatails, index: number) => ({
+//             ...item,
+//             sno: index + 1,
+//           })
+//         );
+//         console.log('dispatchData1=:', this.dispatchData1);
+//         this.dataSource1.data = this.dispatchData1;
+//         this.dataSource1.paginator = this.paginator1;
+//         this.dataSource1.sort = this.sort1;
+//         this.cdr.detectChanges();
+//         this.spinner.hide();
+//       },
+//       (error) => {
+//         this.spinner.hide();
+//         alert(`Error fetching data: ${error.message}`);
+//       }
+//     );
+//   this.openDialog1();
+//  }
+  DetailProgress(did:any,dashname:any,nosworks:any): void {
+  //  debugger
+  this.dashname=dashname;
+  this.nosworks=nosworks;
+  this.spinner.show();
+this.roleName = localStorage.getItem('roleName');
+  if (this.roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
     this.showDivision = false;
-    // if(this.divid != 0){
-    //   this.divisionid  = this.divid ;
-    //   alert(this.divisionid );
-    // }
-    // alert( this.divisionid )
-    // return
-  } else if (roleName == 'Collector') {
+  } else if (this.roleName == 'Collector') {
     this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
-    // this.himisDistrictid = this.distid;
     if(this.distid!=0){
       this.himisDistrictid = this.distid;
-      // alert(this.himisDistrictid);
+      // this.himisDistrictid = this.distid;
     }
   }
-  // 
   // this.distid = this.distid == 0 ? 0 : this.distid;
   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
   console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-  const divisionid=0; 
-  const districtid=0;
-  const mainschemeid=0
-  this.api.GETWORunningHandDetails(did,divisionid,districtid,mainschemeid)
+
+  if (did == 1001) {
+    console.log('1001 =: ',did);
+    this.api.GETTobeTenderAll(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+    .subscribe(
+      (res) => {
+        this.dispatchData2 = res.map(
+          (item: DetailProgressTinP, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('DetailProgressTinP=:', this.dispatchData2);
+        this.dataSource2.data = this.dispatchData2;
+        this.dataSource2.paginator = this.paginator2;
+        this.dataSource2.sort = this.sort2;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      }
+    );
+  this.openDialog2();
+
+    // return 
+  }
+   else if (did == 2001) {
+    console.log('2001=: ',did);
+    this.api.GETDetailProgress(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+    .subscribe(
+      (res) => {
+        this.dispatchData3 = res.map(
+          (item: TenderInProcess, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('TenderInProcess=:', this.dispatchData3);
+        this.dataSource3.data = this.dispatchData3;
+        this.dataSource3.paginator = this.paginator3;
+        this.dataSource3.sort = this.sort3;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      }
+    );
+  this.openDialog3();
+
+    // return 
+  } 
+   else if (did === 6001 || did === 8001) {
+    console.log('6001 to 8001 =: ',did);
+    this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+    .subscribe(
+      (res) => {
+        this.dispatchData1 = res.map(
+          (item: LandIssue_RetToDeptDetatails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('LandIssue_RetToDeptDetatails=:', this.dispatchData1);
+        this.dataSource1.data = this.dispatchData1;
+        this.dataSource1.paginator = this.paginator1;
+        this.dataSource1.sort = this.sort1;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      }
+    );
+  this.openDialog1();
+    // return '#FF0000';
+  }
+  // else if (did == 3001) {
+  //   // return '#ADD8E6';
+  //   return '#FF8C00';
+  // }
+  // else if (did == 4001) {
+  //   return '#62f562';
+  //   // return '#008000';
+  // }
+  // else if (did == 5001) {
+  //   return '#e7fa57';//#4CAF50
+  //   // return '#90EE90';//#4CAF50
+  // }
+  // else if (did == 6001) {
+  //   return '#fa5795';
+  //   // return '#FF0000';
+  // }
+  // else if (did == 7001) {
+  //   return '#FFA500';
+  // }
+  // else if (did == 8001) {
+  //   return '#9E9E9E';
+  // } 
+  else {
+    console.log('3001,4001,to 5001=: ',did);
+    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid)
     .subscribe(
       (res) => {
         this.dispatchData = res.map(
@@ -735,7 +950,7 @@ var mainSchemeId=0;
             sno: index + 1,
           })
         );
-        console.log('dispatchData=:', this.dispatchData);
+        console.log('WORunningHandDetails=:', this.dispatchData);
         this.dataSource.data = this.dispatchData;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -748,6 +963,14 @@ var mainSchemeId=0;
       }
     );
   this.openDialog();
+    // return '#9E9E9E';
+  }
+
+
+  // const divisionid=0; 
+  // const districtid=0;
+  // const mainschemeid=0
+ 
  }
 
  applyTextFilter(event: Event) {
@@ -757,37 +980,69 @@ var mainSchemeId=0;
     this.dataSource.paginator.firstPage();
   }
 }
+
+ applyTextFilter_tobeTenderAll(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource2.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource2.paginator) {
+    this.dataSource2.paginator.firstPage();
+  }
+}
+applyTextFilter_TenderInProcess(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource3.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource3.paginator) {
+    this.dataSource3.paginator.firstPage();
+  }
+}
 exportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
-    // 'sno','login_name','head','letterno','asDate','totalWorks','enteredWorks','balanceWork','divisionID','division','id','asid'
-
     { title: 'S.No', dataKey: 'sno' },
     { title: 'Head', dataKey: 'head' },
-    { title: 'AS Letter No', dataKey: 'letterno' },
+    { title: 'Division', dataKey: 'divName_En' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Block', dataKey: 'blockname' },
+    { title: 'AS Letter No', dataKey: 'letterNo' },
+    { title: 'Approver', dataKey: 'approver' },
     { title: 'AS Date', dataKey: 'asDate' },
-    { title: 'Total Works', dataKey: 'totalWorks' },
-    { title: 'Entered Works', dataKey: 'enteredWorks' },
-    { title: 'Balance Work', dataKey: 'balanceWork' },
-    { title: 'Division ID', dataKey: 'divisionID' },
+    { title: 'Works', dataKey: 'work' },
+    // { title: 'TS Date', dataKey: 'tsDate' },
+    { title: 'TS Amount', dataKey: 'tsamt' },
+    { title: 'T Type', dataKey: 'tType' },
     { title: 'Division', dataKey: 'division' },
     { title: 'ID', dataKey: 'id' },
-    { title: 'AS ID', dataKey: 'asid' },
+    { title: 'A A DT', dataKey: 'aadt' },
+    { title: 'AS Amount', dataKey: 'asAmt' },
+    { title: 'Tender Reference', dataKey: 'tenderReference' },
+    { title: 'Tender Reference NO.', dataKey: 'acceptanceLetterRefNo' },
+    { title: 'Accept Letter DT', dataKey: 'acceptLetterDT' },
+    { title: 'Total Amount Of Contract', dataKey: 'totalAmountOfContract' },
+    { title: 'Work id', dataKey: 'work_id' },
   ];
   const rows = this.dispatchData.map((row) => ({
-
-    // sno: row.sno,
-    // login_name:row.login_name,
-    // head: row.head,
-    // letterno: row.letterno,
+    // 'sno','head','divName_En','district','blockname','letterNo','approver','asDate','work',
+    // 'tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo',
+    // 'acceptLetterDT','totalAmountOfContract','work_id'
+    sno: row.sno,
+    head: row.head,
+    divName_En:row.divName_En,
+    district: row.district,
+    blockname: row.blockname,
+    letterNo: row.letterNo,
+    approver: row.approver,
     // asDate: row.asDate,
-    // totalWorks: row.totalWorks,
-    // enteredWorks: row.enteredWorks,
-    // balanceWork: row.balanceWork,
-    // divisionID: row.divisionID,
-    // division: row.division,
-    // id: row.id,
-    // asid: row.asid,
+    work: row.work,
+    tsDate: row.tsDate,
+    tsamt: row.tsamt,
+    tType: row.tType,
+    aadt: row.aadt,
+    asAmt: row.asAmt,
+    tenderReference: row.tenderReference,
+    acceptanceLetterRefNo: row.acceptanceLetterRefNo,
+    acceptLetterDT: row.acceptLetterDT,
+    totalAmountOfContract: row.totalAmountOfContract,
+    work_id: row.work_id,
   }));
 
   autoTable(doc, {
@@ -798,7 +1053,170 @@ exportToPDF() {
     headStyles: { fillColor: [22, 160, 133] },
   });
 
-  doc.save('ASDivisionDetails.pdf');
+  doc.save('DetailProgress.pdf');
+}
+exportobeTenderAll_PDFT() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+   
+
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'divName_En' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Block', dataKey: 'blockname' },
+    { title: 'AS Letter No', dataKey: 'letterNo' },
+    { title: 'Approver', dataKey: 'approver' },
+    { title: 'Type', dataKey: 'type_name' },
+    { title: 'Works', dataKey: 'work' },
+    { title: 'AS Amount', dataKey: 'asAmt' },
+    { title: 'TS Amount', dataKey: 'tsamt' },
+    { title: 'TS Date', dataKey: 'tsDate' },
+    { title: 'AS DT', dataKey: 'aadt' },
+    { title: 'lProgress', dataKey: 'lProgress' },
+    { title: 'Progress DT', dataKey: 'progressDT' },
+    { title: 'Remarks', dataKey: 'remarks' },
+    { title: 'Group', dataKey: 'groupName' },
+    { title: 'Dash', dataKey: 'dashName' },
+    { title: 'AS Path', dataKey: 'asPath' },
+    { title: 'AS Letter', dataKey: 'asLetter' },
+    { title: 'Descri ID', dataKey: 'descri' },
+    { title: 'Fmr code', dataKey: 'fmrcode' },
+    { title: 'startdt', dataKey: 'startdt' },
+    { title: 'End DT', dataKey: 'enddt' },
+    { title: 'AS ID', dataKey: 'asid' },
+    { title: 'NO. of Calls', dataKey: 'noofcalls' },
+    { title: 'Tender NO.', dataKey: 'tenderno' },
+    { title: 'Eproc NO.', dataKey: 'eprocno' },
+    { title: 'COV Opened DT', dataKey: 'covOpenedDT' },
+    { title: 'Topned price DT', dataKey: 'topnedpricedt' },
+    { title: 'Work id', dataKey: 'worK_ID' },
+  ];
+  const rows = this.dispatchData2.map((row) => ({
+    sno: row.sno,
+    divName_En:row.divName_En,
+    district: row.district,
+    blockname: row.blockname,
+    letterNo: row.letterNo,
+    head: row.head,
+    approver: row.approver,
+    type_name: row.type_name,
+    work: row.work,
+    asAmt: row.asAmt,
+    tsamt: row.tsamt,
+    tsDate: row.tsDate,
+    aadt: row.aadt,
+    lProgress: row.lProgress,
+    progressDT: row.progressDT,
+    remarks: row.remarks,
+    groupName: row.groupName,
+    dashName: row.dashName,
+    asPath: row.asPath,
+    asLetter: row.asLetter,
+    asid: row.asid,
+    descri: row.descri,
+    fmrcode: row.fmrcode,
+    startdt: row.startdt,
+    enddt: row.enddt,
+    noofcalls: row.noofcalls,
+    tenderno: row.tenderno,
+    eprocno: row.eprocno,
+    covOpenedDT: row.covOpenedDT,
+    topnedpricedt: row.topnedpricedt,
+    worK_ID: row.worK_ID,
+
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('DetailProgress.pdf');
+}
+expor_TenderInProcess_PDFT() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'divName_En' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Block', dataKey: 'blockname' },
+    { title: 'AS Letter No', dataKey: 'letterNo' },
+    { title: 'Approver', dataKey: 'approver' },
+    { title: 'Type', dataKey: 'type_name' },
+    { title: 'Works', dataKey: 'work' },
+    { title: 'AS Amount', dataKey: 'asAmt' },
+    { title: 'TS Amount', dataKey: 'tsamt' },
+    { title: 'TS Date', dataKey: 'tsDate' },
+    { title: 'AS DT', dataKey: 'aadt' },
+    { title: 'lProgress', dataKey: 'lProgress' },
+    { title: 'Progress DT', dataKey: 'progressDT' },
+    { title: 'Remarks', dataKey: 'remarks' },
+    { title: 'Group', dataKey: 'groupName' },
+    { title: 'Dash', dataKey: 'dashName' },
+    { title: 'AS Path', dataKey: 'asPath' },
+    { title: 'AS Letter', dataKey: 'asLetter' },
+    { title: 'Descri ID', dataKey: 'descri' },
+    { title: 'Fmr code', dataKey: 'fmrcode' },
+    { title: 'startdt', dataKey: 'startdt' },
+    { title: 'End DT', dataKey: 'enddt' },
+    { title: 'AS ID', dataKey: 'asid' },
+    { title: 'NO. of Calls', dataKey: 'noofcalls' },
+    { title: 'Tender NO.', dataKey: 'tenderno' },
+    { title: 'Eproc NO.', dataKey: 'eprocno' },
+    { title: 'COV Opened DT', dataKey: 'covOpenedDT' },
+    { title: 'Topned price DT', dataKey: 'topnedpricedt' },
+    { title: 'Work id', dataKey: 'work_id' },
+  ];
+  const rows = this.dispatchData3.map((row) => ({
+    sno: row.sno,
+    divName_En:row.divName_En,
+    district: row.district,
+    blockname: row.blockname,
+    letterNo: row.letterNo,
+    head: row.head,
+    approver: row.approver,
+    type_name: row.type_name,
+    work: row.work,
+    asAmt: row.asAmt,
+    tsamt: row.tsamt,
+    tsDate: row.tsDate,
+    aadt: row.aadt,
+    lProgress: row.lProgress,
+    progressDT: row.progressDT,
+    remarks: row.remarks,
+    groupName: row.groupName,
+    dashName: row.dashName,
+    asPath: row.asPath,
+    asLetter: row.asLetter,
+    asid: row.asid,
+    descri: row.descri,
+    fmrcode: row.fmrcode,
+    startdt: row.startdt,
+    enddt: row.enddt,
+    noofcalls: row.noofcalls,
+    tenderno: row.tenderno,
+    eprocno: row.eprocno,
+    covOpenedDT: row.covOpenedDT,
+    topnedpricedt: row.topnedpricedt,
+    // work_id: row.work_id,
+    worK_ID: row.worK_ID,
+
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('DetailProgress.pdf');
 }
  // mat-dialog box
  openDialog() {
@@ -820,6 +1238,94 @@ exportToPDF() {
    console.log('Dialog closed');
   });
   }
+  openDialog1() {
+  
+    const dialogRef = this.dialog.open(this.itemDetailsModal1, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+  openDialog2() {
+  
+    const dialogRef = this.dialog.open(this.itemDetailsModal2, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+  openDialog3() {
+  
+    const dialogRef = this.dialog.open(this.itemDetailsModal3, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+
+  onButtonClick2(ASID:any,workid:any): void {
+    //  this.value='Active';
+    // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+      // alert(ASID);
+      // alert(this.value);
+      // return;
+      
+      this.spinner.show();
+      this.api.GETASFile(ASID,workid)
+        .subscribe(
+          (res) => {
+           this.ASFileData=res;
+           const URL=res[0].asLetterName;
+          //  const URL =this.ASFileData[0].asLetterName;
+           window.open(URL, '_blank');
+          // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+  
+            // console.log('res:', res);
+            console.log('ASFileData:',this.ASFileData);
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            alert(`Error fetching data: ${error.message}`);
+          }
+        );
+     }
   //#endregion
 }
 

@@ -189,7 +189,8 @@ export class LiveTenderComponent {
         // text: 'Division-wise Live Tenders',
         align: 'center',
         style: {
-          fontSize: '12px',
+          // fontSize: '12px',
+          fontSize: '15px',
           // color: '#000'
           color: '#6e0d25',
         },
@@ -582,7 +583,8 @@ GETLiveTenderTotal(): void {
             {
               name: 'No of Tenders',
               data: nosTender,
-              color: 'rgb(0, 143, 251)',
+              color: '#6a6afd',
+              // color: 'rgb(0, 143, 251)',
             },
             {
               name: 'Tender Value(in Cr)',
@@ -718,7 +720,8 @@ GETLiveTenderDivision(): void {
             {
               name: 'No of Tenders',
               data: nosTender,
-              color: 'rgb(0, 143, 251)',
+              // color: 'rgb(0, 143, 251)',
+              color: '#6a6afd',
             },
             {
               name: 'Tender Value(in Cr)',
@@ -854,7 +857,8 @@ GETLiveTenderScheme(): void {
             {
               name: 'No of Tenders',
               data: nosTender,
-              color: 'rgb(0, 143, 251)',
+              // color: 'rgb(0, 143, 251)',
+              color: '#6a6afd',
             },
             {
               name: 'Tender Value(in Cr)',
@@ -988,7 +992,8 @@ GETLiveTenderDistrict(): void {
             {
               name: 'No of Tenders',
               data: nosTender,
-              color: 'rgb(0, 143, 251)',
+              // color: 'rgb(0, 143, 251)',
+              color: '#6a6afd',
             },
             {
               name: 'Tender Value(in Cr)',
