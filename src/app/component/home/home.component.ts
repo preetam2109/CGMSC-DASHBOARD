@@ -6,6 +6,7 @@ import { HardcodedAuthenticationService } from 'src/app/service/authentication/h
 import { MenuServiceService } from 'src/app/service/menu-service.service';
 import { ChartOptions } from '../card/card.component';
 import { fontWeight } from 'html2canvas/dist/types/css/property-descriptors/font-weight';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,8 @@ import { fontWeight } from 'html2canvas/dist/types/css/property-descriptors/font
 })
 export class HomeComponent {
 searchItem() {
-throw new Error('Method not implemented.');
+  const itemid=this.itemid
+this.router.navigate(['/home-search'],{queryParams:{itemid}})
 }
   @ViewChild('chart') chart: ChartComponent | undefined;
   public cO: Partial<ChartOptions> | undefined;
@@ -40,10 +42,11 @@ throw new Error('Method not implemented.');
   nositemsI:any
   totalValuecr:any
   nosfacility:any
-  roleName = localStorage.getItem('roleName')
+  roleName:any = localStorage.getItem('roleName')
   currentMonth = new Date().toLocaleString('default', { month: 'long' });
   MasIndentitemslist:any
   itemid:any
+
 
 
 
@@ -195,8 +198,8 @@ colors = [];
     'Seasonal Drugs':'assets/dash-icon/season.png',
     'Health Facilities Coverage':'assets/dash-icon/magnifier.png',
     'Warehouse Information':'assets/dash-icon/data-warehouse.png',
-    'Stock Abstract':'assets/dash-icon/packages.png',
-    "Stock Details":'assets/dash-icon/inventory.png',
+    'Warehouse Stock Abstract':'assets/dash-icon/packages.png',
+    "Warehouse Stock Details":'assets/dash-icon/inventory.png',
     'Devlivery':'assets/dash-icon/fast-delivery.png',
     'Growth in Distribution':'assets/dash-icon/distribution.png',
     'Warehouse Stock-out %':'assets/dash-icon/out-of-stock.png',
@@ -209,16 +212,24 @@ colors = [];
     'Handover':'assets/dash-icon/hand-over.png',
     'Work Order':'assets/dash-icon/clipboard.png',
     'cgmsc-supplies':'assets/dash-icon/drugs.png',
-    'Evaluation':'assets/dash-icon/check-list.png',
+    ' Evaluation':'assets/dash-icon/check-list.png',
     'Progress Abstract':'assets/dash-icon/hospital.png',
     'Tender Evaluation':'assets/dash-icon/check-list.png',
     'Live Tender':'assets/dash-icon/tender.png',
-    'TO be Tender':'assets/dash-icon/project.png',
+    'To be Tender':'assets/dash-icon/project.png',
     'Payment':'assets/dash-icon/payment.png',
     'Search Work':'assets/dash-icon/analysis.png',
+    'Work Abstract':'assets/dash-icon/hospital.png',
+    'Administrative Sanction':'assets/dash-icon/blogger.png',
+    'Land Issue':'assets/dash-icon/barrier.png',
+    'Technical Sanction':'assets/dash-icon/deadline.png',
+    'Division Progress Monitoring':'assets/dash-icon/planning.png',
+    'District-wise Progress':'assets/dash-icon/online-report.png',
+    'Engineer-Works':'assets/dash-icon/person.png',
+    'Payment Time Taken':'assets/dash-icon/saving.png',
 
   };
-  constructor(  private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService) {
+  constructor(  private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
     // this.chartOptions = {
     //   series: [],
     //   chart: {
@@ -594,7 +605,7 @@ colors = [];
      this.username = sessionStorage.getItem('authenticatedUser');
      
      this.role = this.basicAuthentication.getRole().roleName; // Fetch dynamic role from the authentication service
-     console.log('Role:', this.role);
+     console.log('SE Role:', this.role);
      this.updateMenu();
     //  this.addIconsToMenu();
     debugger
@@ -612,6 +623,7 @@ colors = [];
 
 
   }
+
 
   getItemNoDropDown(){
   
@@ -746,6 +758,7 @@ colors = [];
 
   onISelectChange(event: Event): void {
     debugger
+
   const selectedUser = this.MasIndentitemslist.find((user: { itemid: string }) => user.itemid === this.itemid); 
 
   if (selectedUser) {

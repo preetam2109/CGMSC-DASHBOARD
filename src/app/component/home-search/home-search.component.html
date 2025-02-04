@@ -1,0 +1,55 @@
+
+<div class="container-fluid p-2" *ngFor="let detail of MasItemlist" >
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="row border mb-1">
+                <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #FF4500;">
+                    <strong>Item Info</strong>
+
+                </div>
+                <div class="col-12 col-md-4 border p-2 d-flex">
+                    <strong>Code:</strong>
+                    <span class="ml-2">{{detail.itemcode}}</span>
+                </div>
+                <div class="col-12 col-md-4 border p-2 d-flex">
+                    <strong>Name:</strong>
+                    <span class="ml-2">{{detail.itemname}}</span>
+                </div>
+                <div class="col-12 col-md-4 border p-2 d-flex">
+                    <strong>Strength:</strong>
+                    <span class="ml-2">{{detail.strengtH1}}</span>
+                </div>
+                <div class="col-12 col-md-4 border p-2 d-flex">
+                    <strong>unit(SKU):</strong>
+                    <span class="ml-2">{{detail.unit}}</span>
+                </div>
+                <div class="col-12 col-md-4 border p-2 d-flex">
+                    <strong>Group:</strong>
+                    <span class="ml-2">{{detail.groupname}}</span>
+                </div>
+                <div class="col-12 col-md-4 border p-2 d-flex">
+                    <strong>Type:</strong>
+                    <span class="ml-2">{{detail.itemtypename}}</span>
+                </div>
+                <div class="col-12 col-md-4 border p-2 d-flex">
+                    <strong> Category :</strong>
+                    <span class="ml-2">{{detail.edl}}</span>
+                </div>
+                <div class="col-12 col-md-4 border p-2 d-flex">
+                    <strong> EDL :</strong>
+                    <span class="ml-2">{{detail.edltype}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
