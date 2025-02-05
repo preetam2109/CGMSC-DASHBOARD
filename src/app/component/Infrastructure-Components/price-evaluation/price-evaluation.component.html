@@ -6,13 +6,17 @@
            
             <mat-tab label="Payment Done">
               <ng-template matTabContent>
+                <div class="w-100 mt-1 pb-0">
+                  <!-- #e2e3e5 -->
+                  <h3 class="bold text-light bg-secondary" style="font-size: large;">Payment Done</h3>
+                </div>
                 <!-- <div class="card shadow"> -->
-                <div class="card-body">
+                <div class="card-body pt-0 mt-0">
                   <!-- <div class="w-100 ">
                     #e2e3e5
                     <h3 class=" bold text-light bg-dark">Work Order Pending</h3>
                   </div> -->
-                  <div class="card-body row" >
+                  <div class="card-body row mt-0 pt-0" >
                     <div class="border rounded custom-form-field">
                       <mat-form-field class="filter-field w-100 " appearance="fill">
                         <mat-label>Date Range</mat-label>
@@ -29,7 +33,7 @@
                     <div class="row">
                       <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryTotal.length > 0">
                         <div class="chart-container">
-                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">{{fromdt}} To {{todt}}</span> 
+                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
                           <apx-chart [series]="chartOptionsLine2.series" [chart]="chartOptionsLine2.chart"
                             [dataLabels]="chartOptionsLine2.dataLabels" [plotOptions]="chartOptionsLine2.plotOptions"
                             [xaxis]="chartOptionsLine2.xaxis" [stroke]="chartOptionsLine2.stroke"
@@ -40,7 +44,7 @@
                       </div>
                       <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryDivision.length > 0">
                         <div class="chart-container">
-                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">{{fromdt}} To {{todt}}</span> 
+                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
                           <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
                             [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
                             [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke" [fill]="chartOptions.fill"
@@ -52,7 +56,7 @@
                     <div class="row">
                       <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryScheme.length > 0">
                         <div class="chart-container">
-                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">{{fromdt}} To {{todt}}</span> 
+                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
                           <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
                             [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
                             [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke" [fill]="chartOptions2.fill"
@@ -77,8 +81,12 @@
             </mat-tab>
             <mat-tab label="Payment Due">
               <ng-template matTabContent>
+                <div class="w-100 mt-1 pb-0">
+                  <!-- #e2e3e5 -->
+                  <h3 class="bold text-light bg-secondary" style="font-size: large;">Payment Due</h3>
+                </div>
                 <!-- <div class="card shadow"> -->
-                <div class="card-body">
+                <div class="card-body pt-0 mt-0">
                   <!-- <div class="w-100 ">
                       #e2e3e5
                       <h3 class=" bold text-light bg-dark">Work Order Pending</h3>
@@ -286,6 +294,7 @@
         <div class="row align-items-center p-2 m-2 ">
           <div class="col-lg-6 col-md-8">
             <h1>Payment Due Details</h1>
+            <h1>Selected Name: {{name}}</h1>
           </div>
           <div class="col-lg-6 col-md-4 text-end">
             <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>

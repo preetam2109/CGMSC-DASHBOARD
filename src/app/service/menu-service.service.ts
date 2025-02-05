@@ -112,15 +112,14 @@ export class MenuServiceService {
 
           { label: 'Work Abstract', route: 'InfrastructureHome' },
 
-        
-        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
-
+          { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
 
           { label: 'Live Tender', route: 'LiveTender' },
           { label: ' Evaluation', route: 'TenderEvaluation' },
           { label: 'To be Tender', route: 'ToBeTender' },
-
+          
           { label: 'Work Order', route: 'WorkOrder' },
+          { label: 'Running Works', route: 'RunningWork' },
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
@@ -194,6 +193,8 @@ export class MenuServiceService {
           { label: 'To be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
+          { label: 'Running Works', route: 'RunningWork' },
+
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
@@ -204,7 +205,6 @@ export class MenuServiceService {
 
           { label: 'Engineer-Works', route: 'EngineerWorks' },
           // { label: 'Payment', route: 'PriceEvaluation' },
-
         ],
       },
     },
@@ -258,13 +258,15 @@ export class MenuServiceService {
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
           { label: 'Work Abstract ', route: 'InfrastructureHome' },
-        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+          { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
 
           { label: 'Live Tender', route: 'LiveTender' },
           { label: 'Evaluation', route: 'TenderEvaluation' },
           { label: 'To be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
+          { label: 'Running Works', route: 'RunningWork' },
+
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
@@ -313,13 +315,15 @@ export class MenuServiceService {
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
           { label: 'Work Abstract ', route: 'InfrastructureHome' },
-        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+          { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
 
           { label: 'Live Tender', route: 'LiveTender' },
           { label: 'Evaluation', route: 'TenderEvaluation' },
           { label: 'To be Tender', route: 'ToBeTender' },
 
           { label: 'Work Order', route: 'WorkOrder' },
+          { label: 'Running Works', route: 'RunningWork' },
+
           { label: 'Land Issue', route: 'LandIssue' },
           { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
@@ -377,6 +381,8 @@ export class MenuServiceService {
         { label: 'To be Tender', route: 'ToBeTender' },
 
         { label: 'Work Order', route: 'WorkOrder' },
+        { label: 'Running Works', route: 'RunningWork' },
+
         { label: 'Land Issue', route: 'LandIssue' },
         { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
@@ -455,6 +461,8 @@ export class MenuServiceService {
         { label: 'To be Tender', route: 'ToBeTender' },
 
         { label: 'Work Order', route: 'WorkOrder' },
+        { label: 'Running Works', route: 'RunningWork' },
+
         { label: 'Land Issue', route: 'LandIssue' },
         { label: 'Technical Sanction', route: 'TechnicalSanction' },
 
@@ -513,9 +521,7 @@ export class MenuServiceService {
     return this.selectedCategory;
   }
 
-  getMenuItems(
-    role: string
-  ): {
+  getMenuItems(role: string): {
     label: string;
     route: string;
     submenu?: { label: string; route: string }[];
@@ -541,7 +547,7 @@ export class MenuServiceService {
 
     return roleMenu.items || [];
   }
- 
+
   // Example submenu provider (optional)
   getSubmenu(label: string): { label: string; route: string }[] | undefined {
     const submenus: any = {
