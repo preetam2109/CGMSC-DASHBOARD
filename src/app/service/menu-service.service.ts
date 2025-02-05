@@ -187,7 +187,7 @@ export class MenuServiceService {
           // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
-          { label: 'Work Abstract ', route: 'InfrastructureHome' },
+          { label: 'Work Abstract', route: 'InfrastructureHome' },
           { label: 'Live Tender', route: 'LiveTender' },
           { label: 'Evaluation', route: 'TenderEvaluation' },
           { label: 'To be Tender', route: 'ToBeTender' },
@@ -257,8 +257,10 @@ export class MenuServiceService {
           // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
-          { label: 'Work Abstract ', route: 'InfrastructureHome' },
-          { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+
+          { label: 'Work Abstract', route: 'InfrastructureHome' },
+        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+
 
           { label: 'Live Tender', route: 'LiveTender' },
           { label: 'Evaluation', route: 'TenderEvaluation' },
@@ -284,7 +286,7 @@ export class MenuServiceService {
           // // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // // { label: 'DivisionProgress', route: 'DivisionProgress' }
           // { label: 'Search Work', route: 'SearchingWork' },
-          // { label: 'Work Abstract ', route: 'InfrastructureHome' },
+          // { label: 'Work Abstract', route: 'InfrastructureHome' },
           // { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
           // // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
@@ -314,8 +316,11 @@ export class MenuServiceService {
           // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Search Work', route: 'SearchingWork' },
-          { label: 'Work Abstract ', route: 'InfrastructureHome' },
-          { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+
+          { label: 'Work Abstract', route: 'InfrastructureHome' },
+        { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
+
+
 
           { label: 'Live Tender', route: 'LiveTender' },
           { label: 'Evaluation', route: 'TenderEvaluation' },
@@ -341,7 +346,7 @@ export class MenuServiceService {
           // // { label: 'DistrictProgress', route: 'DistrictProgress' },
           // // { label: 'DivisionProgress', route: 'DivisionProgress' },
           // { label: 'Search Work', route: 'SearchingWork' },
-          // { label: 'Work Abstract ', route: 'InfrastructureHome' },
+          // { label: 'Work Abstract', route: 'InfrastructureHome' },
           // { label: 'District-wise Progress', route: 'DashProgressIstCount' },
           // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
           // // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
@@ -373,7 +378,7 @@ export class MenuServiceService {
         // { label: 'DistrictProgress', route: 'DistrictProgress' },
         // { label: 'DivisionProgress', route: 'DivisionProgress' },
         { label: 'Search Work', route: 'SearchingWork' },
-        { label: 'Work Abstract ', route: 'InfrastructureHome' },
+        { label: 'Work Abstract', route: 'InfrastructureHome' },
         { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
 
         { label: 'Live Tender', route: 'LiveTender' },
@@ -401,7 +406,7 @@ export class MenuServiceService {
         // // { label: 'DistrictProgress', route: 'DistrictProgress' },
         // // { label: 'DivisionProgress', route: 'DivisionProgress' },
         // { label: 'Search Work', route: 'SearchingWork' },
-        // { label: 'Work Abstract ', route: 'InfrastructureHome' },
+        // { label: 'Work Abstract', route: 'InfrastructureHome' },
         // { label: 'District-wise Progress', route: 'DashProgressIstCount' },
         // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
         // // { label: 'District Progress Monitoring', route: 'DistrictProgress' },
@@ -453,7 +458,7 @@ export class MenuServiceService {
         // { label: 'DistrictProgress', route: 'DistrictProgress' },
         // { label: 'DivisionProgress', route: 'DivisionProgress' },
         { label: 'Search Work', route: 'SearchingWork' },
-        { label: 'Work Abstract ', route: 'InfrastructureHome' },
+        { label: 'Work Abstract', route: 'InfrastructureHome' },
         { label: 'Administrative Sanction', route: 'AdministrativeSanction' },
         { label: 'Live Tender', route: 'LiveTender' },
         { label: 'Evaluation', route: 'TenderEvaluation' },
@@ -481,7 +486,7 @@ export class MenuServiceService {
         // // { label: 'DivisionProgress', route:  '/DivisionProgress' },
 
         // { label: 'Search Work', route: 'SearchingWork' },
-        // { label: 'Work Abstract ', route: 'InfrastructureHome' },
+        // { label: 'Work Abstract', route: 'InfrastructureHome' },
         // { label: 'District-wise Progress', route: 'DashProgressIstCount' },
         // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
         // // { label: 'District Progress Monitoring', route: 'DistrictProgress' },

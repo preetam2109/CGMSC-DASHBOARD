@@ -37,10 +37,10 @@ throw new Error('Method not implemented.');
 }
 
 show() {
-  debugger
+  
   this.getMasitems()
   this.GetItemDetailsWithHOD();
-debugger
+
   if(this.itemid!=0 && this.districtid===undefined && this.facilityid===undefined){
     this.districtid=0
     this.facilityid=0
@@ -163,7 +163,7 @@ GetItemDetailsWithHOD(){
   });  
 }
 getMasitems(){
-  debugger
+  
   this.api.Masitems(this.itemid,0,0,0,0,0).subscribe((res:any[])=>{
     if (res && res.length > 0) {
       this.MasItemlist = res.map(item => ({
@@ -185,7 +185,7 @@ getMasitems(){
   });  
 }
 getMasfacilityInfo(){
-  debugger
+  
   this.api.MasfacilityInfo(367,this.districtid,0,0,0).subscribe((res:any[])=>{
     // console.log(' aaaaa Response:', res);
     if (res && res.length > 0) {
@@ -234,7 +234,7 @@ getDistrictDropdown(){
 }
 
 onISelectChange(event: Event): void {
-    debugger
+    
   const selectedUser = this.MasIndentitemslist.find((user: { itemid: string }) => user.itemid === this.itemid); 
 
   if (selectedUser) {
@@ -247,7 +247,7 @@ onISelectChange(event: Event): void {
 }
 onDistrictChange(event: Event): void {
         
-  debugger
+  
   const selectedDistrict = this.districts.find((district: { districtid: string }) => district.districtid === this.districtid); 
 
   if (selectedDistrict) {
@@ -262,7 +262,7 @@ onDistrictChange(event: Event): void {
 }
 onFacChange(event: Event): void {
         
-  debugger
+  
   const selectedFac = this.MasfacilityInfolist.find((fac: { facilityid: any }) => fac.facilityid === this.facilityid); 
 
   if (selectedFac) {

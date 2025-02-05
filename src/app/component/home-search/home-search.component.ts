@@ -48,7 +48,7 @@ ngOnInit(): void {
 
 
 getMasitems(){
-  debugger
+  
   this.api.Masitems(this.itemid,0,0,0,0,0).subscribe((res:any[])=>{
     if (res && res.length > 0) {
       this.MasItemlist = res.map(item => ({
