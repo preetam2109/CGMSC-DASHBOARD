@@ -792,6 +792,7 @@ export class TobeTenderAppliedZonalPermission{
 //#endregion
 //#region AS
 export class WORunningHandDetails{
+  sno!: number;
   work_id!: string;
   letterNo!: string;
   head!: string;
@@ -842,6 +843,7 @@ export class WORunningHandDetails{
   aeName!: string;
 }
 export class LandIssue_RetToDeptDetatails{
+  sno!: number;
   work_id!: string;
   letterNo!: string;
   head!: string;
@@ -892,7 +894,9 @@ export class LandIssue_RetToDeptDetatails{
   aeName!: string;
 }
 export class DetailProgressTinP{
-  work_id!: string;
+  sno!: number;
+  // work_id!: string;
+  worK_ID!: string;
   letterNo!: string;
   head!: string;
   approver!: string;
@@ -922,6 +926,42 @@ export class DetailProgressTinP{
   eprocno!: string | null;
   covOpenedDT!: string | null;
   topnedpricedt!: string | null;
+
+}
+export class TenderInProcess{
+  sno!: number;
+  // work_id!: string;
+  worK_ID!: string;
+  letterNo!: string;
+  head!: string;
+  approver!: string;
+  type_name!: string;
+  divName_En!: string;
+  district!: string;
+  blockname!: string;
+  work!: string;
+  asAmt!: number;
+  tsamt!: number;
+  tsDate!: string;
+  aadt!: string;
+  lProgress!: string;
+  progressDT!: string;
+  remarks!: string | null; // Remarks can be null
+  groupName!: string;
+  dashName!: string;
+  asPath!: string;
+  asLetter!: string;
+  asid!: string | null; // asid can be null
+  descri!: string;
+  fmrcode!: string | null; // fmrcode can be null
+  startdt!: string | null; // startdt can be null
+  enddt!: string | null; // enddt can be null
+  noofcalls!: number;
+  tenderno!: string | null; // tenderno can be null
+  eprocno!: string | null; // eprocno can be null
+  covOpenedDT!: string | null; // covOpenedDT can be null
+  topnedpricedt!: string | null; // topnedpricedt can be null
+
 
 }
 

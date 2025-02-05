@@ -252,7 +252,7 @@ export class ToBeTenderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: ' Stage-wise To be Tender',
+        text: 'Stage-wise To be Tender Works',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -342,7 +342,7 @@ export class ToBeTenderComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'To be Tender',
+        text: 'Summary of To be Tender Works',
         align: 'center',
         style: {
           fontSize: '12px',

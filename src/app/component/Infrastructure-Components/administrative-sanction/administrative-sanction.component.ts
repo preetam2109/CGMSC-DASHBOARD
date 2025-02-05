@@ -294,6 +294,13 @@ export class AdministrativeSanctionComponent {
       this.dataSourceDivision.paginator.firstPage();
     }
   }
+  applyTextFilterASCompleted(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource2.paginator) {
+      this.dataSource2.paginator.firstPage();
+    }
+  }
   exportToPDFDivision() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -368,6 +375,49 @@ export class AdministrativeSanctionComponent {
       asAmt: row.asAmt,//
       workname: row.workname,//
       // balanceASAmount: row.balanceASAmount,
+      asid: row.asid,
+    }));
+  
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+  
+    doc.save('ASDetails.pdf');
+  }
+  exportToPDFASCompleted() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      // ['sno','login_name','head','letterno','asDate','totalWorks','enteredWorks','baltobeEnter'
+      // ,'totalASAmt','enteredTotalAS','balanceASAmount','asid','action']">
+
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'Head', dataKey: 'head' },
+      { title: 'AS Letter No', dataKey: 'letterno' },
+      { title: 'AS Date', dataKey: 'asDate' },
+      { title: 'Total Works', dataKey: 'totalWorks' },
+      { title: 'Entered Works', dataKey: 'enteredWorks' },
+      { title: 'Baltobe Enter', dataKey: 'baltobeEnter' },
+      { title: 'Total AS Amount', dataKey: 'totalASAmt' },
+      { title: 'Entered Total AS', dataKey: 'enteredTotalAS' },
+      { title: 'Balance AS Amount', dataKey: 'balanceASAmount' },
+      { title: 'AS ID', dataKey: 'asid' },
+    ];
+    const rows = this.dispatchData2.map((row) => ({
+      sno: row.sno,
+      login_name:row.login_name,
+      head: row.head,
+      letterno: row.letterno,
+      asDate: row.asDate,
+      totalWorks: row.totalWorks,
+      enteredWorks: row.enteredWorks,
+      baltobeEnter: row.baltobeEnter,
+      totalASAmt: row.totalASAmt,
+      enteredTotalAS: row.enteredTotalAS,
+      balanceASAmount: row.balanceASAmount,
       asid: row.asid,
     }));
   

@@ -643,8 +643,8 @@ getDHSissueItems(districtId:any,mcid:any){
 //#region DetailProgress
 
 
-GETWORunningHandDetails(did:any,divisionId: any, distId: number, mainSchemeId: any,) {
-  return this.http.get<WORunningHandDetails[]>(`${this.apiUrl}/DetailProgress/WORunningHandDetails?did=${did}&divisionid=${divisionId}&districtid=${distId}&mainSchemeId=${mainSchemeId}`);
+GETWORunningHandDetails(did:any,divisionId: any, distId: number, mainSchemeId: any,contractorid:any) {
+  return this.http.get<WORunningHandDetails[]>(`${this.apiUrl}/DetailProgress/WORunningHandDetails?did=${did}&divisionid=${divisionId}&districtid=${distId}&mainSchemeId=${mainSchemeId}&contractorid=${contractorid}`);
  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/WORunningHandDetails?did=3001&divisionid=0&districtid=0&mainschemeid=0
 // WORunningHandDetails
 }
@@ -655,6 +655,10 @@ GETLandIssueRetToDeptDetatails(did:any,divisionid: any, districtid: number,mains
 GETTobeTenderAll(did:any,divisionid: any, districtid: number,mainschemeid:any) {
   return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
   // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TobeTenderAll?did=1001&divisionid=0&districtid=0&mainschemeid=0
+}
+GETDetailProgress(did:any,divisionid: any, districtid: number,mainschemeid:any) {
+  return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TenderInProcess?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TenderInProcess?did=2001&divisionid=0&districtid=0&mainschemeid=0
 }
 
 
@@ -901,7 +905,7 @@ GETDivisionWiseASPending(divisionId:any,mainSchemeId:any){
 GETASCompleted(){
   return this.http.get<ASCompletedDetails[]>(`${this.apiUrl}/ASDetails/ASCompleted`);
 
-  //md :otp=11344
+  //md :otp=24522
   // // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASCompleted
 }
 GETASFile(ASID:any,workid:any){

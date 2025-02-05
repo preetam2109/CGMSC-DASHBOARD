@@ -69,6 +69,11 @@ export class TenderEvaluationComponent {
  chartOptions2!: ChartOptions; // For bar charta
  chartOptionsLine!: ChartOptions; // For line chart
  chartOptionsLine2!: ChartOptions; // For line chart
+
+ chartOptions_I!: ChartOptions; // For bar chart
+ chartOptions_II!: ChartOptions; // For bar charta
+ chartOptions_III!: ChartOptions; // For line chart
+ chartOptions_IV!: ChartOptions; // For line chart
  //#endregion
   //#region DataBase Table
    dataSource!: MatTableDataSource<TenderEvaluationDetails>;
@@ -91,6 +96,7 @@ selectedTabIndex: number=0;
  himisDistrictid: any;
  TimeStatus:any;
  mainschemeid:any;
+ name:any;
 constructor(
  public api: ApiService,
  public spinner: NgxSpinnerService,
@@ -107,6 +113,7 @@ ngOnInit() {
  this.initializeChartOptions2();
  
 if(this.selectedTabIndex == 0){
+    this.name="Technical Evaluation Details"
   this.GETTenderEvaluationTotal();
    this.GETTenderEvaluationDivision();
    this.GETTenderEvaluationScheme();
@@ -184,7 +191,7 @@ initializeChartOptions() {
      colors: ['#fff'],
    },
    title: {
-     text: 'Total Tender Evaluation Division wise Progress',
+     text: 'Division-wise Technical Evaluation',
      align: 'center',
      style: {
        fontSize: '12px',
@@ -276,7 +283,7 @@ initializeChartOptions() {
      colors: ['#fff'],
    },
    title: {
-     text: 'Total Tender Evaluation Scheme wise Progress',
+     text: 'Scheme-wise Technical Evaluation',
      align: 'center',
      style: {
        fontSize: '12px',
@@ -368,7 +375,7 @@ initializeChartOptions() {
      colors: ['#fff'],
    },
    title: {
-     text: 'Total Tender Evaluation District wise Progress',
+     text: 'District-wise Technical Evaluation',
      align: 'center',
      style: {
        fontSize: '12px',
@@ -464,7 +471,7 @@ initializeChartOptions() {
      colors: ['#fff'],
    },
    title: {
-     text: 'Total Tender Evaluation',
+     text: 'Technical Evaluation Summary',
      align: 'center',
      style: {
        fontSize: '12px',
@@ -490,7 +497,8 @@ initializeChartOptions() {
  };
 }
 initializeChartOptions2() {
- this.chartOptions = {
+
+ this.chartOptions_I = {
    series: [],
    chart: {
      type: 'bar',
@@ -506,12 +514,13 @@ initializeChartOptions2() {
          { dataPointIndex, seriesIndex }
        ) => {
          const selectedCategory =
-           this.chartOptions?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+           this.chartOptions_I?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
          const selectedSeries =
-           this.chartOptions?.series?.[seriesIndex]?.name;
+           this.chartOptions_I?.series?.[seriesIndex]?.name;
          // Ensure the selectedCategory and selectedSeries are valid
          if (selectedCategory && selectedSeries) {
            const apiData = this.PriceEvaluationDivision; // Replace with the actual data source or API response
+           console.log('data=',this.PriceEvaluationDivision);
            // Find the data in your API response that matches the selectedCategory
            const selectedData = apiData.find(
              (data) => data.name === selectedCategory
@@ -558,7 +567,7 @@ initializeChartOptions2() {
      colors: ['#fff'],
    },
    title: {
-     text: 'Total Price Evaluation Division wise Progress',
+     text: 'Division-wise Price Evaluation',
      align: 'center',
      style: {
        fontSize: '12px',
@@ -582,7 +591,7 @@ initializeChartOptions2() {
      offsetX: 40,
    },
  };
- this.chartOptions2 = {
+ this.chartOptions_II = {
    series: [],
    chart: {
      type: 'bar',
@@ -598,9 +607,9 @@ initializeChartOptions2() {
          { dataPointIndex, seriesIndex }
        ) => {
          const selectedCategory =
-           this.chartOptions2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+           this.chartOptions_II?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
          const selectedSeries =
-           this.chartOptions2?.series?.[seriesIndex]?.name;
+           this.chartOptions_II?.series?.[seriesIndex]?.name;
          // Ensure the selectedCategory and selectedSeries are valid
          if (selectedCategory && selectedSeries) {
            const apiData = this.PriceEvaluationScheme; // Replace with the actual data source or API response
@@ -650,7 +659,7 @@ initializeChartOptions2() {
      colors: ['#fff'],
    },
    title: {
-     text: 'Total Price Evaluation Scheme wise Progress',
+     text: 'Scheme-wise Price Evaluation',
      align: 'center',
      style: {
        fontSize: '12px',
@@ -674,7 +683,7 @@ initializeChartOptions2() {
      offsetX: 40,
    },
  };
- this.chartOptionsLine = {
+ this.chartOptions_III = {
    series: [],
    chart: {
      type: 'bar',
@@ -690,9 +699,9 @@ initializeChartOptions2() {
          { dataPointIndex, seriesIndex }
        ) => {
          const selectedCategory =
-           this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+           this.chartOptions_III?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
          const selectedSeries =
-           this.chartOptionsLine?.series?.[seriesIndex]?.name;
+           this.chartOptions_III?.series?.[seriesIndex]?.name;
          // Ensure the selectedCategory and selectedSeries are valid
          if (selectedCategory && selectedSeries) {
            const apiData = this.PriceEvaluationDistrict; // Replace with the actual data source or API response
@@ -742,7 +751,7 @@ initializeChartOptions2() {
      colors: ['#fff'],
    },
    title: {
-     text: 'Total Price Evaluation District wise Progress',
+     text: 'District-wise Price Evaluation',
      align: 'center',
      style: {
        fontSize: '12px',
@@ -766,7 +775,7 @@ initializeChartOptions2() {
      offsetX: 40,
    },
  };
- this.chartOptionsLine2 = {
+ this.chartOptions_IV = {
    series: [],
    chart: {
      type: 'bar',
@@ -782,9 +791,9 @@ initializeChartOptions2() {
          { dataPointIndex, seriesIndex }
        ) => {
          const selectedCategory =
-           this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+           this.chartOptions_IV?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
          const selectedSeries =
-           this.chartOptionsLine2?.series?.[seriesIndex]?.name;
+           this.chartOptions_IV?.series?.[seriesIndex]?.name;
          // Ensure the selectedCategory and selectedSeries are valid
          if (selectedCategory && selectedSeries) {
            const apiData = this.PriceEvaluationTotal; // Replace with the actual data source or API response
@@ -838,7 +847,9 @@ initializeChartOptions2() {
      colors: ['#fff'],
    },
    title: {
-     text: 'Total Price Evaluation',
+    //  text: 'Total Price Evaluation',
+     text: 'Price Evaluation Summary',
+
      align: 'center',
      style: {
        fontSize: '12px',
@@ -866,15 +877,20 @@ initializeChartOptions2() {
 selectedTabValue(event: any): void {
  this.selectedTabIndex = event.index;
  if(this.selectedTabIndex == 0){
+  this.name="Technical Evaluation Details"
+
    this.GETTenderEvaluationTotal();
    this.GETTenderEvaluationDivision();
    this.GETTenderEvaluationScheme();
    this.GETTenderEvaluationDistrict();
  }else{
+  this.name="Price Evaluation Details"
+
   this.GETPEvaluationTotal();
    this.GETPEvaluationDivision();
    this.GETPEvaluationScheme();
    this.GETPEvaluationDistrict();
+ 
  }
 }
 //#region Get API data Tender Evaluation
@@ -935,23 +951,41 @@ var RPType = 'Total';
        );
 
        this.chartOptionsLine2.series = [
-         {
-           name: 'Total Numbers of Works',
-           data: nosWorks,
-           color: '#eeba0b',
-         },
-         {
-           name: 'Total Numbers of Tender',
-           data: nosTender,
-           color: 'rgb(0, 143, 251)',
-         },
-         {
-           name: 'Total Value in Cr',
-           data: totalValuecr,
-           color: 'rgba(93, 243, 174, 0.85)',
-         },
-        //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-         { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+        {
+          name: 'No. of Works',
+          data: nosWorks,
+          color: '#eeba0b',
+        },
+        {
+          name: 'No. of Tender',
+          data: nosTender,
+         //  color: 'rgb(0, 143, 251)',
+         color: '#6a6afd',
+        },
+        {
+          name: 'Value(in Cr)',
+          data: totalValuecr,
+          color: 'rgba(93, 243, 174, 0.85)',
+        },
+       //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+        { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+        //  {
+        //    name: 'Total Numbers of Works',
+        //    data: nosWorks,
+        //    color: '#eeba0b',
+        //  },
+        //  {
+        //    name: 'Total Numbers of Tender',
+        //    data: nosTender,
+        //    color: 'rgb(0, 143, 251)',
+        //  },
+        //  {
+        //    name: 'Total Value in Cr',
+        //    data: totalValuecr,
+        //    color: 'rgba(93, 243, 174, 0.85)',
+        //  },
+        // //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+        //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
          // {
          //   name: 'Zonal Works',
          //   data: zonalWorks,
@@ -1041,22 +1075,40 @@ var RPType = 'Division';
        );
 
        this.chartOptions.series = [
-         {
-           name: 'Total Numbers of Works',
-           data: nosWorks,
-           color: '#eeba0b',
-         },
-         {
-           name: 'Total Numbers of Tender',
-           data: nosTender,
-           color: 'rgb(0, 143, 251)',
-         },
-         {
-           name: 'Total Value in Cr',
-           data: totalValuecr,
-           color: 'rgba(93, 243, 174, 0.85)',
-         },
-         { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+        {
+          name: 'No. of Works',
+          data: nosWorks,
+          color: '#eeba0b',
+        },
+        {
+          name: 'No. of Tender',
+          data: nosTender,
+         //  color: 'rgb(0, 143, 251)',
+         color: '#6a6afd',
+        },
+        {
+          name: 'Value(in Cr)',
+          data: totalValuecr,
+          color: 'rgba(93, 243, 174, 0.85)',
+        },
+       //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+        { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+        //  {
+        //    name: 'Total Numbers of Works',
+        //    data: nosWorks,
+        //    color: '#eeba0b',
+        //  },
+        //  {
+        //    name: 'Total Numbers of Tender',
+        //    data: nosTender,
+        //    color: 'rgb(0, 143, 251)',
+        //  },
+        //  {
+        //    name: 'Total Value in Cr',
+        //    data: totalValuecr,
+        //    color: 'rgba(93, 243, 174, 0.85)',
+        //  },
+        //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
 
         //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
          // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
@@ -1150,22 +1202,40 @@ var RPType = 'Scheme';
        );
 
        this.chartOptions2.series = [
-         {
-           name: 'Total Numbers of Works',
-           data: nosWorks,
-           color: '#eeba0b',
-         },
-         {
-           name: 'Total Numbers of Tender',
-           data: nosTender,
-           color: 'rgb(0, 143, 251)',
-         },
-         {
-           name: 'Total Value in Cr',
-           data: totalValuecr,
-           color: 'rgba(93, 243, 174, 0.85)',
-         },
-         { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+        {
+          name: 'No. of Works',
+          data: nosWorks,
+          color: '#eeba0b',
+        },
+        {
+          name: 'No. of Tender',
+          data: nosTender,
+         //  color: 'rgb(0, 143, 251)',
+         color: '#6a6afd',
+        },
+        {
+          name: 'Value(in Cr)',
+          data: totalValuecr,
+          color: 'rgba(93, 243, 174, 0.85)',
+        },
+       //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+        { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+        //  {
+        //    name: 'Total Numbers of Works',
+        //    data: nosWorks,
+        //    color: '#eeba0b',
+        //  },
+        //  {
+        //    name: 'Total Numbers of Tender',
+        //    data: nosTender,
+        //    color: 'rgb(0, 143, 251)',
+        //  },
+        //  {
+        //    name: 'Total Value in Cr',
+        //    data: totalValuecr,
+        //    color: 'rgba(93, 243, 174, 0.85)',
+        //  },
+        //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
 
         //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
          // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
@@ -1259,22 +1329,40 @@ var RPType = 'District';
        );
 
        this.chartOptionsLine.series = [
-         {
-           name: 'Total Numbers of Works',
-           data: nosWorks,
-           color: '#eeba0b',
-         },
-         {
-           name: 'Total Numbers of Tender',
-           data: nosTender,
-           color: 'rgb(0, 143, 251)',
-         },
-         {
-           name: 'Total Value in Cr',
-           data: totalValuecr,
-           color: 'rgba(93, 243, 174, 0.85)',
-         },
-         { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+        {
+          name: 'No. of Works',
+          data: nosWorks,
+          color: '#eeba0b',
+        },
+        {
+          name: 'No. of Tender',
+          data: nosTender,
+         //  color: 'rgb(0, 143, 251)',
+         color: '#6a6afd',
+        },
+        {
+          name: 'Value(in Cr)',
+          data: totalValuecr,
+          color: 'rgba(93, 243, 174, 0.85)',
+        },
+       //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+        { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+        //  {
+        //    name: 'Total Numbers of Works',
+        //    data: nosWorks,
+        //    color: '#eeba0b',
+        //  },
+        //  {
+        //    name: 'Total Numbers of Tender',
+        //    data: nosTender,
+        //    color: 'rgb(0, 143, 251)',
+        //  },
+        //  {
+        //    name: 'Total Value in Cr',
+        //    data: totalValuecr,
+        //    color: 'rgba(93, 243, 174, 0.85)',
+        //  },
+        //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
 
         //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
          // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
@@ -1319,7 +1407,7 @@ GETPEvaluationTotal(): void {
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptionsLine2.chart.height = '200px';
+   this.chartOptions_IV.chart.height = '200px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1327,12 +1415,12 @@ GETPEvaluationTotal(): void {
   // var RPType="District";
    this.divisionid = 0;
    this.mainschemeid=0;
-   this.chartOptionsLine2.chart.height = '400px';
+   this.chartOptions_IV.chart.height = '400px';
   } else {
    this.divisionid = 0;
    this.himisDistrictid = 0;
    this.mainschemeid=0;
-   this.chartOptionsLine2.chart.height = '300';
+   this.chartOptions_IV.chart.height = '300';
   }
   // this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
   var RPType = 'Total';
@@ -1369,24 +1457,25 @@ GETPEvaluationTotal(): void {
            }
          );
   
-         this.chartOptionsLine2.series = [
+         this.chartOptions_IV.series = [
            {
-             name: 'Total Numbers of Works',
+             name: 'No. of Works',
              data: nosWorks,
              color: '#eeba0b',
            },
            {
-             name: 'Total Numbers of Tender',
+             name: 'No. of Tender',
              data: nosTender,
-             color: 'rgb(0, 143, 251)',
+            //  color: 'rgb(0, 143, 251)',
+            color: '#6a6afd',
            },
            {
-             name: 'Total Value in Cr',
+             name: 'Value(in Cr)',
              data: totalValuecr,
              color: 'rgba(93, 243, 174, 0.85)',
            },
           //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-           { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+           { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
            // {
            //   name: 'Zonal Works',
            //   data: zonalWorks,
@@ -1409,8 +1498,8 @@ GETPEvaluationTotal(): void {
            // },
            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
          ];
-         this.chartOptionsLine2.xaxis = { categories: name };
-         this.cO = this.chartOptionsLine2;
+         this.chartOptions_IV.xaxis = { categories: name };
+         this.cO = this.chartOptions_IV;
          this.cdr.detectChanges();
   
          this.spinner.hide();
@@ -1426,7 +1515,7 @@ GETPEvaluationTotal(): void {
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions.chart.height = '200px';
+   this.chartOptions_I.chart.height = '200px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1434,17 +1523,17 @@ GETPEvaluationTotal(): void {
   // var RPType="District";
    this.divisionid = 0;
    this.mainschemeid=0;
-   this.chartOptions.chart.height = '400px';
+   this.chartOptions_I.chart.height = '400px';
   } else {
    this.divisionid = 0;
    this.himisDistrictid = 0;
    this.mainschemeid=0;
-   this.chartOptions.chart.height = '300';
+   this.chartOptions_I.chart.height = '300';
   }
   this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
   var RPType = 'Division';
   // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-   this.api.GETPriceEvaluation( RPType, this.divisionid,this.himisDistrictid,this.mainschemeid)
+   this.api.GETPriceEvaluation(RPType, this.divisionid,this.himisDistrictid,this.mainschemeid)
      .subscribe(
        (data: any) => {
          this.PriceEvaluationDivision = data;
@@ -1475,23 +1564,41 @@ GETPEvaluationTotal(): void {
            }
          );
   
-         this.chartOptions.series = [
-           {
-             name: 'Total Numbers of Works',
-             data: nosWorks,
-             color: '#eeba0b',
-           },
-           {
-             name: 'Total Numbers of Tender',
-             data: nosTender,
-             color: 'rgb(0, 143, 251)',
-           },
-           {
-             name: 'Total Value in Cr',
-             data: totalValuecr,
-             color: 'rgba(93, 243, 174, 0.85)',
-           },
-           { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+         this.chartOptions_I.series = [
+          {
+            name: 'No. of Works',
+            data: nosWorks,
+            color: '#eeba0b',
+          },
+          {
+            name: 'No. of Tender',
+            data: nosTender,
+           //  color: 'rgb(0, 143, 251)',
+           color: '#6a6afd',
+          },
+          {
+            name: 'Value(in Cr)',
+            data: totalValuecr,
+            color: 'rgba(93, 243, 174, 0.85)',
+          },
+         //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+          { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+          //  {
+          //    name: 'Total Numbers of Works',
+          //    data: nosWorks,
+          //    color: '#eeba0b',
+          //  },
+          //  {
+          //    name: 'Total Numbers of Tender',
+          //    data: nosTender,
+          //    color: 'rgb(0, 143, 251)',
+          //  },
+          //  {
+          //    name: 'Total Value in Cr',
+          //    data: totalValuecr,
+          //    color: 'rgba(93, 243, 174, 0.85)',
+          //  },
+          //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
   
           //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
@@ -1517,8 +1624,8 @@ GETPEvaluationTotal(): void {
            // },
            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
          ];
-         this.chartOptions.xaxis = { categories: name };
-         this.cO = this.chartOptions;
+         this.chartOptions_I.xaxis = { categories: name };
+         this.cO = this.chartOptions_I;
          this.cdr.detectChanges();
   
          this.spinner.hide();
@@ -1534,7 +1641,7 @@ GETPEvaluationTotal(): void {
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions2.chart.height = '200px';
+   this.chartOptions_II.chart.height = '200px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1542,12 +1649,12 @@ GETPEvaluationTotal(): void {
   // var RPType="District";
    this.divisionid = 0;
    this.mainschemeid=0;
-   this.chartOptions2.chart.height = '400px';
+   this.chartOptions_II.chart.height = '400px';
   } else {
    this.divisionid = 0;
    this.himisDistrictid = 0;
    this.mainschemeid=0;
-   this.chartOptions2.chart.height = '300';
+   this.chartOptions_II.chart.height = '300';
   }
   this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
   // alert( this.TimeStatus)
@@ -1584,23 +1691,41 @@ GETPEvaluationTotal(): void {
            }
          );
   
-         this.chartOptions2.series = [
-           {
-             name: 'Total Numbers of Works',
-             data: nosWorks,
-             color: '#eeba0b',
-           },
-           {
-             name: 'Total Numbers of Tender',
-             data: nosTender,
-             color: 'rgb(0, 143, 251)',
-           },
-           {
-             name: 'Total Value in Cr',
-             data: totalValuecr,
-             color: 'rgba(93, 243, 174, 0.85)',
-           },
-           { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+         this.chartOptions_II.series = [
+          {
+            name: 'No. of Works',
+            data: nosWorks,
+            color: '#eeba0b',
+          },
+          {
+            name: 'No. of Tender',
+            data: nosTender,
+           //  color: 'rgb(0, 143, 251)',
+           color: '#6a6afd',
+          },
+          {
+            name: 'Value(in Cr)',
+            data: totalValuecr,
+            color: 'rgba(93, 243, 174, 0.85)',
+          },
+         //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+          { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+          //  {
+          //    name: 'Total Numbers of Works',
+          //    data: nosWorks,
+          //    color: '#eeba0b',
+          //  },
+          //  {
+          //    name: 'Total Numbers of Tender',
+          //    data: nosTender,
+          //    color: 'rgb(0, 143, 251)',
+          //  },
+          //  {
+          //    name: 'Total Value in Cr',
+          //    data: totalValuecr,
+          //    color: 'rgba(93, 243, 174, 0.85)',
+          //  },
+          //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
   
           //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
@@ -1626,8 +1751,8 @@ GETPEvaluationTotal(): void {
            // },
            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
          ];
-         this.chartOptions2.xaxis = { categories: name };
-         this.cO = this.chartOptions2;
+         this.chartOptions_II.xaxis = { categories: name };
+         this.cO = this.chartOptions_II;
          this.cdr.detectChanges();
   
          this.spinner.hide();
@@ -1643,7 +1768,7 @@ GETPEvaluationTotal(): void {
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptionsLine.chart.height = '200px';
+   this.chartOptions_III.chart.height = '200px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1651,12 +1776,12 @@ GETPEvaluationTotal(): void {
   // var RPType="District";
    this.divisionid = 0;
    this.mainschemeid=0;
-   this.chartOptionsLine.chart.height = '400px';
+   this.chartOptions_III.chart.height = '400px';
   } else {
    this.divisionid = 0;
    this.himisDistrictid = 0;
    this.mainschemeid=0;
-   this.chartOptionsLine.chart.height = '500';
+   this.chartOptions_III.chart.height = '500';
   }
   this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
   // alert( this.TimeStatus)
@@ -1693,23 +1818,41 @@ GETPEvaluationTotal(): void {
            }
          );
   
-         this.chartOptionsLine.series = [
-           {
-             name: 'Total Numbers of Works',
-             data: nosWorks,
-             color: '#eeba0b',
-           },
-           {
-             name: 'Total Numbers of Tender',
-             data: nosTender,
-             color: 'rgb(0, 143, 251)',
-           },
-           {
-             name: 'Total Value in Cr',
-             data: totalValuecr,
-             color: 'rgba(93, 243, 174, 0.85)',
-           },
-           { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+         this.chartOptions_III.series = [
+          {
+            name: 'No. of Works',
+            data: nosWorks,
+            color: '#eeba0b',
+          },
+          {
+            name: 'No. of Tender',
+            data: nosTender,
+           //  color: 'rgb(0, 143, 251)',
+           color: '#6a6afd',
+          },
+          {
+            name: 'Value(in Cr)',
+            data: totalValuecr,
+            color: 'rgba(93, 243, 174, 0.85)',
+          },
+         //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+          { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+          //  {
+          //    name: 'Total Numbers of Works',
+          //    data: nosWorks,
+          //    color: '#eeba0b',
+          //  },
+          //  {
+          //    name: 'Total Numbers of Tender',
+          //    data: nosTender,
+          //    color: 'rgb(0, 143, 251)',
+          //  },
+          //  {
+          //    name: 'Total Value in Cr',
+          //    data: totalValuecr,
+          //    color: 'rgba(93, 243, 174, 0.85)',
+          //  },
+          //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
   
           //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
@@ -1735,8 +1878,8 @@ GETPEvaluationTotal(): void {
            // },
            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
          ];
-         this.chartOptionsLine.xaxis = { categories: name };
-         this.cO = this.chartOptionsLine;
+         this.chartOptions_III.xaxis = { categories: name };
+         this.cO = this.chartOptions_III;
          this.cdr.detectChanges();
   
          this.spinner.hide();
