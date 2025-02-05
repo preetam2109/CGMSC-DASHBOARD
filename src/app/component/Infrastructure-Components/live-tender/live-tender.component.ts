@@ -231,7 +231,7 @@ export class LiveTenderComponent {
             const selectedSeries =
               this.chartOptions2?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
-            debugger;
+            ;
             if (selectedCategory && selectedSeries) {
               const apiData = this.LiveTenderScheme; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory

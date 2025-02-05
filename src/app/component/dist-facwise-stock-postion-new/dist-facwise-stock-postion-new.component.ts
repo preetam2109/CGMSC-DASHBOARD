@@ -74,7 +74,7 @@ export class DistFACwiseStockPostionNewComponent {
       getDistFACwiseStockPostionNew(distId: any): void {
         
         this.spinner.show();
-    debugger;
+    ;
         
         // Simulated API call; replace with actual API call
       this.api.getDistFACwiseStockPostionNew(distId,0,1,0,0,0).subscribe((res:DistFACwiseStockPostionNew[])=>{

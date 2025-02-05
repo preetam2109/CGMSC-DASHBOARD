@@ -212,14 +212,14 @@ colors = [];
     'Handover':'assets/dash-icon/hand-over.png',
     'Work Order':'assets/dash-icon/clipboard.png',
     'cgmsc-supplies':'assets/dash-icon/drugs.png',
-    ' Evaluation':'assets/dash-icon/check-list.png',
+    ' Evaluation':'assets/dash-icon/norm.png',
     'Progress Abstract':'assets/dash-icon/hospital.png',
     'Tender Evaluation':'assets/dash-icon/check-list.png',
-    'Live Tender':'assets/dash-icon/tender.png',
-    'To be Tender':'assets/dash-icon/project.png',
+    'Live Tender':'assets/dash-icon/auction.png',
+    'To be Tender':'assets/dash-icon/tender.png',
     'Payment':'assets/dash-icon/payment.png',
     'Search Work':'assets/dash-icon/analysis.png',
-    'Work Abstract':'assets/dash-icon/hospital.png',
+    'Work Abstract':'assets/dash-icon/analysis_.png',
     'Administrative Sanction':'assets/dash-icon/blogger.png',
     'Land Issue':'assets/dash-icon/barrier.png',
     'Technical Sanction':'assets/dash-icon/deadline.png',
@@ -608,7 +608,7 @@ colors = [];
      console.log('SE Role:', this.role);
      this.updateMenu();
     //  this.addIconsToMenu();
-    debugger
+    
     this.CGMSCIndentPending()
     this.GetDeliveryInMonth()
     this.GetPOCountCFY()
@@ -679,7 +679,7 @@ colors = [];
     })
   }
   CGMSCIndentPending(){
-    debugger
+    
     this.api.CGMSCIndentPending().subscribe((res:any)=>{
       console.log('dsds',res);
       this.nosIndent=res[0].nosIndent
@@ -719,7 +719,7 @@ colors = [];
 
   private updateMenu(){
     console.log('Role:', this.role);
-    debugger
+    
     // ;
     // Check if the role has categories or direct items
     const hasCategories = ['SEC1', 'DHS', 'CME'].includes(this.role);
@@ -745,7 +745,7 @@ colors = [];
   }
 
   toggleSubmenu(menuLabel: string): void {
-    debugger
+    
     // Toggle the clicked submenu, close all others
     for (const key in this.expandedMenus) {
       if (key !== menuLabel) {
@@ -757,7 +757,7 @@ colors = [];
 
 
   onISelectChange(event: Event): void {
-    debugger
+    
 
   const selectedUser = this.MasIndentitemslist.find((user: { itemid: string }) => user.itemid === this.itemid); 
 
@@ -771,7 +771,7 @@ colors = [];
 }
 
   // loadData() {
-  //   debugger
+  //   
   //   // Replace the API call with your endpoint and parameters
   //   const fromDate = '01-Jan-2025'; // Example date
   //   const toDate = '30-Jan-2025'; // Example date
@@ -794,7 +794,7 @@ colors = [];
   //   });
   //   }
   loadData(): void {
-    debugger;
+    ;
     const fromDate = '01-Jan-2025'; // Example date
     const toDate = '30-Jan-2025'; // Example date
 
@@ -848,7 +848,7 @@ colors = [];
 }
 
 loadData3(): void {
-  debugger;
+  ;
 
   this.api.getTotalRC(1).subscribe(
     (data: any) => {
@@ -943,7 +943,7 @@ loadData3(): void {
   );
 }
 loadData4(): void {
-  debugger;
+  ;
 
   this.api.CGMSCStockHome(1).subscribe(
     (data: any) => {
@@ -1045,7 +1045,7 @@ loadData4(): void {
 
 
   loadData1(): void {
-    debugger;
+    ;
     
         this.api.Last7DaysIssue(7,0,545).subscribe(
           (data:any) => {
@@ -1128,7 +1128,7 @@ loadData4(): void {
         );
       }
   loadData2(): void {
-    debugger;
+    ;
     
         this.api.Last7DaysReceipt(7,0,545).subscribe(
           (data:any) => {

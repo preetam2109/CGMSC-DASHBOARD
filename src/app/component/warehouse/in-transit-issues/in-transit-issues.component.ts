@@ -59,7 +59,7 @@ this.getSupplierDropDown();
   }
     // Handle change when a supplier is selected
     onSupplierChange(event: any): void {
-      debugger
+      
       const selectedSupplier = this.SupplierDropDownList.find((supplier: { supplierId: string }) => supplier.supplierId === this.selectedSupplier);
   
       if (selectedSupplier) {
@@ -89,7 +89,7 @@ this.getSupplierDropDown();
       // Ensure selectedItem is available before making the API call
       const ponoid = this.selectedItem;
       console.log('Fetching pipeline details for PONOID:', ponoid);
-debugger
+
       this.api.getPipelineDetailsGrid(ponoid, 0, 0, sessionStorage.getItem('facilityid'), sessionStorage.getItem('userid'),this.supplierid).subscribe(
         (response: PipelineDetailsGrid[]) => {
           this.pipelineDetails = response; // Store the response data

@@ -253,7 +253,7 @@ export class WorkOrderGeneratedComponent {
             const selectedSeries =
               this.chartOptions2?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
-            debugger;
+            ;
             if (selectedCategory && selectedSeries) {
               const apiData = this.wOIssuedDistrict; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
@@ -438,7 +438,7 @@ export class WorkOrderGeneratedComponent {
             const selectedSeries =
               this.chartOptionsLine2?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
-            debugger;
+            ;
             if (selectedCategory && selectedSeries) {
               const apiData = this.wOIssuedGTotal; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory

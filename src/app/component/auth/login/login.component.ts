@@ -177,12 +177,12 @@ isPasswordVisible: boolean = false;
  
   onUserChangeWarehouse(event: Event): void {
 
-    debugger
+    
     // const emailid = (event.target as HTMLSelectElement).value; // Get the selected email ID
     const selectedUser = this.wHDropdownList.find((user: { emailid: string }) => user.emailid === this.emailid); // Find the user object in the list
-  debugger
+  
     console.log('Selected User:', selectedUser); // Log the selected user object properly
-  debugger
+  
     if (selectedUser) {
       this.siMobile = selectedUser.siMobile || null;
       this.userid = selectedUser.userid || null;

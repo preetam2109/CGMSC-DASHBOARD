@@ -544,7 +544,7 @@ WHDrugCount(districtId:any,mcid:any,whid:any): Observable<any> {
 }
 
 HODPOYear_AgAI(mcatid:any,hodid:any,Isall:any,IsagainstAI:any): Observable<any> {
-  debugger
+  
   
   return this.http.get<HODPOYear_AgAI[]>(`https://dpdmis.in/CGMSCHO_API2/api/HO/HODPOYear_AgAI?mcatid=${mcatid}&hodid=${hodid}&Isall=${Isall}&IsagainstAI=${IsagainstAI}`);
 }

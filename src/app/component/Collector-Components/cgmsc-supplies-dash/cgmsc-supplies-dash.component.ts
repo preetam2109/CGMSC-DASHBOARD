@@ -34,7 +34,7 @@ export class CgmscSuppliesDashComponent {
     this.selectedTabIndex = event.index;
   }
   selectedSubTabValue(event: any): void {
-    debugger
+    
     this.selectedSubTabIndex = event.index;
   }
 

@@ -732,7 +732,7 @@ export class LandIssueComponent {
           ...item,
           sno: index + 1
         }));
-        debugger;
+        ;
         this.dataSource.data = this.dispatchPendings;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
