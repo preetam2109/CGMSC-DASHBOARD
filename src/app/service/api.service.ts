@@ -94,7 +94,9 @@ import {
   ASPendingDetails, DivisionWiseASPendingDetails,  ASCompletedDetails, ASEnteredDetails,ASFile,
   WORunningHandDetails,
   DetailProgressTinP,
-  LandIssue_RetToDeptDetatails
+  LandIssue_RetToDeptDetatails,
+  RunningWork,
+  RunningWorkDelay
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -921,6 +923,16 @@ GETASEnteredDetails(ASID:any,divisionId:any,mainSchemeId:any){
   //https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASEnteredDetails?ASID=22&divisionId=D1017&mainSchemeId=0
 }
 
+//#endregion
+//#region RunningWork
+GETRunningWorkSummary(RPType:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
+  return this.http.get<RunningWork[]>(`${this.apiUrl}/RunningWork/RunningWorkSummary?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
+//https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummary?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
+}
+GETRunningWorkSummaryDelay(RPType:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
+  return this.http.get<RunningWorkDelay[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryDelay?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
+//https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummaryDelay?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
+}
 //#endregion
 
 

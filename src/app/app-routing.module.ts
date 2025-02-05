@@ -98,6 +98,7 @@ import { ToBeTenderComponent } from './component/Infrastructure-Components/to-be
 import { CgmscFieldStockComponent } from './cgmsc-field-stock/cgmsc-field-stock.component';
 import { AdministrativeSanctionComponent } from './component/Infrastructure-Components/administrative-sanction/administrative-sanction.component';
 import { HomeSearchComponent } from './component/home-search/home-search.component';
+import { RunningWorkComponent } from './component/Infrastructure-Components/running-work/running-work.component';
 
 
 
@@ -211,6 +212,7 @@ const routes: Routes = [
 {path:'PriceEvaluation',component:PriceEvaluationComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 {path:'ToBeTender',component:ToBeTenderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 {path:'AdministrativeSanction',component:AdministrativeSanctionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
+{path:'RunningWork',component:RunningWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','Division']} },
 
 
 {path:'DistDHSStock',component:DistDHSStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector']} },
