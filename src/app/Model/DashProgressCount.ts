@@ -618,6 +618,7 @@ export class PriceEvaluationDetails {
 export class PaidSummary {
   id!: string;
   name!: string;
+  noofWorks!: number;
   avgDaysSinceMeasurement!: number;
   grossPaidcr!: number;
 }
@@ -1032,5 +1033,40 @@ export class ASEnteredDetails{
 
 
 
+}
+//#endregion
+//#region Running works
+export class RunningWork{
+  
+  id!: string;
+  name!: string;
+  totalWorks!:number;
+  tvcValuecr!: number;
+  paidTillcr!:number;
+  grossPendingcr!:number;
+}
+export class RunningWorkDelay{
+  
+  id!: string;
+  name!: string;
+  totalWorks!:number;
+  tvcValuecr!: number;
+  paidTillcr!:number;
+  grossPendingcr!:number;
+  morethanSixMonth!:number;
+  d_91_180Days!:number;
+  d_1_90Days!:number;
+  timeValid!:number;
+
+  // "id": "1",
+  // "name": "-",
+  // "totalWorks": 861,
+  // "tvcValuecr": 680.72,
+  // "paidTillcr": 177.03,
+  // "grossPendingcr": 26.03,
+  // "morethanSixMonth": 409,
+  // "d_91_180Days": 293,
+  // "d_1_90Days": 21,
+  // "timeValid": 138
 }
 //#endregion

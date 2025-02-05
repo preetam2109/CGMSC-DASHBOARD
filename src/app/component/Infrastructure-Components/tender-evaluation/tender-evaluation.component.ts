@@ -19,7 +19,7 @@ import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import {  PriceEvaluation, TenderEvaluation, TenderEvaluationDetails } from 'src/app/Model/DashProgressCount';
+import {  PriceEvaluation, PriceEvaluationDetails, TenderEvaluation, TenderEvaluationDetails } from 'src/app/Model/DashProgressCount';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -64,6 +64,7 @@ export class TenderEvaluationComponent {
  //#region chart
  @ViewChild('chart') chart: ChartComponent | undefined;
  @ViewChild('itemDetailsModal') itemDetailsModal: any;
+ @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
  public cO: Partial<ChartOptions> | undefined;
  chartOptions!: ChartOptions; // For bar chart
  chartOptions2!: ChartOptions; // For bar charta
@@ -77,9 +78,13 @@ export class TenderEvaluationComponent {
  //#endregion
   //#region DataBase Table
    dataSource!: MatTableDataSource<TenderEvaluationDetails>;
-   @ViewChild(MatPaginator) paginator!: MatPaginator;
-   @ViewChild(MatSort) sort!: MatSort;
+   dataSource1!: MatTableDataSource<PriceEvaluationDetails>;
+   @ViewChild('Paginator') paginator!: MatPaginator;
+   @ViewChild('Sort') sort!: MatSort;
+   @ViewChild('paginator1') paginator1!: MatPaginator;
+   @ViewChild('Sort1') sort1!: MatSort;
    dispatchData: TenderEvaluationDetails[] = [];
+   dispatchData1: PriceEvaluationDetails[] = [];
  
    //#endregion
    TenderEvaluationTotal: TenderEvaluation[] = [];
@@ -105,7 +110,7 @@ constructor(
  public datePipe: DatePipe
 ) {
  this.dataSource = new MatTableDataSource<TenderEvaluationDetails>([]);
-//  this.dataSource = new MatTableDataSource<PriceEvaluationDetails>([]);
+ this.dataSource1 = new MatTableDataSource<PriceEvaluationDetails>([]);
 }
 
 ngOnInit() {
@@ -529,7 +534,7 @@ initializeChartOptions2() {
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
 
-             this.fetchDataBasedOnChartSelectionDivision(id, selectedSeries);
+             this.fetchDataBasedOnChartSelectionDivisionPE(id, selectedSeries);
            } else {
              console.log(
                `No data found for selected category: ${selectedCategory}`
@@ -621,7 +626,7 @@ initializeChartOptions2() {
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
 
-             this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
+             this.fetchDataBasedOnChartSelectionmainSchemePE(id, selectedSeries);
            } else {
              console.log(
                `No data found for selected category: ${selectedCategory}`
@@ -713,7 +718,7 @@ initializeChartOptions2() {
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
 
-             this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
+             this.fetchDataBasedOnChartSelectionDisPE(id, selectedSeries);
            } else {
              console.log(
                `No data found for selected category: ${selectedCategory}`
@@ -805,7 +810,7 @@ initializeChartOptions2() {
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
 
-             this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
+             this.fetchDataBasedOnChartSelectionTotalPE(0, selectedSeries);
            } else {
              console.log(
                `No data found for selected category: ${selectedCategory}`
@@ -1271,7 +1276,7 @@ var RPType = 'Scheme';
        console.error('Error fetching data', error);
      }
    );
-}
+} 
 GETTenderEvaluationDistrict(): void {
 this.spinner.show();
 var roleName = localStorage.getItem('roleName');
@@ -1891,7 +1896,7 @@ GETPEvaluationTotal(): void {
   }
   // #endregion
 
-// #region dataBase 
+// #region dataBase tender Evalution
 fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): void {
  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
  const distid = 0;
@@ -2018,6 +2023,125 @@ const TimeStatus="Live";
  this.openDialog();
 }
 //#endregion
+
+// #region Price Evaluation Details
+fetchDataBasedOnChartSelectionTotalPE(  divisionID: any, seriesName: string ): void {
+  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  const distid = 0;
+  const mainSchemeId = 0;
+  this.spinner.show();
+ //  this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+  this.api.GETPriceEvaluationDetails(divisionID,mainSchemeId,distid)
+    .subscribe(
+      (res) => {
+        this.dispatchData1 = res.map(
+          (item: PriceEvaluationDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('res:', res);
+        console.log('dispatchData1=:', this.dispatchData1);
+        this.dataSource1.data = this.dispatchData1;
+        this.dataSource1.paginator = this.paginator1;
+        this.dataSource1.sort = this.sort1;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+  this.openDialog1();
+ }
+fetchDataBasedOnChartSelectionDivisionPE(  divisionID: any, seriesName: string ): void {
+  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  const distid = 0;
+  const mainSchemeId = 0;
+  this.spinner.show();
+ //  this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+  this.api.GETPriceEvaluationDetails(divisionID,mainSchemeId,distid)
+    .subscribe(
+      (res) => {
+        this.dispatchData1 = res.map(
+          (item: PriceEvaluationDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('res:', res);
+        console.log('dispatchData1=:', this.dispatchData1);
+        this.dataSource1.data = this.dispatchData1;
+        this.dataSource1.paginator = this.paginator1;
+        this.dataSource1.sort = this.sort1;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+  this.openDialog1();
+ }
+fetchDataBasedOnChartSelectionDisPE(  distid: any, seriesName: string ): void {
+  console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+  const divisionID = 0;
+  const mainSchemeId = 0;
+  this.spinner.show();
+ //  this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+  this.api.GETPriceEvaluationDetails(divisionID,mainSchemeId,distid)
+    .subscribe(
+      (res) => {
+        this.dispatchData1 = res.map(
+          (item: PriceEvaluationDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('res:', res);
+        console.log('dispatchData1=:', this.dispatchData1);
+        this.dataSource1.data = this.dispatchData1;
+        this.dataSource1.paginator = this.paginator1;
+        this.dataSource1.sort = this.sort1;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+  this.openDialog1();
+ }
+fetchDataBasedOnChartSelectionmainSchemePE(  mainSchemeId: any, seriesName: string ): void {
+  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+  const divisionID = 0;
+  const distid = 0;
+  this.spinner.show();
+ //  this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+  this.api.GETPriceEvaluationDetails(divisionID,mainSchemeId,distid)
+    .subscribe(
+      (res) => {
+        this.dispatchData1 = res.map(
+          (item: PriceEvaluationDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('res:', res);
+        console.log('dispatchData1=:', this.dispatchData1);
+        this.dataSource1.data = this.dispatchData1;
+        this.dataSource1.paginator = this.paginator1;
+        this.dataSource1.sort = this.sort1;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+  this.openDialog1();
+ }
+//#endregion
 // data filter
 applyTextFilter(event: Event) {
 const filterValue = (event.target as HTMLInputElement).value;
@@ -2072,6 +2196,25 @@ doc.save('TenderDetails.pdf');
 // mat-dialog box
 openDialog() {
 const dialogRef = this.dialog.open(this.itemDetailsModal, {
+ width: '100%',
+ height: '100%',
+ maxWidth: '100%',
+ panelClass: 'full-screen-dialog', // Optional for additional styling
+ data: {
+   /* pass any data here */
+ },
+ // width: '100%',
+ // maxWidth: '100%', // Override default maxWidth
+ // maxHeight: '100%', // Override default maxHeight
+ // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+ // height: 'auto',
+});
+dialogRef.afterClosed().subscribe((result) => {
+ console.log('Dialog closed');
+});
+}
+openDialog1() {
+const dialogRef = this.dialog.open(this.itemDetailsModal1, {
  width: '100%',
  height: '100%',
  maxWidth: '100%',

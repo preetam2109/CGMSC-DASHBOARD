@@ -1,0 +1,144 @@
+<div class="card shadow">
+    <div class="card-body">
+      <!-- <div class="container-fluid"> -->
+      <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+        <mat-tab label="Running Summary">
+          <ng-template matTabContent>
+            <!-- <div class="card shadow"> -->
+              <div class="w-100 mt-1 pb-0">
+                  <!-- #e2e3e5 -->
+                  <h3 class="bold text-light bg-dark" style="font-size: large;">Running Summary</h3>
+                </div>
+            <div class="card-body pt-0">
+              <div class="container-fluid  p-1">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataGTotal.length > 0">
+                    <div class="chart-container">
+                      <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                        [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                        [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+                        [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis"
+                        [title]="chartOptions.title" [tooltip]="chartOptions.tooltip"
+                        [legend]="chartOptions.legend"></apx-chart>
+  
+  
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDivision.length > 0">
+                    <div class="chart-container">
+                      <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
+                        [dataLabels]="chartOptions1.dataLabels" [plotOptions]="chartOptions1.plotOptions"
+                        [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke" [fill]="chartOptions1.fill"
+                        [yaxis]="chartOptions1.yaxis" [title]="chartOptions1.title" [tooltip]="chartOptions1.tooltip"
+                        [legend]="chartOptions1.legend"></apx-chart>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
+                    <div class="chart-container">
+                      <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
+                        [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
+                        [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke" [fill]="chartOptions2.fill"
+                        [yaxis]="chartOptions2.yaxis" [title]="chartOptions2.title" [tooltip]="chartOptions2.tooltip"
+                        [legend]="chartOptions2.legend"></apx-chart>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDistrict.length > 0">
+                    <div class="chart-container">
+                      <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart"
+                        [dataLabels]="chartOptions3.dataLabels" [plotOptions]="chartOptions3.plotOptions"
+                        [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke" [fill]="chartOptions3.fill"
+                        [yaxis]="chartOptions3.yaxis" [title]="chartOptions3.title"
+                        [tooltip]="chartOptions3.tooltip" [legend]="chartOptions3.legend"></apx-chart>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataContractor.length > 0">
+                    <div class="chart-container">
+                      <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart"
+                        [dataLabels]="chartOptions4.dataLabels" [plotOptions]="chartOptions4.plotOptions"
+                        [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke" [fill]="chartOptions4.fill"
+                        [yaxis]="chartOptions4.yaxis" [title]="chartOptions4.title"
+                        [tooltip]="chartOptions4.tooltip" [legend]="chartOptions4.legend"></apx-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- </div> -->
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Delay/On Time">
+          <ng-template matTabContent>
+            <!-- <div class="card shadow"> -->
+              <div class="w-100 mt-1 ">
+                <!-- #e2e3e5 -->
+                <h3 class="bold text-light bg-dark" style="font-size: large;">Delay/On Time</h3>
+              </div>
+            <div class="card-body pt-0">
+              <!-- <div class="w-100 ">
+                  #e2e3e5
+                  <h3 class=" bold text-light bg-dark">Work Order Pending</h3>
+                </div> -->
+              <div class="container-fluid  p-1">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDelayDataGTotal.length > 0">
+                    <div class="chart-container">
+                        <apx-chart [series]="chartOptions_I.series" [chart]="chartOptions_I.chart"
+                        [dataLabels]="chartOptions_I.dataLabels" [plotOptions]="chartOptions_I.plotOptions"
+                        [xaxis]="chartOptions_I.xaxis" [stroke]="chartOptions_I.stroke" [fill]="chartOptions_I.fill"
+                        [yaxis]="chartOptions_I.yaxis" [title]="chartOptions_I.title" [tooltip]="chartOptions_I.tooltip"
+                        [legend]="chartOptions_I.legend"></apx-chart>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDelayDataDivision.length > 0">
+                    <div class="chart-container">
+                        <apx-chart [series]="chartOptions_II.series" [chart]="chartOptions_II.chart"
+                        [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
+                        [xaxis]="chartOptions_II.xaxis" [stroke]="chartOptions_II.stroke" [fill]="chartOptions_II.fill"
+                        [yaxis]="chartOptions_II.yaxis" [title]="chartOptions_II.title" [tooltip]="chartOptions_II.tooltip"
+                        [legend]="chartOptions_II.legend"></apx-chart>
+                    </div>
+                  </div>
+                </div>
+                 <div class="row">
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDelayDataScheme.length > 0">
+                    <div class="chart-container">
+                        <apx-chart [series]="chartOptions_III.series" [chart]="chartOptions_III.chart"
+                        [dataLabels]="chartOptions_III.dataLabels" [plotOptions]="chartOptions_III.plotOptions"
+                        [xaxis]="chartOptions_III.xaxis" [stroke]="chartOptions_III.stroke" [fill]="chartOptions_III.fill"
+                        [yaxis]="chartOptions_III.yaxis" [title]="chartOptions_III.title"
+                        [tooltip]="chartOptions_III.tooltip" [legend]="chartOptions_III.legend"></apx-chart>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDelayDataDistrict.length > 0">
+                    <div class="chart-container">
+                        <apx-chart [series]="chartOptions_IV.series" [chart]="chartOptions_IV.chart"
+                        [dataLabels]="chartOptions_IV.dataLabels" [plotOptions]="chartOptions_IV.plotOptions"
+                        [xaxis]="chartOptions_IV.xaxis" [stroke]="chartOptions_IV.stroke"
+                        [fill]="chartOptions_IV.fill" [yaxis]="chartOptions_IV.yaxis"
+                        [title]="chartOptions_IV.title" [tooltip]="chartOptions_IV.tooltip"
+                        [legend]="chartOptions_IV.legend"></apx-chart>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDelayDataContractor.length > 0">
+                    <div class="chart-container">
+                        <apx-chart [series]="chartOptions_V.series" [chart]="chartOptions_V.chart"
+                        [dataLabels]="chartOptions_V.dataLabels" [plotOptions]="chartOptions_V.plotOptions"
+                        [xaxis]="chartOptions_V.xaxis" [stroke]="chartOptions_V.stroke"
+                        [fill]="chartOptions_V.fill" [yaxis]="chartOptions_V.yaxis"
+                        [title]="chartOptions_V.title" [tooltip]="chartOptions_V.tooltip"
+                        [legend]="chartOptions_V.legend"></apx-chart>
+                    </div>
+                  </div>
+                </div> 
+                
+              </div>
+            </div>
+            <!-- </div> -->
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+      <!-- </div> -->
+    </div>
+  </div>

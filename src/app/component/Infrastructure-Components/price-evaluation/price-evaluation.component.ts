@@ -111,6 +111,7 @@ export class PriceEvaluationComponent {
   dateRange!: FormGroup;
   fromdt: any;
   todt: any;
+  name:any;
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
@@ -220,7 +221,7 @@ export class PriceEvaluationComponent {
         text: 'Division-wise',
         align: 'center',
         style: {
-          fontSize: '12px',
+          fontSize: '15px',
           // color: '#000'
           color: '#6e0d25',
         },
@@ -310,7 +311,7 @@ export class PriceEvaluationComponent {
         text: 'Scheme-wise',
         align: 'center',
         style: {
-          fontSize: '12px',
+          fontSize: '15px',
           // color: '#000'
           color: '#6e0d25',
         },
@@ -399,7 +400,7 @@ export class PriceEvaluationComponent {
         text: 'Total Live Tender District wise Progress',
         align: 'center',
         style: {
-          fontSize: '12px',
+          fontSize: '15px',
           // color: '#000'
           color: '#6e0d25',
         },
@@ -489,10 +490,10 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Paid Summary',
+        text: 'Summary: Payment Completed',
         align: 'center',
         style: {
-          fontSize: '12px',
+          fontSize: '15px',
           // color: '#000'
           color: '#6e0d25',
         },
@@ -820,6 +821,7 @@ export class PriceEvaluationComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
+                this.name = selectedData.name; // Extract the id from the matching entry
 
                 this.fetchDataBasedOnChartSelectionTotalUNP(0, selectedSeries);
               } else {
@@ -863,7 +865,8 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Payment Pending',
+        // text: 'Total Payment Pending',
+        text: 'Payment Due Summary',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -954,8 +957,27 @@ export class PriceEvaluationComponent {
           console.log('API Response total:', this.PaidSummaryTotal);
           //  console.log('API Response data:', data);
 
+          // const id: string[] = [];
+          // const name: string[] = [];
+          // const avgDaysSinceMeasurement: any[] = [];
+          // const grossPaidcr: number[] = [];
+
+          // data.forEach(
+          //   (item: {
+          //     name: string;
+          //     id: any;
+          //     avgDaysSinceMeasurement: any;
+          //     grossPaidcr: any;
+          //   }) => {
+          //     id.push(item.id);
+          //     name.push(item.name);
+          //     avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
+          //     grossPaidcr.push(item.grossPaidcr);
+          //   }
+          // );
           const id: string[] = [];
           const name: string[] = [];
+          const noofWorks: number[] = [];
           const avgDaysSinceMeasurement: any[] = [];
           const grossPaidcr: number[] = [];
 
@@ -964,23 +986,28 @@ export class PriceEvaluationComponent {
               name: string;
               id: any;
               avgDaysSinceMeasurement: any;
-              grossPaidcr: any;
+              grossPaidcr: any;noofWorks:number
             }) => {
               id.push(item.id);
               name.push(item.name);
               avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
               grossPaidcr.push(item.grossPaidcr);
+              noofWorks.push(item.noofWorks);
             }
           );
-
           this.chartOptionsLine2.series = [
             {
-              name: 'Total Numbers of Works',
-              data: avgDaysSinceMeasurement,
+              name: 'No. of Works',
+              data: noofWorks,
               color: '#eeba0b',
             },
+            // {
+            //   name: 'No. of Works',
+            //   data: avgDaysSinceMeasurement,
+            //   color: '#eeba0b',
+            // },
             {
-              name: 'Total Numbers of Tender',
+              name: 'Paid Value(in Cr)',
               data: grossPaidcr,
               color: 'rgb(0, 143, 251)',
             },
@@ -1074,6 +1101,7 @@ export class PriceEvaluationComponent {
 
           const id: string[] = [];
           const name: string[] = [];
+          const noofWorks: number[] = [];
           const avgDaysSinceMeasurement: any[] = [];
           const grossPaidcr: number[] = [];
 
@@ -1082,26 +1110,42 @@ export class PriceEvaluationComponent {
               name: string;
               id: any;
               avgDaysSinceMeasurement: any;
-              grossPaidcr: any;
+              grossPaidcr: any;noofWorks:number
             }) => {
               id.push(item.id);
               name.push(item.name);
               avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
               grossPaidcr.push(item.grossPaidcr);
+              noofWorks.push(item.noofWorks);
             }
           );
 
           this.chartOptions.series = [
             {
-              name: 'Total Numbers of Works',
-              data: avgDaysSinceMeasurement,
+              name: 'No. of Works',
+              data: noofWorks,
               color: '#eeba0b',
             },
+            // {
+            //   name: 'No. of Works',
+            //   data: avgDaysSinceMeasurement,
+            //   color: '#eeba0b',
+            // },
             {
-              name: 'Total Numbers of Tender',
+              name: 'Paid Value(in Cr)',
               data: grossPaidcr,
               color: 'rgb(0, 143, 251)',
             },
+            // {
+            //   name: 'Total Numbers of Works',
+            //   data: avgDaysSinceMeasurement,
+            //   color: '#eeba0b',
+            // },
+            // {
+            //   name: 'Total Numbers of Tender',
+            //   data: grossPaidcr,
+            //   color: 'rgb(0, 143, 251)',
+            // },
             //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
 
             //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
@@ -1188,8 +1232,27 @@ export class PriceEvaluationComponent {
           // console.log('API Response total:', this.WoIssuedTotal);
           // console.log('API Response data:', data);
 
+          // const id: string[] = [];
+          // const name: string[] = [];
+          // const avgDaysSinceMeasurement: any[] = [];
+          // const grossPaidcr: number[] = [];
+
+          // data.forEach(
+          //   (item: {
+          //     name: string;
+          //     id: any;
+          //     avgDaysSinceMeasurement: any;
+          //     grossPaidcr: any;
+          //   }) => {
+          //     id.push(item.id);
+          //     name.push(item.name);
+          //     avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
+          //     grossPaidcr.push(item.grossPaidcr);
+          //   }
+          // );
           const id: string[] = [];
           const name: string[] = [];
+          const noofWorks: number[] = [];
           const avgDaysSinceMeasurement: any[] = [];
           const grossPaidcr: number[] = [];
 
@@ -1198,26 +1261,41 @@ export class PriceEvaluationComponent {
               name: string;
               id: any;
               avgDaysSinceMeasurement: any;
-              grossPaidcr: any;
+              grossPaidcr: any;noofWorks:number
             }) => {
               id.push(item.id);
               name.push(item.name);
               avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
               grossPaidcr.push(item.grossPaidcr);
+              noofWorks.push(item.noofWorks);
             }
           );
-
           this.chartOptions2.series = [
             {
-              name: 'Total Numbers of Works',
-              data: avgDaysSinceMeasurement,
+              name: 'No. of Works',
+              data: noofWorks,
               color: '#eeba0b',
             },
+            // {
+            //   name: 'No. of Works',
+            //   data: avgDaysSinceMeasurement,
+            //   color: '#eeba0b',
+            // },
             {
-              name: 'Total Numbers of Tender',
+              name: 'Paid Value(in Cr)',
               data: grossPaidcr,
               color: 'rgb(0, 143, 251)',
             },
+            // {
+            //   name: 'Total Numbers of Works',
+            //   data: avgDaysSinceMeasurement,
+            //   color: '#eeba0b',
+            // },
+            // {
+            //   name: 'Total Numbers of Tender',
+            //   data: grossPaidcr,
+            //   color: 'rgb(0, 143, 251)',
+            // },
 
             //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
             // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
@@ -1318,6 +1396,17 @@ export class PriceEvaluationComponent {
           );
 
           this.chartOptionsLine.series = [
+            // {
+            //   name: 'No. of Works',
+            //   data: avgDaysSinceMeasurement,
+            //   color: '#eeba0b',
+            // },
+            // {
+            //   name: 'Paid Value(in Cr)',
+            //   data: grossPaidcr,
+            //   color: 'rgb(0, 143, 251)',
+            // },
+
             {
               name: 'Total Numbers of Works',
               data: nosWorks,
@@ -1576,12 +1665,12 @@ export class PriceEvaluationComponent {
 
           this.chartOptionsLinee.series = [
             {
-              name: 'Numbers of Works',
+              name: 'No of Works',
               data: noofWorks,
               color: '#eeba0b',
             },
             {
-              name: 'Un Paid (in Cr)',
+              name: 'Un-paid Value(in Cr),',
               data: unpaidcr,
               color:'rgb(0, 227, 150)',
               // color: 'rgb(0, 143, 251)',
@@ -1592,7 +1681,7 @@ export class PriceEvaluationComponent {
             //   color: 'rgba(93, 243, 174, 0.85)',
             // },
             {
-              name: 'Avg Days Since M',
+              name: 'Avg Days Pending Since Measurement',
               data: avgDaySinceM,
               color: 'rgba(250, 199, 161, 0.85)',
             },
@@ -1698,14 +1787,14 @@ export class PriceEvaluationComponent {
 
           this.chartOptions1.series = [
             {
-              name: 'Numbers of Works',
+              name: 'No of Works',
               data: noofWorks,
               color: '#eeba0b',
             },
             {
-              name: 'Un Paid (in Cr)',
+              name: 'Un-paid Value(in Cr),',
               data: unpaidcr,
-              color: 'rgb(0, 227, 150)',
+              color:'rgb(0, 227, 150)',
               // color: 'rgb(0, 143, 251)',
             },
             // {
@@ -1714,10 +1803,16 @@ export class PriceEvaluationComponent {
             //   color: 'rgba(93, 243, 174, 0.85)',
             // },
             {
-              name: 'Avg Days Since M',
+              name: 'Avg Days Pending Since Measurement',
               data: avgDaySinceM,
               color: 'rgba(250, 199, 161, 0.85)',
             },
+            // {
+            //   name: 'Total Value in Cr',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(93, 243, 174, 0.85)',
+            // },
+            
             //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
 
             //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
@@ -1816,14 +1911,14 @@ export class PriceEvaluationComponent {
 
           this.chartOptionss.series = [
             {
-              name: 'Numbers of Works',
+              name: 'No of Works',
               data: noofWorks,
               color: '#eeba0b',
             },
             {
-              name: 'Un Paid (in Cr)',
+              name: 'Un-paid Value(in Cr),',
               data: unpaidcr,
-              color: 'rgb(0, 227, 150)',
+              color:'rgb(0, 227, 150)',
               // color: 'rgb(0, 143, 251)',
             },
             // {
@@ -1832,10 +1927,16 @@ export class PriceEvaluationComponent {
             //   color: 'rgba(93, 243, 174, 0.85)',
             // },
             {
-              name: 'Avg Days Since M',
+              name: 'Avg Days Pending Since Measurement',
               data: avgDaySinceM,
               color: 'rgba(250, 199, 161, 0.85)',
             },
+            // {
+            //   name: 'Total Value in Cr',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(93, 243, 174, 0.85)',
+            // },
+         
 
             //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
             // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
@@ -1935,14 +2036,14 @@ export class PriceEvaluationComponent {
 
           this.chartOptionsLine1.series = [
             {
-              name: 'Numbers of Works',
+              name: 'No of Works',
               data: noofWorks,
               color: '#eeba0b',
             },
             {
-              name: 'Un Paid (in Cr)',
+              name: 'Un-paid Value(in Cr),',
               data: unpaidcr,
-              color: 'rgb(0, 227, 150)',
+              color:'rgb(0, 227, 150)',
               // color: 'rgb(0, 143, 251)',
             },
             // {
@@ -1951,10 +2052,15 @@ export class PriceEvaluationComponent {
             //   color: 'rgba(93, 243, 174, 0.85)',
             // },
             {
-              name: 'Avg Days Since M',
+              name: 'Avg Days Pending Since Measurement',
               data: avgDaySinceM,
               color: 'rgba(250, 199, 161, 0.85)',
             },
+            // {
+            //   name: 'Total Value in Cr',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(93, 243, 174, 0.85)',
+            // },
 
             //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
             // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
