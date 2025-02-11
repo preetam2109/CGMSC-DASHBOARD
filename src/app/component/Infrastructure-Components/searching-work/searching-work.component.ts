@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe, NgFor, NgStyle } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,11 +10,17 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { ConnectableObservable, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ProjectTimeline, WorkDetails, WorkFill } from 'src/app/Model/DashProgressCount';
+import { ProjectTimeline, ProjectTimelineNew, WorkBillStatus, WorkDetails, WorkFill } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ApexYAxis, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexFill, ApexLegend, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatMenuModule } from '@angular/material/menu';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -31,19 +37,35 @@ export type ChartOptions = {
 @Component({
   selector: 'app-searching-work',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatSelectModule,
-    MatInputModule, MatFormFieldModule, MatAutocompleteModule, NgFor, NgSelectModule,
-    SelectDropDownModule, CommonModule,NgApexchartsModule,
-    NgStyle, DatePipe
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    NgFor,
+    NgSelectModule,
+    SelectDropDownModule,
+    CommonModule,
+    NgApexchartsModule,
+    NgStyle,
+    DatePipe, MatSortModule, MatPaginatorModule,MatTableModule,
+            MatTableExporterModule,MatMenuModule
   ],
   templateUrl: './searching-work.component.html',
-  styleUrl: './searching-work.component.css'
+  styleUrl: './searching-work.component.css',
 })
 export class SearchingWorkComponent {
   base64Data: string | undefined;
   workdetails: WorkDetails[] = [];
   workfill: WorkFill[] = [];
   ProjectTimelinedata: ProjectTimeline[] = [];
+  ProjectTimelinedata1: ProjectTimelineNew[] = [];
+    dataSource!: MatTableDataSource<WorkBillStatus>;
+     @ViewChild(MatPaginator) paginator!: MatPaginator;
+     @ViewChild(MatSort) sort!: MatSort;
+     dispatchData: WorkBillStatus[] = [];
   items = null;
   // searchTerm: string = '';
   // selectedItem: string | null = null;
@@ -55,136 +77,207 @@ export class SearchingWorkComponent {
   divisionid: any;
 
   //#region chart
-  public chartOptions!: Partial<ChartOptions> | any;
+  // public chartOptions!: Partial<ChartOptions> | any;
+  chartOptions: any = {};
   @ViewChild('chart') chart: ChartComponent | undefined;
-  diff:any;
+  diff: any;
   //#endregion
-  constructor(public api: ApiService, public spinner: NgxSpinnerService, public DatePipe: DatePipe) {
-   
-
- 
+  seriesData: any;
+  constructor(
+    public api: ApiService,
+    public spinner: NgxSpinnerService,
+    public DatePipe: DatePipe,private cdr: ChangeDetectorRef
     
-  }
+  ) {this.dataSource = new MatTableDataSource<WorkBillStatus>([]);}
 
   ngOnInit(): void {
-this.initializeChartOptions();
+    this.initializeChartOptions();
     this.getworkfill(); // Fetch data on initialization
     // this.GetProjectTimeline(0);
+    // this.GetProjectTimelineNEW();
+    // this.GetWorkBillStatus(0);
     this.spinner.show();
   }
-  
 
   initializeChartOptions() {
+    // this.chartOptions = {
+    //   series: [],
+    //   chart: {
+    //     type: 'rangeBar',
+    //     height: '300',
+    //     // stacked: false,
+    //     events: {
+    //       dataPointMouseEnter: function (event: any, chartContext: any, config: any) {
+    //         const dataPoint = config.w.config.series[config.seriesIndex].data[config.dataPointIndex];
+    //         // Custom logic to display data inside the bar on hover
+    //       }
+    //     }
+    //   },
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: true,
+    //       distributed: true,
+    //       colors: {
+    //         ranges: [],
+    //         backgroundBarColors: ['#f8f9fa', '#e9ecef', '#dee2e6'],
+    //         backgroundBarOpacity: 1
+    //       },
+    //       dataLabels: {
+    //         hideOverflowingLabels: false,
+    //         position: 'center', // Place labels inside the bars
+    //       }
+    //     }
+    //   },
+    //   dataLabels: {
+    //     enabled: true,
+    //     formatter: function (val: any, opts: any) {
+    //       const w = opts.w; // Accessing the wider context
+    //       const seriesIndex = opts.seriesIndex;
+    //       const dataPointIndex = opts.dataPointIndex;
+
+    //       // Ensure we are accessing the correct data structure
+    //       if (w.config && w.config.series && w.config.series[seriesIndex] && w.config.series[seriesIndex].data[dataPointIndex]) {
+    //         const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
+    //         // console.log('DataPoint:', dataPoint); // Log to verify structure
+    //         if (dataPoint && dataPoint.level) {
+    //           return dataPoint.level; // Return the `level` value
+    //         }
+    //       }
+    //       return ''; // Default return if `level` is not available
+    //     },
+    //     style: {
+    //       colors: ['#fff']
+    //     }
+    //   },
+    //   xaxis: {
+    //     categories: [], // Already set based on `res.map(item => item.pdate)`
+    //     labels: {
+    //       style: {
+    //         fontSize: '12px',
+    //         colors: ['#000']
+    //       }
+    //     },
+    //     opposite: true // Ensure larger values appear at the top
+
+    //   },
+    //   yaxis: {
+    //     // categories: [],
+    //     labels: {
+    //       style: {
+    //         fontSize: '12px',
+    //         colors: ['#000']
+    //       }
+    //     },
+    //     categories: [], // Reversed in GetProjectTimeline
+    //     // opposite: true // Ensure larger values appear at the top
+    //     title: {
+    //       text: ' Progress Date ',
+    //       align: 'center',
+    //       style: {
+    //         fontSize: '12px',
+    //         // color: '#000'
+    //         color: '#6e0d25',
+
+    //       },
+    //     },
+    //   },
+    //   title: {
+    //     text: 'Project Timeline Progress',
+    //     align: 'center',
+    //     style: {
+    //       fontSize: '12px',
+    //       // color: '#000'
+    //       color: '#6e0d25'
+    //     },
+    //   },
+    //   legend: {
+    //     position: 'top',
+    //     horizontalAlign: 'center',
+    //     offsetx: 50,
+    //   },
+    //   stroke: {
+    //     width: 1,
+    //     colors: ['#fff'],
+    //   },
+    //   tooltip: {
+    //     custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+    //       const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
+    //       return `<div class="tooltip-box">
+    //                 <div><strong>level:</strong> ${dataPoint.level}</div>
+    //                 <div><strong>sinceAS:</strong> ${dataPoint.sinceAS}</div>
+    //                 <div><strong>sinceLastProg:</strong> ${dataPoint.sinceLastProg}</div>
+    //               </div>`;
+    //     }
+    //   },
+    // };
+
+   
+
     this.chartOptions = {
       series: [],
       chart: {
-        type: 'rangeBar',
-        height: '300',
-        // stacked: false,
-        events: {
-          dataPointMouseEnter: function (event: any, chartContext: any, config: any) {
-            const dataPoint = config.w.config.series[config.seriesIndex].data[config.dataPointIndex];
-            // Custom logic to display data inside the bar on hover
-          }
-        }
+        type: "bar",
+        height: 350,
       },
       plotOptions: {
         bar: {
+          borderRadius: 0,
           horizontal: true,
           distributed: true,
-         
-          colors: {
-            ranges: [],
-            backgroundBarColors: ['#f8f9fa', '#e9ecef', '#dee2e6'],
-            backgroundBarOpacity: 1
-          },
-          dataLabels: {
-            hideOverflowingLabels: false,
-            position: 'center', // Place labels inside the bars
-          }
-        }
+          barHeight: "80%",
+          isFunnel: true, 
+        },
       },
+      colors: [
+        "#F44F5E", "#E55A89", "#D863B1", "#CA6CD8", 
+        "#B57BED", "#8D95EB", "#62ACEA", "#4BC3E6"
+      ],
       dataLabels: {
         enabled: true,
-        formatter: function (val: any, opts: any) {
-          const w = opts.w; // Accessing the wider context
-          const seriesIndex = opts.seriesIndex;
-          const dataPointIndex = opts.dataPointIndex;
-        
-          // Ensure we are accessing the correct data structure
-          if (w.config && w.config.series && w.config.series[seriesIndex] && w.config.series[seriesIndex].data[dataPointIndex]) {
-            const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
-            // console.log('DataPoint:', dataPoint); // Log to verify structure
-            if (dataPoint && dataPoint.level) {
-              return dataPoint.level; // Return the `level` value
-            }
-          }
-          return ''; // Default return if `level` is not available
-        },
         style: {
-          colors: ['#fff']
-        }
-      },
-      xaxis: {
-        categories: [], // Already set based on `res.map(item => item.pdate)`
-        labels: {
-          style: {
-            fontSize: '12px',
-            colors: ['#000']
-          }
+          fontSize: '13px',
+          colors: ['#000'] 
         },
-        opposite: true // Ensure larger values appear at the top
-
-      },
-      yaxis: {
-        // categories: [], 
-        labels: {
-          style: {
-            fontSize: '12px',
-            colors: ['#000']
-          }
+        formatter: function (val: any, opt: any) {
+          return opt.w.globals.labels[opt.dataPointIndex];
         },
-        categories: [], // Reversed in GetProjectTimeline
-        // opposite: true // Ensure larger values appear at the top
-        title: {
-          text: ' Progress Date ',
-          align: 'center',
-          style: {
-            fontSize: '12px',
-            // color: '#000'
-            color: '#6e0d25',
-            
-          },
-        },
+        dropShadow: { enabled: true },
       },
       title: {
-        text: 'Project Timeline Progress',
-        align: 'center',
+        text: "Progress Timeline Key Dates",
+        align: "center",
         style: {
-          fontSize: '12px',
-          // color: '#000'
-          color: '#6e0d25'
-        },
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25'
+              },
       },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetx: 50,
+      // xaxis: {
+      //   categories: [], // Already set based on `res.map(item => item.pdate)`
+      //   // labels: {
+      //   //   style: {
+      //   //     fontSize: "12px",
+      //   //     colors: ["#000"], // ✅ Use a string instead of an array if all labels should be black
+      //   //   }
+      //   // },
+      //   // opposite: true // ✅ Ensures larger values appear at the top
+      // },
+      xaxis: {
+        categories: [],
       },
-      stroke: {
-        width: 1,
-        colors: ['#fff'],
-      },
+      legend: { show: false },
       tooltip: {
-        custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
-          const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
-          return `<div class="tooltip-box">
-                    <div><strong>level:</strong> ${dataPoint.level}</div>
-                    <div><strong>sinceAS:</strong> ${dataPoint.sinceAS}</div>
-                    <div><strong>sinceLastProg:</strong> ${dataPoint.sinceLastProg}</div>
-                  </div>`;
-        }
-      },
+            custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+              const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
+              return`<div style="border-bottom: 1px solid rgba(8, 8, 8, 0.3); border-radius: 6px;  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);  " class="tooltip-box ">
+              <div style="background-color:rgb(114, 113, 113); font-size: 16px; color:#ffff">${dataPoint.x}</div>
+              <div style="background-color:#ffff; font-size: 15px;">
+                <div><strong>Progress Date:</strong> ${dataPoint.dateProgress}</div>
+                </div>
+                </div>`;
+                
+            }
+          },
     };
   }
 
@@ -198,7 +291,6 @@ this.initializeChartOptions();
     limitTo: this.workfill.length,
   };
 
-
   getworkfill(): void {
     try {
       var roleName = localStorage.getItem('roleName');
@@ -206,46 +298,52 @@ this.initializeChartOptions();
       if (roleName == 'Division') {
         this.divisionid = sessionStorage.getItem('divisionID');
         this.himisDistrictid = 0;
-        // return; 
+        // return;
         // alert( this.divisionid )
       } else if (roleName == 'Collector') {
         this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
         this.divisionid = 0;
         //  alert( this.himisDistrictid );
-      }
-      else {
+      } else {
         this.himisDistrictid = 0;
         this.divisionid = 0;
       }
       // searchtext: any, workid: any,divisionId:any,distid:any,mainSchemeId:any
-      this.api.WorkFill(0, 0, this.divisionid, this.himisDistrictid, 0).subscribe(
-        (res) => {
-          // alert('res');
-          // console.log('res', JSON.stringify(res));
-          this.workfill = res; // Bind the API response to workfill
+      this.api
+        .WorkFill(0, 0, this.divisionid, this.himisDistrictid, 0)
+        .subscribe(
+          (res) => {
+            // alert('res');
+            // console.log('res', JSON.stringify(res));
+            this.workfill = res; // Bind the API response to workfill
 
-          this.spinner.hide();
-        },
-        (error) => {
-          console.error('Error fetching data:', error);
-        }
-      );
-
+            this.spinner.hide();
+          },
+          (error) => {
+            console.error('Error fetching data:', error);
+          }
+        );
     } catch (ex: any) {
       console.error('Exception:', ex.message);
     }
   }
   onGetDistrictsSelect(selectedWorkID: any): void {
     // alert(`Selected Work ID: ${selectedWorkID}`);
-    this.workID = selectedWorkID.value.worK_ID
+    this.workID = selectedWorkID.value.worK_ID;
     // alert(`Selected Work ID: ${this.workID}`);
 
     // console.log('Selected Work ID: ',JSON.stringify(selectedWorkID));
-    this.workfill = this.workfill.filter((item) => item.worK_ID !== selectedWorkID);
+    this.workfill = this.workfill.filter(
+      (item) => item.worK_ID !== selectedWorkID
+    );
     this.spinner.show();
-
+    // this.dataSource = new MatTableDataSource<WorkBillStatus>([]);
+    // this.GetWorkBillStatus(0);
     this.GetWorkDetails();
-    this.GetProjectTimeline(this.workID);
+    // this.GetProjectTimeline(this.workID);
+    // this.GetProjectTimelineNEW(this.workID);
+    // this.GetWorkBillStatus(this.workID);
+ 
   }
 
   GetWorkDetails() {
@@ -259,22 +357,73 @@ this.initializeChartOptions();
           // alert(this.workdetails[0]?.imageName || 'SR not found or is null');
           // console.log('workdetails: ', JSON.stringify(this.workdetails));
           var ProgressEnterby = new Date(this.workdetails[0]?.progressEnterby);
-          var progressEntryTime = new Date(this.workdetails[0]?.progressEntryTime);
+          var progressEntryTime = new Date(
+            this.workdetails[0]?.progressEntryTime
+          );
           this.spinner.hide();
           this.GetImageBinary();
+    this.GetProjectTimelineNEW(this.workID);
+
+          this.GetWorkBillStatus(this.workID);
         },
         (error) => {
           console.error('Error fetching data:', error);
         }
       );
-
     } catch (ex: any) {
       console.error('Exception:', ex.message);
-
     }
 
+   
+  }
+  ngAfterViewInit() {
+    
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+  // WorkBillStatus 
+  GetWorkBillStatus(workID:any) {
+    try {
+      // alert(this.workID);
+      // this.api.GETWorkBillStatus('W4100398').subscribe(
+      this.api.GETWorkBillStatus(workID).subscribe(
+        // (res) => {
+        //   this.WorkBillStatusData = res;
+        //   console.log(
+        //     'WorkBillStatusData: ',
+        //     JSON.stringify(this.WorkBillStatusData)
+        //   );
+        //   this.spinner.hide();
+        // },
+         (res) => {
+          if(res.length>0){
+            this.dispatchData = res.map(
+              (item: any, index: number) => ({
+                ...item,
+                sno: index + 1,
+              })
+            );
+            // console.log('WorkBillStatus =:', this.dispatchData);
+            this.dataSource.data = this.dispatchData;
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            // console.log('paginator =:', this.paginator);
 
-
+            this.spinner.hide();
+            this.cdr.detectChanges();
+          } else {
+            alert("Work Bill Status data Not found.");
+          }
+               
+              },
+        (error) => {
+          this.spinner.hide();
+          console.error('Error fetching data:', error);
+        }
+      );
+    } catch (ex: any) {
+      console.error('Exception:', ex.message);
+    }
 
     // try {
 
@@ -291,10 +440,6 @@ this.initializeChartOptions();
     //     console.error('Exception:', ex.message);
     //   }
   }
-
-
-
-
 
   onSearchInput(event: any): void {
     // console.log("event:", event)
@@ -313,7 +458,8 @@ this.initializeChartOptions();
 
   exportAsPDF() {
     const element = document.getElementById('workdetails');
-    if (element) { // Check if the element is not null
+    if (element) {
+      // Check if the element is not null
       html2canvas(element, { scale: 2 }).then((canvas) => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF({
@@ -347,51 +493,167 @@ this.initializeChartOptions();
       console.error('Exception:', ex.message);
     }
   }
-  
 
+  GetProjectTimeline(workID: any) {
+    // this.workID
+    // console.log('workID',workID);
+    // this.api.GetProjectTimeline('W4100398').subscribe(
+    this.api.GetProjectTimeline(workID).subscribe(
+      (res) => {
+        this.ProjectTimelinedata = res;
+        const seriesData = res.map((item) => ({
+          x: item.pdate,
+          // y: [item.sinceLastProg, item.sinceLastProg + item.sinceAS],
+          y: [item.sinceAS, item.sinceAS + item.sinceLastProg],
+          level: item.level,
+          sinceAS: item.sinceAS,
+          sinceLastProg: item.sinceLastProg,
+          fillColor: this.getRandomColor(), // Generate random color for each bar
+        }));
 
-
-GetProjectTimeline(workID:any) {
-  // this.workID
-  // console.log('workID',workID);
-  // this.api.GetProjectTimeline('W4100398').subscribe(
-  this.api.GetProjectTimeline(workID).subscribe(
-    (res) => {
-     this.ProjectTimelinedata=res;
-      const seriesData = res.map(item => ({
-        x:item.pdate,
-        // y: [item.sinceLastProg, item.sinceLastProg + item.sinceAS],
-        y: [item.sinceAS , item.sinceAS + item.sinceLastProg],
-        level: item.level,
-        sinceAS: item.sinceAS,
-        sinceLastProg: item.sinceLastProg,
-        fillColor: this.getRandomColor() // Generate random color for each bar
-      }));
-
-      // console.log("seriesData",seriesData);
-      this.chartOptions.series = [{ name: 'Progress', data: seriesData }];
-      this.chartOptions.xaxis.categories = res.map(item => item.pdate).reverse(); 
-      // this.chartOptions.yaxis.categories = res.map(item => item.pdate);
-      // this.chartOptions.xaxis.categories = res.map(item => item.pdate);
-      this.chartOptions.yaxis.categories = res.map(item => item.pdate).reverse(); // Reverse the order for y-axis
-      this.spinner.hide();
-    },
-    (error) => {
-      alert(`Error fetching data: ${error.message || error}`);
-    }
-  );
-  
-  
-}
-
-getRandomColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
+        // console.log("seriesData",seriesData);
+        this.chartOptions.series = [{ name: 'Progress', data: seriesData }];
+        this.chartOptions.xaxis.categories = res
+          .map((item) => item.pdate)
+          .reverse();
+        // this.chartOptions.yaxis.categories = res.map(item => item.pdate);
+        // this.chartOptions.xaxis.categories = res.map(item => item.pdate);
+        this.chartOptions.yaxis.categories = res
+          .map((item) => item.pdate)
+          .reverse(); // Reverse the order for y-axis
+        this.spinner.hide();
+      },
+      (error) => {
+        alert(`Error fetching data: ${error.message || error}`);
+      }
+    );
   }
-  return color;
-}
+
+  GetProjectTimelineNEW(workID:any) {
+        this.api.GetProjectTimelineNew(workID).subscribe(
+    // this.api.GetProjectTimelineNew("W4100398").subscribe(
+      (res) => {
+        console.log("API Response:", res);
+
+        if (!res || !Array.isArray(res) || res.length === 0) {
+          console.error("API returned no valid data.");
+          alert("No data available for the selected workID.");
+          return;
+        }
+
+        const seriesData = res
+          .map((item) => ({
+            x: item.level, 
+            y: item.ppId , 
+            dateProgress:item.dateProgress,
+            ppId:item.ppId,
+            level:item.level,
+            // ?? 1
+          }))
+          .reverse(); 
+
+       
+        this.chartOptions = {
+          ...this.chartOptions, 
+          series: [{ name: "Progress ID", data: seriesData }],
+          xaxis: {
+            categories: res.map((item) => item.level).reverse(),
+            // categories: res.map((item) => item.level +' / '+ item.dateProgress).reverse(),
+          },
+        };
+        // this.chartOptions = {
+        //   ...this.chartOptions, // ✅ Keep existing properties
+        //   series: [{ name: "Progress ID", data: seriesData }],
+        //   xaxis: {
+        //     categories: res.map((item) => item.level), // ✅ Ensure categories are set
+        //     labels: {
+        //       style: {
+        //         fontSize: "12px",
+        //         colors: res.map(() => "#FF0000") // ✅ Apply red to all labels
+        //       }
+        //     },
+        //     opposite: true
+        //   }
+        // };
+        
+        // // ✅ Force Angular to detect changes
+        // setTimeout(() => {
+        //   this.chartOptions = { ...this.chartOptions };
+        // }, 100);
+        
+
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error("API Error:", error);
+        alert(`Error fetching data: ${error.message || error}`);
+      }
+    );
+  }
+
+
+
+  getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+
+  applyTextFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+  exportToPDF() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+  //  ['sno','billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeNo'
+  // ,'daysSinceMeasurement','billStatus','billmbno','mbno']">
+
+    const columns = [
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'Bill No.', dataKey: 'billno' },
+      { title: 'AGR Bill status', dataKey: 'agrbillstatus' },
+      { title: 'Measurement DT', dataKey: 'mesurementDT' },
+      { title: 'Bill Date', dataKey: 'billdate' },
+      { title: 'Gross Paid', dataKey: 'grossPaid' },
+      { title: 'Cheque No', dataKey: 'chequeNo' },
+      { title: 'Days Since Measurement', dataKey: 'daysSinceMeasurement' },
+      { title: 'Bill Status', dataKey: 'billStatus' },
+      { title: 'Bill MB No', dataKey: 'billmbno' },
+      { title: 'MB No', dataKey: 'mbno' },
+    
+    ];
+    const rows = this.dispatchData.map((row) => ({
+      sno: row.sno,
+      billno: row.billno,
+      agrbillstatus:row.agrbillstatus,
+      mesurementDT: row.mesurementDT,
+      billdate: row.billdate,
+      grossPaid: row.grossPaid,
+      chequeNo: row.chequeNo,
+      daysSinceMeasurement: row.daysSinceMeasurement,
+      billStatus: row.billStatus,
+      billmbno: row.billmbno,
+      mbno: row.mbno,
+     
+    }));
+  
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+  
+    doc.save('Acceptance_WOrderDetail.pdf');
+  }
 }
 
 

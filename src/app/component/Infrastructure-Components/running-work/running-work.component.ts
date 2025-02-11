@@ -646,8 +646,7 @@ export class RunningWorkComponent {
       colors: ['#fff'],
     },
     title: {
-      // text: 'Total Payment Pending',
-      text: 'Running Work Summary Delay ',
+      text: 'Delayed / On Time Works Summary ',
       align: 'center',
       style: {
         fontSize: '12px',
@@ -737,7 +736,8 @@ export class RunningWorkComponent {
       colors: ['#fff'],
     },
     title: {
-      text: 'Division-wise Running Work Delay',
+      text: 'Division-wise Delayed / On Time Works',
+      // text: 'Division-wise Delayed / On Time Works Summary',
       align: 'center',
       style: {
         fontSize: '12px',
@@ -826,7 +826,8 @@ export class RunningWorkComponent {
       colors: ['#fff'],
     },
     title: {
-      text: 'Scheme-wise Running Work Delay',
+      // text: 'Scheme-wise Delayed / On Time Works Summary',
+      text: 'Scheme-wise Delayed / On Time Works',
       align: 'center',
       style: {
         fontSize: '12px',
@@ -915,7 +916,8 @@ export class RunningWorkComponent {
       colors: ['#fff'],
     },
     title: {
-      text: 'District-wise Running Work Delay',
+      text: 'District-wise Delayed / On Time Works',
+      // text: 'District-wise Delayed / On Time Works Summary',
       align: 'center',
       style: {
         fontSize: '12px',
@@ -1004,7 +1006,8 @@ export class RunningWorkComponent {
       colors: ['#fff'],
     },
     title: {
-      text: 'Contractor-wise Running Work Delay',
+      text: 'Contractor-wise Delayed / On Time Works',
+      // text: 'Contractor-wise Delayed / On Time Works Summary',
       align: 'center',
       style: {
         fontSize: '12px',
@@ -1113,16 +1116,16 @@ const contractid=0;
             color: '#eeba0b',
           },
           {
-            name: 'Value(in Cr)',
+            name: 'Contract Value(in Cr)',
             data: tvcValuecr,
            color: '#6a6afd',
           },
           {
-            name: 'Paid-Till(in Cr)',
+            name: 'Paid-Value(in Cr)',
             data: paidTillcr,
             color: 'rgba(93, 243, 174, 0.85)',
           },
-          { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+          { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
           
            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
          ];
@@ -1197,18 +1200,17 @@ const contractid=0;
             color: '#eeba0b',
           },
           {
-            name: 'Value(in Cr)',
+            name: 'Contract Value(in Cr)',
             data: tvcValuecr,
            color: '#6a6afd',
           },
           {
-            name: 'Paid-Till(in Cr)',
+            name: 'Paid-Value(in Cr)',
             data: paidTillcr,
             color: 'rgba(93, 243, 174, 0.85)',
           },
-          { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+          { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
           
-           // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
          ];
          this.chartOptions1.xaxis = { categories: name };
          this.cO = this.chartOptions1;
@@ -1278,18 +1280,17 @@ const contractid=0;
             color: '#eeba0b',
           },
           {
-            name: 'Value(in Cr)',
+            name: 'Contract Value(in Cr)',
             data: tvcValuecr,
            color: '#6a6afd',
           },
           {
-            name: 'Paid-Till(in Cr)',
+            name: 'Paid-Value(in Cr)',
             data: paidTillcr,
             color: 'rgba(93, 243, 174, 0.85)',
           },
-          { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+          { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
           
-           // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
          ];
          this.chartOptions2.xaxis = { categories: name };
          this.cO = this.chartOptions2;
@@ -1356,24 +1357,23 @@ const contractid=0;
       );
 
       this.chartOptions3.series = [
-       {
-         name: 'No. of Works',
-         data: totalWorks,
-         color: '#eeba0b',
-       },
-       {
-         name: 'Value(in Cr)',
-         data: tvcValuecr,
-        color: '#6a6afd',
-       },
-       {
-         name: 'Paid-Till(in Cr)',
-         data: paidTillcr,
-         color: 'rgba(93, 243, 174, 0.85)',
-       },
-       { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-       
-        // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+        {
+          name: 'No. of Works',
+          data: totalWorks,
+          color: '#eeba0b',
+        },
+        {
+          name: 'Contract Value(in Cr)',
+          data: tvcValuecr,
+         color: '#6a6afd',
+        },
+        {
+          name: 'Paid-Value(in Cr)',
+          data: paidTillcr,
+          color: 'rgba(93, 243, 174, 0.85)',
+        },
+        { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+   
       ];
       this.chartOptions3.xaxis = { categories: name };
       this.cO = this.chartOptions3;
@@ -1439,24 +1439,23 @@ const contractid=0;
       );
 
       this.chartOptions4.series = [
-       {
-         name: 'No. of Works',
-         data: totalWorks,
-         color: '#eeba0b',
-       },
-       {
-         name: 'Value(in Cr)',
-         data: tvcValuecr,
-        color: '#6a6afd',
-       },
-       {
-         name: 'Paid-Till(in Cr)',
-         data: paidTillcr,
-         color: 'rgba(93, 243, 174, 0.85)',
-       },
-       { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-       
-        // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+        {
+          name: 'No. of Works',
+          data: totalWorks,
+          color: '#eeba0b',
+        },
+        {
+          name: 'Contract Value(in Cr)',
+          data: tvcValuecr,
+         color: '#6a6afd',
+        },
+        {
+          name: 'Paid-Value(in Cr)',
+          data: paidTillcr,
+          color: 'rgba(93, 243, 174, 0.85)',
+        },
+        { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+     
       ];
       this.chartOptions4.xaxis = { categories: name };
       this.cO = this.chartOptions4;
@@ -1471,11 +1470,6 @@ const contractid=0;
   }
   // #endregion
 //#region Get API data Running Works Delay
-  //  GTotal,Division,Scheme,District,Contractor
-// GETRunningWorkSummaryDelay(RPType:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
-//   return this.http.get<RunningWorkDelay[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryDelay?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
-// //https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummaryDelay?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
-// }
 
 GETRunningWorkDelayTotal(): void {
   this.spinner.show();
@@ -1530,9 +1524,9 @@ const contractid=0;
              id.push(item.id);
              name.push(item.name);
              totalWorks.push(item.totalWorks);
-             tvcValuecr.push(item.tvcValuecr);
-             paidTillcr.push(item.paidTillcr);
-             grossPendingcr.push(item.grossPendingcr);
+            //  tvcValuecr.push(item.tvcValuecr);
+            //  paidTillcr.push(item.paidTillcr);
+            //  grossPendingcr.push(item.grossPendingcr);
              morethanSixMonth.push(item.morethanSixMonth);
              d_91_180Days.push(item.d_91_180Days);
              d_1_90Days.push(item.d_1_90Days);
@@ -1546,22 +1540,22 @@ const contractid=0;
             data: totalWorks,
             color: '#eeba0b',
           },
-          {
-            name: 'Value(in Cr)',
-            data: tvcValuecr,
-           color: '#6a6afd',
-          },
-          {
-            name: 'Paid-Till(in Cr)',
-            data: paidTillcr,
-            color: 'rgba(93, 243, 174, 0.85)',
-          },
-          { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+          // {
+          //   name: 'Value(in Cr)',
+          //   data: tvcValuecr,
+          //  color: '#6a6afd',
+          // },
+          // {
+          //   name: 'Paid-Till(in Cr)',
+          //   data: paidTillcr,
+          //   color: 'rgba(93, 243, 174, 0.85)',
+          // },
+          // { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
           
-           { name: 'More than Six Month', data: morethanSixMonth,color:'rgba(208, 156, 205, 0.85)'  },
-           { name: 'Day in 91 to 180 Days', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-           { name: 'Day in 1 to 90 Days', data: d_1_90Days,color:'rgba(205, 243, 144, 0.85)'  },
-           { name: 'Valid Time', data: timeValid,color:'rgba(130, 234, 238, 0.85)'  },
+           { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+           { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+           { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+           { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
          ];
          this.chartOptions_I.xaxis = { categories: name };
          this.cO = this.chartOptions_I;
@@ -1622,42 +1616,43 @@ const contractid=0;
              totalWorks: any;
              tvcValuecr: number;
          paidTillcr: any;grossPendingcr:any;morethanSixMonth:any;d_91_180Days:any;d_1_90Days:any;timeValid:any
-           }) => {
-             id.push(item.id);
-             name.push(item.name);
-             totalWorks.push(item.totalWorks);
-             tvcValuecr.push(item.tvcValuecr);
-             paidTillcr.push(item.paidTillcr);
-             grossPendingcr.push(item.grossPendingcr);
-             morethanSixMonth.push(item.morethanSixMonth);
-             d_91_180Days.push(item.d_91_180Days);
-             d_1_90Days.push(item.d_1_90Days);
-             timeValid.push(item.timeValid);
-           }
-         );
-  
-         this.chartOptions_II.series = [
-          {
-            name: 'No. of Works',
-            data: totalWorks,
-            color: '#eeba0b',
-          },
-          {
-            name: 'Value(in Cr)',
-            data: tvcValuecr,
-           color: '#6a6afd',
-          },
-          {
-            name: 'Paid-Till(in Cr)',
-            data: paidTillcr,
-            color: 'rgba(93, 243, 174, 0.85)',
-          },
-          { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-          
-           { name: 'More than Six Month', data: morethanSixMonth,color:'rgba(208, 156, 205, 0.85)'  },
-           { name: 'Day in 91 to 180 Days', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-           { name: 'Day in 1 to 90 Days', data: d_1_90Days,color:'rgba(205, 243, 144, 0.85)'  },
-           { name: 'Valid Time', data: timeValid,color:'rgba(130, 234, 238, 0.85)'  },
+        
+      }) => {
+        id.push(item.id);
+        name.push(item.name);
+        totalWorks.push(item.totalWorks);
+       //  tvcValuecr.push(item.tvcValuecr);
+       //  paidTillcr.push(item.paidTillcr);
+       //  grossPendingcr.push(item.grossPendingcr);
+        morethanSixMonth.push(item.morethanSixMonth);
+        d_91_180Days.push(item.d_91_180Days);
+        d_1_90Days.push(item.d_1_90Days);
+        timeValid.push(item.timeValid);
+      }
+    );
+
+    this.chartOptions_II.series = [
+     {
+       name: 'No. of Works',
+       data: totalWorks,
+       color: '#eeba0b',
+     },
+     // {
+     //   name: 'Value(in Cr)',
+     //   data: tvcValuecr,
+     //  color: '#6a6afd',
+     // },
+     // {
+     //   name: 'Paid-Till(in Cr)',
+     //   data: paidTillcr,
+     //   color: 'rgba(93, 243, 174, 0.85)',
+     // },
+     // { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+     
+      { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+      { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+      { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+      { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
          ];
          this.chartOptions_II.xaxis = { categories: name };
          this.cO = this.chartOptions_II;
@@ -1715,42 +1710,43 @@ const contractid=0;
              totalWorks: any;
              tvcValuecr: number;
          paidTillcr: any;grossPendingcr:any;morethanSixMonth:any;d_91_180Days:any;d_1_90Days:any;timeValid:any
-           }) => {
-             id.push(item.id);
-             name.push(item.name);
-             totalWorks.push(item.totalWorks);
-             tvcValuecr.push(item.tvcValuecr);
-             paidTillcr.push(item.paidTillcr);
-             grossPendingcr.push(item.grossPendingcr);
-             morethanSixMonth.push(item.morethanSixMonth);
-             d_91_180Days.push(item.d_91_180Days);
-             d_1_90Days.push(item.d_1_90Days);
-             timeValid.push(item.timeValid);
-           }
-         );
-  
-         this.chartOptions_III.series = [
-          {
-            name: 'No. of Works',
-            data: totalWorks,
-            color: '#eeba0b',
-          },
-          {
-            name: 'Value(in Cr)',
-            data: tvcValuecr,
-           color: '#6a6afd',
-          },
-          {
-            name: 'Paid-Till(in Cr)',
-            data: paidTillcr,
-            color: 'rgba(93, 243, 174, 0.85)',
-          },
-          { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-          
-           { name: 'More than Six Month', data: morethanSixMonth,color:'rgba(208, 156, 205, 0.85)'  },
-           { name: 'Day in 91 to 180 Days', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-           { name: 'Day in 1 to 90 Days', data: d_1_90Days,color:'rgba(205, 243, 144, 0.85)'  },
-           { name: 'Valid Time', data: timeValid,color:'rgba(130, 234, 238, 0.85)'  },
+       
+      }) => {
+        id.push(item.id);
+        name.push(item.name);
+        totalWorks.push(item.totalWorks);
+       //  tvcValuecr.push(item.tvcValuecr);
+       //  paidTillcr.push(item.paidTillcr);
+       //  grossPendingcr.push(item.grossPendingcr);
+        morethanSixMonth.push(item.morethanSixMonth);
+        d_91_180Days.push(item.d_91_180Days);
+        d_1_90Days.push(item.d_1_90Days);
+        timeValid.push(item.timeValid);
+      }
+    );
+
+    this.chartOptions_III.series = [
+     {
+       name: 'No. of Works',
+       data: totalWorks,
+       color: '#eeba0b',
+     },
+     // {
+     //   name: 'Value(in Cr)',
+     //   data: tvcValuecr,
+     //  color: '#6a6afd',
+     // },
+     // {
+     //   name: 'Paid-Till(in Cr)',
+     //   data: paidTillcr,
+     //   color: 'rgba(93, 243, 174, 0.85)',
+     // },
+     // { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+     
+      { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+      { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+      { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+      { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
          ];
          this.chartOptions_III.xaxis = { categories: name };
          this.cO = this.chartOptions_III;
@@ -1811,42 +1807,42 @@ const contractid=0;
           totalWorks: any;
           tvcValuecr: number;
       paidTillcr: any;grossPendingcr:any;morethanSixMonth:any;d_91_180Days:any;d_1_90Days:any;timeValid:any
-        }) => {
-          id.push(item.id);
-          name.push(item.name);
-          totalWorks.push(item.totalWorks);
-          tvcValuecr.push(item.tvcValuecr);
-          paidTillcr.push(item.paidTillcr);
-          grossPendingcr.push(item.grossPendingcr);
-          morethanSixMonth.push(item.morethanSixMonth);
-          d_91_180Days.push(item.d_91_180Days);
-          d_1_90Days.push(item.d_1_90Days);
-          timeValid.push(item.timeValid);
-        }
-      );
+    }) => {
+      id.push(item.id);
+      name.push(item.name);
+      totalWorks.push(item.totalWorks);
+     //  tvcValuecr.push(item.tvcValuecr);
+     //  paidTillcr.push(item.paidTillcr);
+     //  grossPendingcr.push(item.grossPendingcr);
+      morethanSixMonth.push(item.morethanSixMonth);
+      d_91_180Days.push(item.d_91_180Days);
+      d_1_90Days.push(item.d_1_90Days);
+      timeValid.push(item.timeValid);
+    }
+  );
 
-      this.chartOptions_IV.series = [
-       {
-         name: 'No. of Works',
-         data: totalWorks,
-         color: '#eeba0b',
-       },
-       {
-         name: 'Value(in Cr)',
-         data: tvcValuecr,
-        color: '#6a6afd',
-       },
-       {
-         name: 'Paid-Till(in Cr)',
-         data: paidTillcr,
-         color: 'rgba(93, 243, 174, 0.85)',
-       },
-       { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-       
-        { name: 'More than Six Month', data: morethanSixMonth,color:'rgba(208, 156, 205, 0.85)'  },
-        { name: 'Day in 91 to 180 Days', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-        { name: 'Day in 1 to 90 Days', data: d_1_90Days,color:'rgba(205, 243, 144, 0.85)'  },
-        { name: 'Valid Time', data: timeValid,color:'rgba(130, 234, 238, 0.85)'  },
+  this.chartOptions_IV.series = [
+   {
+     name: 'No. of Works',
+     data: totalWorks,
+     color: '#eeba0b',
+   },
+   // {
+   //   name: 'Value(in Cr)',
+   //   data: tvcValuecr,
+   //  color: '#6a6afd',
+   // },
+   // {
+   //   name: 'Paid-Till(in Cr)',
+   //   data: paidTillcr,
+   //   color: 'rgba(93, 243, 174, 0.85)',
+   // },
+   // { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+   
+    { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+    { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+    { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+    { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
       ];
       this.chartOptions_IV.xaxis = { categories: name };
       this.cO = this.chartOptions_IV;
@@ -1906,42 +1902,43 @@ const contractid=0;
           totalWorks: any;
           tvcValuecr: number;
       paidTillcr: any;grossPendingcr:any;morethanSixMonth:any;d_91_180Days:any;d_1_90Days:any;timeValid:any
-        }) => {
-          id.push(item.id);
-          name.push(item.name);
-          totalWorks.push(item.totalWorks);
-          tvcValuecr.push(item.tvcValuecr);
-          paidTillcr.push(item.paidTillcr);
-          grossPendingcr.push(item.grossPendingcr);
-          morethanSixMonth.push(item.morethanSixMonth);
-          d_91_180Days.push(item.d_91_180Days);
-          d_1_90Days.push(item.d_1_90Days);
-          timeValid.push(item.timeValid);
-        }
-      );
+      
+    }) => {
+      id.push(item.id);
+      name.push(item.name);
+      totalWorks.push(item.totalWorks);
+     //  tvcValuecr.push(item.tvcValuecr);
+     //  paidTillcr.push(item.paidTillcr);
+     //  grossPendingcr.push(item.grossPendingcr);
+      morethanSixMonth.push(item.morethanSixMonth);
+      d_91_180Days.push(item.d_91_180Days);
+      d_1_90Days.push(item.d_1_90Days);
+      timeValid.push(item.timeValid);
+    }
+  );
 
-      this.chartOptions_V.series = [
-       {
-         name: 'No. of Works',
-         data: totalWorks,
-         color: '#eeba0b',
-       },
-       {
-         name: 'Value(in Cr)',
-         data: tvcValuecr,
-        color: '#6a6afd',
-       },
-       {
-         name: 'Paid-Till(in Cr)',
-         data: paidTillcr,
-         color: 'rgba(93, 243, 174, 0.85)',
-       },
-       { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-       
-        { name: 'More than Six Month', data: morethanSixMonth,color:'rgba(208, 156, 205, 0.85)'  },
-        { name: 'Day in 91 to 180 Days', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-        { name: 'Day in 1 to 90 Days', data: d_1_90Days,color:'rgba(205, 243, 144, 0.85)'  },
-        { name: 'Valid Time', data: timeValid,color:'rgba(130, 234, 238, 0.85)'  },
+  this.chartOptions_V.series = [
+   {
+     name: 'No. of Works',
+     data: totalWorks,
+     color: '#eeba0b',
+   },
+   // {
+   //   name: 'Value(in Cr)',
+   //   data: tvcValuecr,
+   //  color: '#6a6afd',
+   // },
+   // {
+   //   name: 'Paid-Till(in Cr)',
+   //   data: paidTillcr,
+   //   color: 'rgba(93, 243, 174, 0.85)',
+   // },
+   // { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
+   
+    { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+    { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+    { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+    { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
       ];
       this.chartOptions_V.xaxis = { categories: name };
       this.cO = this.chartOptions_V;

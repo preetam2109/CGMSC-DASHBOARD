@@ -96,7 +96,9 @@ import {
   DetailProgressTinP,
   LandIssue_RetToDeptDetatails,
   RunningWork,
-  RunningWorkDelay
+  RunningWorkDelay,
+  WorkBillStatus,
+  ProjectTimelineNew
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -702,9 +704,17 @@ GetWorkDetails(workid: any): Observable<WorkDetails[]> {
   // https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
   return this.http.get<WorkDetails[]>(`${this.apiUrl}/Work/GetWorkInfo?workid=${workid}`);
 }
+GETWorkBillStatus(workid: any): Observable<WorkBillStatus[]> {
+  return this.http.get<WorkBillStatus[]>(`${this.apiUrl}/Payment/WorkBillStatus?workid=${workid}`);
+  // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/WorkBillStatus?workid=W6700101
+}
 GetProjectTimeline(workid: any): Observable<ProjectTimeline[]> {
   return this.http.get<ProjectTimeline[]>(`${this.apiUrl}/Work/GetProjectTimeline?workid=${workid}`);
   // https://cgmsc.gov.in/HIMIS_APIN/api/Work/GetProjectTimeline?workid=W4100398
+}
+GetProjectTimelineNew(workid: any): Observable<ProjectTimelineNew[]> {
+  return this.http.get<ProjectTimelineNew[]>(`${this.apiUrl}/Work/GetProjectTimelineNew?workid=${workid}`);
+  //https://cgmsc.gov.in/HIMIS_APIN/api/Work/GetProjectTimelineNew?workid=W4100398
 }
 
 

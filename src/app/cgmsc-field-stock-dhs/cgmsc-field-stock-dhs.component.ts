@@ -19,7 +19,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-cgmsc-field-stock-dhs',
   standalone: true,
-  imports: [NgSelectModule,SelectDropDownModule,DropdownModule,MatSelectModule,FormsModule,NgSelectModule,FormsModule,CommonModule,MatButtonModule,MatMenuModule, MatTableExporterModule,MatPaginatorModule, MatTableModule],
+  imports: [SelectDropDownModule,DropdownModule,MatSelectModule,FormsModule,NgSelectModule,FormsModule,CommonModule,MatButtonModule,MatMenuModule, MatTableExporterModule,MatPaginatorModule, MatTableModule],
   templateUrl: './cgmsc-field-stock-dhs.component.html',
   styleUrl: './cgmsc-field-stock-dhs.component.css'
 })
