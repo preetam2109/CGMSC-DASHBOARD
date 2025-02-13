@@ -117,12 +117,49 @@ export class WorkDetails {
   nonMongoImage!: any;
   expCompDT!: any;
 }
+export class WorkBillStatus {
+  sno!:number;
+  billno!: number;
+  work_id!: string;
+  agrbillstatus!: string;
+  mesurementDT!: string;
+  billdate!: string;
+  grossPaid!: number;
+  chequeNo!: string;
+  daysSinceMeasurement!: number;
+  billStatus!: string;
+  billmbno!: string;
+  mbno!: string;
+  // "billno": 1,
+  // "work_id": "W6700101",
+  // "agrbillstatus": "Running",
+  // "mesurementDT": "12-07-2023",
+  // "billdate": "20-07-2023",
+  // "grossPaid": 7.81,
+  // "chequeNo": "042263",
+  // "daysSinceMeasurement": 27,
+  // "billStatus": "Paid",
+  // "billmbno": "5880",
+  // "mbno": "10721"
+}
 export class ProjectTimeline {
   ppId!: number;
   level!: string;
   pdate!: string;
   sinceAS!: number;
   sinceLastProg!: number;
+}
+export class ProjectTimelineNew {
+  ppId!: number;
+  level!: string;
+  dateProgress!: string;
+  // sinceAS!: number;
+  // sinceLastProg!: number;
+  // {
+  //   "ppId": 27,
+  //   "level": "Lintel level (FF)",
+  //   "dateProgress": "12-12-2024"
+  // },
 }
 export class MainScheme {
   mainSchemeID!: number;

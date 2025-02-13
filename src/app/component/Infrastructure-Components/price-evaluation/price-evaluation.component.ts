@@ -584,7 +584,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Division-wise Total Payment Pending',
+        text: 'Division-wise Payment Due',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -676,7 +676,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Scheme-wise Total Payment Pending',
+        text: 'Scheme-wise Payment Due',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -768,7 +768,7 @@ export class PriceEvaluationComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Designation-wise Total Payment Pending',
+        text: 'Designation-wise Payment Due',
         align: 'center',
         style: {
           fontSize: '12px',

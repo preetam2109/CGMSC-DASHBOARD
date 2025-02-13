@@ -144,14 +144,16 @@ export class AdministrativeSanctionComponent {
     this.api.GETASFile(ASID,workid)
       .subscribe(
         (res) => {
-         this.ASFileData=res;
-         const URL=res[0].asLetterName;
-        //  const URL =this.ASFileData[0].asLetterName;
-         window.open(URL, '_blank');
-        // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
-
-          // console.log('res:', res);
-          console.log('ASFileData:',this.ASFileData);
+        //  this.ASFileData=res;
+         const filename = res[0]?.filename; // Ensure `res[0]` exists
+         const URL = res[0]?.asLetterName;
+         
+         if (filename) {
+           window.open(URL, '_blank');
+         } else {
+           alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.");
+           // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
+         }
           this.spinner.hide();
         },
         (error) => {

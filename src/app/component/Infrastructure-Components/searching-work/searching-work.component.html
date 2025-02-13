@@ -10,6 +10,25 @@
         </ngx-select-dropdown>
     </div>
 </div>
+
+
+<!-- <div id="chart">
+    <apx-chart
+      *ngIf="chartOptions.series.length > 0"  
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions"
+      [xaxis]="chartOptions.xaxis"
+      [colors]="chartOptions.colors"
+      [title]="chartOptions.title"
+      [tooltip]="chartOptions.tooltip"
+      [legend]="chartOptions.legend"
+    ></apx-chart>
+  </div> -->
+  
+
+
 <!-- *ngIf="ProjectTimelinedata.length > 0" -->
 <!-- <div class="container-fluid p-2" *ngIf="ProjectTimelinedata.length > 0">
     <div class="row">
@@ -30,16 +49,29 @@
   
 
 <ng-container *ngFor="let detail of workdetails">
-    <div class="container-fluid p-2" *ngIf="ProjectTimelinedata.length > 0">
+    <!-- <div class="container-fluid p-2" *ngIf="ProjectTimelinedata.length > 0"> -->
+    <div class="container-fluid p-2" >
         <div class="row p-3">
             <div class="col-12 col-md-11 mb-2 border rounded  card">
                 <div class="chart-container">
                     <!-- <div class=" card shadow"> -->
-                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+                    <apx-chart class="" style="colors: #000" *ngIf="chartOptions.series.length > 0"  [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
                     [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels"[title]="chartOptions.title"
                             [stroke]="chartOptions.stroke"[legend]="chartOptions.legend" 
                             [tooltip]="chartOptions.tooltip" [plotOptions]="chartOptions.plotOptions">
                         </apx-chart>
+                        <!-- <apx-chart
+      *ngIf="chartOptions.series.length > 0"  
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [dataLabels]="chartOptions.dataLabels"
+      [plotOptions]="chartOptions.plotOptions"
+      [xaxis]="chartOptions.xaxis"
+      [colors]="chartOptions.colors"
+      [title]="chartOptions.title"
+      [tooltip]="chartOptions.tooltip"
+      [legend]="chartOptions.legend"
+    ></apx-chart> -->
                         <!-- </div> -->
                     </div>
                 </div>
@@ -283,7 +315,6 @@
                     <div class="row border mb-1">
                         <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #FF4500;">
                             <strong>Financial Progress</strong>
-
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
                             <strong>Expenditure Amount (In Lacs):</strong>
@@ -297,10 +328,167 @@
                             <strong>Unpaid Bill Amount (In Lacs):</strong>
                             <span class="ml-2">{{detail.expPending}}</span>
                         </div>
+                        <!-- <ng-container *ngFor="let BillData of WorkBillStatusData">
+
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Bill No:</strong>
+                            <span class="ml-2">{{BillData.billno}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>AGR Bill Status:</strong>
+                            <span class="ml-2">{{BillData.agrbillstatus}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Measurement DT:</strong>
+                            <span class="ml-2">{{BillData.mesurementDT}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Bill date:</strong>
+                            <span class="ml-2">{{BillData.billdate}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Gross Paid:</strong>
+                            <span class="ml-2">{{BillData.grossPaid}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Cheque No:</strong>
+                            <span class="ml-2">{{BillData.chequeNo}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Days Since Measurement:</strong>
+                            <span class="ml-2">{{BillData.daysSinceMeasurement}}</span>
+                        </div>
+                        <div class="col-12 col-md-4 border p-2 d-flex">
+                            <strong>Bill Status:</strong>
+                            <span class="ml-2">{{BillData.billStatus}}</span>
+                        </div>
+                        <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong>Bill MB No:</strong>
+                            <span class="ml-2">{{BillData.billmbno}}</span>
+                        </div>
+                        <div class="col-12 col-md-2 border p-2 d-flex">
+                            <strong>MB No.:</strong>
+                            <span class="ml-2">{{BillData.mbno}}</span>
+                        </div>
+                    </ng-container> -->
+
                     </div>
                 </div>
             </div>
         </div>
+        <!-- bill information -->
+        <div class="container-fluid p-2"  *ngIf="dataSource.data != null">
+        <!-- <div class="container-fluid p-2"  *ngIf="dataSource.data.length > 0"> -->
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row border mb-2">
+                        <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #fc527c;">
+                            <strong>Bill Status</strong>
+                        </div>
+                     
+                            <!-- <div class="row card shadow card-body "> -->
+                              <div class="d-flex justify-content-between align-items-center mb-2 mt-2">
+                                <div class="filter-field flex-grow-1">
+                                  <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                                </div>
+                                <div class="export-menu-container p-1">
+                                  <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                                    [matMenuTriggerFor]="exportMenu">Export</button>
+                                  <mat-menu #exportMenu="matMenu">
+                                    <button mat-menu-item
+                                      (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                    <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                  </mat-menu>
+                                </div>
+                              </div>
+                        
+                              <div class="table-responsive ">
+                                <table class="table table-bordered table-striped border rounded" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+                                <!-- <table class="table table-bordered table-striped border rounded " mat-table matTableExporter [dataSource]="dataSource"
+                                  #exporter="matTableExporter" matSort> -->
+                                  <ng-container matColumnDef="sno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="billno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill No</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.billno}}</td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="agrbillstatus">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>AGR Bill Status</th>
+                                    <td mat-cell *matCellDef="let element">{{ element.agrbillstatus}} </td>
+                                  </ng-container>
+                                 
+                                
+                                  <ng-container matColumnDef="mesurementDT">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Measurement DT</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.mesurementDT}} </td>
+                                  </ng-container>
+                                 
+                                  <ng-container matColumnDef="billdate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill date</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.billdate}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="grossPaid">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Gross Paid</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.grossPaid}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="chequeNo">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cheque No</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.chequeNo}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="daysSinceMeasurement">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Days Since Measurement</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.daysSinceMeasurement}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="billStatus">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Status</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.billStatus}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="billmbno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill MB No</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.billmbno}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="mbno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>MB No</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.mbno}} </td>
+                                  </ng-container>
+                                  <!-- <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef>Download AS</th>
+                                    <td mat-cell *matCellDef="let element">
+                                      <span class="d-flex  flex-row-reverse p-2 ">
+                                        <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                                          (click)="onButtonClick2(0,element.work_id)">
+                                          <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                                        </button>
+                                      </span>
+                                    </td>
+                                  </ng-container> -->
+                                
+                                  <tr mat-header-row
+                                  *matHeaderRowDef="['sno','billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeNo','daysSinceMeasurement','billStatus','billmbno','mbno']">
+                                  </tr>
+                                  <!-- Data Rows -->
+                                  <tr mat-row
+                                    *matRowDef="let row; columns: ['sno','billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeNo','daysSinceMeasurement','billStatus','billmbno','mbno']">
+                                  </tr>
+                                </table>
+                                <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                                <!-- <mat-paginator  [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator> -->
+                              </div>
+                            <!-- </div> -->
+                        
+                        
+                       
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
          <!-- Physical Progress  -->
          <div class="container-fluid p-2">
             <div class="card shadow">
@@ -384,12 +572,12 @@
                                                 alt="Image">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" src="E:\Emis_Dashboard_27-06-24-master\src\assets\images\doctor-s-hand-holding-pills.jpg" alt="Second slide">
+                                    <!-- <img class="d-block w-100" src="E:\Emis_Dashboard_27-06-24-master\src\assets\images\doctor-s-hand-holding-pills.jpg" alt="Second slide"> -->
                                     <!-- <img class="border" [src]="'data:image/jpeg;base64,' + base64Data" width="100%"  href="#carouselExampleControls" -->
                                     <!-- alt="Image"> -->
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" src="E:\Emis_Dashboard_27-06-24-master\src\assets\images\cg-govt.png" alt="Third slide">
+                                    <!-- <img class="d-block w-100" src="E:\Emis_Dashboard_27-06-24-master\src\assets\images\cg-govt.png" alt="Third slide"> -->
                                 </div>
                             </div>
                             <a class="carousel-control-prev"  data-bs-target="#carouselExampleControls" role="button" data-slide="prev">

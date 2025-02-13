@@ -32,6 +32,10 @@ export type ChartOptions = {
   fill: ApexFill;
   legend: ApexLegend;
 };
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-infrastructure-home',
@@ -44,7 +48,7 @@ export type ChartOptions = {
     MatTabsModule,
     CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
     NgApexchartsModule, MatSortModule, MatPaginatorModule,MatTableModule,
-        MatTableExporterModule, MatDialogModule, MatMenuModule,
+        MatTableExporterModule, MatDialogModule, MatMenuModule,NgSelectModule,FormsModule,SelectDropDownModule,DropdownModule,
   ],
 
   templateUrl: './infrastructure-home.component.html',
@@ -59,7 +63,8 @@ export class InfrastructureHomeComponent {
   GetDistrict: GetDistrict[] = [];
   totalNosWorks: number = 0;
   selectedTabIndex: number = 0;
-  distid = 0;
+  distid:any = 0;
+  // distid = 0;
   divisionid:any = 0;
   mainSchemeID = 0;
   id:any
@@ -72,6 +77,8 @@ export class InfrastructureHomeComponent {
   public showDivision: boolean = true; // Control card visibility
   public showDistrict: boolean = true; // Control card visibility
   distname:any;
+  // mainSchemeID:any;
+
   public showCardss: boolean = false; // Control card visibility
   cardOrder: string[] = [
     "Completed/Handover",
@@ -93,7 +100,10 @@ export class InfrastructureHomeComponent {
   
   //#region DataBase Table
   dataSource!: MatTableDataSource<WORunningHandDetails>;
+  dataSourceCom_Han!: MatTableDataSource<WORunningHandDetails>;
+  dataSourceRun_Work!: MatTableDataSource<WORunningHandDetails>;
   dataSource1!: MatTableDataSource<LandIssue_RetToDeptDetatails>;
+  dataSourceLand_isu!: MatTableDataSource<LandIssue_RetToDeptDetatails>;
   dataSource2!: MatTableDataSource<DetailProgressTinP>;
   dataSource3!: MatTableDataSource<TenderInProcess>;
   // dataSourceDivision!: MatTableDataSource<DivisionWiseASPendingDetails>;
@@ -101,16 +111,28 @@ export class InfrastructureHomeComponent {
   @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
   @ViewChild('itemDetailsModal2') itemDetailsModal2: any;
   @ViewChild('itemDetailsModal3') itemDetailsModal3: any;
+  @ViewChild('itemDetailsModalCom_Han') itemDetailsModalCom_Han: any;
+  @ViewChild('itemDetailsModalRun_Work') itemDetailsModalRun_Work: any;
+  @ViewChild('itemDetailsModalLand_isu') itemDetailsModalLand_isu: any;
           @ViewChild('paginator') paginator!: MatPaginator;
           @ViewChild('paginator1') paginator1!: MatPaginator;
           @ViewChild('paginator2') paginator2!: MatPaginator;
           @ViewChild('paginator3') paginator3!: MatPaginator;
+          @ViewChild('paginatorCom_Han') paginatorCom_Han!: MatPaginator;
+          @ViewChild('paginatorRun_Work') paginatorRun_Work!: MatPaginator;
+          @ViewChild('paginatorLand_isu') paginatorLand_isu!: MatPaginator;
           @ViewChild('sort') sort!: MatSort;
           @ViewChild('sort1') sort1!: MatSort;
           @ViewChild('sort2') sort2!: MatSort;
           @ViewChild('sort3') sort3!: MatSort;
+          @ViewChild('sortCom_Han') sortCom_Han!: MatSort;
+          @ViewChild('sortRun_Work') sortRun_Work!: MatSort;
+          @ViewChild('sortLand_isu') sortLand_isu!: MatSort;
           dispatchData: WORunningHandDetails[] = [];
+          dispatchDataCom_Han: WORunningHandDetails[] = [];
+          dispatchDataRun_Work: WORunningHandDetails[] = [];
           dispatchData1: LandIssue_RetToDeptDetatails[] = [];
+          dispatchDataLand_isu: LandIssue_RetToDeptDetatails[] = [];
           dispatchData2: DetailProgressTinP[] = [];
           dispatchData3: TenderInProcess[] = [];
           // ASFileData: ASFile[] = [];
@@ -132,7 +154,10 @@ export class InfrastructureHomeComponent {
   nosworks:any;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,private dialog: MatDialog,) {
   this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
+  this.dataSourceCom_Han = new MatTableDataSource<WORunningHandDetails>([]);
+  this.dataSourceRun_Work = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSource1 = new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
+    this.dataSourceLand_isu= new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
     this.dataSource2 = new MatTableDataSource<DetailProgressTinP>([]);
     this.dataSource3 = new MatTableDataSource<TenderInProcess>([]);
   }
@@ -160,12 +185,15 @@ export class InfrastructureHomeComponent {
 
     }
     this.GetDistricts();
+    // this.GetDistricts1();
     this.getDistrictNameDME();
     this.getmain_scheme();
+    // this.getmain_scheme1();
     //  this.GetDMEProgressSummary();
   }
 //#region 
   loadInitialData() {
+
     // Load data for "Total Works" tab on initialization
     this.spinner.show();
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
@@ -211,56 +239,59 @@ var mainSchemeId=0;
     }
   }
   // District-wise Tab 
-  GetDistricts() {
-    try {
-      var roleName  = localStorage.getItem('roleName');
-  if(roleName == 'Division'){
-    this.divisionid = sessionStorage.getItem('divisionID');
-  } else {
-    this.divisionid =0;
-  }
-  this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-      this.api.GetDistrict(false,this.divisionid).subscribe(
-        (res: any) => {
-          this.GetDistrict = res;
-        },
-        (error) => {
-          alert(JSON.stringify(error));
-        }
-      );
-    } catch (ex: any) {
-      alert(ex.message);
-    }
-  }
-  getDistrictNameDME() {
-    try {
-      // showCardss
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');this.himisDistrictid=0;
-  } else if (roleName == 'Collector') {
-    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
-  } else{
-    this.himisDistrictid=0;
-    this.divisionid =0;
-  }
+  // GetDistricts() {
+  //   try {
+  //     var roleName  = localStorage.getItem('roleName');
+  // if(roleName == 'Division'){
+  //   this.divisionid = sessionStorage.getItem('divisionID');
+  // } else {
+  //   this.divisionid =0;
+  // }
   // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  console.log('divisionid1=', this.divisionid, 'himisDistrictid1=', this.himisDistrictid);
+  //     this.api.GetDistrict(false,this.divisionid).subscribe(
+  //       (res: any) => {
+  //         this.GetDistrict = res;
+  //         console.log('GetDistrict=', this.GetDistrict);
 
-      this.api.GetDistrictNameDME(this.divisionid,this.himisDistrictid).subscribe(
-        (res: any) => {
-          this.DistrictNameDMEData = res;
-          // console.log('DistrictNameDME1=', this.DistrictNameDMEData);
-        },
-        (error) => {
-          alert(JSON.stringify(error));
-        }
-      );
-    } catch (ex: any) {
-      alert(ex.message);
-    }
-  }
+  //       },
+  //       (error) => {
+  //         alert(JSON.stringify(error));
+  //       }
+  //     );
+  //   } catch (ex: any) {
+  //     alert(ex.message);
+  //   }
+  // }
+  // getDistrictNameDME() {
+  //   try {
+  //     // showCardss
+  // var roleName = localStorage.getItem('roleName');
+  // if (roleName == 'Division') {
+  //   this.divisionid = sessionStorage.getItem('divisionID');this.himisDistrictid=0;
+  // } else if (roleName == 'Collector') {
+  //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
+  // } else{
+  //   this.himisDistrictid=0;
+  //   this.divisionid =0;
+  // }
+  // // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  // console.log('divisionid1=', this.divisionid, 'himisDistrictid1=', this.himisDistrictid);
+
+  //     this.api.GetDistrictNameDME(this.divisionid,this.himisDistrictid).subscribe(
+  //       (res: any) => {
+  //         this.DistrictNameDMEData = res;
+  //         console.log('DistrictNameDME1=', this.DistrictNameDMEData);
+  //       },
+  //       (error) => {
+  //         alert(JSON.stringify(error));
+  //       }
+  //     );
+  //   } catch (ex: any) {
+  //     alert(ex.message);
+  //   }
+  // }
   DashProgressCount() {
+
     try {
       this.spinner.show();
       // const distid = this.distid || 0;
@@ -284,7 +315,12 @@ var mainSchemeId=0;
           // alert(this.himisDistrictid);
         }
       }
-      // 
+      if (this.selectedTabIndex === 1) {
+        this.himisDistrictid =0;
+      }
+      // else{
+      //   this.himisDistrictid =0;
+      // }
       // this.distid = this.distid == 0 ? 0 : this.distid;
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
       this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
@@ -311,7 +347,7 @@ var mainSchemeId=0;
             this.districtData = this.sortDistrictData(res);
             // console.log('re2=', JSON.stringify(this.districtData));
           }
-          // console.log('res =', JSON.stringify(this.districtData));
+          console.log('res =', JSON.stringify(this.districtData));
 
           this.calculateTotalNosWorks();
           this.spinner.hide();
@@ -344,57 +380,57 @@ var mainSchemeId=0;
     // console.error('onButtonClick',this.divisionid);
 
   }
-  onGetDistrictsSelect(districT_ID: any,distname:any): void {
-    // Make cards visible on district selection
-    this.distname=distname;
-    this.showCards = true;
-    this.distid = districT_ID;
-    this.himisDistrictid = districT_ID;
-    // this.mainSchemeID = 0;
-    this.mainSchemeID = this.mainSchemeID;
-    this.divisionid = 0;
-    this.show=true;
-    if(this.selectedName==null){
-      this.hide=false;
-    }else{
-      this.hide=true;
-    }
-    this.DashProgressCount();
+  // onGetDistrictsSelect(districT_ID: any,distname:any): void {
+  //   // Make cards visible on district selection
+  //   this.distname=distname;
+  //   this.showCards = true;
+  //   this.distid = districT_ID;
+  //   this.himisDistrictid = districT_ID;
+  //   // this.mainSchemeID = 0;
+  //   this.mainSchemeID = this.mainSchemeID;
+  //   this.divisionid = 0;
+  //   this.show=true;
+  //   if(this.selectedName==null){
+  //     this.hide=false;
+  //   }else{
+  //     this.hide=true;
+  //   }
+  //   this.DashProgressCount();
 
-    // console.error('onGetDistrictsSelect', this.distid  );
-    if (this.selectedTabIndex === 3) {
-      this.showCards = false;
-      // this.GetDMEProgressSummary();
-      this.DashProgressCount();
+  //   // console.error('onGetDistrictsSelect', this.distid  );
+  //   if (this.selectedTabIndex === 3) {
+  //     this.showCards = false;
+  //     // this.GetDMEProgressSummary();
+  //     this.DashProgressCount();
 
-    }
+  //   }
 
 
 
-  }
-  onselectDistrictsDME(districT_ID: any,distname:any){
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      // this.divisionid = sessionStorage.getItem('divisionID');
-      if (this.selectedTabIndex === 2) {
-        this.distid = districT_ID;
-        // this.himisDistrictid = districT_ID;
-        this.showCards = false;
-        this.showCardss=true;
-        this.GetDMEProgressSummary();
-        // this.DashProgressCount();
+  // }
+  // onselectDistrictsDME(districT_ID: any,distname:any){
+  //   var roleName = localStorage.getItem('roleName');
+  //   if (roleName == 'Division') {
+  //     // this.divisionid = sessionStorage.getItem('divisionID');
+  //     if (this.selectedTabIndex === 2) {
+  //       this.distid = districT_ID;
+  //       // this.himisDistrictid = districT_ID;
+  //       this.showCards = false;
+  //       this.showCardss=true;
+  //       this.GetDMEProgressSummary();
+  //       // this.DashProgressCount();
   
-      }
-    } 
-    // else if (roleName == 'Collector') {
-    //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
-    // } 
-    else{
-      this.distid = districT_ID;
-      this.GetDMEProgressSummary();
-      this.showCardss=true;
-    }
-  }
+  //     }
+  //   } 
+  //   // else if (roleName == 'Collector') {
+  //   //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
+  //   // } 
+  //   else{
+  //     this.distid = districT_ID;
+  //     this.GetDMEProgressSummary();
+  //     this.showCardss=true;
+  //   }
+  // }
 
   sortDistrictData(data: DashProgressCount[]): DashProgressCount[] {
 
@@ -662,42 +698,47 @@ var mainSchemeId=0;
     );
   }
 
-  getmain_scheme() {
-    try {
-      this.api.getMainScheme(this.isall).subscribe(
-        (res: any) => {
-          this.mainscheme = res;
-        },
-        (error) => {
-          alert(JSON.stringify(error));
-        }
-      );
-    } catch (ex: any) {
-      alert(ex.message);
-    }
-  }
-  onselect_mainscheme_data(mainSchemeID: any,selectedName: string) {
-    // this.showCards = true;
-    // alert(mainSchemeID);
-    // console.log('Selected ID:', mainSchemeID);
-    // console.log('Selected Name:', selectedName);
-  //  this.show=false;
-   this.hide=true;
-   this.selectedName=selectedName
-    this.mainSchemeID = mainSchemeID;
-    // this.divisionid = 0;
-    this.distid = 0;
-    this.showCards = true;
-    if(this.name||this.distname ==null){
-      this.show=false;
-    }else{
-      this.show=true;
-    }
-    this.DashProgressCount();
+  // getmain_scheme() {
+  //   try {
+  //     this.api.getMainScheme(this.isall).subscribe(
+  //       (res: any) => {
+  //         this.mainscheme = res;
+  //       },
 
-    // alert(this.mainSchemeID);
 
-  }
+        
+  //       (error) => {
+  //         alert(JSON.stringify(error));
+  //       }
+  //     );
+     
+   
+  //   } catch (ex: any) {
+  //     alert(ex.message);
+  //   }
+  // }
+  // onselect_mainscheme_data(mainSchemeID: any,selectedName: string) {
+  //   // this.showCards = true;
+  //   // alert(mainSchemeID);
+  //   // console.log('Selected ID:', mainSchemeID);
+  //   // console.log('Selected Name:', selectedName);
+  // //  this.show=false;
+  //  this.hide=true;
+  //  this.selectedName=selectedName
+  //   this.mainSchemeID = mainSchemeID;
+  //   // this.divisionid = 0;
+  //   this.distid = 0;
+  //   this.showCards = true;
+  //   if(this.name||this.distname ==null){
+  //     this.show=false;
+  //   }else{
+  //     this.show=true;
+  //   }
+  //   this.DashProgressCount();
+
+  //   // alert(this.mainSchemeID);
+
+  // }
 //#endregion
   
 
@@ -832,6 +873,7 @@ this.roleName = localStorage.getItem('roleName');
     }
   }
   // this.distid = this.distid == 0 ? 0 : this.distid;
+
   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
@@ -891,21 +933,21 @@ this.roleName = localStorage.getItem('roleName');
 
     // return 
   } 
-   else if (did === 6001 || did === 8001) {
-    console.log('6001 to 8001 =: ',did);
-    this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+   else if (did == 4001) {
+    console.log('4001=: ',did);
+    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid)
     .subscribe(
       (res) => {
-        this.dispatchData1 = res.map(
-          (item: LandIssue_RetToDeptDetatails, index: number) => ({
+        this.dispatchDataCom_Han = res.map(
+          (item: WORunningHandDetails, index: number) => ({
             ...item,
             sno: index + 1,
           })
         );
-        console.log('LandIssue_RetToDeptDetatails=:', this.dispatchData1);
-        this.dataSource1.data = this.dispatchData1;
-        this.dataSource1.paginator = this.paginator1;
-        this.dataSource1.sort = this.sort1;
+        console.log('WORunningHandDetails=:', this.dispatchDataCom_Han);
+        this.dataSourceCom_Han.data = this.dispatchDataCom_Han;
+        this.dataSourceCom_Han.paginator = this.paginatorCom_Han;
+        this.dataSourceCom_Han.sort = this.sortCom_Han;
         this.cdr.detectChanges();
         this.spinner.hide();
       },
@@ -914,21 +956,93 @@ this.roleName = localStorage.getItem('roleName');
         alert(`Error fetching data: ${error.message}`);
       }
     );
-  this.openDialog1();
-    // return '#FF0000';
+  this.openDialogCom_Han();
+    // return '#9E9E9E';
   }
+  //  Running Work
+  else if (did == 5001) {
+    // console.log('5001=: ',did);
+    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid)
+    .subscribe(
+      (res) => {
+        this.dispatchDataRun_Work = res.map(
+          (item: WORunningHandDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('Run_Work=:', this.dispatchDataRun_Work);
+        this.dataSourceRun_Work.data = this.dispatchDataRun_Work;
+        this.dataSourceRun_Work.paginator = this.paginatorRun_Work;
+        this.dataSourceRun_Work.sort = this.sortRun_Work;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      }
+    );
+  this.openDialogRun_Work();
+  }
+  // Land Not Alloted/Land Dispute
+   else if (did === 6001) {
+    console.log('6001 =: ',did);
+    this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+    .subscribe(
+      (res) => {
+        this.dispatchDataLand_isu = res.map(
+          (item: LandIssue_RetToDeptDetatails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        console.log('LandIssue=:', this.dispatchDataLand_isu);
+        this.dataSourceLand_isu.data = this.dispatchDataLand_isu;
+        this.dataSourceLand_isu.paginator = this.paginatorLand_isu;
+        this.dataSourceLand_isu.sort = this.sortLand_isu;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      }
+    );
+  this.openDialogLand_isu();
+    // return '#FF0000';|| did === 8001
+  }
+
+    else if (did == 8001) {
+      console.log(' 8001 =: ',did);
+      this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+      .subscribe(
+        (res) => {
+          this.dispatchData1 = res.map(
+            (item: LandIssue_RetToDeptDetatails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          console.log('LandIssue_RetToDeptDetatails=:', this.dispatchData1);
+          this.dataSource1.data = this.dispatchData1;
+          this.dataSource1.paginator = this.paginator1;
+          this.dataSource1.sort = this.sort1;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          alert(`Error fetching data: ${error.message}`);
+        }
+      );
+    this.openDialog1();
+  } 
   // else if (did == 3001) {
   //   // return '#ADD8E6';
   //   return '#FF8C00';
   // }
-  // else if (did == 4001) {
-  //   return '#62f562';
-  //   // return '#008000';
-  // }
-  // else if (did == 5001) {
-  //   return '#e7fa57';//#4CAF50
-  //   // return '#90EE90';//#4CAF50
-  // }
+
   // else if (did == 6001) {
   //   return '#fa5795';
   //   // return '#FF0000';
@@ -936,11 +1050,9 @@ this.roleName = localStorage.getItem('roleName');
   // else if (did == 7001) {
   //   return '#FFA500';
   // }
-  // else if (did == 8001) {
-  //   return '#9E9E9E';
-  // } 
+
   else {
-    console.log('3001,4001,to 5001=: ',did);
+    // console.log('3001=: ',did);
     this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid)
     .subscribe(
       (res) => {
@@ -950,7 +1062,7 @@ this.roleName = localStorage.getItem('roleName');
             sno: index + 1,
           })
         );
-        console.log('WORunningHandDetails=:', this.dispatchData);
+        // console.log('WORunningHandDetails=:', this.dispatchData);
         this.dataSource.data = this.dispatchData;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -963,14 +1075,7 @@ this.roleName = localStorage.getItem('roleName');
       }
     );
   this.openDialog();
-    // return '#9E9E9E';
   }
-
-
-  // const divisionid=0; 
-  // const districtid=0;
-  // const mainschemeid=0
- 
  }
 
  applyTextFilter(event: Event) {
@@ -978,6 +1083,20 @@ this.roleName = localStorage.getItem('roleName');
   this.dataSource.filter = filterValue.trim().toLowerCase();
   if (this.dataSource.paginator) {
     this.dataSource.paginator.firstPage();
+  }
+}
+ applyTextFilterCom_Han(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceCom_Han.filter = filterValue.trim().toLowerCase();
+  if (this.dataSourceCom_Han.paginator) {
+    this.dataSourceCom_Han.paginator.firstPage();
+  }
+}
+ applyTextFilterRun_Work(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceRun_Work.filter = filterValue.trim().toLowerCase();
+  if (this.dataSourceRun_Work.paginator) {
+    this.dataSourceRun_Work.paginator.firstPage();
   }
 }
 
@@ -995,6 +1114,13 @@ applyTextFilter_TenderInProcess(event: Event) {
     this.dataSource3.paginator.firstPage();
   }
 }
+applyTextFilterLand_isu(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceLand_isu.filter = filterValue.trim().toLowerCase();
+  if (this.dataSourceLand_isu.paginator) {
+    this.dataSourceLand_isu.paginator.firstPage();
+  }
+}
 exportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
@@ -1005,25 +1131,33 @@ exportToPDF() {
     { title: 'Block', dataKey: 'blockname' },
     { title: 'AS Letter No', dataKey: 'letterNo' },
     { title: 'Approver', dataKey: 'approver' },
-    { title: 'AS Date', dataKey: 'asDate' },
-    { title: 'Works', dataKey: 'work' },
-    // { title: 'TS Date', dataKey: 'tsDate' },
-    { title: 'TS Amount', dataKey: 'tsamt' },
-    { title: 'T Type', dataKey: 'tType' },
-    { title: 'Division', dataKey: 'division' },
-    { title: 'ID', dataKey: 'id' },
-    { title: 'A A DT', dataKey: 'aadt' },
-    { title: 'AS Amount', dataKey: 'asAmt' },
-    { title: 'Tender Reference', dataKey: 'tenderReference' },
-    { title: 'Tender Reference NO.', dataKey: 'acceptanceLetterRefNo' },
-    { title: 'Accept Letter DT', dataKey: 'acceptLetterDT' },
-    { title: 'Total Amount Of Contract', dataKey: 'totalAmountOfContract' },
-    { title: 'Work id', dataKey: 'work_id' },
+    { title: 'Work', dataKey: 'work' },
+    { title: 'AS Date', dataKey: 'aadt' },
+    { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+    { title: 'TS Date', dataKey: 'tsDate' },
+    { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+    { title: 'Tender Type', dataKey: 'tType' },
+    { title: 'NIT Reference', dataKey: 'tenderReference' },
+    { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+    { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+    { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+    { title: 'Rate%', dataKey: 'sanctionRate' },
+    { title: 'Sanction', dataKey: 'sanctionDetail' },
+    { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+    { title: 'Time Allowed', dataKey: 'timeAllowed' },
+    { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+    { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+    { title: 'Contractor ID/Class', dataKey: 'cid' },
+    { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+    { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+    { title: 'Last Progress', dataKey: 'lProgress' },
+    { title: 'Sub Engineer', dataKey: 'subengname' },
+    { title: 'Asst.Eng', dataKey: 'aeName' },
+    { title: 'Work ID', dataKey: 'work_id' },
+    { title: 'AS Letter', dataKey: 'asLetter' },
   ];
   const rows = this.dispatchData.map((row) => ({
-    // 'sno','head','divName_En','district','blockname','letterNo','approver','asDate','work',
-    // 'tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo',
-    // 'acceptLetterDT','totalAmountOfContract','work_id'
     sno: row.sno,
     head: row.head,
     divName_En:row.divName_En,
@@ -1031,18 +1165,31 @@ exportToPDF() {
     blockname: row.blockname,
     letterNo: row.letterNo,
     approver: row.approver,
-    // asDate: row.asDate,
     work: row.work,
+    aadt: row.aadt,
+    asAmt: row.asAmt,
     tsDate: row.tsDate,
     tsamt: row.tsamt,
     tType: row.tType,
-    aadt: row.aadt,
-    asAmt: row.asAmt,
     tenderReference: row.tenderReference,
+    dateOfIssueNIT: row.dateOfIssueNIT,
     acceptanceLetterRefNo: row.acceptanceLetterRefNo,
     acceptLetterDT: row.acceptLetterDT,
+    sanctionRate: row.sanctionRate,
+    sanctionDetail: row.sanctionDetail,
     totalAmountOfContract: row.totalAmountOfContract,
+    wrokOrderDT: row.wrokOrderDT,
+    timeAllowed: row.timeAllowed,
+    dueDTTimePerAdded: row.dueDTTimePerAdded,
+    agreementRefNo: row.agreementRefNo,
+    cid: row.cid,
+    contractorNAme: row.contractorNAme,
+    mobNo: row.mobNo,
+    lProgress: row.lProgress,
+    subengname: row.subengname,
+    aeName: row.aeName,
     work_id: row.work_id,
+    asLetter: row.asLetter,
   }));
 
   autoTable(doc, {
@@ -1053,7 +1200,178 @@ exportToPDF() {
     headStyles: { fillColor: [22, 160, 133] },
   });
 
-  doc.save('DetailProgress.pdf');
+  doc.save('Acceptance_WOrderDetail.pdf');
+}
+exportToPDFCom_Han() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'divName_En' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Block', dataKey: 'blockname' },
+    { title: 'AS Letter No', dataKey: 'letterNo' },
+    { title: 'Approver', dataKey: 'approver' },
+    { title: 'Work', dataKey: 'work' },
+    { title: 'AS Date', dataKey: 'aadt' },
+    { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+    { title: 'TS Date', dataKey: 'tsDate' },
+    { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+    { title: 'Tender Type', dataKey: 'tType' },
+    { title: 'NIT Reference', dataKey: 'tenderReference' },
+    { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+    { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+    { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+    { title: 'Rate%', dataKey: 'sanctionRate' },
+    { title: 'Sanction', dataKey: 'sanctionDetail' },
+    { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+    { title: 'Time Allowed', dataKey: 'timeAllowed' },
+    { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+    { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+    { title: 'Contractor ID/Class', dataKey: 'cid' },
+    { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+    { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+    { title: 'Last Progress', dataKey: 'lProgress' },
+    { title: 'Handover DT', dataKey: 'progressDT' },
+    { title: 'Sub Engineer', dataKey: 'subengname' },
+    { title: 'Asst.Eng', dataKey: 'aeName' },
+    { title: 'Work ID', dataKey: 'work_id' },
+    { title: 'AS Letter', dataKey: 'asLetter' },
+  ];
+  const rows = this.dispatchDataCom_Han.map((row) => ({
+    sno: row.sno,
+    head: row.head,
+    divName_En:row.divName_En,
+    district: row.district,
+    blockname: row.blockname,
+    letterNo: row.letterNo,
+    approver: row.approver,
+    work: row.work,
+    aadt: row.aadt,
+    asAmt: row.asAmt,
+    tsDate: row.tsDate,
+    tsamt: row.tsamt,
+    tType: row.tType,
+    tenderReference: row.tenderReference,
+    dateOfIssueNIT: row.dateOfIssueNIT,
+    acceptanceLetterRefNo: row.acceptanceLetterRefNo,
+    acceptLetterDT: row.acceptLetterDT,
+    sanctionRate: row.sanctionRate,
+    sanctionDetail: row.sanctionDetail,
+    totalAmountOfContract: row.totalAmountOfContract,
+    wrokOrderDT: row.wrokOrderDT,
+    timeAllowed: row.timeAllowed,
+    dueDTTimePerAdded: row.dueDTTimePerAdded,
+    agreementRefNo: row.agreementRefNo,
+    cid: row.cid,
+    contractorNAme: row.contractorNAme,
+    mobNo: row.mobNo,
+    lProgress: row.lProgress,
+    progressDT: row.progressDT,
+    subengname: row.subengname,
+    aeName: row.aeName,
+    work_id: row.work_id,
+    asLetter: row.asLetter,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('Completed_Handover.pdf');
+}
+exportToPDFRun_Work() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'divName_En' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Block', dataKey: 'blockname' },
+    { title: 'AS Letter No', dataKey: 'letterNo' },
+    { title: 'Approver', dataKey: 'approver' },
+    { title: 'Work', dataKey: 'work' },
+    { title: 'AS Date', dataKey: 'aadt' },
+    { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+    { title: 'TS Date', dataKey: 'tsDate' },
+    { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+    { title: 'Tender Type', dataKey: 'tType' },
+    { title: 'NIT Reference', dataKey: 'tenderReference' },
+    { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+    { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+    { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+    { title: 'Rate%', dataKey: 'sanctionRate' },
+    { title: 'Sanction', dataKey: 'sanctionDetail' },
+    { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+    { title: 'Time Allowed', dataKey: 'timeAllowed' },
+    { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+    { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+    { title: 'Contractor ID/Class', dataKey: 'cid' },
+    { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+    { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+    { title: 'Last Progress', dataKey: 'lProgress' },
+    { title: 'Progress DT', dataKey: 'progressDT' },
+    { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
+    { title: 'Delay Reason', dataKey: 'delayreason' },
+   
+    { title: 'Sub Engineer', dataKey: 'subengname' },
+    { title: 'Asst.Eng', dataKey: 'aeName' },
+    { title: 'Work ID', dataKey: 'work_id' },
+    { title: 'AS Letter', dataKey: 'asLetter' },
+  ];
+  const rows = this.dispatchDataRun_Work.map((row) => ({
+    sno: row.sno,
+    head: row.head,
+    divName_En:row.divName_En,
+    district: row.district,
+    blockname: row.blockname,
+    letterNo: row.letterNo,
+    approver: row.approver,
+    work: row.work,
+    aadt: row.aadt,
+    asAmt: row.asAmt,
+    tsDate: row.tsDate,
+    tsamt: row.tsamt,
+    tType: row.tType,
+    tenderReference: row.tenderReference,
+    dateOfIssueNIT: row.dateOfIssueNIT,
+    acceptanceLetterRefNo: row.acceptanceLetterRefNo,
+    acceptLetterDT: row.acceptLetterDT,
+    sanctionRate: row.sanctionRate,
+    sanctionDetail: row.sanctionDetail,
+    totalAmountOfContract: row.totalAmountOfContract,
+    wrokOrderDT: row.wrokOrderDT,
+    timeAllowed: row.timeAllowed,
+    dueDTTimePerAdded: row.dueDTTimePerAdded,
+    agreementRefNo: row.agreementRefNo,
+    cid: row.cid,
+    contractorNAme: row.contractorNAme,
+    mobNo: row.mobNo,
+    lProgress: row.lProgress,
+    progressDT: row.progressDT,
+     expcompdt: row.expcompdt,
+     delayreason: row.delayreason,
+    subengname: row.subengname,
+    aeName: row.aeName,
+    work_id: row.work_id,
+    asLetter: row.asLetter,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('Running_Work.pdf');
 }
 exportobeTenderAll_PDFT() {
   const doc = new jsPDF('l', 'mm', 'a4');
@@ -1147,54 +1465,54 @@ expor_TenderInProcess_PDFT() {
     { title: 'Block', dataKey: 'blockname' },
     { title: 'AS Letter No', dataKey: 'letterNo' },
     { title: 'Approver', dataKey: 'approver' },
-    { title: 'Type', dataKey: 'type_name' },
     { title: 'Works', dataKey: 'work' },
-    { title: 'AS Amount', dataKey: 'asAmt' },
-    { title: 'TS Amount', dataKey: 'tsamt' },
+    { title: 'AS Date', dataKey: 'aadt' },
+    { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
     { title: 'TS Date', dataKey: 'tsDate' },
-    { title: 'AS DT', dataKey: 'aadt' },
+    { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
     { title: 'lProgress', dataKey: 'lProgress' },
     { title: 'Progress DT', dataKey: 'progressDT' },
-    { title: 'Remarks', dataKey: 'remarks' },
-    { title: 'Group', dataKey: 'groupName' },
-    { title: 'Dash', dataKey: 'dashName' },
-    { title: 'AS Path', dataKey: 'asPath' },
-    { title: 'AS Letter', dataKey: 'asLetter' },
-    { title: 'Descri ID', dataKey: 'descri' },
-    { title: 'Fmr code', dataKey: 'fmrcode' },
-    { title: 'startdt', dataKey: 'startdt' },
+    
+    { title: 'FMR code', dataKey: 'fmrcode' },
+    { title: 'Start DT', dataKey: 'startdt' },
     { title: 'End DT', dataKey: 'enddt' },
-    { title: 'AS ID', dataKey: 'asid' },
     { title: 'NO. of Calls', dataKey: 'noofcalls' },
     { title: 'Tender NO.', dataKey: 'tenderno' },
     { title: 'Eproc NO.', dataKey: 'eprocno' },
-    { title: 'COV Opened DT', dataKey: 'covOpenedDT' },
+    { title: 'Opened DT', dataKey: 'covOpenedDT' },
     { title: 'Topned price DT', dataKey: 'topnedpricedt' },
     { title: 'Work id', dataKey: 'work_id' },
+    { title: 'AS Letter', dataKey: 'asLetter' },
+    // { title: 'Type', dataKey: 'type_name' },
+    // { title: 'Remarks', dataKey: 'remarks' },
+    // { title: 'Group', dataKey: 'groupName' },
+    // { title: 'Dash', dataKey: 'dashName' },
+    // { title: 'AS Path', dataKey: 'asPath' },
+    // { title: 'Descri ID', dataKey: 'descri' },
+    // { title: 'AS ID', dataKey: 'asid' },
+
+
   ];
   const rows = this.dispatchData3.map((row) => ({
+    //  'sno','head','divName_En','district','blockname','letterNo',
+    // 'approver','work','aadt','asAmt','tsDate','tsamt',
+    // 'lProgress','progressDT','fmrcode', 'startdt','enddt', 'noofcalls',
+    // 'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt',     'work_id','asLetter','action'
     sno: row.sno,
+    head: row.head,
     divName_En:row.divName_En,
     district: row.district,
     blockname: row.blockname,
     letterNo: row.letterNo,
-    head: row.head,
     approver: row.approver,
-    type_name: row.type_name,
     work: row.work,
-    asAmt: row.asAmt,
-    tsamt: row.tsamt,
-    tsDate: row.tsDate,
+    // type_name: row.type_name,
     aadt: row.aadt,
+    asAmt: row.asAmt,
+    tsDate: row.tsDate,
+    tsamt: row.tsamt,
     lProgress: row.lProgress,
     progressDT: row.progressDT,
-    remarks: row.remarks,
-    groupName: row.groupName,
-    dashName: row.dashName,
-    asPath: row.asPath,
-    asLetter: row.asLetter,
-    asid: row.asid,
-    descri: row.descri,
     fmrcode: row.fmrcode,
     startdt: row.startdt,
     enddt: row.enddt,
@@ -1203,8 +1521,17 @@ expor_TenderInProcess_PDFT() {
     eprocno: row.eprocno,
     covOpenedDT: row.covOpenedDT,
     topnedpricedt: row.topnedpricedt,
-    // work_id: row.work_id,
     worK_ID: row.worK_ID,
+    asLetter: row.asLetter,
+    
+    // work_id: row.work_id,
+    // remarks: row.remarks,
+    // groupName: row.groupName,
+    // dashName: row.dashName,
+    // asPath: row.asPath,
+    // asid: row.asid,
+    // descri: row.descri,
+   
 
   }));
 
@@ -1216,7 +1543,94 @@ expor_TenderInProcess_PDFT() {
     headStyles: { fillColor: [22, 160, 133] },
   });
 
-  doc.save('DetailProgress.pdf');
+  doc.save('TenderInProcess_Detail.pdf');
+}
+expor_PDFLand_isu() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'divName_En' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Block', dataKey: 'blockname' },
+    { title: 'AS Letter No', dataKey: 'letterNo' },
+    { title: 'Approver', dataKey: 'approver' },
+    { title: 'Work', dataKey: 'work' },
+    { title: 'AS Date', dataKey: 'aadt' },
+    { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+    { title: 'TS Date', dataKey: 'tsDate' },
+    { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+    { title: 'Tender Type', dataKey: 'tType' },
+    { title: 'NIT Reference', dataKey: 'tenderReference' },
+    { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+    { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+    { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+    { title: 'Rate%', dataKey: 'sanctionRate' },
+    { title: 'Sanction', dataKey: 'sanctionDetail' },
+    { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+    { title: 'Time Allowed', dataKey: 'timeAllowed' },
+    { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+    { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+    { title: 'Contractor ID/Class', dataKey: 'cid' },
+    { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+    { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+    { title: 'Last Progress', dataKey: 'lProgress' },
+    { title: 'Progress DT', dataKey: 'progressDT' },
+    { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
+    { title: 'Delay Reason', dataKey: 'delayreason' },
+    { title: 'Sub Engineer', dataKey: 'subengname' },
+    { title: 'Asst.Eng', dataKey: 'aeName' },
+    { title: 'Work ID', dataKey: 'work_id' },
+    { title: 'AS Letter', dataKey: 'asLetter' },
+  ];
+  const rows = this.dispatchDataLand_isu.map((row) => ({
+    sno: row.sno,
+    head: row.head,
+    divName_En:row.divName_En,
+    district: row.district,
+    blockname: row.blockname,
+    letterNo: row.letterNo,
+    approver: row.approver,
+    work: row.work,
+    aadt: row.aadt,
+    asAmt: row.asAmt,
+    tsDate: row.tsDate,
+    tsamt: row.tsamt,
+    tType: row.tType,
+    tenderReference: row.tenderReference,
+    dateOfIssueNIT: row.dateOfIssueNIT,
+    acceptanceLetterRefNo: row.acceptanceLetterRefNo,
+    acceptLetterDT: row.acceptLetterDT,
+    sanctionRate: row.sanctionRate,
+    sanctionDetail: row.sanctionDetail,
+    totalAmountOfContract: row.totalAmountOfContract,
+    wrokOrderDT: row.wrokOrderDT,
+    timeAllowed: row.timeAllowed,
+    dueDTTimePerAdded: row.dueDTTimePerAdded,
+    agreementRefNo: row.agreementRefNo,
+    cid: row.cid,
+    contractorNAme: row.contractorNAme,
+    mobNo: row.mobNo,
+    lProgress: row.lProgress,
+    progressDT: row.progressDT,
+     expcompdt: row.expcompdt,
+     delayreason: row.delayreason,
+    subengname: row.subengname,
+    aeName: row.aeName,
+    work_id: row.work_id,
+    asLetter: row.asLetter,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('LandIssue_Detail.pdf');
 }
  // mat-dialog box
  openDialog() {
@@ -1298,6 +1712,64 @@ expor_TenderInProcess_PDFT() {
       console.log('Dialog closed');
     });
   }
+  openDialogCom_Han() {
+  
+    const dialogRef = this.dialog.open(this.itemDetailsModalCom_Han, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+  openDialogRun_Work() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalRun_Work, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+  openDialogLand_isu() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalLand_isu, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
 
   onButtonClick2(ASID:any,workid:any): void {
     //  this.value='Active';
@@ -1305,15 +1777,23 @@ expor_TenderInProcess_PDFT() {
       // alert(ASID);
       // alert(this.value);
       // return;
-      
+      // asLetterName
+      // filename
       this.spinner.show();
       this.api.GETASFile(ASID,workid)
         .subscribe(
           (res) => {
-           this.ASFileData=res;
-           const URL=res[0].asLetterName;
+            // this.ASFileData=res;
+            const filename = res[0]?.filename; // Ensure `res[0]` exists
+            const URL = res[0]?.asLetterName;
+            
+            if (filename) {
+              window.open(URL, '_blank');
+            } else {
+              alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.");
+              // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
+            }
           //  const URL =this.ASFileData[0].asLetterName;
-           window.open(URL, '_blank');
           // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
   
             // console.log('res:', res);
@@ -1327,5 +1807,233 @@ expor_TenderInProcess_PDFT() {
         );
      }
   //#endregion
+ 
+ 
+  getDistrictNameDME() {
+    try {
+      // showCardss
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');this.himisDistrictid=0;
+  } else if (roleName == 'Collector') {
+    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
+  } else{
+    this.himisDistrictid=0;
+    this.divisionid =0;
+  }
+  // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  console.log('divisionid1=', this.divisionid, 'himisDistrictid1=', this.himisDistrictid);
+
+      this.api.GetDistrictNameDME(this.divisionid,this.himisDistrictid).subscribe((res: any) => {
+        if (res && res.length > 0) {
+          this.GetDistrict  = res.map((item: { districT_ID: any; districtname: any;diV_ID:any }) => ({
+            districT_ID: item.districT_ID, // Adjust key names if needed
+            districtname : item.districtname,  
+            diV_ID : item.diV_ID,  
+          }));
+          // districT_ID!: string;
+          // districtname!: string;
+          // diV_ID!: any;
+          // console.log('mainscheme :', this.mainscheme);
+          } else {
+            console.error('No name found or incorrect structure:', res);
+          }
+
+
+          this.DistrictNameDMEData = res;
+          // console.log('DistrictNameDME1=', this.DistrictNameDMEData);
+        },
+        (error) => {
+          alert(JSON.stringify(error));
+        }
+      );
+    } catch (ex: any) {
+      alert(ex.message);
+    }
+  }
+  onselectDistrictsDME(districT_ID: any,distname:any){
+    const selectedUser = this.GetDistrict.find((user: { districT_ID: any }) => user.districT_ID === this.districT_ID); 
+  
+    if (selectedUser) {
+
+      const districT_ID = selectedUser?.districT_ID ;
+      const distname = selectedUser?.districtname; 
+
+
+      var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        // this.divisionid = sessionStorage.getItem('divisionID');
+        if (this.selectedTabIndex === 2) {
+          this.distid = districT_ID;
+          // this.himisDistrictid = districT_ID;
+          this.showCards = false;
+          this.showCardss=true;
+          this.GetDMEProgressSummary();
+          // this.DashProgressCount();
+    
+        }
+      } 
+      // else if (roleName == 'Collector') {
+      //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
+      // } 
+      else{
+        this.distid = districT_ID;
+        this.GetDMEProgressSummary();
+        this.showCardss=true;
+      }
+
+      // alert(districT_ID);
+      // alert(distname);
+      
+          } else {
+            console.error('Selected itemid not found in the list.');
+          }
+
+
+  }
+ 
+  GetDistricts() {
+    try {
+      var roleName  = localStorage.getItem('roleName');
+  if(roleName == 'Division'){
+    this.divisionid = sessionStorage.getItem('divisionID');
+  } else {
+    this.divisionid =0;
+  }
+  this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+      this.api.GetDistrict(false,this.divisionid).subscribe( (res: any) => {
+        if (res && res.length > 0) {
+          this.GetDistrict  = res.map((item: { districT_ID: any; districtname: any;diV_ID:any }) => ({
+            districT_ID: item.districT_ID, // Adjust key names if needed
+            districtname : item.districtname,  
+            diV_ID : item.diV_ID,  
+          }));
+          // console.log('mainscheme :', this.mainscheme);
+          } else {
+            console.error('No name found or incorrect structure:', res);
+          }
+          // districT_ID: number | undefined;
+          // districtname: string | undefined;
+          // diV_ID: number | undefined;
+          // this.GetDistrict = res;
+        },
+        (error) => {
+          alert(JSON.stringify(error));
+        }
+      );
+    } catch (ex: any) {
+      alert(ex.message);
+    }
+  }
+  districT_ID:any;
+  onGetDistrictsSelect(districT_ID1: any,distname:any): void {
+    debugger
+    // Make cards visible on district selection
+    const selectedUser = this.GetDistrict.find((user: { districT_ID: any }) => user.districT_ID === this.districT_ID); 
+  
+    if (selectedUser) {
+      const districT_ID = selectedUser?.districT_ID ;
+      const distname = selectedUser?.districtname; 
+
+      this.distname=distname;
+      this.showCards = true;
+      this.distid = selectedUser?.districtname || null ;
+      this.himisDistrictid = districT_ID;
+      // this.mainSchemeID = 0;
+      this.mainSchemeID = this.mainSchemeID;
+      this.divisionid = 0;
+      this.show=true;
+      if(this.selectedName==null){
+        this.hide=false;
+      }else{
+        this.hide=true;
+      }
+      this.DashProgressCount();
+  
+      // console.error('onGetDistrictsSelect', this.distid  );
+      if (this.selectedTabIndex === 3) {
+        this.showCards = false;
+        // this.GetDMEProgressSummary();
+        this.DashProgressCount();
+  
+      }
+
+
+
+// alert(districT_ID);
+// alert(distname);
+
+    } else {
+      alert('Selected districT_ID not found in the list.');
+    }
+
+   
+
+
+
+  }
+
+
+  getmain_scheme() {
+    try {
+      // debugger
+      this.api.getMainScheme(this.isall).subscribe((res:any)=>{
+        if (res && res.length > 0) {
+        this.mainscheme = res.map((item: { mainSchemeID: any; name: any; }) => ({
+          mainSchemeID: item.mainSchemeID, // Adjust key names if needed
+          name : item.name,  
+        }));
+        // console.log('mainscheme :', this.mainscheme);
+        } else {
+          console.error('No name found or incorrect structure:', res);
+        }
+      }); 
+       // this.api.getMainScheme(this.isall).subscribe(
+      //   (res: any) => {
+      //     this.mainscheme = res;
+      //   },
+
+      //   // mainSchemeID!: number;
+      //   // name: any;
+        
+      //   (error) => {
+      //     alert(JSON.stringify(error));
+      //   }
+      // );
+   
+    } catch (ex: any) {
+      alert(ex.message);
+    }
+  }
+
+
+
+  onselect_mainscheme_data(event: Event): void {
+    // debugger
+  const selectedUser = this.mainscheme.find((user: { mainSchemeID: any }) => user.mainSchemeID === this.mainSchemeID); 
+  
+  if (selectedUser) {
+    //  const MID  =selectedUser.mainSchemeID || null;
+    this.mainSchemeID = selectedUser?.mainSchemeID ;
+    this.hide=true;
+    const selectedName = selectedUser?.name; 
+    this.selectedName=selectedName;
+    //  this.mainSchemeID = mainSchemeID;
+     // this.divisionid = 0;
+     this.distid = 0;
+     this.showCards = true;
+     if(this.name||this.distname ==null){
+       this.show=false;
+     }else{
+       this.show=true;
+     }
+     this.DashProgressCount();
+// alert(this.mainSchemeID);
+// alert(selectedName);
+  } else {
+    alert('Selected districT_ID not found in the list.');
+  }
+}
 }
 
+ 
