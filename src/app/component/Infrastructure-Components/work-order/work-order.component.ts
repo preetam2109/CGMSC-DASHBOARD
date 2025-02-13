@@ -18,7 +18,7 @@ import autoTable from 'jspdf-autotable';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DashProgressDistCount, WOpendingScheme, WOpendingTotal, WorkOrderPendingDetailsNew } from 'src/app/Model/DashProgressCount';
+import { ASFile, DashProgressDistCount, WOpendingScheme, WOpendingTotal, WorkOrderPendingDetailsNew } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import { WorkOrderGeneratedComponent } from '../work-order-generated/work-order-generated.component';
 // import {MatDialog, MatDialogConfig} from "@angular/material";
@@ -71,6 +71,7 @@ export class WorkOrderComponent {
   wOpendingScheme:WOpendingScheme[]=[];
   WorkorderpendingdetailsNew:WorkOrderPendingDetailsNew[]=[];
   dispatchPendings: WorkOrderPendingDetailsNew[] = [];
+  ASFileData: ASFile[] = [];
 
   // divisionid='D1024';
   divisionid:any;
@@ -1011,4 +1012,40 @@ selectedTabIndex: number = 0;
     this.selectedTabIndex = event.index;
   }
 //#endregion
+onButtonClick2(ASID: any, workid: any): void {
+  //  this.value='Active';
+  // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+  // alert(ASID);
+  // alert(this.value);
+  // return;
+  // asLetterName
+  // filename
+  this.spinner.show();
+  this.api.GETASFile(ASID, workid).subscribe(
+    (res) => {
+      // this.ASFileData=res;
+      const filename = res[0]?.filename; // Ensure `res[0]` exists
+      const URL = res[0]?.asLetterName;
+
+      if (filename) {
+        window.open(URL, '_blank');
+      } else {
+        alert(
+          '⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.'
+        );
+        // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
+      }
+      //  const URL =this.ASFileData[0].asLetterName;
+      // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+
+      // console.log('res:', res);
+      console.log('ASFileData:', this.ASFileData);
+      this.spinner.hide();
+    },
+    (error) => {
+      this.spinner.hide();
+      alert(`Error fetching data: ${error.message}`);
+    }
+  );
+}
 }

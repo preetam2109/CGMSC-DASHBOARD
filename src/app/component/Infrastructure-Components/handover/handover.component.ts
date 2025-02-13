@@ -17,7 +17,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { HandoverAbstract, GetHandoverDetails } from 'src/app/Model/DashProgressCount';
+import { HandoverAbstract, GetHandoverDetails, ASFile } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -68,6 +68,7 @@ export class HandoverComponent {
   //#region data Table
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   dispatchPendings: GetHandoverDetails[] = [];
+   ASFileData: ASFile[] = [];
   dataSource!: MatTableDataSource<GetHandoverDetails>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -523,7 +524,7 @@ export class HandoverComponent {
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions.chart.height ='1500';
+      this.chartOptions.chart.height ='600';
     }
     var RPType = 'Total'
     // RPType=Total/Scheme/District/WorkType
@@ -1003,5 +1004,41 @@ export class HandoverComponent {
     console.log('Dialog closed');
   });
 
+}
+onButtonClick2(ASID: any, workid: any): void {
+  //  this.value='Active';
+  // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+  // alert(ASID);
+  // alert(this.value);
+  // return;
+  // asLetterName
+  // filename
+  this.spinner.show();
+  this.api.GETASFile(ASID, workid).subscribe(
+    (res) => {
+      // this.ASFileData=res;
+      const filename = res[0]?.filename; // Ensure `res[0]` exists
+      const URL = res[0]?.asLetterName;
+
+      if (filename) {
+        window.open(URL, '_blank');
+      } else {
+        alert(
+          '⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.'
+        );
+        // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
+      }
+      //  const URL =this.ASFileData[0].asLetterName;
+      // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+
+      // console.log('res:', res);
+      console.log('ASFileData:', this.ASFileData);
+      this.spinner.hide();
+    },
+    (error) => {
+      this.spinner.hide();
+      alert(`Error fetching data: ${error.message}`);
+    }
+  );
 }
 }

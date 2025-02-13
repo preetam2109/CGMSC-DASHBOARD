@@ -4,7 +4,8 @@
       <!--#e2e3e5 style="background-color:#858681"-->
       <h3 class="bold text-light bg-dark">Alloted Running Works </h3>
     </div>
-    <div class="row" *ngIf="show">
+    <!-- <div *ngIf="showw"> -->
+    <div class="row"  *ngIf="showw">
       <div class="col-12 col-md-11 p-1">
         <div class="button-container">
           <h3 class="division-label align-items-center pt-2 text-align bold">Choose Division:</h3>
@@ -17,20 +18,22 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid  p-2">
+    <div class="container-fluid  p-2" >
       <div class="row">
-        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="SbuEngAllotedWorks.length > 0">
+        <div class="col-lg-6 col-md-6 mb-2 border rounded">
+        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="SbuEngAllotedWorks.length > 0"> -->
           <div class="chart-container">
-            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
+            <apx-chart *ngIf="chartOptionsLine.series.length > 0" [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
               [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
               [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
               [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title" [tooltip]="chartOptionsLine.tooltip"
               [legend]="chartOptionsLine.legend"></apx-chart>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="AeengAllotedWorks.length > 0">
+        <div class="col-lg-6 col-md-6 mb-2 border rounded">
+        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="AeengAllotedWorks.length > 0"> -->
           <div class="chart-container">
-            <apx-chart [series]="chartOptionsLine2.series" [chart]="chartOptionsLine2.chart"
+            <apx-chart *ngIf="chartOptionsLine2.series.length > 0" [series]="chartOptionsLine2.series" [chart]="chartOptionsLine2.chart"
               [dataLabels]="chartOptionsLine2.dataLabels" [plotOptions]="chartOptionsLine2.plotOptions"
               [xaxis]="chartOptionsLine2.xaxis" [stroke]="chartOptionsLine2.stroke" [fill]="chartOptionsLine2.fill"
               [yaxis]="chartOptionsLine2.yaxis" [title]="chartOptionsLine2.title" [tooltip]="chartOptionsLine2.tooltip"
@@ -44,6 +47,7 @@
       </div>
 
     </div>
+  <!-- </div> -->
     <!-- sbueng -->
     <div class="">
       <div class="w-100 ">
@@ -325,14 +329,24 @@
           <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
           <!-- Header Row -->
-
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Download AS</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                 <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                  (click)="onButtonClick2(0,element.work_id)">
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container>
           <tr mat-header-row
-            *matHeaderRowDef="['sno','letterNo', 'head','aaDate','totalAmountOfContract','district','work','aaamt','tsamt','work_id',]">
+            *matHeaderRowDef="['sno','letterNo', 'head','aaDate','totalAmountOfContract','district','work','aaamt','tsamt','work_id','action']">
           </tr>
 
           <!-- Data Rows -->
           <tr mat-row
-            *matRowDef="let row; columns: ['sno','letterNo', 'head','aaDate','totalAmountOfContract','district','work','aaamt','tsamt','work_id',];">
+            *matRowDef="let row; columns: ['sno','letterNo', 'head','aaDate','totalAmountOfContract','district','work','aaamt','tsamt','work_id','action']">
           </tr>
         </table>
         <mat-paginator #paginator1 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>

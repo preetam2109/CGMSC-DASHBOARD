@@ -218,16 +218,27 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>e-Procno</th>
             <td mat-cell *matCellDef="let element"> {{ element.eprocno }} </td>
           </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Download AS</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                 <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                  (click)="onButtonClick2(0,element.work_id)">
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container>
           <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
           <!-- Header Row -->
           <tr mat-header-row
-            *matHeaderRowDef="['sno','letterno','head','aA_RAA_Date','asAmt','district','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno']">
+            *matHeaderRowDef="['sno','letterno','head','aA_RAA_Date','asAmt','district','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno','action']">
           </tr>
 
           <!-- Data Rows -->
           <tr mat-row
-            *matRowDef="let row; columns: ['sno','letterno','head','aA_RAA_Date','asAmt','district','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno'];">
+            *matRowDef="let row; columns: ['sno','letterno','head','aA_RAA_Date','asAmt','district','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno','action'];">
           </tr>
         </table>
         <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
