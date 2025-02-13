@@ -4,6 +4,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { DistributionComponent } from '../../distribution/distribution.component';
 import { MonthwiseIssuanceComponent } from "../monthwise-issuance/monthwise-issuance.component";
 import { DiswiseIssuanceComponent } from "../diswise-issuance/diswise-issuance.component";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-distribution-tab',
   standalone: true,
@@ -13,9 +14,15 @@ import { DiswiseIssuanceComponent } from "../diswise-issuance/diswise-issuance.c
 })
 export class DistributionTabComponent {
   selectedTabIndex: number = 0;
+  constructor(private router:Router){
 
+  }
   selectedTabValue(event: any): void {
     
     this.selectedTabIndex = event.index;
+  }
+  home(){
+    this.router.navigate(['welcome'])
+
   }
 }

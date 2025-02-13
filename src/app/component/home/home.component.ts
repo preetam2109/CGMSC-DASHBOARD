@@ -7,6 +7,12 @@ import { MenuServiceService } from 'src/app/service/menu-service.service';
 import { ChartOptions } from '../card/card.component';
 import { fontWeight } from 'html2canvas/dist/types/css/property-descriptors/font-weight';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
@@ -14,10 +20,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-searchItem() {
-  const itemid=this.itemid
-this.router.navigate(['/home-search'],{queryParams:{itemid}})
+exportToPDF() {
+throw new Error('Method not implemented.');
 }
+applyTextFilter($event: KeyboardEvent) {
+throw new Error('Method not implemented.');
+}
+@ViewChild('itemDetailsModal') itemDetailsModal: any;
+
+
   @ViewChild('chart') chart: ChartComponent | undefined;
   public cO: Partial<ChartOptions> | undefined;
   chartOptions: ChartOptions;
@@ -25,6 +36,10 @@ this.router.navigate(['/home-search'],{queryParams:{itemid}})
   chartOptions2: ChartOptions;
   chartOptions3: ChartOptions;
   chartOptions4: ChartOptions;
+  chartStockoutdhs:ChartOptions;
+  chartIndent: ChartOptions;
+  chartNearexp: ChartOptions;
+  chartUQC: ChartOptions;
   title: string = 'welcome';
   username: any = '';
   menuItems: {  label: string; route: string; submenu?: { label: string; route: string }[], icon?: string }[] = [];
@@ -46,6 +61,27 @@ this.router.navigate(['/home-search'],{queryParams:{itemid}})
   currentMonth = new Date().toLocaleString('default', { month: 'long' });
   MasIndentitemslist:any
   itemid:any
+  MasItemlist:any
+  PartiIndentlist:any
+  PartPOsSince1920list:any
+  PartItemissuelist:any
+  PartItemRClist:any
+  dataSource = new MatTableDataSource<any>();
+  dataSource2 = new MatTableDataSource<any>();
+  dataSource3 = new MatTableDataSource<any>();
+  dataSource4 = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator2!: MatPaginator;
+    @ViewChild(MatSort) sort2!: MatSort;
+    @ViewChild(MatPaginator) paginator3!: MatPaginator;
+    @ViewChild(MatSort) sort3!: MatSort;
+    @ViewChild(MatPaginator) paginator4!: MatPaginator;
+    @ViewChild(MatSort) sort4!: MatSort;
+
+    selectedCategory:any='';
+  
+  
 
 
 
@@ -196,7 +232,7 @@ colors = [];
   labelToIconMap: { [key: string]: string } = {
     'Home':'assets/dash-icon/house.png',
     'Seasonal Drugs':'assets/dash-icon/season.png',
-    'Health Facilities Coverage':'assets/dash-icon/magnifier.png',
+    'Health Facilities Coverage':'assets/dash-icon/hscov.png',
     'Warehouse Information':'assets/dash-icon/data-warehouse.png',
     'Warehouse Stock Abstract':'assets/dash-icon/packages.png',
     "Warehouse Stock Details":'assets/dash-icon/inventory.png',
@@ -229,88 +265,9 @@ colors = [];
     'Payment Time Taken':'assets/dash-icon/saving.png',
 
   };
-  constructor(  private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
-    // this.chartOptions = {
-    //   series: [],
-    //   chart: {
-    //     type: 'bar',
-    //     stacked: false,
-    //     height: 150
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //     },
-    //   },
-    //   xaxis: {
-    //     categories:{
-    //     },
-    //     labels:{
-    //       style:{
-    //         colors:'#390099',
-    //         fontWeight:'bold',
-    //         fontSize:'30px'
-    //       }
-    //     },
-
-    //     title: {
-    //       text: 'Year',
-
-    //     },
- 
-    //   },
-    //   yaxis:{
-        
-    //     title: {
-    //       text: '',
-    //       style:{
-    //         color:'#d90429'
-    //       }
-    //     },
-    //     labels:{
-    //       style:{
-    //       fontWeight:'bold',
-    //       fontSize:'15px',
-    //       },
-        
-    //     },
-        
-        
-        
-        
-    //   },
-    //   dataLabels: {
-    //     enabled: true,
-    //     style: {
-    //     }
-    //   },
-    //   stroke: {
-    //     width: 1,
-    //   },
-    //   title: {
-    //     text:'',
-    //     align: 'center',
-    //     style: {
-    //       fontWeight:'bold',
-    //       fontSize: '16px',
-    //       color:'rgb(50, 50, 164)'
-    //     },
-    //   },
-    //   tooltip: {
-    //     y: {
-    //       formatter: function (val: any) {
-    //         return val.toString();
-    //       },
-    //     },
-    //   },
-    //   fill: {
-    //     opacity: 1,
-    //   },
-    //   legend: {
-      
-    //     show: false
-    //   },
-    // };
+  constructor(private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
+    
+   
     this.chartOptions = {
       series: [], // Your data values
       chart: {
@@ -355,6 +312,117 @@ colors = [];
         }
       ]
     } as unknown as ChartOptions;
+
+  
+    this.chartStockoutdhs = {
+      series: [], // Radial bar data
+      chart: {
+        type: "radialBar"
+      },
+      plotOptions: {
+        radialBar: {
+          dataLabels: {
+            name: {
+              fontSize: '16px'
+            },
+            value: {
+              fontSize: '14px',
+              
+              formatter: function (_val: any, opts: any) {
+                console.log("opts.w.globals.series:", opts.w.globals.series); // Debugging
+                console.log("opts.seriesIndex:", opts.seriesIndex); // Debugging
+                return opts.w.globals.series[opts.seriesIndex]?.toString() || "0"; // Ensure total values are displayed
+              }
+            }
+          }
+        }
+      },
+      labels: [
+        'Total Drugs',
+        'Stock out Drugs',
+        'Stock out %'
+      ],
+      dataLabels: {
+        enabled: true,
+        style: {
+          colors: ['#FF0000'] 
+        },
+        formatter: function (val: any, opts: any) {
+          return opts.w.globals.series[opts.seriesIndex]; // Shows actual values inside the chart
+        }
+      },
+      legend: {
+        labels: {}
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 300
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    } as unknown as ChartOptions;
+
+    this.chartIndent = {
+      series: [], // Radial bar data
+      chart: {
+        type: "radialBar"
+      },
+      plotOptions: {
+        radialBar: {
+          dataLabels: {
+            name: {
+              fontSize: '16px'
+            },
+            value: {
+              fontSize: '14px',
+              
+              formatter: function (_val: any, opts: any) {
+                console.log("opts.w.globals.series:", opts.w.globals.series); // Debugging
+                console.log("opts.seriesIndex:", opts.seriesIndex); // Debugging
+                return opts.w.globals.series[opts.seriesIndex]?.toString() || "0"; // Ensure total values are displayed
+              }
+            }
+          }
+        }
+      },
+      labels: [
+        'No of Drugs',
+        'Return From CGMSC',
+        'Actual Annual Indent'
+      ],
+      dataLabels: {
+        enabled: true,
+        style: {
+          colors: ['#FF0000'] 
+        },
+        formatter: function (val: any, opts: any) {
+          return opts.w.globals.series[opts.seriesIndex]; // Shows actual values inside the chart
+        }
+      },
+      legend: {
+        labels: {}
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 300
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    } as unknown as ChartOptions;
     
       this.chartOptions3 = {
         series: [], // Radial bar data
@@ -382,6 +450,62 @@ colors = [];
           'EDL',
           'NEDL',
           'Total'
+        ],
+        dataLabels: {
+          enabled: true,
+          style: {
+            colors: ['#001219'],
+            fontWeight: '2px'
+          },
+          formatter: function (val: any, opts: any) {
+            return opts.w.globals.series[opts.seriesIndex]; // Shows actual values inside the chart
+          }
+        },
+        legend: {
+          labels: {}
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      } as unknown as ChartOptions;
+
+      this.chartUQC = {
+        series: [], // Radial bar data
+        chart: {
+          type: "radialBar"
+        },
+        plotOptions: {
+          radialBar: {
+            dataLabels: {
+              name: {
+                fontSize: '16px'
+              },
+              value: {
+                fontSize: '14px',
+                formatter: function (_val: any, opts: any) {
+                  console.log("opts.w.globals.series:", opts.w.globals.series); // Debugging
+                  console.log("opts.seriesIndex:", opts.seriesIndex); // Debugging
+                  return opts.w.globals.series[opts.seriesIndex]?.toString() || "0"; // Ensure total values are displayed
+                }
+              }
+            }
+          }
+        },
+      
+        labels: [
+          'UQC Stock Value(in Cr)',
+          'No of Items',
+          'No of Batches'
         ],
         dataLabels: {
           enabled: true,
@@ -530,7 +654,76 @@ colors = [];
     
     
 
-     this.chartOptions2 = {
+     this.chartNearexp = {
+      series: [],
+      chart: {
+        type: 'line',
+        stacked: true,
+        height: 150
+      },
+      labels: [ ],
+      plotOptions: {
+        bar: {
+          horizontal: false,
+        },
+      },
+      xaxis: {
+        categories: [],
+        
+        
+      },
+      yaxis: {
+        
+        title: {
+          text: undefined,
+        },
+        labels:{
+          formatter: function (value) {
+            return value.toFixed(0); // This will show the values without decimals
+          }
+        },
+        
+        
+        
+        
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000'] 
+        }
+      },
+      stroke: {
+        width: 4,
+        // colors: ['#fff'],
+      },
+      title: {
+        text:'',
+        align: 'center',
+        style: {
+          fontWeight:'bold',
+          fontSize: '16px',
+          color:'#FF3C00'
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        // position: 'right',
+        // horizontalAlign: 'center',
+        // offsetX: 40,
+        show: false
+      },
+    };
+    this.chartOptions2 = {
       series: [],
       chart: {
         type: 'line',
@@ -608,18 +801,24 @@ colors = [];
      console.log('SE Role:', this.role);
      this.updateMenu();
     //  this.addIconsToMenu();
+    this.selectedCategory=this.menuService.getSelectedCategory();
+
     
-    this.CGMSCIndentPending()
-    this.GetDeliveryInMonth()
-    this.GetPOCountCFY()
-    this.last7DaysIssue()
+    this.CGMSCIndentPending();
+    this.GetDeliveryInMonth();
+    this.GetPOCountCFY();
+    this.last7DaysIssue();
     this.loadData();
     this.loadData1();
     this.loadData2();
     this.loadData3();
+    this.loadStockoutDHS();
+    this.loadIndent();
+    this.Nearexp();
+    this.loadUQC();
     this.loadData4();
-    this.getItemNoDropDown()  
-
+    this.getItemNoDropDown();
+  
 
 
   }
@@ -848,7 +1047,7 @@ colors = [];
 }
 
 loadData3(): void {
-  ;
+  
 
   this.api.getTotalRC(1).subscribe(
     (data: any) => {
@@ -942,8 +1141,219 @@ loadData3(): void {
     }
   );
 }
+
+loadStockoutDHS(): void {
+
+
+  this.api.StockoutPer(1,1,0,2).subscribe(
+    (data: any) => {
+      const edLtypeid: number[] = [];
+      const edLtpe: string[] = [];
+      const nositems: number[] = [];
+      const stockout: number[] = [];
+      const stockoutp: number[] = [];
+
+      console.log('DHS Stock out percentage:', data);
+
+      data.forEach((item: any) => {
+     
+        edLtypeid.push(item.edLtypeid);
+        edLtpe.push(item.edLtpe);
+        nositems.push(item.nositems);
+        stockout.push(item.stockout);
+        stockoutp.push(item.stockoutp);
+      });
+
+      // Update the bar chart
+      this.chartStockoutdhs = 
+      {
+        series: [
+          {
+            name: 'Total Drugs',
+            data: nositems
+          },
+          {
+            name: 'Stock out',
+            data: stockout
+          },
+          {
+            name: 'Stock out %',
+            data: stockoutp
+          }
+        ],
+        chart: {
+          type: "bar",
+          height: 300
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false, // Set to true for horizontal bar chart
+            columnWidth: "70%",
+            endingShape: "rounded",
+            dataLabels: {
+              position: "top" // Places data labels on top of bars
+            }
+          }
+        },
+      
+        stroke: {
+          show: true,
+          width: 1,
+          colors: ["transparent"]
+        },
+        xaxis: {
+          categories: edLtpe // Dynamically set categories from API response
+        },
+        yaxis: {
+          title: {
+            text: "No of Drugs"
+          },
+        },
+        dataLabels: {
+          enabled: true,
+          style: {
+            colors: ['#000'] 
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val: number) {
+              return val.toString();
+            }
+          }
+        },
+        legend: {
+          position: "top"
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      } as any;
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+
+loadIndent(): void {
+
+
+  this.api.IndentcntHome(1,0).subscribe(
+    (data: any) => {
+      const hod: string[] = [];
+      const nositems: number[] = [];
+      const returned: number[] = [];
+      const actualAI: number[] = [];
+
+      console.log('Annual Indent data:', data);
+
+      data.forEach((item: any) => {
+        hod.push(item.hod);
+        nositems.push(item.nositems);
+        returned.push(item.returned);
+        actualAI.push(item.actualAI);
+      });
+
+      // Update the bar chart
+      this.chartIndent = {
+        series: [
+          {
+            name: 'No of Drugs',
+            data: nositems
+          },
+          {
+            name: 'Return From CGMSC',
+            data: returned
+          },
+          {
+            name: 'Actual Annual Indent',
+            data: actualAI
+          }
+        ],
+        chart: {
+          type: "bar",
+          height: 300
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false, // Set to true for horizontal bar chart
+            columnWidth: "70%",
+            endingShape: "rounded",
+            dataLabels: {
+              position: "top" // Places data labels on top of bars
+            }
+          }
+        },
+      
+        stroke: {
+          show: true,
+          width: 1,
+          colors: ["transparent"]
+        },
+        xaxis: {
+          categories: hod // Dynamically set categories from API response
+        },
+        yaxis: {
+          title: {
+            text: "No of Drugs"
+          },
+        },
+        dataLabels: {
+          enabled: true,
+          style: {
+            colors: ['#000'] 
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val: number) {
+              return val.toString();
+            }
+          }
+        },
+        legend: {
+          position: "top"
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      } as any;
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+
 loadData4(): void {
-  ;
+  
 
   this.api.CGMSCStockHome(1).subscribe(
     (data: any) => {
@@ -972,7 +1382,7 @@ loadData4(): void {
           {
             name: 'Value (in Cr)',
             data: stkvalue,
-            color:'#344e41'
+            color:'#774e24'
           }
           
         ],
@@ -986,7 +1396,7 @@ loadData4(): void {
           bar: {
             
             horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "50%",
+            columnWidth: "75%",
             endingShape: "rounded"
           }
         },
@@ -1041,12 +1451,167 @@ loadData4(): void {
   );
 }
 
+Nearexp(): void {
+
+  this.api.NearExp(1,5).subscribe(
+    (data:any) => {
+
+      const nositems: number[] = [];
+      const mname: any[] = [];
+      const nosbatches: number[] = [];
+      const stkvaluEcr: number[] = [];
+      console.log('helo :', data);
+
+      data.forEach((item:any)=> {
+       
+        nositems.push(item.nositems);
+    
+        mname.push(item.mname);
+        nosbatches.push(item.nosbatches);
+        stkvaluEcr.push(item.stkvaluEcr);
+        
+      });
+      // console.log('klkllklkk',indentDT);
 
 
+      this.chartNearexp.series = [
+
+  
+        { 
+          name: 'Near Exp Value (in Cr)',
+          data: stkvaluEcr ,
+          color:'#5f0f40'
+        },
+     
+
+        
+      ];
+
+      this.chartNearexp.xaxis = {
+        categories: mname,
+        labels:{
+          style:{
+            // colors:'#390099',
+            fontWeight:'bold',
+            fontSize:'15px'
+          }
+        }
+        
+
+        
+       };
+      this.cO = this.chartNearexp;
+
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+      
+    }
+  );
+}
+
+loadUQC(): void {
+  
+
+  this.api.QCPendingHomeDash(1).subscribe(
+    (data: any) => {
+      
+      const categories: string[] = [];
+      const nositems: number[] = [];
+      const nosbatch: number[] = [];
+      const stkvalue: number[] = [];
+
+      console.log('Under QC home Dashboard:', data);
+
+      data.forEach((item: any) => {
+     debugger
+        categories.push(item.mcategory);
+        nositems.push(item.nositems);
+        nosbatch.push(item.nosbatch);
+        stkvalue.push(item.stkvalue);
+        debugger
+      });
+
+      // Update the bar chart
+      this.chartUQC = {
+        series: [
+          {
+            name: 'UQC Stock Value(in Cr)',
+            data: stkvalue
+  
+          },
+          {
+            name: 'No of Items',
+            data: nositems
+          },
+          {
+            name: 'No of Batches',
+            data: nosbatch
+          }
+        ],
+        chart: {
+          type: "bar",
+          height: 300
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false, // Set to true for horizontal bar chart
+            columnWidth: "50%",
+            endingShape: "rounded"
+          }
+        },
+        dataLabels: {
+          enabled: true
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"]
+        },
+        xaxis: {
+         categories: categories // Dynamically set categories from API response
+        },
+        yaxis: {
+          title: {
+           text: "Under QC Info"
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val: number) {
+              return val.toString();
+            }
+          }
+        },
+        legend: {
+          position: "top"
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      } as any;
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
 
   loadData1(): void {
-    ;
-    
+
         this.api.Last7DaysIssue(7,0,545).subscribe(
           (data:any) => {
             const nositems: number[] = [];
@@ -1063,9 +1628,6 @@ loadData4(): void {
               indentdate.push(item.indentdate);
               totalValuecr.push(item.totalValuecr);
               nosfacility.push(item.nosfacility);
-             
-    
-          
               
             });
             // console.log('klkllklkk',indentDT);
@@ -1073,38 +1635,17 @@ loadData4(): void {
     
             this.chartOptions1.series = [
     
-               
-            
-           
-            //   { 
-            //   name: 'nositems', 
-            //   data: nositems,
-               
-            // },
-              // { 
-              //   name: 'indentDT',
-              //   data: indentDT ,
-              // },
-              // { 
-              //   name: 'indentdate',
-              //   data: indentdate ,
-              // },
+        
               { 
                 name: 'totalValuecr',
                 data: totalValuecr ,
                 color:'#5f0f40'
               },
-              // { 
-              //   name: 'nosfacility',
-              //   data: nosfacility ,
-              // },
-
-    
+           
     
               
             ];
-            // const leftTwoCharacters = indentDT.slice(0, 2);
-    // console.log('ffffsffsss',indentDT)
+ 
             this.chartOptions1.xaxis = {
               categories: indentDT,
               labels:{
@@ -1128,7 +1669,7 @@ loadData4(): void {
         );
       }
   loadData2(): void {
-    ;
+    
     
         this.api.Last7DaysReceipt(7,0,545).subscribe(
           (data:any) => {
@@ -1146,9 +1687,7 @@ loadData4(): void {
               receiptdate.push(item.receiptdate);
               receiptDT.push(item.receiptDT.slice(0,2));
               rvalue.push(item.rvalue);
-             
-    
-          
+                 
               
             });
     
@@ -1157,24 +1696,7 @@ loadData4(): void {
     
                
             
-           
-            //   { 
-            //   name: 'nosPO', 
-            //   data: nosPO,
-               
-            // },
-              // { 
-              //   name: 'indentDT',
-              //   data: indentDT ,
-              // },
-              // { 
-              //   name: 'indentdate',
-              //   data: indentdate ,
-              // },
-              // { 
-              //   name: 'nositems',
-              //   data: nositems ,
-              // },
+          
               { 
                 name: 'rvalue',
                 data: rvalue ,
@@ -1208,6 +1730,159 @@ loadData4(): void {
           }
         );
       }
+
+      searchItem() {
+        debugger
+        this.spinner.show();
+        const itemid=this.itemid
+        this.getMasitems(); 
+        this.GetPartiIndent(); 
+        this.getPartPOsSince1920();
+        
+        this.getPartiItemsissue();
+        this.getPartiItemsRC();
+        this.openDialog();
+      }
+
+      getMasitems(){
+  debugger
+        this.api.Masitems(this.itemid,0,0,0,0,0).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+            this.MasItemlist = res.map(item => ({
+            
+              itemcode:item.itemcode,
+              itemname:item.itemname,
+              strengtH1:item.strengtH1,
+              unit:item.unit,
+              groupname:item.groupname,
+              itemtypename:item.itemtypename,
+              edl:item.edl,
+              edltype:item.edltype
+      
+            }));
+            // console.log('VehicleNoDropDownList :', this.VehicleNoDropDownList);
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+          }
+        });  
+      }
+
+      GetPartiIndent(){
+  debugger
+        this.api.getPartiIndent(this.itemid).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+            this.PartiIndentlist =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.PartiIndentlist);
+            this.dataSource.data = this.PartiIndentlist; // Ensure this line executes properly
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+          }
+        });  
+      }
+      getPartPOsSince1920(){
+  debugger
+        this.api.PartPOsSince1920(this.itemid).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.PartPOsSince1920list =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.PartPOsSince1920list);
+            this.dataSource2.data = this.PartPOsSince1920list; // Ensure this line executes properly
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+      }
+
+      getPartiItemsissue(){
+        debugger
+        this.api.PartItemIssue(this.itemid).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.PartItemissuelist =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.PartItemissuelist);
+            this.dataSource3.data = this.PartItemissuelist; // Ensure this line executes properly
+            this.dataSource3.paginator = this.paginator3;
+            this.dataSource3.sort = this.sort3;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+
+      }
+
+
+      
+      getPartiItemsRC(){
+        debugger
+        this.api.PartItem_RCs(this.itemid).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.PartItemRClist =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.PartItemRClist);
+            this.dataSource4.data = this.PartItemRClist; // Ensure this line executes properly
+            this.dataSource4.paginator = this.paginator4;
+            this.dataSource4.sort = this.sort4;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+
+      }
+      
+
+      openDialog() {
+        debugger
+        const dialogRef = this.dialog.open(this.itemDetailsModal, {
+         width: '100%',
+         height: '100%',
+         maxWidth: '100%',
+         panelClass: 'full-screen-dialog', // Optional for additional styling
+         data: {
+           /* pass any data here */
+         },
+         // width: '100%',
+         // maxWidth: '100%', // Override default maxWidth
+         // maxHeight: '100%', // Override default maxHeight
+         // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+         // height: 'auto',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+         console.log('Dialog closed');
+        });
+        }
     
   }
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-indent-pending-wh-das',
@@ -6,11 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./indent-pending-wh-das.component.css']
 })
 export class IndentPendingWhDasComponent {
+  constructor(private router:Router){
+
+  }
   selectedTabIndex: number = 0;
 
   selectedTabValue(event: any): void {
     
     this.selectedTabIndex = event.index;
+  }
+  home(){
+    this.router.navigate(['welcome'])
+
   }
 }
 

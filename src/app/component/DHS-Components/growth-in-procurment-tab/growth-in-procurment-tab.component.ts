@@ -5,6 +5,7 @@ import { LabTimeTakenComponent } from "../lab-time-taken/lab-time-taken.componen
 import { GrowthInProcurmentComponent } from "../growth-in-procurment/growth-in-procurment.component";
 import { GrowthInProcurmentTwoComponent } from "../growth-in-procurment-two/growth-in-procurment-two.component";
 import { DirectorateAIDetailsComponent } from "../directorate-aidetails/directorate-aidetails.component";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-growth-in-procurment-tab',
   standalone: true,
@@ -16,8 +17,15 @@ import { DirectorateAIDetailsComponent } from "../directorate-aidetails/director
 export class GrowthInProcurmentTabComponent {
   selectedTabIndex: number = 0;
 
+   constructor(private router:Router){
+  
+    }
   selectedTabValue(event: any): void {
     
     this.selectedTabIndex = event.index;
+  }
+  home(){
+    this.router.navigate(['welcome'])
+
   }
 }

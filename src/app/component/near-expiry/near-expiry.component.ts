@@ -28,6 +28,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { NearExpReportbatch } from 'src/app/Model/NearExpReportbatch';
 import { NearExpReport } from 'src/app/Model/NearExpReport';
+import { Router } from '@angular/router';
 
 
 
@@ -57,7 +58,7 @@ export class NearExpiryComponent {
   mcid:number=1
   nexppara:number=3
   expmonth:string='09-2024'
-
+ 
 
 
   dataSource!: MatTableDataSource<NearExpReportbatch>;
@@ -71,7 +72,8 @@ export class NearExpiryComponent {
     private api: ApiService,
     private http: HttpClient,
     private breakpointObserver: BreakpointObserver,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router:Router
   ) {
     this.chartOptions = {
       series: [],
@@ -324,5 +326,9 @@ export class NearExpiryComponent {
   }
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
+  }
+  home(){
+    this.router.navigate(['welcome'])
+
   }
 }

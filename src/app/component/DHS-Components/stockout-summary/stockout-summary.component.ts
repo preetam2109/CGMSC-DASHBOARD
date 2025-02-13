@@ -29,6 +29,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { FormsModule } from '@angular/forms';
 import { style } from '@angular/animations';
 import { color } from 'html2canvas/dist/types/css/types/color';
+import { Router } from '@angular/router';
 
 
 
@@ -77,7 +78,8 @@ export class StockoutSummaryComponent {
     private api: ApiService,
     private http: HttpClient,
     private breakpointObserver: BreakpointObserver,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router:Router
   ) {
      
 
@@ -532,6 +534,11 @@ this.hodname=hodname;
   //  fetchDataBasedOnChartSelection(whid: number, seriesName: string): void {
   
   //  }
+
+  home(){
+    this.router.navigate(['welcome'])
+
+  }
 
  
 }

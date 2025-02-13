@@ -99,6 +99,7 @@ import { CgmscFieldStockComponent } from './cgmsc-field-stock/cgmsc-field-stock.
 import { AdministrativeSanctionComponent } from './component/Infrastructure-Components/administrative-sanction/administrative-sanction.component';
 import { HomeSearchComponent } from './component/home-search/home-search.component';
 import { RunningWorkComponent } from './component/Infrastructure-Components/running-work/running-work.component';
+import { FinanceDashComponent } from './Finance-Dashboard/finance-dash/finance-dash.component';
 
 
 
@@ -219,6 +220,7 @@ const routes: Routes = [
 {path:'Devlivery',component:DeliveryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
 {path:'field-stock',component:CgmscFieldStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
 {path:'home-search',component:HomeSearchComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
+{path:'finance-dash',component:FinanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
 
 
 

@@ -29,6 +29,7 @@ export class MenuServiceService {
       categories: {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
+          { label: 'Finance Dashboard', route: '/finance-dash' },
           // {
           //   label: 'Health Facilities Coverage',
           //   route:  '/FacCoverage',

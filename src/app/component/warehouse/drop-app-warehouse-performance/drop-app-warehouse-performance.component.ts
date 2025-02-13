@@ -28,6 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 
@@ -66,7 +67,8 @@ export class DropAppWarehousePerformanceComponent {
     private api: ApiService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
-    public datePipe: DatePipe
+    public datePipe: DatePipe,
+    private router:Router
   ) {
     // Bar chart configuration for loadData
     this.chartOptions = {
@@ -324,6 +326,10 @@ export class DropAppWarehousePerformanceComponent {
         }
       );
     }
+  }
+  home(){
+    this.router.navigate(['welcome'])
+
   }
 }
 

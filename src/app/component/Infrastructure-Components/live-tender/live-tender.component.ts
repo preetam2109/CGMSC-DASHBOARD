@@ -959,7 +959,7 @@ GETLiveTenderDistrict(): void {
         (data: any) => {
           this.LiveTenderDistrict = data;
           // console.log('API Response total:', this.WoIssuedTotal);
-          // console.log('API Response data:', data);
+          console.log('API Response data Preetam:', data);
 
           const id: string[] = [];
           const name: string[] = [];

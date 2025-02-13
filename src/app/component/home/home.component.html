@@ -93,13 +93,13 @@
 
 
 
-<div class="container my-4 mb-4"  *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)">
+<div class="container my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName) && selectedCategory!='Infrastructure'">
   <div class="row">
     <!-- Card 1 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3"  >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
-        <div class="card-body">
-          <h6 class="card-title">No of Ordered Drugs C.F.Y.</h6>
+        <div class="card-body" routerLink="/GrowthInProcurmentTab" >
+          <h6 class="card-title">No of Drugs Purchase Ordered in C.F.Y.</h6>
           <h2 class="card-value">{{totalpoitems}}</h2>
           <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
         </div>
@@ -109,8 +109,8 @@
     <!-- Card 2 -->
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
-        <div class="card-body">
-          <h6 class="card-title">Distribution of Drugs C.F.Y.</h6>
+        <div class="card-body" routerLink="/distribution">
+          <h6 class="card-title">Drug Distribution & Facility Issues in C.F.Y.</h6>
           <h2 class="card-value">{{nositemsI}}</h2>
           <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p>
 
@@ -121,8 +121,8 @@
     <!-- Card 3 -->
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
-        <div class="card-body">
-          <h6 class="card-title">Indent Received in Warehouse C.F.Y.</h6>
+        <div class="card-body" routerLink="/DropAppWarehousePerformance">
+          <h6 class="card-title">Indent Processing & Fulfillment in C.F.Y.</h6>
           <h2 class="card-value">{{nosindent}}</h2>
           <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
         </div>
@@ -131,9 +131,9 @@
 
     <!-- Card 4 -->
     <div class="col-12 col-sm-6 col-md-3 mb-3"   >
-      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #43a0ff, #68d8ff); color: white;">
-        <div class="card-body">
-          <h6 class="card-title">Indent Pending in Warehouse</h6>
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
+        <div class="card-body"   routerLink="/IndentPendingWHdash" >
+          <h6 class="card-title">Pending Indents in Warehouse</h6>
           <h2 class="card-value"> {{ nosIndent }}</h2>
           <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p>
           <!-- <ul class="list-unstyled">
@@ -172,13 +172,13 @@
 
 
 
-<div class="container my-4 mb-4" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)" >
+<div class="container my-4 mb-4" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
   <div class="row">
     <!-- Card 1 -->‌
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
-          <apx-chart class="border rounded" style="background-color: #ff8fa3;"
+          <apx-chart class="border rounded" style="background-color: #FF9800;"
           [series]="chartOptions1.series" [chart]="chartOptions1.chart" [dataLabels]="chartOptions1.dataLabels"
           [plotOptions]="chartOptions1.plotOptions" [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke"
           [fill]="chartOptions1.fill" [yaxis]="chartOptions1.yaxis" [title]="chartOptions1.title"
@@ -199,7 +199,7 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
-          <apx-chart  class="border rounded" style="background-color: #ecf39e;"
+          <apx-chart  class="border rounded" style="background-color: #95d5b2;"
           [series]="chartOptions2.series" [chart]="chartOptions2.chart" [dataLabels]="chartOptions2.dataLabels"
           [plotOptions]="chartOptions2.plotOptions" [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
           [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis" [title]="chartOptions2.title"
@@ -215,7 +215,88 @@
       </div>
     </div>
 
-    <!-- Card 3 -->
+  <!-- Card 3-->
+  <!-- edl non edl indent  Card 3 -->
+  <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
+      <div class="card-body">
+        <apx-chart  class="border rounded" style="background-color: #E0E0E0;"
+        [series]="chartIndent.series" [chart]="chartIndent.chart" [dataLabels]="chartIndent.dataLabels"
+        [labels]="chartIndent.labels"
+        [plotOptions]="chartIndent.plotOptions" [xaxis]="chartIndent.xaxis" [stroke]="chartIndent.stroke"
+        [fill]="chartIndent.fill" [yaxis]="chartIndent.yaxis" [title]="chartIndent.title"
+        [tooltip]="chartIndent.tooltip" [legend]="chartIndent.legend">
+        </apx-chart>
+        <div class="d-flex align-items-center">
+          <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+          <div>
+            
+            <h5 class="card-title ml-3">Annual Indent of Drugs C.F.Y. </h5>
+            <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+          </div>
+        </div>
+        <p class="card-text text-muted">
+          <!-- <small>Campaign sent 2 days ago</small> -->
+        </p>
+      </div>
+    </div>
+  </div>
+
+  
+    <!-- current stock home  Card 4 -->
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
+        <div class="card-body" routerLink="/stockDetails">
+          <apx-chart  class="border rounded" style="background-color: #5fad56;"
+          [series]="chartOptions4.series" [chart]="chartOptions4.chart" [dataLabels]="chartOptions4.dataLabels"
+          [labels]="chartOptions4.labels"
+          [plotOptions]="chartOptions4.plotOptions" [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
+          [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis" [title]="chartOptions4.title"
+          [tooltip]="chartOptions4.tooltip" [legend]="chartOptions4.legend">
+          </apx-chart>
+          <div class="d-flex align-items-center">
+            <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+            <div>
+              
+              <h5 class="card-title ml-3">Current Stock Drugs</h5>
+              <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+            </div>
+          </div>
+          <p class="card-text text-muted">
+            <!-- <small>Campaign sent 2 days ago</small> -->
+          </p>
+        </div>
+      </div>
+    </div>
+
+     <!-- Card 1 3rd line-->
+  <!-- stock out DHS  Card 1 -->
+  <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;" routerLink="/StockoutSummary" >
+      <div class="card-body"  >
+        <apx-chart  class="border rounded" style="background-color: #f7dad9;"
+        [series]="chartStockoutdhs.series" [chart]="chartStockoutdhs.chart" [dataLabels]="chartStockoutdhs.dataLabels"
+        [labels]="chartStockoutdhs.labels"
+        [plotOptions]="chartStockoutdhs.plotOptions" [xaxis]="chartStockoutdhs.xaxis" [stroke]="chartStockoutdhs.stroke"
+        [fill]="chartStockoutdhs.fill" [yaxis]="chartStockoutdhs.yaxis" [title]="chartStockoutdhs.title"
+        [tooltip]="chartStockoutdhs.tooltip" [legend]="chartStockoutdhs.legend">
+        </apx-chart>
+        <div class="d-flex align-items-center">
+          <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+          <div>
+            
+            <h5 class="card-title ml-3">Drugs Stock out % against DHS Indent</h5>
+            <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+          </div>
+        </div>
+        <p class="card-text text-muted">
+          <!-- <small>Campaign sent 2 days ago</small> -->
+        </p>
+      </div>
+    </div>
+  </div>
+
+      <!-- Card 3 -->
     <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
@@ -240,11 +321,33 @@
       </div>
     </div> -->
 
-    <!-- edl non edl pie chart  Card 4 -->
+
+   <!-- Cart Near Expiry in 6 month -->
+   <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
+      <div class="card-body" routerLink="/nearExpiry">
+        <apx-chart  class="border rounded" style="background-color: #e78aae;"
+        [series]="chartNearexp.series" [chart]="chartNearexp.chart" [dataLabels]="chartNearexp.dataLabels"
+        [plotOptions]="chartNearexp.plotOptions" [xaxis]="chartNearexp.xaxis" [stroke]="chartNearexp.stroke"
+        [fill]="chartNearexp.fill" [yaxis]="chartNearexp.yaxis" [title]="chartNearexp.title"
+        [tooltip]="chartNearexp.tooltip" [legend]="chartNearexp.legend" >
+        </apx-chart>
+        <h5 class="card-title mt-3">Near Expiry of Drugs in Next 6 Month </h5>
+        <!-- <p class="card-text">Last Campaign Performance</p> -->
+        <p class="card-text text-muted">
+          <small>Value in Cr.</small>
+
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- edl non rate Contract  Card 1 -->
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
-          <apx-chart  class="border rounded" style="background-color: #ecf39e;"
+          <apx-chart  class="border rounded" style="background-color: #e0aaff;"
           [series]="chartOptions3.series" [chart]="chartOptions3.chart" [dataLabels]="chartOptions3.dataLabels"
           [labels]="chartOptions3.labels"
           [plotOptions]="chartOptions3.plotOptions" [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
@@ -265,31 +368,37 @@
         </div>
       </div>
     </div>
-    <!-- current stock home  Card 5 -->
+
+
+
+
+    <!-- Drugs Under QC -->
     <div class="col-12 col-sm-6 col-md-3 mb-3">
-      <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
-        <div class="card-body">
-          <apx-chart  class="border rounded" style="background-color: #aade9f;"
-          [series]="chartOptions4.series" [chart]="chartOptions4.chart" [dataLabels]="chartOptions4.dataLabels"
-          [labels]="chartOptions4.labels"
-          [plotOptions]="chartOptions4.plotOptions" [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
-          [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis" [title]="chartOptions4.title"
-          [tooltip]="chartOptions4.tooltip" [legend]="chartOptions4.legend">
-          </apx-chart>
-          <div class="d-flex align-items-center">
-            <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
-            <div>
-              
-              <h5 class="card-title ml-3">Current Stock</h5>
-              <!-- <p class="card-text">{{currentMonth}} Month</p> -->
-            </div>
-          </div>
-          <p class="card-text text-muted">
-            <!-- <small>Campaign sent 2 days ago</small> -->
-          </p>
-        </div>
-      </div>
+     <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
+       <div class="card-body">
+         <apx-chart  class="border rounded" style="background-color: #99d98c;"
+         [series]="chartUQC.series" [chart]="chartUQC.chart" [dataLabels]="chartUQC.dataLabels"
+         [labels]="chartUQC.labels"
+         [plotOptions]="chartUQC.plotOptions" [xaxis]="chartUQC.xaxis" [stroke]="chartUQC.stroke"
+         [fill]="chartUQC.fill" [yaxis]="chartUQC.yaxis" [title]="chartUQC.title"
+         [tooltip]="chartUQC.tooltip" [legend]="chartUQC.legend">
+         </apx-chart>
+         <div class="d-flex align-items-center">
+           <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+           <div>
+             
+             <h5 class="card-title ml-3">Batches Awaiting Quality Check</h5>
+             <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+           </div>
+         </div>
+         <p class="card-text text-muted">
+           <!-- <small>Campaign sent 2 days ago</small> -->
+         </p>
+       </div>
+     </div>
     </div>
+
+
 
   </div>
 </div>
@@ -297,7 +406,10 @@
 
 
 
-<div class="container my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)" >
+
+
+
+<div class="container my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'" >
   <div class="row justify-content-center" style="height: 20vh;">
     <div class="col-12">
       <div class="card shadow p-3 w-100" style="height: 80%;">
@@ -386,3 +498,468 @@
     </ng-container>
   </div>
 </div>
+
+
+<ng-template class=" " #itemDetailsModal let-modal>
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <!-- <h1>AS Completed Details</h1> -->
+      <h1 class="text-info-emphasis">Details</h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+
+
+    
+
+      <div class="container-fluid p-2" *ngFor="let detail of MasItemlist" >
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row border mb-1">
+                    <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #a05033;">
+                        <strong>Basic Information</strong>
+    
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Code:</strong>
+                        <span class="ml-2">{{detail.itemcode}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Item Name:</strong>
+                        <span class="ml-2">{{detail.itemname}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Strength:</strong>
+                        <span class="ml-2">{{detail.strengtH1}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Unit/Packing(SKU):</strong>
+                        <span class="ml-2">{{detail.unit}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Group:</strong>
+                        <span class="ml-2">{{detail.groupname}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Item Type:</strong>
+                        <span class="ml-2">{{detail.itemtypename}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>EDL Category :</strong>
+                        <span class="ml-2">{{detail.edl}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>EDL Type :</strong>
+                        <span class="ml-2">{{detail.edltype}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid p-2">
+      <div class="card shadow" >
+          <div class="card-body">
+              <div class="row border mb-1">
+                  <!-- <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#8ac926;">
+                      <strong>F.Y wise Annual Indent</strong>
+                  </div> -->
+
+                  <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #1e0ab7;">
+                    <strong>Year-wise Approved Annual Indent by Directorate</strong>
+
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 table-container mb-4">
+           
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <!-- <div class="filter-field flex-grow-1">
+                      <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                    </div> -->
+                    <div class="export-menu-container">
+                      <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                      <mat-menu #exportMenu="matMenu">
+                        <button mat-menu-item
+                          (click)="exporter.exportTable('xlsx', { fileName: 'Annualindent', sheet: 'Annualindent', Props: { Author: 'cgmsc' }})">Excel</button>
+                        <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                        <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                        <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                        <button mat-button (click)="exportToPDF()">PDF</button>
+            
+                      </mat-menu>
+                    </div>
+                  </div>
+            
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+            
+                             <!-- Serial Number Column -->
+                      <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                      </ng-container>
+            
+                          <ng-container matColumnDef="accyear">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fin.Year</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.accyear }} </td>
+                          </ng-container>
+            
+                          <ng-container matColumnDef="sku">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Packing/Unit(SKU)</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.sku }} </td>
+                          </ng-container>
+            
+                          <ng-container matColumnDef="dhsai">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DHS Approved Indent QTY</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dhsai }} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="dmeai">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DME Approved Indent QTY</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dmeai }} </td>
+                          </ng-container>
+                     
+                        
+                      <!-- Header Row -->
+                      <tr mat-header-row *matHeaderRowDef="['sno','accyear','sku','dhsai','dmeai']"></tr>
+            
+                      <!-- Data Rows -->
+                      <tr mat-row *matRowDef="let row; columns: ['sno','accyear','sku','dhsai','dmeai'];"></tr>
+            
+                    </table>
+                  </div>      
+                  <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                </div>
+          </div>
+      </div>
+          
+      
+        </div>
+
+
+
+
+    <div class="container-fluid p-2">
+      <div class="card shadow" >
+          <div class="card-body">
+              <div class="row border mb-1">
+                  <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#7b2cbf;">
+                      <strong>Year-wise Order & Received against Approved Annual Indent</strong>
+                  </div>
+              </div>
+              <div class="col-lg-12 col-md-12 table-container mb-4">
+           
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <!-- <div class="filter-field flex-grow-1">
+                      <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                    </div> -->
+                    <div class="export-menu-container">
+                      <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                      <mat-menu #exportMenu="matMenu">
+                        <button mat-menu-item
+                          (click)="exporter.exportTable('xlsx', { fileName: 'PO_YearWise', sheet: 'PO_YearWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                        <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                        <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                        <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                        <button mat-button (click)="exportToPDF()">PDF</button>
+            
+                      </mat-menu>
+                    </div>
+                  </div>
+            
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource2" #exporter="matTableExporter" matSort>
+            
+                             <!-- Serial Number Column -->
+                      <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No. </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                      </ng-container>
+            
+                          <ng-container matColumnDef="shaccyear">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fin.Year</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.shaccyear }} </td>
+                          </ng-container>
+            
+                          <ng-container matColumnDef="dhspoqty">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DHS Ordered QTY</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dhspoqty }} </td>
+                          </ng-container>
+            
+                          <ng-container matColumnDef="dhspovalue">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DHS Ordered Value (In Lacs)</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dhspovalue }} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="dhsrqty">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DHS Received QTY</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dhsrqty }} </td>
+                          </ng-container>
+            
+                          <ng-container matColumnDef="dhsrvalue">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DHS Received Value (In Lacs)</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dhsrvalue }} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="dmepoqty">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DME Ordered QTY</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dmepoqty }} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="dmepovalue">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DME Ordered Value (In Lacs)</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dmepovalue }} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="dmerqty">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DME Received QTY</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dmerqty }} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="dmervalue">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DME Received Value (In Lacs)</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.dmervalue }} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="totalPQTY">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Ordered QTY</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.totalPQTY }} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="totalPOvalue">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Ordered Value (In Lacs)</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.totalPOvalue }} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="totalRQTY">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Received QTY</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.totalRQTY }} </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="totalRecvalue">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Received Value (In Lacs)</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.totalRecvalue }} </td>
+                          </ng-container>
+      
+                        
+                      <!-- Header Row -->
+                      <tr mat-header-row *matHeaderRowDef="['sno','shaccyear','dhspoqty','dhspovalue','dhsrqty','dhsrvalue','dmepoqty','dmepovalue','dmerqty','dmervalue','totalPQTY','totalPOvalue','totalRQTY','totalRecvalue']"></tr>
+            
+                      <!-- Data Rows -->
+                      <tr mat-row *matRowDef="let row; columns: ['sno','shaccyear','dhspoqty','dhspovalue','dhsrqty','dhsrvalue','dmepoqty','dmepovalue','dmerqty','dmervalue','totalPQTY','totalPOvalue','totalRQTY','totalRecvalue'];"></tr>
+            
+                    </table>
+                  </div>      
+                  <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                </div>
+          </div>
+      </div>
+          
+      
+        </div>
+    
+    
+    
+    
+    
+        <div class="container-fluid p-2">
+          <div class="card shadow" >
+              <div class="card-body">
+                  <div class="row border mb-1">
+                      <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                          <strong>Year-wise Distribution & Facility Issued against Indent</strong>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 table-container mb-4">
+               
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                        <!-- <div class="filter-field flex-grow-1">
+                          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                        </div> -->
+                        <div class="export-menu-container">
+                          <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                          <mat-menu #exportMenu="matMenu">
+                            <button mat-menu-item
+                              (click)="exporter.exportTable('xlsx', { fileName: 'YearwiseFacilityIssue', sheet: 'YearwiseFacilityIssue', Props: { Author: 'cgmsc' }})">Excel</button>
+                            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                            <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                            <button mat-button (click)="exportToPDF()">PDF</button>
+                
+                          </mat-menu>
+                        </div>
+                      </div>
+                
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource3" #exporter="matTableExporter" matSort>
+                
+                                 <!-- Serial Number Column -->
+                          <ng-container matColumnDef="sno">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                          </ng-container>
+                
+                              <ng-container matColumnDef="accyear">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fin.Year</th>
+                                <td mat-cell *matCellDef="let element"> {{ element.accyear }} </td>
+                              </ng-container>
+                
+                              <ng-container matColumnDef="dhsqty">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>DHS Facility Issued QTY</th>
+                                <td mat-cell *matCellDef="let element"> {{ element.dhsqty }} </td>
+                              </ng-container>
+                
+                              <ng-container matColumnDef="dhsValuelacs">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>DHS Facility Issued Value (in Lacs)</th>
+                                <td mat-cell *matCellDef="let element"> {{ element.dhsValuelacs }} </td>
+                              </ng-container>
+                              <ng-container matColumnDef="dmeqty">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>DME Facility Issued QTY</th>
+                                <td mat-cell *matCellDef="let element"> {{ element.dmeqty }} </td>
+                              </ng-container>
+                              <ng-container matColumnDef="dmeValuelacs">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>DME Facility Issued Value (in Lacs)</th>
+                                <td mat-cell *matCellDef="let element"> {{ element.dmeValuelacs }} </td>
+                              </ng-container>
+                         
+                            
+                          <!-- Header Row -->
+                          <tr mat-header-row *matHeaderRowDef="['sno','accyear','dhsqty','dhsValuelacs','dmeqty','dmeValuelacs']"></tr>
+                
+                          <!-- Data Rows -->
+                          <tr mat-row *matRowDef="let row; columns: ['sno','accyear','dhsqty','dhsValuelacs','dmeqty','dmeValuelacs'];"></tr>
+                
+                        </table>
+                      </div>      
+                      <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                    </div>
+              </div>
+          </div>
+              
+          
+            </div> 
+    
+     
+    
+            <div class="container-fluid p-2">
+              <div class="card shadow" >
+                  <div class="card-body">
+                      <div class="row border mb-1">
+                          <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#006ba6;">
+                              <strong>Rate Contract Archive</strong>
+                          </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12 table-container mb-4">
+                   
+                          <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="filter-field flex-grow-1">
+                              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                            </div>
+                            <div class="export-menu-container">
+                              <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                              <mat-menu #exportMenu="matMenu">
+                                <button mat-menu-item
+                                  (click)="exporter.exportTable('xlsx', { fileName: 'RCHistory', sheet: 'RCHistory', Props: { Author: 'cgmsc' }})">Excel</button>
+                                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                                <button mat-button (click)="exportToPDF()">PDF</button>
+                    
+                              </mat-menu>
+                            </div>
+                          </div>
+                    
+                          <div class="table-responsive">
+                            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource4" #exporter="matTableExporter" matSort>
+                    
+                                     <!-- Serial Number Column -->
+                              <ng-container matColumnDef="sno">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                              </ng-container>
+                    
+                                  <ng-container matColumnDef="suppliername">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Manufacturer/Supplier</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.suppliername }} </td>
+                                  </ng-container>
+                    
+                                  <ng-container matColumnDef="schemename">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tender Ref.</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.schemename }} </td>
+                                  </ng-container>
+                    
+                                  <ng-container matColumnDef="rcstart">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>RC Start Date</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.rcstart }} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="rcenddt">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>RC End Date</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.rcenddt }} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="rcduration">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>RC Duration(In Month)</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.rcduration }} </td>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="basicrate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Basic Rate (in Rs)</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.basicrate }} </td>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="tax">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tax %</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.tax }} </td>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="rateWithTax">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate with Tax (in Rs)</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.rateWithTax }} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="isextended">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Is Extended</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.isextended }} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="rcStatus">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>RC Status</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.rcStatus }} </td>
+                                  </ng-container>
+                             
+                                
+                              <!-- Header Row -->
+                              <tr mat-header-row *matHeaderRowDef="['sno','suppliername','schemename','rcstart','rcenddt','rcduration','basicrate','tax','rateWithTax','isextended','rcStatus']"></tr>
+                    
+                              <!-- Data Rows -->
+                              <tr mat-row *matRowDef="let row; columns: ['sno','suppliername','schemename','rcstart','rcenddt','rcduration','basicrate','tax','rateWithTax','isextended','rcStatus'];"></tr>
+                    
+                            </table>
+                          </div>      
+                          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                        </div>
+                  </div>
+              </div>
+                  
+              
+                </div> 
+        
+    
+    
+
+
+
+    </div>
+
+
+  </div>
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+      <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+        aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
+</ng-template>
