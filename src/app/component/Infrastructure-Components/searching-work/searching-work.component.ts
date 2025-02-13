@@ -57,7 +57,7 @@ export type ChartOptions = {
   styleUrl: './searching-work.component.css',
 })
 export class SearchingWorkComponent {
-  base64Data: string | undefined;
+  base64Data!: string ;
   workdetails: WorkDetails[] = [];
   workfill: WorkFill[] = [];
   ProjectTimelinedata: ProjectTimeline[] = [];
@@ -91,8 +91,8 @@ export class SearchingWorkComponent {
   ) {this.dataSource = new MatTableDataSource<WorkBillStatus>([]);}
 
   ngOnInit(): void {
-    this.initializeChartOptions();
     this.getworkfill(); // Fetch data on initialization
+    this.initializeChartOptions();
     // this.GetProjectTimeline(0);
     // this.GetProjectTimelineNEW();
     // this.GetWorkBillStatus(0);
@@ -293,6 +293,7 @@ export class SearchingWorkComponent {
 
   getworkfill(): void {
     try {
+      debugger
       var roleName = localStorage.getItem('roleName');
       // alert( roleName )
       if (roleName == 'Division') {
@@ -314,7 +315,7 @@ export class SearchingWorkComponent {
         .subscribe(
           (res) => {
             // alert('res');
-            // console.log('res', JSON.stringify(res));
+            console.log('res', JSON.stringify(res));
             this.workfill = res; // Bind the API response to workfill
 
             this.spinner.hide();
@@ -475,12 +476,13 @@ export class SearchingWorkComponent {
 
   GetImageBinary() {
     try {
+      // debugger;
       // const sr = 90691;
       // const img = 'CGMSC WORK.jpg';
       this.api.GetImageBinary(this.sr, this.ImageName).subscribe(
         (res) => {
           this.base64Data = res;
-          // console.log('Image data: ', this.base64Data);
+          console.log('Image data: ', this.base64Data);
           // console.log('parse res:',JSON.parse(res));
           // Handle the response (e.g., displaying the image)
           // this.spinner.hide();
@@ -491,6 +493,7 @@ export class SearchingWorkComponent {
       );
     } catch (ex: any) {
       console.error('Exception:', ex.message);
+      alert(`Error fetching data: ${ ex.message}`);
     }
   }
 

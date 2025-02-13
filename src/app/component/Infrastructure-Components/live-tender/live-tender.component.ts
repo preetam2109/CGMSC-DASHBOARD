@@ -19,7 +19,7 @@ import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { LiveTenderdata, TenderDetails } from 'src/app/Model/DashProgressCount';
+import { ASFile, LiveTenderdata, TenderDetails } from 'src/app/Model/DashProgressCount';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -81,6 +81,7 @@ export class LiveTenderComponent {
       LiveTenderDivision: LiveTenderdata[] = [];
       LiveTenderScheme: LiveTenderdata[] = [];
       LiveTenderDistrict: LiveTenderdata[] = [];
+        ASFileData: ASFile[] = [];
   selectedTabIndex: number=0;
     divisionid: any;
     himisDistrictid: any;
@@ -1258,4 +1259,41 @@ openDialog() {
     console.log('Dialog closed');
   });
 }
+
+
+onButtonClick2(ASID:any,workid:any): void {
+  //  this.value='Active';
+  // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+    // alert(ASID);
+    // alert(this.value);
+    // return;
+    // asLetterName
+    // filename
+    this.spinner.show();
+    this.api.GETASFile(ASID,workid)
+      .subscribe(
+        (res) => {
+          // this.ASFileData=res;
+          const filename = res[0]?.filename; // Ensure `res[0]` exists
+          const URL = res[0]?.asLetterName;
+          
+          if (filename) {
+            window.open(URL, '_blank');
+          } else {
+            alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.");
+            // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
+          }
+        //  const URL =this.ASFileData[0].asLetterName;
+        // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+
+          // console.log('res:', res);
+          console.log('ASFileData:',this.ASFileData);
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          alert(`Error fetching data: ${error.message}`);
+        }
+      );
+   }
 }

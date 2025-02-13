@@ -13,7 +13,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { AEDistrictEngAllotedWorks,AEEngAllotedWorks, SbuEngAllotedWorks, sbuDistrictEngAllotedWorks, WorkDetailsWithEng } from 'src/app/Model/DashProgressCount';
+import { AEDistrictEngAllotedWorks,AEEngAllotedWorks, SbuEngAllotedWorks, sbuDistrictEngAllotedWorks, WorkDetailsWithEng, ASFile } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -52,6 +52,7 @@ distid=0;
   chartOptionsLine2!: ChartOptions; // For bar chart
   SbuEngAllotedWorks:SbuEngAllotedWorks[]=[];
   AeengAllotedWorks:AEEngAllotedWorks[]=[];
+  ASFileData: ASFile[] = [];
   // button
   divisions = [
     { id: 'D1004', name: 'Raipur ', color: ' rgb(0, 227, 150)' },
@@ -62,7 +63,8 @@ distid=0;
   ];
   selectedDivision:any;
   name!: string;
-  show: boolean = true;
+  showw: boolean = true;
+  show1: boolean = true;
   visibale: boolean = false;
 
   // database table
@@ -96,10 +98,16 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
     // Initialize dateRange with today and tomorrow
     
     this.initializeChartOptions();
-    this.getSBUENEngAllotedWorks();
     this.GetAEENGEngAllotedWorks();
-    this.fetchDataBasedOnChartAE();
-    this.fetchDataBasedOnChartSbu();
+    this.getSBUENEngAllotedWorks();
+   this.fetchDataBasedOnChartAE();
+   this.fetchDataBasedOnChartSbu();
+
+
+    // this.getSBUENEngAllotedWorks();
+    // this.GetAEENGEngAllotedWorks();
+    // this.fetchDataBasedOnChartAE();
+    // this.fetchDataBasedOnChartSbu();
 
    
   }
@@ -294,19 +302,22 @@ getSBUENEngAllotedWorks(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine.chart.height = '600px';
-    this.show=false;
+    this.showw=false;
     this.divisionid = sessionStorage.getItem('divisionID');} 
     else {
       if(this.name!= undefined){
-        this.chartOptionsLine.chart.height = '600px';
+        this.chartOptionsLine.chart.height = '2000';
        }else{
-        this.chartOptionsLine.chart.height ='1500';
-       } this.show=true;}
+        this.chartOptionsLine.chart.height ='4000';
+       }
+       this.divisionid=0;
+       this.showw=true;
+      }
      this.spinner.show();
   this.api.SbuEngAllotedWorks('Sbu eng',this.divisionid,this.distid).subscribe(
     (data: any) => {
                 this.SbuEngAllotedWorks = data;
-      // console.log('SbuEngAllotedWorks',this.SbuEngAllotedWorks);
+      console.log('SbuEngAllotedWorks',this.SbuEngAllotedWorks);
      
 
       const id: string[] = [];
@@ -357,13 +368,15 @@ GetAEENGEngAllotedWorks(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine2.chart.height = '600px';
-    this.show=false;
+    this.showw=false;
     this.divisionid = sessionStorage.getItem('divisionID');} else {  
+      this.showw=true;
+      this.divisionid=0;
       if(this.name!= undefined){
         this.chartOptionsLine2.chart.height = '600px';
        }else{
         this.chartOptionsLine2.chart.height ='1500';
-       } this.show=true;}
+       } }
        
      
   this.spinner.show();
@@ -424,7 +437,7 @@ GetAEENGEngAllotedWorks(): void {
 fetchDataBasedOnChartSbu(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.show=true;}
+    this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.showw=true;}
   const  distid=0;
   this.spinner.show();
   this.api.SubeDistrictEngAllotedWorks('Sube', this.divisionid,distid).subscribe(
@@ -447,7 +460,7 @@ fetchDataBasedOnChartSbu(): void {
 fetchDataBasedOnChartAE(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.show=true;}
+    this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.showw=true;}
   const  distid=0;
   this.spinner.show();
   // AE&divisionid=D1004&distid=0
@@ -702,14 +715,17 @@ subAEexportToPDF() {
 
   }
 selectDivision(division: { id: string, name: string }): void {
-  this.visibale=true;
+  // this.chartOptionsLine.chart.height ='2000';
   this.selectedDivision = division.id;
   this.divisionid = division.id;
   this.name = division.name;
+  this.visibale=true;
+  this.showw=true
   this.GetAEENGEngAllotedWorks();
   this.getSBUENEngAllotedWorks();
  this.fetchDataBasedOnChartAE();
  this.fetchDataBasedOnChartSbu();
+
   //  var roleName = localStorage.getItem('roleName');
   //               if (roleName == 'Division'||name!=this.name) {
   //                 this.chartOptionsLine2.chart.height = '500px';
@@ -721,5 +737,43 @@ selectDivision(division: { id: string, name: string }): void {
   //                  this.getSBUENEngAllotedWorks();
   //               }
 }
+
+onButtonClick2(ASID: any, workid: any): void {
+  //  this.value='Active';
+  // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+  // alert(ASID);
+  // alert(this.value);
+  // return;
+  // asLetterName
+  // filename
+  this.spinner.show();
+  this.api.GETASFile(ASID, workid).subscribe(
+    (res) => {
+      // this.ASFileData=res;
+      const filename = res[0]?.filename; // Ensure `res[0]` exists
+      const URL = res[0]?.asLetterName;
+
+      if (filename) {
+        window.open(URL, '_blank');
+      } else {
+        alert(
+          '⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.'
+        );
+        // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
+      }
+      //  const URL =this.ASFileData[0].asLetterName;
+      // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+
+      // console.log('res:', res);
+      console.log('ASFileData:', this.ASFileData);
+      this.spinner.hide();
+    },
+    (error) => {
+      this.spinner.hide();
+      alert(`Error fetching data: ${error.message}`);
+    }
+  );
+}
+
 }
 

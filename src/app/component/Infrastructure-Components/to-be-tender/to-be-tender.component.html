@@ -127,12 +127,23 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
                   <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
                 </ng-container>
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Download AS</th>
+                  <td mat-cell *matCellDef="let element">
+                    <span class="d-flex  flex-row-reverse p-2 ">
+                       <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                        (click)="onButtonClick2(0,element.work_id)">
+                        <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                      </button>
+                    </span>
+                  </td>
+                </ng-container>
                 <tr mat-header-row
-                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','work_id']">
+                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','work_id','action']">
                 </tr>
         
                 <tr mat-row
-                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','work_id']">
+                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','work_id','action']">
                 </tr>
         
               </table>
@@ -278,12 +289,23 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
                     <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
                   </ng-container>
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Download AS</th>
+                    <td mat-cell *matCellDef="let element">
+                      <span class="d-flex  flex-row-reverse p-2 ">
+                         <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                          (click)="onButtonClick2(0,element.work_id)">
+                          <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                        </button>
+                      </span>
+                    </td>
+                  </ng-container>
                   <tr mat-header-row
-                    *matHeaderRowDef="['sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id']">
+                    *matHeaderRowDef="['sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id','action']">
                   </tr>
           
                   <tr mat-row
-                    *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id']">
+                    *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id','action']">
                   </tr>
               </table>
               <mat-paginator #paginatorcan [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
@@ -379,6 +401,17 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
                     <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
                   </ng-container>
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Download AS</th>
+                    <td mat-cell *matCellDef="let element">
+                      <span class="d-flex  flex-row-reverse p-2 ">
+                         <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                          (click)="onButtonClick2(0,element.work_id)">
+                          <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                        </button>
+                      </span>
+                    </td>
+                  </ng-container>
                   <!-- <tr mat-header-row
                     *matHeaderRowDef="['sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','wocancelletterno','pDate','work_id']">
                   </tr>
@@ -389,11 +422,11 @@
     
     
                   <tr mat-header-row
-                    *matHeaderRowDef="['sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','pDate','work_id']">
+                    *matHeaderRowDef="['sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','pDate','work_id','action']">
                   </tr>
           
                   <tr mat-row
-                    *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','pDate','work_id']">
+                    *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate','woCancelProposalLetterNo','pDate','work_id','action']">
                   </tr>
             <!-- <ng-template #CancelledID34>
               <ng-container matColumnDef="sno">
@@ -574,14 +607,25 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
                   <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
                 </ng-container>
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Download AS</th>
+                  <td mat-cell *matCellDef="let element">
+                    <span class="d-flex  flex-row-reverse p-2 ">
+                       <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                        (click)="onButtonClick2(0,element.work_id)">
+                        <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                      </button>
+                    </span>
+                  </td>
+                </ng-container>
                 <!-- Header Row -->
                 <tr mat-header-row
-                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'lastNIT','lastEprocno','rejReason','rejectedDT','work_id']">
+                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'lastNIT','lastEprocno','rejReason','rejectedDT','work_id','action']">
                 </tr>
         
                 <!-- Data Rows -->
                 <tr mat-row
-                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'lastNIT','lastEprocno','rejReason','rejectedDT','work_id']">
+                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','valueWorks','asDate' ,'lastNIT','lastEprocno','rejReason','rejectedDT','work_id','action']">
                 </tr>
               </table>
               <!-- <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
@@ -685,14 +729,25 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
                   <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
                 </ng-container>
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Download AS</th>
+                  <td mat-cell *matCellDef="let element">
+                    <span class="d-flex  flex-row-reverse p-2 ">
+                       <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                        (click)="onButtonClick2(0,element.work_id)">
+                        <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                      </button>
+                    </span>
+                  </td>
+                </ng-container>
                 <!-- Header Row -->
                 <tr mat-header-row
-                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','value','asDate' ,'progressDT','zonalType','nitNo','work_id']">
+                  *matHeaderRowDef="[ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','value','asDate' ,'progressDT','zonalType','nitNo','work_id','action']">
                 </tr>
         
                 <!-- Data Rows -->
                 <tr mat-row
-                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','value','asDate' ,'progressDT','zonalType','nitNo','work_id']">
+                  *matRowDef="let row; columns: [ 'sno','head','division','district','block_Name_En','letterno', 'detailS_ENG','workname','value','asDate' ,'progressDT','zonalType','nitNo','work_id','action']">
                 </tr>
               </table>
               <mat-paginator #paginator1 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>

@@ -11,7 +11,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { LandIssueDetails, LIPendingTotal } from 'src/app/Model/DashProgressCount';
+import { ASFile, LandIssueDetails, LIPendingTotal } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -41,6 +41,7 @@ export class LandIssueComponent {
   LIPendingTotalData: LIPendingTotal[] = [];
   LIPendingSchemeData: LIPendingTotal[] = [];
   LIPendingDistrictData: LIPendingTotal[] = [];
+   ASFileData: ASFile[] = [];
   divisionid: any;
   Scheme = 'Scheme';
   Total = 'Total';
@@ -545,11 +546,11 @@ export class LandIssueComponent {
 
           if (name.length > 0) {
             this.chartOptions.series = [
-              { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
-              { name: 'Value cr', data: valuecr },
-              { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
-              { name: 'Month 2 Above', data: month2Above },
-              { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
+              { name: 'No. of  Pending Works', data: totalWorks, color: '#eeba0b' },
+              { name: 'Value (In cr)', data: valuecr },
+              { name: 'Tender value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+              { name: 'Month 2 Above', data: month2Above,color:'rgb(255, 140, 0)' },
+              { name: 'WO. Issued', data: woIssued, color: 'rgb(250, 87, 149)' },
             ];
 
             this.chartOptions.xaxis = { categories: name };
@@ -868,4 +869,40 @@ export class LandIssueComponent {
   }
 
   //#endregion
+  onButtonClick2(ASID: any, workid: any): void {
+    //  this.value='Active';
+    // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+    // alert(ASID);
+    // alert(this.value);
+    // return;
+    // asLetterName
+    // filename
+    this.spinner.show();
+    this.api.GETASFile(ASID, workid).subscribe(
+      (res) => {
+        // this.ASFileData=res;
+        const filename = res[0]?.filename; // Ensure `res[0]` exists
+        const URL = res[0]?.asLetterName;
+  
+        if (filename) {
+          window.open(URL, '_blank');
+        } else {
+          alert(
+            '⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.'
+          );
+          // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
+        }
+        //  const URL =this.ASFileData[0].asLetterName;
+        // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+  
+        // console.log('res:', res);
+        console.log('ASFileData:', this.ASFileData);
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      }
+    );
+  }
 }

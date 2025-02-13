@@ -20,6 +20,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
+import autoTable from 'jspdf-autotable';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -60,7 +61,7 @@ export class DashProgressDistCountComponent {
         type: 'bar',
         stacked: true,
         // height: 1000,
-        height: 400,
+        height: 'auto',
         // width:600,
         events: {
           dataPointSelection: (
