@@ -52,7 +52,9 @@
 <ng-template class=" " #itemDetailsModal let-modal>
   <div class="row align-items-center p-2 m-2 ">
     <div class="col-lg-6 col-md-8">
-      <h1>Land Issue Details</h1>
+      <h1 class="text-primary-emphasis">Land Issue Details</h1>
+      <h1 class="text-primary-emphasis">Selected Name :<span class="text-primary">{{name}}</span></h1>
+      <h1 class="text-primary-emphasis">No. of Works: <span class="text-primary">{{totalWorks}}</span></h1>
     </div>
     <div class="col-lg-6 col-md-4 text-end">
       <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
@@ -148,7 +150,13 @@
 
 
   </div>
-  <!-- <div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Close</button>
-  </div> -->
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+      <mat-icon role="img" mat-card-avatar 
+                class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color" 
+                aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
 </ng-template>

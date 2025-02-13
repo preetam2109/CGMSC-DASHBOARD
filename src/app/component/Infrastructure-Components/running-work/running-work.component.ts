@@ -217,8 +217,6 @@ export class RunningWorkComponent {
       offsetX: 40,
     },
   };
-
-
   this.chartOptions1 = {
     series: [],
     chart: {
@@ -1056,7 +1054,7 @@ export class RunningWorkComponent {
    }
 
 //#region Get API data Running Works
-GETRunningWorkTotal(): void {
+  GETRunningWorkTotal(): void {
   this.spinner.show();
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {

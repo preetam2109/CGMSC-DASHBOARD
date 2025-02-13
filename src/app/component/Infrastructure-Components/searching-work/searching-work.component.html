@@ -133,9 +133,11 @@
                             <strong>Division:</strong>
                             <span class="ml-2">{{detail.divName_En}}</span>
                         </div>
-                        <div class="col-6 col-md-4 border p-2 d-flex flex-row">
-                            <strong>AS Letter Number:</strong>
-                            <span class="ml-2"> {{detail.letterNo}}</span>
+                      <div class="col-6 col-md-4 border p-2 d-flex flex-row">
+                        <strong class="mt-0">AS Letter Number:</strong>
+                        <a type="link" class="btn-link" (click)="onButtonClick2(0,detail.work_id)" style="cursor: pointer;"><span class="ml-2 mt-0 pt-0 h6" style="font-size:14px;" >{{detail.letterNo}}</span></a>
+                        <!-- <button type="link" class="btn btn-link" (click)="onButtonClick2(0,detail.work_id)"><span class="ml-2">{{detail.letterNo}}</span></button> -->
+                        <!-- <a class="link" type="link" (click)="onButtonClick2(0,detail.work_id)">  <span class="ml-2"> {{detail.letterNo}}</span></a> -->
                         </div>
                         <div class="col-6 col-md-5 border p-2 d-flex flex-row">
                             <strong>Fund Head:</strong><span class="ml-2">{{detail.head}}</span>
@@ -382,24 +384,24 @@
             <div class="card shadow">
                 <div class="card-body">
                     <div class="row border mb-2">
-                        <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #fc527c;">
-                            <strong>Bill Status</strong>
+                        <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #127c23;">
+                            <strong>Bill-wise Payment  Status</strong>
                         </div>
                      
                             <!-- <div class="row card shadow card-body "> -->
                               <div class="d-flex justify-content-between align-items-center mb-2 mt-2">
-                                <div class="filter-field flex-grow-1">
+                                <!-- <div class="filter-field flex-grow-1">
                                   <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
-                                </div>
+                                </div> -->
                                 <div class="export-menu-container p-1">
                                   <button type="button" class="btn border rounded btn-outline-secondary" mat-button
                                     [matMenuTriggerFor]="exportMenu">Export</button>
                                   <mat-menu #exportMenu="matMenu">
                                     <button mat-menu-item
-                                      (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                                      (click)="exporter.exportTable('xlsx', { fileName: 'BillWisePayment', sheet: 'BillWisePayment', Props: { Author: 'cgmsc' }})">Excel</button>
                                     <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-                                    <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                                    <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                                    <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
                                     <button mat-menu-item (click)="exportToPDF()">PDF</button>
                                   </mat-menu>
                                 </div>
@@ -433,7 +435,7 @@
                                     <td mat-cell *matCellDef="let element"> {{ element.billdate}} </td>
                                   </ng-container>
                                   <ng-container matColumnDef="grossPaid">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Gross Paid</th>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Gross Paid(in Lacs)</th>
                                     <td mat-cell *matCellDef="let element"> {{ element.grossPaid}} </td>
                                   </ng-container>
                                   <ng-container matColumnDef="chequeNo">
