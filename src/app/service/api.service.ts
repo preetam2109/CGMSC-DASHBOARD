@@ -103,13 +103,14 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst, Last7DaysIssue, Last7DaysReceipt, POCountCFY } from '../Model/DashCards';
+import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCPendingAreaDetail, QCPendingHomeDash, QCPendingPlace, StockoutPer } from '../Model/DashCards';
 import { MasIndentitems } from '../Model/MasIndentitems';
 import { MasfacilityInfo } from '../Model/MasfacilityInfo';
 import { Masitems } from '../Model/Masitems';
 import { getItemDetailsWithHOD } from '../Model/ItemDetailsWithHod';
 import { DHSDMEStock } from '../Model/DHSDmeStock';
 import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuanceCoonsumptionm';
+import { FundReivedBudgetDetails, GrossPaidDateWiseDetails, Pipeline_Libilities } from '../Model/FinanceDash';
 
 
 
@@ -1030,6 +1031,96 @@ return this.http.get<any[]>(`${this.CGMSCHO_API2}/TimeTaken/NearExpRC?mcid=${mci
 CGMSCStockHome(mcid:any){
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/CGMSCStockHome?mcid=${mcid}`);
   }
+
+
+  // indent cart 
+getPartiIndent(itemid:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartiIndent?itemid=${itemid}`);
+  }
+
+  // Purchase Order Card 
+  PartPOsSince1920(itemid:any){
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartPOsSince1920?itemid=${itemid}`);
+    }
+
+    PartItemIssue(itemid:any){
+      return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartItem_Issueyrwise?itemid=${itemid}`);
+      }
+
+      PartItem_RCs(itemid:any){
+        return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartItem_RCs?itemid=${itemid}`);
+        }
+
+        getFundsDDL(){
+      return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/getFunds`);
+        }
+
+        getFundReivedBudgetID(bugetid:any,yrid:any){
+      return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/FundReivedBudgetID?bugetid=${bugetid}&yrid=${yrid}`);
+        }
+
+        PaidYearwise_Budget(bugetid:any,yrid:any){
+      return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/PaidYearwise_Budget?bugetid=${bugetid}&yrid=${yrid}`);
+        }
+
+        PODetailsAgainstIndentYr(bugetid:any,yrid:any,HOD:any){
+      return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/PODetailsAgainstIndentYr?bugetid=${bugetid}&yrid=${yrid}&HOD=${HOD}`);
+        }
+        
+        GrossPaidDateWise(rptype:any,bugetid:any,fromdt:any,todt:any){
+      return this.http.get<any[]>(`${this.CGMSCHO_API2}/https://dpdmis.in/CGMSCHO_API2/api/DashboardFinance/GrossPaidDateWise?rptype=${rptype}&bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}`);
+        }
+
+
+        Fund_Libilities(bugetid:any){
+        return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/Fund_Libilities?bugetid=${bugetid}`);
+        }
+
+        Pipeline_Libilities(bugetid:any){
+        return this.http.get<Pipeline_Libilities[]>(`${this.CGMSCHO_API2}/DashboardFinance/Pipeline_Libilities?bugetid=${bugetid}`);
+        }
+
+        IndentcntHome(mcid:any,yrid :any){
+          return this.http.get<IndentcntHome[]>(`${this.CGMSCHO_API2}/DashboardHome/IndentcntHome?mcid=${mcid}&yrid=${yrid}`);
+          }
+
+          StockoutPer(mcid:any,edltype :any,yrid:any,HOD:any){
+            return this.http.get<StockoutPer[]>(`${this.CGMSCHO_API2}/DashboardHome/StockoutPer?mcid=${mcid}&edltype=${edltype}&yrid=${yrid}&HOD=${HOD}`);
+            }
+
+            NearExp(mcid:any,nextXmonth :any){
+              return this.http.get<NearExp[]>(`${this.CGMSCHO_API2}/DashboardHome/NearExpMonthHome?mcid=${mcid}&nextXmonth=${nextXmonth}`);
+              }
+
+              FundReivedBudgetDetails(bugetid:any,yrid :any){
+                return this.http.get<FundReivedBudgetDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/FundReivedBudgetDetails?bugetid=${bugetid}&yrid=${yrid}`);
+                }
+    
+                QCPendingHomeDash(mcid:any){
+                  return this.http.get<QCPendingHomeDash[]>(`${this.CGMSCHO_API2}/QC/QCPendingDashboard?mcid=${mcid}`);
+                  }
+                  QCPendingPlace(mcid:any){
+                    return this.http.get<QCPendingPlace[]>(`${this.CGMSCHO_API2}/QC/QCPendingPlacewise?mcid=${mcid}`);
+                    }
+
+                    QCPendingAreaDetail(area:any){
+                      return this.http.get<QCPendingAreaDetail[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}`);
+                      }
+
+                      GrossPaidDateWiseDetails(bugetid:any,fromdt:any,todt:any,supplierid:any,yrid:any){
+                      return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}`);
+                      }
+
+
+
+             
+  
+
+
+               
+
+  
+
 
 
 
