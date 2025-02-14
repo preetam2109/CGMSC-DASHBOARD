@@ -9,12 +9,14 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableExporterModule } from 'mat-table-exporter';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle,
+   ApexTooltip, ApexXAxis, ApexYAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ASFile, LandIssueDetails, LIPendingTotal } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { MatIconModule } from '@angular/material/icon';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -32,7 +34,7 @@ export type ChartOptions = {
   selector: 'app-land-issue',
   standalone: true,
   imports: [NgApexchartsModule, MatSortModule, MatPaginatorModule, MatTableModule, MatTableExporterModule, MatInputModule, MatDialogModule,
-    MatFormFieldModule, NgbModule, MatMenuModule, NgFor, CommonModule,
+    MatFormFieldModule, NgbModule, MatMenuModule, NgFor, CommonModule, MatIconModule,
     NgStyle,],
   templateUrl: './land-issue.component.html',
   styleUrl: './land-issue.component.css'
@@ -47,7 +49,8 @@ export class LandIssueComponent {
   Total = 'Total';
   Contractor = 'Contractor';
   District = 'District'
-
+  name:any;
+  totalWorks:any;
   //#region chart Variable Declarations
   @ViewChild('chart') chart: ChartComponent | undefined;
   public cO: Partial<ChartOptions> | undefined;
@@ -101,7 +104,8 @@ export class LandIssueComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelection(id, selectedSeries);
 
               } else {
@@ -139,7 +143,7 @@ export class LandIssueComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Pending  Works Total wise Progress',
+        text: 'Land Issuance Overview',
         // text: 'RP Type Total Pending Works wise Progress',
         align: 'center',
         style: {
@@ -196,6 +200,8 @@ export class LandIssueComponent {
 
                   if (selectedData) {
                     const id = selectedData.id;
+                    this.name = selectedData.name;
+                    this.totalWorks = selectedData.totalWorks;
                     this.fetchDataBasedOnChartSelectionmainScheme(id, selectedSeries);
                   } else {
                     console.error(`No data found for selected category: ${selectedCategory}`);
@@ -240,7 +246,7 @@ export class LandIssueComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Pending Works Scheme wise Progress',
+        text: 'Scheme-wise Land Issuance',
         // text: 'RP Type Total Pending Works wise Progress',
         align: 'center',
         style: {
@@ -294,6 +300,8 @@ export class LandIssueComponent {
 
                   if (selectedData) {
                     const id = selectedData.id;
+                    this.name = selectedData.name;
+                    this.totalWorks = selectedData.totalWorks;
                     this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
                   } else {
                     console.error(`No data found for selected category: ${selectedCategory}`);
@@ -338,7 +346,7 @@ export class LandIssueComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Total Pending Works District wise Progress',
+        text: 'District-wise Land Issuance',
         // text: 'RP Type Total Pending Works wise Progress',
         align: 'center',
         style: {
@@ -546,11 +554,11 @@ export class LandIssueComponent {
 
           if (name.length > 0) {
             this.chartOptions.series = [
-              { name: 'No. of  Pending Works', data: totalWorks, color: '#eeba0b' },
-              { name: 'Value (In cr)', data: valuecr },
-              { name: 'Tender value(In cr)', data: tvcValuecr, color: '#6a6afd' },
-              { name: 'Month 2 Above', data: month2Above,color:'rgb(255, 140, 0)' },
-              { name: 'WO. Issued', data: woIssued, color: 'rgb(250, 87, 149)' },
+              { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
+              { name: 'Value of Work (In cr)', data: valuecr },
+              // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+              { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
+              { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
             ];
 
             this.chartOptions.xaxis = { categories: name };
@@ -619,11 +627,16 @@ export class LandIssueComponent {
 
           if (name.length > 0) {
             this.chartOptions2.series = [
-              { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
-              { name: 'Value cr', data: valuecr },
-              { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
-              { name: 'Month 2 Above', data: month2Above },
-              { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
+              // { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
+              // { name: 'Value cr', data: valuecr },
+              // { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
+              // { name: 'Month 2 Above', data: month2Above },
+              // { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
+              { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
+              { name: 'Value of Work (In cr)', data: valuecr },
+              // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+              { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
+              { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
             ];
 
             this.chartOptions2.xaxis = { categories: name };
@@ -691,11 +704,16 @@ export class LandIssueComponent {
 
           if (name.length > 0) {
             this.chartOptionsLine.series = [
-              { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
-              { name: 'Value cr', data: valuecr },
-              { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
-              { name: 'Month 2 Above', data: month2Above },
-              { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
+              // { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
+              // { name: 'Value cr', data: valuecr },
+              // { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
+              // { name: 'Month 2 Above', data: month2Above },
+              // { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
+              { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
+              { name: 'Value of Work (In cr)', data: valuecr },
+              // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+              { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
+              { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
             ];
 
             this.chartOptionsLine.xaxis = { categories: name };

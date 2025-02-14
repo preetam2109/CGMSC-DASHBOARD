@@ -907,6 +907,7 @@ this.roleName = localStorage.getItem('roleName');
     // return 
   }
    else if (did == 2001) {
+    // debugger
     console.log('2001=: ',did);
     this.api.GETDetailProgress(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
     .subscribe(

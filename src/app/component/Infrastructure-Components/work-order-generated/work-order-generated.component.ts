@@ -41,6 +41,7 @@ import {
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import {MatIconModule} from '@angular/material/icon';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -70,7 +71,7 @@ export type ChartOptions = {
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule,MatIconModule,
     NgFor,
     CommonModule,
   ],
@@ -103,6 +104,8 @@ export class WorkOrderGeneratedComponent {
   dateRange!: FormGroup;
   fromdt: any;
   todt: any;
+  name:any;
+  totalWorks:any;
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
@@ -157,6 +160,7 @@ export class WorkOrderGeneratedComponent {
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
+            debugger;
             const selectedCategory =
               this.chartOptions?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
             const selectedSeries =
@@ -171,7 +175,8 @@ export class WorkOrderGeneratedComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelectionTotal(id, selectedSeries);
               } else {
                 console.log(
@@ -264,7 +269,8 @@ export class WorkOrderGeneratedComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
               } else {
                 console.log(
@@ -356,7 +362,8 @@ export class WorkOrderGeneratedComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
               } else {
                 console.log(
@@ -449,7 +456,8 @@ export class WorkOrderGeneratedComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelection(0, selectedSeries);
               } else {
                 console.log(

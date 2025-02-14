@@ -72,7 +72,8 @@ export class WorkOrderComponent {
   WorkorderpendingdetailsNew:WorkOrderPendingDetailsNew[]=[];
   dispatchPendings: WorkOrderPendingDetailsNew[] = [];
   ASFileData: ASFile[] = [];
-
+  name:any;
+  noofWorksGreater7Days:any;
   // divisionid='D1024';
   divisionid:any;
   Scheme='Scheme';
@@ -128,7 +129,8 @@ export class WorkOrderComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.noofWorksGreater7Days = selectedData.noofWorksGreater7Days;
                 this.fetchDataBasedOnChartSelection(id, selectedSeries);
 
               } else {
@@ -223,6 +225,8 @@ export class WorkOrderComponent {
               
                   if (selectedData) {
                     const id = selectedData.id;
+                    this.name = selectedData.name;
+                    this.noofWorksGreater7Days = selectedData.noofWorksGreater7Days;
                     this.fetchDataBasedOnChartSelectionmainScheme(id, selectedSeries);
                   } else {
                     console.error(`No data found for selected category: ${selectedCategory}`);
@@ -318,7 +322,8 @@ export class WorkOrderComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.noofWorksGreater7Days = selectedData.noofWorksGreater7Days;
                 this.fetchDataBasedOnChartSelectionmaincontract(id, selectedSeries);
 
               } else {
@@ -410,7 +415,8 @@ export class WorkOrderComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.noofWorksGreater7Days = selectedData.noofWorksGreater7Days;
                 this.fetchDataBasedOnChartSelectionmainDistrict(id, selectedSeries);
 
               } else {

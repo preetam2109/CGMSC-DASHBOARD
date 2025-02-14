@@ -19,6 +19,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { HandoverAbstract, GetHandoverDetails, ASFile } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
+import { MatIconModule } from '@angular/material/icon';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -36,7 +37,7 @@ export type ChartOptions = {
   selector: 'app-handover',
   standalone: true,
   imports: [NgApexchartsModule, MatSortModule, MatPaginatorModule, MatTableModule, MatTableExporterModule, MatInputModule, MatDialogModule,
-    MatFormFieldModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, FormsModule, NgFor, CommonModule,],
+    MatFormFieldModule, MatMenuModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, FormsModule, NgFor,MatIconModule, CommonModule,],
   templateUrl: './handover.component.html',
   styleUrl: './handover.component.css'
 })
@@ -74,7 +75,8 @@ export class HandoverComponent {
   @ViewChild(MatSort) sort!: MatSort;
   //#endregion
   //  GetHandoverDetailsData:GetHandoverDetails[]=[];
-
+  name: any;
+  totalWorks: any;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private fb: FormBuilder,
     public datePipe: DatePipe, private dialog: MatDialog, private toastr: ToastrService,) {
     this.dataSource = new MatTableDataSource<GetHandoverDetails>([]);
@@ -155,6 +157,7 @@ export class HandoverComponent {
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
+          
             const selectedCategory = this.chartOptions?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
             const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
@@ -165,7 +168,8 @@ export class HandoverComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelection(id, selectedSeries);
 
               } else {
@@ -251,7 +255,8 @@ export class HandoverComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
 
               } else {
@@ -337,7 +342,8 @@ export class HandoverComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
                 this.  fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
 
               } else {
@@ -423,7 +429,8 @@ export class HandoverComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id;  // Extract the id from the matching entry
-
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelectionWorkType(id, selectedSeries);
 
               } else {
