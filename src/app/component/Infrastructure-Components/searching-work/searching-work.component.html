@@ -411,10 +411,10 @@
                                 <table class="table table-bordered table-striped border rounded" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
                                 <!-- <table class="table table-bordered table-striped border rounded " mat-table matTableExporter [dataSource]="dataSource"
                                   #exporter="matTableExporter" matSort> -->
-                                  <ng-container matColumnDef="sno">
+                                  <!-- <ng-container matColumnDef="sno">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
                                     <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
-                                  </ng-container>
+                                  </ng-container> -->
                                   <ng-container matColumnDef="billno">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill No</th>
                                     <td mat-cell *matCellDef="let element">{{ element.billno}}</td>
@@ -471,11 +471,11 @@
                                   </ng-container> -->
                                 
                                   <tr mat-header-row
-                                  *matHeaderRowDef="['sno','billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeNo','daysSinceMeasurement','billStatus','billmbno','mbno']">
+                                  *matHeaderRowDef="['billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeNo','daysSinceMeasurement','billStatus','billmbno','mbno']">
                                   </tr>
                                   <!-- Data Rows -->
                                   <tr mat-row
-                                    *matRowDef="let row; columns: ['sno','billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeNo','daysSinceMeasurement','billStatus','billmbno','mbno']">
+                                    *matRowDef="let row; columns: ['billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeNo','daysSinceMeasurement','billStatus','billmbno','mbno']">
                                   </tr>
                                 </table>
                                 <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>

@@ -7,15 +7,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableExporterModule } from 'mat-table-exporter';
-import { NgApexchartsModule, ChartComponent, ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
+import { NgApexchartsModule, ChartComponent, ApexAxisChartSeries, ApexChart, 
+  ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTitleSubtitle, ApexTooltip,
+   ApexXAxis, ApexYAxis } from 'ng-apexcharts';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { RunningWork, RunningWorkDelay } from 'src/app/Model/DashProgressCount';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { RunningWork, RunningWorkDelay,RunningDelayWorksDetails, WorkOrderPendingDetailsNew ,ASFile} from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -88,15 +92,28 @@ export class RunningWorkComponent {
    RunningWorkDelayDataScheme:RunningWorkDelay[]=[];
    RunningWorkDelayDataDistrict:RunningWorkDelay[]=[];
    RunningWorkDelayDataContractor:RunningWorkDelay[]=[];
+   ASFileData: ASFile[] = [];
 
-
-
+//#region DataBase Table
+   dataSource!: MatTableDataSource<RunningDelayWorksDetails>;
+  //  dataSource1!: MatTableDataSource<PriceEvaluationDetails>;
+   @ViewChild('paginator') paginator!: MatPaginator;
+   @ViewChild('sort') sort!: MatSort;
+  //  @ViewChild('paginator1') paginator1!: MatPaginator;
+  //  @ViewChild('sort1') sort1!: MatSort;
+   dispatchData: RunningDelayWorksDetails[] = [];
+  //  dispatchData1: PriceEvaluationDetails[] = [];
+ 
+   //#endregion
+   selectedvalue:any;
+   selectedParameter:any;
   selectedTabIndex: number=0;
  divisionid: any;
  himisDistrictid: any;
  TimeStatus:any;
  mainschemeid:any;
  name:any;
+ selectname:any;
  constructor(
   public api: ApiService,
   public spinner: NgxSpinnerService,
@@ -104,7 +121,7 @@ export class RunningWorkComponent {
   private dialog: MatDialog,
   public datePipe: DatePipe
  ) {
-  // this.dataSource = new MatTableDataSource<TenderEvaluationDetails>([]);
+  this.dataSource = new MatTableDataSource<RunningDelayWorksDetails>([]);
   // this.dataSource1 = new MatTableDataSource<PriceEvaluationDetails>([]);
  }
  
@@ -584,11 +601,13 @@ export class RunningWorkComponent {
       // height: 200,
       // width:500,
       events: {
+        // de
         dataPointSelection: (
           event,
           chartContext,
           { dataPointIndex, seriesIndex }
         ) => {
+          debugger;
           const selectedCategory =
             this.chartOptions_I?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
           const selectedSeries =
@@ -600,9 +619,37 @@ export class RunningWorkComponent {
             );
             if (selectedData) {
               const id = selectedData.id; // Extract the id from the matching entry
-              this.name = selectedData.name; // Extract the id from the matching entry
+              this.name = selectedData.name;
+              this.selectname=selectedSeries;
 
-              // this.fetchDataBasedOnChartSelectionTotalUNP(0, selectedSeries);
+              if (selectedSeries=='No. of Works') {
+                this.selectedvalue = selectedData.totalWorks;
+
+                this.selectedvalue = selectedData.totalWorks;
+                this.fetchDataBasedOnChartSelection(0,0,0,selectedSeries );
+              } else if (selectedSeries=='Delayed > 6 Month') {
+                this.selectedvalue = selectedData.totalWorks;
+
+                this.selectedvalue = selectedData.morethanSixMonth;
+
+                this.fetchDataBasedOnChartSelection('Delay', 'SixMonth', 0, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries =='Delayed > 3 and < 6 Month') {
+                this.selectedvalue = selectedData.d_91_180Days;
+
+                this.fetchDataBasedOnChartSelection('Delay', 'Between3_6', 0, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries=='Delayed > 1 and < 3 Month') {
+                this.selectedvalue = selectedData.d_1_90Days;
+
+                  this.fetchDataBasedOnChartSelection('Delay', 'Between1_3', 0, selectedSeries );
+                // return '#FFA500';
+              } else {
+                this.selectedvalue = selectedData.timeValid;
+
+                // delayTime=OnTime&parameter=TimeValid
+                this.fetchDataBasedOnChartSelection('OnTime','TimeValid', 0, selectedSeries );
+              }  
             } else {
               console.log(
                 `No data found for selected category: ${selectedCategory}`
@@ -695,8 +742,41 @@ export class RunningWorkComponent {
             // console.log("selectedData chart1",selectedData)
             if (selectedData) {
               const id = selectedData.id; // Extract the id from the matching entry
+              this.selectname=selectedSeries;
+            
+              // {
+              //   name: 'No. of Works',
+              //   data: totalWorks,
+              //   color: '#eeba0b',
+              // },
+              //  { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+              //  { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+              //  { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },timeValid
+              if (selectedSeries=='No. of Works') {
+                this.selectedvalue = selectedData.totalWorks;
 
-              // this.fetchDataBasedOnChartSelectiondivisionUNP(id, selectedSeries);
+                this.fetchDataBasedOnChartSelection_II(0,0,id,selectedSeries );
+              } else if (selectedSeries=='Delayed > 6 Month') {
+                this.selectedvalue = selectedData.morethanSixMonth;
+
+                this.fetchDataBasedOnChartSelection_II('Delay', 'SixMonth', id, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries =='Delayed > 3 and < 6 Month') {
+                this.selectedvalue = selectedData.d_91_180Days;
+
+                this.fetchDataBasedOnChartSelection_II('Delay', 'Between3_6', id, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries=='Delayed > 1 and < 3 Month') {
+                this.selectedvalue = selectedData.d_1_90Days;
+
+                  this.fetchDataBasedOnChartSelection_II('Delay', 'Between1_3', id, selectedSeries );
+                // return '#FFA500';
+              } else {
+                this.selectedvalue = selectedData.timeValid;
+
+                // delayTime=OnTime&parameter=TimeValid
+                this.fetchDataBasedOnChartSelection_II('OnTime','TimeValid', id, selectedSeries );
+              } 
             } else {
               console.log(
                 `No data found for selected category: ${selectedCategory}`
@@ -785,8 +865,41 @@ export class RunningWorkComponent {
             );
             if (selectedData) {
               const id = selectedData.id; // Extract the id from the matching entry
+              this.selectname=selectedSeries;
 
-              // this.fetchDataBasedOnChartSelectionmainSchemeUNP(id, selectedSeries);
+              // {
+              //   name: 'No. of Works',
+              //   data: totalWorks,
+              //   color: '#eeba0b',
+              // },
+              //  { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+              //  { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+              //  { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+              if (selectedSeries=='No. of Works') {
+                this.selectedvalue = selectedData.totalWorks;
+
+                this.fetchDataBasedOnChartSelection_III(0,0,id,selectedSeries );
+              } else if (selectedSeries=='Delayed > 6 Month') {
+                this.selectedvalue = selectedData.morethanSixMonth;
+
+                this.fetchDataBasedOnChartSelection_III('Delay', 'SixMonth',id, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries =='Delayed > 3 and < 6 Month') {
+                this.selectedvalue = selectedData.d_91_180Days;
+
+                this.fetchDataBasedOnChartSelection_III('Delay', 'Between3_6', id, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries=='Delayed > 1 and < 3 Month') {
+                this.selectedvalue = selectedData.d_1_90Days;
+
+                  this.fetchDataBasedOnChartSelection_III('Delay', 'Between1_3', id, selectedSeries );
+                // return '#FFA500';
+              } else {
+                this.selectedvalue = selectedData.timeValid;
+
+                // delayTime=OnTime&parameter=TimeValid
+                this.fetchDataBasedOnChartSelection_III('OnTime','TimeValid', id, selectedSeries );
+              } 
             } else {
               console.log(
                 `No data found for selected category: ${selectedCategory}`
@@ -875,8 +988,41 @@ export class RunningWorkComponent {
             );
             if (selectedData) {
               const id = selectedData.id; // Extract the id from the matching entry
+              this.selectname=selectedSeries;
 
-              // this.fetchDataBasedOnChartSelectionmainDesignationUNP(id, selectedSeries);
+              // {
+              //   name: 'No. of Works',
+              //   data: totalWorks,
+              //   color: '#eeba0b',
+              // },
+              //  { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+              //  { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+              //  { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+              if (selectedSeries=='No. of Works') {
+                this.selectedvalue = selectedData.totalWorks;
+
+                this.fetchDataBasedOnChartSelection_IV(0,0,id,selectedSeries );
+              } else if (selectedSeries=='Delayed > 6 Month') {
+                this.selectedvalue = selectedData.morethanSixMonth;
+
+                this.fetchDataBasedOnChartSelection_IV('Delay', 'SixMonth', id, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries =='Delayed > 3 and < 6 Month') {
+                this.selectedvalue = selectedData.d_91_180Days;
+
+                this.fetchDataBasedOnChartSelection_IV('Delay', 'Between3_6', id, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries=='Delayed > 1 and < 3 Month') {
+                this.selectedvalue = selectedData.d_1_90Days;
+
+                  this.fetchDataBasedOnChartSelection_IV('Delay', 'Between1_3', id, selectedSeries );
+                // return '#FFA500';
+              } else {
+                this.selectedvalue = selectedData.timeValid;
+
+                // delayTime=OnTime&parameter=TimeValid
+                this.fetchDataBasedOnChartSelection_IV('OnTime','TimeValid', id, selectedSeries );
+              } 
             } else {
               console.log(
                 `No data found for selected category: ${selectedCategory}`
@@ -965,8 +1111,41 @@ export class RunningWorkComponent {
             );
             if (selectedData) {
               const id = selectedData.id; // Extract the id from the matching entry
+              this.selectname=selectedSeries;
 
-              // this.fetchDataBasedOnChartSelectionmainDesignationUNP(id, selectedSeries);
+              // {
+              //   name: 'No. of Works',
+              //   data: totalWorks,
+              //   color: '#eeba0b',
+              // },
+              //  { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+              //  { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+              //  { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+              if (selectedSeries=='No. of Works') {
+                this.selectedvalue = selectedData.totalWorks;
+
+                this.fetchDataBasedOnChartSelection_V(0,0,id,selectedSeries );
+              } else if (selectedSeries=='Delayed > 6 Month') {
+                this.selectedvalue = selectedData.morethanSixMonth;
+
+                this.fetchDataBasedOnChartSelection_V('Delay', 'SixMonth', id, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries =='Delayed > 3 and < 6 Month') {
+                this.selectedvalue = selectedData.d_91_180Days;
+
+                this.fetchDataBasedOnChartSelection_V('Delay', 'Between3_6', id, selectedSeries );
+                // return '#FFA500';
+              } else if (selectedSeries=='Delayed > 1 and < 3 Month') {
+                this.selectedvalue = selectedData.d_1_90Days;
+
+                  this.fetchDataBasedOnChartSelection_V ('Delay', 'Between1_3',id, selectedSeries );
+                // return '#FFA500';
+              } else {
+                this.selectedvalue = selectedData.timeValid;
+
+                // delayTime=OnTime&parameter=TimeValid
+                this.fetchDataBasedOnChartSelection_V('OnTime','TimeValid', id, selectedSeries );
+              } 
             } else {
               console.log(
                 `No data found for selected category: ${selectedCategory}`
@@ -1469,7 +1648,7 @@ const contractid=0;
   // #endregion
 //#region Get API data Running Works Delay
 
-GETRunningWorkDelayTotal(): void {
+  GETRunningWorkDelayTotal(): void {
   this.spinner.show();
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
@@ -1538,7 +1717,11 @@ const contractid=0;
             data: totalWorks,
             color: '#eeba0b',
           },
-          // {
+           { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
+           { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
+           { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(250, 247, 87)'  },
+           { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
+                    // {
           //   name: 'Value(in Cr)',
           //   data: tvcValuecr,
           //  color: '#6a6afd',
@@ -1549,11 +1732,6 @@ const contractid=0;
           //   color: 'rgba(93, 243, 174, 0.85)',
           // },
           // { name: 'Gross Due(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-          
-           { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
-           { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-           { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
-           { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
          ];
          this.chartOptions_I.xaxis = { categories: name };
          this.cO = this.chartOptions_I;
@@ -1649,7 +1827,7 @@ const contractid=0;
      
       { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
       { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-      { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+      { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(250, 247, 87)'  },
       { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
          ];
          this.chartOptions_II.xaxis = { categories: name };
@@ -1743,7 +1921,7 @@ const contractid=0;
      
       { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
       { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-      { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+      { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(250, 247, 87)'  },
       { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
          ];
          this.chartOptions_III.xaxis = { categories: name };
@@ -1839,7 +2017,7 @@ const contractid=0;
    
     { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
     { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-    { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+    { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(250, 247, 87)'  },
     { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
       ];
       this.chartOptions_IV.xaxis = { categories: name };
@@ -1935,7 +2113,7 @@ const contractid=0;
    
     { name: 'Delayed > 6 Month', data: morethanSixMonth,color:'rgb(250, 87, 149)'  },
     { name: 'Delayed > 3 and < 6 Month', data: d_91_180Days,color:'rgba(245, 155, 207, 0.85)'  },
-    { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(231, 250, 87)'  },
+    { name: 'Delayed > 1 and < 3 Month', data: d_1_90Days,color:'rgb(250, 247, 87)'  },
     { name: 'On Time', data: timeValid,color:'rgb(98, 245, 98)'  },
       ];
       this.chartOptions_V.xaxis = { categories: name };
@@ -1950,4 +2128,310 @@ const contractid=0;
   );
   }
   // #endregion
+
+// #region data table for delayTime
+// GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
+//   return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}`);
+// // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
+// // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=OnTime&parameter=TimeValid&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
+// }
+
+fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seriesName: string): void {
+  // debugger;
+  this.selectedParameter=delayTime;
+  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  const  districtid=0;
+  const mainSchemeId=0;
+  const contractid=0;
+  this.spinner.show();
+//  const delayTime="delayTime";
+//  const parameter="parameter";
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+    (res) => {
+      this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      this.dataSource.data = this.dispatchData;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+  this.openDialog();
+
+}
+fetchDataBasedOnChartSelection_II(delayTime:any,parameter:any,divisionID: any, seriesName: string): void {
+  // debugger;
+  // alert(delayTime);
+  this.selectedParameter=delayTime;
+  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  const  districtid=0;
+  const mainSchemeId=0;
+  const contractid=0;
+  this.spinner.show();
+//  const delayTime="delayTime";
+//  const parameter="parameter";
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+    (res) => {
+      this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      this.dataSource.data = this.dispatchData;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+  this.openDialog();
+
+}
+fetchDataBasedOnChartSelection_III(delayTime:any,parameter:any,mainSchemeId: any, seriesName: string): void {
+  this.selectedParameter=delayTime;
+  console.log(`mainSchemeId ID: ${mainSchemeId}, Series: ${seriesName}`);
+  const  districtid=0;
+  // const mainSchemeId=0;
+  const divisionID=0;
+  const contractid=0;
+  this.spinner.show();
+//  const delayTime="delayTime";
+//  const parameter="parameter";
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+    (res) => {
+      this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      this.dataSource.data = this.dispatchData;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+  this.openDialog();
+
+}
+fetchDataBasedOnChartSelection_IV(delayTime:any,parameter:any,districtid: any, seriesName: string): void {
+  this.selectedParameter=delayTime;
+  console.log(`districtid ID: ${districtid}, Series: ${seriesName}`);
+  const  divisionID=0;
+  // const  districtid=0;
+  const mainSchemeId=0;
+  const contractid=0;
+  this.spinner.show();
+//  const delayTime="delayTime";
+//  const parameter="parameter";
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+    (res) => {
+      this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      this.dataSource.data = this.dispatchData;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+  this.openDialog();
+
+}
+fetchDataBasedOnChartSelection_V(delayTime:any,parameter:any,contractid: any, seriesName: string): void {
+ this.selectedParameter=delayTime;
+  console.log(`contractid ID: ${contractid}, Series: ${seriesName}`);
+  const  districtid=0;
+  const mainSchemeId=0;
+  const divisionID=0;
+  // const contractid=0;
+  this.spinner.show();
+//  const delayTime="delayTime";
+//  const parameter="parameter";
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+    (res) => {
+      this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      this.dataSource.data = this.dispatchData;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+  this.openDialog();
+
+}
+// #endregion
+openDialog() {
+  const dialogRef = this.dialog.open(this.itemDetailsModal, {
+   width: '100%',
+   height: '100%',
+   maxWidth: '100%',
+   panelClass: 'full-screen-dialog', // Optional for additional styling
+   data: {
+     /* pass any data here */
+   },
+   // width: '100%',
+   // maxWidth: '100%', // Override default maxWidth
+   // maxHeight: '100%', // Override default maxHeight
+   // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+   // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+   console.log('Dialog closed');
+  });
+  }
+  applyTextFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+  
+  exportToPDF() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'Head', dataKey: 'head' },
+      { title: 'Division', dataKey: 'divName_En' },
+      { title: 'District', dataKey: 'district' },
+      { title: 'Block', dataKey: 'blockname' },
+      { title: 'AS Letter No', dataKey: 'letterNo' },
+      { title: 'Approver', dataKey: 'approver' },
+      { title: 'Work', dataKey: 'work' },
+      // { title: 'AS Date', dataKey: 'aadt' },
+      // { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+      { title: 'TS Date', dataKey: 'tsDate' },
+      { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+      { title: 'Tender Type', dataKey: 'tType' },
+      { title: 'NIT Reference', dataKey: 'tenderReference' },
+      { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+      { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+      { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+      // { title: 'Rate%', dataKey: 'sanctionRate' },
+      // { title: 'Sanction', dataKey: 'sanctionDetail' },
+      // { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+      // { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+      { title: 'Time Allowed', dataKey: 'timeAllowed' },
+      { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+      { title: 'Delay/On Time Days', dataKey: 'delayDays' },
+      // { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+      { title: 'Contractor ID/Class', dataKey: 'cid' },
+      { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+      { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+      { title: 'Last Progress', dataKey: 'lProgress' },
+      { title: 'Progress DT', dataKey: 'progressDT' },
+      { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
+      { title: 'Delay Reason', dataKey: 'delayreason' },
+      { title: 'Sub Engineer', dataKey: 'subengname' },
+      { title: 'Asst.Eng', dataKey: 'aeName' },
+      { title: 'Work ID', dataKey: 'work_id' },
+      // { title: 'AS Letter', dataKey: 'asLetter' },
+    ];
+    const rows = this.dispatchData.map((row) => ({
+      sno: row.sno,
+      head: row.head,
+      divName_En:row.divName_En,
+      district: row.district,
+      blockname: row.blockname,
+      letterNo: row.letterNo,
+      approver: row.approver,
+      work: row.work,
+      aaDate: row.aaDate,
+      aaamt: row.aaamt,
+      tsDate: row.tsDate,
+      tsamt: row.tsamt,
+      tType: row.tType,
+      tenderReference: row.tenderReference,
+      dateOfIssueNIT: row.dateOfIssueNIT,
+      acceptanceLetterRefNo: row.acceptanceLetterRefNo,
+      acceptLetterDT: row.acceptLetterDT,
+      // sanctionRate: row.sanctionRate,
+      // sanctionDetail: row.sanctionDetail,
+      // totalAmountOfContract: row.totalAmountOfContract,
+      workorderDT: row.workorderDT,
+      timeAllowed: row.timeAllowed,
+      dueDTTimePerAdded: row.dueDTTimePerAdded,
+      delayDays: row.delayDays,
+      // agreementRefNo: row.agreementRefNo,
+      cid: row.cid,
+      contractorNAme: row.contractorNAme,
+      mobNo: row.mobNo,
+      lProgress: row.lProgress,
+      progressDT: row.progressDT,
+       expcompdt: row.expcompdt,
+       delayreason: row.delayreason,
+      subengname: row.subengname,
+      aeName: row.aeName,
+      work_id: row.work_id,
+      // asLetter: row.asLetter,
+    }));
+  
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+  
+    doc.save('LandIssue_Detail.pdf');
+  }
+  onButtonClick2(ASID:any,workid:any): void {
+    //  this.value='Active';
+    // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+      // alert(ASID);
+      // alert(this.value);
+      // return;
+      // asLetterName
+      // filename
+      this.spinner.show();
+      this.api.GETASFile(ASID,workid)
+        .subscribe(
+          (res) => {
+            // this.ASFileData=res;
+            const filename = res[0]?.filename; // Ensure `res[0]` exists
+            const URL = res[0]?.asLetterName;
+            
+            if (filename) {
+              window.open(URL, '_blank');
+            } else {
+              alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.");
+              // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
+            }
+          //  const URL =this.ASFileData[0].asLetterName;
+          // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
+  
+            // console.log('res:', res);
+            console.log('ASFileData:',this.ASFileData);
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            alert(`Error fetching data: ${error.message}`);
+          }
+        );
+     }
 }

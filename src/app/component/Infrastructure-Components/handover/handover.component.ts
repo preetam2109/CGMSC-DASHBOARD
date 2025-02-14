@@ -207,6 +207,7 @@ export class HandoverComponent {
         colors: ['#fff'],
       },
       title: {
+        // text: 'Total Handover',
         text: 'Division wise Handover',
         align: 'center',
         style: {
@@ -508,9 +509,11 @@ export class HandoverComponent {
 
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
-    const datePipe = new DatePipe('en-US');
-    this.fromdt = startDate ? datePipe.transform(new Date(startDate), 'dd-MM-yyyy') : '';
-    this.todt = endDate ? datePipe.transform(new Date(endDate), 'dd-MM-yyyy') : '';
+    // const datePipe = new DatePipe('en-US');
+    // this.fromdt = startDate ? datePipe.transform(new Date(startDate), 'dd-MM-yyyy') : '';
+    // this.todt = endDate ? datePipe.transform(new Date(endDate), 'dd-MM-yyyy') : '';
+    this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy'): '';
+    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     // if (roleName == 'Division') {
     //   this.chartOptions.chart.height = '300px';
     // } else {
