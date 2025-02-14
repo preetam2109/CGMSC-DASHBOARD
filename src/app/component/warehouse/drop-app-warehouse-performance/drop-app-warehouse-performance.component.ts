@@ -29,6 +29,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
 
 
 
@@ -61,6 +62,8 @@ export class DropAppWarehousePerformanceComponent {
   chartOptionsLine: ChartOptions; // For line chart
   chartOptionsLine2: ChartOptions; // For line chart
   dateRange!: FormGroup;
+  isLoggedIn = this.loginService.isUserLogedIn() 
+
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -68,7 +71,8 @@ export class DropAppWarehousePerformanceComponent {
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     public datePipe: DatePipe,
-    private router:Router
+    private router:Router,
+    private loginService: BasicAuthenticationService,
   ) {
     // Bar chart configuration for loadData
     this.chartOptions = {

@@ -535,7 +535,7 @@ export class ApiService {
     return this.http.get<QCLabYearAvgTime[]>(`https://dpdmis.in/CGMSCHO_API2/api/TimeTaken/QCLabYearAvgTime?yrid=${yrid}`);
   }
   getStockoutSummary(yrid: any, isedl: any, mcid: any): Observable<any> {
-debugger
+
     return this.http.get<StockoutSummary[]>(`https://dpdmis.in/CGMSCHO_API2/api/TimeTaken/StockoutSummary?yrid=${yrid}&isedl=${isedl}&mcid=${mcid}`);
   }
 
@@ -997,6 +997,7 @@ debugger
   }
 
   MasIndentitems(mcid: any, yearid: any, hodid: any, medclgid: any) {
+    
     return this.http.get<MasIndentitems[]>(`${this.CGMSCHO_API2}/DashboardHome/MasIndentitems?mcid=${mcid}&yearid=${yearid}&hodid=${hodid}&medclgid=${medclgid}`);
   }
   MasfacilityInfo(hod: any, disid: any, factypeid: any, whid: any, facid: any) {

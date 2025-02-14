@@ -6,6 +6,7 @@ import { GrowthInProcurmentComponent } from "../growth-in-procurment/growth-in-p
 import { GrowthInProcurmentTwoComponent } from "../growth-in-procurment-two/growth-in-procurment-two.component";
 import { DirectorateAIDetailsComponent } from "../directorate-aidetails/directorate-aidetails.component";
 import { Router } from '@angular/router';
+import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
 @Component({
   selector: 'app-growth-in-procurment-tab',
   standalone: true,
@@ -15,10 +16,16 @@ import { Router } from '@angular/router';
   styleUrl: './growth-in-procurment-tab.component.css'
 })
 export class GrowthInProcurmentTabComponent {
-  selectedTabIndex: number = 0;
-
-   constructor(private router:Router){
   
+  selectedTabIndex: number = 0;
+  isLoggedIn = this.loginService.isUserLogedIn() 
+
+    constructor(
+      private loginService: BasicAuthenticationService,
+      private router: Router
+    ) {
+
+
     }
   selectedTabValue(event: any): void {
     

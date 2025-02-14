@@ -103,12 +103,12 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            debugger
+            
             const selectedCategory = this.chartOptions?.xaxis?.categories?.[dataPointIndex];
             const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
-              debugger
+              
               const apiData = this.fundReivedBudgetID; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find(
@@ -117,7 +117,7 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.accyrsetid; // Extract the id from the matching entry
-debugger
+
                 this.fetchDataBasedOnChart2SelectionYrid(id, selectedSeries);
               } else {
                 console.log(
@@ -202,7 +202,7 @@ debugger
             chartContext: any,
             config: { dataPointIndex: number; seriesIndex: number }
           ) => {
-            debugger;
+            ;
             
             const selectedCategory = this.chartOptions?.xaxis?.categories?.[config.dataPointIndex];
         
@@ -216,7 +216,7 @@ debugger
         
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
-              debugger;
+              ;
               const apiData = this.pODetailsAgainstIndentYr; // Replace with the actual data source or API response
         
               // Find the data in your API response that matches the selectedCategory
@@ -226,7 +226,7 @@ debugger
         
               if (selectedData) {
                 const id = selectedData.aifinyear; // Extract the id from the matching entry
-                debugger;
+                ;
                 if (selectedSeries === 'Total Paid') {
                   // Handle totalpaid logic
                 this.fetchDataBasedOnaifinyearSelectionYrid(id, selectedSeries);
@@ -453,12 +453,12 @@ debugger
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            debugger
+            
             const selectedCategory = this.chartOptions?.xaxis?.categories?.[dataPointIndex];
             const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
-              debugger
+              
               const apiData = this.fundReivedBudgetID; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find(
@@ -467,7 +467,7 @@ debugger
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.accyrsetid; // Extract the id from the matching entry
-debugger
+
                 this.fetchDataBasedOnChartSelectionYrid(id, selectedSeries);
               } else {
                 console.log(
@@ -631,7 +631,7 @@ ngOnInit(): void {
 }
 
 getSanc_Cheque(){
-  debugger
+  
         this.api.Sanc_Cheque('Sanction',this.budgetid).subscribe((data:any[])=>{
         console.log('fefefeffefe',data);
           const budgetname: any[] = [];
@@ -731,7 +731,7 @@ getSanc_Cheque(){
       );
     }
 getPODetailsAgainstIndentYr(){
-  debugger
+  
         this.api.PODetailsAgainstIndentYr(this.budgetid,0,2).subscribe((data:any[])=>{
         
           this.pODetailsAgainstIndentYr=data
@@ -840,7 +840,7 @@ getPODetailsAgainstIndentYr(){
       );
     }
 GetPipeline_Libilities(){
-  debugger
+  
         this.api.Pipeline_Libilities(this.budgetid).subscribe((data:any[])=>{
         
           const name: string[] = [];
@@ -943,7 +943,7 @@ GetPipeline_Libilities(){
 
 
 GetFundReivedBudgetID(): void {
-  debugger
+  
   this.spinner.show();
   
     this.api.getFundReivedBudgetID(this.budgetid,0)
@@ -1009,7 +1009,7 @@ GetFundReivedBudgetID(): void {
 
 
 GetFund_Libilities(): void {
-  debugger
+  
   this.spinner.show();
   
     this.api.Fund_Libilities(this.budgetid)
@@ -1204,7 +1204,7 @@ GetFundsDDL(){
   });  
 }
   onISelectChange(event: Event): void {
-    debugger
+    
     const selectedUser = this.FundsDDL.find((user: { budgetid: string }) => user.budgetid === this.budgetid); 
   
     if (selectedUser) {
@@ -1220,7 +1220,7 @@ GetFundsDDL(){
 
 
     GetFundReivedBudgetDetails(){
-    debugger
+    
           this.api.FundReivedBudgetDetails(this.budgetid,this.yrid).subscribe((res:any[])=>{
             if (res && res.length > 0) {
              this.spinner.show();
@@ -1243,7 +1243,7 @@ GetFundsDDL(){
           });  
         }
         GrossPaidDateWiseDetails(){
-    debugger
+    
           this.api.GrossPaidDateWiseDetails(this.budgetid,0,0,0,this.yrid).subscribe((res:any[])=>{
             if (res && res.length > 0) {
              this.spinner.show();
@@ -1269,7 +1269,7 @@ GetFundsDDL(){
           });  
         }
         GrossPaidDateWiseDetails2(){
-    debugger
+    
           this.api.GrossPaidDateWiseDetails2(this.budgetid,0,0,0,0,this.yrid).subscribe((res:any[])=>{
             if (res && res.length > 0) {
              this.spinner.show();
@@ -1297,7 +1297,7 @@ GetFundsDDL(){
 
 
   openDialogGrossPaidDateWiseDetails(){
-    debugger
+    
     const dialogRef = this.dialog.open(this.grossPaidDateWiseDetailsModal, {
      width: '100%',
      height: '100%',
@@ -1312,13 +1312,13 @@ GetFundsDDL(){
      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
      // height: 'auto',
     });
-    debugger
+    
     dialogRef.afterClosed().subscribe((result) => {
      console.log('Dialog closed');
     });
     }
   openDialogBudgetDetails(){
-    debugger
+    
     const dialogRef = this.dialog.open(this.FundDetailsModal, {
      width: '100%',
      height: '100%',
@@ -1333,7 +1333,7 @@ GetFundsDDL(){
      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
      // height: 'auto',
     });
-    debugger
+    
     dialogRef.afterClosed().subscribe((result) => {
      console.log('Dialog closed');
     });
@@ -1343,7 +1343,7 @@ GetFundsDDL(){
 
 
     fetchDataBasedOnChartSelectionYrid(  yrid: any, seriesName: string ): void {
-      debugger
+      
       console.log(`Selected ID: ${yrid}, Series: ${seriesName}`);
    this.yrid=yrid;
       this.spinner.show();
@@ -1375,7 +1375,7 @@ GetFundsDDL(){
       this.openDialogBudgetDetails();
     }
     fetchDataBasedOnChart2SelectionYrid(  yrid: any, seriesName: string ): void {
-      debugger
+      
       console.log(`Selected ID: ${yrid}, Series: ${seriesName}`);
    this.yrid=yrid;
       this.spinner.show();
@@ -1407,7 +1407,7 @@ GetFundsDDL(){
       this.openDialogGrossPaidDateWiseDetails();
     }
     fetchDataBasedOnaifinyearSelectionYrid(  yrid: any, seriesName: string ): void {
-      debugger
+      
         // let filteredData: PODetailsAgainstIndentYr[] = [];
         //       if (seriesName === 'totalpaid') {
         //         // filteredData = res.filter((item) => item.supplier === supplier);
