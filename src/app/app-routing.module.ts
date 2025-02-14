@@ -100,6 +100,7 @@ import { AdministrativeSanctionComponent } from './component/Infrastructure-Comp
 import { HomeSearchComponent } from './component/home-search/home-search.component';
 import { RunningWorkComponent } from './component/Infrastructure-Components/running-work/running-work.component';
 import { FinanceDashComponent } from './Finance-Dashboard/finance-dash/finance-dash.component';
+import { PublicViewComponent } from './component/Public-View/public-view/public-view.component';
 
 
 
@@ -109,6 +110,7 @@ const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'collector-login',component:CollectorLoginComponent},
   {path:'otp',component:OtpComponent},
+  {path:'public-view',component:PublicViewComponent},
 
   {path:'logout',component:LogoutComponent,canActivate:[RouteGuardService]},
   { path: 'home',component: CategorySelectionComponent,canActivate:[RouteGuardService]}, 
@@ -223,6 +225,18 @@ const routes: Routes = [
 {path:'finance-dash',component:FinanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
 
 
+
+//#region public view 
+
+{path:'GrowthInProcurmentTabPublic',component:GrowthInProcurmentTabComponent },
+{path:'distributionPublic',component:DistributionTabComponent},
+{path:'DropAppWarehousePerformancePublic',component:DropAppWarehousePerformanceComponent},
+{path:'IndentPendingWHdashPublic',component:IndentPendingWhDasComponent },
+{path:'stockDetailsPublic',component:CGMSCStockDetailsComponent },
+
+
+
+//#endregion
 
 
 { path: '**', redirectTo: 'login' }
