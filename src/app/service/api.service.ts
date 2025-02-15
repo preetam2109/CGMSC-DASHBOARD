@@ -98,7 +98,8 @@ import {
   RunningWork,
   RunningWorkDelay,
   WorkBillStatus,
-  ProjectTimelineNew
+  ProjectTimelineNew,
+  RunningDelayWorksDetails
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -944,6 +945,13 @@ GETRunningWorkSummaryDelay(RPType:any,divisionId:any,districtid:any,mainschemeid
   return this.http.get<RunningWorkDelay[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryDelay?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
 //https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummaryDelay?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
 }
+GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
+  return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}`);
+// https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
+// https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=OnTime&parameter=TimeValid&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
+}
+
+
 //#endregion
 
 

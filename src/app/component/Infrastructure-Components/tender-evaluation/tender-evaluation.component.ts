@@ -1905,6 +1905,7 @@ GETPEvaluationTotal(): void {
 
 // #region dataBase tender Evalution
 fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): void {
+  debugger;
  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
  const distid = 0;
  const mainSchemeId = 0;
@@ -1920,7 +1921,7 @@ fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): voi
          })
        );
        console.log('res:', res);
-       console.log('dispatchData=:', this.dispatchData);
+       console.log('GETTenderEvaluationDetails=:', this.dispatchData);
        this.dataSource.data = this.dispatchData;
        this.dataSource.paginator = this.paginator;
        this.dataSource.sort = this.sort;
@@ -2157,6 +2158,13 @@ if (this.dataSource.paginator) {
  this.dataSource.paginator.firstPage();
 }
 }
+applyTextFilter1(event: Event) {
+const filterValue = (event.target as HTMLInputElement).value;
+this.dataSource1.filter = filterValue.trim().toLowerCase();
+if (this.dataSource1.paginator) {
+ this.dataSource1.paginator.firstPage();
+}
+}
 exportToPDF() {
 const doc = new jsPDF('l', 'mm', 'a4');
 const columns = [
@@ -2171,8 +2179,11 @@ const columns = [
  { title: 'Start Dt', dataKey: 'startdt' },
  { title: 'End Dt', dataKey: 'enddt' },
  { title: 'NO of Calls', dataKey: 'noofcalls' },
- { title: 'e-Procno', dataKey: 'eprocno' },
  { title: 'NIT NO', dataKey: 'tenderno' },
+ { title: 'Cover A Opened DT', dataKey: 'tOpnedDT' },
+ { title: 'Cover B Opened DT', dataKey: 'topnedbdt' },
+ { title: 'Days Since Cov A/B Opned', dataKey: 'daysSinceOpen' },
+ { title: 'e-Procno', dataKey: 'eprocno' },
 ];
 const rows = this.dispatchData.map((row) => ({
  sno: row.sno,
@@ -2187,6 +2198,9 @@ const rows = this.dispatchData.map((row) => ({
  enddt: row.enddt,
  noofcalls: row.noofcalls,
  tenderno: row.tenderno,
+ tOpnedDT: row.tOpnedDT,
+ topnedbdt: row.topnedbdt,
+ daysSinceOpen: row.daysSinceOpen,
  eprocno: row.eprocno,
 }));
 
@@ -2198,7 +2212,68 @@ autoTable(doc, {
  headStyles: { fillColor: [22, 160, 133] },
 });
 
-doc.save('TenderDetails.pdf');
+doc.save('TechnicalEvaluation.pdf');
+}
+exportToPDF1() {
+const doc = new jsPDF('l', 'mm', 'a4');
+const columns = [
+ { title: 'S.No', dataKey: 'sno' },
+ { title: 'AS Letter No', dataKey: 'letterno' },
+ { title: 'Head', dataKey: 'head' },
+ { title: 'AS Date', dataKey: 'aA_RAA_Date' },
+ { title: 'AS Amount', dataKey: 'asAmt' },
+ { title: 'District', dataKey: 'district' },
+ { title: 'Work ID', dataKey: 'work_id' },
+ { title: 'Work Name', dataKey: 'workname' },
+ { title: 'Start Dt', dataKey: 'startdt' },
+ { title: 'End Dt', dataKey: 'enddt' },
+ { title: 'NO of Calls', dataKey: 'noofcalls' },
+ { title: 'NIT NO', dataKey: 'tenderno' },
+ { title: 'Cover A Opened DT', dataKey: 'TOpnedDT' },
+ { title: 'Days Since Cov A/B Opned', dataKey: 'daysSinceOpen' },
+ { title: 'Price Opened DT', dataKey: 'topnedpricedt' },
+ { title: 'Sanction', dataKey: 'sanctionDetail' },
+ { title: 'Rate %', dataKey: 'SanctionRate' },
+ { title: 'Contractor Name', dataKey: 'cnAme' },
+ { title: 'Contractor ID', dataKey: 'cid' },
+// 'TOpnedDT','daysSinceOpen','topnedpricedt','sanctionDetail','SanctionRate','cnAme','cid','action'
+
+ { title: 'e-Procno', dataKey: 'eprocno' },
+];
+const rows = this.dispatchData1.map((row) => ({
+  // 'TOpnedDT','topnedbdt','daysSinceOpen',
+ sno: row.sno,
+ letterNo: row.letterno,
+ head: row.head,
+ aA_RAA_Date: row.aA_RAA_Date,
+ asAmt: row.asAmt,
+ district: row.district,
+ work_id: row.work_id,
+ workname: row.workname,
+ startdt: row.startdt,
+ enddt: row.enddt,
+ noofcalls: row.noofcalls,
+ tenderno: row.tenderno,
+ tOpnedDT: row.tOpnedDT,
+ topnedpricedt: row.topnedpricedt,
+ daysSinceOpen: row.daysSinceOpen,
+ sanctionDetail: row.sanctionDetail,
+ sanctionRate: row.sanctionRate,
+//  CName: row.CName,
+ cnAme: row.cnAme,
+ cid: row.cid,
+ eprocno: row.eprocno,
+}));
+
+autoTable(doc, {
+ columns: columns,
+ body: rows,
+ startY: 20,
+ theme: 'striped',
+ headStyles: { fillColor: [22, 160, 133] },
+});
+
+doc.save('PriceEvaluation.pdf');
 }
 // mat-dialog box
 openDialog() {

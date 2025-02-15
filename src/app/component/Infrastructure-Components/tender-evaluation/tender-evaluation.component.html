@@ -128,7 +128,7 @@
       <!-- </div> -->
     </div>
   </div>
-  
+  <!-- TechnicalEvaluation -->
   <ng-template class=" " #itemDetailsModal let-modal>
     <div class="row align-items-center p-2 m-2 ">
       <div class="col-lg-6 col-md-8">
@@ -149,7 +149,7 @@
             <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
             <mat-menu #exportMenu="matMenu">
               <button mat-menu-item
-                (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                (click)="exporter.exportTable('xlsx', { fileName: 'TechnicalEvaluation', sheet: 'TechnicalEvaluation', Props: { Author: 'cgmsc' }})">Excel</button>
               <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
               <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
               <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -211,6 +211,18 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT NO</th>
               <td mat-cell *matCellDef="let element"> {{ element.tenderno }} </td>
             </ng-container>
+            <ng-container matColumnDef="tOpnedDT">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cover A Opened DT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.tOpnedDT}} </td>
+            </ng-container>
+            <ng-container matColumnDef="topnedbdt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cover B Opened DT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.topnedbdt }} </td>
+            </ng-container>
+            <ng-container matColumnDef="daysSinceOpen">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Days Since Cov A/B Opned</th>
+              <td mat-cell *matCellDef="let element"> {{ element.daysSinceOpen }} </td>
+            </ng-container>
             <ng-container matColumnDef="eprocno">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>e-Procno</th>
               <td mat-cell *matCellDef="let element"> {{ element.eprocno }} </td>
@@ -230,12 +242,12 @@
               </td>
             </ng-container>
             <tr mat-header-row
-              *matHeaderRowDef="['sno','letterno','head','aA_RAA_Date','asAmt','district','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno','action']">
+              *matHeaderRowDef="['sno','letterno','head','aA_RAA_Date','asAmt','district','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno','tOpnedDT','topnedbdt','daysSinceOpen','action']">
             </tr>
-  
+            <!-- TOpnedDT,topnedbdt,daysSinceOpen -->
             <!-- Data Rows -->
             <tr mat-row
-              *matRowDef="let row; columns: ['sno','letterno','head','aA_RAA_Date','asAmt','district','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno','action'];">
+              *matRowDef="let row; columns: ['sno','letterno','head','aA_RAA_Date','asAmt','district','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno','tOpnedDT','topnedbdt','daysSinceOpen','action'];">
             </tr>
           </table>
           <mat-paginator #paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
@@ -262,6 +274,7 @@
         </button>
     </div> -->
   </ng-template>
+  <!-- PriceEvaluation -->
   <ng-template class=" " #itemDetailsModal1 let-modal>
     <div class="row align-items-center p-2 m-2 ">
       <div class="col-lg-6 col-md-8">
@@ -276,17 +289,17 @@
       <div class="row card shadow card-body ">
         <div class="d-flex justify-content-between align-items-center mb-0">
           <div class="filter-field flex-grow-1">
-            <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)">
           </div>
           <div class="export-menu-container">
             <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
             <mat-menu #exportMenu="matMenu">
               <button mat-menu-item
-                (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                (click)="exporter.exportTable('xlsx', { fileName: 'PriceEvaluation', sheet: 'PriceEvaluation', Props: { Author: 'cgmsc' }})">Excel</button>
               <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
               <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
               <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-              <button mat-menu-item (click)="exportToPDF()">PDF</button>
+              <button mat-menu-item (click)="exportToPDF1()">PDF</button>
             </mat-menu>
           </div>
         </div>
@@ -350,6 +363,39 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT NO</th>
               <td mat-cell *matCellDef="let element"> {{ element.tenderno }} </td>
             </ng-container>
+            <!-- 'TOpnedDT','daysSinceOpen','topnedpricedt','sanctionDetail','SanctionRate','cnAme','cid','action' -->
+            <ng-container matColumnDef="tOpnedDT">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cover A Opened DT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.tOpnedDT}} </td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="topnedbdt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cover B Opened DT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.topnedbdt }} </td>
+            </ng-container> -->
+            <ng-container matColumnDef="daysSinceOpen">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Days Since Cov A/B Opned</th>
+              <td mat-cell *matCellDef="let element"> {{ element.daysSinceOpen }} </td>
+            </ng-container>
+            <ng-container matColumnDef="topnedpricedt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Price Opened DT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.topnedpricedt }} </td>
+            </ng-container>
+            <ng-container matColumnDef="sanctionDetail">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Sanction</th>
+              <td mat-cell *matCellDef="let element"> {{ element.sanctionDetail }} </td>
+            </ng-container>
+            <ng-container matColumnDef="SanctionRate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate %</th>
+              <td mat-cell *matCellDef="let element"> {{ element.SanctionRate }} </td>
+            </ng-container>
+            <ng-container matColumnDef="cnAme">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor Name</th>
+              <td mat-cell *matCellDef="let element"> {{ element.cnAme}} </td>
+            </ng-container>
+            <ng-container matColumnDef="cid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor ID</th>
+              <td mat-cell *matCellDef="let element"> {{ element.cid}} </td>
+            </ng-container>
             <ng-container matColumnDef="eprocno">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>e-Procno</th>
               <td mat-cell *matCellDef="let element"> {{ element.eprocno }} </td>
@@ -369,12 +415,12 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
             <!-- Header Row -->
             <tr mat-header-row
-              *matHeaderRowDef="['sno','head','district','letterno','aA_RAA_Date','asAmt','tsAmt','work_id','workname','startdt','enddt','noofcalls','eprocno','action']">
+              *matHeaderRowDef="['sno','head','district','letterno','aA_RAA_Date','asAmt','tsAmt','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno','tOpnedDT','daysSinceOpen','topnedpricedt','sanctionDetail','SanctionRate','cnAme','cid','action']">
             </tr>
   
             <!-- Data Rows -->
             <tr mat-row
-              *matRowDef="let row; columns: ['sno','head','district','letterno','aA_RAA_Date','asAmt','tsAmt','work_id','workname','startdt','enddt','noofcalls','eprocno','action'];">
+              *matRowDef="let row; columns: ['sno','head','district','letterno','aA_RAA_Date','asAmt','tsAmt','work_id','workname','startdt','enddt','noofcalls','eprocno','tenderno','tOpnedDT','daysSinceOpen','topnedpricedt','sanctionDetail','SanctionRate','cnAme','cid','action'];">
             </tr>
           </table>
           <mat-paginator #paginator1 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>

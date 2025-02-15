@@ -404,7 +404,7 @@ export class ToBeTenderComponent {
       .subscribe(
         (data: any) => {
           this.TobetenderGTotal = data;
-          console.log('API Response total:', this.TobetenderGTotal);
+          // console.log('API Response total:', this.TobetenderGTotal);
 
           const id: string[] = [];
           const name: string[] = [];

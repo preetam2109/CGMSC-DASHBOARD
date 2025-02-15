@@ -646,7 +646,7 @@ export class PriceEvaluationDetails {
     cnAme!: string;
     mobNo!: string;
   
-
+ // 'TOpnedDT','topnedbdt','daysSinceOpen',
 
 }
 //#endregion
@@ -1083,7 +1083,6 @@ export class RunningWork{
   grossPendingcr!:number;
 }
 export class RunningWorkDelay{
-  
   id!: string;
   name!: string;
   totalWorks!:number;
@@ -1094,16 +1093,49 @@ export class RunningWorkDelay{
   d_91_180Days!:number;
   d_1_90Days!:number;
   timeValid!:number;
-
-  // "id": "1",
-  // "name": "-",
-  // "totalWorks": 861,
-  // "tvcValuecr": 680.72,
-  // "paidTillcr": 177.03,
-  // "grossPendingcr": 26.03,
-  // "morethanSixMonth": 409,
-  // "d_91_180Days": 293,
-  // "d_1_90Days": 21,
-  // "timeValid": 138
 }
+export class  RunningDelayWorksDetails {
+  sno!:number;
+  work_id!: string;
+  letterNo!: string;
+  head!: string;
+  approver!: string;
+  type_name!: string;
+  divName_En!: string;
+  divisionID!: string;
+  district!: string;
+  blockname!: string;
+  work!: string;
+  aaamt!: number;
+  tsamt!: number;
+  aaDate!: string;
+  tsDate!: string;
+  acceptanceLetterRefNo!: string;
+  acceptLetterDT!: string;
+  tvc!: number;
+  paidTillLacs!: number;
+  grossPendinglacs!: number;
+  workorderDT!: string;
+  dueDTTimePerAdded!: string;
+  delayDays!: number;
+  timeAllowed!: number;
+  dateOfSanction!: string;
+  dateOfIssueNIT!: string;
+  tenderReference!: string;
+  tType!: string;
+  cid!: string;
+  contractorNAme!: string;
+  regType!: string;
+  class!: string;
+  englishAddress!: string;
+  mobNo!: string;
+  lProgress!: string;
+  progressDT!: string;
+  remarks!: string;
+  expcompdt!: string;
+  delayreason!: string;
+  subengname!: string;
+  aeName!: string;
+}
+
 //#endregion
