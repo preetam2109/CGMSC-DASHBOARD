@@ -1239,7 +1239,7 @@ export class RunningWorkComponent {
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions.chart.height = '200px';
+   this.chartOptions.chart.height = '400px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1252,7 +1252,7 @@ export class RunningWorkComponent {
    this.divisionid = 0;
    this.himisDistrictid = 0;
    this.mainschemeid=0;
-   this.chartOptions.chart.height = '300';
+   this.chartOptions.chart.height = '400';
   }
   var RPType = 'GTotal';
 const contractid=0;
@@ -1323,7 +1323,7 @@ const contractid=0;
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions1.chart.height = '200px';
+   this.chartOptions1.chart.height = '300px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1336,7 +1336,7 @@ const contractid=0;
    this.divisionid = 0;
    this.himisDistrictid = 0;
    this.mainschemeid=0;
-   this.chartOptions1.chart.height = '300';
+   this.chartOptions1.chart.height = '400';
   }
   var RPType = 'Division';
   const contractid=0;
@@ -1405,7 +1405,7 @@ const contractid=0;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
-   this.chartOptions2.chart.height = '200px';
+   this.chartOptions2.chart.height = '400px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1487,7 +1487,7 @@ const contractid=0;
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions3.chart.height = '200px';
+   this.chartOptions3.chart.height = '400px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1569,7 +1569,7 @@ const contractid=0;
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions4.chart.height = '200px';
+   this.chartOptions4.chart.height = '400px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1654,7 +1654,7 @@ const contractid=0;
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions_I.chart.height = '200px';
+   this.chartOptions_I.chart.height = '400px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1667,7 +1667,7 @@ const contractid=0;
    this.divisionid = 0;
    this.himisDistrictid = 0;
    this.mainschemeid=0;
-   this.chartOptions_I.chart.height = '300';
+   this.chartOptions_I.chart.height = '400';
   }
   var RPType = 'GTotal';
 const contractid=0;
@@ -1750,7 +1750,7 @@ const contractid=0;
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions_II.chart.height = '200px';
+   this.chartOptions_II.chart.height = '300px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1763,7 +1763,7 @@ const contractid=0;
    this.divisionid = 0;
    this.himisDistrictid = 0;
    this.mainschemeid=0;
-   this.chartOptions_II.chart.height = '300';
+   this.chartOptions_II.chart.height = '400';
   }
   var RPType = 'Division';
   const contractid=0;
@@ -1846,7 +1846,7 @@ const contractid=0;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
-   this.chartOptions_III.chart.height = '200px';
+   this.chartOptions_III.chart.height = '400px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -1942,7 +1942,7 @@ const contractid=0;
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions_IV.chart.height = '200px';
+   this.chartOptions_IV.chart.height = '400px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {
@@ -2037,7 +2037,7 @@ const contractid=0;
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
   // var RPType ='Division';
-   this.chartOptions_V.chart.height = '200px';
+   this.chartOptions_V.chart.height = '400px';
    this.himisDistrictid = 0;
    this.mainschemeid=0;
   } else if (roleName == 'Collector') {

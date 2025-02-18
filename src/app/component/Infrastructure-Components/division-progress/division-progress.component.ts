@@ -18,7 +18,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import {  DashProgressDistCount, DivisionPrograss, MainScheme, ProgressDetailsLatLong } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { DropdownModule } from 'primeng/dropdown';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -53,7 +57,7 @@ interface Marker {
     MatTabsModule,
     CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
     NgApexchartsModule, MatSortModule, MatPaginatorModule,
-GoogleMapsModule,MatButtonModule,MatMenuModule, MatTableExporterModule, MatTableModule,MapInfoWindow 
+GoogleMapsModule,MatButtonModule,MatMenuModule, MatTableExporterModule, MatTableModule,MapInfoWindow ,NgSelectModule,FormsModule,SelectDropDownModule,DropdownModule,
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -88,6 +92,7 @@ export class DivisionProgressComponent {
   dayPara:any;
   sr:any;
   ImageName:any;
+  mainSchemeID:any;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {
     this.chartOptions = {
       series: [],
@@ -398,11 +403,29 @@ selectedTabValue(event: any): void {
   this.loadData();
   }
 }
-  onselect_mainscheme_data(value:any, triggerValue:any){
-  this.SchemeId =value;
-  this.loadData();
-  // alert(  this.SchemeId )
-  }
+
+onselect_mainscheme_data(event: Event): void {
+  // debugger
+const selectedUser = this.mainscheme.find((user: { mainSchemeID: any }) => user.mainSchemeID === this.mainSchemeID); 
+
+if (selectedUser) {
+  //  const MID  =selectedUser.mainSchemeID || null;
+  // this.SchemeId =value;
+  this.mainSchemeID = selectedUser?.mainSchemeID ;
+  const selectedName = selectedUser?.name; 
+  
+   this.loadData();
+// alert(this.mainSchemeID);
+// alert(selectedName);
+} else {
+  alert('Selected districT_ID not found in the list.');
+}
+}
+  // onselect_mainscheme_data(value:any, triggerValue:any){
+  // this.SchemeId =value;
+  // this.loadData();
+  // // alert(  this.SchemeId )
+  // }
  
   //#endregion
  
