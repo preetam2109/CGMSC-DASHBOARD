@@ -30,8 +30,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
 
+
 @Component({
-  selector: 'app-public-view',
+  selector: 'app-qc-dashboard',
   standalone: true,
   imports: [
 
@@ -70,42 +71,10 @@ import { DropdownModule } from 'primeng/dropdown';
 
 
   ],
-  templateUrl: './public-view.component.html',
-  styleUrl: './public-view.component.css'
+  templateUrl: './qc-dashboard.component.html',
+  styleUrl: './qc-dashboard.component.css'
 })
-export class PublicViewComponent {
-
-
-  currentRoute: string = '';
-
-  
-
-
-
-  go(value: any) {
-    switch (value) {
-      case 1:
-        this.router.navigate(['GrowthInProcurmentTabPublic']);
-        break; // ✅ Added break to stop execution
-  
-      case 2:
-        this.router.navigate(['distributionPublic']);
-        break; // ✅ Added break to stop execution
-      case 3:
-        this.router.navigate(['DropAppWarehousePerformancePublic']);
-        break; // ✅ Added break to stop execution
-      case 4:
-        this.router.navigate(['IndentPendingWHdashPublic']);
-        break; // ✅ Added break to stop execution
-      case 5:
-        this.router.navigate(['stockDetailsPublic']);
-        break; // ✅ Added break to stop execution
-  
-      default:
-        this.router.navigate(['public-view']);
-    }
-  }
-  
+export class QcDashboardComponent {
 exportToPDF() {
 throw new Error('Method not implemented.');
 }
@@ -356,13 +325,6 @@ colors = [];
   constructor(private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
     
    
-
-    this.router.events.subscribe(() => {
-      
-      this.currentRoute = this.router.url;
-    });
-
-
     this.chartOptions = {
       series: [], // Your data values
       chart: {
@@ -1977,10 +1939,6 @@ loadUQC(): void {
         dialogRef.afterClosed().subscribe((result) => {
          console.log('Dialog closed');
         });
-        }
-
-        backbutton(){
-          this.router.navigate(['/login'])
         }
     
   }
