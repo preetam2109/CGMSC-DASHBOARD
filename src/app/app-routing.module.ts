@@ -101,6 +101,8 @@ import { HomeSearchComponent } from './component/home-search/home-search.compone
 import { RunningWorkComponent } from './component/Infrastructure-Components/running-work/running-work.component';
 import { FinanceDashComponent } from './Finance-Dashboard/finance-dash/finance-dash.component';
 import { PublicViewComponent } from './component/Public-View/public-view/public-view.component';
+import { QcDashboardComponent } from './component/QC/qc-dashboard/qc-dashboard.component';
+import { SidebarPublicComponent } from './sidebar-public/sidebar-public.component';
 
 
 
@@ -110,7 +112,8 @@ const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'collector-login',component:CollectorLoginComponent},
   {path:'otp',component:OtpComponent},
-  {path:'public-view',component:PublicViewComponent},
+  {path:'public-view1',component:PublicViewComponent},
+  {path:'public-view',component:SidebarPublicComponent},
 
   {path:'logout',component:LogoutComponent,canActivate:[RouteGuardService]},
   { path: 'home',component: CategorySelectionComponent,canActivate:[RouteGuardService]}, 
@@ -223,6 +226,7 @@ const routes: Routes = [
 {path:'field-stock',component:CgmscFieldStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
 {path:'home-search',component:HomeSearchComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
 {path:'finance-dash',component:FinanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','Warehouse']} },
+{path:'qc-dashboard',component:QcDashboardComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Warehouse']} },
 
 
 
@@ -233,6 +237,13 @@ const routes: Routes = [
 {path:'DropAppWarehousePerformancePublic',component:DropAppWarehousePerformanceComponent},
 {path:'IndentPendingWHdashPublic',component:IndentPendingWhDasComponent },
 {path:'stockDetailsPublic',component:CGMSCStockDetailsComponent },
+
+{path:'WarehouseInfoPublic',component:WarehouseInfoComponent},
+{path:'DevliveryPublic',component:DeliveryComponent},
+{path:'FacCoveragePublic',component:FacCoverageComponent},
+
+
+
 
 
 

@@ -1,30 +1,104 @@
+<!-- <div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems; let i = index">
+      
+      <div
+        [style.background-color]="colors[i % colors.length]"
+        class="card mb-4 shadow-sm"
+        [routerLink]="item.route"
+        style="cursor: pointer;"
+      >
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            
+            <mat-icon class="mat-icon">{{ item.icon }}</mat-icon> 
+            <h5 class="card-title ">{{ item.label }}</h5>
+            <mat-icon *ngIf="item.submenu" (click)="toggleSubmenu(item.label); $event.stopPropagation();">
+              {{ expandedMenus[item.label] ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+          </div>
+          <div *ngIf="expandedMenus[item.label]" class="submenu">
+            <div *ngFor="let subItem of item.submenu">
+              <button
+                [routerLink]="subItem.route"
+                class="btn btn-link"
+                (click)="closeSubmenu(); $event.stopPropagation();"
+              >
+                <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
+                {{ subItem.label }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="container mt-4">
+  <div class="card shadow">
+   
+    <div class="card-header d-flex align-items-center">
+      <img src="https://via.placeholder.com/40" alt="Card Title Image" class="me-2" />
+      <h5 class="mb-0">Card Title</h5>
+    </div>
+    
+    <div class="card-body d-flex align-items-center">
+      <img src="https://via.placeholder.com/80" alt="Body Image" class="me-3" />
+      <p class="mb-0 text-center flex-fill">
+        This is the body text of the card. It is centered within the body and complements the image on the left.
+      </p>
+    </div>
+  </div>
+</div> -->
+
+
+
+ <!-- <div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems let i = index">
+      <div [style.background-color]="colors[i % colors.length]" class="card mb-4 shadow-sm" [routerLink]="item.route" style="cursor: pointer;">
+        <div class="card-body">
+
+          <div class="d-flex justify-content-between align-items-center">
+              <div class="col-sm-12 col-md-4">
+
+                <img *ngIf="labelToIconMap[item.label]" [src]="labelToIconMap[item.label]" alt="{{item.label}} icon" class="w-100">
+              </div>
+              <div class="col-sm-12 col-md-8">
+                <h5 class="card-title">{{ item.label }}</h5>
+
+              </div>            
+
+            <mat-icon *ngIf="item.submenu" (click)="toggleSubmenu(item.label); $event.stopPropagation();">
+              {{ expandedMenus[item.label] ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+
+          </div>
+
+          <div *ngIf="expandedMenus[item.label]" class="submenu">
+            <div *ngFor="let subItem of item.submenu">
+              <button [routerLink]="subItem.route" class="btn btn-link" (click)="closeSubmenu(); $event.stopPropagation();">
+                <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
+                {{ subItem.label }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  -->
 
 
 
 
-
-
-
-
-
-<!-- Home Component Content -->
-
-
-  <!-- <button 
-  class="btn btn-info btn-lg" 
-  style="padding: 4px 8px; font-size: 12px;  align-items: center; width: 50px;" 
-  (click)="backbutton()">
-  Public Home
-</button> -->
-<img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="backbutton()">
-
-
-<div class="container my-4 mb-4">
+<div class="container my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName) && selectedCategory!='Infrastructure'">
     <div class="row">
       <!-- Card 1 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3"  >
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
-          <div class="card-body" (click)="go(1)"   >
+          <div class="card-body" routerLink="/GrowthInProcurmentTab" >
             <h6 class="card-title">No of Drugs Purchase Ordered in C.F.Y.</h6>
             <h2 class="card-value">{{totalpoitems}}</h2>
             <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
@@ -35,7 +109,7 @@
       <!-- Card 2 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3">
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
-          <div class="card-body"  (click)="go(2)" >
+          <div class="card-body" routerLink="/distribution">
             <h6 class="card-title">Drug Distribution & Facility Issues in C.F.Y.</h6>
             <h2 class="card-value">{{nositemsI}}</h2>
             <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p>
@@ -47,7 +121,7 @@
       <!-- Card 3 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3">
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
-          <div class="card-body"   (click)="go(3)" >
+          <div class="card-body" routerLink="/DropAppWarehousePerformance">
             <h6 class="card-title">Indent Processing & Fulfillment in C.F.Y.</h6>
             <h2 class="card-value">{{nosindent}}</h2>
             <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
@@ -58,7 +132,7 @@
       <!-- Card 4 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3"   >
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
-          <div class="card-body" (click)="go(4)"  >
+          <div class="card-body"   routerLink="/IndentPendingWHdash" >
             <h6 class="card-title">Pending Indents in Warehouse</h6>
             <h2 class="card-value"> {{ nosIndent }}</h2>
             <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p>
@@ -98,7 +172,7 @@
   
   
   
-  <div class="container my-4 mb-4">
+  <div class="container my-4 mb-4" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
     <div class="row">
       <!-- Card 1 -->‌
       <div class="col-12 col-sm-6 col-md-3 mb-3">
@@ -172,7 +246,7 @@
       <!-- current stock home  Card 4 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3">
         <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
-          <div class="card-body"  (click)="go(5)"  >
+          <div class="card-body" routerLink="/stockDetails">
             <apx-chart  class="border rounded" style="background-color: #5fad56;"
             [series]="chartOptions4.series" [chart]="chartOptions4.chart" [dataLabels]="chartOptions4.dataLabels"
             [labels]="chartOptions4.labels"
@@ -197,7 +271,7 @@
   
        <!-- Card 1 3rd line-->
     <!-- stock out DHS  Card 1 -->
-    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;" routerLink="/StockoutSummary" >
         <div class="card-body"  >
           <apx-chart  class="border rounded" style="background-color: #f7dad9;"
@@ -208,19 +282,19 @@
           [tooltip]="chartStockoutdhs.tooltip" [legend]="chartStockoutdhs.legend">
           </apx-chart>
           <div class="d-flex align-items-center">
-            <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon">
+            <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
             <div>
               
               <h5 class="card-title ml-3">Drugs Stock out % against DHS Indent</h5>
-              <p class="card-text">{{currentMonth}} Month</p>
+              <!-- <p class="card-text">{{currentMonth}} Month</p> -->
             </div>
           </div>
           <p class="card-text text-muted">
-            <small>Campaign sent 2 days ago</small>
+            <!-- <small>Campaign sent 2 days ago</small> -->
           </p>
         </div>
       </div>
-    </div> -->
+    </div>
   
         <!-- Card 3 -->
       <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
@@ -249,7 +323,7 @@
   
   
      <!-- Cart Near Expiry in 6 month -->
-     <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
+     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body" routerLink="/nearExpiry">
           <apx-chart  class="border rounded" style="background-color: #e78aae;"
@@ -259,14 +333,14 @@
           [tooltip]="chartNearexp.tooltip" [legend]="chartNearexp.legend" >
           </apx-chart>
           <h5 class="card-title mt-3">Near Expiry of Drugs in Next 6 Month </h5>
-          <p class="card-text">Last Campaign Performance</p>
+          <!-- <p class="card-text">Last Campaign Performance</p> -->
           <p class="card-text text-muted">
             <small>Value in Cr.</small>
   
           </p>
         </div>
       </div>
-    </div> -->
+    </div>
   
   
       <!-- edl non rate Contract  Card 1 -->
@@ -335,7 +409,7 @@
   
   
   
-  <div class="container my-4 mb-4" style="height: 20vh;">
+  <div class="container my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'" >
     <div class="row justify-content-center" style="height: 20vh;">
       <div class="col-12">
         <div class="card shadow p-3 w-100" style="height: 80%;">
@@ -375,11 +449,56 @@
   
   
   
+<!--   
   
   
   
+  <div class="container mt-4">
+    <div class="row">
+      <ng-container *ngFor="let item of menuItems; let i = index">
+        Main Menu Item
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div [style.background-color]="colors[i % colors.length]" class="card mb-4 shadow-sm" [routerLink]="item.route" style="cursor: pointer;">
+            <div class="card-body d-flex flex-column align-items-center text-center">
+              Image Section
+              <div class="card-icon">
+                <img 
+                  *ngIf="labelToIconMap[item.label]" 
+                  [src]="labelToIconMap[item.label]" 
+                  alt="{{item.label}} icon" 
+                  class="responsive-img"
+                />
+              </div>
+              Text Section
+              <h5 class="card-title mb-0 text-center">{{ item.label }}</h5>
+            </div>
+          </div>
+        </div>
   
- 
+        Submenu Items
+        <ng-container *ngIf="item.submenu">
+          <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let sub of item.submenu">
+            <div class="card mb-4 shadow-sm" [routerLink]="sub.route" style="cursor: pointer; background-color: #f8f9fa;">
+              <div class="card-body d-flex flex-column align-items-center text-center">
+                Image Section
+                <div class="card-icon">
+                  <img 
+                    *ngIf="labelToIconMap[sub.label]" 
+                    [src]="labelToIconMap[sub.label]" 
+                    alt="{{sub.label}} icon" 
+                    class="responsive-img"
+                  />
+                </div>
+                Text Section
+                <h6 class="card-title mb-0 text-center">{{ sub.label }}</h6>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div> -->
+  
   
   <ng-template class=" " #itemDetailsModal let-modal>
     <div class="row align-items-center p-2 m-2 ">
@@ -844,12 +963,3 @@
       </button>
     </div>
   </ng-template>
-
-
-
-
-
-
-
-
-

@@ -198,6 +198,25 @@ isPasswordVisible: boolean = false;
     this.approle = approle;
     localStorage.setItem('roleName', approle);
   }
+
+  setRolePublic(){
+    
+    this.rolename = 'Public'; 
+    this.setRole(this.rolename);
+    this.firstname = 'Public'
+    sessionStorage.setItem('firstname', this.firstname);
+
+    
+
+
+    
+
+    this.router.navigate(['public-view1'])
+
+
+  }
+
+  
   cgmsclLoginDropdown(){
     this.api.masddlUser(0).subscribe((res:any[])=>{
       console.log('API  CGMSCL dropdown Response:', res);

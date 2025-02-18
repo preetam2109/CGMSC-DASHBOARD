@@ -607,7 +607,7 @@ export class RunningWorkComponent {
           chartContext,
           { dataPointIndex, seriesIndex }
         ) => {
-          debugger;
+          ;
           const selectedCategory =
             this.chartOptions_I?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
           const selectedSeries =
@@ -2137,7 +2137,7 @@ const contractid=0;
 // }
 
 fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seriesName: string): void {
-  // debugger;
+  // ;
   this.selectedParameter=delayTime;
   console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   const  districtid=0;
@@ -2166,7 +2166,7 @@ fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seri
 
 }
 fetchDataBasedOnChartSelection_II(delayTime:any,parameter:any,divisionID: any, seriesName: string): void {
-  // debugger;
+  // ;
   // alert(delayTime);
   this.selectedParameter=delayTime;
   console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);

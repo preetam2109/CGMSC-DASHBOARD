@@ -1905,7 +1905,7 @@ GETPEvaluationTotal(): void {
 
 // #region dataBase tender Evalution
 fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): void {
-  debugger;
+  ;
  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
  const distid = 0;
  const mainSchemeId = 0;
