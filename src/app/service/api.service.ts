@@ -919,13 +919,13 @@ export class ApiService {
   GETASCompleted() {
     return this.http.get<ASCompletedDetails[]>(`${this.apiUrl}/ASDetails/ASCompleted`);
 
-    //md :otp=24522
-    // // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASCompleted
+   //md :otp=11344
+    // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
   }
   GETASFile(ASID: any, workid: any) {
     return this.http.get<ASFile[]>(`${this.apiUrl}/ASDetails/getASFile?ASID=${ASID}&workid=${workid}`);
 
-
+  }
 //#endregion
 //#region RunningWork
 GETRunningWorkSummary(RPType:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
@@ -945,9 +945,8 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
 //#endregion
 
-    //md :otp=11344
-    // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
-  }
+    
+  
   GETASEnteredDetails(ASID: any, divisionId: any, mainSchemeId: any) {
     return this.http.get<ASEnteredDetails[]>(`${this.apiUrl}/ASDetails/ASEnteredDetails?ASID=${ASID}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}`);
 
