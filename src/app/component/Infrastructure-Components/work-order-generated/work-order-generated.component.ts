@@ -160,7 +160,7 @@ export class WorkOrderGeneratedComponent {
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            debugger;
+            ;
             const selectedCategory =
               this.chartOptions?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
             const selectedSeries =

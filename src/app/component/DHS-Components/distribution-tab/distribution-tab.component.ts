@@ -5,6 +5,7 @@ import { DistributionComponent } from '../../distribution/distribution.component
 import { MonthwiseIssuanceComponent } from "../monthwise-issuance/monthwise-issuance.component";
 import { DiswiseIssuanceComponent } from "../diswise-issuance/diswise-issuance.component";
 import { Router } from '@angular/router';
+import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
 @Component({
   selector: 'app-distribution-tab',
   standalone: true,
@@ -14,7 +15,9 @@ import { Router } from '@angular/router';
 })
 export class DistributionTabComponent {
   selectedTabIndex: number = 0;
-  constructor(private router:Router){
+  isLoggedIn = this.loginService.isUserLogedIn() 
+
+  constructor(private loginService: BasicAuthenticationService,private router:Router){
 
   }
   selectedTabValue(event: any): void {

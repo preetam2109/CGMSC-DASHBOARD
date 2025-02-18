@@ -1,25 +1,103 @@
 import { Component, ViewChild } from '@angular/core';
-import { ApexAxisChartSeries, ApexChart, ApexStroke, ApexXAxis, ApexFill, ApexPlotOptions, ChartComponent } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexChart, ApexStroke, ApexXAxis, ApexFill, ApexPlotOptions, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { ApiService } from 'src/app/service/api.service';
 import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
 import { HardcodedAuthenticationService } from 'src/app/service/authentication/hardcoded-authentication.service'; // Assuming you have a service for getting the username
 import { MenuServiceService } from 'src/app/service/menu-service.service';
-import { ChartOptions } from '../card/card.component';
+// import { ChartOptions } from '../card/card.component';
 import { fontWeight } from 'html2canvas/dist/types/css/property-descriptors/font-weight';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { style } from '@angular/animations';
+import { ChartOptions } from '../../card/card.component';
+import { NgFor, CommonModule, NgStyle } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-public-view',
+  standalone: true,
+  imports: [
+
+    NgApexchartsModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatTableExporterModule,
+    MatInputModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatMenuModule,
+    NgFor,
+    CommonModule,
+    NgFor,
+    NgStyle,
+    MatCardModule,
+    MatIconModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    SelectDropDownModule,
+    DropdownModule,
+    MatSelectModule,
+    FormsModule,
+    NgSelectModule,
+    FormsModule,
+    CommonModule,
+    MatButtonModule,
+    MatMenuModule,
+     MatTableExporterModule,
+     MatPaginatorModule,
+      MatTableModule
+
+
+
+  ],
+  templateUrl: './public-view.component.html',
+  styleUrl: './public-view.component.css'
 })
-export class HomeComponent {
+export class PublicViewComponent {
+  go(value: any) {
+    switch (value) {
+      case 1:
+        this.router.navigate(['GrowthInProcurmentTabPublic']);
+        break; // ✅ Added break to stop execution
+  
+      case 2:
+        this.router.navigate(['distributionPublic']);
+        break; // ✅ Added break to stop execution
+      case 3:
+        this.router.navigate(['DropAppWarehousePerformancePublic']);
+        break; // ✅ Added break to stop execution
+      case 4:
+        this.router.navigate(['IndentPendingWHdashPublic']);
+        break; // ✅ Added break to stop execution
+      case 5:
+        this.router.navigate(['stockDetailsPublic']);
+        break; // ✅ Added break to stop execution
+  
+      default:
+        this.router.navigate(['public-view']);
+    }
+  }
+  
 exportToPDF() {
 throw new Error('Method not implemented.');
 }
@@ -1884,6 +1962,10 @@ loadUQC(): void {
         dialogRef.afterClosed().subscribe((result) => {
          console.log('Dialog closed');
         });
+        }
+
+        backbutton(){
+          this.router.navigate(['/login'])
         }
     
   }

@@ -15,8 +15,9 @@ import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXA
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DropdownModule } from 'primeng/dropdown';
+import { config } from 'rxjs';
 import { TenderDetails } from 'src/app/Model/DashProgressCount';
-import { FundReivedBudgetDetails, FundReivedBudgetID, GrossPaidDateWiseDetails } from 'src/app/Model/FinanceDash';
+import { FundReivedBudgetDetails, FundReivedBudgetID, GrossPaidDateWiseDetails, PODetailsAgainstIndentYr } from 'src/app/Model/FinanceDash';
 import { ApiService } from 'src/app/service/api.service';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -57,6 +58,7 @@ throw new Error('Method not implemented.');
       chartOptions2!: ChartOptions; // For bar chart
       chartOptions3!: ChartOptions; // For bar chart
       chartOptions4!: ChartOptions; // For bar chart
+      chartOptions5!: ChartOptions; // For bar chart
       chartOptionsLine2!: ChartOptions; // For line chart
       chartOptionsLine3!: ChartOptions; // For line chart
       //#endregion
@@ -71,7 +73,10 @@ throw new Error('Method not implemented.');
         grossPaidDateWiseDetails:GrossPaidDateWiseDetails[]=[]
 
         fundReivedBudgetID:FundReivedBudgetID[]=[];
+        pODetailsAgainstIndentYr:PODetailsAgainstIndentYr[]=[];
         yrid:any=0;
+  selectedSeries: string = '';
+
 
 @ViewChild('FundDetailsModal') FundDetailsModal: any;
 @ViewChild('grossPaidDateWiseDetailsModal') grossPaidDateWiseDetailsModal: any;
@@ -98,12 +103,12 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            debugger
+            
             const selectedCategory = this.chartOptions?.xaxis?.categories?.[dataPointIndex];
             const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
-              debugger
+              
               const apiData = this.fundReivedBudgetID; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find(
@@ -112,7 +117,7 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.accyrsetid; // Extract the id from the matching entry
-debugger
+
                 this.fetchDataBasedOnChart2SelectionYrid(id, selectedSeries);
               } else {
                 console.log(
@@ -191,6 +196,57 @@ debugger
         // height:400,
         // height: 200,
         // width:600,
+        events: {
+          dataPointSelection: (
+            event: any,
+            chartContext: any,
+            config: { dataPointIndex: number; seriesIndex: number }
+          ) => {
+            ;
+            
+            const selectedCategory = this.chartOptions?.xaxis?.categories?.[config.dataPointIndex];
+        
+            const selectedSeries =
+              config.seriesIndex === 0 ? 'PO Value' :
+              (config.seriesIndex === 1 ? 'Received Value' : 'Total Paid');
+        
+            this.selectedSeries = selectedSeries;
+        
+       
+        
+            // Ensure the selectedCategory and selectedSeries are valid
+            if (selectedCategory && selectedSeries) {
+              ;
+              const apiData = this.pODetailsAgainstIndentYr; // Replace with the actual data source or API response
+        
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find(
+                (data) => data.accyear === selectedCategory
+              );
+        
+              if (selectedData) {
+                const id = selectedData.aifinyear; // Extract the id from the matching entry
+                ;
+                if (selectedSeries === 'Total Paid') {
+                  // Handle totalpaid logic
+                this.fetchDataBasedOnaifinyearSelectionYrid(id, selectedSeries);
+
+                } else if (selectedSeries === 'Received Value') {
+                  // Handle recValue logic
+                } else if (selectedSeries === 'PO Value') {
+                  // Handle poValue logic
+                }
+
+
+              } else {
+                console.log(`No data found for selected category: ${selectedCategory}`);
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+        
       
       },
       plotOptions: {
@@ -247,6 +303,73 @@ debugger
         offsetX: 40,
       },
     };
+
+    this.chartOptions5 = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: false,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:600,
+      
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          fontWeight:'bold',
+            fontSize:'15px',
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 4,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Sanction Prepared',
+        align: 'center',
+        style: {
+          // fontSize: '12px',
+          fontSize: '15px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+
     this.chartOptions4 = {
       series: [],
       chart: {
@@ -330,12 +453,12 @@ debugger
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            debugger
+            
             const selectedCategory = this.chartOptions?.xaxis?.categories?.[dataPointIndex];
             const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
-              debugger
+              
               const apiData = this.fundReivedBudgetID; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find(
@@ -344,7 +467,7 @@ debugger
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.accyrsetid; // Extract the id from the matching entry
-debugger
+
                 this.fetchDataBasedOnChartSelectionYrid(id, selectedSeries);
               } else {
                 console.log(
@@ -504,28 +627,137 @@ ngOnInit(): void {
   this.getPODetailsAgainstIndentYr();
   this.GetFund_Libilities();
   this.GetPipeline_Libilities();
+  this.getSanc_Cheque();
 }
 
+getSanc_Cheque(){
+  
+        this.api.Sanc_Cheque('Sanction',this.budgetid).subscribe((data:any[])=>{
+        console.log('fefefeffefe',data);
+          const budgetname: any[] = [];
+          const nosPo: any[] = [];
+          const nossupplier: any[] = [];
+          const sncamtcr: any[] = [];
+        
+
+          data.forEach(
+            (item: {
+              budgetname: string;
+              nosPo: any;
+              nossupplier: any;
+              sncamtcr: any;
+           
+            }) => {
+              budgetname.push(item.budgetname);
+              nosPo.push(item.nosPo);
+              nossupplier.push(item.nossupplier);
+              sncamtcr.push(item.sncamtcr);
+     
+            }
+          );
+
+          this.chartOptions5.series = [
+          
+            {
+              name: 'No of PO',
+              data: nosPo,
+              // color: '#38b000',
+            },
+            {
+              name: 'No of Supplier ',
+              data: nossupplier,
+              // color: '#38b000',
+            },
+            {
+              name: 'sncamtcr',
+              data: sncamtcr,
+              // color: '#38b000',
+            }
+         
+        
+          
+          ];
+
+              // Add `totalSample` to tooltip manually
+              // this.chartOptions2.tooltip = {
+              //   shared: true,
+              //   custom: function({ series, seriesIndex, dataPointIndex, w }) {
+              //     const POValue = w.globals.series[0][dataPointIndex];  
+              //     const recValue = w.globals.series[1][dataPointIndex];  
+              //     const NoofPO = noofPO[dataPointIndex];  
+              
+              //     return `
+              //     <div style="
+              //       padding: 10px; 
+              //       border-radius: 8px; 
+              //       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+              //       background: linear-gradient(135deg, #ffffff, #f9f9f9); 
+              //       font-family: Arial, sans-serif; 
+              //       color: #333;
+              //     ">
+              //       <strong style="display: block; font-size: 14px; margin-bottom: 8px;">Details</strong>
+              //       <div style="font-size: 13px; line-height: 1.8;">
+              //         <span style="color: #008B8B; font-weight: bold;">No of PO:</span> ${NoofPO}<br>
+              //         <span style="color: #00008B; font-weight: bold;">PO Value:</span> ${POValue}<br>
+              //         <span style="color:rgb(250, 18, 6); font-weight: bold;">Received Value:</span> ${recValue}<br>
+              //       </div>
+              //     </div>`;
+              //   }
+              // };
+              
+              
+
+          this.chartOptions5.xaxis = {
+            categories: budgetname,
+            labels:{
+              style:{
+                // colors:'#390099',
+                fontWeight:'bold',
+                fontSize:'15px'
+              }
+            }
+            
+  
+            
+           };
+          this.cO = this.chartOptions5;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+          this.spinner.hide();
+        }
+      );
+    }
 getPODetailsAgainstIndentYr(){
-  debugger
+  
         this.api.PODetailsAgainstIndentYr(this.budgetid,0,2).subscribe((data:any[])=>{
         
+          this.pODetailsAgainstIndentYr=data
+          
           const accyear: string[] = [];
+          const aifinyear:any[]=[];
           const noofPO: any[] = [];
           const poValue: any[] = [];
           const recValue: any[] = [];
+          const totalpaid: any[] = [];
 
           data.forEach(
             (item: {
               accyear: string;
+              aifinyear:string;
               noofPO: any;
               poValue: any;
               recValue: any;
+              totalpaid: any;
             }) => {
               accyear.push(item.accyear);
+              aifinyear.push(item.aifinyear);
               noofPO.push(item.noofPO);
               poValue.push(item.poValue);
               recValue.push(item.recValue);
+              totalpaid.push(item.totalpaid);
             }
           );
 
@@ -543,6 +775,11 @@ getPODetailsAgainstIndentYr(){
             {
               name: 'Received Value',
               data: recValue,
+              // color: '#38b000',
+            },
+            {
+              name: 'Total Paid',
+              data: totalpaid,
               // color: '#38b000',
             }
          
@@ -603,7 +840,7 @@ getPODetailsAgainstIndentYr(){
       );
     }
 GetPipeline_Libilities(){
-  debugger
+  
         this.api.Pipeline_Libilities(this.budgetid).subscribe((data:any[])=>{
         
           const name: string[] = [];
@@ -706,14 +943,16 @@ GetPipeline_Libilities(){
 
 
 GetFundReivedBudgetID(): void {
-  debugger
+  
   this.spinner.show();
   
     this.api.getFundReivedBudgetID(this.budgetid,0)
       .subscribe(
         (data: any) => {
+          console.log('sdkokokokokokoksdadsd'+data);
           this.fundReivedBudgetID=data;
-          console.log('sdsdadsd'+this.fundReivedBudgetID);
+          
+          console.log('sdkokokokokokoksdadsd'+this.fundReivedBudgetID);
         
           const accyear: string[] = [];
           const recAmt: number[] = [];
@@ -770,7 +1009,7 @@ GetFundReivedBudgetID(): void {
 
 
 GetFund_Libilities(): void {
-  debugger
+  
   this.spinner.show();
   
     this.api.Fund_Libilities(this.budgetid)
@@ -779,19 +1018,19 @@ GetFund_Libilities(): void {
 
           const name: string[] = [];
           const nospo: number[] = [];
-          const libvalue: number[] = [];
+          const libility: number[] = [];
          
 
           data.forEach(
             (item:{
               name: string;
               nospo: number;
-              libvalue: number;
+              libility: number;
               
             }) => {
               name.push(item.name);
               nospo.push(item.nospo);
-              libvalue.push(item.libvalue);
+              libility.push(item.libility);
               
             }
           );
@@ -808,13 +1047,13 @@ GetFund_Libilities(): void {
           // ];
           this.chartOptions3.series = [
             {
-              name: 'libvalue',
-              data: data.map((item: { name: string; nospo: number; libvalue: number }) => ({
+              name: 'libility',
+              data: data.map((item: { name: string; nospo: number; libility: number }) => ({
                 x: item.name, // X-axis category
-                y: item.libvalue, // Y-axis value
+                y: item.libility, // Y-axis value
                 extra: {
                   nospo: item.nospo, // Store extra properties inside an object
-                  libvalue: item.libvalue,
+                  libvalue: item.libility,
                 },
               })),
               color: '#38b000',
@@ -965,7 +1204,7 @@ GetFundsDDL(){
   });  
 }
   onISelectChange(event: Event): void {
-    debugger
+    
     const selectedUser = this.FundsDDL.find((user: { budgetid: string }) => user.budgetid === this.budgetid); 
   
     if (selectedUser) {
@@ -981,7 +1220,7 @@ GetFundsDDL(){
 
 
     GetFundReivedBudgetDetails(){
-    debugger
+    
           this.api.FundReivedBudgetDetails(this.budgetid,this.yrid).subscribe((res:any[])=>{
             if (res && res.length > 0) {
              this.spinner.show();
@@ -1004,8 +1243,34 @@ GetFundsDDL(){
           });  
         }
         GrossPaidDateWiseDetails(){
-    debugger
+    
           this.api.GrossPaidDateWiseDetails(this.budgetid,0,0,0,this.yrid).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+             this.spinner.show();
+  
+              this.grossPaidDateWiseDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('grossPaidDateWiseDetails List:', this.grossPaidDateWiseDetails);
+              this.dataSource2.data = [...this.grossPaidDateWiseDetails];
+              console.log('datasource2 List:', this.grossPaidDateWiseDetails);
+
+              this.dataSource2.data = this.grossPaidDateWiseDetails; // Ensure this line executes properly
+              this.dataSource2.paginator = this.paginator2;
+              this.dataSource2.sort = this.sort2;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+  
+            }
+          });  
+        }
+        GrossPaidDateWiseDetails2(){
+    
+          this.api.GrossPaidDateWiseDetails2(this.budgetid,0,0,0,0,this.yrid).subscribe((res:any[])=>{
             if (res && res.length > 0) {
              this.spinner.show();
   
@@ -1032,7 +1297,7 @@ GetFundsDDL(){
 
 
   openDialogGrossPaidDateWiseDetails(){
-    debugger
+    
     const dialogRef = this.dialog.open(this.grossPaidDateWiseDetailsModal, {
      width: '100%',
      height: '100%',
@@ -1047,13 +1312,13 @@ GetFundsDDL(){
      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
      // height: 'auto',
     });
-    debugger
+    
     dialogRef.afterClosed().subscribe((result) => {
      console.log('Dialog closed');
     });
     }
   openDialogBudgetDetails(){
-    debugger
+    
     const dialogRef = this.dialog.open(this.FundDetailsModal, {
      width: '100%',
      height: '100%',
@@ -1068,7 +1333,7 @@ GetFundsDDL(){
      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
      // height: 'auto',
     });
-    debugger
+    
     dialogRef.afterClosed().subscribe((result) => {
      console.log('Dialog closed');
     });
@@ -1078,7 +1343,7 @@ GetFundsDDL(){
 
 
     fetchDataBasedOnChartSelectionYrid(  yrid: any, seriesName: string ): void {
-      debugger
+      
       console.log(`Selected ID: ${yrid}, Series: ${seriesName}`);
    this.yrid=yrid;
       this.spinner.show();
@@ -1110,11 +1375,52 @@ GetFundsDDL(){
       this.openDialogBudgetDetails();
     }
     fetchDataBasedOnChart2SelectionYrid(  yrid: any, seriesName: string ): void {
-      debugger
+      
       console.log(`Selected ID: ${yrid}, Series: ${seriesName}`);
    this.yrid=yrid;
       this.spinner.show();
       this.GrossPaidDateWiseDetails();
+      // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+      // alert(this.TimeStatus);
+      // this.api.GETTenderDetails(divisionID,mainSchemeId,distid,this.TimeStatus)
+      //   .subscribe(
+      //     (res) => {
+      //       this.dispatchData = res.map(
+      //         (item: TenderDetails, index: number) => ({
+      //           ...item,
+      //           sno: index + 1,
+      //         })
+      //       );
+      //       console.log('res:', res);
+      //       console.log('dispatchData=:', this.dispatchData);
+      //       this.dataSource.data = this.dispatchData;
+      //       this.dataSource.paginator = this.paginator;
+      //       this.dataSource.sort = this.sort;
+      //       this.cdr.detectChanges();
+      //       this.spinner.hide();
+      //     },
+      //     (error) => {
+      //       console.error('Error fetching data', error);
+      //     }
+      //   );
+
+      this.openDialogGrossPaidDateWiseDetails();
+    }
+    fetchDataBasedOnaifinyearSelectionYrid(  yrid: any, seriesName: string ): void {
+      
+        // let filteredData: PODetailsAgainstIndentYr[] = [];
+        //       if (seriesName === 'totalpaid') {
+        //         // filteredData = res.filter((item) => item.supplier === supplier);
+        //       } else if (seriesName === 'poValue') {
+        //         // filteredData = res.filter((item) => item.supplier === supplier);
+        //       }else{
+        //         // filteredData = res.filter((item) => item.supplier === supplier);
+        //       }
+
+      console.log(`Selected ID: ${yrid}, Series: ${seriesName}`);
+   this.yrid=yrid;
+      this.spinner.show();
+      this.GrossPaidDateWiseDetails2();
       // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
       // alert(this.TimeStatus);
       // this.api.GETTenderDetails(divisionID,mainSchemeId,distid,this.TimeStatus)

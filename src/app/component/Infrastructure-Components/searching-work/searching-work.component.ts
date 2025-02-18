@@ -294,7 +294,7 @@ export class SearchingWorkComponent {
 
   getworkfill(): void {
     try {
-      debugger
+      
       var roleName = localStorage.getItem('roleName');
       // alert( roleName )
       if (roleName == 'Division') {
@@ -477,7 +477,7 @@ export class SearchingWorkComponent {
 
   GetImageBinary() {
     try {
-      // debugger;
+      // ;
       // const sr = 90691;
       // const img = 'CGMSC WORK.jpg';
       this.api.GetImageBinary(this.sr, this.ImageName).subscribe(

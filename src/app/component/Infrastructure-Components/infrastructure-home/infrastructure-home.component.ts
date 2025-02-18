@@ -907,7 +907,7 @@ this.roleName = localStorage.getItem('roleName');
     // return 
   }
    else if (did == 2001) {
-    // debugger
+    // 
     console.log('2001=: ',did);
     this.api.GETDetailProgress(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
     .subscribe(
@@ -1928,7 +1928,7 @@ expor_PDFLand_isu() {
   }
   districT_ID:any;
   onGetDistrictsSelect(districT_ID1: any,distname:any): void {
-    debugger
+    
     // Make cards visible on district selection
     const selectedUser = this.GetDistrict.find((user: { districT_ID: any }) => user.districT_ID === this.districT_ID); 
   
@@ -1977,7 +1977,7 @@ expor_PDFLand_isu() {
 
   getmain_scheme() {
     try {
-      // debugger
+      // 
       this.api.getMainScheme(this.isall).subscribe((res:any)=>{
         if (res && res.length > 0) {
         this.mainscheme = res.map((item: { mainSchemeID: any; name: any; }) => ({
@@ -2010,7 +2010,7 @@ expor_PDFLand_isu() {
 
 
   onselect_mainscheme_data(event: Event): void {
-    // debugger
+    // 
   const selectedUser = this.mainscheme.find((user: { mainSchemeID: any }) => user.mainSchemeID === this.mainSchemeID); 
   
   if (selectedUser) {
