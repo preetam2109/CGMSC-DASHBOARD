@@ -106,7 +106,7 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCPendingAreaDetail, QCPendingHomeDash, QCPendingPlace, StockoutPer } from '../Model/DashCards';
+import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCPendingAreaDetail, QCPendingHomeDash, QCPendingPlace, StockoutPer } from '../Model/DashCards';
 import { MasIndentitems } from '../Model/MasIndentitems';
 import { MasfacilityInfo } from '../Model/MasfacilityInfo';
 import { Masitems } from '../Model/Masitems';
@@ -1154,7 +1154,10 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<LibDetailsbasedOnYearID[]>(`${this.CGMSCHO_API2}/DashboardFinance/LibDetailsbasedOnYearID?rptype=${rptype}&yrid=${yrid}&budgetid=${budgetid}&supplierid=${supplierid}`);
   }
 
-  
+  GetQCFinalResultPending(mcid: any) {
+    return this.http.get<QCFinalResultPending[]>(`${this.CGMSCHO_API2}/QC/QCResultFinalUpdatePending?mcid=${mcid}`);
+  }
+
 
 
 

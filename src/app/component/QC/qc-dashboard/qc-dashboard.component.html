@@ -217,7 +217,7 @@
   
     <!-- Card 3-->
     <!-- edl non edl indent  Card 3 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
           <apx-chart  class="border rounded" style="background-color: #E0E0E0;"
@@ -228,37 +228,37 @@
           [tooltip]="chartIndent.tooltip" [legend]="chartIndent.legend">
           </apx-chart>
           <div class="d-flex align-items-center">
-            <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+            <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon">
             <div>
               
               <h5 class="card-title ml-3">Annual Indent of Drugs C.F.Y. </h5>
-              <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+              <p class="card-text">{{currentMonth}} Month</p>
             </div>
           </div>
           <p class="card-text text-muted">
-            <!-- <small>Campaign sent 2 days ago</small> -->
+            <small>Campaign sent 2 days ago</small>
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
   
     
-      <!-- current stock home  Card 4 -->
+      <!-- QC Pending at Various Stages Card 4 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3">
         <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
           <div class="card-body" routerLink="/stockDetails">
             <apx-chart  class="border rounded" style="background-color: #5fad56;"
-            [series]="chartOptions4.series" [chart]="chartOptions4.chart" [dataLabels]="chartOptions4.dataLabels"
-            [labels]="chartOptions4.labels"
-            [plotOptions]="chartOptions4.plotOptions" [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
-            [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis" [title]="chartOptions4.title"
-            [tooltip]="chartOptions4.tooltip" [legend]="chartOptions4.legend">
+            [series]="chartOptionsQCStages.series" [chart]="chartOptionsQCStages.chart" [dataLabels]="chartOptionsQCStages.dataLabels"
+            [labels]="chartOptionsQCStages.labels"
+            [plotOptions]="chartOptionsQCStages.plotOptions" [xaxis]="chartOptionsQCStages.xaxis" [stroke]="chartOptionsQCStages.stroke"
+            [fill]="chartOptionsQCStages.fill" [yaxis]="chartOptionsQCStages.yaxis" [title]="chartOptionsQCStages.title"
+            [tooltip]="chartOptionsQCStages.tooltip" [legend]="chartOptionsQCStages.legend">
             </apx-chart>
             <div class="d-flex align-items-center">
               <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
               <div>
                 
-                <h5 class="card-title ml-3">Current Stock Drugs</h5>
+                <h5 class="card-title ml-3">QC Pending at Various Stages</h5>
                 <!-- <p class="card-text">{{currentMonth}} Month</p> -->
               </div>
             </div>
@@ -343,22 +343,22 @@
     </div>
   
   
-      <!-- edl non rate Contract  Card 1 -->
+      <!-- Final Update Pending -->
       <div class="col-12 col-sm-6 col-md-3 mb-3">
         <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
           <div class="card-body">
             <apx-chart  class="border rounded" style="background-color: #e0aaff;"
-            [series]="chartOptions3.series" [chart]="chartOptions3.chart" [dataLabels]="chartOptions3.dataLabels"
-            [labels]="chartOptions3.labels"
-            [plotOptions]="chartOptions3.plotOptions" [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
-            [fill]="chartOptions3.fill" [yaxis]="chartOptions3.yaxis" [title]="chartOptions3.title"
-            [tooltip]="chartOptions3.tooltip" [legend]="chartOptions3.legend">
+            [series]="chartOptionsQCHOFinalUpdate.series" [chart]="chartOptionsQCHOFinalUpdate.chart" [dataLabels]="chartOptionsQCHOFinalUpdate.dataLabels"
+            [labels]="chartOptionsQCHOFinalUpdate.labels"
+            [plotOptions]="chartOptionsQCHOFinalUpdate.plotOptions" [xaxis]="chartOptionsQCHOFinalUpdate.xaxis" [stroke]="chartOptionsQCHOFinalUpdate.stroke"
+            [fill]="chartOptionsQCHOFinalUpdate.fill" [yaxis]="chartOptionsQCHOFinalUpdate.yaxis" [title]="chartOptionsQCHOFinalUpdate.title"
+            [tooltip]="chartOptionsQCHOFinalUpdate.tooltip" [legend]="chartOptionsQCHOFinalUpdate.legend">
             </apx-chart>
             <div class="d-flex align-items-center">
               <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
               <div>
                 
-                <h5 class="card-title ml-3">Drugs  Rate Contract </h5>
+                <h5 class="card-title ml-3">QC Final Result Pending </h5>
                 <!-- <p class="card-text">{{currentMonth}} Month</p> -->
               </div>
             </div>
