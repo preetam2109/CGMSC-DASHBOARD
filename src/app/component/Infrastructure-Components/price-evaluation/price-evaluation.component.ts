@@ -179,7 +179,7 @@ ASFileData: ASFile[] = [];
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name; 
                 this.fetchDataBasedOnChartSelectionDivision(id, selectedSeries);
               } else {
                 console.log(
@@ -269,7 +269,7 @@ ASFileData: ASFile[] = [];
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name; 
                 this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
               } else {
                 console.log(
@@ -358,7 +358,7 @@ ASFileData: ASFile[] = [];
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name; 
                 // this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
               } else {
                 console.log(
@@ -447,7 +447,7 @@ ASFileData: ASFile[] = [];
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name; 
                 this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
               } else {
                 console.log(
@@ -545,7 +545,7 @@ ASFileData: ASFile[] = [];
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name; 
                 this.fetchDataBasedOnChartSelectiondivisionUNP(id, selectedSeries);
               } else {
                 console.log(
@@ -624,9 +624,9 @@ ASFileData: ASFile[] = [];
             { dataPointIndex, seriesIndex }
           ) => {
             const selectedCategory =
-              this.chartOptions2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+              this.chartOptionss?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
             const selectedSeries =
-              this.chartOptions2?.series?.[seriesIndex]?.name;
+              this.chartOptionss?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.UnPaidSummaryScheme; // Replace with the actual data source or API response
@@ -637,7 +637,7 @@ ASFileData: ASFile[] = [];
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name; 
                 this.fetchDataBasedOnChartSelectionmainSchemeUNP(id, selectedSeries);
               } else {
                 console.log(
@@ -715,10 +715,11 @@ ASFileData: ASFile[] = [];
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
+            // debugger;
             const selectedCategory =
-              this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+              this.chartOptionsLine1?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
             const selectedSeries =
-              this.chartOptionsLine?.series?.[seriesIndex]?.name;
+              this.chartOptionsLine1?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.UnPaidSummaryDesignation; // Replace with the actual data source or API response
@@ -729,7 +730,7 @@ ASFileData: ASFile[] = [];
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name = selectedData.name; 
                 this.fetchDataBasedOnChartSelectionmainDesignationUNP(id, selectedSeries);
               } else {
                 console.log(
@@ -2104,13 +2105,15 @@ ASFileData: ASFile[] = [];
     const distid = 0;
     const mainSchemeId = 0;
     const contractid = 0;
+    const designame=0;
+    const OfficerID=0;
     // const fromdt="01-jan-2024";
     // const todt="01-jan-2025";
     //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
     // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid).subscribe(
+    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid,designame,OfficerID).subscribe(
         (res) => {
           this.dispatchData1 = res.map(
             (item: UnPaidDetails, index: number) => ({
@@ -2137,13 +2140,15 @@ ASFileData: ASFile[] = [];
     const distid = 0;
     const mainSchemeId = 0;
     const contractid = 0;
+    const designame=0;
+    const OfficerID=0;
     // const fromdt="01-jan-2024";
     // const todt="01-jan-2025";
     //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
     // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid).subscribe(
+    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid,designame,OfficerID).subscribe(
         (res) => {
           this.dispatchData1 = res.map(
             (item: UnPaidDetails, index: number) => ({
@@ -2170,13 +2175,15 @@ ASFileData: ASFile[] = [];
     const distid = 0;
     const divisionID = 0;
     const contractid = 0;
+    const designame=0;
+    const OfficerID=0;
     // const fromdt="01-jan-2024";
     // const todt="01-jan-2025";
     //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
     // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid).subscribe(
+    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid,designame,OfficerID).subscribe(
         (res) => {
           this.dispatchData1 = res.map(
             (item: UnPaidDetails, index: number) => ({
@@ -2203,13 +2210,15 @@ ASFileData: ASFile[] = [];
     const distid = 0;
     const divisionID = 0;
     const contractid = 0;
+    const designame=0;
+    const OfficerID=0;
     // const fromdt="01-jan-2024";
     // const todt="01-jan-2025";
     //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
     // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid).subscribe(
+    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid,designame,OfficerID).subscribe(
         (res) => {
           this.dispatchData1 = res.map(
             (item: UnPaidDetails, index: number) => ({
