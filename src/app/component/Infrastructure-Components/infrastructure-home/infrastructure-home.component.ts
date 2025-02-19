@@ -6,7 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ASFile, DashProgressCount, DetailProgressTinP, DistrictNameDME, DMEProgressSummary, GetDistrict, LandIssue_RetToDeptDetatails, MainScheme, TenderInProcess, WORunningHandDetails } from 'src/app/Model/DashProgressCount';
+import { ASFile, DashProgressCount, DetailProgressTinP, DistrictNameDME,TotalWorksAbstract,
+   DMEProgressSummary, GetDistrict, LandIssue_RetToDeptDetatails, MainScheme,
+    TenderInProcess, WORunningHandDetails } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ApexYAxis, 
@@ -67,7 +69,8 @@ export class InfrastructureHomeComponent {
   // distid = 0;
   divisionid:any = 0;
   mainSchemeID = 0;
-  id:any
+  id:any;
+  buid=0;
   selectedDistrict: any | null = null;
   name: any;
   isall: boolean = true;
@@ -96,7 +99,13 @@ export class InfrastructureHomeComponent {
     { id: 'D1001', name: 'Durg ', color: '#F44336' },
     { id: 'D1031', name: 'Baster ', color: '#9C27B0' },
   ];
-
+  budgetOptions = [
+    { buid: 0 ,label: 'All', value: 'All' },
+    { buid: 1 ,label: 'Above 2 Cr', value: 'above_2_cr' },
+    {  buid: 2 ,label: '>=50 lacs & <2 cr', value: '50_lacs_to_2_cr' },
+    {  buid: 3 ,label: '>=20 lacs & <50 lacs', value: '20_lacs_to_50_lacs'},
+    { buid: 4 , label: 'Below 20 Lacs', value: 'below_20_lacs' },
+  ];
   
   //#region DataBase Table
   dataSource!: MatTableDataSource<WORunningHandDetails>;
@@ -106,6 +115,7 @@ export class InfrastructureHomeComponent {
   dataSourceLand_isu!: MatTableDataSource<LandIssue_RetToDeptDetatails>;
   dataSource2!: MatTableDataSource<DetailProgressTinP>;
   dataSource3!: MatTableDataSource<TenderInProcess>;
+  dataSource4!: MatTableDataSource<TotalWorksAbstract>;
   // dataSourceDivision!: MatTableDataSource<DivisionWiseASPendingDetails>;
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
@@ -114,6 +124,7 @@ export class InfrastructureHomeComponent {
   @ViewChild('itemDetailsModalCom_Han') itemDetailsModalCom_Han: any;
   @ViewChild('itemDetailsModalRun_Work') itemDetailsModalRun_Work: any;
   @ViewChild('itemDetailsModalLand_isu') itemDetailsModalLand_isu: any;
+  @ViewChild('itemDetailsModalTW') itemDetailsModalTW: any;
           @ViewChild('paginator') paginator!: MatPaginator;
           @ViewChild('paginator1') paginator1!: MatPaginator;
           @ViewChild('paginator2') paginator2!: MatPaginator;
@@ -121,6 +132,7 @@ export class InfrastructureHomeComponent {
           @ViewChild('paginatorCom_Han') paginatorCom_Han!: MatPaginator;
           @ViewChild('paginatorRun_Work') paginatorRun_Work!: MatPaginator;
           @ViewChild('paginatorLand_isu') paginatorLand_isu!: MatPaginator;
+          @ViewChild('paginatorTW') paginatorTW!: MatPaginator;
           @ViewChild('sort') sort!: MatSort;
           @ViewChild('sort1') sort1!: MatSort;
           @ViewChild('sort2') sort2!: MatSort;
@@ -128,6 +140,7 @@ export class InfrastructureHomeComponent {
           @ViewChild('sortCom_Han') sortCom_Han!: MatSort;
           @ViewChild('sortRun_Work') sortRun_Work!: MatSort;
           @ViewChild('sortLand_isu') sortLand_isu!: MatSort;
+          @ViewChild('sortTW') sortTW!: MatSort;
           dispatchData: WORunningHandDetails[] = [];
           dispatchDataCom_Han: WORunningHandDetails[] = [];
           dispatchDataRun_Work: WORunningHandDetails[] = [];
@@ -135,6 +148,7 @@ export class InfrastructureHomeComponent {
           dispatchDataLand_isu: LandIssue_RetToDeptDetatails[] = [];
           dispatchData2: DetailProgressTinP[] = [];
           dispatchData3: TenderInProcess[] = [];
+          dispatchData4: TotalWorksAbstract[] = [];
           // ASFileData: ASFile[] = [];
           ASFileData: ASFile[] = [];
  //#endregion
@@ -152,6 +166,7 @@ export class InfrastructureHomeComponent {
   contractorid=0;
   dashname:any;
   nosworks:any;
+  ASAmount=0;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,private dialog: MatDialog,) {
   this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
   this.dataSourceCom_Han = new MatTableDataSource<WORunningHandDetails>([]);
@@ -160,6 +175,7 @@ export class InfrastructureHomeComponent {
     this.dataSourceLand_isu= new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
     this.dataSource2 = new MatTableDataSource<DetailProgressTinP>([]);
     this.dataSource3 = new MatTableDataSource<TenderInProcess>([]);
+    this.dataSource4 = new MatTableDataSource<TotalWorksAbstract>([]);
   }
 
   ngOnInit() {
@@ -200,6 +216,8 @@ export class InfrastructureHomeComponent {
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
     console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
 var mainSchemeId=0;
+var ASID=0;
+var GrantID=0;
 // divisionid= D1024 himisDistrictid= 0 mainSchemeID= 103
 // if( this.mainSchemeID != null ){
 //   alert('hi');
@@ -212,7 +230,7 @@ var mainSchemeId=0;
 //   this.mainSchemeID=0;
 //   this.himisDistrictid = 0;//this.divisionid =0;
 // } 
-    this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid).subscribe(
+    this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid,ASID,GrantID,this.ASAmount).subscribe(
       (res: any) => {
         console.log("res=",JSON.stringify(res));
         this.originalData = this.sortDistrictData(res); // Save as original data
@@ -291,7 +309,7 @@ var mainSchemeId=0;
   //   }
   // }
   DashProgressCount() {
-
+//  alert( this.ASAmount);
     try {
       this.spinner.show();
       // const distid = this.distid || 0;
@@ -322,13 +340,16 @@ var mainSchemeId=0;
       //   this.himisDistrictid =0;
       // }
       // this.distid = this.distid == 0 ? 0 : this.distid;
+     var ASID=0;
+     var GrantID=0;
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
       this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
       this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
       // console.error('dist id:', this.himisDistrictid  );
       // console.error('mainSchemeID:', this.mainSchemeID);
       // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid).subscribe(
+      // divisionId: any, mainSchemeId: number, distid: number,ASID:any,ASAmount:any
+      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid,ASID,GrantID,this.ASAmount).subscribe(
         (res: any) => {
           if (this.selectedTabIndex === 0) {
             // Do not overwrite the original data for "Total Works"
@@ -340,7 +361,7 @@ var mainSchemeId=0;
               // this.districtData = [...this.originalData];
 
             }
-            // console.log('retotalwork=', JSON.stringify(this.districtData));
+            console.log('retotalwork=', JSON.stringify(this.districtData));
           } else {
             this.districtData = res;
             // console.log('re1=', JSON.stringify(this.districtData));
@@ -856,12 +877,61 @@ var mainSchemeId=0;
 //     );
 //   this.openDialog1();
 //  }
+
+
+//  GET_TotalWorksAbstract(divisionId: any, mainSchemeId: any, distid: any, contractorid: any) {
+//     return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${distid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}`);
+//   //  https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=147&contractorid=0
+//   }
+TotalWorksAbstract(){
+  this.roleName = localStorage.getItem('roleName');
+  if (this.roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');
+    this.showDivision = false;
+  } else if (this.roleName == 'Collector') {
+    this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+    if(this.distid!=0){
+      this.himisDistrictid = this.distid;
+      // this.himisDistrictid = this.distid;
+    }
+  }
+  // this.distid = this.distid == 0 ? 0 : this.distid;
+
+  this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+  this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+  console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+  this.api.GET_TotalWorksAbstract(this.divisionid,this.himisDistrictid,this.mainSchemeID,0)
+  .subscribe(
+    (res) => {
+      this.dispatchData4 = res.map(
+        (item: TotalWorksAbstract, index: number) => ({
+          ...item,
+          sno: index + 1,
+        })
+      );
+      console.log('TotalWorksAbstract =:', this.dispatchData2);
+      this.dataSource4.data = this.dispatchData4;
+      this.dataSource4.paginator = this.paginatorTW;
+      this.dataSource4.sort = this.sortTW;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error) => {
+      this.spinner.hide();
+      alert(`Error fetching data: ${error.message}`);
+    }
+  );
+this.openDialogTW();
+
+}
+
   DetailProgress(did:any,dashname:any,nosworks:any): void {
   //  
   this.dashname=dashname;
   this.nosworks=nosworks;
   this.spinner.show();
-this.roleName = localStorage.getItem('roleName');
+  this.roleName = localStorage.getItem('roleName');
   if (this.roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
     this.showDivision = false;
@@ -1771,6 +1841,25 @@ expor_PDFLand_isu() {
       console.log('Dialog closed');
     });
   }
+  openDialogTW() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalTW, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
 
   onButtonClick2(ASID:any,workid:any): void {
     //  this.value='Active';
@@ -2007,7 +2096,20 @@ expor_PDFLand_isu() {
     }
   }
 
+  onselect_databudgetOptions(event :any){
+    // debugger;
+    this.ASAmount=event.buid
+    // alert( this.ASAmount);
+    this.DashProgressCount();
+  //   const selectedUser = this.budgetOptions.find((user: { buid: any }) => user.buid === this.buid); 
+  //   if (selectedUser) {
+  //     this.ASAmount= selectedUser?.buid;
+  // // alert( this.ASAmount);
+  //    } else {
+  //   alert('Selected budget_ID not found in the list.');
+  // }
 
+  }
 
   onselect_mainscheme_data(event: Event): void {
     // 

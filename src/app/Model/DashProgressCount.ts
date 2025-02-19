@@ -126,6 +126,7 @@ export class WorkBillStatus {
   billdate!: string;
   grossPaid!: number;
   chequeNo!: string;
+  chequeDT!:any;
   daysSinceMeasurement!: number;
   billStatus!: string;
   billmbno!: string;
@@ -287,6 +288,7 @@ export class WorkGenDetails {
   workorderRefNoGovt!: string;
   dueDTTimePerAdded!: string;
 }
+
 
 
 //#endregion
@@ -828,7 +830,61 @@ export class TobeTenderAppliedZonalPermission{
 }
 //#endregion
 //#endregion
-//#region AS
+//#region DashProgressCount Ditail
+export class TotalWorksAbstract {
+  sno!: number;
+    work_id!: string;
+    letterNo!: string;
+    head!: string;
+    approver!: string;
+    type_name!: string;
+    divName_En!: string;
+    district!: string;
+    blockname!: string;
+    work!: string;
+    asAmt!: number;
+    tsamt!: number;
+    aadt!: string;
+    tsDate!: string;
+    tType!: string;
+    tenderReference!: string;
+    acceptanceLetterRefNo!: string;
+    acceptLetterDT!: string;
+    totalAmountOfContract!: number;
+    sanctionRate!: number;
+    sanctionDetail!: string;
+    wrokOrderDT!: string;
+    hoAllotedDT!: string;
+    agreementRefNo!: string;
+    workorderRefNoGovt!: string;
+    dueDTTimePerAdded!: string;
+    timeAllowed!: number;
+    dateOfSanction!: string;
+    dateOfIssueNIT!: string;
+    cid!: string;
+    contractorNAme!: string;
+    regType!: string;
+    class!: string;
+    englishAddress!: string;
+    mobNo!: string;
+    asPath!: string;
+    asLetter!: string;
+    groupName!: string;
+    lProgress!: string;
+    progressDT!: string;
+    pRemarks!: string;
+    remarks: any
+    display!: string;
+    descri!: string;
+    fmrcode: any
+    expcompdt!: string;
+    delayreason!: string;
+    subengname!: string;
+    aeName!: string;
+    grantNo!: string;
+    totalpaid!:any;
+    totalunpaid!:any;
+  }
 export class WORunningHandDetails{
   sno!: number;
   work_id!: string;
@@ -879,6 +935,9 @@ export class WORunningHandDetails{
   delayreason!: string;
   subengname!: string;
   aeName!: string;
+  grantNo!:any;
+  totalpaid!:any;
+  totalunpaid!:any;
 }
 export class LandIssue_RetToDeptDetatails{
   sno!: number;
@@ -930,6 +989,9 @@ export class LandIssue_RetToDeptDetatails{
   delayreason!: string;
   subengname!: string;
   aeName!: string;
+  grantNo!:any;
+  totalpaid!:any;
+  totalunpaid!:any;
 }
 export class DetailProgressTinP{
   sno!: number;
@@ -964,7 +1026,9 @@ export class DetailProgressTinP{
   eprocno!: string | null;
   covOpenedDT!: string | null;
   topnedpricedt!: string | null;
-
+  grantNo!:any;
+  totalpaid!:any;
+  totalunpaid!:any;
 }
 export class TenderInProcess{
   sno!: number;
@@ -999,7 +1063,9 @@ export class TenderInProcess{
   eprocno!: string | null; // eprocno can be null
   covOpenedDT!: string | null; // covOpenedDT can be null
   topnedpricedt!: string | null; // topnedpricedt can be null
-
+  grantNo!:any;
+  totalpaid!:any;
+  totalunpaid!:any;
 
 }
 

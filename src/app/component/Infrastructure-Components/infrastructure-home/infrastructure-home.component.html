@@ -50,7 +50,21 @@
                         </ng-select>
                       </div>
                     </div>
+                    <div class="col-12 col-md-6 mb-3">
+                      <div class="columns justify-content-center mb-3">
+                        <!-- <label class="form-label"><strong>Select Scheme</strong>:</label> -->
+                        <ng-select [items]="budgetOptions" bindLabel="label" bindValue="buid" [(ngModel)]="buid"
+                          name="buid" (change)="onselect_databudgetOptions($event)" #nameidField="ngModel"
+                          [placeholder]="!buid ? 'Select value : ' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
+                          required class="form-control">
+                        </ng-select>
+                      </div>
+                    </div>
+                   
                 </div>
+                <!-- <div class="row "> -->
+                  
+                <!-- </div> -->
               </div>
 
 
@@ -312,7 +326,7 @@
         <!-- Static Card for Total Works -->
         <!-- <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngIf="totalNosWorks != 0 "> -->
         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-          <!-- <a type="link" (click)="selectdata()"> -->
+          <a type="link" (click)="TotalWorksAbstract()">
           <mat-card class="card-class text-center" style="background-color: #6a6afd; color: Black;">
             <mat-card-header class="mat-card-header" style="border-bottom: none; text-align: center;">
               <mat-icon role="img" mat-card-avatar
@@ -330,7 +344,7 @@
               </h3>
             </mat-card-content>
           </mat-card>
-          <!-- </a> -->
+          </a>
         </div>
 
         <!-- Dynamic Cards for Other District Data -->
@@ -366,6 +380,245 @@
 </div>
 
 <!-- Math Modal -->
+ <!-- >Total Works -->
+<ng-template class=" " #itemDetailsModalTW let-modal>
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <h1 class="text-primary-emphasis">Progress Level:<span class="text-primary">Total Works</span></h1>
+      <h1 class="text-primary-emphasis">No. of Works: <span class="text-primary">{{ totalNosWorks }}</span></h1>
+      <!-- <h1>Progress Details WO Running Hand Details</h1> -->
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+      <div class="d-flex justify-content-between align-items-center mb-0">
+        <div class="filter-field flex-grow-1">
+          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterRun_Work($event)">
+        </div>
+        <div class="export-menu-container">
+          <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+            [matMenuTriggerFor]="exportMenu">Export</button>
+          <mat-menu #exportMenu="matMenu">
+            <button mat-menu-item
+              (click)="exporter.exportTable('xlsx', { fileName: 'RunningWorks', sheet: 'RunningWorks', Props: { Author: 'cgmsc' }})">Excel</button>
+            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+            <button mat-menu-item (click)="exportToPDFRun_Work()">PDF</button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <div class="table-responsive ">
+        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter [dataSource]="dataSourceRun_Work"
+          #exporter="matTableExporter" matSort #sortTW="matSort">
+          
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+            <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+          </ng-container>
+          <ng-container matColumnDef="work_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+            <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
+          </ng-container>
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="head">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+            <td mat-cell *matCellDef="let element">{{ element.head}} </td>
+          </ng-container>
+         
+        
+          <ng-container matColumnDef="district">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+            <td mat-cell *matCellDef="let element"> {{ element.district}} </td>
+          </ng-container>
+          <ng-container matColumnDef="blockname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+            <td mat-cell *matCellDef="let element"> {{ element.blockname}} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="work">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+            <td mat-cell *matCellDef="let element">{{ element.work}} </td>
+          </ng-container>
+          
+         
+         
+          <ng-container matColumnDef="wrokOrderDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.wrokOrderDT}} </td>
+          </ng-container>
+          <ng-container matColumnDef="timeAllowed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Time Allowed</th>
+            <td mat-cell *matCellDef="let element"> {{ element.timeAllowed}} </td>
+          </ng-container>
+          <ng-container matColumnDef="dueDTTimePerAdded">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Due DT Completion</th>
+            <td mat-cell *matCellDef="let element"> {{ element.dueDTTimePerAdded}} </td>
+          </ng-container>
+          <ng-container matColumnDef="lProgress">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Progress Level</th>
+            <td mat-cell *matCellDef="let element"> {{ element.lProgress}} </td>
+          </ng-container>
+          <ng-container matColumnDef="progressDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Progress DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.progressDT}} </td>
+        </ng-container> 
+        <ng-container matColumnDef="expcompdt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Exp. Comp DT</th>
+          <td mat-cell *matCellDef="let element"> {{ element.expcompdt}} </td>
+      </ng-container> 
+       <ng-container matColumnDef="delayreason">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Delay Reason</th>
+          <td mat-cell *matCellDef="let element"> {{ element.delayreason}} </td>
+      </ng-container> 
+      <ng-container matColumnDef="PRemarks">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+        <td mat-cell *matCellDef="let element"> {{ element.PRemarks}}/{{ element.Remarks}}  </td>
+    </ng-container> 
+     
+          <ng-container matColumnDef="subengname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sub Eng</th>
+            <td mat-cell *matCellDef="let element"> {{ element.subengname}} </td>
+          </ng-container>
+          <ng-container matColumnDef="aeName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Asst.Eng</th>
+            <td mat-cell *matCellDef="let element"> {{ element.aeName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="aadt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.aadt}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="asAmt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount(in Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.asAmt}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tsDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tsDate}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="tsamt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Amount(in Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tsamt}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tender Type</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tType}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tenderReference">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT Reference</th>
+            <td mat-cell *matCellDef="let element">{{ element.tenderReference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="dateOfIssueNIT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT/Sanction DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.dateOfIssueNIT}}/ {{ element.dateOfSanction}} </td>
+          </ng-container>
+          <ng-container matColumnDef="acceptanceLetterRefNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Acceptance Letter RefNo</th>
+            <td mat-cell *matCellDef="let element"> {{ element.acceptanceLetterRefNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="agreementRefNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order RefNo</th>
+            <td mat-cell *matCellDef="let element"> {{ element.agreementRefNo}}/ {{ element.workorderRefNoGovt}}</td>
+          </ng-container>
+          <ng-container matColumnDef="acceptLetterDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.acceptLetterDT}} </td>
+          </ng-container>
+          <ng-container matColumnDef="sanctionRate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate%</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sanctionRate}} </td>
+          </ng-container>
+          <ng-container matColumnDef="sanctionDetail">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sanction</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sanctionDetail}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalAmountOfContract">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="contractorNAme">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+            <td mat-cell *matCellDef="let element"> {{ element.contractorNAme}} </td>
+          </ng-container>
+          <ng-container matColumnDef="letterNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO</th>
+            <td mat-cell *matCellDef="let element">{{ element.letterNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="approver">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver</th>
+            <td mat-cell *matCellDef="let element">{{ element.approver}} </td>
+          </ng-container>
+          <ng-container matColumnDef="divName_En">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+            <td mat-cell *matCellDef="let element"> {{ element.divName_En}} </td>
+          </ng-container>
+          <ng-container matColumnDef="cid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor ID/Class</th>
+            <td mat-cell *matCellDef="let element"> {{ element.cid}}/{{ element.regType}} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="mobNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor Mobile No</th>
+            <td mat-cell *matCellDef="let element"> {{ element.mobNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Download AS</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                  (click)="onButtonClick2(0,element.work_id)">
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container>
+          <tr mat-header-row
+          *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+            <!-- *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','work_id','action']"> -->
+          </tr>
+          <tr mat-row
+            *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+          </tr>
+          <!-- <tr mat-header-row
+          *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','approver','work','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','wrokOrderDT','timeAllowed','dueDTTimePerAdded','agreementRefNo','cid','contractorNAme','mobNo','lProgress','progressDT','expcompdt','delayreason','subengname','aeName','work_id','asLetter','action']">
+           </tr>
+         
+          <tr mat-row
+            *matRowDef="let row; columns: ['sno','head','divName_En','district','blockname','letterNo','approver','work','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','wrokOrderDT','timeAllowed','dueDTTimePerAdded','agreementRefNo','cid','contractorNAme','mobNo','lProgress','progressDT','expcompdt','delayreason','subengname','aeName','work_id','asLetter','action']">
+          </tr> -->
+        </table>
+        <mat-paginator #paginatorTW [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+      <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+        aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
+</ng-template>
  <!-- A/Works Order -->
 <ng-template class=" " #itemDetailsModal let-modal>
   <div class="row align-items-center p-2 m-2 ">
@@ -389,7 +642,7 @@
             [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'WorksOrderD', sheet: 'WorksOrderD', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -408,6 +661,10 @@
           <ng-container matColumnDef="work_id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
             <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
+          </ng-container>
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
           </ng-container>
           <ng-container matColumnDef="head">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
@@ -444,6 +701,14 @@
           <ng-container matColumnDef="totalAmountOfContract">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value(In Lacs)</th>
             <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
           </ng-container>
           <ng-container matColumnDef="wrokOrderDT">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order DT</th>
@@ -610,12 +875,12 @@
                                         <td mat-cell *matCellDef="let element"> {{ element.delayreason}} </td>
                                     </ng-container>     -->
           <tr mat-header-row
-          *matHeaderRowDef="['sno','work_id','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+          *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
             <!-- *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','work_id','action']"> -->
           </tr>
           <!-- Data Rows -->
           <tr mat-row
-            *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+            *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
           </tr>
         </table>
         <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
@@ -656,7 +921,7 @@
             [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'CompleteAndHandover', sheet: 'CompleteAndHandover', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -675,6 +940,10 @@
           <ng-container matColumnDef="work_id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
             <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
+          </ng-container>
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
           </ng-container>
           <ng-container matColumnDef="head">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
@@ -711,6 +980,14 @@
           <ng-container matColumnDef="totalAmountOfContract">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value(In Lacs)</th>
             <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
           </ng-container>
           <ng-container matColumnDef="wrokOrderDT">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order DT</th>
@@ -815,11 +1092,11 @@
             </td>
           </ng-container>
           <tr mat-header-row
-          *matHeaderRowDef="['sno','work_id','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+          *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
             <!-- *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','work_id','action']"> -->
           </tr>
           <tr mat-row
-            *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+            *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
           </tr>
           <!-- <tr mat-header-row
           *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','approver','work','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','wrokOrderDT','timeAllowed','dueDTTimePerAdded','agreementRefNo','cid','contractorNAme','mobNo','lProgress','progressDT','subengname','aeName','work_id','asLetter','action']">
@@ -866,7 +1143,7 @@
             [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'RunningWorks', sheet: 'RunningWorks', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -1029,6 +1306,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
             <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
           </ng-container>
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
+          </ng-container>
           <ng-container matColumnDef="head">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
             <td mat-cell *matCellDef="let element">{{ element.head}} </td>
@@ -1150,6 +1431,14 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value(In Lacs)</th>
             <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract}} </td>
           </ng-container>
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
+          </ng-container>
           <ng-container matColumnDef="contractorNAme">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
             <td mat-cell *matCellDef="let element"> {{ element.contractorNAme}} </td>
@@ -1187,11 +1476,11 @@
             </td>
           </ng-container>
           <tr mat-header-row
-          *matHeaderRowDef="['sno','work_id','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+          *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
             <!-- *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','work_id','action']"> -->
           </tr>
           <tr mat-row
-            *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+            *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
           </tr>
           <!-- <tr mat-header-row
           *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','approver','work','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','wrokOrderDT','timeAllowed','dueDTTimePerAdded','agreementRefNo','cid','contractorNAme','mobNo','lProgress','progressDT','expcompdt','delayreason','subengname','aeName','work_id','asLetter','action']">
@@ -1240,7 +1529,7 @@
             [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'LandNotAlloted', sheet: 'LandNotAlloted', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -1422,6 +1711,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
             <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
           </ng-container>
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
+          </ng-container>
           <ng-container matColumnDef="head">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
             <td mat-cell *matCellDef="let element">{{ element.head}} </td>
@@ -1544,6 +1837,14 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value(In Lacs)</th>
             <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract}} </td>
           </ng-container>
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
+          </ng-container>
           <ng-container matColumnDef="contractorNAme">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
             <td mat-cell *matCellDef="let element"> {{ element.contractorNAme}} </td>
@@ -1581,10 +1882,10 @@
             </td>
           </ng-container>
           <tr mat-header-row
-          *matHeaderRowDef="['sno','work_id','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+          *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
            </tr>
           <tr mat-row
-            *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+            *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
           </tr>
         </table>
         <mat-paginator #paginatorLand_isu [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
@@ -1625,7 +1926,7 @@
             [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'LandIssueDetails', sheet: 'LandIssueDetails', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -1640,6 +1941,10 @@
           <ng-container matColumnDef="sno">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
             <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+          </ng-container>
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
           </ng-container>
           <ng-container matColumnDef="head">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
@@ -1710,6 +2015,14 @@
           <ng-container matColumnDef="totalAmountOfContract">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount Of Contract(In Lacs)</th>
             <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
           </ng-container>
           <!-- <ng-container matColumnDef="sanctionRate">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header>Sanction Rate</th>
@@ -1844,11 +2157,11 @@
             </td>
           </ng-container>
           <tr mat-header-row
-            *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','work_id','action']">
+            *matHeaderRowDef="['sno','grantNo','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','totalpaid','totalunpaid','work_id','action']">
           </tr>
           <!-- Data Rows -->
           <tr mat-row
-            *matRowDef="let row; columns: ['sno','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','work_id','action']">
+            *matRowDef="let row; columns: ['sno','grantNo','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','totalpaid','totalunpaid','work_id','action']">
           </tr>
         </table>
         <mat-paginator #paginator1 [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
@@ -1889,7 +2202,7 @@
             [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'TobeTenderAll', sheet: 'TobeTenderAll', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -2113,7 +2426,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter No</th>
             <td mat-cell *matCellDef="let element"> {{ element.letterNo }} </td>
           </ng-container>
-
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
+          </ng-container>
           <ng-container matColumnDef="head">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
             <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
@@ -2150,12 +2466,19 @@
           </ng-container>
 
           <ng-container matColumnDef="asAmt">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount(in Lacs)</th>
             <td mat-cell *matCellDef="let element"> {{ element.asAmt }} </td>
           </ng-container>
-
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
+          </ng-container>
           <ng-container matColumnDef="tsamt">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Amount</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Amount(in Lacs)</th>
             <td mat-cell *matCellDef="let element"> {{ element.tsamt }} </td>
           </ng-container>
 
@@ -2259,14 +2582,14 @@
               </span>
             </td>
           </ng-container>
-          <tr mat-header-row *matHeaderRowDef="[ 'sno', 'worK_ID', 'letterNo', 'head', 'approver', 'divName_En',
-                      'district', 'blockname', 'work', 'asAmt', 'tsamt', 'tsDate', 'aadt',
+          <tr mat-header-row *matHeaderRowDef="[ 'sno', 'worK_ID', 'letterNo','grantNo', 'head', 'approver', 'divName_En',
+                      'district', 'blockname', 'work', 'asAmt', 'totalpaid','totalunpaid','tsamt', 'tsDate', 'aadt',
                       'lProgress', 'progressDT', 'remarks', 'groupName', 'dashName', 'asPath',
                       'asLetter', 'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
                       'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt','action']">
           </tr>
-          <tr mat-row *matRowDef="let row; columns: [ 'sno', 'worK_ID', 'letterNo', 'head', 'approver','divName_En',
-                      'district', 'blockname', 'work', 'asAmt', 'tsamt', 'tsDate', 'aadt',
+          <tr mat-row *matRowDef="let row; columns: [ 'sno', 'worK_ID', 'letterNo','grantNo', 'head', 'approver','divName_En',
+                      'district', 'blockname', 'work', 'asAmt','totalpaid','totalunpaid', 'tsamt', 'tsDate', 'aadt',
                       'lProgress', 'progressDT', 'remarks', 'groupName', 'dashName', 'asPath',
                       'asLetter', 'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
                       'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt','action']">
@@ -2312,7 +2635,7 @@
             [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'TenderinProcess', sheet: 'TenderinProcess', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -2332,6 +2655,10 @@
           <ng-container matColumnDef="work_id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
             <td mat-cell *matCellDef="let element"> {{ element.work_id }} </td>
+          </ng-container>
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
           </ng-container>
           <ng-container matColumnDef="head">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
@@ -2376,6 +2703,15 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount(in Lacs)</th>
             <td mat-cell *matCellDef="let element"> {{ element.asAmt }} </td>
           </ng-container>
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
+          </ng-container>
+        
           <ng-container matColumnDef="tsDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
             <td mat-cell *matCellDef="let element"> {{ element.tsDate }} </td>
@@ -2474,8 +2810,8 @@
 	'tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','wrokOrderDT','timeAllowed','dueDTTimePerAdded','agreementRefNo','cid','contractorNAme','mobNo','lProgress',
 	'progressDT','expcompdt','delayreason','subengname',
 	'aeName','work_id','asLetter','action']"> -->
-          <tr mat-header-row *matHeaderRowDef="['sno','work_id','head','district','blockname','letterNo',
-          'work','tenderno', 'eprocno','noofcalls','aadt','asAmt','tsDate','tsamt',
+          <tr mat-header-row *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','letterNo',
+          'work','tenderno', 'eprocno','noofcalls','aadt','asAmt','totalpaid','totalunpaid','tsDate','tsamt',
           'lProgress', 'startdt','enddt',
            'covOpenedDT','topnedpricedt','divName_En','fmrcode','approver','action']">
           <!-- <tr mat-header-row *matHeaderRowDef="[ 'sno', 'work_id', 'letterNo', 'head', 'approver', 'type_name', 'divName_En',
@@ -2484,8 +2820,8 @@
                     'asLetter', 'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
                     'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt','action']"> -->
           </tr>
-          <tr mat-row *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','letterNo',
-          'work','tenderno', 'eprocno','noofcalls','aadt','asAmt','tsDate','tsamt',
+          <tr mat-row *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','letterNo',
+          'work','tenderno', 'eprocno','noofcalls','aadt','asAmt','totalpaid','totalunpaid','tsDate','tsamt',
           'lProgress', 'startdt','enddt',
            'covOpenedDT','topnedpricedt','divName_En','fmrcode','approver','action']">
           </tr>
