@@ -34,6 +34,7 @@ export class MenuServiceService {
       categories: {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
+          { label: 'QC Insights ', route: '/qc-dashboard' },
           { label: 'Finance', route: '/finance-dash' },
    
           // {
@@ -377,7 +378,7 @@ export class MenuServiceService {
         { label: 'Dashboard', route: '/public-view1' }, // Internal route (keeps routerLink)
         { label: 'CGMSC Warehouse Wise Stock', route: 'http://140.238.246.250/DPDMISStock/GernalReport/warehouse.aspx'  },
         // { label: 'CGMSC Warehouse Wise Stock', route: 'href:http://140.238.246.250/DPDMISStock/GernalReport/warehouse.aspx' },
-        { label: 'Delivery Acknowledgement', route: '/DevliveryPublic' },
+        // { label: 'Delivery Acknowledgement', route: '/DevliveryPublic' },
         { label: 'Health Facilities Coverage', route: '/FacCoveragePublic' },
         { label: 'Transport Vehicle Monitoring', route: 'https://dpdmis.in/gmapnew.aspx' },
         { label: 'CGMSC Total Stock', route: 'http://140.238.246.250/DPDMISStock/StockIssue/TotalStock1CGMSCL.aspx' },
@@ -412,14 +413,14 @@ export class MenuServiceService {
 
         { label: 'Land Issue', route: '/LandIssue' },
         { label: 'Technical Sanction', route: '/TechnicalSanction' },
-        { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
-        { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+        // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
+        { label: 'Progress Monitoring', route: 'DivisionProgress' },
         // { label: 'District Progress Monitoring', route: 'District Progress' },
-        { label: 'Handover', route: 'Handover' },
+        { label: 'Handover Insights', route: 'Handover' },
       
 
-        { label: 'Engineer-Works', route: '/EngineerWorks' },
-        { label: 'Payment', route: '/PriceEvaluation' },
+        { label: 'Engineer Work Tracker', route: '/EngineerWorks' },
+        { label: 'Payment Tracker', route: '/PriceEvaluation' },
 
         // // { label: 'Verticals', route: 'home' },
         // // { label: 'Home', route: 'InfrastructureHome' },

@@ -111,7 +111,20 @@ export class QCPendingAreaDetail{
     labresult!: string;
   
 }
+export class QCFinalResultPending
+{
+    id!: number;
+    mcid!: number;
+    nositems!: number;
+    nosbatch!: number;
+    uqcvalue!: number;
+    mcategory!: string;
+    timeline!: string;
+    exceddedsincetimeline!: string;
+    exceddedsincetimelinE1!: string;
+
+ 
+}
 
 
   
-

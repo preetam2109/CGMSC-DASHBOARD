@@ -89,8 +89,8 @@ throw new Error('Method not implemented.');
   chartOptions: ChartOptions;
   chartOptions1: ChartOptions;
   chartOptions2: ChartOptions;
-  chartOptions3: ChartOptions;
-  chartOptions4: ChartOptions;
+  chartOptionsQCHOFinalUpdate: ChartOptions;
+  chartOptionsQCStages: ChartOptions;
   chartStockoutdhs:ChartOptions;
   chartIndent: ChartOptions;
   chartNearexp: ChartOptions;
@@ -481,7 +481,7 @@ colors = [];
       ]
     } as unknown as ChartOptions;
     
-      this.chartOptions3 = {
+      this.chartOptionsQCHOFinalUpdate = {
         series: [], // Radial bar data
         chart: {
           type: "radialBar"
@@ -504,9 +504,9 @@ colors = [];
           }
         },
         labels: [
-          'EDL',
-          'NEDL',
-          'Total'
+          'Value(in Cr)',
+          'Batches',
+          'Items'
         ],
         dataLabels: {
           enabled: true,
@@ -592,10 +592,10 @@ colors = [];
         ]
       } as unknown as ChartOptions;
     
-      this.chartOptions4 = {
+      this.chartOptionsQCStages = {
         series: [], // Radial bar data
         chart: {
-          type: "radialBar"
+          type: "pie"
         },
         plotOptions: {
           radialBar: {
@@ -615,9 +615,7 @@ colors = [];
           }
         },
         labels: [
-          'EDL',
-          'NEDL',
-          'Total'
+          
         ],
         dataLabels: {
           enabled: true,
@@ -868,12 +866,12 @@ colors = [];
     this.loadData();
     this.loadData1();
     this.loadData2();
-    this.loadData3();
+    this.loadQCfinalUpdatePending();
     this.loadStockoutDHS();
     this.loadIndent();
     this.Nearexp();
     this.loadUQC();
-    this.loadData4();
+    this.loadDataQCStages();
     this.getItemNoDropDown();
   
 
@@ -1103,39 +1101,43 @@ colors = [];
     );
 }
 
-loadData3(): void {
+loadQCfinalUpdatePending(): void {
   
-
-  this.api.getTotalRC(1).subscribe(
+ 
+  this.api.GetQCFinalResultPending(1).subscribe(
     (data: any) => {
-      const categories: string[] = [];
-      const edl: number[] = [];
-      const nedl: number[] = [];
-      const total: number[] = [];
+      const mcategory: string[] = [];
+      const mcid: number[] = [];
+      const nositems: number[] = [];
+      const nosbatch: number[] = [];
+      const uqcvalue: number[] = [];
+      const exceddedsincetimeline: string[] = [];
 
-      console.log('Delivered from warehouse Response:', data);
+      console.log('QC Final Update:', data);
 
       data.forEach((item: any) => {
-        categories.push(item.mcategory);
-        edl.push(item.edl);
-        nedl.push(item.nedl);
-        total.push(item.total);
+        mcategory.push(item.mcategory);
+        mcid.push(item.mcid);
+        nositems.push(item.nositems);
+        nosbatch.push(item.nosbatch);
+        uqcvalue.push(item.uqcvalue);
+        exceddedsincetimeline.push(item.exceddedsincetimeline);
       });
 
       // Update the bar chart
-      this.chartOptions3 = {
+      this.chartOptionsQCHOFinalUpdate = {
         series: [
           {
-            name: 'EDL',
-            data: edl
+            name: 'Value(in Cr)',
+            data: uqcvalue
           },
           {
-            name: 'Non-EDL',
-            data: nedl
+            name: 'No of Batches',
+            data: nosbatch
           },
           {
-            name: 'Total',
-            data: total
+            name: 'No of Items',
+            data: nositems
           }
         ],
         chart: {
@@ -1158,11 +1160,11 @@ loadData3(): void {
           colors: ["transparent"]
         },
         xaxis: {
-          categories: categories // Dynamically set categories from API response
+          categories: exceddedsincetimeline // Dynamically set categories from API response
         },
         yaxis: {
           title: {
-            text: "NOS RC"
+            text: "Final QC Pending"
           }
         },
         fill: {
@@ -1409,97 +1411,95 @@ loadIndent(): void {
   );
 }
 
-loadData4(): void {
-  
 
-  this.api.CGMSCStockHome(1).subscribe(
+
+loadDataQCStages(): void {
+  this.api.QCPendingPlace(1).subscribe(
     (data: any) => {
-      const edLtpe: string[] = [];
-      const nositems: number[] = [];
-      const stkvalue: number[] = [];
-      const total: number[] = [];
+      const seriesData: number[] = [];
+      const labelsData: string[] = [
+        "qdIssuePendingbyWH",
+        "whIssueButPendingInCourier",
+        "hoqC_LabIssuePending",
+        "dropPendingToLab",
+        "labAnalysisOngoing",
+        "pendingforfinalUpdate"
+      ];
+
+      let aggregatedData = {
+        qdIssuePendingbyWH: 0,
+        whIssueButPendingInCourier: 0,
+        hoqC_LabIssuePending: 0,
+        dropPendingToLab: 0,
+        labAnalysisOngoing: 0,
+        pendingforfinalUpdate: 0
+      };
 
       console.log('Delivered from warehouse Response:', data);
 
       data.forEach((item: any) => {
-        edLtpe.push(item.edLtpe);
-        nositems.push(item.nositems);
-        stkvalue.push(item.stkvalue);
-        total.push(item.total);
+        aggregatedData.qdIssuePendingbyWH += item.qdIssuePendingbyWH;
+        aggregatedData.whIssueButPendingInCourier += item.whIssueButPendingInCourier;
+        aggregatedData.hoqC_LabIssuePending += item.hoqC_LabIssuePending;
+        aggregatedData.dropPendingToLab += item.dropPendingToLab;
+        aggregatedData.labAnalysisOngoing += item.labAnalysisOngoing;
+        aggregatedData.pendingforfinalUpdate += item.pendingforfinalUpdate;
       });
 
-      // Update the bar chart
-      this.chartOptions4 = {
-        series: [
-          {
-            name: 'No of Drugs',
-            data: nositems,
-            color:'#072ac8'
-          },
-          {
-            name: 'Value (in Cr)',
-            data: stkvalue,
-            color:'#774e24'
-          }
-          
-        ],
+      seriesData.push(
+        aggregatedData.qdIssuePendingbyWH,
+        aggregatedData.whIssueButPendingInCourier,
+        aggregatedData.hoqC_LabIssuePending,
+        aggregatedData.dropPendingToLab,
+        aggregatedData.labAnalysisOngoing,
+        aggregatedData.pendingforfinalUpdate
+      );
+
+      // Update the pie chart
+      this.chartOptionsQCStages = {
+        series: seriesData,
         chart: {
-          type: "bar",
-          stacked:true,
-          height: 300
+          type: "pie",
+          height: "100%",  // Adjusted
+    width: "100%", 
           
-        },
-        plotOptions: {
-          bar: {
-            
-            horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "75%",
-            endingShape: "rounded"
-          }
         },
         dataLabels: {
-          enabled: true
+          enabled: true,
+          style: {
+            colors: ['#001219'],
+            fontWeight:'2px' 
+          },
+          formatter: function (val: any, opts: any) {
+            return opts.w.globals.series[opts.seriesIndex]; // Shows actual values inside the chart
+          },
           
         },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ["transparent"]
-        },
-        xaxis: {
-          categories: edLtpe // Dynamically set categories from API response
-        },
-        yaxis: {
-          title: {
-            text: ""
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-        tooltip: {
-          y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
-          }
-        },
-        legend: {
-          position: "top"
-        },
+        labels: labelsData,
         responsive: [
           {
             breakpoint: 480,
             options: {
               chart: {
-                width: 300
+                width: "100%",   // Adjusted
+          height: "100%",
               },
               legend: {
                 position: "bottom"
               }
             }
           }
-        ]
+        ],
+        legend: {
+          position: "right"
+        },
+        tooltip: {
+          y: {
+            formatter: function (val: number) {
+              return val.toFixed(0); // Remove percentage and show actual value
+            }
+          }
+        }
       } as any;
     },
     (error: any) => {
@@ -1507,6 +1507,9 @@ loadData4(): void {
     }
   );
 }
+
+
+
 
 Nearexp(): void {
 
