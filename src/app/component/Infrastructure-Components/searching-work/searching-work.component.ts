@@ -405,7 +405,7 @@ export class SearchingWorkComponent {
                 sno: index + 1,
               })
             );
-            console.log('WorkBillStatus =:', this.dispatchData);
+            // console.log('WorkBillStatus =:', this.dispatchData);
             this.dataSource.data = this.dispatchData;
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -414,7 +414,7 @@ export class SearchingWorkComponent {
             this.spinner.hide();
             this.cdr.detectChanges();
           } else {
-            alert("Work Bill Status data Not found.");
+            // alert("Work Bill Status data Not found.");
           }
                
               },
@@ -563,6 +563,7 @@ export class SearchingWorkComponent {
           series: [{ name: "Progress ID", data: seriesData }],
           xaxis: {
             categories: res.map((item) => item.level).reverse(),
+            // categories: res.map((item) => item.level).reverse(),
             // categories: res.map((item) => item.level +' / '+ item.dateProgress).reverse(),
           },
         };

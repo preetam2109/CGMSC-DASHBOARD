@@ -126,16 +126,24 @@ ASFileData: ASFile[] = [];
 
   ngOnInit() {
     const today = new Date();
-    const firstDayOfMonthLastYear = new Date(
-      today.getFullYear() - 1,
-      today.getMonth(),
-      1
-    );
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth()-1, 1);
+    // const tomorrow = new Date(today);
+    // tomorrow.setDate(today.getDate() + 1);
+    // alert(firstDayOfMonth);
 
     this.dateRange = this.fb.group({
-      start: [firstDayOfMonthLastYear],
+      start: [firstDayOfMonth],
+      // end: [tomorrow],
       end: [today],
     });
+
+    // const today = new Date();
+    // const firstDayOfMonthLastYear = new Date( today.getFullYear() - 1,today.getMonth(),1 );
+
+    // this.dateRange = this.fb.group({
+    //   start: [firstDayOfMonthLastYear],
+    //   end: [today],
+    // });
     this.dateRange.valueChanges.subscribe(() => {
       this.GETPaidSummaryTotal();
       this.GETPaidSummaryDivision();

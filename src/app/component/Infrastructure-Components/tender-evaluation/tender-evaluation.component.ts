@@ -103,6 +103,8 @@ selectedTabIndex: number=0;
  TimeStatus:any;
  mainschemeid:any;
  name:any;
+ Selectedname:any;
+ nosWorks:any;
 constructor(
  public api: ApiService,
  public spinner: NgxSpinnerService,
@@ -158,7 +160,8 @@ initializeChartOptions() {
            // console.log("selectedData chart1",selectedData)
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
-
+             this.Selectedname= selectedData.name;
+             this.nosWorks= selectedData.nosWorks;
              this.fetchDataBasedOnChartSelectionDivision(id, selectedSeries);
            } else {
              console.log(
@@ -250,7 +253,8 @@ initializeChartOptions() {
            // console.log("selectedData chart1",selectedData)
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
-
+             this.Selectedname= selectedData.name;
+             this.nosWorks= selectedData.nosWorks;
              this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
            } else {
              console.log(
@@ -342,7 +346,8 @@ initializeChartOptions() {
            // console.log("selectedData chart1",selectedData)
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
-
+             this.Selectedname= selectedData.name;
+             this.nosWorks= selectedData.nosWorks;
              this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
            } else {
              console.log(
@@ -434,7 +439,8 @@ initializeChartOptions() {
            // console.log("selectedData chart1",selectedData)
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
-
+             this.Selectedname= selectedData.name;
+             this.nosWorks= selectedData.nosWorks;
              this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
            } else {
              console.log(
@@ -526,7 +532,7 @@ initializeChartOptions2() {
          // Ensure the selectedCategory and selectedSeries are valid
          if (selectedCategory && selectedSeries) {
            const apiData = this.PriceEvaluationDivision; // Replace with the actual data source or API response
-           console.log('data=',this.PriceEvaluationDivision);
+          //  console.log('data=',this.PriceEvaluationDivision);
            // Find the data in your API response that matches the selectedCategory
            const selectedData = apiData.find(
              (data) => data.name === selectedCategory
@@ -534,7 +540,8 @@ initializeChartOptions2() {
            // console.log("selectedData chart1",selectedData)
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
-
+             this.Selectedname= selectedData.name;
+             this.nosWorks= selectedData.nosWorks;
              this.fetchDataBasedOnChartSelectionDivisionPE(id, selectedSeries);
            } else {
              console.log(
@@ -626,7 +633,8 @@ initializeChartOptions2() {
            // console.log("selectedData chart1",selectedData)
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
-
+             this.Selectedname= selectedData.name;
+             this.nosWorks= selectedData.nosWorks;
              this.fetchDataBasedOnChartSelectionmainSchemePE(id, selectedSeries);
            } else {
              console.log(
@@ -718,7 +726,8 @@ initializeChartOptions2() {
            // console.log("selectedData chart1",selectedData)
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
-
+             this.Selectedname= selectedData.name;
+             this.nosWorks= selectedData.nosWorks;
              this.fetchDataBasedOnChartSelectionDisPE(id, selectedSeries);
            } else {
              console.log(
@@ -810,7 +819,8 @@ initializeChartOptions2() {
            // console.log("selectedData chart1",selectedData)
            if (selectedData) {
              const id = selectedData.id; // Extract the id from the matching entry
-
+             this.Selectedname= selectedData.name;
+             this.nosWorks= selectedData.nosWorks;
              this.fetchDataBasedOnChartSelectionTotalPE(0, selectedSeries);
            } else {
              console.log(
@@ -935,7 +945,7 @@ var RPType = 'Total';
      (data: any) => {
        this.TenderEvaluationTotal = data;
        // console.log('API Response total:', this.WoIssuedTotal);
-       // console.log('API Response data:', data);
+      //  console.log('API Response data:', data);
       
 
        const id: string[] = [];
@@ -1442,7 +1452,7 @@ GETPEvaluationTotal(): void {
        (data: any) => {
          this.PriceEvaluationTotal = data;
          // console.log('API Response total:', this.WoIssuedTotal);
-         // console.log('API Response data:', data);
+         console.log('API Response data:', data);
         
   
          const id: string[] = [];

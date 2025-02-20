@@ -70,7 +70,7 @@ export class InfrastructureHomeComponent {
   divisionid:any = 0;
   mainSchemeID = 0;
   id:any;
-  buid=0;
+  buid=1;
   selectedDistrict: any | null = null;
   name: any;
   isall: boolean = true;
@@ -166,7 +166,7 @@ export class InfrastructureHomeComponent {
   contractorid=0;
   dashname:any;
   nosworks:any;
-  ASAmount=0;
+  ASAmount=1;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,private dialog: MatDialog,) {
   this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
   this.dataSourceCom_Han = new MatTableDataSource<WORunningHandDetails>([]);
@@ -180,19 +180,15 @@ export class InfrastructureHomeComponent {
 
   ngOnInit() {
     var roleName = localStorage.getItem('roleName');
-    // alert( roleName )
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.himisDistrictid = 0;
       this.showDivision = false;
-      // return; 
-      // alert( this.divisionid )
       this.loadInitialData();
     } else if (roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.showDistrict = false;
       this.showDivision = false;
-      // alert( this.himisDistrictid );
       this.loadInitialData();
     } else {
       this.himisDistrictid = 0;
@@ -201,11 +197,8 @@ export class InfrastructureHomeComponent {
 
     }
     this.GetDistricts();
-    // this.GetDistricts1();
     this.getDistrictNameDME();
     this.getmain_scheme();
-    // this.getmain_scheme1();
-    //  this.GetDMEProgressSummary();
   }
 //#region 
   loadInitialData() {
@@ -215,21 +208,9 @@ export class InfrastructureHomeComponent {
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
     console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-var mainSchemeId=0;
-var ASID=0;
-var GrantID=0;
-// divisionid= D1024 himisDistrictid= 0 mainSchemeID= 103
-// if( this.mainSchemeID != null ){
-//   alert('hi');
-//   // || this.himisDistrictid != 0 || this.mainSchemeID != 0
-//   this.himisDistrictid = 0;//this.divisionid =0;
-//   this.mainSchemeID=0;
-//   console.log('2 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-// }
-// if (this.selectedTabIndex == 0) {
-//   this.mainSchemeID=0;
-//   this.himisDistrictid = 0;//this.divisionid =0;
-// } 
+      var mainSchemeId=0;
+      var ASID=0;
+      var GrantID=0;
     this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid,ASID,GrantID,this.ASAmount).subscribe(
       (res: any) => {
         console.log("res=",JSON.stringify(res));
@@ -239,14 +220,14 @@ var GrantID=0;
         this.spinner.hide();
       },
       (error) => {
-        console.error('API Error:', error);
+        // console.error('API Error:', error);
+        alert(`API Error: ${JSON.stringify(error)}`);
       }
     );
   }
 
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
-    // alert(this.selectedTabIndex )
     if (this.selectedTabIndex === 0) {
       // Restore original data for "Total Works"
       this.districtData = [...this.originalData];
@@ -309,11 +290,8 @@ var GrantID=0;
   //   }
   // }
   DashProgressCount() {
-//  alert( this.ASAmount);
     try {
       this.spinner.show();
-      // const distid = this.distid || 0;
-      // const divisionid = this.divisionid || 0;
 
       var roleName = localStorage.getItem('roleName');
       if (roleName == 'Division') {
@@ -355,31 +333,42 @@ var GrantID=0;
             // Do not overwrite the original data for "Total Works"
             this.districtData = [...this.originalData];
             if (this.mainSchemeID !== 0) {
-
+              // alert("scheme ");
               this.districtData = this.sortDistrictData(res);
-            } else {
-              // this.districtData = [...this.originalData];
+              // console.log(' on bug reotalwork1=', JSON.stringify(this.districtData));
 
             }
-            console.log('retotalwork=', JSON.stringify(this.districtData));
+            //  else if (){
+
+            // }
+            
+            else {
+              // alert("ather ");
+              this.districtData = this.sortDistrictData(res);
+              // this.districtData = [...this.originalData];
+
+              // console.log(' on bug reotalwork2=', JSON.stringify(this.districtData));
+            }
           } else {
             this.districtData = res;
             // console.log('re1=', JSON.stringify(this.districtData));
             this.districtData = this.sortDistrictData(res);
             // console.log('re2=', JSON.stringify(this.districtData));
           }
-          console.log('res =', JSON.stringify(this.districtData));
+          // console.log('new on bug reotalwork3=', this.districtData);
 
           this.calculateTotalNosWorks();
           this.spinner.hide();
 
         },
         (error) => {
-          console.error('API Error:', error);
+          // console.error('API Error:', error);
+          alert(`API Error:: ${JSON.stringify(error)}`);
         }
       );
     } catch (ex: any) {
-      console.error('Exception:', ex.message);
+      alert(`Exception:: ${JSON.stringify(ex.message)}`);
+      // console.error('Exception:', ex.message);
     }
   }
   onButtonClick(name: string, id: any): void {
@@ -397,7 +386,7 @@ var GrantID=0;
     }else{
       this.hide=true;
     }
-    // this.DashProgressCount();
+    this.DashProgressCount();
     // console.error('onButtonClick',this.divisionid);
 
   }
@@ -648,7 +637,7 @@ var GrantID=0;
           if (item.districtname && item.district_ID) {
             this.whidMap[item.districtname] = item.district_ID;
           } else {
-            console.warn('Missing whid for warehousename :', item.districtname);
+            console.warn('Missing id :', item.districtname);
           }
 
 
@@ -714,7 +703,8 @@ var GrantID=0;
         this.spinner.hide();
       },
       (error: any) => {
-        console.error('Error fetching data', error);
+        // console.error('Error fetching data', error);
+        alert(`API Error:: ${JSON.stringify(error)}`);
       }
     );
   }
@@ -884,6 +874,8 @@ var GrantID=0;
 //   //  https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=147&contractorid=0
 //   }
 TotalWorksAbstract(){
+  // debugger;
+  this.spinner.show();
   this.roleName = localStorage.getItem('roleName');
   if (this.roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
@@ -896,12 +888,13 @@ TotalWorksAbstract(){
     }
   }
   // this.distid = this.distid == 0 ? 0 : this.distid;
-
+const contractorid=0;
   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-  console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-  this.api.GET_TotalWorksAbstract(this.divisionid,this.himisDistrictid,this.mainSchemeID,0)
+  // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+  // ?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1
+  this.api.GET_TotalWorksAbstract(this.divisionid,this.himisDistrictid,this.mainSchemeID,contractorid,this.ASAmount)
   .subscribe(
     (res) => {
       this.dispatchData4 = res.map(
@@ -910,7 +903,7 @@ TotalWorksAbstract(){
           sno: index + 1,
         })
       );
-      console.log('TotalWorksAbstract =:', this.dispatchData2);
+      // console.log('TotalWorksAbstract 1=:', this.dispatchData4);
       this.dataSource4.data = this.dispatchData4;
       this.dataSource4.paginator = this.paginatorTW;
       this.dataSource4.sort = this.sortTW;
@@ -919,7 +912,8 @@ TotalWorksAbstract(){
     },
     (error) => {
       this.spinner.hide();
-      alert(`Error fetching data: ${error.message}`);
+      // alert(`Error fetching data: ${error.message}`);
+      alert(`API Error:: ${JSON.stringify(error.message)}`);
     }
   );
 this.openDialogTW();
@@ -947,11 +941,11 @@ this.openDialogTW();
   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-  console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-
+  // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+// Icon for "To be Tender"
   if (did == 1001) {
-    console.log('1001 =: ',did);
-    this.api.GETTobeTenderAll(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+    // console.log('1001 =: ',did);
+    this.api.GETTobeTenderAll(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount)
     .subscribe(
       (res) => {
         this.dispatchData2 = res.map(
@@ -960,7 +954,7 @@ this.openDialogTW();
             sno: index + 1,
           })
         );
-        console.log('DetailProgressTinP=:', this.dispatchData2);
+        // console.log('DetailProgressTinP=:', this.dispatchData2);
         this.dataSource2.data = this.dispatchData2;
         this.dataSource2.paginator = this.paginator2;
         this.dataSource2.sort = this.sort2;
@@ -969,17 +963,19 @@ this.openDialogTW();
       },
       (error) => {
         this.spinner.hide();
-        alert(`Error fetching data: ${error.message}`);
+        // alert(`Error fetching data: ${error.message}`);
+        alert(`API Error:: ${JSON.stringify(error.message)}`);
       }
     );
   this.openDialog2();
 
     // return 
   }
+  // Icon for "Tender in Process"
    else if (did == 2001) {
     // 
     console.log('2001=: ',did);
-    this.api.GETDetailProgress(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+    this.api.GETDetailProgress(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount)
     .subscribe(
       (res) => {
         this.dispatchData3 = res.map(
@@ -988,7 +984,7 @@ this.openDialogTW();
             sno: index + 1,
           })
         );
-        console.log('TenderInProcess=:', this.dispatchData3);
+        // console.log('TenderInProcess=:', this.dispatchData3);
         this.dataSource3.data = this.dispatchData3;
         this.dataSource3.paginator = this.paginator3;
         this.dataSource3.sort = this.sort3;
@@ -997,7 +993,7 @@ this.openDialogTW();
       },
       (error) => {
         this.spinner.hide();
-        alert(`Error fetching data: ${error.message}`);
+        alert(`Error fetching data: ${JSON.stringify(error.message)}`);
       }
     );
   this.openDialog3();
@@ -1006,7 +1002,7 @@ this.openDialogTW();
   } 
    else if (did == 4001) {
     console.log('4001=: ',did);
-    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid)
+    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount)
     .subscribe(
       (res) => {
         this.dispatchDataCom_Han = res.map(
@@ -1024,7 +1020,7 @@ this.openDialogTW();
       },
       (error) => {
         this.spinner.hide();
-        alert(`Error fetching data: ${error.message}`);
+        alert(`Error fetching data: ${JSON.stringify(error.message)}`);
       }
     );
   this.openDialogCom_Han();
@@ -1033,7 +1029,7 @@ this.openDialogTW();
   //  Running Work
   else if (did == 5001) {
     // console.log('5001=: ',did);
-    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid)
+    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount)
     .subscribe(
       (res) => {
         this.dispatchDataRun_Work = res.map(
@@ -1059,7 +1055,7 @@ this.openDialogTW();
   // Land Not Alloted/Land Dispute
    else if (did === 6001) {
     console.log('6001 =: ',did);
-    this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+    this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount)
     .subscribe(
       (res) => {
         this.dispatchDataLand_isu = res.map(
@@ -1077,7 +1073,7 @@ this.openDialogTW();
       },
       (error) => {
         this.spinner.hide();
-        alert(`Error fetching data: ${error.message}`);
+        alert(`Error fetching data: ${JSON.stringify(error.message)}`);
       }
     );
   this.openDialogLand_isu();
@@ -1086,7 +1082,7 @@ this.openDialogTW();
 
     else if (did == 8001) {
       console.log(' 8001 =: ',did);
-      this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID)
+      this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount)
       .subscribe(
         (res) => {
           this.dispatchData1 = res.map(
@@ -1104,7 +1100,7 @@ this.openDialogTW();
         },
         (error) => {
           this.spinner.hide();
-          alert(`Error fetching data: ${error.message}`);
+          alert(`Error fetching data: ${JSON.stringify(error.message)}`);
         }
       );
     this.openDialog1();
@@ -1124,7 +1120,7 @@ this.openDialogTW();
 
   else {
     // console.log('3001=: ',did);
-    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid)
+    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount)
     .subscribe(
       (res) => {
         this.dispatchData = res.map(
@@ -1142,13 +1138,20 @@ this.openDialogTW();
       },
       (error) => {
         this.spinner.hide();
-        alert(`Error fetching data: ${error.message}`);
+        alert(`Error fetching data: ${JSON.stringify(error.message)}`);
       }
     );
   this.openDialog();
   }
  }
 
+ applyTextFilterTW(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource4.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource4.paginator) {
+    this.dataSource4.paginator.firstPage();
+  }
+}
  applyTextFilter(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -1196,6 +1199,7 @@ exportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1215,6 +1219,8 @@ exportToPDF() {
     { title: 'Rate%', dataKey: 'sanctionRate' },
     { title: 'Sanction', dataKey: 'sanctionDetail' },
     { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
     { title: 'Time Allowed', dataKey: 'timeAllowed' },
     { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
@@ -1230,6 +1236,7 @@ exportToPDF() {
   ];
   const rows = this.dispatchData.map((row) => ({
     sno: row.sno,
+      grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1249,6 +1256,8 @@ exportToPDF() {
     sanctionRate: row.sanctionRate,
     sanctionDetail: row.sanctionDetail,
     totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     wrokOrderDT: row.wrokOrderDT,
     timeAllowed: row.timeAllowed,
     dueDTTimePerAdded: row.dueDTTimePerAdded,
@@ -1277,6 +1286,7 @@ exportToPDFCom_Han() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1296,6 +1306,8 @@ exportToPDFCom_Han() {
     { title: 'Rate%', dataKey: 'sanctionRate' },
     { title: 'Sanction', dataKey: 'sanctionDetail' },
     { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
     { title: 'Time Allowed', dataKey: 'timeAllowed' },
     { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
@@ -1312,6 +1324,7 @@ exportToPDFCom_Han() {
   ];
   const rows = this.dispatchDataCom_Han.map((row) => ({
     sno: row.sno,
+    grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1331,6 +1344,8 @@ exportToPDFCom_Han() {
     sanctionRate: row.sanctionRate,
     sanctionDetail: row.sanctionDetail,
     totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     wrokOrderDT: row.wrokOrderDT,
     timeAllowed: row.timeAllowed,
     dueDTTimePerAdded: row.dueDTTimePerAdded,
@@ -1356,10 +1371,11 @@ exportToPDFCom_Han() {
 
   doc.save('Completed_Handover.pdf');
 }
-exportToPDFRun_Work() {
+exportToPDFTW() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1379,6 +1395,8 @@ exportToPDFRun_Work() {
     { title: 'Rate%', dataKey: 'sanctionRate' },
     { title: 'Sanction', dataKey: 'sanctionDetail' },
     { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
     { title: 'Time Allowed', dataKey: 'timeAllowed' },
     { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
@@ -1396,8 +1414,9 @@ exportToPDFRun_Work() {
     { title: 'Work ID', dataKey: 'work_id' },
     { title: 'AS Letter', dataKey: 'asLetter' },
   ];
-  const rows = this.dispatchDataRun_Work.map((row) => ({
+  const rows = this.dispatchData4.map((row) => ({
     sno: row.sno,
+    grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1417,6 +1436,102 @@ exportToPDFRun_Work() {
     sanctionRate: row.sanctionRate,
     sanctionDetail: row.sanctionDetail,
     totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
+    wrokOrderDT: row.wrokOrderDT,
+    timeAllowed: row.timeAllowed,
+    dueDTTimePerAdded: row.dueDTTimePerAdded,
+    agreementRefNo: row.agreementRefNo,
+    cid: row.cid,
+    contractorNAme: row.contractorNAme,
+    mobNo: row.mobNo,
+    lProgress: row.lProgress,
+    progressDT: row.progressDT,
+     expcompdt: row.expcompdt,
+     delayreason: row.delayreason,
+    subengname: row.subengname,
+    aeName: row.aeName,
+    work_id: row.work_id,
+    asLetter: row.asLetter,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('WorksAbstractD.pdf');
+}
+exportToPDFRun_Work() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'divName_En' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Block', dataKey: 'blockname' },
+    { title: 'AS Letter No', dataKey: 'letterNo' },
+    { title: 'Approver', dataKey: 'approver' },
+    { title: 'Work', dataKey: 'work' },
+    { title: 'AS Date', dataKey: 'aadt' },
+    { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+    { title: 'TS Date', dataKey: 'tsDate' },
+    { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+    { title: 'Tender Type', dataKey: 'tType' },
+    { title: 'NIT Reference', dataKey: 'tenderReference' },
+    { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+    { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+    { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+    { title: 'Rate%', dataKey: 'sanctionRate' },
+    { title: 'Sanction', dataKey: 'sanctionDetail' },
+    { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
+    { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+    { title: 'Time Allowed', dataKey: 'timeAllowed' },
+    { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+    { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+    { title: 'Contractor ID/Class', dataKey: 'cid' },
+    { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+    { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+    { title: 'Last Progress', dataKey: 'lProgress' },
+    { title: 'Progress DT', dataKey: 'progressDT' },
+    { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
+    { title: 'Delay Reason', dataKey: 'delayreason' },
+   
+    { title: 'Sub Engineer', dataKey: 'subengname' },
+    { title: 'Asst.Eng', dataKey: 'aeName' },
+    { title: 'Work ID', dataKey: 'work_id' },
+    { title: 'AS Letter', dataKey: 'asLetter' },
+  ];
+  const rows = this.dispatchDataRun_Work.map((row) => ({
+    sno: row.sno,
+    grantNo: row.grantNo,
+    head: row.head,
+    divName_En:row.divName_En,
+    district: row.district,
+    blockname: row.blockname,
+    letterNo: row.letterNo,
+    approver: row.approver,
+    work: row.work,
+    aadt: row.aadt,
+    asAmt: row.asAmt,
+    tsDate: row.tsDate,
+    tsamt: row.tsamt,
+    tType: row.tType,
+    tenderReference: row.tenderReference,
+    dateOfIssueNIT: row.dateOfIssueNIT,
+    acceptanceLetterRefNo: row.acceptanceLetterRefNo,
+    acceptLetterDT: row.acceptLetterDT,
+    sanctionRate: row.sanctionRate,
+    sanctionDetail: row.sanctionDetail,
+    totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     wrokOrderDT: row.wrokOrderDT,
     timeAllowed: row.timeAllowed,
     dueDTTimePerAdded: row.dueDTTimePerAdded,
@@ -1450,6 +1565,7 @@ exportobeTenderAll_PDFT() {
    
 
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1459,6 +1575,8 @@ exportobeTenderAll_PDFT() {
     { title: 'Type', dataKey: 'type_name' },
     { title: 'Works', dataKey: 'work' },
     { title: 'AS Amount', dataKey: 'asAmt' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'TS Amount', dataKey: 'tsamt' },
     { title: 'TS Date', dataKey: 'tsDate' },
     { title: 'AS DT', dataKey: 'aadt' },
@@ -1487,11 +1605,14 @@ exportobeTenderAll_PDFT() {
     district: row.district,
     blockname: row.blockname,
     letterNo: row.letterNo,
+    grantNo: row.grantNo,
     head: row.head,
     approver: row.approver,
     type_name: row.type_name,
     work: row.work,
     asAmt: row.asAmt,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     tsamt: row.tsamt,
     tsDate: row.tsDate,
     aadt: row.aadt,
@@ -1530,6 +1651,7 @@ expor_TenderInProcess_PDFT() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1539,6 +1661,8 @@ expor_TenderInProcess_PDFT() {
     { title: 'Works', dataKey: 'work' },
     { title: 'AS Date', dataKey: 'aadt' },
     { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'TS Date', dataKey: 'tsDate' },
     { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
     { title: 'lProgress', dataKey: 'lProgress' },
@@ -1570,6 +1694,7 @@ expor_TenderInProcess_PDFT() {
     // 'lProgress','progressDT','fmrcode', 'startdt','enddt', 'noofcalls',
     // 'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt',     'work_id','asLetter','action'
     sno: row.sno,
+    grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1580,6 +1705,8 @@ expor_TenderInProcess_PDFT() {
     // type_name: row.type_name,
     aadt: row.aadt,
     asAmt: row.asAmt,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     tsDate: row.tsDate,
     tsamt: row.tsamt,
     lProgress: row.lProgress,
@@ -1620,6 +1747,7 @@ expor_PDFLand_isu() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1639,6 +1767,8 @@ expor_PDFLand_isu() {
     { title: 'Rate%', dataKey: 'sanctionRate' },
     { title: 'Sanction', dataKey: 'sanctionDetail' },
     { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
     { title: 'Time Allowed', dataKey: 'timeAllowed' },
     { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
@@ -1657,6 +1787,7 @@ expor_PDFLand_isu() {
   ];
   const rows = this.dispatchDataLand_isu.map((row) => ({
     sno: row.sno,
+    grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1676,6 +1807,8 @@ expor_PDFLand_isu() {
     sanctionRate: row.sanctionRate,
     sanctionDetail: row.sanctionDetail,
     totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     wrokOrderDT: row.wrokOrderDT,
     timeAllowed: row.timeAllowed,
     dueDTTimePerAdded: row.dueDTTimePerAdded,
@@ -1934,11 +2067,13 @@ expor_PDFLand_isu() {
           // console.log('DistrictNameDME1=', this.DistrictNameDMEData);
         },
         (error) => {
-          alert(JSON.stringify(error));
+          alert(`API Error: ${JSON.stringify(error)}`);
+          // alert(JSON.stringify(error));
         }
       );
     } catch (ex: any) {
-      alert(ex.message);
+      alert(`API Error: ${JSON.stringify(ex.message)}`);
+      // alert(ex.message);
     }
   }
   onselectDistrictsDME(districT_ID: any,distname:any){
@@ -2008,11 +2143,15 @@ expor_PDFLand_isu() {
           // this.GetDistrict = res;
         },
         (error) => {
-          alert(JSON.stringify(error));
+          // alert(JSON.stringify(error));
+      alert(`API Error: ${JSON.stringify(error)}`);
+
         }
       );
     } catch (ex: any) {
-      alert(ex.message);
+      // alert(ex.message);
+      alert(`API Error: ${JSON.stringify(ex.message)}`);
+
     }
   }
   districT_ID:any;
@@ -2092,22 +2231,26 @@ expor_PDFLand_isu() {
       // );
    
     } catch (ex: any) {
-      alert(ex.message);
+      // alert(ex.message);
+      alert(`API Error: ${JSON.stringify(ex.message)}`);
     }
   }
 
-  onselect_databudgetOptions(event :any){
-    // ;
-    this.ASAmount=event.buid
+
+   
+  onselect_databudgetOptions(event :Event): void {
+    // this.ASAmount=event.buid
+
     // alert( this.ASAmount);
+    const selectedUser = this.budgetOptions.find((user: { buid: any }) => user.buid === this.buid); 
+    if (selectedUser) {
+      this.ASAmount= selectedUser?.buid;
     this.DashProgressCount();
-  //   const selectedUser = this.budgetOptions.find((user: { buid: any }) => user.buid === this.buid); 
-  //   if (selectedUser) {
-  //     this.ASAmount= selectedUser?.buid;
-  // // alert( this.ASAmount);
-  //    } else {
-  //   alert('Selected budget_ID not found in the list.');
-  // }
+
+  // alert( this.ASAmount);
+     } else {
+    alert('Selected budget_ID not found in the list.');
+  }
 
   }
 
