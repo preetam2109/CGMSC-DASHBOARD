@@ -91,6 +91,8 @@ export class LiveTenderComponent {
     titleDivision:any;
     titleScheme:any;
     titleDist:any;
+    name:any;
+    nosWorks:any;
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
@@ -148,7 +150,8 @@ export class LiveTenderComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name= selectedData.name;
+                this.nosWorks= selectedData.nosWorks;
                 this.fetchDataBasedOnChartSelectionDivision(id, selectedSeries);
               } else {
                 console.log(
@@ -242,7 +245,8 @@ export class LiveTenderComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name= selectedData.name;
+                this.nosWorks= selectedData.nosWorks;
                 this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
               } else {
                 console.log(
@@ -334,7 +338,8 @@ export class LiveTenderComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name= selectedData.name;
+                this.nosWorks= selectedData.nosWorks;
                 this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
               } else {
                 console.log(
@@ -426,7 +431,8 @@ export class LiveTenderComponent {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-
+                this.name= selectedData.name;
+                this.nosWorks= selectedData.nosWorks;
                 this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
               } else {
                 console.log(
@@ -1295,5 +1301,5 @@ onButtonClick2(ASID:any,workid:any): void {
           alert(`Error fetching data: ${error.message}`);
         }
       );
-   }
+}
 }

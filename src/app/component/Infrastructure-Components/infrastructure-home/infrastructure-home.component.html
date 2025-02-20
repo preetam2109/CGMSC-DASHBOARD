@@ -18,7 +18,8 @@
 
     <div class="container-fluid">
 
-      <mat-tab-group (selectedTabChange)="selectedTabValue($event)" (click)="DashProgressCount()">
+      <!-- <mat-tab-group (selectedTabChange)="selectedTabValue($event)" (click)="DashProgressCount()"> -->
+      <mat-tab-group (selectedTabChange)="selectedTabValue($event)" >
         <!-- Total Works Tab -->
         <mat-tab label="Total Works">
           <ng-template matTabContent>
@@ -396,24 +397,24 @@
     <div class="row card shadow card-body ">
       <div class="d-flex justify-content-between align-items-center mb-0">
         <div class="filter-field flex-grow-1">
-          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterRun_Work($event)">
+          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterTW($event)">
         </div>
         <div class="export-menu-container">
           <button type="button" class="btn border rounded btn-outline-secondary" mat-button
             [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'RunningWorks', sheet: 'RunningWorks', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'TWorksAbstractD', sheet: 'TWorksAbstractD', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-            <button mat-menu-item (click)="exportToPDFRun_Work()">PDF</button>
+            <button mat-menu-item (click)="exportToPDFTW()">PDF</button>
           </mat-menu>
         </div>
       </div>
 
       <div class="table-responsive ">
-        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter [dataSource]="dataSourceRun_Work"
+        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter [dataSource]="dataSource4"
           #exporter="matTableExporter" matSort #sortTW="matSort">
           
           <ng-container matColumnDef="sno">

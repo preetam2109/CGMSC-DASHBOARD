@@ -388,7 +388,7 @@ export class AdministrativeSanctionComponent {
       headStyles: { fillColor: [22, 160, 133] },
     });
   
-    doc.save('ASDetails.pdf');
+    doc.save('ASEnteredDetails.pdf');
   }
   exportToPDFASCompleted() {
     const doc = new jsPDF('l', 'mm', 'a4');
@@ -431,7 +431,7 @@ export class AdministrativeSanctionComponent {
       headStyles: { fillColor: [22, 160, 133] },
     });
   
-    doc.save('ASDetails.pdf');
+    doc.save('CompletedAS.pdf');
   }
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
@@ -471,7 +471,7 @@ export class AdministrativeSanctionComponent {
       headStyles: { fillColor: [22, 160, 133] },
     });
   
-    doc.save('ASDetails.pdf');
+    doc.save('TotalASPending.pdf');
   }
     // mat-dialog box
     openDialog() {

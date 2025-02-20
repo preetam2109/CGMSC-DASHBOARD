@@ -99,7 +99,7 @@ export class HandoverComponent {
     //  });
 
     const today = new Date();
-    const firstDayOfMonthLastYear = new Date(today.getFullYear() - 1, today.getMonth(), 1);
+    const firstDayOfMonthLastYear = new Date(today.getFullYear(), today.getMonth()-1, 1);
 
     this.dateRange = this.fb.group({
       start: [firstDayOfMonthLastYear],
@@ -572,7 +572,8 @@ export class HandoverComponent {
           this.chartOptions.series = [
             { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
             { name: 'Contract Value (in cr)', data: tvcValuecr },
-            { name: 'Avg Month Taken', data: avgMonthTaken, color: '#3afce6' },];
+            // { name: 'Avg Month Taken', data: avgMonthTaken, color: '#3afce6' },];
+            { name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
 
           this.chartOptions.xaxis = { categories: name };
           this.cO = this.chartOptions;
@@ -776,7 +777,7 @@ export class HandoverComponent {
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions4.chart.height = '9000';
+      this.chartOptions4.chart.height = '4000';
     }
 
    

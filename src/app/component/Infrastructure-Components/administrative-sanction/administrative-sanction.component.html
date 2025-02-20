@@ -17,7 +17,7 @@
                   <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                   <mat-menu #exportMenu="matMenu">
                     <button mat-menu-item
-                      (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                      (click)="exporter.exportTable('xlsx', { fileName: 'TotalASPending', sheet: 'TotalASPending', Props: { Author: 'cgmsc' }})">Excel</button>
                     <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                     <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -135,7 +135,7 @@
                   <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                   <mat-menu #exportMenu="matMenu">
                     <button mat-menu-item
-                      (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                      (click)="exporter.exportTable('xlsx', { fileName: 'DivisionwiseASP', sheet: 'DivisionwiseASP', Props: { Author: 'cgmsc' }})">Excel</button>
                     <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                     <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -258,7 +258,7 @@
                   <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                   <mat-menu #exportMenu="matMenu">
                     <button mat-menu-item
-                      (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                      (click)="exporter.exportTable('xlsx', { fileName: 'CompletedAS', sheet: 'CompletedAS', Props: { Author: 'cgmsc' }})">Excel</button>
                     <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                     <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
@@ -397,7 +397,7 @@
           <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'ASEnteredDetails', sheet: 'ASEnteredDetails', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
