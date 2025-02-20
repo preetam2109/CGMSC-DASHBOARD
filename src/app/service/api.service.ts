@@ -106,7 +106,7 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCPendingAreaDetail, QCPendingHomeDash, QCPendingPlace, StockoutPer } from '../Model/DashCards';
+import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingParticularArea, QCPendingPlace, StockoutPer } from '../Model/DashCards';
 import { MasIndentitems } from '../Model/MasIndentitems';
 import { MasfacilityInfo } from '../Model/MasfacilityInfo';
 import { Masitems } from '../Model/Masitems';
@@ -1166,6 +1166,20 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   GetQCFinalResultPending(mcid: any) {
     return this.http.get<QCFinalResultPending[]>(`${this.CGMSCHO_API2}/QC/QCResultFinalUpdatePending?mcid=${mcid}`);
   }
+
+  QCLabPendingTimeline(mcid:any,Timeline:any,labid:any) {
+    return this.http.get<QCLabPendingTimeline[]>(`${this.CGMSCHO_API2}/QC/QCLabPendingTimeline?Timeline=${Timeline}&mcid=${mcid}&labid=${labid}`);
+  }
+
+  QCPendingItems(mcid:any) {
+    return this.http.get<QCPendingItems[]>(`${this.CGMSCHO_API2}/QC/QCPendingItems?mcid=${mcid}`);
+  }
+
+  QCPendingParticularArea(area:any,itemid:any) {
+    return this.http.get<QCPendingParticularArea[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}&itemid=${itemid}`);
+  }
+
+ 
 
 
 

@@ -2236,8 +2236,11 @@ expor_PDFLand_isu() {
     }
   }
 
+
+   
   onselect_databudgetOptions(event :Event): void {
     // this.ASAmount=event.buid
+
     // alert( this.ASAmount);
     const selectedUser = this.budgetOptions.find((user: { buid: any }) => user.buid === this.buid); 
     if (selectedUser) {
