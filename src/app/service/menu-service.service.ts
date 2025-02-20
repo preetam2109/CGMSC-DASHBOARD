@@ -4,6 +4,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class MenuServiceService {
+ 
+
+
+
+ 
   private selectedCategory:
     | 'DrugsConsumables'
     | 'EquipmentReagent'
@@ -29,7 +34,9 @@ export class MenuServiceService {
       categories: {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
-          { label: 'Finance Dashboard', route: '/finance-dash' },
+          { label: 'QC Insights ', route: '/qc-dashboard' },
+          { label: 'Finance', route: '/finance-dash' },
+   
           // {
           //   label: 'Health Facilities Coverage',
           //   route:  '/FacCoverage',
@@ -54,9 +61,9 @@ export class MenuServiceService {
 
           // { label: 'QC Courier', route:  '/QcPendings' },
           // { label: 'QC-Lab Issues', route:  '/qc-dash' },
-
+          { label: 'Quality Control', route: '/qc-dashboard' },
           {
-            label: 'Quality Control',
+            label: 'Quality Control Track',
             submenu: [
               { label: 'QC Courier', route: '/QcPendings' },
               { label: 'QC-Lab Issues', route: '/qc-dash' },
@@ -366,6 +373,25 @@ export class MenuServiceService {
         { label: 'QC-Lab Issues', route: '/qc-dash' },
       ],
     },
+     Public: {
+      items: [
+        { label: 'Dashboard', route: '/public-view1' }, // Internal route (keeps routerLink)
+        { label: 'CGMSC Warehouse Wise Stock', route: 'http://140.238.246.250/DPDMISStock/GernalReport/warehouse.aspx'  },
+        // { label: 'CGMSC Warehouse Wise Stock', route: 'href:http://140.238.246.250/DPDMISStock/GernalReport/warehouse.aspx' },
+        // { label: 'Delivery Acknowledgement', route: '/DevliveryPublic' },
+        { label: 'Health Facilities Coverage', route: '/FacCoveragePublic' },
+        { label: 'Transport Vehicle Monitoring', route: 'https://dpdmis.in/gmapnew.aspx' },
+        { label: 'CGMSC Total Stock', route: 'http://140.238.246.250/DPDMISStock/StockIssue/TotalStock1CGMSCL.aspx' },
+        { label: 'CGMSC Warehouse Stock', route: 'http://140.238.246.250/DPDMISStock/Reports/RptWarehouseStockCGMSCL.aspx' },
+        { label: 'CGMSC Item Wise Stock', route: 'http://140.238.246.250/DPDMISStock/Reports/DrugWisewarehousesrptCGMSCL.aspx' },
+        { label: 'Item Wise Issuance', route: 'http://140.238.246.250/DPDMISStock/FacilityIssue/Cgmsc_Facility_Issue_Summary.aspx' },
+        { label: 'Rate Contract Info', route: 'http://140.238.246.250/DPDMISStock/GernalReport/RC_reprot.aspx' },
+        { label: 'Warehouse Information', route: '/WarehouseInfoPublic' },
+
+
+      ],
+    }
+    ,
     SE: {
       items: [
         // { label: 'Verticals', route: '/home' },
@@ -387,14 +413,14 @@ export class MenuServiceService {
 
         { label: 'Land Issue', route: '/LandIssue' },
         { label: 'Technical Sanction', route: '/TechnicalSanction' },
-        { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
-        { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+        // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
+        { label: 'Progress Monitoring', route: 'DivisionProgress' },
         // { label: 'District Progress Monitoring', route: 'District Progress' },
-        { label: 'Handover', route: 'Handover' },
+        { label: 'Handover Insights', route: 'Handover' },
       
 
-        { label: 'Engineer-Works', route: '/EngineerWorks' },
-        { label: 'Payment', route: '/PriceEvaluation' },
+        { label: 'Engineer Work Tracker', route: '/EngineerWorks' },
+        { label: 'Payment Tracker', route: '/PriceEvaluation' },
 
         // // { label: 'Verticals', route: 'home' },
         // // { label: 'Home', route: 'InfrastructureHome' },
@@ -569,4 +595,7 @@ export class MenuServiceService {
     };
     return submenus[label];
   }
+
+
+  
 }

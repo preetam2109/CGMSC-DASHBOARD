@@ -405,7 +405,7 @@ selectedTabValue(event: any): void {
 }
 
 onselect_mainscheme_data(event: Event): void {
-  // debugger
+  // 
 const selectedUser = this.mainscheme.find((user: { mainSchemeID: any }) => user.mainSchemeID === this.mainSchemeID); 
 
 if (selectedUser) {

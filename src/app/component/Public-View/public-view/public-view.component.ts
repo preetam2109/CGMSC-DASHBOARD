@@ -74,6 +74,14 @@ import { DropdownModule } from 'primeng/dropdown';
   styleUrl: './public-view.component.css'
 })
 export class PublicViewComponent {
+
+
+  currentRoute: string = '';
+
+  
+
+
+
   go(value: any) {
     switch (value) {
       case 1:
@@ -348,6 +356,13 @@ colors = [];
   constructor(private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
     
    
+
+    this.router.events.subscribe(() => {
+      
+      this.currentRoute = this.router.url;
+    });
+
+
     this.chartOptions = {
       series: [], // Your data values
       chart: {

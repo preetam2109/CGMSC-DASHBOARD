@@ -106,14 +106,14 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCPendingAreaDetail, QCPendingHomeDash, QCPendingPlace, StockoutPer } from '../Model/DashCards';
+import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCPendingAreaDetail, QCPendingHomeDash, QCPendingPlace, StockoutPer } from '../Model/DashCards';
 import { MasIndentitems } from '../Model/MasIndentitems';
 import { MasfacilityInfo } from '../Model/MasfacilityInfo';
 import { Masitems } from '../Model/Masitems';
 import { getItemDetailsWithHOD } from '../Model/ItemDetailsWithHod';
 import { DHSDMEStock } from '../Model/DHSDmeStock';
 import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuanceCoonsumptionm';
-import { FundReivedBudgetDetails, GrossPaidDateWiseDetails, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
+import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
 
 
 
@@ -934,9 +934,12 @@ export class ApiService {
   GETASFile(ASID: any, workid: any) {
     return this.http.get<ASFile[]>(`${this.apiUrl}/ASDetails/getASFile?ASID=${ASID}&workid=${workid}`);
 
+    //md :otp=11344
+    // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
   }
 //#endregion
 //#region RunningWork
+
 GETRunningWorkSummary(RPType:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
   return this.http.get<RunningWork[]>(`${this.apiUrl}/RunningWork/RunningWorkSummary?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
 //https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummary?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
@@ -953,9 +956,6 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
 
 //#endregion
-
-    
-  
   GETASEnteredDetails(ASID: any, divisionId: any, mainSchemeId: any) {
     return this.http.get<ASEnteredDetails[]>(`${this.apiUrl}/ASDetails/ASEnteredDetails?ASID=${ASID}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}`);
 
@@ -1104,7 +1104,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
 
   Fund_Libilities(bugetid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/Fund_Libilities?bugetid=${bugetid}`);
+    return this.http.get<Fund_Libilities[]>(`${this.CGMSCHO_API2}/DashboardFinance/Fund_Libilities?bugetid=${bugetid}`);
   }
 
   Pipeline_Libilities(bugetid: any) {
@@ -1142,15 +1142,31 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}`);
   }
   
-  Sanc_Cheque(rptype: any,bugetid: any) {
+  Sanc_Cheque(rptype: any,bugetid: any) 
+  {
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/Sanc_Cheque?rptype=${rptype}&bugetid=${bugetid}`);
   }
+
+  SanctionPrepDetails(bugetid: any,supplierid:any) {
+    return this.http.get<GetSanctionPrepDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/SanctionPrepDetails?bugetid=${bugetid}&supplierid=${supplierid}`);
+  }
+
   
   // Total Paid Click details
   // aifinyear
   GrossPaidDateWiseDetails2(bugetid: any, fromdt: any, todt: any,supplierid:any,yrid:any,Indentyrid:any) {
     return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}&Indentyrid=${Indentyrid}`);
   }
+  
+
+  GetLibDetails(rptype: any, yrid: any, budgetid: any,supplierid:any) {
+    return this.http.get<LibDetailsbasedOnYearID[]>(`${this.CGMSCHO_API2}/DashboardFinance/LibDetailsbasedOnYearID?rptype=${rptype}&yrid=${yrid}&budgetid=${budgetid}&supplierid=${supplierid}`);
+  }
+
+  GetQCFinalResultPending(mcid: any) {
+    return this.http.get<QCFinalResultPending[]>(`${this.CGMSCHO_API2}/QC/QCResultFinalUpdatePending?mcid=${mcid}`);
+  }
+
 
 
 
