@@ -901,7 +901,7 @@ TotalWorksAbstract(){
           sno: index + 1,
         })
       );
-      console.log('TotalWorksAbstract =:', this.dispatchData4);
+      // console.log('TotalWorksAbstract =:', this.dispatchData4);
       this.dataSource4.data = this.dispatchData4;
       this.dataSource4.paginator = this.paginatorTW;
       this.dataSource4.sort = this.sortTW;
@@ -1143,6 +1143,13 @@ this.openDialogTW();
   }
  }
 
+ applyTextFilterTW(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource4.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource4.paginator) {
+    this.dataSource4.paginator.firstPage();
+  }
+}
  applyTextFilter(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -1190,6 +1197,7 @@ exportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1209,6 +1217,8 @@ exportToPDF() {
     { title: 'Rate%', dataKey: 'sanctionRate' },
     { title: 'Sanction', dataKey: 'sanctionDetail' },
     { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
     { title: 'Time Allowed', dataKey: 'timeAllowed' },
     { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
@@ -1224,6 +1234,7 @@ exportToPDF() {
   ];
   const rows = this.dispatchData.map((row) => ({
     sno: row.sno,
+      grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1243,6 +1254,8 @@ exportToPDF() {
     sanctionRate: row.sanctionRate,
     sanctionDetail: row.sanctionDetail,
     totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     wrokOrderDT: row.wrokOrderDT,
     timeAllowed: row.timeAllowed,
     dueDTTimePerAdded: row.dueDTTimePerAdded,
@@ -1271,6 +1284,7 @@ exportToPDFCom_Han() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1290,6 +1304,8 @@ exportToPDFCom_Han() {
     { title: 'Rate%', dataKey: 'sanctionRate' },
     { title: 'Sanction', dataKey: 'sanctionDetail' },
     { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
     { title: 'Time Allowed', dataKey: 'timeAllowed' },
     { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
@@ -1306,6 +1322,7 @@ exportToPDFCom_Han() {
   ];
   const rows = this.dispatchDataCom_Han.map((row) => ({
     sno: row.sno,
+    grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1325,6 +1342,8 @@ exportToPDFCom_Han() {
     sanctionRate: row.sanctionRate,
     sanctionDetail: row.sanctionDetail,
     totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     wrokOrderDT: row.wrokOrderDT,
     timeAllowed: row.timeAllowed,
     dueDTTimePerAdded: row.dueDTTimePerAdded,
@@ -1350,10 +1369,11 @@ exportToPDFCom_Han() {
 
   doc.save('Completed_Handover.pdf');
 }
-exportToPDFRun_Work() {
+exportToPDFTW() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1373,6 +1393,8 @@ exportToPDFRun_Work() {
     { title: 'Rate%', dataKey: 'sanctionRate' },
     { title: 'Sanction', dataKey: 'sanctionDetail' },
     { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
     { title: 'Time Allowed', dataKey: 'timeAllowed' },
     { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
@@ -1390,8 +1412,9 @@ exportToPDFRun_Work() {
     { title: 'Work ID', dataKey: 'work_id' },
     { title: 'AS Letter', dataKey: 'asLetter' },
   ];
-  const rows = this.dispatchDataRun_Work.map((row) => ({
+  const rows = this.dispatchData4.map((row) => ({
     sno: row.sno,
+    grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1411,6 +1434,102 @@ exportToPDFRun_Work() {
     sanctionRate: row.sanctionRate,
     sanctionDetail: row.sanctionDetail,
     totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
+    wrokOrderDT: row.wrokOrderDT,
+    timeAllowed: row.timeAllowed,
+    dueDTTimePerAdded: row.dueDTTimePerAdded,
+    agreementRefNo: row.agreementRefNo,
+    cid: row.cid,
+    contractorNAme: row.contractorNAme,
+    mobNo: row.mobNo,
+    lProgress: row.lProgress,
+    progressDT: row.progressDT,
+     expcompdt: row.expcompdt,
+     delayreason: row.delayreason,
+    subengname: row.subengname,
+    aeName: row.aeName,
+    work_id: row.work_id,
+    asLetter: row.asLetter,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('WorksAbstractD.pdf');
+}
+exportToPDFRun_Work() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'divName_En' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Block', dataKey: 'blockname' },
+    { title: 'AS Letter No', dataKey: 'letterNo' },
+    { title: 'Approver', dataKey: 'approver' },
+    { title: 'Work', dataKey: 'work' },
+    { title: 'AS Date', dataKey: 'aadt' },
+    { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+    { title: 'TS Date', dataKey: 'tsDate' },
+    { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+    { title: 'Tender Type', dataKey: 'tType' },
+    { title: 'NIT Reference', dataKey: 'tenderReference' },
+    { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+    { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+    { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+    { title: 'Rate%', dataKey: 'sanctionRate' },
+    { title: 'Sanction', dataKey: 'sanctionDetail' },
+    { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
+    { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+    { title: 'Time Allowed', dataKey: 'timeAllowed' },
+    { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+    { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+    { title: 'Contractor ID/Class', dataKey: 'cid' },
+    { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+    { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+    { title: 'Last Progress', dataKey: 'lProgress' },
+    { title: 'Progress DT', dataKey: 'progressDT' },
+    { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
+    { title: 'Delay Reason', dataKey: 'delayreason' },
+   
+    { title: 'Sub Engineer', dataKey: 'subengname' },
+    { title: 'Asst.Eng', dataKey: 'aeName' },
+    { title: 'Work ID', dataKey: 'work_id' },
+    { title: 'AS Letter', dataKey: 'asLetter' },
+  ];
+  const rows = this.dispatchDataRun_Work.map((row) => ({
+    sno: row.sno,
+    grantNo: row.grantNo,
+    head: row.head,
+    divName_En:row.divName_En,
+    district: row.district,
+    blockname: row.blockname,
+    letterNo: row.letterNo,
+    approver: row.approver,
+    work: row.work,
+    aadt: row.aadt,
+    asAmt: row.asAmt,
+    tsDate: row.tsDate,
+    tsamt: row.tsamt,
+    tType: row.tType,
+    tenderReference: row.tenderReference,
+    dateOfIssueNIT: row.dateOfIssueNIT,
+    acceptanceLetterRefNo: row.acceptanceLetterRefNo,
+    acceptLetterDT: row.acceptLetterDT,
+    sanctionRate: row.sanctionRate,
+    sanctionDetail: row.sanctionDetail,
+    totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     wrokOrderDT: row.wrokOrderDT,
     timeAllowed: row.timeAllowed,
     dueDTTimePerAdded: row.dueDTTimePerAdded,
@@ -1444,6 +1563,7 @@ exportobeTenderAll_PDFT() {
    
 
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1453,6 +1573,8 @@ exportobeTenderAll_PDFT() {
     { title: 'Type', dataKey: 'type_name' },
     { title: 'Works', dataKey: 'work' },
     { title: 'AS Amount', dataKey: 'asAmt' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'TS Amount', dataKey: 'tsamt' },
     { title: 'TS Date', dataKey: 'tsDate' },
     { title: 'AS DT', dataKey: 'aadt' },
@@ -1481,11 +1603,14 @@ exportobeTenderAll_PDFT() {
     district: row.district,
     blockname: row.blockname,
     letterNo: row.letterNo,
+    grantNo: row.grantNo,
     head: row.head,
     approver: row.approver,
     type_name: row.type_name,
     work: row.work,
     asAmt: row.asAmt,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     tsamt: row.tsamt,
     tsDate: row.tsDate,
     aadt: row.aadt,
@@ -1524,6 +1649,7 @@ expor_TenderInProcess_PDFT() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1533,6 +1659,8 @@ expor_TenderInProcess_PDFT() {
     { title: 'Works', dataKey: 'work' },
     { title: 'AS Date', dataKey: 'aadt' },
     { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'TS Date', dataKey: 'tsDate' },
     { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
     { title: 'lProgress', dataKey: 'lProgress' },
@@ -1564,6 +1692,7 @@ expor_TenderInProcess_PDFT() {
     // 'lProgress','progressDT','fmrcode', 'startdt','enddt', 'noofcalls',
     // 'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt',     'work_id','asLetter','action'
     sno: row.sno,
+    grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1574,6 +1703,8 @@ expor_TenderInProcess_PDFT() {
     // type_name: row.type_name,
     aadt: row.aadt,
     asAmt: row.asAmt,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     tsDate: row.tsDate,
     tsamt: row.tsamt,
     lProgress: row.lProgress,
@@ -1614,6 +1745,7 @@ expor_PDFLand_isu() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head No', dataKey: 'grantNo' },
     { title: 'Head', dataKey: 'head' },
     { title: 'Division', dataKey: 'divName_En' },
     { title: 'District', dataKey: 'district' },
@@ -1633,6 +1765,8 @@ expor_PDFLand_isu() {
     { title: 'Rate%', dataKey: 'sanctionRate' },
     { title: 'Sanction', dataKey: 'sanctionDetail' },
     { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+    { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+    { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
     { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
     { title: 'Time Allowed', dataKey: 'timeAllowed' },
     { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
@@ -1651,6 +1785,7 @@ expor_PDFLand_isu() {
   ];
   const rows = this.dispatchDataLand_isu.map((row) => ({
     sno: row.sno,
+    grantNo: row.grantNo,
     head: row.head,
     divName_En:row.divName_En,
     district: row.district,
@@ -1670,6 +1805,8 @@ expor_PDFLand_isu() {
     sanctionRate: row.sanctionRate,
     sanctionDetail: row.sanctionDetail,
     totalAmountOfContract: row.totalAmountOfContract,
+    totalpaid: row.totalpaid ,
+    totalunpaid : row.totalunpaid ,
     wrokOrderDT: row.wrokOrderDT,
     timeAllowed: row.timeAllowed,
     dueDTTimePerAdded: row.dueDTTimePerAdded,
