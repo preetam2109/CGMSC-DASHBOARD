@@ -126,5 +126,47 @@ export class QCFinalResultPending
  
 }
 
+export class QCLabPendingTimeline{
+
+    id!: number;
+    mcid!: number;
+    mcategory!: string;
+    nositems!: number;
+    nosbatch!: number;
+    uqcValuecr!: number;
+    timePara!: string;
+    timeParaValue!: string;
+    timeline!: string;
+
+}
+
+export class QCPendingItems{
+    itemid!: number;
+    nameText!: string;
+    itemname!: string;
+    mcid!: number;
+}
+
+export class QCPendingParticularArea{
+    itemid!: number;
+    itemcode!: string;
+    itemtypename!: string;
+    itemname!: string;
+    strength1!: string;
+    batchno!: string;
+    noswh!: number;
+    uqcqty!: number;
+    stockvalue!: number;
+    warehouseRecDT!: string;
+    whqcIssueDT!: string;
+    courierPickDT!: string;
+    sampleReceiptInHODT!: string;
+    labissuedate!: string;
+    lAbReceiptDT!: string;
+    hoqcReportRecDT!: string;
+    labresult!: string;
+    analysisDays!: number;
+}
+
 
   

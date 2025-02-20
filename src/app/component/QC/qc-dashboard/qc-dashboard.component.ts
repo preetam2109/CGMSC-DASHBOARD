@@ -91,7 +91,7 @@ throw new Error('Method not implemented.');
   chartOptions2: ChartOptions;
   chartOptionsQCHOFinalUpdate: ChartOptions;
   chartOptionsQCStages: ChartOptions;
-  chartStockoutdhs:ChartOptions;
+  chartQCPendingAtLab:ChartOptions;
   chartIndent: ChartOptions;
   chartNearexp: ChartOptions;
   chartUQC: ChartOptions;
@@ -114,7 +114,7 @@ throw new Error('Method not implemented.');
   nosfacility:any
   roleName:any = localStorage.getItem('roleName')
   currentMonth = new Date().toLocaleString('default', { month: 'long' });
-  MasIndentitemslist:any
+  qCPendingItems:any
   itemid:any
   MasItemlist:any
   PartiIndentlist:any
@@ -371,7 +371,7 @@ colors = [];
     } as unknown as ChartOptions;
 
   
-    this.chartStockoutdhs = {
+    this.chartQCPendingAtLab = {
       series: [], // Radial bar data
       chart: {
         type: "radialBar"
@@ -652,7 +652,8 @@ colors = [];
       chart: {
         type: 'line',
         stacked: true,
-        height: 150
+        height: '210%',
+        width: '100%',
       },
       labels:[],
       plotOptions: {
@@ -714,7 +715,8 @@ colors = [];
       chart: {
         type: 'line',
         stacked: true,
-        height: 150
+        height: '210%',
+        width: '100%',
       },
       labels: [ ],
       plotOptions: {
@@ -783,7 +785,9 @@ colors = [];
       chart: {
         type: 'line',
         stacked: true,
-        height: 150
+        height: '210%',
+        width: '100%',
+        
       },
       labels: [ ],
       plotOptions: {
@@ -867,7 +871,7 @@ colors = [];
     this.loadData1();
     this.loadData2();
     this.loadQCfinalUpdatePending();
-    this.loadStockoutDHS();
+    this.loadQCPendingAtLab();
     this.loadIndent();
     this.Nearexp();
     this.loadUQC();
@@ -881,16 +885,16 @@ colors = [];
 
   getItemNoDropDown(){
   
-    this.api.MasIndentitems(0,0,2,0).subscribe((res:any[])=>{
-      // console.log(' Vehicle API dropdown Response:', res);
+    this.api.QCPendingItems(0).subscribe((res:any[])=>{
+      console.log(' QCPendingItems API dropdown Response:', res);
       if (res && res.length > 0) {
-        this.MasIndentitemslist = res.map(item => ({
+        this.qCPendingItems = res.map(item => ({
           itemid: item.itemid, // Adjust key names if needed
           nameText : item.nameText,
           
           
         }));
-        // console.log('VehicleNoDropDownList :', this.VehicleNoDropDownList);
+        // console.log('VehicleNoDropDownList :', this.qCPendingItems);
       } else {
         console.error('No nameText found or incorrect structure:', res);
       }
@@ -1013,7 +1017,7 @@ colors = [];
   onISelectChange(event: Event): void {
     
 
-  const selectedUser = this.MasIndentitemslist.find((user: { itemid: string }) => user.itemid === this.itemid); 
+  const selectedUser = this.qCPendingItems.find((user: { itemid: string }) => user.itemid === this.itemid); 
 
   if (selectedUser) {
     this.itemid=selectedUser.itemid || null;
@@ -1201,30 +1205,31 @@ loadQCfinalUpdatePending(): void {
   );
 }
 
-loadStockoutDHS(): void {
+//qc pending at lab chart method
 
+loadQCPendingAtLab(): void {
 
-  this.api.StockoutPer(1,1,0,2).subscribe(
+  this.api.QCLabPendingTimeline(1,'Both',0).subscribe(
     (data: any) => {
-      const edLtypeid: number[] = [];
-      const edLtpe: string[] = [];
-      const nositems: number[] = [];
-      const stockout: number[] = [];
-      const stockoutp: number[] = [];
+   
 
-      console.log('DHS Stock out percentage:', data);
+      const timeline: string[] = [];
+      const nositems: number[] = [];
+      const nosbatch: number[] = [];
+      const uqcValuecr: number[] = [];
+
+      console.log('QC Pending At Lab:', data);
 
       data.forEach((item: any) => {
      
-        edLtypeid.push(item.edLtypeid);
-        edLtpe.push(item.edLtpe);
+        timeline.push(item.timeline);
         nositems.push(item.nositems);
-        stockout.push(item.stockout);
-        stockoutp.push(item.stockoutp);
+        nosbatch.push(item.nosbatch);
+        uqcValuecr.push(item.uqcValuecr);
       });
 
       // Update the bar chart
-      this.chartStockoutdhs = 
+      this.chartQCPendingAtLab = 
       {
         series: [
           {
@@ -1232,12 +1237,12 @@ loadStockoutDHS(): void {
             data: nositems
           },
           {
-            name: 'Stock out',
-            data: stockout
+            name: 'No of Batch',
+            data: nosbatch
           },
           {
-            name: 'Stock out %',
-            data: stockoutp
+            name: 'UQC Value',
+            data: uqcValuecr
           }
         ],
         chart: {
@@ -1261,7 +1266,7 @@ loadStockoutDHS(): void {
           colors: ["transparent"]
         },
         xaxis: {
-          categories: edLtpe // Dynamically set categories from API response
+          categories: timeline // Dynamically set categories from API response
         },
         yaxis: {
           title: {
@@ -1418,12 +1423,12 @@ loadDataQCStages(): void {
     (data: any) => {
       const seriesData: number[] = [];
       const labelsData: string[] = [
-        "qdIssuePendingbyWH",
-        "whIssueButPendingInCourier",
-        "hoqC_LabIssuePending",
-        "dropPendingToLab",
-        "labAnalysisOngoing",
-        "pendingforfinalUpdate"
+        "Pending in WH",
+        "Pending in Courier",
+        "Pending in HO for QC Issue",
+        "Pending in Courier for Lab",
+        "Pending in Lab",
+        "Pending in HO for Clearance"
       ];
 
       let aggregatedData = {
@@ -1460,8 +1465,8 @@ loadDataQCStages(): void {
         series: seriesData,
         chart: {
           type: "pie",
-          height: "100%",  // Adjusted
-    width: "100%", 
+          height: "210%",  // Adjusted
+          width: "100%", 
           
         },
         dataLabels: {
@@ -1482,7 +1487,7 @@ loadDataQCStages(): void {
             options: {
               chart: {
                 width: "100%",   // Adjusted
-          height: "100%",
+                height: "100%",
               },
               legend: {
                 position: "bottom"
@@ -1491,7 +1496,7 @@ loadDataQCStages(): void {
           }
         ],
         legend: {
-          position: "right"
+          position: "bottom"
         },
         tooltip: {
           y: {

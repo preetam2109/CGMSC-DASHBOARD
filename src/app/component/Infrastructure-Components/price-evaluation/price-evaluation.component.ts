@@ -715,7 +715,7 @@ ASFileData: ASFile[] = [];
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            // debugger;
+            // ;
             const selectedCategory =
               this.chartOptionsLine1?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
             const selectedSeries =
