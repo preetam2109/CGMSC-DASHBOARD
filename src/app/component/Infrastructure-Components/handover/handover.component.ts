@@ -777,7 +777,7 @@ export class HandoverComponent {
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions4.chart.height = '9000';
+      this.chartOptions4.chart.height = '4000';
     }
 
    

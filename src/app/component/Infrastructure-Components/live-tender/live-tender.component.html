@@ -135,7 +135,9 @@
 <ng-template class=" " #itemDetailsModal let-modal>
   <div class="row align-items-center p-2 m-2 ">
     <div class="col-lg-6 col-md-8">
-      <h1>Live Tender</h1>
+      <h1 class="text-primary-emphasis">Live Tender</h1>
+      <h1 class="text-primary-emphasis">Selected Name:<span class="text-primary"> {{name}}</span></h1>
+      <h1 class="text-primary-emphasis">No. of Works: <span class="text-primary">{{nosWorks}}</span></h1>
     </div>
     <div class="col-lg-6 col-md-4 text-end">
       <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
@@ -152,7 +154,7 @@
           <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporter.exportTable('xlsx', { fileName: 'TenderDetails', sheet: 'TenderDetails', Props: { Author: 'cgmsc' }})">Excel</button>
             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>

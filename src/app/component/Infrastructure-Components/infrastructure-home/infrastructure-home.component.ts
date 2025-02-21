@@ -386,7 +386,7 @@ export class InfrastructureHomeComponent {
     }else{
       this.hide=true;
     }
-    // this.DashProgressCount();
+    this.DashProgressCount();
     // console.error('onButtonClick',this.divisionid);
 
   }
@@ -874,6 +874,7 @@ export class InfrastructureHomeComponent {
 //   //  https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=147&contractorid=0
 //   }
 TotalWorksAbstract(){
+  // debugger;
   this.spinner.show();
   this.roleName = localStorage.getItem('roleName');
   if (this.roleName == 'Division') {
@@ -887,12 +888,13 @@ TotalWorksAbstract(){
     }
   }
   // this.distid = this.distid == 0 ? 0 : this.distid;
-
+const contractorid=0;
   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-  console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-  this.api.GET_TotalWorksAbstract(this.divisionid,this.himisDistrictid,this.mainSchemeID,0,this.ASAmount)
+  // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+  // ?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1
+  this.api.GET_TotalWorksAbstract(this.divisionid,this.himisDistrictid,this.mainSchemeID,contractorid,this.ASAmount)
   .subscribe(
     (res) => {
       this.dispatchData4 = res.map(
@@ -901,7 +903,7 @@ TotalWorksAbstract(){
           sno: index + 1,
         })
       );
-      // console.log('TotalWorksAbstract =:', this.dispatchData4);
+      // console.log('TotalWorksAbstract 1=:', this.dispatchData4);
       this.dataSource4.data = this.dispatchData4;
       this.dataSource4.paginator = this.paginatorTW;
       this.dataSource4.sort = this.sortTW;
