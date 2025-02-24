@@ -456,7 +456,7 @@ ASFileData: ASFile[] = [];
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
                 this.name = selectedData.name; 
-                this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
+                this.fetchDataBasedOnChartSelectionTotal(id, selectedSeries);
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -948,7 +948,7 @@ ASFileData: ASFile[] = [];
       ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
       : '';
     this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
+    // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
     // ?RPType=Division&divisionid=0&districtid=0&mainschemeid=0&fromdt=01-Dec-2023&todt=31-Dec-2023
     // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api
@@ -1223,7 +1223,7 @@ ASFileData: ASFile[] = [];
       ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
       : '';
     this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
+    // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
     // alert( this.TimeStatus)
     // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api
@@ -1238,7 +1238,7 @@ ASFileData: ASFile[] = [];
       .subscribe(
         (data: any) => {
           this.PaidSummaryScheme = data;
-          // console.log('API Response total:', this.WoIssuedTotal);
+          console.log('API Response PaidSummaryScheme:', this.PaidSummaryScheme);
           // console.log('API Response data:', data);
 
           // const id: string[] = [];
@@ -1350,13 +1350,15 @@ ASFileData: ASFile[] = [];
       this.chartOptionsLine.chart.height = '200px';
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
-    } else if (roleName == 'Collector') {
-      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-      var RPType = 'District';
-      this.divisionid = 0;
-      this.mainschemeid = 0;
-      this.chartOptionsLine.chart.height = '400px';
-    } else {
+    }
+    //  else if (roleName == 'Collector') {
+    //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+    //   var RPType = 'District';
+    //   this.divisionid = 0;
+    //   this.mainschemeid = 0;
+    //   this.chartOptionsLine.chart.height = '400px';
+    // }
+     else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
@@ -1376,7 +1378,7 @@ ASFileData: ASFile[] = [];
       .subscribe(
         (data: any) => {
           this.PaidSummaryDistrict = data;
-          // console.log('API Response total:', this.WoIssuedTotal);
+          console.log('API Response total:', this.PaidSummaryDistrict);
           // console.log('API Response data:', data);
 
           const id: string[] = [];
@@ -1479,20 +1481,24 @@ ASFileData: ASFile[] = [];
     seriesName: string
   ): void {
     console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
-    const distid = 0;
-    const mainSchemeId = 0;
-    const contractid = 0;
-    // const fromdt="01-jan-2024";
-    // const todt="01-jan-2025";
-    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
-    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+     else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
     this.spinner.show();
     // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
     this.api
       .GETPaidDetails(
-        divisionID,
-        mainSchemeId,
-        distid,
+        this.divisionid,
+       this. mainschemeid,
+       this.himisDistrictid,
         this.fromdt,
         this.todt
       )
@@ -1504,7 +1510,7 @@ ASFileData: ASFile[] = [];
               sno: index + 1,
             })
           );
-          // console.log('PaidDetails:', res);
+          console.log('PaidDetails total:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource.data = this.dispatchData;
           this.dataSource.paginator = this.paginator;
@@ -1566,10 +1572,19 @@ ASFileData: ASFile[] = [];
     mainSchemeId: any,
     seriesName: string
   ): void {
-    console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-    const distid = 0;
-    const divisionID = 0;
-    const contractid = 0;
+    // debugger;
+    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      // this.mainschemeid = 0;
+    }
+     else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      // this.mainschemeid = 0;
+    }
     // const fromdt="01-jan-2024";
     // const todt="01-jan-2025";
     //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
@@ -1577,13 +1592,7 @@ ASFileData: ASFile[] = [];
     this.spinner.show();
     // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
     this.api
-      .GETPaidDetails(
-        divisionID,
-        mainSchemeId,
-        distid,
-        this.fromdt,
-        this.todt
-      )
+      .GETPaidDetails(this.divisionid,mainSchemeId,this.himisDistrictid,this.fromdt,this.todt)
       .subscribe(
         (res) => {
           this.dispatchData = res.map(
@@ -1637,8 +1646,7 @@ ASFileData: ASFile[] = [];
       this.chartOptionsLinee.chart.height = '300';
     }
    
-    this.api
-      .GETUnPaidSummary(
+    this.api.GETUnPaidSummary(
         RPType,
         this.divisionid,
         this.himisDistrictid,
@@ -1865,7 +1873,7 @@ ASFileData: ASFile[] = [];
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       var RPType = 'Scheme';
-      this.chartOptionss.chart.height = '200px';
+      this.chartOptionss.chart.height = '500px';
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
     }
@@ -1881,7 +1889,7 @@ ASFileData: ASFile[] = [];
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
       var RPType = 'Scheme';
-      this.chartOptionss.chart.height = '500';
+      this.chartOptionss.chart.height = '600';
     }
     this.api
       .GETUnPaidSummary(
@@ -2109,19 +2117,26 @@ ASFileData: ASFile[] = [];
   // #endregion
    //#region dataTable  in UNPaidSummary
    fetchDataBasedOnChartSelectionTotalUNP(divisionID: any,seriesName: string): void {
+    // debugger;
     console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
-    const distid = 0;
-    const mainSchemeId = 0;
-    const contractid = 0;
+    // var roleName = localStorage.getItem('roleName');
+    // if (roleName == 'Division') {
+    //   this.divisionid = sessionStorage.getItem('divisionID');
+    //   this.himisDistrictid = 0;
+    //   this.mainschemeid = 0;
+    // }
+    //  else {
+    //   this.divisionid = 0;
+    //   this.himisDistrictid = 0;
+    //   this.mainschemeid = 0;
+    // }
+    this.himisDistrictid = 0;
+      this.mainschemeid = 0;
     const designame=0;
     const OfficerID=0;
-    // const fromdt="01-jan-2024";
-    // const todt="01-jan-2025";
-    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
-    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid,designame,OfficerID).subscribe(
+    this.api.GETUnPaidDetails(divisionID ,this.mainschemeid,this.himisDistrictid,designame,OfficerID).subscribe(
         (res) => {
           this.dispatchData1 = res.map(
             (item: UnPaidDetails, index: number) => ({
@@ -2129,7 +2144,7 @@ ASFileData: ASFile[] = [];
               sno: index + 1,
             })
           );
-          // console.log('PaidDetails:', res);
+          console.log('PaidDetailsTotal:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource1.data = this.dispatchData1;
           this.dataSource1.paginator = this.paginatorPageSize;
@@ -2179,19 +2194,24 @@ ASFileData: ASFile[] = [];
     this.openDialog1();
   }
    fetchDataBasedOnChartSelectionmainSchemeUNP(mainSchemeId: any,seriesName: string): void {
-    console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-    const distid = 0;
-    const divisionID = 0;
-    const contractid = 0;
+    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      // this.mainschemeid = 0;
+    }
+     else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      // this.mainschemeid = 0;
+    }
     const designame=0;
     const OfficerID=0;
-    // const fromdt="01-jan-2024";
-    // const todt="01-jan-2025";
-    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
-    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid,designame,OfficerID).subscribe(
+    console.log('this.divisionid=',this.divisionid,'mainSchemeId=',mainSchemeId,'this.himisDistrictid=',this.himisDistrictid)
+    this.api.GETUnPaidDetails(this.divisionid,mainSchemeId,this.himisDistrictid,designame,OfficerID).subscribe(
         (res) => {
           this.dispatchData1 = res.map(
             (item: UnPaidDetails, index: number) => ({
@@ -2213,20 +2233,24 @@ ASFileData: ASFile[] = [];
       );
     this.openDialog1();
   }
-   fetchDataBasedOnChartSelectionmainDesignationUNP(mainSchemeId: any,seriesName: string): void {
-    console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-    const distid = 0;
-    const divisionID = 0;
-    const contractid = 0;
-    const designame=0;
+   fetchDataBasedOnChartSelectionmainDesignationUNP(designame: any,seriesName: string): void {
+    console.log(`Selected ID: ${designame}, Series: ${seriesName}`);
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+     else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+  
     const OfficerID=0;
-    // const fromdt="01-jan-2024";
-    // const todt="01-jan-2025";
-    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
-    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    this.api.GETUnPaidDetails(divisionID,mainSchemeId,distid,designame,OfficerID).subscribe(
+    this.api.GETUnPaidDetails(this.divisionid, this.mainschemeid,this.himisDistrictid,designame,OfficerID).subscribe(
         (res) => {
           this.dispatchData1 = res.map(
             (item: UnPaidDetails, index: number) => ({

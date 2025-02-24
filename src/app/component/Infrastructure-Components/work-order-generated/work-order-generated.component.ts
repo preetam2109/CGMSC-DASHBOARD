@@ -132,6 +132,7 @@ export class WorkOrderGeneratedComponent {
       this.GetWOIssueTotal();
       this.GetWOIssueDistrict();
       this.GetWOIssueScheme();
+      this.GetWOIssueGTotal();
       // this.GetWOIssueContractor();
     });
     this.initializeChartOptions();
@@ -177,6 +178,7 @@ export class WorkOrderGeneratedComponent {
                 const id = selectedData.id; // Extract the id from the matching entry
                 this.name = selectedData.name;
                 this.totalWorks = selectedData.totalWorks;
+                // alert(id)
                 this.fetchDataBasedOnChartSelectionTotal(id, selectedSeries);
               } else {
                 console.log(
@@ -184,7 +186,7 @@ export class WorkOrderGeneratedComponent {
                 );
               }
             } else {
-              console.log('Selected category or series is invalid.');
+             // console.log('Selected category or series is invalid.');
             }
           },
         },
@@ -273,12 +275,12 @@ export class WorkOrderGeneratedComponent {
                 this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
               } else {
-                console.log(
+               console.log(
                   `No data found for selected category: ${selectedCategory}`
                 );
               }
             } else {
-              console.log('Selected category or series is invalid.');
+             // console.log('Selected category or series is invalid.');
             }
           },
         },
@@ -366,12 +368,12 @@ export class WorkOrderGeneratedComponent {
                 this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
               } else {
-                console.log(
+               console.log(
                   `No data found for selected category: ${selectedCategory}`
                 );
               }
             } else {
-              console.log('Selected category or series is invalid.');
+             // console.log('Selected category or series is invalid.');
             }
           },
         },
@@ -460,12 +462,12 @@ export class WorkOrderGeneratedComponent {
                 this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelection(0, selectedSeries);
               } else {
-                console.log(
+               console.log(
                   `No data found for selected category: ${selectedCategory}`
                 );
               }
             } else {
-              console.log('Selected category or series is invalid.');
+             // console.log('Selected category or series is invalid.');
             }
           },
         },
@@ -564,7 +566,7 @@ export class WorkOrderGeneratedComponent {
         .subscribe(
           (data: any) => {
             this.WoIssuedTotal = data;
-            // console.log('API Response total:', this.WoIssuedTotal);
+           // console.log('WoIssuedTotal:', this.WoIssuedTotal);
             // console.log('API Response data:', data);
             const id: string[] = [];
             const name: string[] = [];
@@ -611,34 +613,13 @@ export class WorkOrderGeneratedComponent {
                 data: totalTVC,
                 color: 'rgba(93, 243, 174, 0.85)' ,
               },
-              {
-                name: 'Avg Days Since Acceptance',
-                data: avgDaysSinceAcceptance,
-                color:  'rgba(250, 199, 161, 0.85)',
-              },
-              // { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' },
-              // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
               // {
-              //   name: 'Zonal Works',
-              //   data: zonalWorks,
-              //   color: 'rgba(31, 225, 11, 0.85)',
+              //   name: 'Avg Days Since Acceptance',
+              //   data: avgDaysSinceAcceptance,
+              //   color:  'rgba(250, 199, 161, 0.85)',
               // },
-              // {
-              //   name: 'Tender Works',
-              //   data: tenderWorks,
-              //   color: 'rgba(2, 202, 227, 0.85)',
-              // },
-              // {
-              //   name: 'Zonal Tender Value',
-              //   data: totalZonalTVC,
-              //   color: 'rgba(172, 5, 26, 0.85)',
-              // },
-              // {
-              //   name: 'Works Tender Value',
-              //   data: totalNormalTVC,
-              //   color: 'rgba(250, 199, 161, 0.85)',
-              // },
-              // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+
+            
             ];
             this.chartOptions.xaxis = { categories: name };
             this.cO = this.chartOptions;
@@ -737,33 +718,12 @@ export class WorkOrderGeneratedComponent {
                 data: totalTVC,
                 color: 'rgba(93, 243, 174, 0.85)'  ,
               },
-              {
-                name: 'Avg Days Since Acceptance',
-                data: avgDaysSinceAcceptance,
-                color:'rgba(250, 199, 161, 0.85)' ,
-              },
-              // { name: 'Avg Days Since Acceptance', data: avgDaysSinceAcceptance, color:' rgba(181, 7, 212, 0.85)' },
-              // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
               // {
-              //   name: 'Zonal Works',
-              //   data: zonalWorks,
-              //   color: 'rgba(31, 225, 11, 0.85)',
+              //   name: 'Avg Days Since Acceptance',
+              //   data: avgDaysSinceAcceptance,
+              //   color:'rgba(250, 199, 161, 0.85)' ,
               // },
-              // {
-              //   name: 'Tender Works',
-              //   data: tenderWorks,
-              //   color: 'rgba(2, 202, 227, 0.85)',
-              // },
-              // {
-              //   name: 'Zonal Tender Value',
-              //   data: totalZonalTVC,
-              //   color: 'rgba(172, 5, 26, 0.85)',
-              // },
-              // {
-              //   name: 'Works Tender Value',
-              //   data: totalNormalTVC,
-              //   color: 'rgba(250, 199, 161, 0.85)',
-              // },
+             
             ];
             this.chartOptions2.xaxis = { categories: name };
             this.cO = this.chartOptions2;
@@ -800,7 +760,7 @@ export class WorkOrderGeneratedComponent {
       : '';
     this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     var RPType = 'Scheme';
-    console.log('fromdt=', this.fromdt, 'todt=', this.todt);
+   // console.log('fromdt=', this.fromdt, 'todt=', this.todt);
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
@@ -862,32 +822,12 @@ export class WorkOrderGeneratedComponent {
                 data: totalTVC,
                 color: 'rgba(93, 243, 174, 0.85)'  ,
               },
-              {
-                name: 'Avg Days Since Acceptance',
-                data: avgDaysSinceAcceptance,
-                color:'rgba(250, 199, 161, 0.85)' ,
-              },
-              // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
               // {
-              //   name: 'Zonal Works',
-              //   data: zonalWorks,
-              //   color: 'rgba(31, 225, 11, 0.85)',
+              //   name: 'Avg Days Since Acceptance',
+              //   data: avgDaysSinceAcceptance,
+              //   color:'rgba(250, 199, 161, 0.85)' ,
               // },
-              // {
-              //   name: 'Tender Works',
-              //   data: tenderWorks,
-              //   color: 'rgba(2, 202, 227, 0.85)',
-              // },
-              // {
-              //   name: 'Zonal Tender Value',
-              //   data: totalZonalTVC,
-              //   color: 'rgba(172, 5, 26, 0.85)',
-              // },
-              // {
-              //   name: 'Works Tender Value',
-              //   data: totalNormalTVC,
-              //   color: 'rgba(250, 199, 161, 0.85)',
-              // },
+              
             ];
             this.chartOptionsLine.xaxis = { categories: name };
             this.cO = this.chartOptionsLine;
@@ -939,7 +879,7 @@ export class WorkOrderGeneratedComponent {
         .subscribe(
           (data: any) => {
             this.wOIssuedGTotal = data;
-            // console.log('API Response total:', this.WoIssuedTotal);
+           // console.log('wOIssuedGTotal', this.wOIssuedGTotal);
             // console.log('API Response data:', data);
             const id: string[] = [];
             const name: string[] = [];
@@ -985,32 +925,12 @@ export class WorkOrderGeneratedComponent {
                 data: totalTVC,
                 color: 'rgba(93, 243, 174, 0.85)'  ,
               },
-              {
-                name: 'Avg Days Since Acceptance',
-                data: avgDaysSinceAcceptance,
-                color:'rgba(250, 199, 161, 0.85)' ,
-              },
-              // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
               // {
-              //   name: 'Zonal Works',
-              //   data: zonalWorks,
-              //   color: 'rgba(31, 225, 11, 0.85)',
+              //   name: 'Avg Days Since Acceptance',
+              //   data: avgDaysSinceAcceptance,
+              //   color:'rgba(250, 199, 161, 0.85)' ,
               // },
-              // {
-              //   name: 'Tender Works',
-              //   data: tenderWorks,
-              //   color: 'rgba(2, 202, 227, 0.85)',
-              // },
-              // {
-              //   name: 'Zonal Tender Value',
-              //   data: totalZonalTVC,
-              //   color: 'rgba(172, 5, 26, 0.85)',
-              // },
-              // {
-              //   name: 'Works Tender Value',
-              //   data: totalNormalTVC,
-              //   color: 'rgba(250, 199, 161, 0.85)',
-              // },
+             
             ];
             this.chartOptionsLine2.xaxis = { categories: name };
             this.cO = this.chartOptionsLine2;
@@ -1030,7 +950,7 @@ export class WorkOrderGeneratedComponent {
     divisionID: any,
     seriesName: string
   ): void {
-    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+   // console.log(`Selected ID 11: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
     const contractid = 0;
@@ -1058,7 +978,7 @@ export class WorkOrderGeneratedComponent {
               sno: index + 1,
             })
           );
-          console.log('res:', res);
+         // console.log('res:', res);
           this.dataSource.data = this.dispatchPending;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1075,18 +995,30 @@ export class WorkOrderGeneratedComponent {
     distid: any,
     seriesName: string
   ): void {
-    console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
-    const divisionID = 0;
+    // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+    var roleName  = localStorage.getItem('roleName');
+    if(roleName == 'Division'){
+    this.divisionid = sessionStorage.getItem('divisionID');
+    this.himisDistrictid=0; 
+    }  else if (roleName == 'Collector') {
+    this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+    this.divisionid=0;
+    }
+    else{
+      this.divisionid=0;
+      this.himisDistrictid=0; 
+    }
+    // const divisionID = 0;
     const mainSchemeId = 0;
-    const contractid = 0;
+    // const contractid = 0;
     const work_id = 0;
-    const fromdt = '01-jan-2024';
-    const todt = '01-jan-2025';
+    // const fromdt = '01-jan-2024';
+    // const todt = '01-jan-2025';
     this.spinner.show();
     // divisionId: any,mainSchemeId:any,distid: any,work_id:any,fromdt: any,todt: any
     this.api
       .GETWorkGenDetails(
-        divisionID,
+        this.divisionid,
         mainSchemeId,
         distid,
         work_id,
@@ -1101,7 +1033,7 @@ export class WorkOrderGeneratedComponent {
               sno: index + 1,
             })
           );
-          console.log('res:', res);
+          // console.log('res:', res);
           this.dataSource.data = this.dispatchPending;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1119,20 +1051,32 @@ export class WorkOrderGeneratedComponent {
     mainSchemeId: any,
     seriesName: string
   ): void {
-    console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-    const distid = 0;
-    const divisionID = 0;
-    const contractid = 0;
+    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    var roleName  = localStorage.getItem('roleName');
+    if(roleName == 'Division'){
+    this.divisionid = sessionStorage.getItem('divisionID');
+    this.himisDistrictid=0; 
+    }  else if (roleName == 'Collector') {
+    this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+    this.divisionid=0;
+    }
+    else{
+      this.divisionid=0;
+      this.himisDistrictid=0; 
+    }
+    // const distid = 0;
+    // const divisionID = 0;
+    // const contractid = 0;
     const work_id = 0;
-    const fromdt = '01-jan-2024';
-    const todt = '01-jan-2025';
+    // const fromdt = '01-jan-2024';
+    // const todt = '01-jan-2025';
     this.spinner.show();
     // divisionId: any,mainSchemeId:any,distid: any,work_id:any,fromdt: any,todt: any
     this.api
       .GETWorkGenDetails(
-        divisionID,
+        this.divisionid,
         mainSchemeId,
-        distid,
+        this.himisDistrictid,
         work_id,
         this.fromdt,
         this.todt
@@ -1145,7 +1089,7 @@ export class WorkOrderGeneratedComponent {
               sno: index + 1,
             })
           );
-          console.log('res:', res);
+          // console.log('res:', res);
           this.dataSource.data = this.dispatchPending;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1159,25 +1103,27 @@ export class WorkOrderGeneratedComponent {
     this.openDialog();
   }
   fetchDataBasedOnChartSelection(id: any, seriesName: string): void {
-    console.log(`Selected ID: ${id}, Series: ${seriesName}`);
-    const distid = 0;
+    // console.log(`Selected ID: ${id}, Series: ${seriesName}`);
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
+    } else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+    }
     // const  distid=0;
     const mainSchemeId = 0;
-    const contractid = 0;
+    // const contractid = 0;
     const work_id = 0;
-    const fromdt = '01-jan-2024';
-    const todt = '01-jan-2025';
+    // const fromdt = '01-jan-2024';
+    // const todt = '01-jan-2025';
     this.spinner.show();
     // divisionId: any,mainSchemeId:any,distid: any,work_id:any,fromdt: any,todt: any
-    this.api
-      .GETWorkGenDetails(
-        id,
-        mainSchemeId,
-        distid,
-        work_id,
-        this.fromdt,
-        this.todt
-      )
+    this.api.GETWorkGenDetails(this.divisionid, mainSchemeId,this.himisDistrictid, work_id, this.fromdt, this.todt)
       .subscribe(
         (res) => {
           this.dispatchPending = res.map(
@@ -1186,7 +1132,7 @@ export class WorkOrderGeneratedComponent {
               sno: index + 1,
             })
           );
-          console.log('res:', res);
+          // console.log('resGtotal:', res);
           this.dataSource.data = this.dispatchPending;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1261,7 +1207,7 @@ export class WorkOrderGeneratedComponent {
       // height: 'auto',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed');
+     // console.log('Dialog closed');
     });
   }
   onButtonClick2(ASID: any, workid: any): void {
@@ -1291,7 +1237,7 @@ export class WorkOrderGeneratedComponent {
         // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
   
         // console.log('res:', res);
-        console.log('ASFileData:', this.ASFileData);
+       // console.log('ASFileData:', this.ASFileData);
         this.spinner.hide();
       },
       (error) => {

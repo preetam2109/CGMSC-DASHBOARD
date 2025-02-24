@@ -2140,13 +2140,27 @@ fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seri
   // ;
   this.selectedParameter=delayTime;
   console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+   this.divisionid = sessionStorage.getItem('divisionID');
+   this.himisDistrictid = 0;
+  //  this.mainschemeid=0;
+  } else if (roleName == 'Collector') {
+   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+   this.divisionid = 0;
+  //  this.mainschemeid=0;
+  } else {
+   this.divisionid = 0;
+   this.himisDistrictid = 0;
+  //  this.mainschemeid=0;
+  }
   const  districtid=0;
   const mainSchemeId=0;
   const contractid=0;
   this.spinner.show();
 //  const delayTime="delayTime";
 //  const parameter="parameter";
-  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,this.divisionid,this.himisDistrictid,mainSchemeId,contractid).subscribe(
     (res) => {
       this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
         ...item,
@@ -2170,13 +2184,28 @@ fetchDataBasedOnChartSelection_II(delayTime:any,parameter:any,divisionID: any, s
   // alert(delayTime);
   this.selectedParameter=delayTime;
   console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  var roleName = localStorage.getItem('roleName');
+  // if (roleName == 'Division') {
+  //  this.divisionid = sessionStorage.getItem('divisionID');
+  //  this.himisDistrictid = 0;
+  // //  this.mainschemeid=0;
+  // }
+    if (roleName == 'Collector') {
+   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+  //  this.divisionid = 0;
+  //  this.mainschemeid=0;
+  } else {
+  //  this.divisionid = 0;
+   this.himisDistrictid = 0;
+  //  this.mainschemeid=0;
+  }
   const  districtid=0;
   const mainSchemeId=0;
   const contractid=0;
   this.spinner.show();
 //  const delayTime="delayTime";
 //  const parameter="parameter";
-  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,this.himisDistrictid ,mainSchemeId,contractid).subscribe(
     (res) => {
       this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
         ...item,
@@ -2198,14 +2227,28 @@ fetchDataBasedOnChartSelection_II(delayTime:any,parameter:any,divisionID: any, s
 fetchDataBasedOnChartSelection_III(delayTime:any,parameter:any,mainSchemeId: any, seriesName: string): void {
   this.selectedParameter=delayTime;
   console.log(`mainSchemeId ID: ${mainSchemeId}, Series: ${seriesName}`);
-  const  districtid=0;
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+   this.divisionid = sessionStorage.getItem('divisionID');
+   this.himisDistrictid = 0;
+  //  this.mainschemeid=0;
+  } else if (roleName == 'Collector') {
+   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+   this.divisionid = 0;
+  //  this.mainschemeid=0;
+  } else {
+   this.divisionid = 0;
+   this.himisDistrictid = 0;
+  //  this.mainschemeid=0;
+  }
+  // const  districtid=0;
   // const mainSchemeId=0;
-  const divisionID=0;
+  // const divisionID=0;
   const contractid=0;
   this.spinner.show();
 //  const delayTime="delayTime";
 //  const parameter="parameter";
-  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,this.divisionid,this.himisDistrictid,mainSchemeId,contractid).subscribe(
     (res) => {
       this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
         ...item,
@@ -2227,6 +2270,7 @@ fetchDataBasedOnChartSelection_III(delayTime:any,parameter:any,mainSchemeId: any
 fetchDataBasedOnChartSelection_IV(delayTime:any,parameter:any,districtid: any, seriesName: string): void {
   this.selectedParameter=delayTime;
   console.log(`districtid ID: ${districtid}, Series: ${seriesName}`);
+
   const  divisionID=0;
   // const  districtid=0;
   const mainSchemeId=0;

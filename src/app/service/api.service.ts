@@ -885,7 +885,6 @@ export class ApiService {
   }
   GETUnPaidDetails(divisionId:any,mainSchemeId:any,distid: any,designame:any,OfficerID:any) {
     return this.http.get<UnPaidDetails[]>(`${this.apiUrl}/Payment/UnPaidDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&designame=${designame}&OfficerID=${OfficerID}`);
-    //https://cgmsc.gov.in/HIMIS_APIN/api/Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
     // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/UnPaidDetails?divisionId=0&mainSchemeId=137&distid=0&designame=0&OfficerID=0
   }
 

@@ -433,9 +433,6 @@ export class WorkDetailsWithEng {
   remarks!: string | null;
   tenderReference!: string;
   delayReason!: string | null;
-
-
-
 }
 export class WorkOrderPendingDetailsNew {
   sno!: number;

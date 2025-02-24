@@ -478,7 +478,7 @@ export class ToBeTenderComponent {
       .subscribe(
         (data: any) => {
           this.TobetenderProgress = data;
-
+          console.log('TobetenderProgress:', this.TobetenderProgress);
           const id: string[] = [];
           const name: string[] = [];
           const nosWorks: number[] = [];
@@ -519,12 +519,21 @@ export class ToBeTenderComponent {
   // #region dataBase
   fetchDataBasedOnChartSelectionTotal(id: any, seriesName: string): void {
     // console.log(`Selected ID: ${id}, Series: ${seriesName}`);
-    const distid = 0;
-    const mainSchemeId = 0;
-    const divisionID = 0;
+    const roleName = localStorage.getItem('roleName');
+    if (roleName === 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+    else {
+      this.himisDistrictid 
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
     this.spinner.show();
     this.api
-      .GETTobeTenderDetailsAS1(divisionID, mainSchemeId, distid)
+      .GETTobeTenderDetailsAS1(this.divisionid, this.himisDistrictid, this.himisDistrictid,)
       .subscribe(
         (res) => {
           this.dispatchData = res.map(
@@ -533,7 +542,7 @@ export class ToBeTenderComponent {
               sno: index + 1,
             })
           );
-          // console.log('res:', res);
+          console.log('res:', res);
           // console.log('dataSource:', this.dataSource);
           // console.log('dispatchData=:', this.dispatchData);
           this.dataSource.data = this.dispatchData;
@@ -549,13 +558,24 @@ export class ToBeTenderComponent {
     // this.openDialog();
   }
   GETTobeTenderDetailsWOCancelled(ppid: any, seriesName: string): void {
-    console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
-    const distid = 0;
-    const mainSchemeId = 0;
-    const divisionID = 0;
+    const roleName = localStorage.getItem('roleName');
+    if (roleName === 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+    else {
+      this.himisDistrictid 
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+    // const distid = 0;
+    // const mainSchemeId = 0;
+    // const divisionID = 0;
     this.spinner.show();
     this.api
-      .GETTobeTenderDetailsWOCancelled(divisionID, mainSchemeId, distid, ppid)
+      .GETTobeTenderDetailsWOCancelled(this.divisionid, this.himisDistrictid, this.himisDistrictid, ppid)
       .subscribe(
         (res) => {
           this.dispatchDataCancelled = res.map(
@@ -579,13 +599,25 @@ export class ToBeTenderComponent {
     // this.openDialog();
   }
   GETTobeTenderDetailsWOCancelled34(ppid: any, seriesName: string): void {
-    console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
-    const distid = 0;
-    const mainSchemeId = 0;
-    const divisionID = 0;
+    // console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
+    // const distid = 0;
+    // const mainSchemeId = 0;
+    // const divisionID = 0;
+    const roleName = localStorage.getItem('roleName');
+    if (roleName === 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+    else {
+      this.himisDistrictid 
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
     this.spinner.show();
     this.api
-      .GETTobeTenderDetailsWOCancelled(divisionID, mainSchemeId, distid, ppid)
+      .GETTobeTenderDetailsWOCancelled(this.divisionid,  this.mainschemeid , this.himisDistrictid , ppid)
       .subscribe(
         (res) => {
           this.dispatchDataProposedCancelled = res.map(
@@ -610,13 +642,24 @@ export class ToBeTenderComponent {
     // this.openDialog();
   }
   GETTobeTenderRejection(ppid: any, seriesName: string): void {
-    // console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
-    const distid = 0;
-    const mainSchemeId = 0;
-    const divisionID = 0;
+    debugger;
+    console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
+    const roleName = localStorage.getItem('roleName');
+    if (roleName === 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+    else {
+      this.himisDistrictid 
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+    // alert( this.divisionid);
     this.spinner.show();
     this.api
-      .GETTobeTenderRejection23(divisionID, mainSchemeId, distid)
+      .GETTobeTenderRejection23(this.divisionid,  this.mainschemeid , this.himisDistrictid)
       .subscribe(
         (res) => {
           this.dispatchData1 = res.map(
@@ -625,7 +668,7 @@ export class ToBeTenderComponent {
               sno: index + 1,
             })
           );
-          // console.log('res:', res);
+          console.log('GETTobeTenderRejection23:', res);
           // console.log('dispatchDatareject =:', this.dispatchData1);
           this.dataSource1.data = this.dispatchData1;
           this.dataSource1.paginator = this.paginatorPageSize;
@@ -641,12 +684,21 @@ export class ToBeTenderComponent {
   }
   GETTobeTenderAppliedZonalPermission(ppid: any, seriesName: string): void {
     console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
-    const distid = 0;
-    const mainSchemeId = 0;
-    const divisionID = 0;
+    const roleName = localStorage.getItem('roleName');
+    if (roleName === 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+    else {
+      this.himisDistrictid 
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
     this.spinner.show();
     this.api
-      .GETTobeTenderAppliedZonalPermission25(divisionID, mainSchemeId, distid)
+      .GETTobeTenderAppliedZonalPermission25(this.divisionid,  this.mainschemeid , this.himisDistrictid)
       .subscribe(
         (res) => {
           this.dispatchDataZonal = res.map(
