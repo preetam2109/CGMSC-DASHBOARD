@@ -874,7 +874,7 @@ export class InfrastructureHomeComponent {
 //   //  https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=147&contractorid=0
 //   }
 TotalWorksAbstract(){
-  // debugger;
+  // ;
   this.spinner.show();
   this.roleName = localStorage.getItem('roleName');
   if (this.roleName == 'Division') {

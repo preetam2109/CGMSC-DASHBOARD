@@ -168,5 +168,15 @@ export class QCPendingParticularArea{
     analysisDays!: number;
 }
 
+export class QCResultPendingLabWise{
+        labid!: number;
+        labname!: string;
+        withBatches!: number;
+        outBatches!: number;
+        withvalue!: number;
+        outvalue!: number;
+        outPer!: number;
+}
+
 
   

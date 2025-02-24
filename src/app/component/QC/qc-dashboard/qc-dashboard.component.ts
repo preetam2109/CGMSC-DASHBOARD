@@ -29,6 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
+import { QCPendingParticularArea, QCResultPendingLabWise } from 'src/app/Model/DashCards';
 
 
 @Component({
@@ -116,15 +117,22 @@ throw new Error('Method not implemented.');
   currentMonth = new Date().toLocaleString('default', { month: 'long' });
   qCPendingItems:any
   itemid:any
+  mcid=1
+  
   MasItemlist:any
   PartiIndentlist:any
   PartPOsSince1920list:any
   PartItemissuelist:any
   PartItemRClist:any
+  qCPendingParticularArea:QCPendingParticularArea[]=[]
+  qCPendingParticularArea2:QCPendingParticularArea[]=[]
+  qCResultPendingLabWise:QCResultPendingLabWise[]=[]
   dataSource = new MatTableDataSource<any>();
   dataSource2 = new MatTableDataSource<any>();
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
+  dataSource5 = new MatTableDataSource<any>();
+  dataSource6 = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
@@ -133,8 +141,13 @@ throw new Error('Method not implemented.');
     @ViewChild(MatSort) sort3!: MatSort;
     @ViewChild(MatPaginator) paginator4!: MatPaginator;
     @ViewChild(MatSort) sort4!: MatSort;
+    @ViewChild(MatPaginator) paginator5!: MatPaginator;
+    @ViewChild(MatSort) sort5!: MatSort;
+    @ViewChild(MatPaginator) paginator6!: MatPaginator;
+    @ViewChild(MatSort) sort6!: MatSort;
 
     selectedCategory:any='';
+    selectedCategoryRadio:any='Drugs';
   
   
 
@@ -374,7 +387,10 @@ colors = [];
     this.chartQCPendingAtLab = {
       series: [], // Radial bar data
       chart: {
-        type: "radialBar"
+        type: "radialBar",
+        height: "210%",  
+
+        width:"200%"
       },
       plotOptions: {
         radialBar: {
@@ -539,7 +555,11 @@ colors = [];
       this.chartUQC = {
         series: [], // Radial bar data
         chart: {
-          type: "radialBar"
+          type: "radialBar",
+          height: "210%",  
+
+          width:"200%"
+          
         },
         plotOptions: {
           radialBar: {
@@ -877,6 +897,7 @@ colors = [];
     this.loadUQC();
     this.loadDataQCStages();
     this.getItemNoDropDown();
+    this.getQCResultPendingLabWise();
   
 
 
@@ -885,7 +906,7 @@ colors = [];
 
   getItemNoDropDown(){
   
-    this.api.QCPendingItems(0).subscribe((res:any[])=>{
+    this.api.QCPendingItems(1).subscribe((res:any[])=>{
       console.log(' QCPendingItems API dropdown Response:', res);
       if (res && res.length > 0) {
         this.qCPendingItems = res.map(item => ({
@@ -1016,7 +1037,7 @@ colors = [];
 
   onISelectChange(event: Event): void {
     
-
+ 
   const selectedUser = this.qCPendingItems.find((user: { itemid: string }) => user.itemid === this.itemid); 
 
   if (selectedUser) {
@@ -1108,7 +1129,7 @@ colors = [];
 loadQCfinalUpdatePending(): void {
   
  
-  this.api.GetQCFinalResultPending(1).subscribe(
+  this.api.GetQCFinalResultPending(this.mcid).subscribe(
     (data: any) => {
       const mcategory: string[] = [];
       const mcid: number[] = [];
@@ -1146,7 +1167,9 @@ loadQCfinalUpdatePending(): void {
         ],
         chart: {
           type: "bar",
-          height: 300
+          height: "210%",  
+
+          width:"200%"
         },
         plotOptions: {
           bar: {
@@ -1209,7 +1232,7 @@ loadQCfinalUpdatePending(): void {
 
 loadQCPendingAtLab(): void {
 
-  this.api.QCLabPendingTimeline(1,'Both',0).subscribe(
+  this.api.QCLabPendingTimeline(this.mcid,'Both',0).subscribe(
     (data: any) => {
    
 
@@ -1247,7 +1270,9 @@ loadQCPendingAtLab(): void {
         ],
         chart: {
           type: "bar",
-          height: 300
+          height: "210%",  
+
+          width:"200%"
         },
         plotOptions: {
           bar: {
@@ -1419,16 +1444,16 @@ loadIndent(): void {
 
 
 loadDataQCStages(): void {
-  this.api.QCPendingPlace(1).subscribe(
+  this.api.QCPendingPlace(this.mcid).subscribe(
     (data: any) => {
       const seriesData: number[] = [];
       const labelsData: string[] = [
         "Pending in WH",
-        "Pending in Courier",
-        "Pending in HO for QC Issue",
+        "Pending in Courier fom WH",
+        "Pending in HO for Lab Issue",
         "Pending in Courier for Lab",
         "Pending in Lab",
-        "Pending in HO for Clearance"
+        "Pending in HO for Final Clearance"
       ];
 
       let aggregatedData = {
@@ -1460,52 +1485,69 @@ loadDataQCStages(): void {
         aggregatedData.pendingforfinalUpdate
       );
 
-      // Update the pie chart
+      
       this.chartOptionsQCStages = {
         series: seriesData,
         chart: {
           type: "pie",
-          height: "210%",  // Adjusted
-          width: "100%", 
-          
+          height: "210%",  
+          width: "200%", 
         },
         dataLabels: {
           enabled: true,
           style: {
             colors: ['#001219'],
-            fontWeight:'2px' 
+            fontWeight: '2px'
           },
           formatter: function (val: any, opts: any) {
             return opts.w.globals.series[opts.seriesIndex]; // Shows actual values inside the chart
           },
-          
         },
         labels: labelsData,
+        legend: {
+          position: "right",
+          horizontalAlign: "center", // Centers legend items
+          floating: false,
+          markers: {
+            width: 12,
+            height: 12,
+            radius: 12
+          },
+          fontSize: "12px",
+          itemMargin: {
+            horizontal: 10, // Adjust horizontal spacing
+            vertical: 5    // Adjust vertical spacing for column-wise layout
+          }
+          
+        },
         responsive: [
           {
-            breakpoint: 480,
+            breakpoint: 768,
             options: {
               chart: {
-                width: "100%",   // Adjusted
+                width: "100%",
                 height: "100%",
               },
               legend: {
-                position: "bottom"
+                position: "bottom",
+                horizontalAlign: "center",
+                itemMargin: {
+                  horizontal: 10,
+                  vertical: 5
+                }
               }
             }
           }
         ],
-        legend: {
-          position: "bottom"
-        },
         tooltip: {
           y: {
             formatter: function (val: number) {
-              return val.toFixed(0); // Remove percentage and show actual value
+              return val.toFixed(0); // Show actual value
             }
           }
         }
       } as any;
+      
     },
     (error: any) => {
       console.error('Error fetching data', error);
@@ -1578,7 +1620,7 @@ Nearexp(): void {
 loadUQC(): void {
   
 
-  this.api.QCPendingHomeDash(1).subscribe(
+  this.api.QCPendingHomeDash(this.mcid).subscribe(
     (data: any) => {
       
       const categories: string[] = [];
@@ -1616,7 +1658,9 @@ loadUQC(): void {
         ],
         chart: {
           type: "bar",
-          height: 300
+          height: "210%",  
+
+          width:"200%"
         },
         plotOptions: {
           bar: {
@@ -1801,11 +1845,11 @@ loadUQC(): void {
         this.spinner.show();
         const itemid=this.itemid
         this.getMasitems(); 
-        this.GetPartiIndent(); 
-        this.getPartPOsSince1920();
-        
-        this.getPartiItemsissue();
-        this.getPartiItemsRC();
+        // this.GetPartiIndent(); 
+        // this.getPartPOsSince1920();
+        this.QCPendingParticularArea();
+        // this.getPartiItemsissue();
+        // this.getPartiItemsRC();
         this.openDialog();
       }
 
@@ -1926,6 +1970,59 @@ loadUQC(): void {
         });  
 
       }
+      QCPendingParticularArea(){
+        
+        this.api.QCPendingParticularArea(0,this.itemid).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.qCPendingParticularArea =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            this.qCPendingParticularArea2 = res; 
+
+
+            console.log('only one data'+this.qCPendingParticularArea2)
+
+            console.log('Mapped List:', this.qCPendingParticularArea);
+            this.dataSource5.data = this.qCPendingParticularArea; // Ensure this line executes properly
+            this.dataSource5.paginator = this.paginator5;
+            this.dataSource5.sort = this.sort5;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+
+      }
+      getQCResultPendingLabWise(){
+        
+        this.api.QCResultPendingLabWise(this.mcid).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.qCResultPendingLabWise =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.qCResultPendingLabWise);
+            this.dataSource6.data = this.qCResultPendingLabWise; // Ensure this line executes properly
+            this.dataSource6.paginator = this.paginator6;
+            this.dataSource6.sort = this.sort6;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+
+      }
       
 
       openDialog() {
@@ -1948,6 +2045,72 @@ loadUQC(): void {
          console.log('Dialog closed');
         });
         }
+
+
+
+
+
+        updateSelectedHodid(): void {
+    
+          // Reset hodid to 0 initially
+          // this.mcid = 0;
+      
+          // Map the selected category to the corresponding mcid value
+          this.spinner.show()
+          if (this.selectedCategoryRadio==='Drugs') {
+            this.mcid = 1;
+            this.loadUQC();
+            this.loadDataQCStages()
+            this.loadQCPendingAtLab()
+            this.loadQCfinalUpdatePending()
+            this.getQCResultPendingLabWise()
+          this.spinner.hide()
+
+            
+            // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
+          } else if (this.selectedCategoryRadio==='Consumables') {
+            this.mcid = 2;
+            this.loadUQC();
+            this.loadDataQCStages()
+            this.loadQCPendingAtLab()
+            this.loadQCfinalUpdatePending()
+            this.getQCResultPendingLabWise()
+          this.spinner.hide()
+
+
+
+
+            // this.chartOptions.title.text = this.OnChangeTitle + this.selectedCategory;
+          } else if (this.selectedCategoryRadio==='Reagent') {
+            this.mcid = 3;
+            this.loadDataQCStages()
+            this.loadUQC();
+            this.loadQCPendingAtLab()
+            this.loadQCfinalUpdatePending()
+            this.getQCResultPendingLabWise()
+          this.spinner.hide()
+
+
+
+            // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
+          } else if (this.selectedCategoryRadio==='AYUSH') {
+            this.mcid = 4;
+            this.loadDataQCStages()
+            this.loadUQC();
+            this.loadQCPendingAtLab()
+            this.loadQCfinalUpdatePending()
+            this.getQCResultPendingLabWise()
+          this.spinner.hide()
+
+
+
+            // this.chartOptions.title.text =this.OnChangeTitle +  this.selectedCategory;
+          }
+      
+          // console.log('Selected Hod ID:', this.mcid);
+        }
+
+        
     
   }
 
