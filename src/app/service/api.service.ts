@@ -106,7 +106,7 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingParticularArea, QCPendingPlace, StockoutPer } from '../Model/DashCards';
+import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingParticularArea, QCPendingPlace, QCResultPendingLabWise, StockoutPer } from '../Model/DashCards';
 import { MasIndentitems } from '../Model/MasIndentitems';
 import { MasfacilityInfo } from '../Model/MasfacilityInfo';
 import { Masitems } from '../Model/Masitems';
@@ -667,7 +667,7 @@ export class ApiService {
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TenderInProcess?did=2001&divisionid=0&districtid=0&mainschemeid=0
   }
   GET_TotalWorksAbstract(divisionId: any,districtid:any,mainSchemeId: any, contractorid:any,ASAmount:any) {
-    // debugger;
+    // ;
     return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}`);
   // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1
   }
@@ -1177,6 +1177,13 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
   QCPendingParticularArea(area:any,itemid:any) {
     return this.http.get<QCPendingParticularArea[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}&itemid=${itemid}`);
+  }
+
+
+
+  QCResultPendingLabWise(mcid:any) {
+
+    return this.http.get<QCResultPendingLabWise[]>(`${this.CGMSCHO_API2}/QC/QCResultPendingLabWise?mcid=${mcid}`);
   }
 
  
