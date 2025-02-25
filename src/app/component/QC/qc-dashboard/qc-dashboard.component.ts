@@ -29,7 +29,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
-import { QCPendingParticularArea, QCResultPendingLabWise } from 'src/app/Model/DashCards';
+import { HoldItemDetails, QCPendingMonthwiseRec, QCPendingMonthwiseRecDetails, QCPendingParticularArea, QCResultPendingLabWise } from 'src/app/Model/DashCards';
+import * as ApexCharts from 'apexcharts';
 
 
 @Component({
@@ -83,6 +84,9 @@ applyTextFilter($event: KeyboardEvent) {
 throw new Error('Method not implemented.');
 }
 @ViewChild('itemDetailsModal') itemDetailsModal: any;
+@ViewChild('UQCDetailsModal') UQCDetailsModal: any;
+@ViewChild('HODDetailsModal') HODDetailsModal: any;
+@ViewChild('NSQDetailsModal') NSQDetailsModal: any;
 
 
   @ViewChild('chart') chart: ChartComponent | undefined;
@@ -118,6 +122,25 @@ throw new Error('Method not implemented.');
   qCPendingItems:any
   itemid:any
   mcid=1
+  monthid:any=''
+  mname:any='';
+
+  nositemshold:any
+  nositemsnsq:any
+  stkvaluehold:any
+  nosbatchhold:any
+  stkvaluensq:any
+  nosbatchnsq:any
+
+  mcategoryUQC:any
+  nositemsUQC:any
+  nosbatchUQC:any
+  stkvalueUQC:any
+
+  pOnositems: any;
+  totalsample: any;
+  qctimetaken: any;
+
   
   MasItemlist:any
   PartiIndentlist:any
@@ -127,12 +150,16 @@ throw new Error('Method not implemented.');
   qCPendingParticularArea:QCPendingParticularArea[]=[]
   qCPendingParticularArea2:QCPendingParticularArea[]=[]
   qCResultPendingLabWise:QCResultPendingLabWise[]=[]
+  qCPendingMonthwiseRecDetails:QCPendingMonthwiseRecDetails[]=[]
+  holdItemDetails:HoldItemDetails[]=[]
   dataSource = new MatTableDataSource<any>();
   dataSource2 = new MatTableDataSource<any>();
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
   dataSource5 = new MatTableDataSource<any>();
   dataSource6 = new MatTableDataSource<any>();
+  dataSource7 = new MatTableDataSource<any>();
+  dataSource8 = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
@@ -145,11 +172,15 @@ throw new Error('Method not implemented.');
     @ViewChild(MatSort) sort5!: MatSort;
     @ViewChild(MatPaginator) paginator6!: MatPaginator;
     @ViewChild(MatSort) sort6!: MatSort;
+    @ViewChild(MatPaginator) paginator7!: MatPaginator;
+    @ViewChild(MatSort) sort7!: MatSort;
+    @ViewChild(MatPaginator) paginator8!: MatPaginator;
+    @ViewChild(MatSort) sort8!: MatSort;
 
     selectedCategory:any='';
     selectedCategoryRadio:any='Drugs';
   
-  
+    qCPendingMonthwiseRec:QCPendingMonthwiseRec[]=[]
 
 
 
@@ -558,7 +589,21 @@ colors = [];
           type: "radialBar",
           height: "210%",  
 
-          width:"200%"
+          width:"200%",
+
+          events: {
+            dataPointSelection: (
+              event: any,
+              chartContext: ApexCharts,
+              { dataPointIndex, seriesIndex }: { dataPointIndex: number; seriesIndex: number }
+            ) => {
+              
+              console.log("Chart Clicked!  sdsdsdsdsdsdds");  // 🛑 Yeh show ho raha ya nahi? Agar nahi to problem yahan hai
+            },
+          }
+          
+          
+          
           
         },
         plotOptions: {
@@ -898,7 +943,10 @@ colors = [];
     this.loadDataQCStages();
     this.getItemNoDropDown();
     this.getQCResultPendingLabWise();
-  
+    this.QCHold_Dash()
+    this.QCNSQ_Dash()
+    this.loadUQCDashCard()
+    this.QCTimeTakenYear();
 
 
   }
@@ -934,13 +982,28 @@ colors = [];
     })
 
   }
+
+  QCHold_Dash(){
+    this.api.QCHold_NSQDash('Hold').subscribe((res:any)=>{
+      this.nositemshold=res[0].nositems
+      this.stkvaluehold=res[0].stkvalue
+      this.nosbatchhold=res[0].nosbatch
+     
+    })
+  }
+  QCNSQ_Dash(){
+    this.api.QCHold_NSQDash('NSQ').subscribe((res:any)=>{
+      this.nositemsnsq=res[0].nositems
+      this.stkvaluensq=res[0].stkvalue
+      this.nosbatchnsq=res[0].nosbatch
+    })
+  }
+
   GetDeliveryInMonth(){
     this.api.getDeliveryInMonth('01-Apr-2024','31-Mar-2025').subscribe((res:any)=>{
-      // this.dropindentid=res[0].dropindentid
       this.nosindent=res[0].nosindent
       this.indentIssued=res[0].indentIssued
       this.nooffacIndented=res[0].nooffacIndented
-      // this.dropindentid=res[0].dropindentid
         })
   }
   GetPOCountCFY(){
@@ -955,6 +1018,14 @@ colors = [];
   this.nositemsI=res[0].nositems  
   this.totalValuecr=res[0].totalValuecr
   this.nosfacility=res[0].nosfacility
+    })
+  }
+  QCTimeTakenYear(){
+    this.api.QCTimeTakenYear(1,0,0).subscribe((res:any)=>{
+  this.pOnositems=res[0].pOnositems  
+  this.totalsample=res[0].totalsample
+  this.qctimetaken=res[0].qctimetaken
+ 
     })
   }
   CGMSCIndentPending(){
@@ -1617,22 +1688,50 @@ Nearexp(): void {
   );
 }
 
-loadUQC(): void {
+loadUQCDashCard(): void {
   
 
   this.api.QCPendingHomeDash(this.mcid).subscribe(
-    (data: any) => {
+    (res: any) => {
+
       
+      
+      this.mcategoryUQC=res[0].mcategory
+      this.nositemsUQC=res[0].nositems
+      this.nosbatchUQC=res[0].nosbatch
+      this.stkvalueUQC=res[0].stkvalue
+
+      
+
+    
+
+    
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+
+loadUQC(): void {
+  
+
+  this.api.QCPendingMonthwiseRec(this.mcid).subscribe(
+    (data: any) => {
+
+
+      this.qCPendingMonthwiseRec=data;
+
       const categories: string[] = [];
       const nositems: number[] = [];
-      const nosbatch: number[] = [];
       const stkvalue: number[] = [];
+      const nosbatch: number[] = [];
 
       console.log('Under QC home Dashboard:', data);
 
       data.forEach((item: any) => {
      
-        categories.push(item.mcategory);
+        categories.push(item.mname);
         nositems.push(item.nositems);
         nosbatch.push(item.nosbatch);
         stkvalue.push(item.stkvalue);
@@ -1642,11 +1741,7 @@ loadUQC(): void {
       // Update the bar chart
       this.chartUQC = {
         series: [
-          {
-            name: 'UQC Stock Value(in Cr)',
-            data: stkvalue
-  
-          },
+          
           {
             name: 'No of Items',
             data: nositems
@@ -1654,13 +1749,65 @@ loadUQC(): void {
           {
             name: 'No of Batches',
             data: nosbatch
+          },
+          {
+            name: 'UQC Stock Value(in Cr)',
+            data: stkvalue
+  
           }
         ],
         chart: {
           type: "bar",
           height: "210%",  
 
-          width:"200%"
+          width:"200%",
+
+          events: {
+            dataPointSelection: (
+              event: any,
+              chartContext: ApexCharts,
+              { dataPointIndex, seriesIndex }: { dataPointIndex: number; seriesIndex: number }
+            ) => {
+              
+              console.log("Chart Clicked!");
+              console.log("Chart Context:", chartContext);
+          
+              // Check categories
+              console.log("Categories:", this.chartUQC?.xaxis?.categories);
+              console.log("Selected Category Index:", dataPointIndex);
+              const selectedCategory = this.chartUQC?.xaxis?.categories?.[dataPointIndex];
+              console.log("Selected Category Value:", selectedCategory);
+          
+              // Check Series
+              const selectedSeries = this.chartUQC?.series?.[seriesIndex]?.name;
+              console.log("Selected Series:", selectedSeries);
+          
+              if (selectedCategory && selectedSeries) {
+                const apiData = this.qCPendingMonthwiseRec;
+                console.log("API Data:", apiData);
+          
+                // Ensure correct comparison
+                const selectedData = apiData.find(
+                  (data) => data.mname === selectedCategory
+                );
+                console.log("Selected Data from API:", selectedData);
+          
+                if (selectedData) {
+                  const id = selectedData.monthid;
+                  this.mname = selectedData.mname;
+                  console.log("Month ID:", id, "Month Name:", this.mname);
+                  this.fetchDataBasedOnChartSelectionchartUQCl(id, selectedSeries);
+                } else {
+                  console.log(`No data found for selected category: ${selectedCategory}`);
+                }
+              } else {
+                console.log("Selected category or series is invalid.");
+              }
+            },
+          }
+          
+          
+
         },
         plotOptions: {
           bar: {
@@ -2023,6 +2170,54 @@ loadUQC(): void {
         });  
 
       }
+      QCPendingMonthwiseRecDetails(){
+        
+        this.api.QCPendingMonthwiseRecDetails(this.monthid,this.mcid).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.qCPendingMonthwiseRecDetails =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.qCPendingMonthwiseRecDetails);
+            this.dataSource7.data = this.qCPendingMonthwiseRecDetails; // Ensure this line executes properly
+            this.dataSource7.paginator = this.paginator7;
+            this.dataSource7.sort = this.sort7;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+
+      }
+      getHoldItemDetails(){
+        
+        this.api.HoldItemDetails(this.mcid).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.holdItemDetails =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.holdItemDetails);
+            this.dataSource8.data = this.holdItemDetails; // Ensure this line executes properly
+            this.dataSource8.paginator = this.paginator8;
+            this.dataSource8.sort = this.sort8;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+
+      }
       
 
       openDialog() {
@@ -2046,9 +2241,69 @@ loadUQC(): void {
         });
         }
 
+      openDialogUQC() {
+        
+        const dialogRef = this.dialog.open(this.UQCDetailsModal, {
+         width: '100%',
+         height: '100%',
+         maxWidth: '100%',
+         panelClass: 'full-screen-dialog', // Optional for additional styling
+         data: {
+           /* pass any data here */
+         },
+         // width: '100%',
+         // maxWidth: '100%', // Override default maxWidth
+         // maxHeight: '100%', // Override default maxHeight
+         // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+         // height: 'auto',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+         console.log('Dialog closed');
+        });
+        }
 
 
 
+        openDialogHOD() {
+        
+          const dialogRef = this.dialog.open(this.HODDetailsModal, {
+           width: '100%',
+           height: '100%',
+           maxWidth: '100%',
+           panelClass: 'full-screen-dialog', // Optional for additional styling
+           data: {
+             /* pass any data here */
+           },
+           // width: '100%',
+           // maxWidth: '100%', // Override default maxWidth
+           // maxHeight: '100%', // Override default maxHeight
+           // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+           // height: 'auto',
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+           console.log('Dialog closed');
+          });
+          }
+        openDialogNSQ() {
+        
+          const dialogRef = this.dialog.open(this.NSQDetailsModal, {
+           width: '100%',
+           height: '100%',
+           maxWidth: '100%',
+           panelClass: 'full-screen-dialog', // Optional for additional styling
+           data: {
+             /* pass any data here */
+           },
+           // width: '100%',
+           // maxWidth: '100%', // Override default maxWidth
+           // maxHeight: '100%', // Override default maxHeight
+           // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+           // height: 'auto',
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+           console.log('Dialog closed');
+          });
+          }
 
         updateSelectedHodid(): void {
     
@@ -2108,6 +2363,19 @@ loadUQC(): void {
           }
       
           // console.log('Selected Hod ID:', this.mcid);
+        }
+
+        fetchDataBasedOnChartSelectionchartUQCl(month:any,monthid:any){
+          
+          this.monthid=month
+          this.QCPendingMonthwiseRecDetails()
+
+this.openDialogUQC();
+        }
+        fetchHOD(){
+          this.getHoldItemDetails()
+
+this.openDialogHOD();
         }
 
         

@@ -178,5 +178,67 @@ export class QCResultPendingLabWise{
         outPer!: number;
 }
 
+export class QCHold_NSQDash{
+        mcid!: number;
+        nositems!: number;
+        stkvalue!: number;
+        nosbatch!: number;
+        mcategory!: string;
+}
+export class QCTimeTakenYear{
+    accyrsetid!: number;
+    accyear!: string;
+    pOnositems!: number;
+    totalsample!: number;
+    qctimetaken!: number;
+}
+
+export class QCPendingMonthwiseRec{
+        monthid!: number;
+        mcid!: number;
+        monthname!: string;
+        mname!: string;
+        nositems!: number;
+        stkvalue!: number;
+        nosbatch!: number;
+        mcategory!: string;
+}
+export class QCPendingMonthwiseRecDetails{
+    itemid!: number;
+    monthid!: number;
+    mcid!: number;
+    monthname!: string;
+    mname!: string;
+    stk!: number;
+    stkvalue!: number;
+    nosbatch!: number;
+    mcategory!: string;
+    itemcode!: string;
+    itemname!: string;
+    strength1!: string;
+    unit!: string;
+}
+export class HoldItemDetails{
+        id!: number;
+        itemid!: number;
+        itemcode!: string;
+        itemname!: string;
+        unit!: string;
+        strength1!: string;
+        pono!: string;
+        soissuedate!: string;
+        suppliername!: string;
+        batchno!: string;
+        finalrategst!: number;
+        stkvaluelacs!: number;
+        rqty!: number;
+        allotqty!: number;
+        stk!: number;
+        mcategory!: string;
+        holdreason: any;
+        holddate: any;
+        ponoid!: number;
+}
+
 
   
