@@ -14,6 +14,7 @@
             [ngStyle]="{'background-color': division.color}" (click)="selectDivision(division)">
             {{ division.name }}
           </button>
+          <!-- <h2 class="align-items-center division-label bold text-end" >{{ name }}Division</h2> -->
           <h2 class="align-items-center division-label bold text-end" *ngIf="visibale">{{ name }}Division</h2>
         </div>
       </div>
@@ -78,68 +79,68 @@
             <!-- Serial Number Column -->
             <ng-container matColumnDef="sno">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
-              <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+              <td mat-cell *matCellDef="let element"  > {{ element.sno }} </td>
             </ng-container>
     
-            <!-- nocnumber Column -->
+            <!-- nocnumber Column style="text-align: right;" -->
             <ng-container matColumnDef="engName">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Sub Engineer </th>
-              <td mat-cell *matCellDef="let element"> {{ element.engName }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: left;"> {{ element.engName }} </td>
             </ng-container>
             <ng-container matColumnDef="empid">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>EmpId </th>
-              <td mat-cell *matCellDef="let element"> {{ element.empid }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: left;"> {{ element.empid }} </td>
             </ng-container>
     
             <!-- warehousename Column -->
             <ng-container matColumnDef="districtName">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>District </th>
-              <td mat-cell *matCellDef="let element"> {{ element.districtName }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: left;"> {{ element.districtName }} </td>
             </ng-container>
     
             <!-- facilityname Column -->
             <ng-container matColumnDef="totalWorks">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Alloted Works </th>
-              <td mat-cell *matCellDef="let element"> {{ element.totalWorks }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: right;"> {{ element.totalWorks }} </td>
             </ng-container>
     
             <!-- nositems Column -->
             <ng-container matColumnDef="tvcValuecr">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value (in cr) </th>
-              <td mat-cell *matCellDef="let element"> {{ element.tvcValuecr }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: center;"> {{ element.tvcValuecr }} </td>
             </ng-container>
     
             <!-- inddt Column -->
             <ng-container matColumnDef="running">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Running Works </th>
-              <td mat-cell *matCellDef="let element"> {{ element.running }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: right;"> {{ element.running }} </td>
             </ng-container>
     
             <!-- pendingday Column -->
             <ng-container matColumnDef="woIssue">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order Issued</th>
-              <td mat-cell *matCellDef="let element"> {{ element.woIssue }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: right;"> {{ element.woIssue }} </td>
             </ng-container>
             <ng-container matColumnDef="ladissue">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Land Issue</th>
-              <td mat-cell *matCellDef="let element"> {{ element.ladissue }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: right;"> {{ element.ladissue }} </td>
             </ng-container>
-            <ng-container matColumnDef="districtID">
+            <!-- <ng-container matColumnDef="districtID">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>DistrictID</th>
               <td mat-cell *matCellDef="let element"> {{ element.districtID }} </td>
             </ng-container>
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
               <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
-            </ng-container>
+            </ng-container> -->
             <!-- Header Row -->
             <tr mat-header-row
-              *matHeaderRowDef="[ 'sno','engName','empid','districtName','totalWorks','tvcValuecr', 'running','woIssue','ladissue','districtID' ,'id'  ]">
+              *matHeaderRowDef="[ 'sno','engName','empid','districtName','totalWorks','tvcValuecr', 'running','woIssue','ladissue' ]">
             </tr>
     
             <!-- Data Rows -->
             <tr mat-row
-              *matRowDef="let row; columns: [ 'sno','engName','empid','districtName','totalWorks','tvcValuecr','running','woIssue','ladissue','districtID' ,'id' ]">
+              *matRowDef="let row; columns: [ 'sno','engName','empid','districtName','totalWorks','tvcValuecr','running','woIssue','ladissue']">
             </tr>
     
           </table>
@@ -185,7 +186,7 @@
             <!-- nocnumber Column -->
             <ng-container matColumnDef="engName">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Ass. Engineer </th>
-              <td mat-cell *matCellDef="let element"> {{ element.engName }} </td>
+              <td mat-cell *matCellDef="let element" > {{ element.engName }} </td>
             </ng-container>
             <ng-container matColumnDef="empid">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>EmpId </th>
@@ -201,46 +202,46 @@
             <!-- facilityname Column -->
             <ng-container matColumnDef="totalWorks">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Alloted Works </th>
-              <td mat-cell *matCellDef="let element"> {{ element.totalWorks }} </td>
+              <td mat-cell *matCellDef="let element" style="text-align: right;"> {{ element.totalWorks }} </td>
             </ng-container>
     
             <!-- nositems Column -->
             <ng-container matColumnDef="tvcValuecr">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Contract Value (in cr) </th>
-              <td mat-cell *matCellDef="let element"> {{ element.tvcValuecr }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: center;"> {{ element.tvcValuecr }} </td>
             </ng-container>
     
             <!-- inddt Column -->
             <ng-container matColumnDef="running">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Running Works </th>
-              <td mat-cell *matCellDef="let element"> {{ element.running }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: right;"> {{ element.running }} </td>
             </ng-container>
     
             <!-- pendingday Column -->
             <ng-container matColumnDef="woIssue">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order Issued</th>
-              <td mat-cell *matCellDef="let element"> {{ element.woIssue }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: right;"> {{ element.woIssue }} </td>
             </ng-container>
             <ng-container matColumnDef="ladissue">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Land Issue</th>
-              <td mat-cell *matCellDef="let element"> {{ element.ladissue }} </td>
+              <td mat-cell *matCellDef="let element"  style="text-align: right;"> {{ element.ladissue }} </td>
             </ng-container>
-            <ng-container matColumnDef="districtID">
+            <!-- <ng-container matColumnDef="districtID">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>DistrictID</th>
               <td mat-cell *matCellDef="let element"> {{ element.districtID }} </td>
             </ng-container>
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
               <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
-            </ng-container>
+            </ng-container> -->
             <!-- Header Row -->
             <tr mat-header-row
-              *matHeaderRowDef="[ 'sno','engName','empid','districtName','totalWorks','tvcValuecr', 'running','woIssue','ladissue','districtID' ,'id'  ]">
+              *matHeaderRowDef="[ 'sno','engName','empid','districtName','totalWorks','tvcValuecr', 'running','woIssue','ladissue']">
             </tr>
     
             <!-- Data Rows -->
             <tr mat-row
-              *matRowDef="let row; columns: [ 'sno','engName','empid','districtName','totalWorks','tvcValuecr','running','woIssue','ladissue','districtID' ,'id' ]">
+              *matRowDef="let row; columns: [ 'sno','engName','empid','districtName','totalWorks','tvcValuecr','running','woIssue','ladissue' ]">
             </tr>
     
           </table>
@@ -288,43 +289,65 @@
           <!-- Serial Number Column -->
           <ng-container matColumnDef="sno">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</th>
-            <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
-          </ng-container>
-          <ng-container matColumnDef="letterNo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>LetterNo</th>
-            <td mat-cell *matCellDef="let element"> {{ element.letterNo }} </td>
+            <td mat-cell *matCellDef="let element" > {{ element.sno}} </td>
           </ng-container>
           <ng-container matColumnDef="head">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
-            <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
-          </ng-container>
-          <ng-container matColumnDef="aaDate">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>aaDate</th>
-            <td mat-cell *matCellDef="let element"> {{ element.aaDate }} </td>
-          </ng-container>
-          <ng-container matColumnDef="totalAmountOfContract">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>TotalAmountOfContract</th>
-            <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract }} </td>
+            <td mat-cell *matCellDef="let element" style="text-align: left;"> {{ element.head }} </td>
           </ng-container>
           <ng-container matColumnDef="district">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
-            <td mat-cell *matCellDef="let element"> {{ element.district }} </td>
+            <td mat-cell *matCellDef="let element" style="text-align: left;"> {{ element.district }} </td>
+          </ng-container>
+          <ng-container matColumnDef="blockname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+            <td mat-cell *matCellDef="let element" style="text-align: left;"> {{ element.blockname }} </td>
+          </ng-container>
+          <ng-container matColumnDef="letterNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>LetterNo</th>
+            <td mat-cell *matCellDef="let element" style="text-align: left;"> {{ element.letterNo }} </td>
+          </ng-container>
+       
+          <ng-container matColumnDef="approver">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Aapprover</th>
+            <td mat-cell *matCellDef="let element" style="text-align: left;"> {{ element.approver }} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalAmountOfContract">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value(In Lacs)</th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.totalAmountOfContract }} </td>
+          </ng-container>
+          <ng-container matColumnDef="aaDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Date</th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.aaDate }} </td>
+          </ng-container>
+          <ng-container matColumnDef="aaamt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount(in Lacs)</th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.aaamt }} </td>
+          </ng-container>
+          <ng-container matColumnDef="tsDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.tsDate }} </td>
+          </ng-container>
+          <ng-container matColumnDef="tsamt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Amount(in Lacs)</th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.tsamt }} </td>
           </ng-container>
           <ng-container matColumnDef="work">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
-            <td mat-cell *matCellDef="let element"> {{ element.work }} </td>
+            <td mat-cell *matCellDef="let element" style="text-align: left;"> {{ element.work }} </td>
           </ng-container>
-          <ng-container matColumnDef="aaamt">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>aaamt</th>
-            <td mat-cell *matCellDef="let element"> {{ element.aaamt }} </td>
+          <ng-container matColumnDef="contractorNAme">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+            <td mat-cell *matCellDef="let element" style="text-align: left;"> {{ element.contractorNAme }} </td>
           </ng-container>
-          <ng-container matColumnDef="tsamt">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>tsamt</th>
-            <td mat-cell *matCellDef="let element"> {{ element.tsamt }} </td>
+          <ng-container matColumnDef="mobNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile No</th>
+            <td mat-cell *matCellDef="let element" style="text-align: left;"> {{ element.mobNo }} </td>
           </ng-container>
+         
           <ng-container matColumnDef="work_id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
-            <td mat-cell *matCellDef="let element"> {{ element.work_id }} </td>
+            <td mat-cell *matCellDef="let element" style="text-align: left;"> {{ element.work_id }} </td>
           </ng-container>
           <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
@@ -341,12 +364,12 @@
             </td>
           </ng-container>
           <tr mat-header-row
-            *matHeaderRowDef="['sno','letterNo', 'head','aaDate','totalAmountOfContract','district','work','aaamt','tsamt','work_id','action']">
+            *matHeaderRowDef="['sno', 'head','district','blockname','letterNo','approver','totalAmountOfContract','work','aaDate','aaamt','tsDate','tsamt','contractorNAme','mobNo','work_id','action']">
           </tr>
 
           <!-- Data Rows -->
           <tr mat-row
-            *matRowDef="let row; columns: ['sno','letterNo', 'head','aaDate','totalAmountOfContract','district','work','aaamt','tsamt','work_id','action']">
+            *matRowDef="let row; columns: ['sno','head','district','blockname','letterNo','approver','totalAmountOfContract','work','aaDate','aaamt','tsDate','tsamt','contractorNAme','mobNo','work_id','action']">
           </tr>
         </table>
         <mat-paginator #paginator1 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>

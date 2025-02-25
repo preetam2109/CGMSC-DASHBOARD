@@ -170,6 +170,7 @@ export class HandoverComponent {
                 const id = selectedData.id;  // Extract the id from the matching entry
                 this.name = selectedData.name;
                 this.totalWorks = selectedData.totalWorks;
+
                 this.fetchDataBasedOnChartSelection(id, selectedSeries);
 
               } else {
@@ -767,7 +768,7 @@ export class HandoverComponent {
 
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartOptions4.chart.height = '8000';
+      this.chartOptions4.chart.height = '500';
       this.districtid = 0;
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
@@ -862,15 +863,26 @@ export class HandoverComponent {
   }
   fetchDataBasedOnChartSelectionScheme(mainSchemeId: any, seriesName: string): void {
     // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-    const distid = 0;
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+      this.districtid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
+    } else {
+      this.districtid = 0;
+      this.divisionid = 0;
+    }
+    // const distid = 0;
     // const mainSchemeId = 0;
     const SWId=0;
     const dashid=4001;
-    const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    // const roleName = localStorage.getItem('roleName');
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
-    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId, distid,SWId).subscribe(
+    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId).subscribe(
       (res) => {
         this.dispatchPendings = res.map((item: GetHandoverDetails, index: number) => ({
           ...item,
@@ -893,14 +905,22 @@ export class HandoverComponent {
   fetchDataBasedOnChartSelectionDistrict(distid: any, seriesName: string): void {
     
     console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
-   
-    // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
-    // const distid = 0;
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+      this.districtid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
+    } else {
+      this.districtid = 0;
+      this.divisionid = 0;
+    }
     const mainSchemeId = 0;
     const SWId=0;
     const dashid=4001; 
-    const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    // const roleName = localStorage.getItem('roleName');
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
     this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId, distid,SWId).subscribe(
@@ -925,15 +945,26 @@ export class HandoverComponent {
   }
   fetchDataBasedOnChartSelectionWorkType(SWId: any, seriesName: string): void {
     // console.log(`Selected ID: ${SWId}, Series: ${seriesName}`);
-    const distid = 0;
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+      this.districtid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
+    } else {
+      this.districtid = 0;
+      this.divisionid = 0;
+    }
+    // const distid = 0;
     const mainSchemeId = 0;
     // const SWId=0;
     const dashid=4001; 
-    const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    // const roleName = localStorage.getItem('roleName');
+    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
-    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId, distid,SWId).subscribe(
+    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId).subscribe(
       (res) => {
         this.dispatchPendings = res.map((item: GetHandoverDetails, index: number) => ({
           ...item,

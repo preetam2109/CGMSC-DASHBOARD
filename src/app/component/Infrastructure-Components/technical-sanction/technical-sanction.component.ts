@@ -478,7 +478,7 @@ export class TechnicalSanctionComponent {
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartOptions2.chart.height = '200px';
+      this.chartOptions2.chart.height = '400px';
       this.districtid = 0;
     } else if (roleName == 'Collector') {
       this.districtid = sessionStorage.getItem('himisDistrictid');
@@ -554,7 +554,7 @@ export class TechnicalSanctionComponent {
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartOptions3.chart.height = '200px';
+      this.chartOptions3.chart.height = '400px';
       this.districtid = 0;
     } else if (roleName == 'Collector') {
       this.districtid = sessionStorage.getItem('himisDistrictid');
@@ -699,16 +699,23 @@ export class TechnicalSanctionComponent {
     );
     this.openDialog();
   }
-  fetchDataBasedOnChartSelection2(
-    mainSchemeId: string,
-    selectedSeries: string
-  ) {
+  fetchDataBasedOnChartSelection2( mainSchemeId: string, selectedSeries: string) {
     console.log(`Selected ID: ${mainSchemeId}, Series: ${selectedSeries}`);
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+      this.districtid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
+    } else {
+      this.districtid = 0;
+      this.divisionid = 0;
+    }
     const distid = 0;
-    const divisionid = 0;
     // const mainSchemeId = 0;
     this.spinner.show();
-    this.api.GetTSDetailall(divisionid, mainSchemeId, distid).subscribe(
+    this.api.GetTSDetailall(this.divisionid, mainSchemeId, distid).subscribe(
       (res) => {
         this.TSDetailallData = res.map((item: TSDetailallData, index: any) => ({
           ...item,
@@ -738,10 +745,21 @@ export class TechnicalSanctionComponent {
   }
   fetchDataBasedOnChartSelection3(distid: string, selectedSeries: string) {
     console.log(`Selected ID: ${distid}, Series: ${selectedSeries}`);
-    const divisionid = 0;
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+    } 
+    // else if (roleName == 'Collector') {
+    //   this.districtid = sessionStorage.getItem('himisDistrictid');
+    //   this.divisionid = 0;
+    // } 
+    else {
+      this.divisionid = 0;
+    }
+    // const divisionid = 0;
     const mainSchemeId = 0;
     this.spinner.show();
-    this.api.GetTSDetailall(divisionid, mainSchemeId, distid).subscribe(
+    this.api.GetTSDetailall( this.divisionid, mainSchemeId, distid).subscribe(
       (res) => {
         this.TSDetailallData = res.map((item: TSDetailallData, index: any) => ({
           ...item,

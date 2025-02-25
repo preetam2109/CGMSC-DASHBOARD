@@ -82,9 +82,7 @@
       <div class="table-responsive ">
         <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
           [dataSource]="dataSource" #exporter="matTableExporter" matSort>
-
-          <!-- Serial Number Column -->
-          <ng-container matColumnDef="sno">
+          <!-- <ng-container matColumnDef="sno">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</th>
             <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
           </ng-container>
@@ -131,17 +129,197 @@
               </span>
             </td>
           </ng-container>
-          <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
-          <!-- Header Row -->
 
           <tr mat-header-row
             *matHeaderRowDef="['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id','action']">
           </tr>
 
-          <!-- Data Rows -->
           <tr mat-row
             *matRowDef="let row; columns: ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id','action']">
+          </tr> -->
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+            <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+          </ng-container>
+          <ng-container matColumnDef="work_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+            <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
+          </ng-container>
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="head">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+            <td mat-cell *matCellDef="let element">{{ element.head}} </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="divName_En">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+            <td mat-cell *matCellDef="let element"> {{ element.divName_En}} </td>
+          </ng-container> -->
+        
+          <ng-container matColumnDef="district">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+            <td mat-cell *matCellDef="let element"> {{ element.district}} </td>
+          </ng-container>
+          <ng-container matColumnDef="blockname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+            <td mat-cell *matCellDef="let element"> {{ element.blockname}} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="work">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+            <td mat-cell *matCellDef="let element">{{ element.work}} </td>
+          </ng-container>
+          
+         
+         
+          <ng-container matColumnDef="wrokOrderDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.wrokOrderDT}} </td>
+          </ng-container>
+          <ng-container matColumnDef="timeAllowed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Time Allowed</th>
+            <td mat-cell *matCellDef="let element"> {{ element.timeAllowed}} </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="dueDTTimePerAdded">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Due DT Completion</th>
+            <td mat-cell *matCellDef="let element"> {{ element.dueDTTimePerAdded}} </td>
+          </ng-container> -->
+          <ng-container matColumnDef="lProgress">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Progress Level</th>
+            <td mat-cell *matCellDef="let element"> {{ element.lProgress}} </td>
+          </ng-container>
+          <ng-container matColumnDef="pdate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Progress DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.pdate}} </td>
+        </ng-container> 
+        
+       <ng-container matColumnDef="delayReason" style="width: 50%;">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Delay Reason</th>
+          <td mat-cell *matCellDef="let element"> {{ element.delayReason}} </td>
+      </ng-container> 
+      <ng-container matColumnDef="pRemarks">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+        <td mat-cell *matCellDef="let element"> {{ element.pRemarks}}/{{ element.remarks}}  </td>
+    </ng-container> 
+    <!-- <ng-container matColumnDef="expcompdt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Exp. Comp DT</th>
+      <td mat-cell *matCellDef="let element"> {{ element.expcompdt}} </td>
+  </ng-container> -->
+       <!-- <ng-container matColumnDef="Remarks">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+          <td mat-cell *matCellDef="let element"> {{ element.Remarks}} </td>
+      </ng-container>  -->
+     
+          <ng-container matColumnDef="subengname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sub Eng</th>
+            <td mat-cell *matCellDef="let element"> {{ element.subengname}} </td>
+          </ng-container>
+          <ng-container matColumnDef="aeName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Asst.Eng</th>
+            <td mat-cell *matCellDef="let element"> {{ element.aeName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="aaDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.aaDate}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="aaamt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount(in Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.aaamt}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tsDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tsDate}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="tsamt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Amount(in Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tsamt}} </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="tType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tender Type</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tType}} </td>
+          </ng-container> -->
+          <ng-container matColumnDef="tenderReference">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT Reference</th>
+            <td mat-cell *matCellDef="let element">{{ element.tenderReference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="dateOfIssueNIT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT/Sanction DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.dateOfIssueNIT}}/ {{ element.dateOfSanction}} </td>
+          </ng-container>
+          <ng-container matColumnDef="acceptanceLetterRefNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Acceptance Letter RefNo</th>
+            <td mat-cell *matCellDef="let element"> {{ element.acceptanceLetterRefNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="agreementRefNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order RefNo</th>
+            <td mat-cell *matCellDef="let element"> {{ element.agreementRefNo}}/ {{ element.workorderRefNoGovt}}</td>
+          </ng-container>
+          <ng-container matColumnDef="acceptLetterDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.acceptLetterDT}} </td>
+          </ng-container>
+          <ng-container matColumnDef="sanctionRate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate%</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sanctionRate}} </td>
+          </ng-container>
+          <ng-container matColumnDef="sanctionDetail">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sanction</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sanctionDetail}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalAmountOfContract">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="contractorNAme">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+            <td mat-cell *matCellDef="let element"> {{ element.contractorNAme}} </td>
+          </ng-container>
+          <ng-container matColumnDef="letterNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO</th>
+            <td mat-cell *matCellDef="let element">{{ element.letterNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="approver">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver</th>
+            <td mat-cell *matCellDef="let element">{{ element.approver}} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="cid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor ID/Class</th>
+            <td mat-cell *matCellDef="let element"> {{ element.cid}}/{{ element.regType}} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="mobNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor Mobile No</th>
+            <td mat-cell *matCellDef="let element"> {{ element.mobNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Download AS</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                  (click)="onButtonClick2(0,element.work_id)">
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container>
+          <tr mat-header-row
+          *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','cid','mobNo','action']">
+           </tr>
+          <tr mat-row
+            *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','cid','mobNo','action']">
           </tr>
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10,15, 30]" showFirstLastButtons></mat-paginator>

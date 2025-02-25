@@ -41,7 +41,7 @@ export type ChartOptions = {
 export class EngineerWorksComponent {
   engtype='Sube';
   // engtype=
-// divisionid='D1004';
+// divisionid:any ='D1004';
 divisionid:any;
 distid=0;
   @ViewChild('chart') chart: ChartComponent | undefined;
@@ -96,7 +96,7 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
 
   ngOnInit() {
     // Initialize dateRange with today and tomorrow
-    
+    // this.selectDivision({ 0, "name: string "});
     this.initializeChartOptions();
     this.GetAEENGEngAllotedWorks();
     this.getSBUENEngAllotedWorks();
@@ -299,6 +299,8 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
   }
 
 getSBUENEngAllotedWorks(): void {
+
+  // debugger;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine.chart.height = '600px';
@@ -306,13 +308,18 @@ getSBUENEngAllotedWorks(): void {
     this.divisionid = sessionStorage.getItem('divisionID');} 
     else {
       if(this.name!= undefined){
-        this.chartOptionsLine.chart.height = '2000';
+        this.chartOptionsLine.chart.height = '600';
+        this.divisionid=this.selectedDivision;
        }else{
-        this.chartOptionsLine.chart.height ='4000';
+         this.chartOptionsLine.chart.height ='600';
+         this.divisionid='D1004';
+         this.showw=true;
+        //  this.chartOptionsLine.chart.height ='4000';
+        // this.divisionid=0;
        }
-       this.divisionid=0;
-       this.showw=true;
       }
+      // this.name = this.name==undefined?'Raipur':this.name;
+      // alert( this.name)
      this.spinner.show();
   this.api.SbuEngAllotedWorks('Sbu eng',this.divisionid,this.distid).subscribe(
     (data: any) => {
@@ -365,25 +372,31 @@ getSBUENEngAllotedWorks(): void {
   );
 }
 GetAEENGEngAllotedWorks(): void {
+  // debugger;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine2.chart.height = '600px';
+    this.divisionid = sessionStorage.getItem('divisionID');
     this.showw=false;
-    this.divisionid = sessionStorage.getItem('divisionID');} else {  
+  } else {  
+    if(this.name!= undefined){
+      this.chartOptionsLine2.chart.height = '400px';
+      this.divisionid=this.selectedDivision;
+    }else{
+      this.chartOptionsLine2.chart.height ='600';
+      this.divisionid='D1004';
       this.showw=true;
-      this.divisionid=0;
-      if(this.name!= undefined){
-        this.chartOptionsLine2.chart.height = '600px';
-       }else{
-        this.chartOptionsLine2.chart.height ='1500';
-       } }
+      // this.chartOptionsLine2.chart.height ='1500';
+        // this.divisionid=0;
+       }
+       }
        
      
   this.spinner.show();
   this.api.AEEngAllotedWorks('AE',this.divisionid,this.distid).subscribe(
     (data: any) => {
                 this.AeengAllotedWorks = data;
-      console.log('AeengAllotedWorks',this.AeengAllotedWorks);
+      // console.log('AeengAllotedWorks',this.AeengAllotedWorks);
       const id: string[] = [];
       const empid: string[] = [];
       const engName: string[] = [];
@@ -435,9 +448,20 @@ GetAEENGEngAllotedWorks(): void {
   );
 }
 fetchDataBasedOnChartSbu(): void {
+  // debugger;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.showw=true;}
+    this.divisionid = sessionStorage.getItem('divisionID');
+  } else {
+    if(this.name!= undefined){
+      this.divisionid=this.selectedDivision;
+    }else{
+      this.divisionid='D1004';
+      // this.divisionid=0;
+    this.showw=true;
+       }
+   
+  }
   const  distid=0;
   this.spinner.show();
   this.api.SubeDistrictEngAllotedWorks('Sube', this.divisionid,distid).subscribe(
@@ -446,6 +470,7 @@ fetchDataBasedOnChartSbu(): void {
         ...item,
         sno: index + 1
       }));
+      console.log('sbuDistrictEngAllotedWorks',this.sbuDistrictEngAllotedWorks);
       this.dataSource1.data = this.sbuDistrictEngAllotedWorks
       this.dataSource1.paginator = this.paginatorPageSize;
       this.dataSource1.sort = this.sort2;
@@ -460,7 +485,16 @@ fetchDataBasedOnChartSbu(): void {
 fetchDataBasedOnChartAE(): void {
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');} else {this.divisionid=0;this.showw=true;}
+    this.divisionid = sessionStorage.getItem('divisionID');
+  } else {
+    if(this.name!= undefined){
+      this.divisionid=this.selectedDivision;
+    }else{
+      this.divisionid='D1004';
+      // this.divisionid=0;
+    this.showw=true;
+       }
+  }
   const  distid=0;
   this.spinner.show();
   // AE&divisionid=D1004&distid=0
@@ -715,9 +749,14 @@ subAEexportToPDF() {
 
   }
 selectDivision(division: { id: string, name: string }): void {
-  // this.chartOptionsLine.chart.height ='2000';
+  // debugger;
+  // console.log(division)
+  // this.chartOptionsLine.chart.height ='2000';'D1004'
+  // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  // this.selectedDivision = this.divisionid != 0 ?'D1004': division.id;
   this.selectedDivision = division.id;
   this.divisionid = division.id;
+  // alert(this.divisionid);Raipur 
   this.name = division.name;
   this.visibale=true;
   this.showw=true

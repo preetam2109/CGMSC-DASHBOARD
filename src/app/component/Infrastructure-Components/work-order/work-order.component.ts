@@ -860,14 +860,25 @@ fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
 }
 fetchDataBasedOnChartSelectionmainScheme(mainSchemeId: any, seriesName: string): void {
   // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-
-  const  distid=0;
+  var roleName  = localStorage.getItem('roleName');
+  if(roleName == 'Division'){
+  this.divisionid = sessionStorage.getItem('divisionID');
+  this.himisDistrictid=0; 
+  }  else if (roleName == 'Collector') {
+  this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+  this.divisionid=0;
+  }
+  else{
+    this.divisionid=0;
+    this.himisDistrictid=0; 
+  }
+  // const  distid=0;
   // const mainSchemeId=0;
-  const divisionID=0;
+  // const divisionID=0;
   const contractid=0;
   this.spinner.show();
  
-  this.api.GetWorkOrderPendingDetailsNew(divisionID,mainSchemeId,distid,contractid).subscribe(
+  this.api.GetWorkOrderPendingDetailsNew(this.divisionid,mainSchemeId,this.himisDistrictid,contractid).subscribe(
     (res) => {
       this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
         ...item,
@@ -919,14 +930,26 @@ fetchDataBasedOnChartSelectionmainDistrict(distid: any, seriesName: string): voi
 }
 fetchDataBasedOnChartSelectionmaincontract(contractid: any, seriesName: string): void {
   // console.log(`Selected ID: ${contractid}, Series: ${seriesName}`);
+  var roleName  = localStorage.getItem('roleName');
+  if(roleName == 'Division'){
+  this.divisionid = sessionStorage.getItem('divisionID');
+  this.himisDistrictid=0; 
+  }  else if (roleName == 'Collector') {
+  this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+  this.divisionid=0;
+  }
+  else{
+    this.divisionid=0;
+    this.himisDistrictid=0; 
+  }
   const  distid=0;
   const mainSchemeId=0;
-  const divisionID=0;
+  // const divisionID=0;
   // const contractid=0;
   this.spinner.show();
   // wOpendingContractor:WOpendingTotal[]=[];
  
-  this.api.GetWorkOrderPendingDetailsNew(divisionID,mainSchemeId,distid,contractid).subscribe(
+  this.api.GetWorkOrderPendingDetailsNew(this.divisionid,mainSchemeId,distid,contractid).subscribe(
     (res) => {
       this.dispatchPendings = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
         ...item,
