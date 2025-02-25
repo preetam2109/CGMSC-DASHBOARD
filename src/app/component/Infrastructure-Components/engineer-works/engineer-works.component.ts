@@ -300,7 +300,7 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
 
 getSBUENEngAllotedWorks(): void {
 
-  // debugger;
+  // ;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine.chart.height = '600px';
@@ -372,7 +372,7 @@ getSBUENEngAllotedWorks(): void {
   );
 }
 GetAEENGEngAllotedWorks(): void {
-  // debugger;
+  // ;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine2.chart.height = '600px';
@@ -448,7 +448,7 @@ GetAEENGEngAllotedWorks(): void {
   );
 }
 fetchDataBasedOnChartSbu(): void {
-  // debugger;
+  // ;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
@@ -749,7 +749,7 @@ subAEexportToPDF() {
 
   }
 selectDivision(division: { id: string, name: string }): void {
-  // debugger;
+  // ;
   // console.log(division)
   // this.chartOptionsLine.chart.height ='2000';'D1004'
   // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;

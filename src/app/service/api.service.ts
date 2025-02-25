@@ -106,7 +106,7 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingParticularArea, QCPendingPlace, QCResultPendingLabWise, StockoutPer } from '../Model/DashCards';
+import { DeliveryInMonthconst, HoldItemDetails, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCHold_NSQDash, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingMonthwiseRec, QCPendingMonthwiseRecDetails, QCPendingParticularArea, QCPendingPlace, QCResultPendingLabWise, QCTimeTakenYear, StockoutPer } from '../Model/DashCards';
 import { MasIndentitems } from '../Model/MasIndentitems';
 import { MasfacilityInfo } from '../Model/MasfacilityInfo';
 import { Masitems } from '../Model/Masitems';
@@ -1184,6 +1184,31 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
     return this.http.get<QCResultPendingLabWise[]>(`${this.CGMSCHO_API2}/QC/QCResultPendingLabWise?mcid=${mcid}`);
   }
+
+  QCHold_NSQDash(HoldNSQ:any) {
+
+    return this.http.get<QCHold_NSQDash[]>(`${this.CGMSCHO_API2}/QC/QCHold_NSQDash?mcid=1&HoldNSQ=${HoldNSQ}`);
+  }
+
+  QCTimeTakenYear(mcid:any,yearid:any,itemtypeid:any) {
+
+    return this.http.get<QCTimeTakenYear[]>(`${this.CGMSCHO_API2}/TimeTaken/QCTimeTakenYear?mcid=${mcid}&yearid=${yearid}&itemtypeid=${itemtypeid}`);
+  }
+
+
+  QCPendingMonthwiseRec(mcid:any) {
+    return this.http.get<QCPendingMonthwiseRec[]>(`${this.CGMSCHO_API2}/QC/QCPendingMonthwiseRec?mcid=${mcid}`);
+  }
+
+  QCPendingMonthwiseRecDetails(monthid:any,mcid:any,) {
+    return this.http.get<QCPendingMonthwiseRecDetails[]>(`${this.CGMSCHO_API2}/QC/QCPendingMonthwiseRecDetails?mcid=${mcid}&monthid=${monthid}`);
+  }
+  
+  HoldItemDetails(mcid:any) {
+    return this.http.get<HoldItemDetails[]>(`${this.CGMSCHO_API2}/QC/HoldItemDetails?mcid=${mcid}`);
+  }
+
+
 
  
 

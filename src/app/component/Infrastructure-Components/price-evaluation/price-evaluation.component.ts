@@ -1572,7 +1572,7 @@ ASFileData: ASFile[] = [];
     mainSchemeId: any,
     seriesName: string
   ): void {
-    // debugger;
+    // ;
     // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
@@ -2117,7 +2117,7 @@ ASFileData: ASFile[] = [];
   // #endregion
    //#region dataTable  in UNPaidSummary
    fetchDataBasedOnChartSelectionTotalUNP(divisionID: any,seriesName: string): void {
-    // debugger;
+    // ;
     console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     // var roleName = localStorage.getItem('roleName');
     // if (roleName == 'Division') {

@@ -642,7 +642,7 @@ export class ToBeTenderComponent {
     // this.openDialog();
   }
   GETTobeTenderRejection(ppid: any, seriesName: string): void {
-    debugger;
+    ;
     console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
     const roleName = localStorage.getItem('roleName');
     if (roleName === 'Division') {
