@@ -91,32 +91,33 @@
     </div>
   </div>
 </div>  -->
+<!-- <div class="container-fluid pt-2 pl-4 pr-4">
 
-
-<div class="row mb-3">
-  <div class="col-md-6 d-flex flex-wrap">
-    <div class="form-check me-3">
-      <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
-        value="Drugs" (change)="updateSelectedHodid()"  />
-      <label class="form-check-label" for="drugs">Drugs</label>
-    </div>
-    <div class="form-check me-3">
-      <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" [(ngModel)]="selectedCategoryRadio"
-        value="Consumables" (change)="updateSelectedHodid()" />
-      <label class="form-check-label" for="consumables">Consumables</label>
-    </div>
-    <div class="form-check me-3">
-      <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategoryRadio"
-        value="AYUSH" (change)="updateSelectedHodid()" />
-      <label class="form-check-label" for="ayush">AYUSH</label>
-    </div>
-    <div class="form-check me-3">
-      <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" [(ngModel)]="selectedCategoryRadio"
-        value="Reagent" (change)="updateSelectedHodid()" />
-      <label class="form-check-label" for="reagent">Reagent</label>
-    </div>
-  </div>
-</div>
+      <div class="row border rounded shadow w-100 mb-2 bg-white">
+        <div class=" col-sm-12 col-sm-6 d-flex justify-content-center m-2">
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="drugs"
+              [(ngModel)]="selectedCategoryRadio" value="Drugs" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="drugs">Drugs</label>
+          </div>
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="consumables"
+              [(ngModel)]="selectedCategoryRadio" value="Consumables" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="consumables">Consumables</label>
+          </div>
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="ayush"
+              [(ngModel)]="selectedCategoryRadio" value="AYUSH" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="ayush">AYUSH</label>
+          </div>
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="reagent"
+              [(ngModel)]="selectedCategoryRadio" value="Reagent" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="reagent">Reagent</label>
+          </div>
+        </div>
+      </div>
+</div> -->
 
 <div class="container my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName) && selectedCategory!='Infrastructure'">
     <div class="row">

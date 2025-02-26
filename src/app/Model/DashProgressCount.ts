@@ -57,6 +57,7 @@ export class WorkDetails {
   work_id!: string;
   head!: string;
   subengname!: string;
+  grantNo!:any;
   desig!: string;
   grantname!: string;
   letterNo!: string;
