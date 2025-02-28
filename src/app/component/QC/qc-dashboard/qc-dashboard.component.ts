@@ -160,22 +160,22 @@ throw new Error('Method not implemented.');
   dataSource6 = new MatTableDataSource<any>();
   dataSource7 = new MatTableDataSource<any>();
   dataSource8 = new MatTableDataSource<any>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-    @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator2!: MatPaginator;
-    @ViewChild(MatSort) sort2!: MatSort;
-    @ViewChild(MatPaginator) paginator3!: MatPaginator;
-    @ViewChild(MatSort) sort3!: MatSort;
-    @ViewChild(MatPaginator) paginator4!: MatPaginator;
-    @ViewChild(MatSort) sort4!: MatSort;
-    @ViewChild(MatPaginator) paginator5!: MatPaginator;
-    @ViewChild(MatSort) sort5!: MatSort;
-    @ViewChild(MatPaginator) paginator6!: MatPaginator;
-    @ViewChild(MatSort) sort6!: MatSort;
-    @ViewChild(MatPaginator) paginator7!: MatPaginator;
-    @ViewChild(MatSort) sort7!: MatSort;
-    @ViewChild(MatPaginator) paginator8!: MatPaginator;
-    @ViewChild(MatSort) sort8!: MatSort;
+  @ViewChild('paginator') paginator!: MatPaginator;
+    @ViewChild('sort') sort!: MatSort;
+  @ViewChild('paginator2') paginator2!: MatPaginator;
+    @ViewChild('sort2') sort2!: MatSort;
+    @ViewChild('paginator3') paginator3!: MatPaginator;
+    @ViewChild('sort3') sort3!: MatSort;
+    @ViewChild('paginator4') paginator4!: MatPaginator;
+    @ViewChild('sort4') sort4!: MatSort;
+    @ViewChild('paginator5') paginator5!: MatPaginator;
+    @ViewChild('sort5') sort5!: MatSort;
+    @ViewChild('paginator6') paginator6!: MatPaginator;
+    @ViewChild('sort6') sort6!: MatSort;
+    @ViewChild('paginator7') paginator7!: MatPaginator;
+    @ViewChild('sort7') sort7!: MatSort;
+    @ViewChild('paginator8') paginator8!: MatPaginator;
+    @ViewChild('sort8') sort8!: MatSort;
 
     selectedCategory:any='';
     selectedCategoryRadio:any='Drugs';
@@ -2192,6 +2192,7 @@ loadUQC(): void {
 
           }
         });  
+        this.openDialogUQC();
 
       }
       getHoldItemDetails(){
@@ -2216,6 +2217,7 @@ loadUQC(): void {
 
           }
         });  
+        this.openDialogHOD();
 
       }
       
@@ -2370,12 +2372,12 @@ loadUQC(): void {
           this.monthid=month
           this.QCPendingMonthwiseRecDetails()
 
-this.openDialogUQC();
+// this.openDialogUQC();
         }
         fetchHOD(){
           this.getHoldItemDetails()
 
-this.openDialogHOD();
+// this.openDialogHOD();
         }
 
         

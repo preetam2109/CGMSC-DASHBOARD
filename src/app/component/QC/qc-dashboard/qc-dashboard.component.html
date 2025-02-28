@@ -1529,7 +1529,7 @@
                         </div>
                   
                         <div class="table-responsive">
-                          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource7" #exporter="matTableExporter" matSort>
+                          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource7" #exporter="matTableExporter" matSort #sort7="matSort">
                   
                                   
                             <ng-container matColumnDef="sno">
@@ -1585,7 +1585,7 @@
                   
                           </table>
                         </div>      
-                        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                        <mat-paginator #paginator7 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
                       </div>
                 </div>
             </div>
@@ -1654,7 +1654,7 @@
                         </div>
                   
                         <div class="table-responsive">
-                          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource8" #exporter="matTableExporter" matSort>
+                          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource8" #exporter="matTableExporter" matSort #Sort8="matSort">
                         
                             <ng-container matColumnDef="sno">
                               <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
@@ -1761,7 +1761,7 @@
                           </table>
                         </div>
                          
-                        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                        <mat-paginator #paginator8 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
                       </div>
                 </div>
             </div>
