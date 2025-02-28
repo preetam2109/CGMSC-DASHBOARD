@@ -323,7 +323,7 @@ fetchDataBasedOnChartSelection(divisionID: number, seriesName: string): void {
 
           this.spinner.hide();
           this.GetImageBinary();
-          console.log('Fetched markers:', this.progressdetailsLatLong);
+          // console.log('Fetched markers:', this.progressdetailsLatLong);
         },
     (error) => {
       console.error('Error fetching drop info:', error);
@@ -348,7 +348,7 @@ GetprogressdetailsLatLong() {
               lng: parseFloat(item.longitude),
             },
           }));
-          console.log('res=', JSON.stringify( this.progressdetailsLatLong));
+          // console.log('res=', JSON.stringify( this.progressdetailsLatLong));
         },
         (error) => {
           console.error('Error fetching drop info:', error);
@@ -405,7 +405,6 @@ selectedTabValue(event: any): void {
 }
 
 onselect_mainscheme_data(event: Event): void {
-  // 
 const selectedUser = this.mainscheme.find((user: { mainSchemeID: any }) => user.mainSchemeID === this.mainSchemeID); 
 
 if (selectedUser) {

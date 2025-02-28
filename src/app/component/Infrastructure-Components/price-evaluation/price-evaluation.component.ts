@@ -963,7 +963,7 @@ ASFileData: ASFile[] = [];
       .subscribe(
         (data: any) => {
           this.PaidSummaryTotal = data;
-          console.log('API Response total:', this.PaidSummaryTotal);
+          // console.log('API Response total:', this.PaidSummaryTotal);
           //  console.log('API Response data:', data);
 
           // const id: string[] = [];
@@ -1090,7 +1090,7 @@ ASFileData: ASFile[] = [];
       ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
       : '';
     this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
+    // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
 
     // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api
@@ -1105,7 +1105,7 @@ ASFileData: ASFile[] = [];
       .subscribe(
         (data: any) => {
           this.PaidSummaryDivision = data;
-          console.log('API Response total:', this.PaidSummaryDivision);
+          // console.log('API Response total:', this.PaidSummaryDivision);
           // console.log('API Response data:', data);
 
           const id: string[] = [];
@@ -1238,7 +1238,7 @@ ASFileData: ASFile[] = [];
       .subscribe(
         (data: any) => {
           this.PaidSummaryScheme = data;
-          console.log('API Response PaidSummaryScheme:', this.PaidSummaryScheme);
+          // console.log('API Response PaidSummaryScheme:', this.PaidSummaryScheme);
           // console.log('API Response data:', data);
 
           // const id: string[] = [];
@@ -1378,7 +1378,7 @@ ASFileData: ASFile[] = [];
       .subscribe(
         (data: any) => {
           this.PaidSummaryDistrict = data;
-          console.log('API Response total:', this.PaidSummaryDistrict);
+          // console.log('API Response total:', this.PaidSummaryDistrict);
           // console.log('API Response data:', data);
 
           const id: string[] = [];
@@ -1480,7 +1480,7 @@ ASFileData: ASFile[] = [];
     divisionID: any,
     seriesName: string
   ): void {
-    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -1510,7 +1510,7 @@ ASFileData: ASFile[] = [];
               sno: index + 1,
             })
           );
-          console.log('PaidDetails total:', res);
+          // console.log('PaidDetails total:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource.data = this.dispatchData;
           this.dataSource.paginator = this.paginator;
@@ -1528,7 +1528,7 @@ ASFileData: ASFile[] = [];
     divisionID: any,
     seriesName: string
   ): void {
-    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
     const contractid = 0;
@@ -1554,8 +1554,8 @@ ASFileData: ASFile[] = [];
               sno: index + 1,
             })
           );
-          console.log('PaidDetails:', res);
-          console.log('PaidDetails2=:',  this.dispatchData);
+          // console.log('PaidDetails:', res);
+          // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource.data = this.dispatchData;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1602,7 +1602,7 @@ ASFileData: ASFile[] = [];
             })
           );
           // console.log('PaidDetails:', res);
-          console.log('PaidDetails2=:',  this.dispatchData);
+          // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource.data = this.dispatchData;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1655,7 +1655,7 @@ ASFileData: ASFile[] = [];
       .subscribe(
         (data: any) => {
           this.UnPaidSummaryTotal = data;
-          console.log('API Response total:', this.UnPaidSummaryTotal);
+          // console.log('API Response total:', this.UnPaidSummaryTotal);
           //  console.log('API Response data:', data);
 
           const id: string[] = [];
@@ -2026,7 +2026,7 @@ ASFileData: ASFile[] = [];
       .subscribe(
         (data: any) => {
           this.UnPaidSummaryDesignation = data;
-          console.log('UnPaidSummaryDesignation:', this.UnPaidSummaryDesignation);
+          // console.log('UnPaidSummaryDesignation:', this.UnPaidSummaryDesignation);
           // console.log('API Response data:', data);
 
           const id: string[] = [];
@@ -2118,7 +2118,7 @@ ASFileData: ASFile[] = [];
    //#region dataTable  in UNPaidSummary
    fetchDataBasedOnChartSelectionTotalUNP(divisionID: any,seriesName: string): void {
     // ;
-    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     // var roleName = localStorage.getItem('roleName');
     // if (roleName == 'Division') {
     //   this.divisionid = sessionStorage.getItem('divisionID');
@@ -2144,7 +2144,7 @@ ASFileData: ASFile[] = [];
               sno: index + 1,
             })
           );
-          console.log('PaidDetailsTotal:', res);
+          // console.log('PaidDetailsTotal:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource1.data = this.dispatchData1;
           this.dataSource1.paginator = this.paginatorPageSize;
@@ -2159,7 +2159,7 @@ ASFileData: ASFile[] = [];
     this.openDialog1();
   }
    fetchDataBasedOnChartSelectiondivisionUNP(divisionID: any,seriesName: string): void {
-    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
     const contractid = 0;
@@ -2179,7 +2179,7 @@ ASFileData: ASFile[] = [];
               sno: index + 1,
             })
           );
-          console.log('UNDetails:', res);
+          // console.log('UNDetails:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource1.data = this.dispatchData1;
           this.dataSource1.paginator = this.paginatorPageSize;
@@ -2210,7 +2210,7 @@ ASFileData: ASFile[] = [];
     const OfficerID=0;
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    console.log('this.divisionid=',this.divisionid,'mainSchemeId=',mainSchemeId,'this.himisDistrictid=',this.himisDistrictid)
+    // console.log('this.divisionid=',this.divisionid,'mainSchemeId=',mainSchemeId,'this.himisDistrictid=',this.himisDistrictid)
     this.api.GETUnPaidDetails(this.divisionid,mainSchemeId,this.himisDistrictid,designame,OfficerID).subscribe(
         (res) => {
           this.dispatchData1 = res.map(
@@ -2219,7 +2219,7 @@ ASFileData: ASFile[] = [];
               sno: index + 1,
             })
           );
-          console.log('UNDetails:', res);
+          // console.log('UNDetails:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource1.data = this.dispatchData1;
           this.dataSource1.paginator = this.paginatorPageSize;
@@ -2234,7 +2234,7 @@ ASFileData: ASFile[] = [];
     this.openDialog1();
   }
    fetchDataBasedOnChartSelectionmainDesignationUNP(designame: any,seriesName: string): void {
-    console.log(`Selected ID: ${designame}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${designame}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -2258,7 +2258,7 @@ ASFileData: ASFile[] = [];
               sno: index + 1,
             })
           );
-          console.log('UNDetails:', res);
+          // console.log('UNDetails:', res);
           // console.log('PaidDetails2=:',  this.dispatchData);
           this.dataSource1.data = this.dispatchData1;
           this.dataSource1.paginator = this.paginatorPageSize;

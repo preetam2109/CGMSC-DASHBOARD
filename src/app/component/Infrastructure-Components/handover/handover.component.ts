@@ -535,7 +535,7 @@ export class HandoverComponent {
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions.chart.height ='600';
+      this.chartOptions.chart.height ='400';
     }
     var RPType = 'Total'
     // RPType=Total/Scheme/District/WorkType
@@ -615,7 +615,7 @@ export class HandoverComponent {
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions2.chart.height ='1500';
+      this.chartOptions2.chart.height ='900';
     }
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
 
@@ -624,7 +624,7 @@ export class HandoverComponent {
       this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
         (data: any) => {
           this.HandoverAbstractSchemeData = data;
-          console.log('HandoverAbstractSchemeData', this.HandoverAbstractSchemeData);
+          // console.log('HandoverAbstractSchemeData', this.HandoverAbstractSchemeData);
           const id: string[] = [];
           const name: string[] = [];
           const totalWorks: any[] = [];
@@ -696,7 +696,7 @@ export class HandoverComponent {
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions3.chart.height = '2000';
+      this.chartOptions3.chart.height = '1500';
     }
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     var RPType = 'District'
@@ -778,7 +778,7 @@ export class HandoverComponent {
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions4.chart.height = '4000';
+      this.chartOptions4.chart.height = '2000';
     }
 
    
@@ -904,7 +904,7 @@ export class HandoverComponent {
   }
   fetchDataBasedOnChartSelectionDistrict(distid: any, seriesName: string): void {
     
-    console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');

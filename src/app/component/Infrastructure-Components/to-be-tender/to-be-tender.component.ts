@@ -478,7 +478,7 @@ export class ToBeTenderComponent {
       .subscribe(
         (data: any) => {
           this.TobetenderProgress = data;
-          console.log('TobetenderProgress:', this.TobetenderProgress);
+          // console.log('TobetenderProgress:', this.TobetenderProgress);
           const id: string[] = [];
           const name: string[] = [];
           const nosWorks: number[] = [];
@@ -542,7 +542,7 @@ export class ToBeTenderComponent {
               sno: index + 1,
             })
           );
-          console.log('res:', res);
+          // console.log('res:', res);
           // console.log('dataSource:', this.dataSource);
           // console.log('dispatchData=:', this.dispatchData);
           this.dataSource.data = this.dispatchData;
@@ -643,7 +643,7 @@ export class ToBeTenderComponent {
   }
   GETTobeTenderRejection(ppid: any, seriesName: string): void {
     ;
-    console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
     const roleName = localStorage.getItem('roleName');
     if (roleName === 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -668,7 +668,7 @@ export class ToBeTenderComponent {
               sno: index + 1,
             })
           );
-          console.log('GETTobeTenderRejection23:', res);
+          // console.log('GETTobeTenderRejection23:', res);
           // console.log('dispatchDatareject =:', this.dispatchData1);
           this.dataSource1.data = this.dispatchData1;
           this.dataSource1.paginator = this.paginatorPageSize;
@@ -683,7 +683,7 @@ export class ToBeTenderComponent {
     // this.openDialog();
   }
   GETTobeTenderAppliedZonalPermission(ppid: any, seriesName: string): void {
-    console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${ppid}, Series: ${seriesName}`);
     const roleName = localStorage.getItem('roleName');
     if (roleName === 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -708,10 +708,10 @@ export class ToBeTenderComponent {
             })
           );
           // console.log('res:', res);
-          console.log(
-            'GETTobeTenderAppliedZonalPermission25 =:',
-            this.dispatchDataZonal
-          );
+          // console.log(
+          //   'GETTobeTenderAppliedZonalPermission25 =:',
+          //   this.dispatchDataZonal
+          // );
           this.dataSourceZonal.data = this.dispatchDataZonal;
           this.dataSourceZonal.paginator = this.paginator1;
           this.dataSourceZonal.sort = this.sort2;
@@ -1056,7 +1056,7 @@ export class ToBeTenderComponent {
         // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
 
         // console.log('res:', res);
-        console.log('ASFileData:', this.ASFileData);
+        // console.log('ASFileData:', this.ASFileData);
         this.spinner.hide();
       },
       (error) => {

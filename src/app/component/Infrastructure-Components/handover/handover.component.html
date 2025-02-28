@@ -60,7 +60,8 @@
       <div class="row">
         <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractTotalData.length > 0">
           <div class="chart-container">
-            <span class="bold mt-1">{{fromdt}} To {{todt}}</span>
+            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span>
+            <!-- <span class="bold mt-1">{{fromdt}} To {{todt}}</span> -->
             <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
               [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
               [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke" [fill]="chartOptions.fill"
@@ -70,7 +71,7 @@
         </div>
         <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractSchemeData.length > 0">
           <div class="chart-container">
-            <span class="bold mt-1">{{fromdt}} To {{todt}}</span>
+            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span>
             <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
               [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
               [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke" [fill]="chartOptions2.fill"
@@ -108,7 +109,7 @@
       <div class="row">
         <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractDistrictData.length > 0">
           <div class="chart-container">
-            <span class="bold mt-1">{{fromdt}} To {{todt}}</span>
+            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span>
             <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart"
               [dataLabels]="chartOptions3.dataLabels" [plotOptions]="chartOptions3.plotOptions"
               [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke" [fill]="chartOptions3.fill"
@@ -118,7 +119,7 @@
         </div>
         <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractWorkTypeData.length > 0">
           <div class="chart-container">
-            <span class="bold mt-1">{{fromdt}} To {{todt}}</span>
+            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span>
             <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart"
               [dataLabels]="chartOptions4.dataLabels" [plotOptions]="chartOptions4.plotOptions"
               [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke" [fill]="chartOptions4.fill"

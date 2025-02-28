@@ -525,7 +525,7 @@ export class LandIssueComponent {
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions.chart.height = 'auto';
+      this.chartOptions.chart.height = '400';
     }
 
     this.spinner.show();
@@ -594,19 +594,19 @@ export class LandIssueComponent {
       this.districtid = 0;
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
-     this.chartOptions.chart.height = '400px';
+     this.chartOptions2.chart.height = '400px';
       this.divisionid=0;
     }
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions.chart.height = 'auto';
+      this.chartOptions2.chart.height = '800';
     }
     this.api.GetLIPendingTotal(this.Scheme, this.divisionid,this.districtid).subscribe(
       (data: any) => {
         if (Array.isArray(data) && data.length > 0) {
           this.LIPendingSchemeData = data;
-          console.log('LIPendingSchemeData', this.LIPendingSchemeData);
+          // console.log('LIPendingSchemeData', this.LIPendingSchemeData);
           const name: string[] = [];
           const totalWorks: any[] = [];
           const valuecr: number[] = [];
@@ -667,23 +667,23 @@ export class LandIssueComponent {
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartOptions2.chart.height = '500px';
+      this.chartOptionsLine.chart.height = '500px';
       this.districtid = 0;
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
-     this.chartOptions.chart.height = '200px';
+     this.chartOptionsLine.chart.height = '200px';
       this.divisionid=0;
     }
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptions.chart.height = 'auto';
+      this.chartOptionsLine.chart.height = '800';
     }
     this.api.GetLIPendingTotal(this.District, this.divisionid,this.districtid).subscribe(
       (data: any) => {
         if (Array.isArray(data) && data.length > 0) {
           this.LIPendingDistrictData = data;
-          console.log('LIPendingDistrictData', this.LIPendingDistrictData);
+          // console.log('LIPendingDistrictData', this.LIPendingDistrictData);
           const name: string[] = [];
           const totalWorks: any[] = [];
           const valuecr: number[] = [];
@@ -755,9 +755,9 @@ export class LandIssueComponent {
         this.dataSource.data = this.dispatchPendings;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        console.log(' this.dataSource.data =', this.dataSource.data );
-        console.log('this.dataSource1.paginator ', this.paginator );
-        console.log(' this.dataSource.sort', this.sort );
+        // console.log(' this.dataSource.data =', this.dataSource.data );
+        // console.log('this.dataSource1.paginator ', this.paginator );
+        // console.log(' this.dataSource.sort', this.sort );
 
         this.cdr.detectChanges();
         this.spinner.hide();

@@ -165,7 +165,7 @@ export class AdministrativeSanctionComponent {
 
 
   getASEnteredDetails(ASID:any,divisionId:any,mainSchemeId:any): void {
-    console.log(ASID, divisionId , mainSchemeId )
+    // console.log(ASID, divisionId , mainSchemeId )
   this.spinner.show();
   this.api.GETASEnteredDetails(ASID,divisionId,mainSchemeId)
     .subscribe(
@@ -204,8 +204,8 @@ export class AdministrativeSanctionComponent {
           })
         );
         // console.log('res:', res);
-        console.log('dataSource2:', this.dataSource2);
-        console.log('dispatchData2 =:', this.dispatchData2);
+        // console.log('dataSource2:', this.dataSource2);
+        // console.log('dispatchData2 =:', this.dispatchData2);
         this.dataSource2.data = this.dispatchData2;
         this.dataSource2.paginator = this.paginator3;
         this.dataSource2.sort = this.sort3;
@@ -230,7 +230,7 @@ export class AdministrativeSanctionComponent {
           })
         );
         // console.log('res:', res);
-        console.log('dataSource:', this.dataSource);
+        // console.log('dataSource:', this.dataSource);
         // console.log('dispatchData=:', this.dispatchData);
         this.dataSource.data = this.dispatchData;
         this.dataSource.paginator = this.paginatorval;
