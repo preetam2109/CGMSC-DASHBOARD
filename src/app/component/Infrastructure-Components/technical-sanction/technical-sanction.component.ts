@@ -441,7 +441,7 @@ export class TechnicalSanctionComponent {
                 below2crWork.push(item.below2crWork ?? 0);
               }
             });
-            console.log('res data Total=', data);
+            // console.log('res data Total=', data);
             if (name.length > 0) {
               this.chartOptions.series = [
                 {
@@ -487,7 +487,7 @@ export class TechnicalSanctionComponent {
     } else {
       this.districtid = 0;
       this.divisionid = 0;
-      this.chartOptions2.chart.height = 'auto';
+      this.chartOptions2.chart.height = '800';
     }
 
     this.spinner.show();
@@ -517,7 +517,7 @@ export class TechnicalSanctionComponent {
                 below2crWork.push(item.below2crWork ?? 0);
               }
             });
-            console.log('res data=', data);
+            // console.log('res data=', data);
             if (name.length > 0) {
               this.chartOptions2.series = [
                 {
@@ -572,14 +572,14 @@ export class TechnicalSanctionComponent {
     // Contractor = 'Contractor';
     // District = 'District'
     var RPType = 'District';
-    console.log(
-      'division =',
-      this.divisionid,
-      'this.districtid =',
-      this.districtid,
-      'mainschemeid',
-      this.mainschemeid
-    );
+    // console.log(
+    //   'division =',
+    //   this.divisionid,
+    //   'this.districtid =',
+    //   this.districtid,
+    //   'mainschemeid',
+    //   this.mainschemeid
+    // );
     this.api
       .GetTSDetail(RPType, this.divisionid, this.districtid, this.mainschemeid)
       .subscribe(
@@ -601,7 +601,7 @@ export class TechnicalSanctionComponent {
                 below2crWork.push(item.below2crWork ?? 0);
               }
             });
-            console.log('res data rptDistrict=', data);
+            // console.log('res data rptDistrict=', data);
             if (name.length > 0) {
               this.chartOptions3.series = [
                 {
@@ -668,7 +668,7 @@ export class TechnicalSanctionComponent {
   // data filter
 
   fetchDataBasedOnChartSelection(id: string, selectedSeries: string) {
-    console.log(`Selected ID: ${id}, Series: ${selectedSeries}`);
+    // console.log(`Selected ID: ${id}, Series: ${selectedSeries}`);
     const distid = 0;
     const mainSchemeId = 0;
     this.spinner.show();
@@ -700,7 +700,7 @@ export class TechnicalSanctionComponent {
     this.openDialog();
   }
   fetchDataBasedOnChartSelection2( mainSchemeId: string, selectedSeries: string) {
-    console.log(`Selected ID: ${mainSchemeId}, Series: ${selectedSeries}`);
+    // console.log(`Selected ID: ${mainSchemeId}, Series: ${selectedSeries}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -724,7 +724,7 @@ export class TechnicalSanctionComponent {
 
         this.dataSource.data = this.TSDetailallData;
         this.cdr.detectChanges(); // Trigger change detection
-        console.log('TSDetailallData;=', this.TSDetailallData);
+        // console.log('TSDetailallData;=', this.TSDetailallData);
 
         // Re-assign paginator and sort after data update
         if (this.paginator && this.sort) {
@@ -744,7 +744,7 @@ export class TechnicalSanctionComponent {
     this.openDialog();
   }
   fetchDataBasedOnChartSelection3(distid: string, selectedSeries: string) {
-    console.log(`Selected ID: ${distid}, Series: ${selectedSeries}`);
+    // console.log(`Selected ID: ${distid}, Series: ${selectedSeries}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -768,7 +768,7 @@ export class TechnicalSanctionComponent {
 
         this.dataSource.data = this.TSDetailallData;
         this.cdr.detectChanges(); // Trigger change detection
-        console.log('TSDetailallData;=', this.TSDetailallData);
+        // console.log('TSDetailallData;=', this.TSDetailallData);
 
         // Re-assign paginator and sort after data update
         if (this.paginator && this.sort) {
@@ -883,7 +883,7 @@ export class TechnicalSanctionComponent {
         // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
 
         // console.log('res:', res);
-        console.log('ASFileData:', this.ASFileData);
+        // console.log('ASFileData:', this.ASFileData);
         this.spinner.hide();
       },
       (error) => {

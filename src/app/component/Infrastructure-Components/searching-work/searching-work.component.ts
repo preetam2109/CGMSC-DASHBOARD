@@ -294,7 +294,6 @@ export class SearchingWorkComponent {
 
   getworkfill(): void {
     try {
-      
       var roleName = localStorage.getItem('roleName');
       // alert( roleName )
       if (roleName == 'Division') {
@@ -316,13 +315,13 @@ export class SearchingWorkComponent {
         .subscribe(
           (res) => {
             // alert('res');
-            console.log('res', JSON.stringify(res));
+            // console.log('res', JSON.stringify(res));
             this.workfill = res; // Bind the API response to workfill
 
             this.spinner.hide();
           },
           (error) => {
-            console.error('Error fetching data:', error);
+            alert(`Error fetching data: ${JSON.stringify(error)}`);
           }
         );
     } catch (ex: any) {
@@ -369,7 +368,7 @@ export class SearchingWorkComponent {
           this.GetWorkBillStatus(this.workID);
         },
         (error) => {
-          console.error('Error fetching data:', error);
+          alert(`Error fetching data: ${JSON.stringify(error)}`);
         }
       );
     } catch (ex: any) {
@@ -476,25 +475,30 @@ export class SearchingWorkComponent {
   }
 
   GetImageBinary() {
+    // debugger;
     try {
       // ;
       // const sr = 90691;
       // const img = 'CGMSC WORK.jpg';
-      this.api.GetImageBinary(this.sr, this.ImageName).subscribe(
-        (res) => {
-          this.base64Data = res;
-          console.log('Image data: ', this.base64Data);
-          // console.log('parse res:',JSON.parse(res));
-          // Handle the response (e.g., displaying the image)
-          // this.spinner.hide();
-        },
-        (error) => {
-          console.error('Error fetching data:', error);
-        }
-      );
+      // console.log('this.ImageName: ', this.ImageName);
+      // this.api.GetImageBinary(90691, 'CGMSC WORK.jpg').subscribe(
+      if(this.ImageName != "NA"){
+        this.api.GetImageBinary(this.sr, this.ImageName).subscribe(
+          (res) => {
+            // console.log('Image data11: ', res);
+              this.base64Data = res;
+          },
+          (error) => {
+            alert(`Failed to load image. Please try again later. Error: ${JSON.stringify(error)}`);
+          }
+        );
+      }else{
+        alert("No image available. Please upload an image to proceed.");
+      }
+    
     } catch (ex: any) {
-      console.error('Exception:', ex.message);
-      alert(`Error fetching data: ${ ex.message}`);
+      // console.error('Exception:', ex.message);
+      alert(`Error fetching data: ${ JSON.stringify(ex.message)}`);
     }
   }
 
@@ -537,10 +541,10 @@ export class SearchingWorkComponent {
         this.api.GetProjectTimelineNew(workID).subscribe(
     // this.api.GetProjectTimelineNew("W4100398").subscribe(
       (res) => {
-        console.log("API Response:", res);
+        // console.log("API Response:", res);
 
         if (!res || !Array.isArray(res) || res.length === 0) {
-          console.error("API returned no valid data.");
+          // console.error("API returned no valid data.");
           alert("No data available for the selected workID.");
           return;
         }
@@ -590,7 +594,7 @@ export class SearchingWorkComponent {
         this.spinner.hide();
       },
       (error) => {
-        console.error("API Error:", error);
+        // console.error("API Error:", error);
         alert(`Error fetching data: ${error.message || error}`);
       }
     );
@@ -686,7 +690,7 @@ export class SearchingWorkComponent {
           // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
   
             // console.log('res:', res);
-            console.log('ASFileData:',this.ASFileData);
+            // console.log('ASFileData:',this.ASFileData);
             this.spinner.hide();
           },
           (error) => {

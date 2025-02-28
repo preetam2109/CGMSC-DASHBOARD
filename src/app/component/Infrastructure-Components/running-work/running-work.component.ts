@@ -1261,7 +1261,7 @@ const contractid=0;
      .subscribe(
        (data: any) => {
          this.RunningWorkDataGTotal = data;
-         console.log('API Response total:', this.RunningWorkDataGTotal);
+        //  console.log('API Response total:', this.RunningWorkDataGTotal);
          const id: string[] = [];
          const name: string[] = [];
          const totalWorks: any[] = [];
@@ -1345,7 +1345,7 @@ const contractid=0;
      .subscribe(
        (data: any) => {
          this.RunningWorkDataDivision = data;
-         console.log('API Response total:', this.RunningWorkDataDivision);
+        //  console.log('API Response total:', this.RunningWorkDataDivision);
          const id: string[] = [];
          const name: string[] = [];
          const totalWorks: any[] = [];
@@ -1425,7 +1425,7 @@ const contractid=0;
      .subscribe(
        (data: any) => {
          this.RunningWorkDataScheme = data;
-         console.log('API Response total:', this.RunningWorkDataScheme);
+        //  console.log('API Response total:', this.RunningWorkDataScheme);
          const id: string[] = [];
          const name: string[] = [];
          const totalWorks: any[] = [];
@@ -1508,7 +1508,7 @@ const contractid=0;
   .subscribe(
     (data: any) => {
       this.RunningWorkDataDistrict = data;
-      console.log('API Response total:', this.RunningWorkDataDistrict);
+      // console.log('API Response total:', this.RunningWorkDataDistrict);
       const id: string[] = [];
       const name: string[] = [];
       const totalWorks: any[] = [];
@@ -1590,7 +1590,7 @@ const contractid=0;
   .subscribe(
     (data: any) => {
       this.RunningWorkDataContractor = data;
-      console.log('API Response total:', this.RunningWorkDataContractor);
+      // console.log('API Response total:', this.RunningWorkDataContractor);
       const id: string[] = [];
       const name: string[] = [];
       const totalWorks: any[] = [];
@@ -1676,7 +1676,7 @@ const contractid=0;
      .subscribe(
        (data: any) => {
          this.RunningWorkDelayDataGTotal = data;
-         console.log('API Response total:', this.RunningWorkDelayDataGTotal);
+        //  console.log('API Response total:', this.RunningWorkDelayDataGTotal);
        
         
          const id: string[] = [];
@@ -1772,7 +1772,7 @@ const contractid=0;
      .subscribe(
        (data: any) => {
          this.RunningWorkDelayDataDivision = data;
-         console.log('API Response total:', this.RunningWorkDelayDataDivision);
+        //  console.log('API Response total:', this.RunningWorkDelayDataDivision);
         
          const id: string[] = [];
          const name: string[] = [];
@@ -1866,7 +1866,7 @@ const contractid=0;
      .subscribe(
        (data: any) => {
          this.RunningWorkDelayDataScheme = data;
-         console.log('API Response total:', this.RunningWorkDelayDataScheme);
+        //  console.log('API Response total:', this.RunningWorkDelayDataScheme);
         
          const id: string[] = [];
          const name: string[] = [];
@@ -1963,7 +1963,7 @@ const contractid=0;
   .subscribe(
     (data: any) => {
       this.RunningWorkDelayDataDistrict = data;
-      console.log('API Response total:', this.RunningWorkDelayDataDistrict);
+      // console.log('API Response total:', this.RunningWorkDelayDataDistrict);
       
       const id: string[] = [];
       const name: string[] = [];
@@ -2058,7 +2058,7 @@ const contractid=0;
   .subscribe(
     (data: any) => {
       this.RunningWorkDelayDataContractor = data;
-      console.log('API Response total:', this.RunningWorkDelayDataContractor);
+      // console.log('API Response total:', this.RunningWorkDelayDataContractor);
       
       const id: string[] = [];
       const name: string[] = [];
@@ -2130,16 +2130,12 @@ const contractid=0;
   // #endregion
 
 // #region data table for delayTime
-// GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
-//   return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}`);
-// // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
-// // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=OnTime&parameter=TimeValid&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
-// }
+
 
 fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seriesName: string): void {
   // ;
   this.selectedParameter=delayTime;
-  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
@@ -2183,7 +2179,7 @@ fetchDataBasedOnChartSelection_II(delayTime:any,parameter:any,divisionID: any, s
   // ;
   // alert(delayTime);
   this.selectedParameter=delayTime;
-  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   var roleName = localStorage.getItem('roleName');
   // if (roleName == 'Division') {
   //  this.divisionid = sessionStorage.getItem('divisionID');
@@ -2226,7 +2222,7 @@ fetchDataBasedOnChartSelection_II(delayTime:any,parameter:any,divisionID: any, s
 }
 fetchDataBasedOnChartSelection_III(delayTime:any,parameter:any,mainSchemeId: any, seriesName: string): void {
   this.selectedParameter=delayTime;
-  console.log(`mainSchemeId ID: ${mainSchemeId}, Series: ${seriesName}`);
+  // console.log(`mainSchemeId ID: ${mainSchemeId}, Series: ${seriesName}`);
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
    this.divisionid = sessionStorage.getItem('divisionID');
@@ -2269,7 +2265,7 @@ fetchDataBasedOnChartSelection_III(delayTime:any,parameter:any,mainSchemeId: any
 }
 fetchDataBasedOnChartSelection_IV(delayTime:any,parameter:any,districtid: any, seriesName: string): void {
   this.selectedParameter=delayTime;
-  console.log(`districtid ID: ${districtid}, Series: ${seriesName}`);
+  // console.log(`districtid ID: ${districtid}, Series: ${seriesName}`);
 
   const  divisionID=0;
   // const  districtid=0;
@@ -2299,7 +2295,7 @@ fetchDataBasedOnChartSelection_IV(delayTime:any,parameter:any,districtid: any, s
 }
 fetchDataBasedOnChartSelection_V(delayTime:any,parameter:any,contractid: any, seriesName: string): void {
  this.selectedParameter=delayTime;
-  console.log(`contractid ID: ${contractid}, Series: ${seriesName}`);
+  // console.log(`contractid ID: ${contractid}, Series: ${seriesName}`);
   const  districtid=0;
   const mainSchemeId=0;
   const divisionID=0;

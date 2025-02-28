@@ -300,7 +300,7 @@ constructor(public api: ApiService, public spinner: NgxSpinnerService,private cd
 
 getSBUENEngAllotedWorks(): void {
 
-  // debugger;
+  // ;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine.chart.height = '600px';
@@ -324,7 +324,7 @@ getSBUENEngAllotedWorks(): void {
   this.api.SbuEngAllotedWorks('Sbu eng',this.divisionid,this.distid).subscribe(
     (data: any) => {
                 this.SbuEngAllotedWorks = data;
-      console.log('SbuEngAllotedWorks',this.SbuEngAllotedWorks);
+      // console.log('SbuEngAllotedWorks',this.SbuEngAllotedWorks);
      
 
       const id: string[] = [];
@@ -372,7 +372,7 @@ getSBUENEngAllotedWorks(): void {
   );
 }
 GetAEENGEngAllotedWorks(): void {
-  // debugger;
+  // ;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine2.chart.height = '600px';
@@ -383,7 +383,7 @@ GetAEENGEngAllotedWorks(): void {
       this.chartOptionsLine2.chart.height = '400px';
       this.divisionid=this.selectedDivision;
     }else{
-      this.chartOptionsLine2.chart.height ='600';
+      this.chartOptionsLine2.chart.height ='400';
       this.divisionid='D1004';
       this.showw=true;
       // this.chartOptionsLine2.chart.height ='1500';
@@ -448,7 +448,7 @@ GetAEENGEngAllotedWorks(): void {
   );
 }
 fetchDataBasedOnChartSbu(): void {
-  // debugger;
+  // ;
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.divisionid = sessionStorage.getItem('divisionID');
@@ -470,7 +470,7 @@ fetchDataBasedOnChartSbu(): void {
         ...item,
         sno: index + 1
       }));
-      console.log('sbuDistrictEngAllotedWorks',this.sbuDistrictEngAllotedWorks);
+      // console.log('sbuDistrictEngAllotedWorks',this.sbuDistrictEngAllotedWorks);
       this.dataSource1.data = this.sbuDistrictEngAllotedWorks
       this.dataSource1.paginator = this.paginatorPageSize;
       this.dataSource1.sort = this.sort2;
@@ -537,7 +537,7 @@ fetchDataBasedWorkDetailsWithEng(empcode:any, selectedSeries:any,empname:any): v
         sno: index + 1
       }));
       this.dataSource3.data = this.dispatchPendings3;
-        console.log(" this.dataSource3.data= ",JSON.stringify( this.dataSource3.data))
+        // console.log(" this.dataSource3.data= ",JSON.stringify( this.dataSource3.data))
       this.dataSource3.paginator = this.paginator1;
       this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
@@ -572,7 +572,7 @@ fetchDataBasedWorkDetailsWithEngAE(empcode:any, selectedSeries:any,empname:any):
         sno: index + 1
       }));
       this.dataSource3.data = this.dispatchPendings3;
-        console.log(" this.dataSource4= ",JSON.stringify( this.dataSource3.data))
+        // console.log(" this.dataSource4= ",JSON.stringify( this.dataSource3.data))
       this.dataSource3.paginator = this.paginator1;
       this.dataSource3.sort = this.sort;
       this.cdr.detectChanges();
@@ -749,7 +749,7 @@ subAEexportToPDF() {
 
   }
 selectDivision(division: { id: string, name: string }): void {
-  // debugger;
+  // ;
   // console.log(division)
   // this.chartOptionsLine.chart.height ='2000';'D1004'
   // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
@@ -804,7 +804,7 @@ onButtonClick2(ASID: any, workid: any): void {
       // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
 
       // console.log('res:', res);
-      console.log('ASFileData:', this.ASFileData);
+      // console.log('ASFileData:', this.ASFileData);
       this.spinner.hide();
     },
     (error) => {

@@ -966,7 +966,7 @@ GETLiveTenderDistrict(): void {
         (data: any) => {
           this.LiveTenderDistrict = data;
           // console.log('API Response total:', this.WoIssuedTotal);
-          console.log('API Response data Preetam:', data);
+          // console.log('API Response data :', data);
 
           const id: string[] = [];
           const name: string[] = [];
@@ -1066,7 +1066,7 @@ GETLiveTenderDistrict(): void {
 
 // #region dataBase 
  fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): void {
-    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
    const TimeStatus="Live";
@@ -1083,8 +1083,8 @@ GETLiveTenderDistrict(): void {
               sno: index + 1,
             })
           );
-          console.log('res:', res);
-          console.log('dispatchData=:', this.dispatchData);
+          // console.log('res:', res);
+          // console.log('dispatchData=:', this.dispatchData);
           this.dataSource.data = this.dispatchData;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1098,7 +1098,7 @@ GETLiveTenderDistrict(): void {
     this.openDialog();
   }
  fetchDataBasedOnChartSelectionDivision(  divisionID: any, seriesName: string ): void {
-    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
    const TimeStatus="Live";
@@ -1115,8 +1115,8 @@ GETLiveTenderDistrict(): void {
               sno: index + 1,
             })
           );
-          console.log('res:', res);
-          console.log('dispatchData=:', this.dispatchData);
+          // console.log('res:', res);
+          // console.log('dispatchData=:', this.dispatchData);
           this.dataSource.data = this.dispatchData;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1130,7 +1130,7 @@ GETLiveTenderDistrict(): void {
     this.openDialog();
   }
   fetchDataBasedOnChartSelectionDistrict(  distid: any, seriesName: string ): void {
-    console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+    // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
     const divisionID = 0;
     const mainSchemeId = 0;
    const TimeStatus="Live";
@@ -1147,8 +1147,8 @@ GETLiveTenderDistrict(): void {
               sno: index + 1,
             })
           );
-          console.log('res:', res);
-          console.log('dispatchData=:', this.dispatchData);
+          // console.log('res:', res);
+          // console.log('dispatchData=:', this.dispatchData);
           this.dataSource.data = this.dispatchData;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1179,8 +1179,8 @@ GETLiveTenderDistrict(): void {
               sno: index + 1,
             })
           );
-          console.log('res:', res);
-          console.log('dispatchData=:', this.dispatchData);
+          // console.log('res:', res);
+          // console.log('dispatchData=:', this.dispatchData);
           this.dataSource.data = this.dispatchData;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1293,7 +1293,7 @@ onButtonClick2(ASID:any,workid:any): void {
         // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
 
           // console.log('res:', res);
-          console.log('ASFileData:',this.ASFileData);
+          // console.log('ASFileData:',this.ASFileData);
           this.spinner.hide();
         },
         (error) => {

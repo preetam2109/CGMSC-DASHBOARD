@@ -1452,7 +1452,7 @@ GETPEvaluationTotal(): void {
        (data: any) => {
          this.PriceEvaluationTotal = data;
          // console.log('API Response total:', this.WoIssuedTotal);
-         console.log('API Response data:', data);
+        //  console.log('API Response data:', data);
         
   
          const id: string[] = [];
@@ -1916,7 +1916,7 @@ GETPEvaluationTotal(): void {
 // #region dataBase tender Evalution
 fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): void {
   ;
- console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+//  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
  const distid = 0;
  const mainSchemeId = 0;
  this.spinner.show();
@@ -1930,8 +1930,8 @@ fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): voi
            sno: index + 1,
          })
        );
-       console.log('res:', res);
-       console.log('GETTenderEvaluationDetails=:', this.dispatchData);
+      //  console.log('res:', res);
+      //  console.log('GETTenderEvaluationDetails=:', this.dispatchData);
        this.dataSource.data = this.dispatchData;
        this.dataSource.paginator = this.paginator;
        this.dataSource.sort = this.sort;
@@ -1945,7 +1945,7 @@ fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): voi
  this.openDialog();
 }
 fetchDataBasedOnChartSelectionDivision(  divisionID: any, seriesName: string ): void {
- console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+//  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
  const distid = 0;
  const mainSchemeId = 0;
 const TimeStatus="Live";
@@ -1962,8 +1962,8 @@ const TimeStatus="Live";
            sno: index + 1,
          })
        );
-       console.log('res:', res);
-       console.log('dispatchData=:', this.dispatchData);
+      //  console.log('res:', res);
+      //  console.log('dispatchData=:', this.dispatchData);
        this.dataSource.data = this.dispatchData;
        this.dataSource.paginator = this.paginator;
        this.dataSource.sort = this.sort;
@@ -1977,7 +1977,7 @@ const TimeStatus="Live";
  this.openDialog();
 }
 fetchDataBasedOnChartSelectionDistrict(  distid: any, seriesName: string ): void {
- console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+//  console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
  const divisionID = 0;
  const mainSchemeId = 0;
 const TimeStatus="Live";
@@ -1994,8 +1994,8 @@ const TimeStatus="Live";
            sno: index + 1,
          })
        );
-       console.log('res:', res);
-       console.log('dispatchData=:', this.dispatchData);
+      //  console.log('res:', res);
+      //  console.log('dispatchData=:', this.dispatchData);
        this.dataSource.data = this.dispatchData;
        this.dataSource.paginator = this.paginator;
        this.dataSource.sort = this.sort;
@@ -2009,7 +2009,7 @@ const TimeStatus="Live";
  this.openDialog();
 }
 fetchDataBasedOnChartSelectionScheme(  mainSchemeId: any, seriesName: string ): void {
- console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+//  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
  const divisionID = 0;
  const distid = 0;
 const TimeStatus="Live";
@@ -2026,8 +2026,8 @@ const TimeStatus="Live";
            sno: index + 1,
          })
        );
-       console.log('res:', res);
-       console.log('dispatchData=:', this.dispatchData);
+      //  console.log('res:', res);
+      //  console.log('dispatchData=:', this.dispatchData);
        this.dataSource.data = this.dispatchData;
        this.dataSource.paginator = this.paginator;
        this.dataSource.sort = this.sort;
@@ -2044,7 +2044,7 @@ const TimeStatus="Live";
 
 // #region Price Evaluation Details
 fetchDataBasedOnChartSelectionTotalPE(  divisionID: any, seriesName: string ): void {
-  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   const distid = 0;
   const mainSchemeId = 0;
   this.spinner.show();
@@ -2058,8 +2058,8 @@ fetchDataBasedOnChartSelectionTotalPE(  divisionID: any, seriesName: string ): v
             sno: index + 1,
           })
         );
-        console.log('res:', res);
-        console.log('dispatchData1=:', this.dispatchData1);
+        // console.log('res:', res);
+        // console.log('dispatchData1=:', this.dispatchData1);
         this.dataSource1.data = this.dispatchData1;
         this.dataSource1.paginator = this.paginator1;
         this.dataSource1.sort = this.sort1;
@@ -2073,7 +2073,7 @@ fetchDataBasedOnChartSelectionTotalPE(  divisionID: any, seriesName: string ): v
   this.openDialog1();
  }
 fetchDataBasedOnChartSelectionDivisionPE(  divisionID: any, seriesName: string ): void {
-  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   const distid = 0;
   const mainSchemeId = 0;
   this.spinner.show();
@@ -2087,8 +2087,8 @@ fetchDataBasedOnChartSelectionDivisionPE(  divisionID: any, seriesName: string )
             sno: index + 1,
           })
         );
-        console.log('res:', res);
-        console.log('dispatchData1=:', this.dispatchData1);
+        // console.log('res:', res);
+        // console.log('dispatchData1=:', this.dispatchData1);
         this.dataSource1.data = this.dispatchData1;
         this.dataSource1.paginator = this.paginator1;
         this.dataSource1.sort = this.sort1;
@@ -2102,7 +2102,7 @@ fetchDataBasedOnChartSelectionDivisionPE(  divisionID: any, seriesName: string )
   this.openDialog1();
  }
 fetchDataBasedOnChartSelectionDisPE(  distid: any, seriesName: string ): void {
-  console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
   const divisionID = 0;
   const mainSchemeId = 0;
   this.spinner.show();
@@ -2116,8 +2116,8 @@ fetchDataBasedOnChartSelectionDisPE(  distid: any, seriesName: string ): void {
             sno: index + 1,
           })
         );
-        console.log('res:', res);
-        console.log('dispatchData1=:', this.dispatchData1);
+        // console.log('res:', res);
+        // console.log('dispatchData1=:', this.dispatchData1);
         this.dataSource1.data = this.dispatchData1;
         this.dataSource1.paginator = this.paginator1;
         this.dataSource1.sort = this.sort1;
@@ -2131,7 +2131,7 @@ fetchDataBasedOnChartSelectionDisPE(  distid: any, seriesName: string ): void {
   this.openDialog1();
  }
 fetchDataBasedOnChartSelectionmainSchemePE(  mainSchemeId: any, seriesName: string ): void {
-  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
   const divisionID = 0;
   const distid = 0;
   this.spinner.show();
@@ -2145,8 +2145,8 @@ fetchDataBasedOnChartSelectionmainSchemePE(  mainSchemeId: any, seriesName: stri
             sno: index + 1,
           })
         );
-        console.log('res:', res);
-        console.log('dispatchData1=:', this.dispatchData1);
+        // console.log('res:', res);
+        // console.log('dispatchData1=:', this.dispatchData1);
         this.dataSource1.data = this.dispatchData1;
         this.dataSource1.paginator = this.paginator1;
         this.dataSource1.sort = this.sort1;

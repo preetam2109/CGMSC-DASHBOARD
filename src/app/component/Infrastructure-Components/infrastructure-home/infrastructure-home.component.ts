@@ -190,6 +190,8 @@ export class InfrastructureHomeComponent {
       this.showDistrict = false;
       this.showDivision = false;
       this.loadInitialData();
+    
+
     } else {
       this.himisDistrictid = 0;
       this.divisionid = 0;
@@ -207,13 +209,13 @@ export class InfrastructureHomeComponent {
     this.spinner.show();
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-    console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+    // console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
       var mainSchemeId=0;
       var ASID=0;
       var GrantID=0;
     this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid,ASID,GrantID,this.ASAmount).subscribe(
       (res: any) => {
-        console.log("res=",JSON.stringify(res));
+        // console.log("res=",JSON.stringify(res));
         this.originalData = this.sortDistrictData(res); // Save as original data
         this.districtData = [...this.originalData]; // Set for display
         this.calculateTotalNosWorks();
@@ -601,10 +603,22 @@ export class InfrastructureHomeComponent {
   }
 
   loadData(): void {
-    console.log("this.distid=", this.distid)
+    // console.log("this.distid=", this.distid)
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+    } else if (roleName == 'Collector') {
+     const Districtid = sessionStorage.getItem('himisDistrictid');
+      this.distid = Districtid;
+    } else {
+      this.distid
+      this.divisionid=0;
+      this.mainSchemeID=0;
+    }
+    // ?divisionId=0&mainSchemeId=0&distid=0&dashID=0
     this.spinner.show();
     
-    this.api.DMEProgressSummary(0, 0, this.distid, 0).subscribe(
+    this.api.DMEProgressSummary(this.divisionid,this.mainSchemeID,this.distid, 0).subscribe(
       (data: any) => {
         this.DMEprogresssummary = data;
         const hc_id: string[] = [];
@@ -1408,6 +1422,7 @@ exportToPDFTW() {
     { title: 'Progress DT', dataKey: 'progressDT' },
     { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
     { title: 'Delay Reason', dataKey: 'delayreason' },
+    { title: 'Remarks', dataKey: 'pRemarks' },
    
     { title: 'Sub Engineer', dataKey: 'subengname' },
     { title: 'Asst.Eng', dataKey: 'aeName' },
@@ -1449,6 +1464,7 @@ exportToPDFTW() {
     progressDT: row.progressDT,
      expcompdt: row.expcompdt,
      delayreason: row.delayreason,
+     pRemarks: row.pRemarks,
     subengname: row.subengname,
     aeName: row.aeName,
     work_id: row.work_id,
@@ -2034,6 +2050,7 @@ expor_PDFLand_isu() {
  
   getDistrictNameDME() {
     try {
+      // debugger;
       // showCardss
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
@@ -2045,7 +2062,7 @@ expor_PDFLand_isu() {
     this.divisionid =0;
   }
   // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  console.log('divisionid1=', this.divisionid, 'himisDistrictid1=', this.himisDistrictid);
+  // console.log('divisionid1=', this.divisionid, 'himisDistrictid1=', this.himisDistrictid);
 
       this.api.GetDistrictNameDME(this.divisionid,this.himisDistrictid).subscribe((res: any) => {
         if (res && res.length > 0) {
