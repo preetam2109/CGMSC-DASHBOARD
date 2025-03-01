@@ -1198,7 +1198,7 @@ ASFileData: ASFile[] = [];
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       var RPType = 'Scheme';
-      this.chartOptions2.chart.height = '200px';
+      this.chartOptions2.chart.height = '400';
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
     }
@@ -1873,7 +1873,7 @@ ASFileData: ASFile[] = [];
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       var RPType = 'Scheme';
-      this.chartOptionss.chart.height = '500px';
+      this.chartOptionss.chart.height = '600';
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
     }

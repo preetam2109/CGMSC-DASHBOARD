@@ -1240,7 +1240,7 @@ loadQCfinalUpdatePending(): void {
           type: "bar",
           height: "210%",  
 
-          width:"200%"
+          // width:"200%"
         },
         plotOptions: {
           bar: {
@@ -1283,7 +1283,7 @@ loadQCfinalUpdatePending(): void {
             breakpoint: 480,
             options: {
               chart: {
-                width: 300
+                // width: 300
               },
               legend: {
                 position: "bottom"
@@ -1343,7 +1343,7 @@ loadQCPendingAtLab(): void {
           type: "bar",
           height: "210%",  
 
-          width:"200%"
+          // width:"200%"
         },
         plotOptions: {
           bar: {
@@ -1393,7 +1393,7 @@ loadQCPendingAtLab(): void {
             breakpoint: 480,
             options: {
               chart: {
-                width: 300
+                // width: 300
               },
               legend: {
                 position: "bottom"
@@ -1493,10 +1493,10 @@ loadIndent(): void {
         },
         responsive: [
           {
-            breakpoint: 480,
+            // breakpoint: 480,
             options: {
               chart: {
-                width: 300
+                // width: 300
               },
               legend: {
                 position: "bottom"
@@ -1562,7 +1562,7 @@ loadDataQCStages(): void {
         chart: {
           type: "pie",
           height: "210%",  
-          width: "200%", 
+          // width: "200%", 
         },
         dataLabels: {
           enabled: true,
@@ -1596,8 +1596,8 @@ loadDataQCStages(): void {
             breakpoint: 768,
             options: {
               chart: {
-                width: "100%",
-                height: "100%",
+                // width: "100%",
+                // height: "100%",
               },
               legend: {
                 position: "bottom",
@@ -1760,7 +1760,7 @@ loadUQC(): void {
           type: "bar",
           height: "210%",  
 
-          width:"200%",
+          // width:"200%",
 
           events: {
             dataPointSelection: (
@@ -1812,7 +1812,7 @@ loadUQC(): void {
         plotOptions: {
           bar: {
             horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "50%",
+            // columnWidth: "50%",
             endingShape: "rounded"
           }
         },
@@ -1847,10 +1847,10 @@ loadUQC(): void {
         },
         responsive: [
           {
-            breakpoint: 480,
+            // breakpoint: 480,
             options: {
               chart: {
-                width: 300
+                // width: 300
               },
               legend: {
                 position: "bottom"

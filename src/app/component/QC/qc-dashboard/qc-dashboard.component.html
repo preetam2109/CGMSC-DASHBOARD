@@ -91,40 +91,14 @@
     </div>
   </div>
 </div>  -->
-<!-- <div class="container-fluid pt-2 pl-4 pr-4">
-      <div class="row border rounded shadow w-100 mb-2 bg-white">
-        <div class=" col-sm-12 col-sm-6 d-flex justify-content-center m-2">
-          <div class="form-check me-3">
-            <input class="form-check-input" type="radio" name="categoryGroup" id="drugs"
-              [(ngModel)]="selectedCategoryRadio" value="Drugs" (change)="updateSelectedHodid()" />
-            <label class="form-check-label" for="drugs">Drugs</label>
-          </div>
-          <div class="form-check me-3">
-            <input class="form-check-input" type="radio" name="categoryGroup" id="consumables"
-              [(ngModel)]="selectedCategoryRadio" value="Consumables" (change)="updateSelectedHodid()" />
-            <label class="form-check-label" for="consumables">Consumables</label>
-          </div>
-          <div class="form-check me-3">
-            <input class="form-check-input" type="radio" name="categoryGroup" id="ayush"
-              [(ngModel)]="selectedCategoryRadio" value="AYUSH" (change)="updateSelectedHodid()" />
-            <label class="form-check-label" for="ayush">AYUSH</label>
-          </div>
-          <div class="form-check me-3">
-            <input class="form-check-input" type="radio" name="categoryGroup" id="reagent"
-              [(ngModel)]="selectedCategoryRadio" value="Reagent" (change)="updateSelectedHodid()" />
-            <label class="form-check-label" for="reagent">Reagent</label>
-          </div>
-        </div>
-      </div>
-</div> -->
 
-<div class="container-fluid pt-2 pl-4 pr-4">
 
-  <div class="row border rounded shadow w-100 mb-2 bg-white">
+<div class="container-fluid p-0 m-0">
+  <div class="row border rounded shadow w-100 mb-0 bg-white p-0 m-0">
     <div class=" col-sm-12 col-sm-6 d-flex justify-content-center m-2">
       <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs"
-          [(ngModel)]="selectedCategoryRadio" value="Drugs" (change)="updateSelectedHodid()" />
+        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
+          value="Drugs" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="drugs">Drugs</label>
       </div>
       <div class="form-check me-3">
@@ -133,8 +107,8 @@
         <label class="form-check-label" for="consumables">Consumables</label>
       </div>
       <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush"
-          [(ngModel)]="selectedCategoryRadio" value="AYUSH" (change)="updateSelectedHodid()" />
+        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategoryRadio"
+          value="AYUSH" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="ayush">AYUSH</label>
       </div>
       <div class="form-check me-3">
@@ -147,7 +121,7 @@
 </div>
 
 
-<div class="container my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName) && selectedCategory!='Infrastructure'">
+<div class="p-2 my-0 mb-2"     *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName) && selectedCategory!='Infrastructure'">
     <div class="row">
       <!-- Card 1 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3"  >
@@ -228,7 +202,7 @@
    
 
 
-  <div class="container my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'" >
+  <div class="p-2 my-0 mb-2" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'" >
     <div class="row justify-content-center" style="height: 20vh;">
       <div class="col-12">
         <div class="card shadow p-3 w-100" style="height: 80%;">
@@ -268,14 +242,14 @@
   
   
   
-  <div class="container my-4 mb-4" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
+  <div class="container-fluid p-2 my-0 mb-4" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
     <div class="row">
 
-       <!-- Drugs Under QC -->
-       <div class="col-12 col-sm-6 col-md-6 mb-3">
-        <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
-          <div class="card-body">
-            <apx-chart  class="border rounded" style="background-color: #99d98c;"
+       <!-- Drugs Under QC container-->
+       <div class="col-12 col-md-6 mb-3">
+        <div class="card shadow p-0 m-0 w-100">
+          <div class="card-body w-100"  >
+            <apx-chart  style="background-color: #99d98c;" class="border rounded w-100"
             [series]="chartUQC.series" [chart]="chartUQC.chart" [dataLabels]="chartUQC.dataLabels"
             [labels]="chartUQC.labels"
             [plotOptions]="chartUQC.plotOptions" [xaxis]="chartUQC.xaxis" [stroke]="chartUQC.stroke"
@@ -368,9 +342,9 @@
     
       <!-- QC Pending at Various Stages Card 4 -->
       <div class="col-12 col-sm-6 col-md-6 mb-3">
-        <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
-          <div class="card-body" routerLink="/stockDetails">
-            <apx-chart  class="border rounded" style="background-color: #aff3fa;"
+        <div class="card shadow p-0 m-0 w-100" >
+          <div class="card-body w-100" routerLink="/stockDetails">
+            <apx-chart  class="border rounded w-100" style="background-color: #aff3fa;"
             [series]="chartOptionsQCStages.series" [chart]="chartOptionsQCStages.chart" [dataLabels]="chartOptionsQCStages.dataLabels"
             [labels]="chartOptionsQCStages.labels"
             [plotOptions]="chartOptionsQCStages.plotOptions" [xaxis]="chartOptionsQCStages.xaxis" [stroke]="chartOptionsQCStages.stroke"
@@ -395,9 +369,9 @@
        <!-- Card 1 3rd line-->
     <!-- stock out DHS  Card 1 -->
     <div class="col-12 col-sm-6 col-md-6 mb-3">
-      <div class="card shadow p-0 m-0" style=" width: 100%;" routerLink="/StockoutSummary" >
-        <div class="card-body"  >
-          <apx-chart  class="border rounded" style="background-color: #f7dad9;"
+      <div class="card shadow p-0 m-0 w-100"  routerLink="/StockoutSummary" >
+        <div class="card-body w-100"  >
+          <apx-chart  class="border rounded w-100" style="background-color: #f7dad9;"
           [series]="chartQCPendingAtLab.series" [chart]="chartQCPendingAtLab.chart" [dataLabels]="chartQCPendingAtLab.dataLabels"
           [labels]="chartQCPendingAtLab.labels"
           [plotOptions]="chartQCPendingAtLab.plotOptions" [xaxis]="chartQCPendingAtLab.xaxis" [stroke]="chartQCPendingAtLab.stroke"
@@ -534,9 +508,9 @@
      <!-- Final Update Pending -->
      <div class="col-12 col-sm-6 col-md-6 mb-3">
 
-      <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
-        <div class="card-body">
-          <apx-chart  class="border rounded" style="background-color: #e0aaff;"
+      <div class="card shadow p-0 m-0 w-100" >
+        <div class="card-body w-100">
+          <apx-chart  class="border rounded w-100" style="background-color: #e0aaff;"
           [series]="chartOptionsQCHOFinalUpdate.series" [chart]="chartOptionsQCHOFinalUpdate.chart" [dataLabels]="chartOptionsQCHOFinalUpdate.dataLabels"
           [labels]="chartOptionsQCHOFinalUpdate.labels"
           [plotOptions]="chartOptionsQCHOFinalUpdate.plotOptions" [xaxis]="chartOptionsQCHOFinalUpdate.xaxis" [stroke]="chartOptionsQCHOFinalUpdate.stroke"
