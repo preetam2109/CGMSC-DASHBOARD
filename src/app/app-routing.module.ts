@@ -119,7 +119,7 @@ const routes: Routes = [
   { path: 'home',component: CategorySelectionComponent,canActivate:[RouteGuardService]}, 
 
 // MD routes
-{ path: 'welcome', component: HomeComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','Collector','Warehouse','SE','Division']} },
+{ path: 'welcome', component: HomeComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','Collector','Warehouse','SE','Division','DM PO']} },
   // {path:'autocomplete',component:AutocompleteComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
   // {path:'input',component:InputComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
   {path:'card',component:CardComponent,canActivate:[RouteGuardService], data: { allowedRoles: ['SEC1','CME','Collector']} },

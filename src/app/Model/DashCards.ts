@@ -90,6 +90,8 @@ export class QCPendingPlace{
 }
 
 export class QCPendingAreaDetail{
+    sno!:number
+
     itemid!: number;
     itemcode!: string;
     itemtypename!: string;
@@ -148,6 +150,7 @@ export class QCPendingItems{
 }
 
 export class QCPendingParticularArea{
+    sno!:number
     itemid!: number;
     itemcode!: string;
     itemtypename!: string;
@@ -169,6 +172,7 @@ export class QCPendingParticularArea{
 }
 
 export class QCResultPendingLabWise{
+        sno!:number
         labid!: number;
         labname!: string;
         withBatches!: number;
@@ -204,6 +208,7 @@ export class QCPendingMonthwiseRec{
         mcategory!: string;
 }
 export class QCPendingMonthwiseRecDetails{
+    sno!:number
     itemid!: number;
     monthid!: number;
     mcid!: number;
@@ -219,6 +224,7 @@ export class QCPendingMonthwiseRecDetails{
     unit!: string;
 }
 export class HoldItemDetails{
+        sno!:number
         id!: number;
         itemid!: number;
         itemcode!: string;
