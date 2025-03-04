@@ -29,8 +29,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
-import { HoldItemDetails, QCPendingMonthwiseRec, QCPendingMonthwiseRecDetails, QCPendingParticularArea, QCResultPendingLabWise } from 'src/app/Model/DashCards';
+import { HoldItemDetails, QCPendingMonthwiseRec, QCPendingMonthwiseRecDetails, QCPendingParticularArea, QCPendingPlace, QCResultPendingLabWise } from 'src/app/Model/DashCards';
 import * as ApexCharts from 'apexcharts';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { color } from 'html2canvas/dist/types/css/types/color';
 
 
 @Component({
@@ -84,6 +87,7 @@ applyTextFilter($event: KeyboardEvent) {
 throw new Error('Method not implemented.');
 }
 @ViewChild('itemDetailsModal') itemDetailsModal: any;
+@ViewChild('itemDetailsModal2') itemDetailsModal2: any;
 @ViewChild('UQCDetailsModal') UQCDetailsModal: any;
 @ViewChild('HODDetailsModal') HODDetailsModal: any;
 @ViewChild('NSQDetailsModal') NSQDetailsModal: any;
@@ -101,6 +105,7 @@ throw new Error('Method not implemented.');
   chartNearexp: ChartOptions;
   chartUQC: ChartOptions;
   title: string = 'welcome';
+
   username: any = '';
   menuItems: {  label: string; route: string; submenu?: { label: string; route: string }[], icon?: string }[] = [];
   expandedMenus: { [key: string]: boolean } = {};
@@ -124,7 +129,7 @@ throw new Error('Method not implemented.');
   mcid=1
   monthid:any=''
   mname:any='';
-
+  area:any=0;
   nositemshold:any
   nositemsnsq:any
   stkvaluehold:any
@@ -141,6 +146,7 @@ throw new Error('Method not implemented.');
   totalsample: any;
   qctimetaken: any;
 
+  Headerdetails:any='';
   
   MasItemlist:any
   PartiIndentlist:any
@@ -181,6 +187,7 @@ throw new Error('Method not implemented.');
     selectedCategoryRadio:any='Drugs';
   
     qCPendingMonthwiseRec:QCPendingMonthwiseRec[]=[]
+    qCPendingPlace:QCPendingPlace[]=[]
 
 
 
@@ -609,8 +616,11 @@ colors = [];
         plotOptions: {
           radialBar: {
             dataLabels: {
+            
               name: {
-                fontSize: '16px'
+                fontSize: '16px',
+               
+                
               },
               value: {
                 fontSize: '14px',
@@ -631,10 +641,10 @@ colors = [];
         ],
         dataLabels: {
           enabled: true,
-          style: {
-            colors: ['#001219'],
-            fontWeight: '2px'
-          },
+          // style: {
+          //   // colors: ['#000'],
+          //   // fontWeight: '2px'
+          // },
           formatter: function (val: any, opts: any) {
             return opts.w.globals.series[opts.seriesIndex]; // Shows actual values inside the chart
           }
@@ -660,8 +670,13 @@ colors = [];
       this.chartOptionsQCStages = {
         series: [], // Radial bar data
         chart: {
-          type: "pie"
+          type: "pie",
+
+        
+
+          
         },
+        
         plotOptions: {
           radialBar: {
             dataLabels: {
@@ -1517,6 +1532,8 @@ loadIndent(): void {
 loadDataQCStages(): void {
   this.api.QCPendingPlace(this.mcid).subscribe(
     (data: any) => {
+
+      this.qCPendingPlace=data;
       const seriesData: number[] = [];
       const labelsData: string[] = [
         "Pending in WH",
@@ -1563,7 +1580,45 @@ loadDataQCStages(): void {
           type: "pie",
           height: "210%",  
           // width: "200%", 
+
+          events: {
+            dataPointSelection: (
+              event: any,
+              chartContext: ApexCharts,
+              { dataPointIndex }: { dataPointIndex: number }
+            ) => {
+              console.log("Chart Clicked!");
+          debugger
+              // Get the selected category based on index
+              const selectedCategory = this.chartOptionsQCStages?.labels?.[dataPointIndex] ?? "Unknown";
+              const selectedValue = this.chartOptionsQCStages?.series?.[dataPointIndex] ?? 0;
+              console.log("Selected Category:", selectedCategory);
+              console.log("Selected Value:", selectedValue);
+          debugger
+              if (selectedCategory && selectedValue !== undefined) {
+                console.log(`You clicked on ${selectedCategory} with value: ${selectedValue}`);
+          debugger
+                // Fetch data based on selection
+                this.fetchDataBasedOnChartSelectionchartQCStages(selectedCategory, selectedValue);
+              } else {
+                console.log("Invalid selection.");
+              }
+            },
+          }
+          
+
+
         },
+        fill: {
+        colors: [  // Assign colors to labels in order
+          "#f8796b",  // Pending in WH
+          "#33FF57",  // Pending in Courier from WH #33FF57
+          "#fc466b",  // Pending in HO for Lab Issue
+          "#00b4d8",  // Pending in Courier for Lab
+          "#ffbe0b",  // Pending in Lab
+          "#38b000"   // Pending in HO for Final Clearance
+        ],
+      },
         dataLabels: {
           enabled: true,
           style: {
@@ -1625,6 +1680,7 @@ loadDataQCStages(): void {
     }
   );
 }
+
 
 
 
@@ -1752,7 +1808,8 @@ loadUQC(): void {
           },
           {
             name: 'UQC Stock Value(in Cr)',
-            data: stkvalue
+            data: stkvalue,
+            
   
           }
         ],
@@ -1817,7 +1874,10 @@ loadUQC(): void {
           }
         },
         dataLabels: {
-          enabled: true
+          enabled: true,
+          style: {
+            colors: ['#000'] // Ensures black color for data labels
+          }
         },
         stroke: {
           show: true,
@@ -1825,7 +1885,13 @@ loadUQC(): void {
           colors: ["transparent"]
         },
         xaxis: {
-         categories: categories // Dynamically set categories from API response
+         categories: categories, // Dynamically set categories from API response
+        //  Labels:{
+
+        //    style: {
+        //     color: ['#000'] // Ensures black color for data labels
+        //   }
+        //  }
         },
         yaxis: {
           title: {
@@ -2119,7 +2185,7 @@ loadUQC(): void {
       }
       QCPendingParticularArea(){
         
-        this.api.QCPendingParticularArea(0,this.itemid).subscribe((res:any[])=>{
+        this.api.QCPendingParticularArea(this.area,this.itemid).subscribe((res:any[])=>{
           if (res && res.length > 0) {
            this.spinner.show();
 
@@ -2144,6 +2210,38 @@ loadUQC(): void {
 
           }
         });  
+
+      }
+      QCPendingParticularAreaPieChart(){
+        debugger
+        this.api.QCPendingParticularArea(this.area,0).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.qCPendingParticularArea =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            this.qCPendingParticularArea2 = res; 
+
+
+            console.log('only one data'+this.qCPendingParticularArea2)
+
+            console.log('pie chart Mapped List:', this.qCPendingParticularArea);
+            this.dataSource5.data = this.qCPendingParticularArea; // Ensure this line executes properly
+            this.dataSource5.paginator = this.paginator5;
+            this.dataSource5.sort = this.sort5;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+
+        this.openDialogqCPendingParticularArea();
+        
 
       }
       getQCResultPendingLabWise(){
@@ -2225,6 +2323,26 @@ loadUQC(): void {
       openDialog() {
         
         const dialogRef = this.dialog.open(this.itemDetailsModal, {
+         width: '100%',
+         height: '100%',
+         maxWidth: '100%',
+         panelClass: 'full-screen-dialog', // Optional for additional styling
+         data: {
+           /* pass any data here */
+         },
+         // width: '100%',
+         // maxWidth: '100%', // Override default maxWidth
+         // maxHeight: '100%', // Override default maxHeight
+         // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+         // height: 'auto',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+         console.log('Dialog closed');
+        });
+        }
+      openDialogqCPendingParticularArea() {
+        
+        const dialogRef = this.dialog.open(this.itemDetailsModal2, {
          width: '100%',
          height: '100%',
          maxWidth: '100%',
@@ -2374,11 +2492,157 @@ loadUQC(): void {
 
 // this.openDialogUQC();
         }
+        fetchDataBasedOnChartSelectionchartQCStages(cat:any,value:any){
+
+        this.Headerdetails=cat;
+          if(cat==='Pending in WH'){
+            this.area='WHIssue'
+
+          }else if(cat==='Pending in HO for Lab Issue'){
+            this.area='LabIssue'
+            
+          }else if(cat==='Pending in Courier for Lab'){
+            this.area='LabCourier'
+
+          }else if(cat==='Pending in Lab'){
+            this.area='LabAnalysis'
+          }else if(cat==='Pending in HO for Final Clearance'){
+            this.area='FinalUpdate'
+          }
+          else if(cat==='Pending in Courier fom WH'){
+            this.area='WHCourier'
+          }
+          this.QCPendingParticularAreaPieChart()
+          
+        
+
+// this.openDialogUQC();
+        }
+
         fetchHOD(){
           this.getHoldItemDetails()
 
 // this.openDialogHOD();
         }
+
+        exportToPDFQCLabPendingTracke() {
+          const doc = new jsPDF('l', 'mm', 'a4');
+          const columns = [
+            { title: 'S.No', dataKey: 'sno' },
+            { title: 'Lab Name', dataKey: 'labname' },
+            { title: 'With Batches', dataKey: 'withBatches' },
+            { title: 'Out Batches', dataKey: 'outBatches' },
+          ];
+        
+          const rows = this.qCResultPendingLabWise.map((row) => ({
+            sno: row.sno,
+            labname: row.labname,
+            withBatches: row.withBatches,
+            outBatches: row.outBatches,
+          }));
+        
+          autoTable(doc, {
+            columns: columns,
+            body: rows,
+            startY: 20,
+            theme: 'striped',
+            headStyles: { fillColor: [22, 160, 133] },
+          });
+        
+          doc.save('QCLabPendingTracker.pdf');
+        }
+
+
+       exportToPDFQCPendingMonthwiseRecDetails() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Item Name', dataKey: 'itemname' },
+    { title: 'Item Code', dataKey: 'itemcode' },
+    { title: 'Strength', dataKey: 'strength1' },
+    { title: 'Unit', dataKey: 'unit' },
+    { title: 'Month Name', dataKey: 'monthname' },
+    { title: 'Stock', dataKey: 'stk' },
+    { title: 'Stock Value', dataKey: 'stkvalue' },
+    { title: 'Category', dataKey: 'mcategory' },
+  ];
+
+  const rows = this.qCPendingMonthwiseRecDetails.map((row) => ({
+    sno: row.sno,
+    itemname: row.itemname,
+    itemcode: row.itemcode,
+    strength1: row.strength1,
+    unit: row.unit,
+    monthname: row.monthname,
+    stk: row.stk,
+    stkvalue: row.stkvalue,
+    mcategory: row.mcategory,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('QCPendingMonthwiseRecDetails.pdf');
+}
+
+exportToPDFqCPendingParticularArea() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Code', dataKey: 'itemcode' },
+    { title: 'Type', dataKey: 'itemtypename' },
+    { title: 'Strength', dataKey: 'strength1' },
+    { title: 'Batch No', dataKey: 'batchno' },
+    { title: 'Nos WH', dataKey: 'noswh' },
+    { title: 'UQC Qty', dataKey: 'uqcqty' },
+    { title: 'Stock Value', dataKey: 'stockvalue' },
+    { title: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
+    { title: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
+    { title: 'Courier Pick DT', dataKey: 'courierPickDT' },
+    { title: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
+    { title: 'Lab Issue Date', dataKey: 'labissuedate' },
+    { title: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
+    { title: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
+    { title: 'Lab Result', dataKey: 'labresult' },
+    { title: 'Analysis Days', dataKey: 'analysisDays' },
+  ];
+
+  const rows = this.qCPendingParticularArea.map((row) => ({
+    sno: row.sno,
+    itemcode: row.itemcode,
+    itemtypename: row.itemtypename,
+    strength1: row.strength1,
+    batchno: row.batchno,
+    noswh: row.noswh,
+    uqcqty: row.uqcqty,
+    stockvalue: row.stockvalue,
+    warehouseRecDT: row.warehouseRecDT,
+    whqcIssueDT: row.whqcIssueDT,
+    courierPickDT: row.courierPickDT,
+    sampleReceiptInHODT: row.sampleReceiptInHODT,
+    labissuedate: row.labissuedate,
+    lAbReceiptDT: row.lAbReceiptDT,
+    hoqcReportRecDT: row.hoqcReportRecDT,
+    labresult: row.labresult,
+    analysisDays: row.analysisDays,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('QCPendingParticularArea.pdf');
+}
+
 
         
     

@@ -400,7 +400,7 @@ export class MenuServiceService {
 
 
       items: [
-        { label: 'Home', route: '/home' },
+        { label: 'Home', route: '/welcome' },
         { label: 'QC Insights ', route: '/qc-dashboard' },
         { label: 'Finance', route: '/finance-dash' },
  
