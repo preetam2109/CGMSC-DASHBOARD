@@ -1423,7 +1423,6 @@ exportToPDFTW() {
     { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
     { title: 'Delay Reason', dataKey: 'delayreason' },
     { title: 'Remarks', dataKey: 'pRemarks' },
-   
     { title: 'Sub Engineer', dataKey: 'subengname' },
     { title: 'Asst.Eng', dataKey: 'aeName' },
     { title: 'Work ID', dataKey: 'work_id' },
