@@ -926,8 +926,6 @@ colors = [];
      this.updateMenu();
     //  this.addIconsToMenu();
     this.selectedCategory=this.menuService.getSelectedCategory();
-
-    
     this.CGMSCIndentPending();
     this.GetDeliveryInMonth();
     this.GetPOCountCFY();
@@ -947,21 +945,16 @@ colors = [];
     this.QCNSQ_Dash()
     this.loadUQCDashCard()
     this.QCTimeTakenYear();
-
-
   }
 
 
   getItemNoDropDown(){
-  
     this.api.QCPendingItems(1).subscribe((res:any[])=>{
       console.log(' QCPendingItems API dropdown Response:', res);
       if (res && res.length > 0) {
         this.qCPendingItems = res.map(item => ({
           itemid: item.itemid, // Adjust key names if needed
-          nameText : item.nameText,
-          
-          
+          nameText : item.nameText, 
         }));
         // console.log('VehicleNoDropDownList :', this.qCPendingItems);
       } else {
@@ -969,7 +962,6 @@ colors = [];
       }
     });  
   }
-
   // GetTotalRC(){
   //   this.api.getTotalRC().subscribe((res:any)=>{
       

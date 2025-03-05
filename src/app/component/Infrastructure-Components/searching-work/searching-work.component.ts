@@ -260,7 +260,7 @@ export class SearchingWorkComponent {
       //   //     fontSize: "12px",
       //   //     colors: ["#000"], // ✅ Use a string instead of an array if all labels should be black
       //   //   }
-      //   // },
+      //   // },   
       //   // opposite: true // ✅ Ensures larger values appear at the top
       // },
       xaxis: {
@@ -482,7 +482,7 @@ export class SearchingWorkComponent {
       // const img = 'CGMSC WORK.jpg';
       // console.log('this.ImageName: ', this.ImageName);
       // this.api.GetImageBinary(90691, 'CGMSC WORK.jpg').subscribe(
-      if(this.ImageName != "NA"){
+      // if(this.ImageName != "NA"){
         this.api.GetImageBinary(this.sr, this.ImageName).subscribe(
           (res) => {
             // console.log('Image data11: ', res);
@@ -492,9 +492,10 @@ export class SearchingWorkComponent {
             alert(`Failed to load image. Please try again later. Error: ${JSON.stringify(error)}`);
           }
         );
-      }else{
-        alert("No image available. Please upload an image to proceed.");
-      }
+      // }
+      // else{
+      //   alert("No image available. Please upload an image to proceed.");
+      // }
     
     } catch (ex: any) {
       // console.error('Exception:', ex.message);
@@ -603,6 +604,7 @@ export class SearchingWorkComponent {
 
 
   getRandomColor() {
+    // debugger;
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
@@ -636,7 +638,6 @@ export class SearchingWorkComponent {
       { title: 'Bill Status', dataKey: 'billStatus' },
       { title: 'Bill MB No', dataKey: 'billmbno' },
       { title: 'MB No', dataKey: 'mbno' },
-    
     ];
     const rows = this.dispatchData.map((row) => ({
       sno: row.sno,
@@ -650,7 +651,6 @@ export class SearchingWorkComponent {
       billStatus: row.billStatus,
       billmbno: row.billmbno,
       mbno: row.mbno,
-     
     }));
   
     autoTable(doc, {
@@ -661,7 +661,7 @@ export class SearchingWorkComponent {
       headStyles: { fillColor: [22, 160, 133] },
     });
   
-    doc.save('Acceptance_WOrderDetail.pdf');
+    doc.save('BillStatus_Detail.pdf');
   }
 
   onButtonClick2(ASID:any,workid:any): void {
