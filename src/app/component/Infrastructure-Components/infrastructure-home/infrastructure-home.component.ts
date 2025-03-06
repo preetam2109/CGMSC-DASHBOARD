@@ -86,7 +86,8 @@ export class InfrastructureHomeComponent {
   cardOrder: string[] = [
     "Completed/Handover",
     "Running Work",
-    "Acceptance/Work Order",
+    // "Acceptance/Work Order",
+    "Acceptance/Work Order Generated",
     "Land Not Alloted/Land Dispute",
     "Tender in Process",
     "To be Tender",

@@ -2194,7 +2194,7 @@ ASFileData: ASFile[] = [];
     this.openDialog1();
   }
    fetchDataBasedOnChartSelectionmainSchemeUNP(mainSchemeId: any,seriesName: string): void {
-    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -2210,7 +2210,7 @@ ASFileData: ASFile[] = [];
     const OfficerID=0;
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    // console.log('this.divisionid=',this.divisionid,'mainSchemeId=',mainSchemeId,'this.himisDistrictid=',this.himisDistrictid)
+    console.log('this.divisionid=',this.divisionid,'mainSchemeId=',mainSchemeId,'this.himisDistrictid=',this.himisDistrictid,"designame=",designame,'OfficerID=',OfficerID)
     this.api.GETUnPaidDetails(this.divisionid,mainSchemeId,this.himisDistrictid,designame,OfficerID).subscribe(
         (res) => {
           this.dispatchData1 = res.map(

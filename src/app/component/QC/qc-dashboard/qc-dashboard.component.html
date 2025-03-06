@@ -121,7 +121,7 @@
 </div>
 
 
-<div class="p-2 my-0 mb-2"     *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName) && selectedCategory!='Infrastructure'">
+<div class="p-2 my-0 mb-2"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName) && selectedCategory!='Infrastructure'">
     <div class="row">
       <!-- Card 1 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3" >
@@ -202,7 +202,7 @@
    
 
 
-  <div class="p-2 my-0 mb-2" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'" >
+  <div class="p-2 my-0 mb-2" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName)  && selectedCategory!='Infrastructure'" >
     <div class="row justify-content-center" style="height: 20vh;">
       <div class="col-12">
         <div class="card shadow p-3 w-100" style="height: 80%;">
@@ -242,14 +242,14 @@
   
   
   
-  <div class="container-fluid p-2 my-0 mb-4" *ngIf="['SEC1', 'DHS', 'Collector'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
+  <div class="container-fluid p-2 my-0 mb-4" *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
     <div class="row">
 
        <!-- Drugs Under QC container-->
        <div class="col-12 col-md-6 mb-3">
         <div class="card shadow p-0 m-0 w-100">
           <div class="card-body w-100"  >
-            <apx-chart  style="background-color: #99d98c;" class="border rounded w-100"
+            <apx-chart  style="background-color: #e0aaff;" class="border rounded w-100"
             [series]="chartUQC.series" [chart]="chartUQC.chart" [dataLabels]="chartUQC.dataLabels"
             [labels]="chartUQC.labels"
             [plotOptions]="chartUQC.plotOptions" [xaxis]="chartUQC.xaxis" [stroke]="chartUQC.stroke"
@@ -344,7 +344,7 @@
       <div class="col-12 col-sm-6 col-md-6 mb-3">
         <div class="card shadow p-0 m-0 w-100" >
           <div class="card-body w-100" routerLink="/stockDetails">
-            <apx-chart  class="border rounded w-100" style="background-color: #aff3fa;"
+            <apx-chart  class="border rounded w-100" style="background-color: #e2eafc;"
             [series]="chartOptionsQCStages.series" [chart]="chartOptionsQCStages.chart" [dataLabels]="chartOptionsQCStages.dataLabels"
             [labels]="chartOptionsQCStages.labels"
             [plotOptions]="chartOptionsQCStages.plotOptions" [xaxis]="chartOptionsQCStages.xaxis" [stroke]="chartOptionsQCStages.stroke"
@@ -467,13 +467,13 @@
                   Excel
                 </button>
                 <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-                <button mat-button (click)="exportToPDF()">PDF</button>
+                <button mat-button (click)="exportToPDFQCLabPendingTracke()">PDF</button>
               </mat-menu>
             </div>
           </div>
           <div class="table-responsive">
             <table class="table table-bordered table-striped" mat-table matTableExporter
-              [dataSource]="dataSource6" #exporter="matTableExporter" matSort>
+              [dataSource]="dataSource6" #exporter="matTableExporter" matSort  #sort6="matSort">
               <ng-container matColumnDef="sno">
                 <th style="width:60px" mat-header-cell *matHeaderCellDef mat-sort-header> S.N. </th>
                 <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
@@ -483,18 +483,18 @@
                 <td mat-cell *matCellDef="let element"> {{ element.labname }} </td>
               </ng-container>
               <ng-container matColumnDef="withBatches">
-                <th style="width:60px" mat-header-cell *matHeaderCellDef mat-sort-header>Within Timeline</th>
-                <td mat-cell *matCellDef="let element"> {{ element.withBatches }} </td>
+                <th style="width:60px; align-items: center;" mat-header-cell *matHeaderCellDef mat-sort-header>Within Timeline</th>
+                <td style="text-align: center;" mat-cell *matCellDef="let element"> {{ element.withBatches }} </td>
               </ng-container>
               <ng-container matColumnDef="outBatches">
-                <th style="width:60px" mat-header-cell *matHeaderCellDef mat-sort-header>Out of Timeline</th>
-                <td mat-cell *matCellDef="let element"> {{ element.outBatches }} </td>
+                <th style="width:60px;text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>Out of Timeline</th>
+                <td style="text-align: center;" mat-cell *matCellDef="let element"> {{ element.outBatches }} </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="['sno','labname','withBatches','outBatches']"></tr>
               <tr mat-row *matRowDef="let row; columns: ['sno','labname','withBatches','outBatches'];"></tr>
             </table>
           </div>
-          <mat-paginator [pageSizeOptions]="[15, 20, 25]" showFirstLastButtons></mat-paginator>
+          <mat-paginator #paginator6 [pageSizeOptions]="[2, 10, 15]" showFirstLastButtons></mat-paginator>
         </div>
       </div>
     </div>
@@ -510,7 +510,7 @@
 
       <div class="card shadow p-0 m-0 w-100">
         <div class="card-body w-100">
-          <apx-chart  class="border rounded w-100" style="background-color: #e0aaff;"
+          <apx-chart  class="border rounded w-100" style="background-color: #8ab0f7;"
           [series]="chartOptionsQCHOFinalUpdate.series" [chart]="chartOptionsQCHOFinalUpdate.chart" [dataLabels]="chartOptionsQCHOFinalUpdate.dataLabels"
           [labels]="chartOptionsQCHOFinalUpdate.labels"
           [plotOptions]="chartOptionsQCHOFinalUpdate.plotOptions" [xaxis]="chartOptionsQCHOFinalUpdate.xaxis" [stroke]="chartOptionsQCHOFinalUpdate.stroke"
@@ -1022,7 +1022,7 @@
 
 
   
-        <div class="container-fluid p-2" *ngFor="let detail of qCPendingParticularArea2" >
+        <!-- <div class="container-fluid p-2" *ngFor="let detail of qCPendingParticularArea2" >
           <div class="card shadow">
               <div class="card-body">
                   <div class="row border mb-1">
@@ -1059,7 +1059,7 @@
               </div>
           </div>
       </div> 
-  
+   -->
   
 
 
@@ -1375,7 +1375,7 @@
                                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Item</th>
                                   <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
                                 </ng-container>
-                                    <!-- <ng-container matColumnDef="itemcode">
+                                    <ng-container matColumnDef="itemcode">
                                       <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
                                       <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
                                     </ng-container>
@@ -1392,7 +1392,7 @@
                                     <ng-container matColumnDef="batchno">
                                       <th mat-header-cell *matHeaderCellDef mat-sort-header>Batch No</th>
                                       <td mat-cell *matCellDef="let element"> {{ element.batchno }} </td>
-                                    </ng-container> -->
+                                    </ng-container>
   
                                     <ng-container matColumnDef="noswh">
                                       <th mat-header-cell *matHeaderCellDef mat-sort-header>No of WH</th>
@@ -1457,14 +1457,193 @@
                                
                                   
                                 <!-- Header Row -->
-                                <tr mat-header-row *matHeaderRowDef="['sno','noswh','uqcqty','stockvalue','warehouseRecDT','whqcIssueDT','courierPickDT','sampleReceiptInHODT','labissuedate','lAbReceiptDT','hoqcReportRecDT','labresult','analysisDays']"></tr>
+                                <tr mat-header-row *matHeaderRowDef="['sno','itemcode','itemtypename','strength1','batchno','noswh','uqcqty','stockvalue','warehouseRecDT','whqcIssueDT','courierPickDT','sampleReceiptInHODT','labissuedate','lAbReceiptDT','hoqcReportRecDT','labresult','analysisDays']"></tr>
                       
                                 <!-- Data Rows -->
-                                <tr mat-row *matRowDef="let row; columns: ['sno','noswh','uqcqty','stockvalue','warehouseRecDT','whqcIssueDT','courierPickDT','sampleReceiptInHODT','labissuedate','lAbReceiptDT','hoqcReportRecDT','labresult','analysisDays'];"></tr>
+                                <tr mat-row *matRowDef="let row; columns: ['sno','itemcode','itemtypename','strength1','batchno','noswh','uqcqty','stockvalue','warehouseRecDT','whqcIssueDT','courierPickDT','sampleReceiptInHODT','labissuedate','lAbReceiptDT','hoqcReportRecDT','labresult','analysisDays'];"></tr>
                       
                               </table>
                             </div>      
                             <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                          </div>
+                    </div>
+                </div>
+                    
+                
+                  </div> 
+          
+      
+      
+  
+  
+  
+      </div>
+  
+  
+    </div>
+    <div class="d-grid gap-2 col-12 mx-auto  m-2">
+      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+          aria-hidden="true">
+          exit_to_app
+        </mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template class=" " #itemDetailsModal2 let-modal>
+    <div class="row align-items-center p-2 m-2 ">
+      <div class="col-lg-6 col-md-8">
+        <!-- <h1>AS Completed Details</h1> -->
+        <h1 class="text-info-emphasis">Details</h1>
+      </div>
+      <div class="col-lg-6 col-md-4 text-end">
+        <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="" mat-dialog-content>
+      <div class="row card shadow card-body ">
+  
+  
+      
+
+      
+       
+      
+              <div class="container-fluid p-2">
+                <div class="card shadow" >
+                    <div class="card-body">
+
+
+
+                        <div class="row border mb-1">
+                            <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#006ba6;">
+                                <strong>{{Headerdetails}}</strong>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 table-container mb-4">
+                     
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                              <div class="filter-field flex-grow-1">
+                                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                              </div>
+                              <div class="export-menu-container">
+                                <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                                <mat-menu #exportMenu="matMenu">
+                                  <button mat-menu-item
+                                    (click)="exporter.exportTable('xlsx', { fileName: 'QCPendingParticularArea', sheet: 'QCPendingParticularArea', Props: { Author: 'cgmsc' }})">Excel</button>
+                                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                  <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                  <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                                  <button mat-button (click)="exportToPDFqCPendingParticularArea()">PDF</button>
+                      
+                                </mat-menu>
+                              </div>
+                            </div>
+                      
+                            <div class="table-responsive">
+                              <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource5" #exporter="matTableExporter" matSort #sort5="matSort">
+                      
+                                       <!-- Serial Number Column -->
+                                <ng-container matColumnDef="sno">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                  <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="itemname">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Item</th>
+                                  <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+                                </ng-container>
+                                    <ng-container matColumnDef="itemcode">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+                                    </ng-container>
+                      
+                                    <ng-container matColumnDef="itemtypename">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.itemtypename }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="strength1">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Strength</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.strength1   }} </td>
+                                    </ng-container>
+                                    
+                                    <ng-container matColumnDef="batchno">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Batch No</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.batchno }} </td>
+                                    </ng-container>
+  
+                                    <ng-container matColumnDef="noswh">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>No of WH</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.noswh }} </td>
+                                    </ng-container>
+  
+                                    <ng-container matColumnDef="uqcqty">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>UQC QTY</th>
+                                      <td mat-cell *matCellDef="let element"> {{element.uqcqty}} </td>
+                                    </ng-container>
+  
+                                    <ng-container matColumnDef="stockvalue">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>UQC Value(in Lacs)</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.stockvalue}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="warehouseRecDT">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>WH Received DT</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.warehouseRecDT}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="whqcIssueDT">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>WH QC Issue DT</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.whqcIssueDT}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="courierPickDT">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>WH Courier Picked DT</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.courierPickDT}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="sampleReceiptInHODT">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>HO Received DT</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.sampleReceiptInHODT}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="labissuedate">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Lab Issue DT</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.labissuedate}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="lAbReceiptDT">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Lab Received DT</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.lAbReceiptDT}} </td>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="hoqcReportRecDT">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Lab Report DT</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.hoqcReportRecDT}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="labresult">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Lab Result</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.labresult}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="analysisDays">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Timeline Days</th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.analysisDays}} </td>
+                                    </ng-container>
+
+                               
+                                  
+                                <!-- Header Row -->
+                                <tr mat-header-row *matHeaderRowDef="['sno','itemcode','itemtypename','strength1','batchno','noswh','uqcqty','stockvalue','warehouseRecDT','whqcIssueDT','courierPickDT','sampleReceiptInHODT','labissuedate','lAbReceiptDT','hoqcReportRecDT','labresult','analysisDays']"></tr>
+                      
+                                <!-- Data Rows -->
+                                <tr mat-row *matRowDef="let row; columns: ['sno','itemcode','itemtypename','strength1','batchno','noswh','uqcqty','stockvalue','warehouseRecDT','whqcIssueDT','courierPickDT','sampleReceiptInHODT','labissuedate','lAbReceiptDT','hoqcReportRecDT','labresult','analysisDays'];"></tr>
+                      
+                              </table>
+                            </div>      
+                            <mat-paginator #paginator5 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
                           </div>
                     </div>
                 </div>
@@ -1519,17 +1698,17 @@
                             <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                             <mat-menu #exportMenu="matMenu">
                               <button mat-menu-item
-                                (click)="exporter.exportTable('xlsx', { fileName: 'YearwiseFacilityIssue', sheet: 'YearwiseFacilityIssue', Props: { Author: 'cgmsc' }})">Excel</button>
+                                (click)="exporter.exportTable('xlsx', { fileName: 'QCPendingMonthwiseRecDetails', sheet: 'QCPendingMonthwiseRecDetails', Props: { Author: 'cgmsc' }})">Excel</button>
                               <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                               
-                              <button mat-button (click)="exportToPDF()">PDF</button>
+                              <button mat-button (click)="exportToPDFQCPendingMonthwiseRecDetails()">PDF</button>
                   
                             </mat-menu>
                           </div>
                         </div>
                   
                         <div class="table-responsive">
-                          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource7" #exporter="matTableExporter" matSort>
+                          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource7" #exporter="matTableExporter" matSort #sort7="matSort">
                   
                                   
                             <ng-container matColumnDef="sno">
@@ -1585,7 +1764,7 @@
                   
                           </table>
                         </div>      
-                        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                        <mat-paginator #paginator7 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
                       </div>
                 </div>
             </div>
@@ -1654,7 +1833,7 @@
                         </div>
                   
                         <div class="table-responsive">
-                          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource8" #exporter="matTableExporter" matSort>
+                          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource8" #exporter="matTableExporter" matSort #Sort8="matSort">
                         
                             <ng-container matColumnDef="sno">
                               <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
@@ -1761,7 +1940,7 @@
                           </table>
                         </div>
                          
-                        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                        <mat-paginator #paginator8 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
                       </div>
                 </div>
             </div>

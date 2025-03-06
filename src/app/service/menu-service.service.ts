@@ -130,6 +130,7 @@ export class MenuServiceService {
           { label: 'Running Works', route: '/RunningWork' },
           { label: 'Land Issue', route: '/LandIssue' },
           { label: 'Technical Sanction', route: '/TechnicalSanction' },
+          { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
           // { label: 'District-Progress Monitoring', route: 'DashProgressIstCount' },
           { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
           // { label: 'District Progress Monitoring', route: 'District Progress' },
@@ -208,7 +209,7 @@ export class MenuServiceService {
           { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
           // { label: 'District Progress Monitoring', route: 'District Progress' },
           { label: 'Handover', route: 'Handover' },
-
+          // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
           // { label: 'Engineer-Works', route: '/EngineerWorks' },
           // { label: 'Payment', route: 'PriceEvaluation' },
         ],
@@ -277,6 +278,7 @@ export class MenuServiceService {
 
           { label: 'Land Issue', route: '/LandIssue' },
           { label: 'Technical Sanction', route: '/TechnicalSanction' },
+          { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
           // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
           { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
           // { label: 'District Progress Monitoring', route: 'District Progress' },
@@ -336,6 +338,7 @@ export class MenuServiceService {
 
           { label: 'Land Issue', route: '/LandIssue' },
           { label: 'Technical Sanction', route: '/TechnicalSanction' },
+          { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
           // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
           { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
           // { label: 'District Progress Monitoring', route: 'District Progress' },
@@ -368,10 +371,108 @@ export class MenuServiceService {
     QC: {
       items: [
         { label: 'Home', route: '/home' },
+        { label: 'QC Insights ', route: '/qc-dashboard' },
+
         { label: 'Stock Details', route: '/stockDetails' },
         { label: 'QC Courier', route: '/QcPendings' },
         { label: 'QC-Lab Issues', route: '/qc-dash' },
       ],
+    },
+    'GM Finance': {
+      items: [
+        { label: 'Home', route: '/home' },
+        { label: 'Finance', route: '/finance-dash' },
+        { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+        { label: 'Growth in Distribution', route: '/distribution' },
+        { label: 'Payment', route: '/PriceEvaluation' },
+       
+      ],
+    },
+    'DMFin': {
+      items: [
+        { label: 'Home', route: '/home' },
+        { label: 'Finance', route: '/finance-dash' },
+        { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+        { label: 'Growth in Distribution', route: '/distribution' },
+        { label: 'Payment', route: '/PriceEvaluation' },
+       
+      ],
+    },
+
+    "DM PO": {
+
+
+      items: [
+        { label: 'Home', route: '/welcome' },
+        { label: 'QC Insights ', route: '/qc-dashboard' },
+        { label: 'Finance', route: '/finance-dash' },
+ 
+        // {
+        //   label: 'Health Facilities Coverage',
+        //   route:  '/FacCoverage',
+        //   submenu: [
+        //     { label: 'District Details', route:  '/districtDetails' },
+        //     { label: 'Facility Details', route:  '/facilityDetails' }
+        //   ]
+        // },
+        { label: 'EMD Drugs/Consumables', route: '/emd' },
+        { label: 'Health Facilities Coverage', route: '/FacCoverage' },
+        { label: 'Warehouse Information', route: '/WarehouseInfo' },
+        { label: 'Warehouse Stock Abstract', route: '/whStockAbstract' },
+        { label: 'Warehouse Stock Details', route: '/stockDetails' },
+        { label: 'Field Stock', route: '/field-stock' },
+        { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
+        { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
+        { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
+        { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+        { label: 'Growth in Distribution', route: '/distribution' },
+        { label: 'Near Expiry', route: '/nearExpiry' },
+        { label: 'Devlivery', route: '/Devlivery' },
+
+        // { label: 'QC Courier', route:  '/QcPendings' },
+        // { label: 'QC-Lab Issues', route:  '/qc-dash' },
+        { label: 'Quality Control', route: '/qc-dashboard' },
+        {
+          label: 'Quality Control Track',
+          submenu: [
+            { label: 'QC Courier', route: '/QcPendings' },
+            { label: 'QC-Lab Issues', route: '/qc-dash' },
+          ],
+          route: '/welcome',
+        },
+
+        { label: 'IWH Pendings', route: '/iwhPending' },
+        { label: 'NOC', route: '/noc' },
+        { label: 'ANPR Report ', route: '/vehicleTracking' },
+
+        // {label:'Quality Controll'
+
+        // },
+        // Menu=Quality Controll
+        {
+          label: 'Time-Based Analysis',
+
+          submenu: [
+            {
+              label: 'Door Delivery App Uses',
+              route: '/DropAppWarehousePerformance',
+            },
+            {
+              label: 'Time Taken By Supplier',
+              route: '/timetakenBySupplier',
+            },
+            { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
+            { label: 'QC Time Taken', route: '/QcTimeTaken' },
+
+            // { label: 'Facility Details', route:  '/facilityDetails' }
+          ],
+          route: '/welcome',
+        },
+
+        // { label: 'In-Transit Issues', route:  '/intransitIssues' },
+      ],
+
+
     },
      Public: {
       items: [
@@ -413,6 +514,7 @@ export class MenuServiceService {
 
         { label: 'Land Issue', route: '/LandIssue' },
         { label: 'Technical Sanction', route: '/TechnicalSanction' },
+        { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
         // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
         { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
         // { label: 'District Progress Monitoring', route: 'District Progress' },
@@ -493,6 +595,7 @@ export class MenuServiceService {
 
         { label: 'Land Issue', route: '/LandIssue' },
         { label: 'Technical Sanction', route: '/TechnicalSanction' },
+        { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
         // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
         { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
         // { label: 'District Progress Monitoring', route: 'District Progress' },
