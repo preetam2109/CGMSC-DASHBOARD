@@ -246,5 +246,14 @@ export class HoldItemDetails{
         ponoid!: number;
 }
 
+export class DMEAIvsIssue{
+    accyrsetid!: number;
+    accyear!: string;
+    nosIndent!: number;
+    aiReturn!: number;
+    issueitems!: number;
+    issuedValuecr!: number;
+}
+
 
   

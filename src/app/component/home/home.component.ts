@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { style } from '@angular/animations';
-
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -47,6 +47,9 @@ throw new Error('Method not implemented.');
   nosIndent: number = 0; // Default value
   nosfac: number = 0;    // Default value
   nositems: number = 0;
+  mcid=1
+  selectedCategoryRadio:any='Drugs';
+
   totalpoitems:any
   totalrecvalue:any
   dropindentid:any
@@ -828,7 +831,7 @@ colors = [];
 
   getItemNoDropDown(){
   
-    this.api.MasIndentitems(0,0,2,0).subscribe((res:any[])=>{
+    this.api.MasIndentitems(this.mcid,0,0,0).subscribe((res:any[])=>{
       // console.log(' Vehicle API dropdown Response:', res);
       if (res && res.length > 0) {
         this.MasIndentitemslist = res.map(item => ({
@@ -857,7 +860,8 @@ colors = [];
 
   }
   GetDeliveryInMonth(){
-    this.api.getDeliveryInMonth('01-Apr-2024','31-Mar-2025').subscribe((res:any)=>{
+    // let todayDT = new Date();
+    this.api.getDeliveryInMonth(0,0,0,0,this.mcid).subscribe((res:any)=>{
       // this.dropindentid=res[0].dropindentid
       this.nosindent=res[0].nosindent
       this.indentIssued=res[0].indentIssued
@@ -866,14 +870,14 @@ colors = [];
         })
   }
   GetPOCountCFY(){
-    this.api.getPOCountCFY(0,1).subscribe((res:any)=>{
+    this.api.getPOCountCFY(0,this.mcid,0).subscribe((res:any)=>{
   this.totalpoitems=res[0].totalpoitems
   this.totalpovalue=res[0].totalpovalue
   this.totalrecvalue=res[0].totalrecvalue
     })
   }
   last7DaysIssue(){
-    this.api.Last7DaysIssue(0,1,0).subscribe((res:any)=>{
+    this.api.Last7DaysIssue(0,this.mcid,0,0,0).subscribe((res:any)=>{
   this.nositemsI=res[0].nositems  
   this.totalValuecr=res[0].totalValuecr
   this.nosfacility=res[0].nosfacility
@@ -881,7 +885,7 @@ colors = [];
   }
   CGMSCIndentPending(){
     
-    this.api.CGMSCIndentPending().subscribe((res:any)=>{
+    this.api.CGMSCIndentPending(this.mcid,0).subscribe((res:any)=>{
       console.log('dsds',res);
       this.nosIndent=res[0].nosIndent
   this.nosfac=res[0].nosfac
@@ -995,63 +999,58 @@ colors = [];
   //   });
   //   }
   loadData(): void {
-    ;
-    const fromDate = '01-Jan-2025'; // Example date
-    const toDate = '30-Jan-2025'; // Example date
+    // ;
+    // const fromDate = '01-Jan-2025'; 
+    // const toDate = '30-Jan-2025'; 
 
-    this.api.DeliveryInMonth(fromDate, toDate).subscribe(
-      (data: any) => {
-        const nooffacIndented: number[] = [];
-        const nosindent: number[] = [];
-        // const indentIssued: number[] = [];
-        const dropfac: number[] = [];
-        const dropindentid: number[] = [];
+    // this.api.DeliveryInMonth(fromDate, toDate).subscribe(
+    //   (data: any) => {
+    //     const nooffacIndented: number[] = [];
+    //     const nosindent: number[] = [];
+    //     const dropfac: number[] = [];
+    //     const dropindentid: number[] = [];
 
-        console.log('Delivered from warehouse Response:', data);
+    //     console.log('Delivered from warehouse Response:', data);
 
-        data.forEach((item: any) => {
-          nooffacIndented.push(item.nooffacIndented);
-          nosindent.push(item.nosindent);
-          // indentIssued.push(item.indentIssued);
-          dropfac.push(item.dropfac);
-          dropindentid.push(item.dropindentid);
-        });
+    //     data.forEach((item: any) => {
+    //       nooffacIndented.push(item.nooffacIndented);
+    //       nosindent.push(item.nosindent);
+    //       dropfac.push(item.dropfac);
+    //       dropindentid.push(item.dropindentid);
+    //     });
 
-        // Flatten the data into single total values
-        const totalNoOffacIndented = nooffacIndented.reduce((a, b) => a + b, 0);
-        const totalNosIndent = nosindent.reduce((a, b) => a + b, 0);
-        // const totalIndentIssued = indentIssued.reduce((a, b) => a + b, 0);
-        const totalDropFac = dropfac.reduce((a, b) => a + b, 0);
-        const Dropindentid = dropindentid.reduce((a, b) => a + b, 0);
+    //     const totalNoOffacIndented = nooffacIndented.reduce((a, b) => a + b, 0);
+    //     const totalNosIndent = nosindent.reduce((a, b) => a + b, 0);
+    //     const totalDropFac = dropfac.reduce((a, b) => a + b, 0);
+    //     const Dropindentid = dropindentid.reduce((a, b) => a + b, 0);
 
-        // Update the pie chart
-        this.chartOptions = {
-          ...this.chartOptions, // Preserve existing options
-          series: [totalNoOffacIndented,totalDropFac ,totalNosIndent,Dropindentid ], // Pie chart data
-          chart: {
-            type: "donut" // Ensure chart type is pie
-          },
-          labels: [
-            'Indented Facility',
-            'Delivered Facilities',
-            'Total Indent',
-            'Delivered Indent'
-          ]
-        } as any; // ✅ Fix: Use "as any" to bypass TypeScript restrictions
-      }
+    //     this.chartOptions = {
+    //       ...this.chartOptions, 
+    //       series: [totalNoOffacIndented,totalDropFac ,totalNosIndent,Dropindentid ], 
+    //       chart: {
+    //         type: "donut" 
+    //       },
+    //       labels: [
+    //         'Indented Facility',
+    //         'Delivered Facilities',
+    //         'Total Indent',
+    //         'Delivered Indent'
+    //       ]
+    //     } as any; 
+    //   }
       
       
-      ,
-      (error: any) => {
-        console.error('Error fetching data', error);
-      }
-    );
+    //   ,
+    //   (error: any) => {
+    //     console.error('Error fetching data', error);
+    //   }
+    // );
 }
 
 loadData3(): void {
   
 
-  this.api.getTotalRC(1).subscribe(
+  this.api.getTotalRC(this.mcid).subscribe(
     (data: any) => {
       const categories: string[] = [];
       const edl: number[] = [];
@@ -1147,7 +1146,7 @@ loadData3(): void {
 loadStockoutDHS(): void {
 
 
-  this.api.StockoutPer(1,1,0,2).subscribe(
+  this.api.StockoutPer(this.mcid,1,0,2).subscribe(
     (data: any) => {
       const edLtypeid: number[] = [];
       const edLtpe: string[] = [];
@@ -1171,7 +1170,7 @@ loadStockoutDHS(): void {
       {
         series: [
           {
-            name: 'Total Drugs',
+            name: 'Total '+this.selectedCategoryRadio,
             data: nositems
           },
           {
@@ -1208,7 +1207,7 @@ loadStockoutDHS(): void {
         },
         yaxis: {
           title: {
-            text: "No of Drugs"
+            text: "No of "+this.selectedCategoryRadio
           },
         },
         dataLabels: {
@@ -1254,7 +1253,7 @@ loadStockoutDHS(): void {
 loadIndent(): void {
 
 
-  this.api.IndentcntHome(1,0).subscribe(
+  this.api.IndentcntHome(this.mcid,0).subscribe(
     (data: any) => {
       const hod: string[] = [];
       const nositems: number[] = [];
@@ -1274,7 +1273,7 @@ loadIndent(): void {
       this.chartIndent = {
         series: [
           {
-            name: 'No of Drugs',
+            name: 'No of Items',
             data: nositems
           },
           {
@@ -1311,7 +1310,7 @@ loadIndent(): void {
         },
         yaxis: {
           title: {
-            text: "No of Drugs"
+            text: ""
           },
         },
         dataLabels: {
@@ -1357,7 +1356,7 @@ loadIndent(): void {
 loadData4(): void {
   
 
-  this.api.CGMSCStockHome(1).subscribe(
+  this.api.CGMSCStockHome(this.mcid).subscribe(
     (data: any) => {
       const edLtpe: string[] = [];
       const nositems: number[] = [];
@@ -1377,7 +1376,7 @@ loadData4(): void {
       this.chartOptions4 = {
         series: [
           {
-            name: 'No of Drugs',
+            name: 'No of '+this.selectedCategoryRadio,
             data: nositems,
             color:'#072ac8'
           },
@@ -1455,7 +1454,7 @@ loadData4(): void {
 
 Nearexp(): void {
 
-  this.api.NearExp(1,5).subscribe(
+  this.api.NearExp(this.mcid,5).subscribe(
     (data:any) => {
 
       const nositems: number[] = [];
@@ -1515,7 +1514,7 @@ Nearexp(): void {
 loadUQC(): void {
   
 
-  this.api.QCPendingHomeDash(1).subscribe(
+  this.api.QCPendingHomeDash(this.mcid).subscribe(
     (data: any) => {
       
       const categories: string[] = [];
@@ -1614,7 +1613,7 @@ loadUQC(): void {
 
   loadData1(): void {
 
-        this.api.Last7DaysIssue(7,0,545).subscribe(
+        this.api.Last7DaysIssue(7,this.mcid,0,0,1).subscribe(
           (data:any) => {
             const nositems: number[] = [];
             const indentDT: any[] = [];
@@ -1673,7 +1672,7 @@ loadUQC(): void {
   loadData2(): void {
     
     
-        this.api.Last7DaysReceipt(7,0,545).subscribe(
+        this.api.Last7DaysReceipt(7,this.mcid,0,0).subscribe(
           (data:any) => {
             const nosPO: number[] = [];
             const nositems: any[] = [];
@@ -1885,6 +1884,51 @@ loadUQC(): void {
          console.log('Dialog closed');
         });
         }
+
+
+
+     updateSelectedHodid(): void {
+      
+  this.spinner.show(); // Show the spinner before making API calls
+
+  if (this.selectedCategoryRadio === 'Drugs') {
+    this.mcid = 1;
+  } else if (this.selectedCategoryRadio === 'Consumables') {
+    this.mcid = 2;
+  } else if (this.selectedCategoryRadio === 'Reagent') {
+    this.mcid = 3;
+  } else if (this.selectedCategoryRadio === 'AYUSH') {
+    this.mcid = 4;
+  }
+
+  // Create an array of API calls to execute
+  forkJoin([
+    this.GetPOCountCFY(),
+    this.last7DaysIssue(),
+    this.loadData1(),
+    this.loadData2(),
+    this.loadIndent(),
+    this.loadData4(),
+    this.Nearexp(),
+    this.loadData3(), // Drug rate contract
+    this.loadUQC(),
+    this.loadStockoutDHS(),
+    this.CGMSCIndentPending(),
+    this.getItemNoDropDown(),
+    this.GetDeliveryInMonth(),
+  ]).subscribe(
+    () => {
+      // Add a slight delay to ensure the spinner is visible
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 2000); // Adjust delay as needed (1000ms = 1 second)
+    },
+    (error) => {
+      console.error("Error loading data:", error);
+      this.spinner.hide(); // Hide the spinner even if an error occurs
+    }
+  );
+}
     
   }
 

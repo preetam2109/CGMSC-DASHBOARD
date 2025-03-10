@@ -950,7 +950,7 @@ colors = [];
 
   }
   GetDeliveryInMonth(){
-    this.api.getDeliveryInMonth('01-Apr-2024','31-Mar-2025').subscribe((res:any)=>{
+    this.api.getDeliveryInMonth(0,0,0,0,0).subscribe((res:any)=>{
       // this.dropindentid=res[0].dropindentid
       this.nosindent=res[0].nosindent
       this.indentIssued=res[0].indentIssued
@@ -959,14 +959,14 @@ colors = [];
         })
   }
   GetPOCountCFY(){
-    this.api.getPOCountCFY(0,1).subscribe((res:any)=>{
+    this.api.getPOCountCFY(0,1,0).subscribe((res:any)=>{
   this.totalpoitems=res[0].totalpoitems
   this.totalpovalue=res[0].totalpovalue
   this.totalrecvalue=res[0].totalrecvalue
     })
   }
   last7DaysIssue(){
-    this.api.Last7DaysIssue(0,1,0).subscribe((res:any)=>{
+    this.api.Last7DaysIssue(0,1,0,0,0).subscribe((res:any)=>{
   this.nositemsI=res[0].nositems  
   this.totalValuecr=res[0].totalValuecr
   this.nosfacility=res[0].nosfacility
@@ -974,7 +974,7 @@ colors = [];
   }
   CGMSCIndentPending(){
     
-    this.api.CGMSCIndentPending().subscribe((res:any)=>{
+    this.api.CGMSCIndentPending(0,0).subscribe((res:any)=>{
       console.log('dsds',res);
       this.nosIndent=res[0].nosIndent
   this.nosfac=res[0].nosfac
@@ -1707,7 +1707,7 @@ loadUQC(): void {
 
   loadData1(): void {
 
-        this.api.Last7DaysIssue(7,0,545).subscribe(
+        this.api.Last7DaysIssue(7,0,0,0,1).subscribe(
           (data:any) => {
             const nositems: number[] = [];
             const indentDT: any[] = [];
@@ -1766,7 +1766,7 @@ loadUQC(): void {
   loadData2(): void {
     
     
-        this.api.Last7DaysReceipt(7,0,545).subscribe(
+        this.api.Last7DaysReceipt(7,0,0,0).subscribe(
           (data:any) => {
             const nosPO: number[] = [];
             const nositems: any[] = [];

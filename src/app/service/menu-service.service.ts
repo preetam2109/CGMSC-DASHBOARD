@@ -34,8 +34,11 @@ export class MenuServiceService {
       categories: {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
+          { label: 'Dashboard', route: '/welcome' },
           { label: 'QC Insights ', route: '/qc-dashboard' },
           { label: 'Finance', route: '/finance-dash' },
+          { label: 'DHS Dashboard', route: '/dhsdash' },
+          { label: 'CME Dashboard', route: '/cmedash' },
    
           // {
           //   label: 'Health Facilities Coverage',
@@ -219,6 +222,7 @@ export class MenuServiceService {
       categories: {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
+          { label: 'Dashboard', route: '/dhsdash' },
           { label: 'Health Facilities Coverage', route: '/FacCoverage' },
           { label: 'Warehouse Information', route: '/WarehouseInfo' },
           { label: 'Stock Abstract', route: '/whStockAbstract' },
@@ -311,6 +315,8 @@ export class MenuServiceService {
       categories: {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
+          { label: 'Dashboard', route: '/cmedash' },
+
           { label: 'Stock Abstract', route: '/whStockAbstract' },
           { label: 'Growth in Distribution', route: '/distribution' },
         ],
