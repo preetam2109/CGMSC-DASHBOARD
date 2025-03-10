@@ -106,7 +106,7 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst, HoldItemDetails, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCHold_NSQDash, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingMonthwiseRec, QCPendingMonthwiseRecDetails, QCPendingParticularArea, QCPendingPlace, QCResultPendingLabWise, QCTimeTakenYear, StockoutPer } from '../Model/DashCards';
+import { DeliveryInMonthconst, DMEAIvsIssue, HoldItemDetails, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCHold_NSQDash, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingMonthwiseRec, QCPendingMonthwiseRecDetails, QCPendingParticularArea, QCPendingPlace, QCResultPendingLabWise, QCTimeTakenYear, StockoutPer } from '../Model/DashCards';
 import { MasIndentitems } from '../Model/MasIndentitems';
 import { MasfacilityInfo } from '../Model/MasfacilityInfo';
 import { Masitems } from '../Model/Masitems';
@@ -999,20 +999,20 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<MasSupplierPipeline[]>(`https://dpdmis.in/CGMSCHO_API2/api/Master/MasSupplierPipeline?wh=${wh}`);
   }
 
-  CGMSCIndentPending() {
-    return this.http.get(`${this.CGMSCHO_API2}/DashboardHome/CGMSCIndentPending`);
+  CGMSCIndentPending( mcid:any,hodid:any){
+    return this.http.get(`${this.CGMSCHO_API2}/DashboardHome/CGMSCIndentPending?mcid=${mcid}&hodid=${hodid}`);
   }
 
   DeliveryInMonth(IndentfromDT: any, Indenttodt: any) {
     return this.http.get<DeliveryInMonthconst[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}`);
   }
 
-  Last7DaysIssue(days: any, mcid: any, yrid: any) {
-    return this.http.get<Last7DaysIssue[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysIssue?days=${days}&mcid=${mcid}&yrid=${yrid}`);
+  Last7DaysIssue(days: any, mcid: any, yrid: any,hodid:any,ltflag:any) {
+    return this.http.get<Last7DaysIssue[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysIssue?days=${days}&mcid=${mcid}&yrid=${yrid}&hodid=${hodid}&ltflag=${ltflag}`);
   }
 
-  Last7DaysReceipt(days: any, mcid: any, yrid: any) {
-    return this.http.get<Last7DaysReceipt[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysReceipt?days=${days}&mcid=${mcid}&yrid=${yrid}`);
+  Last7DaysReceipt(days: any, mcid: any, yrid: any,hodid:any) {
+    return this.http.get<Last7DaysReceipt[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysReceipt?days=${days}&mcid=${mcid}&yrid=${yrid}&hodid=${hodid}`);
   }
 
   MasIndentitems(mcid: any, yearid: any, hodid: any, medclgid: any) {
@@ -1043,11 +1043,11 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   //   return this.http.get<facwiseSTockIssuanceCoonsumptionm[]>(`${this.CGMSCHO_API2}/DashboardHome/IssuedCFY?yrid=0&mcid=0`);
   // }
 
-  getPOCountCFY(yrid: any, mcid: any) {
-    return this.http.get<POCountCFY[]>(`${this.CGMSCHO_API2}/DashboardHome/POCountCFY?yrid=${yrid}&mcid=${mcid}`);
+  getPOCountCFY(yrid: any, mcid: any,hodid:any) {
+    return this.http.get<POCountCFY[]>(`${this.CGMSCHO_API2}/DashboardHome/POCountCFY?yrid=${yrid}&mcid=${mcid}&hodid=${hodid}`);
   }
-  getDeliveryInMonth(IndentfromDT: any, Indenttodt: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}`);
+  getDeliveryInMonth(yrid:any,IndentfromDT: any, Indenttodt: any,hodid:any,mcid:any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?yrid=${yrid}&IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}&hodid=${hodid}&mcid=${mcid}`);
   }
 
   getTotalRC(mcid: any) {
@@ -1185,9 +1185,9 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<QCResultPendingLabWise[]>(`${this.CGMSCHO_API2}/QC/QCResultPendingLabWise?mcid=${mcid}`);
   }
 
-  QCHold_NSQDash(HoldNSQ:any) {
+  QCHold_NSQDash(mcid:any,nsqhold :any) {
 
-    return this.http.get<QCHold_NSQDash[]>(`${this.CGMSCHO_API2}/QC/QCHold_NSQDash?mcid=1&HoldNSQ=${HoldNSQ}`);
+    return this.http.get<QCHold_NSQDash[]>(`${this.CGMSCHO_API2}/QC/QCHold_NSQDash?mcid=${mcid}&nsqhold=${nsqhold}`);
   }
 
   QCTimeTakenYear(mcid:any,yearid:any,itemtypeid:any) {
@@ -1206,6 +1206,10 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   
   HoldItemDetails(mcid:any) {
     return this.http.get<HoldItemDetails[]>(`${this.CGMSCHO_API2}/QC/HoldItemDetails?mcid=${mcid}`);
+  }
+
+  getDMEAIvsIssue(mcid:any,yearid:any) {
+    return this.http.get<DMEAIvsIssue[]>(`${this.CGMSCHO_API2}/DashboardDME/DMEAIvsIssue?mcid=${mcid}&yearid=${yearid}`);
   }
 
 

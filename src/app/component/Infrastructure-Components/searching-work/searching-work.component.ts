@@ -475,7 +475,7 @@ export class SearchingWorkComponent {
   }
 
   GetImageBinary() {
-    // debugger;
+    // ;
     try {
       // ;
       // const sr = 90691;

@@ -89,6 +89,32 @@
     </div>
   </div>
 </div>  -->
+<div class="container-fluid p-0 m-0">
+  <div class="row border rounded shadow w-100 mb-0 bg-white p-0 m-0">
+    <div class=" col-sm-12 col-sm-6 d-flex justify-content-center m-2">
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
+          value="Drugs" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="drugs">Drugs</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="consumables"
+          [(ngModel)]="selectedCategoryRadio" value="Consumables" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="consumables">Consumables</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategoryRadio"
+          value="AYUSH" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="ayush">AYUSH</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="reagent"
+          [(ngModel)]="selectedCategoryRadio" value="Reagent" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="reagent">Reagent</label>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -99,7 +125,7 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3"  >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
         <div class="card-body" routerLink="/GrowthInProcurmentTab" >
-          <h6 class="card-title">No of Drugs Purchase Ordered in C.F.Y.</h6>
+          <h6 class="card-title">No of {{selectedCategoryRadio}} Purchase Ordered in C.F.Y.</h6>
           <h2 class="card-value">{{totalpoitems}}</h2>
           <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
         </div>
@@ -110,7 +136,7 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
         <div class="card-body" routerLink="/distribution">
-          <h6 class="card-title">Drug Distribution & Facility Issues in C.F.Y.</h6>
+          <h6 class="card-title">{{selectedCategoryRadio}} Distribution & Facility Issues in C.F.Y.</h6>
           <h2 class="card-value">{{nositemsI}}</h2>
           <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p>
 
@@ -134,7 +160,7 @@
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
         <div class="card-body"   routerLink="/IndentPendingWHdash" >
           <h6 class="card-title">Pending Indents in Warehouse</h6>
-          <h2 class="card-value"> {{ nosIndent }}</h2>
+          <h2 class="card-value"> {{ nosIndent }}</h2><br>
           <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p>
           <!-- <ul class="list-unstyled">
               <li>
@@ -205,7 +231,7 @@
           [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis" [title]="chartOptions2.title"
           [tooltip]="chartOptions2.tooltip" [legend]="chartOptions2.legend" >
           </apx-chart>
-          <h5 class="card-title mt-3">Last 7 days Receipt</h5>
+          <h5 class="card-title mt-3">Last 7 Days Receipt</h5>
           <!-- <p class="card-text">Last Campaign Performance</p> -->
           <p class="card-text text-muted">
             <small>Value in Cr.</small>
@@ -231,7 +257,7 @@
           <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
           <div>
             
-            <h5 class="card-title ml-3">Annual Indent of Drugs C.F.Y. </h5>
+            <h5 class="card-title ml-3">Annual Indent of {{selectedCategoryRadio}} C.F.Y. </h5>
             <!-- <p class="card-text">{{currentMonth}} Month</p> -->
           </div>
         </div>
@@ -258,7 +284,7 @@
             <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
             <div>
               
-              <h5 class="card-title ml-3">Current Stock Drugs</h5>
+              <h5 class="card-title ml-3">CGMSC Stock of {{selectedCategoryRadio}}</h5>
               <!-- <p class="card-text">{{currentMonth}} Month</p> -->
             </div>
           </div>
@@ -285,7 +311,7 @@
           <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
           <div>
             
-            <h5 class="card-title ml-3">Drugs Stock out % against DHS Indent</h5>
+            <h5 class="card-title ml-3">{{selectedCategoryRadio}} Stock out % against DHS Indent</h5>
             <!-- <p class="card-text">{{currentMonth}} Month</p> -->
           </div>
         </div>
@@ -332,7 +358,7 @@
         [fill]="chartNearexp.fill" [yaxis]="chartNearexp.yaxis" [title]="chartNearexp.title"
         [tooltip]="chartNearexp.tooltip" [legend]="chartNearexp.legend" >
         </apx-chart>
-        <h5 class="card-title mt-3">Near Expiry of Drugs in Next 6 Month </h5>
+        <h5 class="card-title mt-3">Near Expiry of {{selectedCategoryRadio}} in Next 6 Month </h5>
         <!-- <p class="card-text">Last Campaign Performance</p> -->
         <p class="card-text text-muted">
           <small>Value in Cr.</small>
@@ -358,7 +384,7 @@
             <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
             <div>
               
-              <h5 class="card-title ml-3">Drugs  Rate Contract </h5>
+              <h5 class="card-title ml-3">Valid  Rate Contract of {{selectedCategoryRadio}} </h5>
               <!-- <p class="card-text">{{currentMonth}} Month</p> -->
             </div>
           </div>
@@ -387,7 +413,7 @@
            <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
            <div>
              
-             <h5 class="card-title ml-3">Batches Awaiting Quality Check</h5>
+             <h5 class="card-title ml-3">{{selectedCategoryRadio}} Batches Awaiting Quality Check</h5>
              <!-- <p class="card-text">{{currentMonth}} Month</p> -->
            </div>
          </div>

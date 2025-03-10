@@ -161,8 +161,8 @@ isPasswordVisible: boolean = false;
   }
   onUserChangeCgmscl(event: Event): void {
     
-    const emailid = (event.target as HTMLSelectElement).value; // Get the selected email ID
-    const selectedUser = this.cgmsclDropdownList.find((user: { emailid: string }) => user.emailid === emailid); // Find the user object in the list
+    // const emailid = (event.target as HTMLSelectElement).value; // Get the selected email ID
+    const selectedUser = this.cgmsclDropdownList.find((user: { emailid: string }) => user.emailid === this.emailid); // Find the user object in the list
   
     console.log('Selected User:', selectedUser); // Log the selected user object properly
   
@@ -218,6 +218,7 @@ isPasswordVisible: boolean = false;
 
   
   cgmsclLoginDropdown(){
+    
     this.api.masddlUser(0).subscribe((res:any[])=>{
       console.log('API  CGMSCL dropdown Response:', res);
       if (res && res.length > 0) {

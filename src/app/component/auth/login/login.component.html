@@ -548,7 +548,7 @@ aria-hidden="true">
                                   bindLabel="textfield"
                                   bindValue="emailid"
                                   [(ngModel)]="emailid"
-                                 
+                                  (change)="onUserChangeCgmscl($event)"
                                   name="emailid"
                                   #emailidField="ngModel"
                                   [placeholder]="!emailid ? 'Choose CGMSCL User' : ''"
