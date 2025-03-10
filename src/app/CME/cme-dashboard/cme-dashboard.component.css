@@ -1,0 +1,214 @@
+.card {
+    height: auto; /* Allow flexible height */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: #fff;
+    padding: 10px; /* Padding to fit content */
+    text-align: center;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-title {
+    font-size: 14px; /* Adjusted title size for better fit */
+    font-weight: bold;
+    color: #333;
+    margin-top: 8px; /* Space between image and text */
+    text-align: center;
+    word-wrap: break-word; /* Prevent overflow of long text */
+  }
+  
+  .card-icon img {
+    width: 70px; /* Default image size */
+    height: 70px;
+  }
+  
+  @media (max-width: 576px) { /* Small screens */
+    .card-title {
+      font-size: 13px; /* Reduce font size on smaller screens */
+    }
+  
+    .card-icon img {
+      width: 50px; /* Reduce image size */
+      height: 50px;
+    }
+  }
+  
+  
+  
+  
+  .modal-content {
+    border-radius: 0;
+  }
+  
+  .modal-body {
+    /* padding: 20px;  */
+    padding-left: 30px;
+    padding-right: 14px;
+  }
+  
+  .fullscreen-modal .modal-dialog {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  }
+  
+  .fullscreen-modal .modal-content {
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  }
+  
+  
+  
+  /* modella popup css */
+  /* .d-block {
+    display: block !important;
+  } */
+  .modal {
+    margin-top: 0px;
+    padding-top: 0px;
+    /* --bs-modal-margin: 0.1rem;
+    --bs-modal-box-shadow: var(--bs-box-shadow); */
+  }
+  @media (min-width: 576px) {
+    .modal {
+        --bs-modal-margin: 1.75rem;
+        --bs-modal-box-shadow: var(--bs-box-shadow);
+    }
+  }
+  
+  .full-screen-dialog .mat-dialog-container {
+    height: 100vh; /* Full viewport height */
+    width: 100vw;  /* Full viewport width */
+    margin: 0;     /* Remove any margin */
+    border-radius: 0; /* Remove default dialog border radius */
+  }
+  .mat-dialog-content {
+    max-height: 300px; /* Set a max height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    padding: 16px;     /* Optional padding for content */
+  }
+  @media (max-width: 600px) {
+    .mat-dialog-container {
+      width: 100% !important;
+      height: auto !important;
+      margin: 0 !important;
+      max-height: 100vh !important;
+    }
+  }
+  
+  .custom-dialog-container {
+    height: 110vh; /* Adjust height as needed */
+  }
+  
+  .mat-dialog-content {
+    overflow-y: auto;
+  }
+  .mat-mdc-dialog-content {
+    /* max-height: 65vh; */
+    max-height: 75vh;
+    /* overflow: hidden; */
+  }
+  @media (max-width: 768px) {
+    .custom-dialog-container {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+  
+  
+  
+  
+  .container-fluid {
+    padding: 20px;
+  }
+  
+  .table-responsive {
+    margin-top: 20px;
+  }
+  
+  .filter-field {
+    margin-right: 16px;
+  }
+  
+  .export-menu-container {
+    margin-left: 16px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+  }
+  
+  .table th {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .table td {
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .table td, .table th {
+    border: 1px solid #e0e0e0;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .mat-paginator {
+    margin-top: 20px;
+  }
+  .text p {
+    font-size: small; /* Adjust text size for small screens */
+    /* color: crimson; */
+  }
+  
+  /* Additional styling for mobile view */
+  @media (max-width: 768px) {
+    .table-container {
+      padding: 0;
+    }
+  
+    .table {
+      font-size: 14px;
+    }
+  
+    .filter-field,
+    .export-menu-container {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    .text p {
+      font-size: xx-small; /* Adjust text size for small screens */
+      /* color: crimson; */
+    }
+  }
+  
+  
+  
+  

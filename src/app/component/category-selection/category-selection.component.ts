@@ -53,7 +53,20 @@ export class CategorySelectionComponent implements OnInit {
     localStorage.setItem('selectedCategory', category);
     this.menuService.setSelectedCategory(category); // Store the category in MenuService
     this.updateMenu(); // Update the menu items based on the selected category
-    this.router.navigate(['/welcome']); // Redirect after selection
+    
+    if(this.role==="DHS"){
+      this.router.navigate(['/dhsdash']); // Redirect after selection
+
+    }else if(this.role==="CME"){
+      this.router.navigate(['/cmedash']); // Redirect after selection
+
+    }
+    else
+    {
+      
+      this.router.navigate(['/welcome']); // Redirect after selection
+    }
+
   }
 
   // Update menu based on selected category

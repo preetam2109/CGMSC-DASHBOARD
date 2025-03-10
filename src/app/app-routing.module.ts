@@ -103,6 +103,8 @@ import { FinanceDashComponent } from './Finance-Dashboard/finance-dash/finance-d
 import { PublicViewComponent } from './component/Public-View/public-view/public-view.component';
 import { QcDashboardComponent } from './component/QC/qc-dashboard/qc-dashboard.component';
 import { SidebarPublicComponent } from './sidebar-public/sidebar-public.component';
+import { DhsdashComponent } from './component/DHS-Components/dhsdash/dhsdash.component';
+import { CMEDashboardComponent } from './CME/cme-dashboard/cme-dashboard.component';
 
 
 
@@ -120,6 +122,8 @@ const routes: Routes = [
 
 // MD routes
 { path: 'welcome', component: HomeComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','Collector','Warehouse','SE','Division','DM PO']} },
+{ path: 'dhsdash', component: DhsdashComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','Collector','Warehouse','SE','Division','DM PO']} },
+{ path: 'cmedash', component: CMEDashboardComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','Collector','Warehouse','SE','Division','DM PO']} },
   // {path:'autocomplete',component:AutocompleteComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
   // {path:'input',component:InputComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
   {path:'card',component:CardComponent,canActivate:[RouteGuardService], data: { allowedRoles: ['SEC1','CME','Collector']} },

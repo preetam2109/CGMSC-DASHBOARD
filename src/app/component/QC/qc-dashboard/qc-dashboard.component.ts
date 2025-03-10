@@ -80,11 +80,25 @@ import { color } from 'html2canvas/dist/types/css/types/color';
   styleUrl: './qc-dashboard.component.css'
 })
 export class QcDashboardComponent {
-exportToPDF() {
+applyTextFilter3($event: KeyboardEvent) {
 throw new Error('Method not implemented.');
 }
-applyTextFilter($event: KeyboardEvent) {
-throw new Error('Method not implemented.');
+applyTextFilterPendingTracker(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource5.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSource5.paginator) {
+    this.dataSource5.paginator.firstPage();
+  }
+}
+
+applyTextFilterPT(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource6.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSource6.paginator) {
+    this.dataSource6.paginator.firstPage();
+  }
 }
 @ViewChild('itemDetailsModal') itemDetailsModal: any;
 @ViewChild('itemDetailsModal2') itemDetailsModal2: any;
@@ -946,7 +960,7 @@ colors = [];
     this.CGMSCIndentPending();
     this.GetDeliveryInMonth();
     this.GetPOCountCFY();
-    this.last7DaysIssue();
+    // this.last7DaysIssue();
     this.loadData();
     this.loadData1();
     this.loadData2();
@@ -969,7 +983,7 @@ colors = [];
 
   getItemNoDropDown(){
   
-    this.api.QCPendingItems(1).subscribe((res:any[])=>{
+    this.api.QCPendingItems(this.mcid).subscribe((res:any[])=>{
       console.log(' QCPendingItems API dropdown Response:', res);
       if (res && res.length > 0) {
         this.qCPendingItems = res.map(item => ({
@@ -999,7 +1013,7 @@ colors = [];
   }
 
   QCHold_Dash(){
-    this.api.QCHold_NSQDash('Hold').subscribe((res:any)=>{
+    this.api.QCHold_NSQDash(this.mcid,'Hold').subscribe((res:any)=>{
       this.nositemshold=res[0].nositems
       this.stkvaluehold=res[0].stkvalue
       this.nosbatchhold=res[0].nosbatch
@@ -1007,7 +1021,7 @@ colors = [];
     })
   }
   QCNSQ_Dash(){
-    this.api.QCHold_NSQDash('NSQ').subscribe((res:any)=>{
+    this.api.QCHold_NSQDash(this.mcid,'NSQ').subscribe((res:any)=>{
       this.nositemsnsq=res[0].nositems
       this.stkvaluensq=res[0].stkvalue
       this.nosbatchnsq=res[0].nosbatch
@@ -1015,28 +1029,28 @@ colors = [];
   }
 
   GetDeliveryInMonth(){
-    this.api.getDeliveryInMonth('01-Apr-2024','31-Mar-2025').subscribe((res:any)=>{
+    this.api.getDeliveryInMonth(0,0,0,0,this.mcid).subscribe((res:any)=>{
       this.nosindent=res[0].nosindent
       this.indentIssued=res[0].indentIssued
       this.nooffacIndented=res[0].nooffacIndented
         })
   }
   GetPOCountCFY(){
-    this.api.getPOCountCFY(0,1).subscribe((res:any)=>{
+    this.api.getPOCountCFY(0,1,0).subscribe((res:any)=>{
   this.totalpoitems=res[0].totalpoitems
   this.totalpovalue=res[0].totalpovalue
   this.totalrecvalue=res[0].totalrecvalue
     })
   }
-  last7DaysIssue(){
-    this.api.Last7DaysIssue(0,1,0).subscribe((res:any)=>{
-  this.nositemsI=res[0].nositems  
-  this.totalValuecr=res[0].totalValuecr
-  this.nosfacility=res[0].nosfacility
-    })
-  }
+  // last7DaysIssue(){
+  //   this.api.Last7DaysIssue(0,1,0).subscribe((res:any)=>{
+  // this.nositemsI=res[0].nositems  
+  // this.totalValuecr=res[0].totalValuecr
+  // this.nosfacility=res[0].nosfacility
+  //   })
+  // }
   QCTimeTakenYear(){
-    this.api.QCTimeTakenYear(1,0,0).subscribe((res:any)=>{
+    this.api.QCTimeTakenYear(this.mcid,0,0).subscribe((res:any)=>{
   this.pOnositems=res[0].pOnositems  
   this.totalsample=res[0].totalsample
   this.qctimetaken=res[0].qctimetaken
@@ -1045,7 +1059,7 @@ colors = [];
   }
   CGMSCIndentPending(){
     
-    this.api.CGMSCIndentPending().subscribe((res:any)=>{
+    this.api.CGMSCIndentPending(this.mcid,0).subscribe((res:any)=>{
       console.log('dsds',res);
       this.nosIndent=res[0].nosIndent
   this.nosfac=res[0].nosfac
@@ -1159,58 +1173,54 @@ colors = [];
   //   });
   //   }
   loadData(): void {
-    ;
-    const fromDate = '01-Jan-2025'; // Example date
-    const toDate = '30-Jan-2025'; // Example date
+    // ;
+    // const fromDate = '01-Jan-2025'; 
+    // const toDate = '30-Jan-2025'; 
 
-    this.api.DeliveryInMonth(fromDate, toDate).subscribe(
-      (data: any) => {
-        const nooffacIndented: number[] = [];
-        const nosindent: number[] = [];
-        // const indentIssued: number[] = [];
-        const dropfac: number[] = [];
-        const dropindentid: number[] = [];
+    // this.api.DeliveryInMonth(fromDate, toDate).subscribe(
+    //   (data: any) => {
+    //     const nooffacIndented: number[] = [];
+    //     const nosindent: number[] = [];
+    //     const dropfac: number[] = [];
+    //     const dropindentid: number[] = [];
 
-        console.log('Delivered from warehouse Response:', data);
+    //     console.log('Delivered from warehouse Response:', data);
 
-        data.forEach((item: any) => {
-          nooffacIndented.push(item.nooffacIndented);
-          nosindent.push(item.nosindent);
-          // indentIssued.push(item.indentIssued);
-          dropfac.push(item.dropfac);
-          dropindentid.push(item.dropindentid);
-        });
+    //     data.forEach((item: any) => {
+    //       nooffacIndented.push(item.nooffacIndented);
+    //       nosindent.push(item.nosindent);
+    //       dropfac.push(item.dropfac);
+    //       dropindentid.push(item.dropindentid);
+    //     });
 
-        // Flatten the data into single total values
-        const totalNoOffacIndented = nooffacIndented.reduce((a, b) => a + b, 0);
-        const totalNosIndent = nosindent.reduce((a, b) => a + b, 0);
-        // const totalIndentIssued = indentIssued.reduce((a, b) => a + b, 0);
-        const totalDropFac = dropfac.reduce((a, b) => a + b, 0);
-        const Dropindentid = dropindentid.reduce((a, b) => a + b, 0);
+    //     const totalNoOffacIndented = nooffacIndented.reduce((a, b) => a + b, 0);
+    //     const totalNosIndent = nosindent.reduce((a, b) => a + b, 0);
+    //     const totalDropFac = dropfac.reduce((a, b) => a + b, 0);
+    //     const Dropindentid = dropindentid.reduce((a, b) => a + b, 0);
 
-        // Update the pie chart
-        this.chartOptions = {
-          ...this.chartOptions, // Preserve existing options
-          series: [totalNoOffacIndented,totalDropFac ,totalNosIndent,Dropindentid ], // Pie chart data
-          chart: {
-            type: "donut" // Ensure chart type is pie
-          },
-          labels: [
-            'Indented Facility',
-            'Delivered Facilities',
-            'Total Indent',
-            'Delivered Indent'
-          ]
-        } as any; // ✅ Fix: Use "as any" to bypass TypeScript restrictions
-      }
+    //     this.chartOptions = {
+    //       ...this.chartOptions, 
+    //       series: [totalNoOffacIndented,totalDropFac ,totalNosIndent,Dropindentid ], 
+    //       chart: {
+    //         type: "donut" 
+    //       },
+    //       labels: [
+    //         'Indented Facility',
+    //         'Delivered Facilities',
+    //         'Total Indent',
+    //         'Delivered Indent'
+    //       ]
+    //     } as any; 
+    //   }
       
       
-      ,
-      (error: any) => {
-        console.error('Error fetching data', error);
-      }
-    );
+    //   ,
+    //   (error: any) => {
+    //     console.error('Error fetching data', error);
+    //   }
+    // );
 }
+
 
 loadQCfinalUpdatePending(): void {
   
@@ -1588,16 +1598,16 @@ loadDataQCStages(): void {
               { dataPointIndex }: { dataPointIndex: number }
             ) => {
               console.log("Chart Clicked!");
-          debugger
+          
               // Get the selected category based on index
               const selectedCategory = this.chartOptionsQCStages?.labels?.[dataPointIndex] ?? "Unknown";
               const selectedValue = this.chartOptionsQCStages?.series?.[dataPointIndex] ?? 0;
               console.log("Selected Category:", selectedCategory);
               console.log("Selected Value:", selectedValue);
-          debugger
+          
               if (selectedCategory && selectedValue !== undefined) {
                 console.log(`You clicked on ${selectedCategory} with value: ${selectedValue}`);
-          debugger
+          
                 // Fetch data based on selection
                 this.fetchDataBasedOnChartSelectionchartQCStages(selectedCategory, selectedValue);
               } else {
@@ -1934,66 +1944,64 @@ loadUQC(): void {
 
   loadData1(): void {
 
-        this.api.Last7DaysIssue(7,0,545).subscribe(
-          (data:any) => {
-            const nositems: number[] = [];
-            const indentDT: any[] = [];
-            const indentdate: any[] = [];
-            const totalValuecr: number[] = [];
-            const nosfacility: number[] = [];
-            console.log('helo :', data);
+        // this.api.Last7DaysIssue(7,0,545).subscribe(
+        //   (data:any) => {
+        //     const nositems: number[] = [];
+        //     const indentDT: any[] = [];
+        //     const indentdate: any[] = [];
+        //     const totalValuecr: number[] = [];
+        //     const nosfacility: number[] = [];
+        //     console.log('helo :', data);
 
-            data.forEach((item:any)=> {
+        //     data.forEach((item:any)=> {
              
-              nositems.push(item.nositems);
-              indentDT.push(item.indentDT.slice(0, 2));
-              indentdate.push(item.indentdate);
-              totalValuecr.push(item.totalValuecr);
-              nosfacility.push(item.nosfacility);
+        //       nositems.push(item.nositems);
+        //       indentDT.push(item.indentDT.slice(0, 2));
+        //       indentdate.push(item.indentdate);
+        //       totalValuecr.push(item.totalValuecr);
+        //       nosfacility.push(item.nosfacility);
               
-            });
-            // console.log('klkllklkk',indentDT);
+        //     });
     
     
-            this.chartOptions1.series = [
+        //     this.chartOptions1.series = [
     
         
-              { 
-                name: 'totalValuecr',
-                data: totalValuecr ,
-                color:'#5f0f40'
-              },
+        //       { 
+        //         name: 'totalValuecr',
+        //         data: totalValuecr ,
+        //         color:'#5f0f40'
+        //       },
            
     
               
-            ];
+        //     ];
  
-            this.chartOptions1.xaxis = {
-              categories: indentDT,
-              labels:{
-                style:{
-                  // colors:'#390099',
-                  fontWeight:'bold',
-                  fontSize:'15px'
-                }
-              }
+        //     this.chartOptions1.xaxis = {
+        //       categories: indentDT,
+        //       labels:{
+        //         style:{
+        //           fontWeight:'bold',
+        //           fontSize:'15px'
+        //         }
+        //       }
               
     
               
-             };
-            this.cO = this.chartOptions1;
+        //      };
+        //     this.cO = this.chartOptions1;
    
-          },
-          (error: any) => {
-            console.error('Error fetching data', error);
+        //   },
+        //   (error: any) => {
+        //     console.error('Error fetching data', error);
             
-          }
-        );
+        //   }
+        // );
       }
   loadData2(): void {
     
     
-        this.api.Last7DaysReceipt(7,0,545).subscribe(
+        this.api.Last7DaysReceipt(7,0,0,0).subscribe(
           (data:any) => {
             const nosPO: number[] = [];
             const nositems: any[] = [];
@@ -2213,7 +2221,7 @@ loadUQC(): void {
 
       }
       QCPendingParticularAreaPieChart(){
-        debugger
+        
         this.api.QCPendingParticularArea(this.area,0).subscribe((res:any[])=>{
           if (res && res.length > 0) {
            this.spinner.show();
@@ -2439,6 +2447,13 @@ loadUQC(): void {
             this.loadQCPendingAtLab()
             this.loadQCfinalUpdatePending()
             this.getQCResultPendingLabWise()
+            this.CGMSCIndentPending()
+            this.getItemNoDropDown()
+            this.loadUQCDashCard()
+            this.QCTimeTakenYear()
+            this.QCHold_Dash()
+            this.QCNSQ_Dash()
+
           this.spinner.hide()
 
             
@@ -2450,6 +2465,14 @@ loadUQC(): void {
             this.loadQCPendingAtLab()
             this.loadQCfinalUpdatePending()
             this.getQCResultPendingLabWise()
+            this.CGMSCIndentPending()
+            this.getItemNoDropDown()
+            this.loadUQCDashCard()
+            this.QCTimeTakenYear()
+            this.QCHold_Dash()
+            this.QCNSQ_Dash()
+
+
           this.spinner.hide()
 
 
@@ -2463,6 +2486,15 @@ loadUQC(): void {
             this.loadQCPendingAtLab()
             this.loadQCfinalUpdatePending()
             this.getQCResultPendingLabWise()
+            this.CGMSCIndentPending()
+            this.getItemNoDropDown()
+            this.loadUQCDashCard()
+            this.QCTimeTakenYear()
+            this.QCHold_Dash()
+            this.QCNSQ_Dash()
+           
+
+
           this.spinner.hide()
 
 
@@ -2475,6 +2507,14 @@ loadUQC(): void {
             this.loadQCPendingAtLab()
             this.loadQCfinalUpdatePending()
             this.getQCResultPendingLabWise()
+            this.CGMSCIndentPending()
+            this.getItemNoDropDown()
+            this.loadUQCDashCard()
+            this.QCTimeTakenYear()
+            this.QCHold_Dash()
+            this.QCNSQ_Dash()
+
+
           this.spinner.hide()
 
 
@@ -2641,6 +2681,159 @@ exportToPDFqCPendingParticularArea() {
   });
 
   doc.save('QCPendingParticularArea.pdf');
+}
+
+
+exportToPDFHODDetails() {
+  
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Item', dataKey: 'itemname' },
+    { title: 'Code', dataKey: 'itemcode' },
+    { title: 'Strength', dataKey: 'strength1' },
+    { title: 'Unit', dataKey: 'unit' },
+    { title: 'PO No', dataKey: 'pono' },
+    { title: 'SO Issue Date', dataKey: 'soissuedate' },
+    { title: 'Supplier', dataKey: 'suppliername' },
+    { title: 'Batch No', dataKey: 'batchno' },
+    { title: 'Final Rate (GST)', dataKey: 'finalrategst' },
+    { title: 'Stock Value (Lacs)', dataKey: 'stkvaluelacs' },
+    { title: 'RQty', dataKey: 'rqty' },
+    { title: 'Allot Qty', dataKey: 'allotqty' },
+    { title: 'Stock', dataKey: 'stk' },
+    { title: 'Category', dataKey: 'mcategory' },
+    { title: 'Hold Reason', dataKey: 'holdreason' },
+    { title: 'Hold Date', dataKey: 'holddate' },
+  ];
+
+  const rows = this.holdItemDetails.map((row) => ({
+    sno: row.sno,
+    itemname: row.itemname,
+    itemcode: row.itemcode,
+    strength1: row.strength1,
+    unit: row.unit,
+    pono: row.pono,
+    soissuedate: row.soissuedate,
+    suppliername: row.suppliername,
+    batchno: row.batchno,
+    finalrategst: row.finalrategst,
+    stkvaluelacs: row.stkvaluelacs,
+    rqty: row.rqty,
+    allotqty: row.allotqty,
+    stk: row.stk,
+    mcategory: row.mcategory,
+    holdreason: row.holdreason,
+    holddate: row.holddate,
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.title)], // Table headers
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+    startY: 20,
+    theme: 'grid',
+    headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
+    styles: { textColor: [0, 0, 0], fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+    columnStyles: {
+      0: { cellWidth: 20 },  
+      1: { cellWidth: 25 },  
+      2: { cellWidth: 20 },  
+      3: { cellWidth: 20 },  
+      4: { cellWidth: 20 },  
+      5: { cellWidth: 30 },  
+      6: { cellWidth: 20 },  
+      7: { cellWidth: 40 },  
+      8: { cellWidth: 30 },  
+      9: { cellWidth: 20 },  
+      10: { cellWidth: 20 }, 
+      11: { cellWidth: 20 }, 
+      12: { cellWidth: 20 }, 
+      13: { cellWidth: 20 }, 
+      14: { cellWidth: 20 }, 
+      15: { cellWidth: 20 }, 
+      16: { cellWidth: 15 }, 
+    },
+    margin: { top: 20, left: 10, right: 10 },
+  });
+
+  doc.save('HODDetails.pdf');
+}
+
+
+exportToPDFPendingTracker() {
+  
+  const doc = new jsPDF('l', 'mm', 'a4');
+
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Item Code', dataKey: 'itemcode' },
+    { title: 'Item Type Name', dataKey: 'itemtypename' },
+    { title: 'Strength', dataKey: 'strength1' },
+    { title: 'Batch No', dataKey: 'batchno' },
+    { title: 'Nos WH', dataKey: 'noswh' },
+    { title: 'UQC Qty', dataKey: 'uqcqty' },
+    { title: 'Stock Value', dataKey: 'stockvalue' },
+    { title: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
+    { title: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
+    { title: 'Courier Pick DT', dataKey: 'courierPickDT' },
+    { title: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
+    { title: 'Lab Issue Date', dataKey: 'labissuedate' },
+    { title: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
+    { title: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
+    { title: 'Lab Result', dataKey: 'labresult' },
+    { title: 'Analysis Days', dataKey: 'analysisDays' },
+  ];
+
+  const rows = this.qCPendingParticularArea.map((row) => ({
+    sno: row.sno,
+    itemcode: row.itemcode,
+    itemtypename: row.itemtypename,
+    strength1: row.strength1,
+    batchno: row.batchno,
+    noswh: row.noswh,
+    uqcqty: row.uqcqty,
+    stockvalue: row.stockvalue,
+    warehouseRecDT: row.warehouseRecDT,
+    whqcIssueDT: row.whqcIssueDT,
+    courierPickDT: row.courierPickDT,
+    sampleReceiptInHODT: row.sampleReceiptInHODT,
+    labissuedate: row.labissuedate,
+    lAbReceiptDT: row.lAbReceiptDT,
+    hoqcReportRecDT: row.hoqcReportRecDT,
+    labresult: row.labresult,
+    analysisDays: row.analysisDays,
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.title)], // Table headers
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+    startY: 20,
+    theme: 'grid',
+    headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 12, fontStyle: 'bold' },
+    styles: { textColor: [0, 0, 0], fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+    columnStyles: {
+      0: { cellWidth: 10 },  // S.No
+      1: { cellWidth: 25 },  // Item Code
+      2: { cellWidth: 40 },  // Item Type Name (Long Text)
+      3: { cellWidth: 15 },  // Strength
+      4: { cellWidth: 20 },  // Batch No
+      5: { cellWidth: 15 },  // Nos WH
+      6: { cellWidth: 15 },  // UQC Qty
+      7: { cellWidth: 20 },  // Stock Value
+      8: { cellWidth: 30 },  // Warehouse Rec DT
+      9: { cellWidth: 30 },  // WH QC Issue DT
+      10: { cellWidth: 30 }, // Courier Pick DT
+      11: { cellWidth: 30 }, // Sample Receipt In HO DT
+      12: { cellWidth: 30 }, // Lab Issue Date
+      13: { cellWidth: 30 }, // Lab Receipt DT
+      14: { cellWidth: 30 }, // HO QC Report Rec DT
+      15: { cellWidth: 20 }, // Lab Result
+      16: { cellWidth: 15 }, // Analysis Days
+    },
+    margin: { top: 20, left: 10, right: 10 },
+  });
+
+  doc.save('PendingTracker.pdf');
 }
 
 
