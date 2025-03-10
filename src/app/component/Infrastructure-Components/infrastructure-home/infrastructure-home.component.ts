@@ -86,7 +86,8 @@ export class InfrastructureHomeComponent {
   cardOrder: string[] = [
     "Completed/Handover",
     "Running Work",
-    "Acceptance/Work Order",
+    // "Acceptance/Work Order",
+    "Acceptance/Work Order Generated",
     "Land Not Alloted/Land Dispute",
     "Tender in Process",
     "To be Tender",
@@ -2096,11 +2097,8 @@ expor_PDFLand_isu() {
     const selectedUser = this.GetDistrict.find((user: { districT_ID: any }) => user.districT_ID === this.districT_ID); 
   
     if (selectedUser) {
-
       const districT_ID = selectedUser?.districT_ID ;
-      const distname = selectedUser?.districtname; 
-
-
+      const distname = selectedUser?.districtname;
       var roleName = localStorage.getItem('roleName');
       if (roleName == 'Division') {
         // this.divisionid = sessionStorage.getItem('divisionID');
@@ -2111,7 +2109,6 @@ expor_PDFLand_isu() {
           this.showCardss=true;
           this.GetDMEProgressSummary();
           // this.DashProgressCount();
-    
         }
       } 
       // else if (roleName == 'Collector') {

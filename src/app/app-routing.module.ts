@@ -103,8 +103,10 @@ import { FinanceDashComponent } from './Finance-Dashboard/finance-dash/finance-d
 import { PublicViewComponent } from './component/Public-View/public-view/public-view.component';
 import { QcDashboardComponent } from './component/QC/qc-dashboard/qc-dashboard.component';
 import { SidebarPublicComponent } from './sidebar-public/sidebar-public.component';
+import { SchemeWiseDetailsComponent } from './component/Infrastructure-Components/scheme-wise-details/scheme-wise-details.component';
 import { DhsdashComponent } from './component/DHS-Components/dhsdash/dhsdash.component';
 import { CMEDashboardComponent } from './CME/cme-dashboard/cme-dashboard.component';
+
 
 
 
@@ -223,6 +225,7 @@ const routes: Routes = [
 {path:'ToBeTender',component:ToBeTenderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Collector','SE','Division']} },
 {path:'AdministrativeSanction',component:AdministrativeSanctionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Collector','SE','Division']} },
 {path:'RunningWork',component:RunningWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Collector','SE','Division']} },
+{path:'SchemeWiseDetails',component:SchemeWiseDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Collector','SE','Division']} },
 
 
 {path:'DistDHSStock',component:DistDHSStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Collector']} },

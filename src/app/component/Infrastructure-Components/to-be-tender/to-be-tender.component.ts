@@ -518,7 +518,7 @@ export class ToBeTenderComponent {
 
   // #region dataBase
   fetchDataBasedOnChartSelectionTotal(id: any, seriesName: string): void {
-    // console.log(`Selected ID: ${id}, Series: ${seriesName}`);
+    console.log(`Selected ID: ${id}, Series: ${seriesName}`);
     const roleName = localStorage.getItem('roleName');
     if (roleName === 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');

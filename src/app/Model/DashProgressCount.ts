@@ -117,6 +117,8 @@ export class WorkDetails {
   progressEntryTime!: any;
   nonMongoImage!: any;
   expCompDT!: any;
+  GrantNo!:any;
+  // grantNo!:any;
 }
 export class WorkBillStatus {
   sno!:number;
