@@ -916,564 +916,564 @@ ASFileData: ASFile[] = [];
     }
   }
   
-  //#region Get API data in PaidSummary
-  GETPaidSummaryTotal(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      var RPType = 'GTotal';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      this.chartOptionsLine2.chart.height = '200px';
+    //#region Get API data in PaidSummary
+    GETPaidSummaryTotal(): void {
+      this.spinner.show();
+      var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        this.divisionid = sessionStorage.getItem('divisionID');
+        var RPType = 'GTotal';
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
+        this.chartOptionsLine2.chart.height = '200px';
+      }
+      // else if (roleName == 'Collector') {
+      //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      // var RPType="District";
+      //  this.divisionid = 0;
+      //  this.mainschemeid=0;
+      //  this.chartOptionsLine2.chart.height = '400px';
+      // }
+      else {
+        this.divisionid = 0;
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
+        var RPType = 'GTotal';
+
+        this.chartOptionsLine2.chart.height = '300';
+      }
+      const startDate = this.dateRange.value.start;
+      const endDate = this.dateRange.value.end;
+      this.fromdt = startDate
+        ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
+        : '';
+      this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+      // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
+      // ?RPType=Division&divisionid=0&districtid=0&mainschemeid=0&fromdt=01-Dec-2023&todt=31-Dec-2023
+      // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+      this.api
+        .GETPaidSummary(
+          RPType,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainschemeid,
+          this.fromdt,
+          this.todt
+        )
+        .subscribe(
+          (data: any) => {
+            this.PaidSummaryTotal = data;
+            // console.log('API Response total:', this.PaidSummaryTotal);
+            //  console.log('API Response data:', data);
+
+            // const id: string[] = [];
+            // const name: string[] = [];
+            // const avgDaysSinceMeasurement: any[] = [];
+            // const grossPaidcr: number[] = [];
+
+            // data.forEach(
+            //   (item: {
+            //     name: string;
+            //     id: any;
+            //     avgDaysSinceMeasurement: any;
+            //     grossPaidcr: any;
+            //   }) => {
+            //     id.push(item.id);
+            //     name.push(item.name);
+            //     avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
+            //     grossPaidcr.push(item.grossPaidcr);
+            //   }
+            // );
+            const id: string[] = [];
+            const name: string[] = [];
+            const noofWorks: number[] = [];
+            const avgDaysSinceMeasurement: any[] = [];
+            const grossPaidcr: number[] = [];
+
+            data.forEach(
+              (item: {
+                name: string;
+                id: any;
+                avgDaysSinceMeasurement: any;
+                grossPaidcr: any;noofWorks:number
+              }) => {
+                id.push(item.id);
+                name.push(item.name);
+                avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
+                grossPaidcr.push(item.grossPaidcr);
+                noofWorks.push(item.noofWorks);
+              }
+            );
+            this.chartOptionsLine2.series = [
+              {
+                name: 'No. of Works',
+                data: noofWorks,
+                color: '#eeba0b',
+              },
+              // {
+              //   name: 'No. of Works',
+              //   data: avgDaysSinceMeasurement,
+              //   color: '#eeba0b',
+              // },
+              {
+                name: 'Paid Value(in Cr)',
+                data: grossPaidcr,
+                color: 'rgb(0, 143, 251)',
+              },
+              //  {
+              //    name: 'Total Value in Cr',
+              //    data: totalValuecr,
+              //    color: 'rgba(93, 243, 174, 0.85)',
+              //  },
+              //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+              //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+              // {
+              //   name: 'Zonal Works',
+              //   data: zonalWorks,
+              //   color: 'rgba(31, 225, 11, 0.85)',
+              // },
+              // {
+              //   name: 'Tender Works',
+              //   data: tenderWorks,
+              //   color: 'rgba(2, 202, 227, 0.85)',
+              // },
+              // {
+              //   name: 'Zonal Tender Value',
+              //   data: totalZonalTVC,
+              //   color: 'rgba(172, 5, 26, 0.85)',
+              // },
+              // {
+              //   name: 'Works Tender Value',
+              //   data: totalNormalTVC,
+              //   color: 'rgba(250, 199, 161, 0.85)',
+              // },
+              // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+            ];
+            this.chartOptionsLine2.xaxis = { categories: name };
+            this.cO = this.chartOptionsLine2;
+            this.cdr.detectChanges();
+
+            this.spinner.hide();
+          },
+          (error: any) => {
+            console.error('Error fetching data', error);
+          }
+        );
     }
-    // else if (roleName == 'Collector') {
-    //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-    // var RPType="District";
-    //  this.divisionid = 0;
-    //  this.mainschemeid=0;
-    //  this.chartOptionsLine2.chart.height = '400px';
-    // }
-    else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      var RPType = 'GTotal';
+    GETPaidSummaryDivision(): void {
+      this.spinner.show();
+      var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        this.divisionid = sessionStorage.getItem('divisionID');
+        var RPType = 'Division';
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
+        this.chartOptions.chart.height = '200px';
+      }
+      // else if (roleName == 'Collector') {
+      //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      // var RPType="District";
+      //  this.divisionid = 0;
+      //  this.mainschemeid=0;
+      //  this.chartOptions.chart.height = '400px';
+      // }
+      else {
+        this.divisionid = 0;
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
+        var RPType = 'Division';
+        this.chartOptions.chart.height = '300';
+      }
+      const startDate = this.dateRange.value.start;
+      const endDate = this.dateRange.value.end;
+      this.fromdt = startDate
+        ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
+        : '';
+      this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+      // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
 
-      this.chartOptionsLine2.chart.height = '300';
+      // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+      this.api
+        .GETPaidSummary(
+          RPType,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainschemeid,
+          this.fromdt,
+          this.todt
+        )
+        .subscribe(
+          (data: any) => {
+            this.PaidSummaryDivision = data;
+            // console.log('API Response total:', this.PaidSummaryDivision);
+            // console.log('API Response data:', data);
+
+            const id: string[] = [];
+            const name: string[] = [];
+            const noofWorks: number[] = [];
+            const avgDaysSinceMeasurement: any[] = [];
+            const grossPaidcr: number[] = [];
+
+            data.forEach(
+              (item: {
+                name: string;
+                id: any;
+                avgDaysSinceMeasurement: any;
+                grossPaidcr: any;noofWorks:number
+              }) => {
+                id.push(item.id);
+                name.push(item.name);
+                avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
+                grossPaidcr.push(item.grossPaidcr);
+                noofWorks.push(item.noofWorks);
+              }
+            );
+
+            this.chartOptions.series = [
+              {
+                name: 'No. of Works',
+                data: noofWorks,
+                color: '#eeba0b',
+              },
+              // {
+              //   name: 'No. of Works',
+              //   data: avgDaysSinceMeasurement,
+              //   color: '#eeba0b',
+              // },
+              {
+                name: 'Paid Value(in Cr)',
+                data: grossPaidcr,
+                color: 'rgb(0, 143, 251)',
+              },
+              // {
+              //   name: 'Total Numbers of Works',
+              //   data: avgDaysSinceMeasurement,
+              //   color: '#eeba0b',
+              // },
+              // {
+              //   name: 'Total Numbers of Tender',
+              //   data: grossPaidcr,
+              //   color: 'rgb(0, 143, 251)',
+              // },
+              //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+
+              //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+              // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
+              // {
+              //   name: 'Zonal Works',
+              //   data: zonalWorks,
+              //   color: 'rgba(31, 225, 11, 0.85)',
+              // },
+              // {
+              //   name: 'Tender Works',
+              //   data: tenderWorks,
+              //   color: 'rgba(2, 202, 227, 0.85)',
+              // },
+              // {
+              //   name: 'Zonal Tender Value',
+              //   data: totalZonalTVC,
+              //   color: 'rgba(172, 5, 26, 0.85)',
+              // },
+              // {
+              //   name: 'Works Tender Value',
+              //   data: totalNormalTVC,
+              //   color: 'rgba(250, 199, 161, 0.85)',
+              // },
+              // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+            ];
+            this.chartOptions.xaxis = { categories: name };
+            this.cO = this.chartOptions;
+            this.cdr.detectChanges();
+
+            this.spinner.hide();
+          },
+          (error: any) => {
+            console.error('Error fetching data', error);
+          }
+        );
     }
-    const startDate = this.dateRange.value.start;
-    const endDate = this.dateRange.value.end;
-    this.fromdt = startDate
-      ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
-      : '';
-    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
-    // ?RPType=Division&divisionid=0&districtid=0&mainschemeid=0&fromdt=01-Dec-2023&todt=31-Dec-2023
-    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-    this.api
-      .GETPaidSummary(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainschemeid,
-        this.fromdt,
-        this.todt
-      )
-      .subscribe(
-        (data: any) => {
-          this.PaidSummaryTotal = data;
-          // console.log('API Response total:', this.PaidSummaryTotal);
-          //  console.log('API Response data:', data);
+    GETPaidSummaryScheme(): void {
+      this.spinner.show();
+      var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        this.divisionid = sessionStorage.getItem('divisionID');
+        var RPType = 'Scheme';
+        this.chartOptions2.chart.height = '400';
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
+      }
+      //  else if (roleName == 'Collector') {
+      //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      // var RPType="District";
+      //  this.divisionid = 0;
+      //  this.mainschemeid=0;
+      //  this.chartOptions2.chart.height = '400px';
+      // }
+      else {
+        this.divisionid = 0;
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
 
-          // const id: string[] = [];
-          // const name: string[] = [];
-          // const avgDaysSinceMeasurement: any[] = [];
-          // const grossPaidcr: number[] = [];
+        this.chartOptions2.chart.height = '500';
+        var RPType = 'Scheme';
+      }
+      const startDate = this.dateRange.value.start;
+      const endDate = this.dateRange.value.end;
+      this.fromdt = startDate
+        ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
+        : '';
+      this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+      // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
+      // alert( this.TimeStatus)
+      // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+      this.api
+        .GETPaidSummary(
+          RPType,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainschemeid,
+          this.fromdt,
+          this.todt
+        )
+        .subscribe(
+          (data: any) => {
+            this.PaidSummaryScheme = data;
+            // console.log('API Response PaidSummaryScheme:', this.PaidSummaryScheme);
+            // console.log('API Response data:', data);
 
-          // data.forEach(
-          //   (item: {
-          //     name: string;
-          //     id: any;
-          //     avgDaysSinceMeasurement: any;
-          //     grossPaidcr: any;
-          //   }) => {
-          //     id.push(item.id);
-          //     name.push(item.name);
-          //     avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
-          //     grossPaidcr.push(item.grossPaidcr);
-          //   }
-          // );
-          const id: string[] = [];
-          const name: string[] = [];
-          const noofWorks: number[] = [];
-          const avgDaysSinceMeasurement: any[] = [];
-          const grossPaidcr: number[] = [];
+            // const id: string[] = [];
+            // const name: string[] = [];
+            // const avgDaysSinceMeasurement: any[] = [];
+            // const grossPaidcr: number[] = [];
 
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              avgDaysSinceMeasurement: any;
-              grossPaidcr: any;noofWorks:number
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
-              grossPaidcr.push(item.grossPaidcr);
-              noofWorks.push(item.noofWorks);
-            }
-          );
-          this.chartOptionsLine2.series = [
-            {
-              name: 'No. of Works',
-              data: noofWorks,
-              color: '#eeba0b',
-            },
-            // {
-            //   name: 'No. of Works',
-            //   data: avgDaysSinceMeasurement,
-            //   color: '#eeba0b',
-            // },
-            {
-              name: 'Paid Value(in Cr)',
-              data: grossPaidcr,
-              color: 'rgb(0, 143, 251)',
-            },
-            //  {
-            //    name: 'Total Value in Cr',
-            //    data: totalValuecr,
-            //    color: 'rgba(93, 243, 174, 0.85)',
-            //  },
-            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-            //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
-            // {
-            //   name: 'Zonal Works',
-            //   data: zonalWorks,
-            //   color: 'rgba(31, 225, 11, 0.85)',
-            // },
-            // {
-            //   name: 'Tender Works',
-            //   data: tenderWorks,
-            //   color: 'rgba(2, 202, 227, 0.85)',
-            // },
-            // {
-            //   name: 'Zonal Tender Value',
-            //   data: totalZonalTVC,
-            //   color: 'rgba(172, 5, 26, 0.85)',
-            // },
-            // {
-            //   name: 'Works Tender Value',
-            //   data: totalNormalTVC,
-            //   color: 'rgba(250, 199, 161, 0.85)',
-            // },
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-          ];
-          this.chartOptionsLine2.xaxis = { categories: name };
-          this.cO = this.chartOptionsLine2;
-          this.cdr.detectChanges();
+            // data.forEach(
+            //   (item: {
+            //     name: string;
+            //     id: any;
+            //     avgDaysSinceMeasurement: any;
+            //     grossPaidcr: any;
+            //   }) => {
+            //     id.push(item.id);
+            //     name.push(item.name);
+            //     avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
+            //     grossPaidcr.push(item.grossPaidcr);
+            //   }
+            // );
+            const id: string[] = [];
+            const name: string[] = [];
+            const noofWorks: number[] = [];
+            const avgDaysSinceMeasurement: any[] = [];
+            const grossPaidcr: number[] = [];
 
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
-  GETPaidSummaryDivision(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      var RPType = 'Division';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      this.chartOptions.chart.height = '200px';
+            data.forEach(
+              (item: {
+                name: string;
+                id: any;
+                avgDaysSinceMeasurement: any;
+                grossPaidcr: any;noofWorks:number
+              }) => {
+                id.push(item.id);
+                name.push(item.name);
+                avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
+                grossPaidcr.push(item.grossPaidcr);
+                noofWorks.push(item.noofWorks);
+              }
+            );
+            this.chartOptions2.series = [
+              {
+                name: 'No. of Works',
+                data: noofWorks,
+                color: '#eeba0b',
+              },
+              // {
+              //   name: 'No. of Works',
+              //   data: avgDaysSinceMeasurement,
+              //   color: '#eeba0b',
+              // },
+              {
+                name: 'Paid Value(in Cr)',
+                data: grossPaidcr,
+                color: 'rgb(0, 143, 251)',
+              },
+              // {
+              //   name: 'Total Numbers of Works',
+              //   data: avgDaysSinceMeasurement,
+              //   color: '#eeba0b',
+              // },
+              // {
+              //   name: 'Total Numbers of Tender',
+              //   data: grossPaidcr,
+              //   color: 'rgb(0, 143, 251)',
+              // },
+
+              //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+              // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
+              // {
+              //   name: 'Zonal Works',
+              //   data: zonalWorks,
+              //   color: 'rgba(31, 225, 11, 0.85)',
+              // },
+              // {
+              //   name: 'Tender Works',
+              //   data: tenderWorks,
+              //   color: 'rgba(2, 202, 227, 0.85)',
+              // },
+              // {
+              //   name: 'Zonal Tender Value',
+              //   data: totalZonalTVC,
+              //   color: 'rgba(172, 5, 26, 0.85)',
+              // },
+              // {
+              //   name: 'Works Tender Value',
+              //   data: totalNormalTVC,
+              //   color: 'rgba(250, 199, 161, 0.85)',
+              // },
+              // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+            ];
+            this.chartOptions2.xaxis = { categories: name };
+            this.cO = this.chartOptions2;
+            this.cdr.detectChanges();
+
+            this.spinner.hide();
+          },
+          (error: any) => {
+            console.error('Error fetching data', error);
+          }
+        );
     }
-    // else if (roleName == 'Collector') {
-    //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-    // var RPType="District";
-    //  this.divisionid = 0;
-    //  this.mainschemeid=0;
-    //  this.chartOptions.chart.height = '400px';
-    // }
-    else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      var RPType = 'Division';
-      this.chartOptions.chart.height = '300';
+    GETTenderEvaluationDistrict(): void {
+      this.spinner.show();
+      var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        this.divisionid = sessionStorage.getItem('divisionID');
+        var RPType = 'Division';
+        this.chartOptionsLine.chart.height = '200px';
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
+      }
+      //  else if (roleName == 'Collector') {
+      //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      //   var RPType = 'District';
+      //   this.divisionid = 0;
+      //   this.mainschemeid = 0;
+      //   this.chartOptionsLine.chart.height = '400px';
+      // }
+      else {
+        this.divisionid = 0;
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
+        this.chartOptionsLine.chart.height = 'auto';
+      }
+      this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
+      // alert( this.TimeStatus)
+      var RPType = 'District';
+      // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+      this.api
+        .GETTenderEvaluation(
+          RPType,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainschemeid
+        )
+        .subscribe(
+          (data: any) => {
+            this.PaidSummaryDistrict = data;
+            // console.log('API Response total:', this.PaidSummaryDistrict);
+            // console.log('API Response data:', data);
+
+            const id: string[] = [];
+            const name: string[] = [];
+            const nosWorks: any[] = [];
+            const nosTender: number[] = [];
+            const totalValuecr: number[] = [];
+            const avgDaysSince: number[] = [];
+
+            data.forEach(
+              (item: {
+                name: string;
+                id: any;
+                nosWorks: any;
+                nosTender: number;
+                totalValuecr: any;
+                avgDaysSince: any;
+              }) => {
+                id.push(item.id);
+                name.push(item.name);
+                nosWorks.push(item.nosWorks);
+                nosTender.push(item.nosTender);
+                totalValuecr.push(item.totalValuecr);
+                avgDaysSince.push(item.avgDaysSince);
+              }
+            );
+
+            this.chartOptionsLine.series = [
+              // {
+              //   name: 'No. of Works',
+              //   data: avgDaysSinceMeasurement,
+              //   color: '#eeba0b',
+              // },
+              // {
+              //   name: 'Paid Value(in Cr)',
+              //   data: grossPaidcr,
+              //   color: 'rgb(0, 143, 251)',
+              // },
+
+              {
+                name: 'Total Numbers of Works',
+                data: nosWorks,
+                color: '#eeba0b',
+              },
+              {
+                name: 'Total Numbers of Tender',
+                data: nosTender,
+                color: 'rgb(0, 143, 251)',
+              },
+              {
+                name: 'Total Value in Cr',
+                data: totalValuecr,
+                color: 'rgba(93, 243, 174, 0.85)',
+              },
+              {
+                name: 'Avg Days Since',
+                data: avgDaysSince,
+                color: 'rgba(250, 199, 161, 0.85)',
+              },
+
+              //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+              // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
+              // {
+              //   name: 'Zonal Works',
+              //   data: zonalWorks,
+              //   color: 'rgba(31, 225, 11, 0.85)',
+              // },
+              // {
+              //   name: 'Tender Works',
+              //   data: tenderWorks,
+              //   color: 'rgba(2, 202, 227, 0.85)',
+              // },
+              // {
+              //   name: 'Zonal Tender Value',
+              //   data: totalZonalTVC,
+              //   color: 'rgba(172, 5, 26, 0.85)',
+              // },
+              // {
+              //   name: 'Works Tender Value',
+              //   data: totalNormalTVC,
+              //   color: 'rgba(250, 199, 161, 0.85)',
+              // },
+              // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+            ];
+            this.chartOptionsLine.xaxis = { categories: name };
+            this.cO = this.chartOptionsLine;
+            this.cdr.detectChanges();
+
+            this.spinner.hide();
+          },
+          (error: any) => {
+            console.error('Error fetching data', error);
+          }
+        );
     }
-    const startDate = this.dateRange.value.start;
-    const endDate = this.dateRange.value.end;
-    this.fromdt = startDate
-      ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
-      : '';
-    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
-
-    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-    this.api
-      .GETPaidSummary(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainschemeid,
-        this.fromdt,
-        this.todt
-      )
-      .subscribe(
-        (data: any) => {
-          this.PaidSummaryDivision = data;
-          // console.log('API Response total:', this.PaidSummaryDivision);
-          // console.log('API Response data:', data);
-
-          const id: string[] = [];
-          const name: string[] = [];
-          const noofWorks: number[] = [];
-          const avgDaysSinceMeasurement: any[] = [];
-          const grossPaidcr: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              avgDaysSinceMeasurement: any;
-              grossPaidcr: any;noofWorks:number
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
-              grossPaidcr.push(item.grossPaidcr);
-              noofWorks.push(item.noofWorks);
-            }
-          );
-
-          this.chartOptions.series = [
-            {
-              name: 'No. of Works',
-              data: noofWorks,
-              color: '#eeba0b',
-            },
-            // {
-            //   name: 'No. of Works',
-            //   data: avgDaysSinceMeasurement,
-            //   color: '#eeba0b',
-            // },
-            {
-              name: 'Paid Value(in Cr)',
-              data: grossPaidcr,
-              color: 'rgb(0, 143, 251)',
-            },
-            // {
-            //   name: 'Total Numbers of Works',
-            //   data: avgDaysSinceMeasurement,
-            //   color: '#eeba0b',
-            // },
-            // {
-            //   name: 'Total Numbers of Tender',
-            //   data: grossPaidcr,
-            //   color: 'rgb(0, 143, 251)',
-            // },
-            //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
-
-            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-            // {
-            //   name: 'Zonal Works',
-            //   data: zonalWorks,
-            //   color: 'rgba(31, 225, 11, 0.85)',
-            // },
-            // {
-            //   name: 'Tender Works',
-            //   data: tenderWorks,
-            //   color: 'rgba(2, 202, 227, 0.85)',
-            // },
-            // {
-            //   name: 'Zonal Tender Value',
-            //   data: totalZonalTVC,
-            //   color: 'rgba(172, 5, 26, 0.85)',
-            // },
-            // {
-            //   name: 'Works Tender Value',
-            //   data: totalNormalTVC,
-            //   color: 'rgba(250, 199, 161, 0.85)',
-            // },
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-          ];
-          this.chartOptions.xaxis = { categories: name };
-          this.cO = this.chartOptions;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
-  GETPaidSummaryScheme(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      var RPType = 'Scheme';
-      this.chartOptions2.chart.height = '400';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    }
-    //  else if (roleName == 'Collector') {
-    //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-    // var RPType="District";
-    //  this.divisionid = 0;
-    //  this.mainschemeid=0;
-    //  this.chartOptions2.chart.height = '400px';
-    // }
-    else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-
-      this.chartOptions2.chart.height = '500';
-      var RPType = 'Scheme';
-    }
-    const startDate = this.dateRange.value.start;
-    const endDate = this.dateRange.value.end;
-    this.fromdt = startDate
-      ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
-      : '';
-    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
-    // alert( this.TimeStatus)
-    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-    this.api
-      .GETPaidSummary(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainschemeid,
-        this.fromdt,
-        this.todt
-      )
-      .subscribe(
-        (data: any) => {
-          this.PaidSummaryScheme = data;
-          // console.log('API Response PaidSummaryScheme:', this.PaidSummaryScheme);
-          // console.log('API Response data:', data);
-
-          // const id: string[] = [];
-          // const name: string[] = [];
-          // const avgDaysSinceMeasurement: any[] = [];
-          // const grossPaidcr: number[] = [];
-
-          // data.forEach(
-          //   (item: {
-          //     name: string;
-          //     id: any;
-          //     avgDaysSinceMeasurement: any;
-          //     grossPaidcr: any;
-          //   }) => {
-          //     id.push(item.id);
-          //     name.push(item.name);
-          //     avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
-          //     grossPaidcr.push(item.grossPaidcr);
-          //   }
-          // );
-          const id: string[] = [];
-          const name: string[] = [];
-          const noofWorks: number[] = [];
-          const avgDaysSinceMeasurement: any[] = [];
-          const grossPaidcr: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              avgDaysSinceMeasurement: any;
-              grossPaidcr: any;noofWorks:number
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
-              grossPaidcr.push(item.grossPaidcr);
-              noofWorks.push(item.noofWorks);
-            }
-          );
-          this.chartOptions2.series = [
-            {
-              name: 'No. of Works',
-              data: noofWorks,
-              color: '#eeba0b',
-            },
-            // {
-            //   name: 'No. of Works',
-            //   data: avgDaysSinceMeasurement,
-            //   color: '#eeba0b',
-            // },
-            {
-              name: 'Paid Value(in Cr)',
-              data: grossPaidcr,
-              color: 'rgb(0, 143, 251)',
-            },
-            // {
-            //   name: 'Total Numbers of Works',
-            //   data: avgDaysSinceMeasurement,
-            //   color: '#eeba0b',
-            // },
-            // {
-            //   name: 'Total Numbers of Tender',
-            //   data: grossPaidcr,
-            //   color: 'rgb(0, 143, 251)',
-            // },
-
-            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-            // {
-            //   name: 'Zonal Works',
-            //   data: zonalWorks,
-            //   color: 'rgba(31, 225, 11, 0.85)',
-            // },
-            // {
-            //   name: 'Tender Works',
-            //   data: tenderWorks,
-            //   color: 'rgba(2, 202, 227, 0.85)',
-            // },
-            // {
-            //   name: 'Zonal Tender Value',
-            //   data: totalZonalTVC,
-            //   color: 'rgba(172, 5, 26, 0.85)',
-            // },
-            // {
-            //   name: 'Works Tender Value',
-            //   data: totalNormalTVC,
-            //   color: 'rgba(250, 199, 161, 0.85)',
-            // },
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-          ];
-          this.chartOptions2.xaxis = { categories: name };
-          this.cO = this.chartOptions2;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
-  GETTenderEvaluationDistrict(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      var RPType = 'Division';
-      this.chartOptionsLine.chart.height = '200px';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    }
-    //  else if (roleName == 'Collector') {
-    //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-    //   var RPType = 'District';
-    //   this.divisionid = 0;
-    //   this.mainschemeid = 0;
-    //   this.chartOptionsLine.chart.height = '400px';
-    // }
-     else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      this.chartOptionsLine.chart.height = 'auto';
-    }
-    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
-    // alert( this.TimeStatus)
-    var RPType = 'District';
-    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-    this.api
-      .GETTenderEvaluation(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainschemeid
-      )
-      .subscribe(
-        (data: any) => {
-          this.PaidSummaryDistrict = data;
-          // console.log('API Response total:', this.PaidSummaryDistrict);
-          // console.log('API Response data:', data);
-
-          const id: string[] = [];
-          const name: string[] = [];
-          const nosWorks: any[] = [];
-          const nosTender: number[] = [];
-          const totalValuecr: number[] = [];
-          const avgDaysSince: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              nosWorks: any;
-              nosTender: number;
-              totalValuecr: any;
-              avgDaysSince: any;
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              nosWorks.push(item.nosWorks);
-              nosTender.push(item.nosTender);
-              totalValuecr.push(item.totalValuecr);
-              avgDaysSince.push(item.avgDaysSince);
-            }
-          );
-
-          this.chartOptionsLine.series = [
-            // {
-            //   name: 'No. of Works',
-            //   data: avgDaysSinceMeasurement,
-            //   color: '#eeba0b',
-            // },
-            // {
-            //   name: 'Paid Value(in Cr)',
-            //   data: grossPaidcr,
-            //   color: 'rgb(0, 143, 251)',
-            // },
-
-            {
-              name: 'Total Numbers of Works',
-              data: nosWorks,
-              color: '#eeba0b',
-            },
-            {
-              name: 'Total Numbers of Tender',
-              data: nosTender,
-              color: 'rgb(0, 143, 251)',
-            },
-            {
-              name: 'Total Value in Cr',
-              data: totalValuecr,
-              color: 'rgba(93, 243, 174, 0.85)',
-            },
-            {
-              name: 'Avg Days Since',
-              data: avgDaysSince,
-              color: 'rgba(250, 199, 161, 0.85)',
-            },
-
-            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-            // {
-            //   name: 'Zonal Works',
-            //   data: zonalWorks,
-            //   color: 'rgba(31, 225, 11, 0.85)',
-            // },
-            // {
-            //   name: 'Tender Works',
-            //   data: tenderWorks,
-            //   color: 'rgba(2, 202, 227, 0.85)',
-            // },
-            // {
-            //   name: 'Zonal Tender Value',
-            //   data: totalZonalTVC,
-            //   color: 'rgba(172, 5, 26, 0.85)',
-            // },
-            // {
-            //   name: 'Works Tender Value',
-            //   data: totalNormalTVC,
-            //   color: 'rgba(250, 199, 161, 0.85)',
-            // },
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-          ];
-          this.chartOptionsLine.xaxis = { categories: name };
-          this.cO = this.chartOptionsLine;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
   // #endregion
   //#region dataTable  in PaidSummary
  fetchDataBasedOnChartSelectionTotal(

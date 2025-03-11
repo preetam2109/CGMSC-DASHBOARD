@@ -1,10 +1,14 @@
 <div class="card shadow">
     <div class="card-body">
-        <div class="w-100 m-0 p-0 rounded bg-dark" style="font-size: large;">
-            <h3 class="bold text-light text-align text-center">Scheme-Wise Work Abstract</h3>
-        </div>
-      
-      <!-- <div class="container-fluid">
+
+        <!--Scheme-Wise Work Abstract -->
+        <div class="card shadow mb-3 mt-0 pt-0">
+            <div class="card-body">
+                <div class="w-100 m-0 p-0 rounded bg-dark" style="font-size: large;">
+                    <h3 class="bold text-light text-align text-center">Scheme-Wise Work Abstract</h3>
+                </div>
+
+                <!-- <div class="container-fluid">
         
         <mat-tab-group (selectedTabChange)="selectedTabValue($event)" (click)="DashProgressCount()">
         <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
@@ -175,151 +179,384 @@
         </mat-tab-group>
   
       </div> -->
-  
-      <div class="container-fluid mt-4">
-        <div class="container-fluid p-2">
-          <div class="row ">
-              <div class="col-12 col-md-6 mb-3">
-                <div class="columns justify-content-center mb-3">
-                  <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID" [(ngModel)]="mainSchemeID"
-                    name="mainSchemeID" (change)="onselect_mainscheme_data($event)" #emailidField="ngModel"
-                    [placeholder]="!mainSchemeID ? 'Select Scheme : ' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
-                    required class="form-control">
-                  </ng-select>
+
+                <div class="container-fluid mt-4">
+                    <div class="container-fluid p-2">
+                        <div class="row ">
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="columns justify-content-center mb-3">
+                                    <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID"
+                                        [(ngModel)]="mainSchemeID" name="mainSchemeID"
+                                        (change)="onselect_mainscheme_data($event)" #emailidField="ngModel"
+                                        [placeholder]="!mainSchemeID ? 'Select Scheme : ' : ''" [searchable]="true"
+                                        [clearable]="true" [appendTo]="'body'" required class="form-control">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <div class="columns justify-content-center mb-3">
+                                    <ng-select [items]="budgetOptions" bindLabel="label" bindValue="buid"
+                                        [(ngModel)]="buid" name="buid" (change)="onselect_databudgetOptions($event)"
+                                        #nameidField="ngModel" [placeholder]="!buid ? 'Select value : ' : ''"
+                                        [searchable]="true" [clearable]="true" [appendTo]="'body'" required
+                                        class="form-control">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="col-12 col-md-6 mb-3">
-                <div class="columns justify-content-center mb-3">
-                  <ng-select [items]="budgetOptions" bindLabel="label" bindValue="buid" [(ngModel)]="buid"
-                    name="buid" (change)="onselect_databudgetOptions($event)" #nameidField="ngModel"
-                    [placeholder]="!buid ? 'Select value : ' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
-                    required class="form-control">
-                  </ng-select>
+                <div class="container-fluid mt-4" *ngIf="showCards">
+                    <div class="row">
+                        <!-- <div class="row"> -->
+                        <!-- Static Card for Total Works -->
+                        <!-- <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngIf="totalNosWorks != 0 "> -->
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                            <a type="link" (click)="TotalWorksAbstract()">
+                                <mat-card class="card-class text-center"
+                                    style="background-color: #6a6afd; color: Black;">
+                                    <mat-card-header class="mat-card-header"
+                                        style="border-bottom: none; text-align: center;">
+                                        <mat-icon role="img" mat-card-avatar
+                                            class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+                                            style="font-size: 40px; color: white;" aria-hidden="true">
+                                            account_balance
+                                        </mat-icon>
+                                        <div style="text-align: center; margin-top: -20px; margin-left: 5%;">
+                                            <h5 style="font-size: 18px; font-weight: bold;">Total Works</h5>
+                                        </div>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <h3 class="font-weight-bold" style="font-weight: bold; font-size: 16px;">
+                                            {{ totalNosWorks }}
+                                        </h3>
+                                    </mat-card-content>
+                                </mat-card>
+                            </a>
+                        </div>
+
+                        <!-- Dynamic Cards for Other District Data -->
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let district of districtData">
+                            <a type="link" (click)="DetailProgress(district.did,district.dashname,district.nosworks)">
+                                <!-- <a type="link" (click)="open_mobile_modal(1,itemDetailsModal)"> DetailProgress-->
+                                <!-- <a type="link"> -->
+                                <mat-card class="card-class text-center"
+                                    [ngStyle]="{'background-color': getCardColor(district.did), 'color': 'Black'}">
+                                    <mat-card-header class="mat-card-header"
+                                        style="border-bottom: none; text-align: center;">
+                                        <mat-icon role="img" mat-card-avatar
+                                            class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+                                            style="font-size: 40px; color: white;" aria-hidden="true">
+                                            {{ getIcon(district.did) }}
+                                        </mat-icon>
+                                        <div style="text-align: center; margin-top: -20px; margin-left: 5%;">
+                                            <h5 style="font-size: 18px; font-weight: bold;">{{ district.dashname }}</h5>
+                                        </div>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <h3 class="font-weight-bold" style="font-weight: bold; font-size: 16px;">
+                                            {{ district.nosworks }}
+                                        </h3>
+                                    </mat-card-content>
+                                </mat-card>
+                                <!-- </a> -->
+                            </a>
+                        </div>
+                    </div>
                 </div>
-              </div>
-             
-          </div>
+            </div>
         </div>
-      </div>
-      <div class="container-fluid mt-4" *ngIf="showCards">
-        <div class="row">
-          <!-- <div class="row"> -->
-          <!-- Static Card for Total Works -->
-          <!-- <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngIf="totalNosWorks != 0 "> -->
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-            <a type="link" (click)="TotalWorksAbstract()">
-            <mat-card class="card-class text-center" style="background-color: #6a6afd; color: Black;">
-              <mat-card-header class="mat-card-header" style="border-bottom: none; text-align: center;">
-                <mat-icon role="img" mat-card-avatar
-                  class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-                  style="font-size: 40px; color: white;" aria-hidden="true">
-                  account_balance
-                </mat-icon>
-                <div style="text-align: center; margin-top: -20px; margin-left: 5%;">
-                  <h5 style="font-size: 18px; font-weight: bold;">Total Works</h5>
+
+        <!-- Running Works summary -->
+        <div class="card shadow mb-3">
+            <div class="card-body">
+                <div class="w-100 mt-1 pb-2 rounded">
+                    <!-- #e2e3e5 -->
+                    <h3 class="bold text-light bg-dark" style="font-size: large;">Running Works Summary</h3>
                 </div>
-              </mat-card-header>
-              <mat-card-content>
-                <h3 class="font-weight-bold" style="font-weight: bold; font-size: 16px;">
-                  {{ totalNosWorks }}
-                </h3>
-              </mat-card-content>
-            </mat-card>
-            </a>
-          </div>
-  
-          <!-- Dynamic Cards for Other District Data -->
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let district of districtData">
-            <a type="link" (click)="DetailProgress(district.did,district.dashname,district.nosworks)">
-              <!-- <a type="link" (click)="open_mobile_modal(1,itemDetailsModal)"> DetailProgress-->
-              <!-- <a type="link"> -->
-              <mat-card class="card-class text-center"
-                [ngStyle]="{'background-color': getCardColor(district.did), 'color': 'Black'}">
-                <mat-card-header class="mat-card-header" style="border-bottom: none; text-align: center;">
-                  <mat-icon role="img" mat-card-avatar
-                    class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-                    style="font-size: 40px; color: white;" aria-hidden="true">
-                    {{ getIcon(district.did) }}
-                  </mat-icon>
-                  <div style="text-align: center; margin-top: -20px; margin-left: 5%;">
-                    <h5 style="font-size: 18px; font-weight: bold;">{{ district.dashname }}</h5>
+                <!-- <div class="card-body pt-0"> -->
+                <div class="container-fluid  p-1">
+                    <div class="row">
+                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataGTotal.length > 0"> -->
+                          <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                                    [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                                    [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+                                    [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+                                    [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"></apx-chart>
+
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDivision.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
+                                    [dataLabels]="chartOptions1.dataLabels" [plotOptions]="chartOptions1.plotOptions"
+                                    [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke"
+                                    [fill]="chartOptions1.fill" [yaxis]="chartOptions1.yaxis"
+                                    [title]="chartOptions1.title" [tooltip]="chartOptions1.tooltip"
+                                    [legend]="chartOptions1.legend"></apx-chart>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
+                                    [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
+                                    [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
+                                    [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis"
+                                    [title]="chartOptions2.title" [tooltip]="chartOptions2.tooltip"
+                                    [legend]="chartOptions2.legend"></apx-chart>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDistrict.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart"
+                                    [dataLabels]="chartOptions3.dataLabels" [plotOptions]="chartOptions3.plotOptions"
+                                    [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
+                                    [fill]="chartOptions3.fill" [yaxis]="chartOptions3.yaxis"
+                                    [title]="chartOptions3.title" [tooltip]="chartOptions3.tooltip"
+                                    [legend]="chartOptions3.legend"></apx-chart>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataContractor.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart"
+                                    [dataLabels]="chartOptions4.dataLabels" [plotOptions]="chartOptions4.plotOptions"
+                                    [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
+                                    [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis"
+                                    [title]="chartOptions4.title" [tooltip]="chartOptions4.tooltip"
+                                    [legend]="chartOptions4.legend"></apx-chart>
+                            </div>
+                        </div> -->
+                    </div>
+                </div> 
+                <!-- </div> -->
+            </div>
+        </div>
+
+        <!-- Handover Works -->
+        <div class="card shadow mb-3">
+            <div class="card-body">
+                <div class="w-100"> <!--#e2e3e5 style="background-color:#858681"-->
+                    <h3 class="bold text-light bg-dark">Handover Works Summary</h3>
+                </div>
+                <div class="container-fluid  p-1 mt-0">
+                    <div class="row">
+                        <div class="card-body row mt-0 pt-0 pl-0" style="padding-right:0%;">
+                            <div class=" border rounded custom-form-field">
+                                <mat-form-field class="filter-field w-100 " appearance="fill">
+                                    <mat-label>Date Range</mat-label>
+                                    <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                                        <input matStartDate placeholder="Start date" formControlName="start"
+                                            class="custom-inputt">
+                                        <input matEndDate placeholder="End date" formControlName="end"
+                                            class="custom-inputt">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractSchemeData.length > 0">
+                      <div class="chart-container">
+                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
+                              {{todt}}</span>
+                          <apx-chart [series]="chartHandover1.series" [chart]="chartHandover1.chart"
+                              [dataLabels]="chartHandover1.dataLabels" [plotOptions]="chartHandover1.plotOptions"
+                              [xaxis]="chartHandover1.xaxis" [stroke]="chartHandover1.stroke"
+                              [fill]="chartHandover1.fill" [yaxis]="chartHandover1.yaxis"
+                              [title]="chartHandover1.title" [tooltip]="chartHandover1.tooltip"
+                              [legend]="chartHandover1.legend"></apx-chart>
+                      </div>
                   </div>
-                </mat-card-header>
-                <mat-card-content>
-                  <h3 class="font-weight-bold" style="font-weight: bold; font-size: 16px;">
-                    {{ district.nosworks }}
-                  </h3>
-                </mat-card-content>
-              </mat-card>
-              <!-- </a> -->
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="w-100 mt-1 pb-2 rounded" >
-        <!-- #e2e3e5 -->
-        <h3 class="bold text-light bg-dark" style="font-size: large;">Running Works Summary</h3>
-      </div>
-  <div class="card-body pt-0">
-    
-    <div class="container-fluid  p-1">
-      <div class="row">
-        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataGTotal.length > 0">
-          <div class="chart-container">
-            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
-              [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
-              [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
-              [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis"
-              [title]="chartOptions.title" [tooltip]="chartOptions.tooltip"
-              [legend]="chartOptions.legend"></apx-chart>
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractTotalData.length > 0">
+                            <div class="chart-container">
+                                <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
+                                    {{todt}}</span>
+                                <!-- <span class="bold mt-1">{{fromdt}} To {{todt}}</span> -->
+                                <apx-chart [series]="chartHandover.series" [chart]="chartHandover.chart"
+                                    [dataLabels]="chartHandover.dataLabels" [plotOptions]="chartHandover.plotOptions"
+                                    [xaxis]="chartHandover.xaxis" [stroke]="chartHandover.stroke"
+                                    [fill]="chartHandover.fill" [yaxis]="chartHandover.yaxis"
+                                    [title]="chartHandover.title" [tooltip]="chartHandover.tooltip"
+                                    [legend]="chartHandover.legend"></apx-chart>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractDistrictData.length > 0">
+                            <div class="chart-container">
+                                <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
+                                    {{todt}}</span>
+                                <apx-chart [series]="chartHandover2.series" [chart]="chartHandover2.chart"
+                                    [dataLabels]="chartHandover2.dataLabels" [plotOptions]="chartHandover2.plotOptions"
+                                    [xaxis]="chartHandover2.xaxis" [stroke]="chartHandover2.stroke"
+                                    [fill]="chartHandover2.fill" [yaxis]="chartHandover2.yaxis"
+                                    [title]="chartHandover2.title" [tooltip]="chartHandover2.tooltip"
+                                    [legend]="chartHandover2.legend"></apx-chart>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded"  *ngIf="HandoverAbstractWorkTypeData.length > 0">
+                            <div class="chart-container">
+                                <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
+                                    {{todt}}</span>
+                                <apx-chart [series]="chartHandover3.series" [chart]="chartHandover3.chart"
+                                    [dataLabels]="chartHandover3.dataLabels" [plotOptions]="chartHandover3.plotOptions"
+                                    [xaxis]="chartHandover3.xaxis" [stroke]="chartHandover3.stroke"
+                                    [fill]="chartHandover3.fill" [yaxis]="chartHandover3.yaxis"
+                                    [title]="chartHandover3.title" [tooltip]="chartHandover3.tooltip"
+                                    [legend]="chartHandover3.legend"></apx-chart>
+                            </div>
+                        </div>
 
 
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDivision.length > 0">
-          <div class="chart-container">
-            <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
-              [dataLabels]="chartOptions1.dataLabels" [plotOptions]="chartOptions1.plotOptions"
-              [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke" [fill]="chartOptions1.fill"
-              [yaxis]="chartOptions1.yaxis" [title]="chartOptions1.title" [tooltip]="chartOptions1.tooltip"
-              [legend]="chartOptions1.legend"></apx-chart>
-          </div>
+
+        <!--Payment Due-->
+        <div class="card shadow mb-3">
+            <div class="card-body">
+                <div class="w-100 mt-1 pb-0">
+                    <h3 class="bold text-light bg-secondary" style="font-size: large;">Payment Due</h3>
+                </div>
+                <!-- <div class="card shadow"> -->
+                <!-- <div class="card-body pt-0 mt-0"> -->
+                <div class="container-fluid  p-1 mt-2">
+                    <div class="row">
+                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryTotal.length > 0"> -->
+                          <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryScheme.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartUnPaid3.series" [chart]="chartUnPaid3.chart"
+                                    [dataLabels]="chartUnPaid3.dataLabels" [plotOptions]="chartUnPaid3.plotOptions"
+                                    [xaxis]="chartUnPaid3.xaxis" [stroke]="chartUnPaid3.stroke" [fill]="chartUnPaid3.fill"
+                                    [yaxis]="chartUnPaid3.yaxis" [title]="chartUnPaid3.title" [tooltip]="chartUnPaid3.tooltip"
+                                    [legend]="chartUnPaid3.legend"></apx-chart>
+        
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryDivision.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartUnPaid.series" [chart]="chartUnPaid.chart"
+                                    [dataLabels]="chartUnPaid.dataLabels" [plotOptions]="chartUnPaid.plotOptions"
+                                    [xaxis]="chartUnPaid.xaxis" [stroke]="chartUnPaid.stroke" [fill]="chartUnPaid.fill"
+                                    [yaxis]="chartUnPaid.yaxis" [title]="chartUnPaid.title" [tooltip]="chartUnPaid.tooltip"
+                                    [legend]="chartUnPaid.legend"></apx-chart>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryScheme.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartUnPaid1.series" [chart]="chartUnPaid1.chart"
+                                    [dataLabels]="chartUnPaid1.dataLabels" [plotOptions]="chartUnPaid1.plotOptions"
+                                    [xaxis]="chartUnPaid1.xaxis" [stroke]="chartUnPaid1.stroke" [fill]="chartUnPaid1.fill"
+                                    [yaxis]="chartUnPaid1.yaxis" [title]="chartUnPaid1.title" [tooltip]="chartUnPaid1.tooltip"
+                                    [legend]="chartUnPaid1.legend"></apx-chart>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryDesignation.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartUnPaid2.series" [chart]="chartUnPaid2.chart"
+                                    [dataLabels]="chartUnPaid2.dataLabels" [plotOptions]="chartUnPaid2.plotOptions"
+                                    [xaxis]="chartUnPaid2.xaxis" [stroke]="chartUnPaid2.stroke" [fill]="chartUnPaid2.fill"
+                                    [yaxis]="chartUnPaid2.yaxis" [title]="chartUnPaid2.title" [tooltip]="chartUnPaid2.tooltip"
+                                    [legend]="chartUnPaid2.legend"></apx-chart>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <!-- </div> -->
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
-          <div class="chart-container">
-            <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
-              [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
-              [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke" [fill]="chartOptions2.fill"
-              [yaxis]="chartOptions2.yaxis" [title]="chartOptions2.title" [tooltip]="chartOptions2.tooltip"
-              [legend]="chartOptions2.legend"></apx-chart>
-          </div>
+
+        <!-- Payment Done -->
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="w-100 mt-1 pb-0">
+                    <!-- #e2e3e5 -->
+                    <h3 class="bold text-light bg-secondary" style="font-size: large;">Payment Done</h3>
+                  </div>
+                  <!-- <div class="card shadow"> -->
+                  <div class="card-body pt-0 mt-0">
+                    <!-- <div class="w-100 ">
+                      #e2e3e5
+                      <h3 class=" bold text-light bg-dark">Work Order Pending</h3>
+                    </div> -->
+                    <div class="card-body row mt-0 pt-0" >
+                      <div class="border rounded custom-form-field">
+                        <mat-form-field class="filter-field w-100 " appearance="fill">
+                          <mat-label>Date Range</mat-label>
+                          <mat-date-range-input [rangePicker]="picker2" [formGroup]="dateRange1">
+                            <input matStartDate placeholder="Start date" formControlName="start" class="custom-inputt">
+                            <input matEndDate placeholder="End date" formControlName="end" class="custom-inputt">
+                          </mat-date-range-input>
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <mat-date-range-picker #picker2></mat-date-range-picker>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="container-fluid  p-3">
+                      <div class="row">
+                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryTotal.length > 0"> -->
+                          <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryScheme.length > 0">
+                          <div class="chart-container">
+                            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
+                            <apx-chart [series]="chartPaid.series" [chart]="chartPaid.chart"
+                              [dataLabels]="chartPaid.dataLabels" [plotOptions]="chartPaid.plotOptions"
+                              [xaxis]="chartPaid.xaxis" [stroke]="chartPaid.stroke"
+                              [fill]="chartPaid.fill" [yaxis]="chartPaid.yaxis"
+                              [title]="chartPaid.title" [tooltip]="chartPaid.tooltip"
+                              [legend]="chartPaid.legend"></apx-chart>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryDivision.length > 0">
+                          <div class="chart-container">
+                            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
+                            <apx-chart [series]="chartPaid1.series" [chart]="chartPaid1.chart"
+                              [dataLabels]="chartPaid1.dataLabels" [plotOptions]="chartPaid1.plotOptions"
+                              [xaxis]="chartPaid1.xaxis" [stroke]="chartPaid1.stroke" [fill]="chartPaid1.fill"
+                              [yaxis]="chartPaid1.yaxis" [title]="chartPaid1.title" [tooltip]="chartPaid1.tooltip"
+                              [legend]="chartPaid1.legend"></apx-chart>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryScheme.length > 0">
+                          <div class="chart-container">
+                            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
+                            <apx-chart [series]="chartPaid2.series" [chart]="chartPaid2.chart"
+                              [dataLabels]="chartPaid2.dataLabels" [plotOptions]="chartPaid2.plotOptions"
+                              [xaxis]="chartPaid2.xaxis" [stroke]="chartPaid2.stroke" [fill]="chartPaid2.fill"
+                              [yaxis]="chartPaid2.yaxis" [title]="chartPaid2.title" [tooltip]="chartPaid2.tooltip"
+                              [legend]="chartPaid2.legend"></apx-chart>
+                          </div>
+                        </div> -->
+                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryDistrict.length > 0">
+                          <div class="chart-container">
+                            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
+                              [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
+                              [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
+                              [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title"
+                              [tooltip]="chartOptionsLine.tooltip" [legend]="chartOptionsLine.legend"></apx-chart>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+        
+            </div>
         </div>
-        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDistrict.length > 0">
-          <div class="chart-container">
-            <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart"
-              [dataLabels]="chartOptions3.dataLabels" [plotOptions]="chartOptions3.plotOptions"
-              [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke" [fill]="chartOptions3.fill"
-              [yaxis]="chartOptions3.yaxis" [title]="chartOptions3.title"
-              [tooltip]="chartOptions3.tooltip" [legend]="chartOptions3.legend"></apx-chart>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataContractor.length > 0">
-          <div class="chart-container">
-            <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart"
-              [dataLabels]="chartOptions4.dataLabels" [plotOptions]="chartOptions4.plotOptions"
-              [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke" [fill]="chartOptions4.fill"
-              [yaxis]="chartOptions4.yaxis" [title]="chartOptions4.title"
-              [tooltip]="chartOptions4.tooltip" [legend]="chartOptions4.legend"></apx-chart>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-
-    </div>
-  </div>
+</div>
   
 
 
@@ -336,7 +573,7 @@
         <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
       </div>
     </div>
-    <div class="" mat-dialog-content>
+    <div class="" mat-dialog-content style="margin-bottom: 15px;">
       <div class="row card shadow card-body ">
         <div class="d-flex justify-content-between align-items-center mb-0">
           <div class="filter-field flex-grow-1">
@@ -551,13 +788,11 @@
           <mat-paginator #paginatorTW [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
         </div>
       </div>
-  
-  
     </div>
-    <div class="d-grid gap-2 col-12 mx-auto m-2">
-      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
-        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-          aria-hidden="true">
+    <div class="d-grid gap-2 col-12 mx-auto footer mt-2 p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
           exit_to_app
         </mat-icon>
       </button>
@@ -833,10 +1068,10 @@
   
   
     </div>
-    <div class="d-grid gap-2 col-12 mx-auto  m-2">
-      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
-        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-          aria-hidden="true">
+    <div class="d-grid gap-2 col-12 mx-auto footer mt-2 p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
           exit_to_app
         </mat-icon>
       </button>
@@ -1055,10 +1290,10 @@
   
   
     </div>
-    <div class="d-grid gap-2 col-12 mx-auto  m-2">
-      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
-        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-          aria-hidden="true">
+    <div class="d-grid gap-2 col-12 mx-auto footer mt-2 p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
           exit_to_app
         </mat-icon>
       </button>
@@ -1440,10 +1675,10 @@
   
   
     </div>
-    <div class="d-grid gap-2 col-12 mx-auto  m-2">
-      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
-        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-          aria-hidden="true">
+    <div class="d-grid gap-2 col-12 mx-auto mt-2 footer p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
           exit_to_app
         </mat-icon>
       </button>
@@ -1835,10 +2070,10 @@
   
   
     </div>
-    <div class="d-grid gap-2 col-12 mx-auto  m-2">
-      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
-        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-          aria-hidden="true">
+    <div class="d-grid gap-2 col-12 mx-auto footer mt-2 p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
           exit_to_app
         </mat-icon>
       </button>
@@ -2108,13 +2343,11 @@
           <mat-paginator #paginator1 [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
         </div>
       </div>
-  
-  
     </div>
-    <div class="d-grid gap-2 col-12 mx-auto  m-2">
-      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
-        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-          aria-hidden="true">
+    <div class="d-grid gap-2 col-12 mx-auto footer p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
           exit_to_app
         </mat-icon>
       </button>
@@ -2543,10 +2776,10 @@
   
   
     </div>
-    <div class="d-grid gap-2 col-12 mx-auto  m-2">
-      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
-        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-          aria-hidden="true">
+    <div class="d-grid gap-2 col-12 mx-auto footer p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
           exit_to_app
         </mat-icon>
       </button>
@@ -2572,8 +2805,7 @@
               (keyup)="applyTextFilter_TenderInProcess($event)">
           </div>
           <div class="export-menu-container">
-            <button type="button" class="btn border rounded btn-outline-secondary" mat-button
-              [matMenuTriggerFor]="exportMenu">Export</button>
+            <button type="button" class="btn border rounded btn-outline-secondary" mat-button  [matMenuTriggerFor]="exportMenu">Export</button>
             <mat-menu #exportMenu="matMenu">
               <button mat-menu-item
                 (click)="exporter.exportTable('xlsx', { fileName: 'TenderinProcess', sheet: 'TenderinProcess', Props: { Author: 'cgmsc' }})">Excel</button>
@@ -2773,12 +3005,462 @@
   
   
     </div>
-    <div class="d-grid gap-2 col-12 mx-auto  m-2">
-      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
-        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-          aria-hidden="true">
+    <div class="d-grid gap-2 col-12 mx-auto footer p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
           exit_to_app
         </mat-icon>
       </button>
     </div>
   </ng-template>
+
+  <!-- Handover Details -->
+  <ng-template class=" " #itemDetailsModalHandover let-modal>
+    <div class="row align-items-center p-2 m-2 ">
+      <div class="col-lg-6 col-md-8">
+        <!-- <h1>Handover Details</h1> -->
+        <h1 class="text-primary-emphasis">Handover Details</h1>
+        <h1 class="text-primary-emphasis">Selected Name :<span class="text-primary">{{name}}</span></h1>
+        <h1 class="text-primary-emphasis">No. of Works: <span class="text-primary">{{totalWorks}}</span></h1>
+      </div>
+      <div class="col-lg-6 col-md-4 text-end">
+        <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="" mat-dialog-content>
+      <div class="row card shadow card-body ">
+        <div class="d-flex justify-content-between align-items-center mb-0">
+          <div class="filter-field flex-grow-1">
+            <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterHandover($event)">
+          </div>
+          <div class="export-menu-container">
+            <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+            <mat-menu #exportMenu="matMenu">
+              <button mat-menu-item
+                (click)="exporter.exportTable('xlsx', { fileName: 'HandoverDetails', sheet: 'HandoverDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+              <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+              <button mat-menu-item (click)="exportToPDFHandover()">PDF</button>
+            </mat-menu>
+          </div>
+        </div>
+  
+        <div class="table-responsive ">
+          <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+            [dataSource]="dataSourceHanover" #exporter="matTableExporter" matSort #sortHandover="matSort">
+  
+            <!-- Serial Number Column -->
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</th>
+              <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
+            </ng-container>
+            <ng-container matColumnDef="letterNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>LetterNo</th>
+              <td mat-cell *matCellDef="let element"> {{ element.letterNo }} </td>
+            </ng-container>
+            <ng-container matColumnDef="head">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+              <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
+            </ng-container>
+            <ng-container matColumnDef="acceptLetterDT">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>AcceptLetterDT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.acceptLetterDT }} </td>
+            </ng-container>
+            <ng-container matColumnDef="totalAmountOfContract">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>TotalAmountOfContract</th>
+              <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract }} </td>
+            </ng-container>
+            <ng-container matColumnDef="district">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+              <td mat-cell *matCellDef="let element"> {{ element.district }} </td>
+            </ng-container>
+            <ng-container matColumnDef="work">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+              <td mat-cell *matCellDef="let element"> {{ element.work }} </td>
+            </ng-container>
+            <ng-container matColumnDef="contractorNAme">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>ContractorName</th>
+              <td mat-cell *matCellDef="let element"> {{ element.contractorNAme }} </td>
+            </ng-container>
+            <ng-container matColumnDef="work_id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+              <td mat-cell *matCellDef="let element"> {{ element.work_id }} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Download AS</th>
+              <td mat-cell *matCellDef="let element">
+                <span class="d-flex  flex-row-reverse p-2 ">
+                  <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                    (click)="onButtonClick2(0,element.work_id)">
+                    <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
+            <!-- Header Row -->
+  
+            <tr mat-header-row
+              *matHeaderRowDef="['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id','action']">
+            </tr>
+  
+            <!-- Data Rows -->
+            <tr mat-row
+              *matRowDef="let row; columns: ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id','action']">
+            </tr>
+          </table>
+          <mat-paginator #paginatorHandover [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+    <div class="d-grid gap-2 col-12 mx-auto footer p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
+          exit_to_app
+        </mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
+  <!-- Payment Due Details -->
+  <ng-template class=" " #itemDetailsModalUnPaid let-modal>
+    <div class="row align-items-center p-2 m-2 ">
+      <div class="col-lg-6 col-md-8">
+        <h1>Payment Due Details</h1>
+        <h1>Selected Name: {{name}}</h1>
+      </div>
+      <div class="col-lg-6 col-md-4 text-end">
+        <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="" mat-dialog-content>
+      <div class="row card shadow card-body ">
+        <div class="d-flex justify-content-between align-items-center mb-0">
+          <div class="filter-field flex-grow-1">
+            <input type="text" class="form-control" placeholder="Filter" (keyup)="UNapplyTextFilter($event)">
+          </div>
+          <div class="export-menu-container">
+            <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+            <mat-menu #exportMenu="matMenu">
+              <button mat-menu-item
+                (click)="exporter.exportTable('xlsx', { fileName: 'PaymentDueDetails', sheet: 'PaymentDueDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+              <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+              <button mat-menu-item (click)="UNexportToPDF()">PDF</button>
+            </mat-menu>
+          </div>
+        </div>
+  
+        <div class="table-responsive ">
+          <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+            [dataSource]="dataSourceUnPaid" #exporter="matTableExporter" matSort #sortUnPaid="matSort">
+  
+            <!-- Serial Number Column -->
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</th>
+              <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
+            </ng-container>
+            <ng-container matColumnDef="head">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+              <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="letterNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter No</th>
+              <td mat-cell *matCellDef="let element"> {{ element.letterNo }}/DT:{{ element.aaDate }} </td>
+            </ng-container> -->
+            <ng-container matColumnDef="division">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+              <td mat-cell *matCellDef="let element"> {{ element.division }} </td>
+            </ng-container>
+            <ng-container matColumnDef="district">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+              <td mat-cell *matCellDef="let element"> {{ element.district }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="workname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+              <td mat-cell *matCellDef="let element"> {{ element.workname}} </td>
+            </ng-container>
+            <ng-container matColumnDef="wrokOrderDT">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Wrok Order DT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.wrokOrderDT}} </td>
+            </ng-container>
+            <ng-container matColumnDef="totalamountofcontract">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value (In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.totalamountofcontract}} </td>
+            </ng-container>
+            <ng-container matColumnDef="totalpaidtillinlac">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid Till(In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.totalpaidtillinlac}}</td>
+            </ng-container>
+            <ng-container matColumnDef="mesurementDT">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Measurement DT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.mesurementDT}}</td>
+            </ng-container>
+            <ng-container matColumnDef="billno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill No.</th>
+              <td mat-cell *matCellDef="let element"> {{ element.billno }}/DT:</td>
+            </ng-container>
+            <ng-container matColumnDef="billdate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill DT</th>
+              <td mat-cell *matCellDef="let element">{{element.billdate}} </td>
+            </ng-container>
+            <ng-container matColumnDef="agrbillstatus">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Type</th>
+              <td mat-cell *matCellDef="let element"> {{ element.agrbillstatus}} </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="agreementRefNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Ref. No</th>
+              <td mat-cell *matCellDef="let element"> {{ element.agreementRefNo}}/No:{{element.workorderRefNoGovt}} </td>
+            </ng-container> -->
+            <!-- <ng-container matColumnDef="aaamt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>AS (In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.aaamt}} </td>
+            </ng-container> -->
+            
+            <!-- <ng-container matColumnDef="tsDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
+              <td mat-cell *matCellDef="let element"> {{ element.tsDate}} </td>
+            </ng-container> -->
+            <!-- <ng-container matColumnDef="tsamt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>TS (In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.tsamt}}/DT:{{ element.tsDate}} </td>
+            </ng-container> -->
+            
+            <!-- <ng-container matColumnDef="sanctionRate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Sanction Rate </th>
+              <td mat-cell *matCellDef="let element"> {{ element.sanctionRate }}/{{element.sanctionDetail}} </td>
+            </ng-container> -->
+           
+            <ng-container matColumnDef="grossAmtNew">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Gross Amount Due(In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.grossAmtNew}} </td>
+            </ng-container>
+            <ng-container matColumnDef="dayssincemeasurement">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Days Since Measurement</th>
+              <td mat-cell *matCellDef="let element"> {{ element.dayssincemeasurement}} </td>
+            </ng-container>
+            <ng-container matColumnDef="engName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Eng.</th>
+              <td mat-cell *matCellDef="let element"> {{ element.engName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="designation">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Pending With</th>
+              <td mat-cell *matCellDef="let element"> {{ element.designation}} </td>
+            </ng-container>
+            <ng-container matColumnDef="worK_ID">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+              <td mat-cell *matCellDef="let element"> {{ element.worK_ID }} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Download AS</th>
+              <td mat-cell *matCellDef="let element">
+                <span class="d-flex  flex-row-reverse p-2 ">
+                   <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                    (click)="onButtonClick2(0,element.worK_ID)">
+                    <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
+            <!-- Header Row -->
+            <tr mat-header-row
+              *matHeaderRowDef="['sno', 'head','district','division','workname','wrokOrderDT','billno','agrbillstatus','totalamountofcontract','grossAmtNew','totalpaidtillinlac','dayssincemeasurement','mesurementDT','engName','designation','worK_ID','action']">
+            </tr>
+  
+            <!-- Data Rows -->
+            <tr mat-row
+              *matRowDef="let row; columns: ['sno', 'head','district','division','workname','wrokOrderDT','billno','agrbillstatus','totalamountofcontract','grossAmtNew','totalpaidtillinlac','dayssincemeasurement','mesurementDT','engName','designation','worK_ID','action']">
+            </tr>
+          </table>
+          <mat-paginator #paginatorUnPaid [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+  
+  
+    </div>
+    <div class="d-grid gap-2 col-12 mx-auto footer mt-2 p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
+          exit_to_app
+        </mat-icon>
+      </button>
+    </div>
+    <!-- <div class="d-grid gap-2 col-12 mx-auto  m-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <mat-icon role="img" mat-card-avatar 
+                  class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color" 
+                  aria-hidden="true">
+          exit_to_app
+        </mat-icon>
+      </button>
+    </div> -->
+  </ng-template>
+
+  <!--Payment Details  -->
+  <ng-template class=" " #itemDetailsModalPaid let-modal>
+    <div class="row align-items-center p-2 m-2 ">
+      <div class="col-lg-6 col-md-8">
+        <h1>Payment Details</h1>
+      </div>
+      <div class="col-lg-6 col-md-4 text-end">
+        <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="" mat-dialog-content>
+      <div class="row card shadow card-body ">
+        <div class="d-flex justify-content-between align-items-center mb-0">
+          <div class="filter-field flex-grow-1">
+            <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterPaid($event)">
+          </div>
+          <div class="export-menu-container">
+            <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+            <mat-menu #exportMenu="matMenu">
+              <button mat-menu-item
+                (click)="exporter.exportTable('xlsx', { fileName: 'PaymentDetails', sheet: 'PaymentDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+              <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+              <button mat-menu-item (click)="exportToPDFPaid()">PDF</button>
+            </mat-menu>
+          </div>
+        </div>
+  
+        <div class="table-responsive ">
+          <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+            [dataSource]="dataSourcePaid" #exporter="matTableExporter" matSort #sortPaid="matSort">
+  
+            <!-- Serial Number Column -->
+            <ng-container matColumnDef="sno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</th>
+              <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
+            </ng-container>
+            <ng-container matColumnDef="head">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+              <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="letterNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter No</th>
+              <td mat-cell *matCellDef="let element"> {{ element.letterNo }}/DT:{{ element.aaDate }} </td>
+            </ng-container> -->
+            <ng-container matColumnDef="division">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+              <td mat-cell *matCellDef="let element"> {{ element.division }} </td>
+            </ng-container>
+            <ng-container matColumnDef="district">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+              <td mat-cell *matCellDef="let element"> {{ element.district }} </td>
+            </ng-container>
+           
+            <ng-container matColumnDef="workname">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+              <td mat-cell *matCellDef="let element"> {{ element.workname}} </td>
+            </ng-container>
+            <ng-container matColumnDef="wrokOrderDT">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order DT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.wrokOrderDT}} </td>
+            </ng-container>
+            <ng-container matColumnDef="billno">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill No.</th>
+              <td mat-cell *matCellDef="let element"> {{ element.billno }}/DT:{{element.billdate}} </td>
+            </ng-container>
+            <ng-container matColumnDef="agrbillstatus">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>AGR Bill Status</th>
+              <td mat-cell *matCellDef="let element"> {{ element.agrbillstatus }} </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="agreementRefNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Ref. No</th>
+              <td mat-cell *matCellDef="let element"> {{ element.agreementRefNo}}/No:{{element.workorderRefNoGovt}} </td>
+            </ng-container> -->
+            <!-- <ng-container matColumnDef="aaamt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>AS (In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.aaamt}} </td>
+            </ng-container> -->
+            
+            <!-- <ng-container matColumnDef="tsDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
+              <td mat-cell *matCellDef="let element"> {{ element.tsDate}} </td>
+            </ng-container> -->
+            <!-- <ng-container matColumnDef="tsamt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>TS (In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.tsamt}}/DT:{{ element.tsDate}} </td>
+            </ng-container> -->
+            
+            <!-- <ng-container matColumnDef="sanctionRate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Sanction Rate </th>
+              <td mat-cell *matCellDef="let element"> {{ element.sanctionRate }}/{{element.sanctionDetail}} </td>
+            </ng-container> -->
+            <ng-container matColumnDef="totalamountofcontract">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value (In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.totalamountofcontract}} </td>
+            </ng-container>
+            <ng-container matColumnDef="grosspaid">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Gross Paid Value (In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.grosspaid}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="totalpaidtillinlac">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid Till(In lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.totalpaidtillinlac}}</td>
+            </ng-container>
+            <ng-container matColumnDef="chequeDT">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Cheque DT.</th>
+              <td mat-cell *matCellDef="let element"> {{ element.chequeDT}} </td>
+            </ng-container>
+            <ng-container matColumnDef="mesurementDT">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Measurement DT</th>
+              <td mat-cell *matCellDef="let element"> {{ element.mesurementDT}}/DAY:{{element.dayssincemeasurement}}</td>
+            </ng-container>
+            <ng-container matColumnDef="worK_ID">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+              <td mat-cell *matCellDef="let element"> {{ element.worK_ID }} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Download AS</th>
+              <td mat-cell *matCellDef="let element">
+                <span class="d-flex  flex-row-reverse p-2 ">
+                   <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                    (click)="onButtonClick2(0,element.worK_ID)">
+                    <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                  </button>
+                </span>
+              </td>
+            </ng-container>
+            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
+            <!-- Header Row -->
+            <tr mat-header-row
+              *matHeaderRowDef="['sno', 'head','division','district','workname','wrokOrderDT','billno','agrbillstatus','totalamountofcontract','grosspaid','totalpaidtillinlac','chequeDT','mesurementDT','worK_ID','action']">
+            </tr>
+  
+            <!-- Data Rows -->
+            <tr mat-row
+              *matRowDef="let row; columns: ['sno', 'head','division','district','workname','wrokOrderDT','billno','agrbillstatus','totalamountofcontract','grosspaid','totalpaidtillinlac','chequeDT','mesurementDT','worK_ID','action']">
+            </tr>
+          </table>
+          <mat-paginator #paginatorPaid [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+  
+  
+    </div>
+    <div class="d-grid gap-2 col-12 mx-auto footer p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
+          exit_to_app
+        </mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
