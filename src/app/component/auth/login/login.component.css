@@ -172,7 +172,22 @@ footer p {
   margin: 0;
 }
 
+/* .footer{
+  position: fixed;
+  padding: 5px;
+  bottom: 0;
+  width: 100%;
+  height: 93px;
+  border: #ffff;
+  border-radius: 1%;
+  background: rgb(155, 158, 155);
+  background: rgb(55, 61, 55);
+  color: white;
+  font-size: 30px;
+  z-index: 1000;
 
+
+} */
 
 @media (max-width: 576px) {
   .header {

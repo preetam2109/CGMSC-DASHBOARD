@@ -1288,12 +1288,20 @@ exportToPDF() {
   }));
 
   autoTable(doc, {
-    columns: columns,
-    body: rows,
+    head: [columns.map(col => col.title)],
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row])),
     startY: 20,
-    theme: 'striped',
-    headStyles: { fillColor: [22, 160, 133] },
-  });
+    theme: 'grid',
+    styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+    headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+    columnStyles: {
+        8: { cellWidth: 'auto' },  // Adjust width for long text columns
+        33: { cellWidth: 'auto' }
+    },
+    tableWidth: 'auto',
+    margin: { top: 20, left: 5, right: 5 },
+    pageBreak: 'auto'  // Ensures all rows are included across multiple pages
+});
 
   doc.save('Acceptance_WOrderDetail.pdf');
 }
@@ -1377,12 +1385,20 @@ exportToPDFCom_Han() {
   }));
 
   autoTable(doc, {
-    columns: columns,
-    body: rows,
+    head: [columns.map(col => col.title)],
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row])),
     startY: 20,
-    theme: 'striped',
-    headStyles: { fillColor: [22, 160, 133] },
-  });
+    theme: 'grid',
+    styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+    headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+    columnStyles: {
+        8: { cellWidth: 'auto' },  // Adjust width for long text columns
+        33: { cellWidth: 'auto' }
+    },
+    tableWidth: 'auto',
+    margin: { top: 20, left: 5, right: 5 },
+    pageBreak: 'auto'  // Ensures all rows are included across multiple pages
+});
 
   doc.save('Completed_Handover.pdf');
 }
@@ -1472,12 +1488,60 @@ exportToPDFTW() {
   }));
 
   autoTable(doc, {
-    columns: columns,
-    body: rows,
+    head: [columns.map(col => col.title)],
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
     startY: 20,
-    theme: 'striped',
-    headStyles: { fillColor: [22, 160, 133] },
+    theme: 'grid',
+    headStyles: { fillColor: [44, 62, 80], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+    styles: { textColor: [0, 0, 0], fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+    columnStyles: {
+      0: { cellWidth: 8 },   // S.No
+      1: { cellWidth: 15 },  // Head No
+      2: { cellWidth: 20 },  // Head
+      3: { cellWidth: 20 },  // Division
+      4: { cellWidth: 18 },  // District
+      5: { cellWidth: 18 },  // Block
+      6: { cellWidth: 20 },  // AS Letter No
+      7: { cellWidth: 18 },  // Approver
+      8: { cellWidth: 30 },  // Work
+      9: { cellWidth: 18 },  // AS Date
+      10: { cellWidth: 18 }, // AS Amount
+      11: { cellWidth: 18 }, // TS Date
+      12: { cellWidth: 18 }, // TS Amount
+      13: { cellWidth: 18 }, // Tender Type
+      14: { cellWidth: 22 }, // NIT Reference
+      15: { cellWidth: 22 }, // NIT/Sanction DT
+      16: { cellWidth: 22 }, // Acceptance Letter RefNo
+      17: { cellWidth: 18 }, // Accepted DT
+      18: { cellWidth: 12 }, // Rate%
+      19: { cellWidth: 22 }, // Sanction
+      20: { cellWidth: 22 }, // Contract Amount
+      21: { cellWidth: 22 }, // Total Paid
+      22: { cellWidth: 22 }, // Total Unpaid
+      23: { cellWidth: 22 }, // Work Order DT
+      24: { cellWidth: 18 }, // Time Allowed
+      25: { cellWidth: 22 }, // Due DT Time PerAdded
+      26: { cellWidth: 22 }, // Work Order RefNo
+      27: { cellWidth: 15 }, // Contractor ID/Class
+      28: { cellWidth: 22 }, // Contractor
+      29: { cellWidth: 18 }, // Contractor Mobile No
+      30: { cellWidth: 15 }, // Last Progress
+      31: { cellWidth: 18 }, // Progress DT
+      32: { cellWidth: 18 }, // Exp.Comp DT
+      33: { cellWidth: 30 }, // Delay Reason
+      34: { cellWidth: 15 }, // Remarks
+      35: { cellWidth: 15 }, // Sub Engineer
+      36: { cellWidth: 15 }, // Asst. Eng
+      37: { cellWidth: 15 }, // Work ID
+      38: { cellWidth: 22 }, // AS Letter
+      // 8: { cellWidth: 'wrap' },  // Adjust width for long text columns
+      // 33: { cellWidth: 'wrap' }
+    },
+    tableWidth: 'wrap',
+    margin: { top: 20, left: 2, right: 2 },
+    pageBreak: 'auto' 
   });
+
 
   doc.save('WorksAbstractD.pdf');
 }
@@ -1654,11 +1718,18 @@ exportobeTenderAll_PDFT() {
   }));
 
   autoTable(doc, {
-    columns: columns,
-    body: rows,
+    head: [columns.map(col => col.title)], 
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
     startY: 20,
-    theme: 'striped',
-    headStyles: { fillColor: [22, 160, 133] },
+    theme: 'grid',
+    styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+    headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+    columnStyles: {
+      8: { cellWidth: 'wrap' },  
+      33: { cellWidth: 'wrap' }, 
+    },
+    tableWidth: 'auto',
+    margin: { top: 20, left: 5, right: 5 },
   });
 
   doc.save('DetailProgress.pdf');
@@ -1750,11 +1821,18 @@ expor_TenderInProcess_PDFT() {
   }));
 
   autoTable(doc, {
-    columns: columns,
-    body: rows,
+    head: [columns.map(col => col.title)], 
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
     startY: 20,
-    theme: 'striped',
-    headStyles: { fillColor: [22, 160, 133] },
+    theme: 'grid',
+    styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+    headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+    columnStyles: {
+      8: { cellWidth: 'wrap' },  
+      33: { cellWidth: 'wrap' }, 
+    },
+    tableWidth: 'auto',
+    margin: { top: 20, left: 5, right: 5 },
   });
 
   doc.save('TenderInProcess_Detail.pdf');
@@ -1843,14 +1921,27 @@ expor_PDFLand_isu() {
   }));
 
   autoTable(doc, {
-    columns: columns,
-    body: rows,
+    head: [columns.map(col => col.title)], 
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
     startY: 20,
-    theme: 'striped',
-    headStyles: { fillColor: [22, 160, 133] },
+    theme: 'grid',
+    styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+    headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+    columnStyles: {
+      8: { cellWidth: 'wrap' },  
+      33: { cellWidth: 'wrap' }, 
+    },
+    tableWidth: 'auto',
+    margin: { top: 20, left: 5, right: 5 },
+  
+    // didDrawPage: function (data) {
+    //   doc.setFontSize(8);
+    //   doc.text('Land Issue Report', data.settings.margin.left, 10);
+    // }
   });
-
-  doc.save('LandIssue_Detail.pdf');
+  
+  
+      doc.save('LandIssueReport.pdf');
 }
  // mat-dialog box
  openDialog() {
