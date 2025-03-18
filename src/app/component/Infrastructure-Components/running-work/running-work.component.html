@@ -183,10 +183,7 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
               <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
             </ng-container>
-            <ng-container matColumnDef="work_id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
-              <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
-            </ng-container>
+           
             <ng-container matColumnDef="head">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
               <td mat-cell *matCellDef="let element">{{ element.head}} </td>
@@ -205,14 +202,32 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
               <td mat-cell *matCellDef="let element"> {{ element.blockname}} </td>
             </ng-container>
-           
             <ng-container matColumnDef="work">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
               <td mat-cell *matCellDef="let element">{{ element.work}} </td>
             </ng-container>
-            
-           
-           
+            <ng-container matColumnDef="aaDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Date</th>
+              <td mat-cell *matCellDef="let element"> {{ element.aaDate}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="aaamt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount(in Lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.aaamt}} </td>
+            </ng-container>
+            <ng-container matColumnDef="tsDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
+              <td mat-cell *matCellDef="let element"> {{ element.tsDate}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="tsamt">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Amount(in Lacs)</th>
+              <td mat-cell *matCellDef="let element"> {{ element.tsamt}} </td>
+            </ng-container>
+            <ng-container matColumnDef="work_id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+              <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
+            </ng-container>
             <ng-container matColumnDef="workorderDT">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order DT</th>
               <td mat-cell *matCellDef="let element"> {{ element.workorderDT}} </td>
@@ -266,24 +281,7 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Asst.Eng</th>
               <td mat-cell *matCellDef="let element"> {{ element.aeName}} </td>
             </ng-container>
-            <ng-container matColumnDef="aaDate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Date</th>
-              <td mat-cell *matCellDef="let element"> {{ element.aaDate}} </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="aaamt">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount(in Lacs)</th>
-              <td mat-cell *matCellDef="let element"> {{ element.aaamt}} </td>
-            </ng-container>
-            <ng-container matColumnDef="tsDate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
-              <td mat-cell *matCellDef="let element"> {{ element.tsDate}} </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="tsamt">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Amount(in Lacs)</th>
-              <td mat-cell *matCellDef="let element"> {{ element.tsamt}} </td>
-            </ng-container>
+           
             <ng-container matColumnDef="tType">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Tender Type</th>
               <td mat-cell *matCellDef="let element"> {{ element.tType}} </td>
@@ -353,11 +351,11 @@
               </td>
             </ng-container>
             <tr mat-header-row
-            *matHeaderRowDef="['sno','work_id','head','divName_En','district','blockname','work','workorderDT','timeAllowed','dueDTTimePerAdded','delayDays','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','acceptLetterDT','contractorNAme','letterNo','approver','cid','mobNo','action']">
+            *matHeaderRowDef="['sno','head','divName_En','district','blockname','work','aaDate','aaamt','tsDate','tsamt','work_id','workorderDT','timeAllowed','dueDTTimePerAdded','delayDays','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','acceptLetterDT','contractorNAme','letterNo','approver','cid','mobNo','action']">
             <!-- *matHeaderRowDef="['sno','work_id','head','district','blockname','work','workorderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']"> -->
              </tr>
             <tr mat-row
-              *matRowDef="let row; columns: ['sno','work_id','head','divName_En','district','blockname','work','workorderDT','timeAllowed','dueDTTimePerAdded','delayDays','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','acceptLetterDT','contractorNAme','letterNo','approver','cid','mobNo','action']">
+              *matRowDef="let row; columns: ['sno','head','divName_En','district','blockname','work','aaDate','aaamt','tsDate','tsamt','work_id','workorderDT','timeAllowed','dueDTTimePerAdded','delayDays','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','acceptLetterDT','contractorNAme','letterNo','approver','cid','mobNo','action']">
               <!-- *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']"> -->
             </tr>
           </table>

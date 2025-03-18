@@ -471,6 +471,9 @@ ASFileData: ASFile[] = [];
       plotOptions: {
         bar: {
           horizontal: false,
+          columnWidth:'20%',
+          borderRadius:3,
+          distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
           },
@@ -847,6 +850,9 @@ ASFileData: ASFile[] = [];
       plotOptions: {
         bar: {
           horizontal: false,
+          columnWidth:'30%',
+          borderRadius:3,
+          distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
           },

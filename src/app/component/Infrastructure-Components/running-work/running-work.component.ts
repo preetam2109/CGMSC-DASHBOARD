@@ -183,6 +183,9 @@ export class RunningWorkComponent {
     plotOptions: {
       bar: {
         horizontal: false,
+        columnWidth:'40%',
+        borderRadius:3,
+        distributed: false,
         dataLabels: {
           position: 'top', // top, center, bottom
         },
@@ -664,6 +667,9 @@ export class RunningWorkComponent {
     plotOptions: {
       bar: {
         horizontal: false,
+          columnWidth:'40%',
+          borderRadius:3,
+          distributed: false,
         dataLabels: {
           position: 'top', // top, center, bottom
         },

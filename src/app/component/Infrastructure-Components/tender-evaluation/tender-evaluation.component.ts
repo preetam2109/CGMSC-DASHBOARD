@@ -455,7 +455,10 @@ initializeChartOptions() {
    },
    plotOptions: {
      bar: {
-       horizontal: false,
+      horizontal: false,
+      columnWidth:'30%',
+      borderRadius:3,
+      distributed: false,
        dataLabels: {
          position: 'top', // top, center, bottom
        },
@@ -835,7 +838,10 @@ initializeChartOptions2() {
    },
    plotOptions: {
      bar: {
-       horizontal: false,
+          horizontal: false,
+          columnWidth:'30%',
+          borderRadius:3,
+          distributed: false,
        dataLabels: {
          position: 'top', // top, center, bottom
        },
@@ -1915,7 +1921,7 @@ GETPEvaluationTotal(): void {
 
 // #region dataBase tender Evalution
 fetchDataBasedOnChartSelectionTotal(  divisionID: any, seriesName: string ): void {
-  ;
+  // ;
 //  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
  const distid = 0;
  const mainSchemeId = 0;

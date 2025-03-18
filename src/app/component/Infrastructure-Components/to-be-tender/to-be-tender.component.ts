@@ -233,7 +233,7 @@ export class ToBeTenderComponent {
           return `${val}/(${tValue})`;
         },
         style: {
-          fontSize: '8px',
+          fontSize: '12px',
           colors: ['#000'],
         },
       },
@@ -321,6 +321,9 @@ export class ToBeTenderComponent {
       plotOptions: {
         bar: {
           horizontal: false,
+          columnWidth:'20%',
+          borderRadius:3,
+          distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
           },

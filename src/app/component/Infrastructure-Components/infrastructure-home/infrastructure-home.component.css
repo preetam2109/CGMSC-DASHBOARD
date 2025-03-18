@@ -392,7 +392,8 @@
     
 
   .footer{
-    position: absolute;
+    /* position: absolute; */
+    position:sticky;
     padding: 5px;
     bottom: 0;
     width: 100%;
