@@ -27,6 +27,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChartOptions } from 'src/app/component/card/card.component';
+import { CollegeHospital_AIvsIssue } from 'src/app/Model/DashCards';
 
 
 @Component({
@@ -47,6 +48,12 @@ import { ChartOptions } from 'src/app/component/card/card.component';
   styleUrl: './cme-dashboard.component.css'
 })
 export class CMEDashboardComponent {
+exportToPDFQCLabPendingTracke() {
+throw new Error('Method not implemented.');
+}
+applyTextFilterPT($event: KeyboardEvent) {
+throw new Error('Method not implemented.');
+}
 exportToPDF() {
 throw new Error('Method not implemented.');
 }
@@ -67,6 +74,8 @@ throw new Error('Method not implemented.');
   chartIndent: ChartOptions;
   chartNearexp: ChartOptions;
   chartUQC: ChartOptions;
+  chartDMEAIvsIssue: ChartOptions;
+  chartDMEIssueWihtoutAI: ChartOptions;
   title: string = 'welcome';
   username: any = '';
   menuItems: {  label: string; route: string; submenu?: { label: string; route: string }[], icon?: string }[] = [];
@@ -96,10 +105,12 @@ throw new Error('Method not implemented.');
   PartPOsSince1920list:any
   PartItemissuelist:any
   PartItemRClist:any
+  collegeHospital_AIvsIssue:CollegeHospital_AIvsIssue[]=[]
   dataSource = new MatTableDataSource<any>();
   dataSource2 = new MatTableDataSource<any>();
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
+  dataSource6 = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
@@ -108,6 +119,8 @@ throw new Error('Method not implemented.');
     @ViewChild(MatSort) sort3!: MatSort;
     @ViewChild(MatPaginator) paginator4!: MatPaginator;
     @ViewChild(MatSort) sort4!: MatSort;
+    @ViewChild(MatPaginator) paginator6!: MatPaginator;
+    @ViewChild(MatSort) sort6!: MatSort;
 
     selectedCategory:any='';
   
@@ -448,6 +461,122 @@ colors = [];
         ]
       } as unknown as ChartOptions;
     
+      this.chartDMEAIvsIssue = {
+        series: [], // Radial bar data
+        chart: {
+          type: "radialBar"
+        },
+        plotOptions: {
+          radialBar: {
+            dataLabels: {
+              name: {
+                fontSize: '16px'
+              },
+              value: {
+                fontSize: '14px',
+                formatter: function (_val: any, opts: any) {
+                  console.log("opts.w.globals.series:", opts.w.globals.series); // Debugging
+                  console.log("opts.seriesIndex:", opts.seriesIndex); // Debugging
+                  return opts.w.globals.series[opts.seriesIndex]?.toString() || "0"; // Ensure total values are displayed
+                }
+              }
+            }
+          }
+        },
+      
+        labels: [
+          'nosIndent',
+          'aiReturn',
+          'issueitems',
+          'issuedValuecr'
+
+        ],
+        dataLabels: {
+          enabled: true,
+          style: {
+            colors: ['#001219'],
+            fontWeight: '2px'
+          },
+          formatter: function (val: any, opts: any) {
+            return opts.w.globals.series[opts.seriesIndex]; // Shows actual values inside the chart
+          }
+        },
+        legend: {
+          labels: {}
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      } as unknown as ChartOptions;
+    
+      this.chartDMEIssueWihtoutAI = {
+        series: [], // Radial bar data
+        chart: {
+          type: "radialBar"
+        },
+        plotOptions: {
+          radialBar: {
+            dataLabels: {
+              name: {
+                fontSize: '16px'
+              },
+              value: {
+                fontSize: '14px',
+                formatter: function (_val: any, opts: any) {
+                  console.log("opts.w.globals.series:", opts.w.globals.series); // Debugging
+                  console.log("opts.seriesIndex:", opts.seriesIndex); // Debugging
+                  return opts.w.globals.series[opts.seriesIndex]?.toString() || "0"; // Ensure total values are displayed
+                }
+              }
+            }
+          }
+        },
+      
+        labels: [
+          'nosIndent',
+          'aiReturn',
+          'issueitems',
+          'issuedValuecr'
+
+        ],
+        dataLabels: {
+          enabled: true,
+          style: {
+            colors: ['#001219'],
+            fontWeight: '2px'
+          },
+          formatter: function (val: any, opts: any) {
+            return opts.w.globals.series[opts.seriesIndex]; // Shows actual values inside the chart
+          }
+        },
+        legend: {
+          labels: {}
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      } as unknown as ChartOptions;
+    
       this.chartOptions4 = {
         series: [], // Radial bar data
         chart: {
@@ -711,6 +840,9 @@ colors = [];
   }
 
   ngOnInit() {
+  //     setTimeout(() => {
+  //   this.isLoading = false; // Hide spinner after data loads
+  // }, 3000); // Simulate data loading for 3 seconds
      this.username = sessionStorage.getItem('authenticatedUser');
      
      this.role = this.basicAuthentication.getRole().roleName; // Fetch dynamic role from the authentication service
@@ -733,11 +865,15 @@ colors = [];
     this.Nearexp();
     this.loadUQC();
     this.loadData4();
+    this.loadDMEAIvsIssue();
+    this.GetDMEIssueWihtoutAI();
+    this.getQCResultPendingLabWise();
     this.getItemNoDropDown();
   
 
 
   }
+  isLoading: boolean = true;
 
 
   getItemNoDropDown(){
@@ -1500,6 +1636,197 @@ loadUQC(): void {
   );
 }
 
+
+loadDMEAIvsIssue(): void {
+  this.api.getDMEAIvsIssue(this.mcid, 0).subscribe(
+    (data: any) => {
+      const accyear: string[] = [];
+      const nosIndent: number[] = [];
+      const aiReturn: number[] = [];
+      const issueitems: number[] = [];
+      const issuedValuecr: number[] = [];
+
+      console.log('Data received for DMEAIvsIssue:', data);
+
+      data.forEach((item: any) => {
+        accyear.push(item.accyear);
+        nosIndent.push(item.nosIndent);
+        aiReturn.push(item.aiReturn);
+        issueitems.push(item.issueitems);
+        issuedValuecr.push(item.issuedValuecr);
+      });
+
+      // Update the column chart
+      this.chartDMEAIvsIssue = {
+        series: [
+          {
+            name: 'Nos Indent',
+            data: nosIndent
+          },
+          {
+            name: 'AI Return',
+            data: aiReturn
+          },
+          {
+            name: 'Issue Items',
+            data: issueitems
+          },
+          {
+            name: 'Issued Value (Cr)',
+            data: issuedValuecr
+          }
+        ],
+        chart: {
+          type: "bar", // Column chart
+          height: 300
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false, // Ensures it is a column chart
+            columnWidth: "50%",
+            endingShape: "rounded"
+          }
+        },
+        dataLabels: {
+          enabled: true
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"]
+        },
+        xaxis: {
+          categories: accyear // Set categories dynamically
+        },
+        yaxis: {
+          title: {
+            text: "Values"
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val: number) {
+              return val.toString();
+            }
+          }
+        },
+        legend: {
+          position: "top"
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      } as any;
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+GetDMEIssueWihtoutAI(): void {
+  this.api.getDMEIssueWihtoutAI(this.mcid, 0).subscribe(
+    (data: any) => {
+      const accyear: string[] = [];
+      const nositemsissued: number[] = [];
+      const issuedValuecr: number[] = [];
+    
+
+      console.log('Data received for DMEAIvsIssue:', data);
+
+      data.forEach((item: any) => {
+        accyear.push(item.accyear);
+        nositemsissued.push(item.nositemsissued);
+        issuedValuecr.push(item.issuedValuecr);
+     
+      });
+
+      // Update the column chart
+      this.chartDMEIssueWihtoutAI = {
+        series: [
+          {
+            name: 'Nos Indent',
+            data: nositemsissued
+          },
+          {
+            name: 'AI Return',
+            data: issuedValuecr
+          },
+         
+        ],
+        chart: {
+          type: "bar", // Column chart
+          height: 300
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false, // Ensures it is a column chart
+            columnWidth: "50%",
+            endingShape: "rounded"
+          }
+        },
+        dataLabels: {
+          enabled: true
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"]
+        },
+        xaxis: {
+          categories: accyear // Set categories dynamically
+        },
+        yaxis: {
+          title: {
+            text: "Values"
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val: number) {
+              return val.toString();
+            }
+          }
+        },
+        legend: {
+          position: "top"
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      } as any;
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+
   loadData1(): void {
 
         this.api.Last7DaysIssue(7,this.mcid,0,this.hodid,1).subscribe(
@@ -1715,6 +2042,30 @@ loadUQC(): void {
             this.dataSource3.data = this.PartItemissuelist; // Ensure this line executes properly
             this.dataSource3.paginator = this.paginator3;
             this.dataSource3.sort = this.sort3;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+
+      }
+      getQCResultPendingLabWise(){
+        
+        this.api.getCollegeHospital_AIvsIssue(this.mcid,0).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.collegeHospital_AIvsIssue =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.collegeHospital_AIvsIssue);
+            this.dataSource6.data = this.collegeHospital_AIvsIssue; // Ensure this line executes properly
+            this.dataSource6.paginator = this.paginator6;
+            this.dataSource6.sort = this.sort6;
             this.spinner.hide();
           } else {
             console.error('No nameText found or incorrect structure:', res);

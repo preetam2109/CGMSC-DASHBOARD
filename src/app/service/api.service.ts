@@ -106,7 +106,7 @@ import { DistDHSStock } from '../Model/DistDHSStock';
 import { GetVehicleNo } from '../Model/GetVehicleNo';
 import { TravelVouchers } from '../Model/TravelVouchers';
 import { GetLatLong } from '../Model/Warehouse';
-import { DeliveryInMonthconst, DMEAIvsIssue, HoldItemDetails, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCHold_NSQDash, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingMonthwiseRec, QCPendingMonthwiseRecDetails, QCPendingParticularArea, QCPendingPlace, QCResultPendingLabWise, QCTimeTakenYear, StockoutPer } from '../Model/DashCards';
+import { ClgHos_IssueWihtoutAI, CollegeHospital_AIvsIssue, DeliveryInMonthconst, DMEAIvsIssue, DMEIssueWihtoutAI, HoldItemDetails, IndentcntHome, Last7DaysIssue, Last7DaysReceipt, NearExp, POCountCFY, QCFinalResultPending, QCHold_NSQDash, QCLabPendingTimeline, QCPendingAreaDetail, QCPendingHomeDash, QCPendingItems, QCPendingMonthwiseRec, QCPendingMonthwiseRecDetails, QCPendingParticularArea, QCPendingPlace, QCResultPendingLabWise, QCTimeTakenYear, StockoutPer } from '../Model/DashCards';
 import { MasIndentitems } from '../Model/MasIndentitems';
 import { MasfacilityInfo } from '../Model/MasfacilityInfo';
 import { Masitems } from '../Model/Masitems';
@@ -1211,6 +1211,18 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
   getDMEAIvsIssue(mcid:any,yearid:any) {
     return this.http.get<DMEAIvsIssue[]>(`${this.CGMSCHO_API2}/DashboardDME/DMEAIvsIssue?mcid=${mcid}&yearid=${yearid}`);
+  }
+  getDMEIssueWihtoutAI(mcid:any,yearid:any) {
+    return this.http.get<DMEIssueWihtoutAI[]>(`${this.CGMSCHO_API2}/DashboardDME/DMEIssueWihtoutAI?mcid=${mcid}&yearid=${yearid}`);
+  }
+
+
+  getCollegeHospital_AIvsIssue(mcid:any,yearid:any) {
+    return this.http.get<CollegeHospital_AIvsIssue[]>(`${this.CGMSCHO_API2}/DashboardDME/CollegeHospital_AIvsIssue?mcid=${mcid}&yearid=${yearid}`);
+  }
+
+  getClgHos_IssueWihtoutAI(mcid:any,whyearid:any) {
+    return this.http.get<ClgHos_IssueWihtoutAI[]>(`${this.CGMSCHO_API2}/DashboardDME/ClgHos_IssueWihtoutAI?mcid=${mcid}&whyearid=${whyearid}`);
   }
 
 
