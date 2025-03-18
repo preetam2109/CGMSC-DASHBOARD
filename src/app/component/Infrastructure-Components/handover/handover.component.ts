@@ -834,14 +834,22 @@ export class HandoverComponent {
   }
 
   fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
-    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
     const SWId=0;
     const dashid=4001;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
-    this.api.GetHandoverDetails(dashid,divisionID, mainSchemeId, distid,SWId).subscribe(
+    
+    const startDate = this.dateRange.value.start;
+    const endDate = this.dateRange.value.end;
+    // const datePipe = new DatePipe('en-US');
+    // this.fromdt = startDate ? datePipe.transform(new Date(startDate), 'dd-MM-yyyy') : '';
+    // this.todt = endDate ? datePipe.transform(new Date(endDate), 'dd-MM-yyyy') : '';
+    this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy'): '';
+    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.api.GetHandoverDetails(dashid,divisionID, mainSchemeId, distid,SWId,this.fromdt, this.todt).subscribe(
       (res) => {
         this.dispatchPendings = res.map((item: GetHandoverDetails, index: number) => ({
           ...item,
@@ -862,7 +870,7 @@ export class HandoverComponent {
 
   }
   fetchDataBasedOnChartSelectionScheme(mainSchemeId: any, seriesName: string): void {
-    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    console.log(`Selected mainSchemeId ID: ${mainSchemeId}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -881,8 +889,15 @@ export class HandoverComponent {
     // const roleName = localStorage.getItem('roleName');
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
+    const startDate = this.dateRange.value.start;
+    const endDate = this.dateRange.value.end;
+    // const datePipe = new DatePipe('en-US');
+    // this.fromdt = startDate ? datePipe.transform(new Date(startDate), 'dd-MM-yyyy') : '';
+    // this.todt = endDate ? datePipe.transform(new Date(endDate), 'dd-MM-yyyy') : '';
+    this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy'): '';
+    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
-    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId).subscribe(
+    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId, this.fromdt, this.todt).subscribe(
       (res) => {
         this.dispatchPendings = res.map((item: GetHandoverDetails, index: number) => ({
           ...item,
@@ -904,7 +919,7 @@ export class HandoverComponent {
   }
   fetchDataBasedOnChartSelectionDistrict(distid: any, seriesName: string): void {
     
-    // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
+    console.log(`Selected distid ID: ${distid}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -921,9 +936,16 @@ export class HandoverComponent {
     const dashid=4001; 
     // const roleName = localStorage.getItem('roleName');
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    const startDate = this.dateRange.value.start;
+    const endDate = this.dateRange.value.end;
+    // const datePipe = new DatePipe('en-US');
+    // this.fromdt = startDate ? datePipe.transform(new Date(startDate), 'dd-MM-yyyy') : '';
+    // this.todt = endDate ? datePipe.transform(new Date(endDate), 'dd-MM-yyyy') : '';
+    this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy'): '';
+    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
-    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId, distid,SWId).subscribe(
+    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId, distid,SWId,this.fromdt, this.todt).subscribe(
       (res) => {
         this.dispatchPendings = res.map((item: GetHandoverDetails, index: number) => ({
           ...item,
@@ -944,7 +966,7 @@ export class HandoverComponent {
 
   }
   fetchDataBasedOnChartSelectionWorkType(SWId: any, seriesName: string): void {
-    // console.log(`Selected ID: ${SWId}, Series: ${seriesName}`);
+    console.log(`SWId ID: ${SWId}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -962,9 +984,16 @@ export class HandoverComponent {
     const dashid=4001; 
     // const roleName = localStorage.getItem('roleName');
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    const startDate = this.dateRange.value.start;
+    const endDate = this.dateRange.value.end;
+    // const datePipe = new DatePipe('en-US');
+    // this.fromdt = startDate ? datePipe.transform(new Date(startDate), 'dd-MM-yyyy') : '';
+    // this.todt = endDate ? datePipe.transform(new Date(endDate), 'dd-MM-yyyy') : '';
+    this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy'): '';
+    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
-    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId).subscribe(
+    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId,this.fromdt, this.todt).subscribe(
       (res) => {
         this.dispatchPendings = res.map((item: GetHandoverDetails, index: number) => ({
           ...item,

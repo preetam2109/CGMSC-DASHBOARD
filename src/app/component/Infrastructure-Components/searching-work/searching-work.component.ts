@@ -567,8 +567,8 @@ export class SearchingWorkComponent {
           ...this.chartOptions, 
           series: [{ name: "Progress ID", data: seriesData }],
           xaxis: {
-            categories: res.map((item) => item.level).reverse(),
             // categories: res.map((item) => item.level).reverse(),
+            categories: res.map((item) => item.level),
             // categories: res.map((item) => item.level +' / '+ item.dateProgress).reverse(),
           },
         };
