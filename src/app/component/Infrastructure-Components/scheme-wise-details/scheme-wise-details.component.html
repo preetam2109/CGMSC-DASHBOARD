@@ -269,7 +269,7 @@
         </div>
 
         <!-- Running Works summary -->
-        <div class="card shadow mb-3">
+        <div class="card shadow mb-3" *ngIf="visibale">
             <div class="card-body">
                 <div class="w-100 mt-1 pb-2 rounded">
                     <!-- #e2e3e5 -->
@@ -339,7 +339,7 @@
         </div>
 
         <!-- Handover Works -->
-        <div class="card shadow mb-3">
+        <div class="card shadow mb-3" *ngIf="visibale">
             <div class="card-body">
                 <div class="w-100"> <!--#e2e3e5 style="background-color:#858681"-->
                     <h3 class="bold text-light bg-dark">Handover Works Summary</h3>
@@ -423,7 +423,7 @@
         </div>
 
         <!--Payment Due-->
-        <div class="card shadow mb-3">
+        <div class="card shadow mb-3" *ngIf="visibale">
             <div class="card-body">
                 <div class="w-100 mt-1 pb-0">
                     <h3 class="bold text-light bg-secondary" style="font-size: large;">Payment Due</h3>
@@ -479,7 +479,7 @@
         </div>
 
         <!-- Payment Done -->
-        <div class="card shadow">
+        <div class="card shadow" *ngIf="visibale">
             <div class="card-body">
                 <div class="w-100 mt-1 pb-0">
                     <!-- #e2e3e5 -->

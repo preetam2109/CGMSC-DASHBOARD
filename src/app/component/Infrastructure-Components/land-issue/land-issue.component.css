@@ -162,3 +162,18 @@
   .clickable-link:hover {
     color: darkblue; /* Darker color on hover */
   }
+
+  .footer{
+    /* position: absolute; */
+    position:sticky;
+    padding: 5px;
+    bottom: 0;
+    width: 100%;
+    /* height: 93px; */
+    border: #ffff;
+    border-radius: 1%;
+    /* background: rgb(155, 158, 155); */
+    /* background: rgb(55, 61, 55); */
+    /* color: white; */
+    font-size: 30px;
+  }

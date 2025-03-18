@@ -261,6 +261,7 @@ export class SchemeWiseDetailsComponent {
         UnPaidSummaryScheme: UnPaidSummary[] = [];
         UnPaidSummaryDesignation: UnPaidSummary[] = [];
         TimeStatus: any;
+        visibale:boolean=false;
           //#endregion
   constructor(
     public api: ApiService,
@@ -319,12 +320,9 @@ export class SchemeWiseDetailsComponent {
     }
     this.getmain_scheme();
     this.initializeChartOptions();
-    // this.GETRunningWorkTotal();
-    this.GETRunningWorksDivision();
-    // this.GETRunningWorkScheme();
-    // this.GETRunningWorkDistrict();
-    // this.GETRunningWorkContractor();
-
+    this.initializeChartOptionsHandover();
+    this.initializeChartOptionsUnPaid();
+    this.initializeChartOptionsPaid();
     this.dateRange.valueChanges.subscribe(() => {
       this.HandoverAbstractRPTypeTotal();
       this.handoverAbstractRPTypeScheme();
@@ -336,22 +334,23 @@ export class SchemeWiseDetailsComponent {
       this.GETPaidSummaryDivision();
       // this.GETPaidSummaryScheme();
     });
-    this.initializeChartOptionsHandover();
-    this.HandoverAbstractRPTypeTotal();
-    this.handoverAbstractRPTypeScheme();
+    
+    // this.HandoverAbstractRPTypeTotal();
+    // this.handoverAbstractRPTypeScheme();
     // this.handoverAbstractRPTypeDistrict();
     // this.handoverAbstractRPTypeWorkType();
-
-    this.initializeChartOptionsUnPaid();
     // this.GETUnPaidSummaryTotal();
-    this.GETUnPaidSummaryDivision();
+    // this.GETUnPaidSummaryDivision();
     // this.GETUnPaidSummaryScheme();
     // this.GETUnPaidSummaryDesignation();
-    this.initializeChartOptionsPaid();
-
       // this.GETPaidSummaryTotal();
-      this.GETPaidSummaryDivision();
+      // this.GETPaidSummaryDivision();
       // this.GETPaidSummaryScheme();
+      // this.GETRunningWorkTotal();
+    // this.GETRunningWorksDivision();
+    // this.GETRunningWorkScheme();
+    // this.GETRunningWorkDistrict();
+    // this.GETRunningWorkContractor();
   }
   //#region Scheme-Wise Work Abstract
   loadInitialData() {
@@ -942,7 +941,7 @@ export class SchemeWiseDetailsComponent {
     }
   }
   exportToPDF() {
-    const doc = new jsPDF('l', 'mm', 'a4');
+    const doc = new jsPDF('l', 'mm', 'a3');
     const columns = [
       { title: 'S.No', dataKey: 'sno' },
       { title: 'Head No', dataKey: 'grantNo' },
@@ -1028,39 +1027,39 @@ export class SchemeWiseDetailsComponent {
     //   theme: 'striped',
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
+    // autoTable(doc, {
+    //   head: [columns.map(col => col.title)], 
+    //   body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+    //   startY: 20,
+    //   theme: 'grid',
+    //   styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+    //   headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+    //   columnStyles: {
+    //     8: { cellWidth: 'wrap' },  
+    //     33: { cellWidth: 'wrap' }, 
+    //   },
+    //   tableWidth: 'auto',
+    //   margin: { top: 20, left: 5, right: 5 },
+    // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)], // Table headers
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+      head: [columns.map(col => col.title)],
+      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row])),
       startY: 20,
       theme: 'grid',
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
-      styles: { textColor: [0, 0, 0], fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+      styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
       columnStyles: {
-        0: { cellWidth: 20 },  
-        1: { cellWidth: 25 },  
-        2: { cellWidth: 20 },  
-        3: { cellWidth: 20 },  
-        4: { cellWidth: 20 },  
-        5: { cellWidth: 30 },  
-        6: { cellWidth: 20 },  
-        7: { cellWidth: 40 },  
-        8: { cellWidth: 30 },  
-        9: { cellWidth: 20 },  
-        10: { cellWidth: 20 }, 
-        11: { cellWidth: 20 }, 
-        12: { cellWidth: 20 }, 
-        13: { cellWidth: 20 }, 
-        14: { cellWidth: 20 }, 
-        15: { cellWidth: 20 }, 
-        16: { cellWidth: 15 }, 
+          8: { cellWidth: 'auto' },  // Adjust width for long text columns
+          33: { cellWidth: 'auto' }
       },
-      margin: { top: 20, left: 10, right: 10 },
-    });
-
+      tableWidth: 'auto',
+      margin: { top: 20, left: 5, right: 5 },
+      pageBreak: 'auto'  // Ensures all rows are included across multiple pages
+  });
     doc.save('Acceptance_WOrderDetail.pdf');
   }
   exportToPDFCom_Han() {
-    const doc = new jsPDF('l', 'mm', 'a4');
+    const doc = new jsPDF('l', 'mm', 'a3');
     const columns = [
       { title: 'S.No', dataKey: 'sno' },
       { title: 'Head No', dataKey: 'grantNo' },
@@ -1082,10 +1081,7 @@ export class SchemeWiseDetailsComponent {
       { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
       { title: 'Rate%', dataKey: 'sanctionRate' },
       { title: 'Sanction', dataKey: 'sanctionDetail' },
-      {
-        title: 'Amount Of Contract(In Lacs)',
-        dataKey: 'totalAmountOfContract',
-      },
+      { title: 'Amount Of Contract(In Lacs)',dataKey: 'totalAmountOfContract',},
       { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
       { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
@@ -1149,82 +1145,128 @@ export class SchemeWiseDetailsComponent {
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)], // Table headers
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+      head: [columns.map(col => col.title)],
+      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row])),
       startY: 20,
       theme: 'grid',
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
-      styles: { textColor: [0, 0, 0], fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+      styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
       columnStyles: {
-        0: { cellWidth: 20 },  
-        1: { cellWidth: 25 },  
-        2: { cellWidth: 20 },  
-        3: { cellWidth: 20 },  
-        4: { cellWidth: 20 },  
-        5: { cellWidth: 30 },  
-        6: { cellWidth: 20 },  
-        7: { cellWidth: 40 },  
-        8: { cellWidth: 30 },  
-        9: { cellWidth: 20 },  
-        10: { cellWidth: 20 }, 
-        11: { cellWidth: 20 }, 
-        12: { cellWidth: 20 }, 
-        13: { cellWidth: 20 }, 
-        14: { cellWidth: 20 }, 
-        15: { cellWidth: 20 }, 
-        16: { cellWidth: 15 }, 
+          8: { cellWidth: 'auto' },  // Adjust width for long text columns
+          33: { cellWidth: 'auto' }
       },
-      margin: { top: 20, left: 10, right: 10 },
-    });
+      tableWidth: 'auto',
+      margin: { top: 20, left: 5, right: 5 },
+      pageBreak: 'auto'  // Ensures all rows are included across multiple pages
+  });
+    // autoTable(doc, {
+    //   head: [columns.map(col => col.title)], 
+    //   body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+    //   startY: 20,
+    //   theme: 'grid',
+    //   styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+    //   headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+    //   columnStyles: {
+    //     // 8: { cellWidth: 'wrap' },  
+    //     // 33: { cellWidth: 'wrap' }, 
+    //     0: { cellWidth: 8 },   // S.No
+    //     1: { cellWidth: 15 },  // Head No
+    //     2: { cellWidth: 20 },  // Head
+    //     3: { cellWidth: 20 },  // Division
+    //     4: { cellWidth: 18 },  // District
+    //     5: { cellWidth: 18 },  // Block
+    //     6: { cellWidth: 20 },  // AS Letter No
+    //     7: { cellWidth: 18 },  // Approver
+    //     8: { cellWidth: 30 },  // Work
+    //     9: { cellWidth: 18 },  // AS Date
+    //     10: { cellWidth: 18 }, // AS Amount
+    //     11: { cellWidth: 18 }, // TS Date
+    //     12: { cellWidth: 18 }, // TS Amount
+    //     13: { cellWidth: 18 }, // Tender Type
+    //     14: { cellWidth: 22 }, // NIT Reference
+    //     15: { cellWidth: 22 }, // NIT/Sanction DT
+    //     16: { cellWidth: 22 }, // Acceptance Letter RefNo
+    //     17: { cellWidth: 18 }, // Accepted DT
+    //     18: { cellWidth: 12 }, // Rate%
+    //     19: { cellWidth: 22 }, // Sanction
+    //     20: { cellWidth: 22 }, // Contract Amount
+    //     21: { cellWidth: 22 }, // Total Paid
+    //     22: { cellWidth: 22 }, // Total Unpaid
+    //     23: { cellWidth: 22 }, // Work Order DT
+    //     24: { cellWidth: 18 }, // Time Allowed
+    //     25: { cellWidth: 22 }, // Due DT Time PerAdded
+    //     26: { cellWidth: 22 }, // Work Order RefNo
+    //     27: { cellWidth: 15 }, // Contractor ID/Class
+    //     28: { cellWidth: 22 }, // Contractor
+    //     29: { cellWidth: 18 }, // Contractor Mobile No
+    //     30: { cellWidth: 15 }, // Last Progress
+    //     31: { cellWidth: 18 }, // Progress DT
+    //     32: { cellWidth: 18 }, // Exp.Comp DT
+    //     33: { cellWidth: 30 }, // Delay Reason
+    //     34: { cellWidth: 15 }, // Remarks
+    //     35: { cellWidth: 15 }, // Sub Engineer
+    //     36: { cellWidth: 15 }, // Asst. Eng
+    //     37: { cellWidth: 15 }, // Work ID
+    //     38: { cellWidth: 22 }, // AS Letter
+    //   },
+    //   tableWidth: 'auto',
+    //   margin: { top: 20, left: 5, right: 5 },
+    
+    //   // didDrawPage: function (data) {
+    //   //   doc.setFontSize(8);
+    //   //   doc.text('Land Issue Report', data.settings.margin.left, 10);
+    //   // }
+    // });
 
     doc.save('Completed_Handover.pdf');
   }
   exportToPDFTW() {
-    const doc = new jsPDF('l', 'mm', 'a4');
+    const doc = new jsPDF('l', 'mm', 'a3');
+
+    // Define table columns
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Head No', dataKey: 'grantNo' },
-      { title: 'Head', dataKey: 'head' },
-      { title: 'Division', dataKey: 'divName_En' },
-      { title: 'District', dataKey: 'district' },
-      { title: 'Block', dataKey: 'blockname' },
-      { title: 'AS Letter No', dataKey: 'letterNo' },
-      { title: 'Approver', dataKey: 'approver' },
-      { title: 'Work', dataKey: 'work' },
-      { title: 'AS Date', dataKey: 'aadt' },
-      { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
-      { title: 'TS Date', dataKey: 'tsDate' },
-      { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
-      { title: 'Tender Type', dataKey: 'tType' },
-      { title: 'NIT Reference', dataKey: 'tenderReference' },
-      { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
-      { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
-      { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
-      { title: 'Rate%', dataKey: 'sanctionRate' },
-      { title: 'Sanction', dataKey: 'sanctionDetail' },
-      {
-        title: 'Amount Of Contract(In Lacs)',
-        dataKey: 'totalAmountOfContract',
-      },
-      { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
-      { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
-      { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
-      { title: 'Time Allowed', dataKey: 'timeAllowed' },
-      { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
-      { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
-      { title: 'Contractor ID/Class', dataKey: 'cid' },
-      { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
-      { title: 'Contractor Mobile No', dataKey: 'mobNo' },
-      { title: 'Last Progress', dataKey: 'lProgress' },
-      { title: 'Progress DT', dataKey: 'progressDT' },
-      { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
-      { title: 'Delay Reason', dataKey: 'delayreason' },
-      { title: 'Remarks', dataKey: 'pRemarks' },
-      { title: 'Sub Engineer', dataKey: 'subengname' },
-      { title: 'Asst.Eng', dataKey: 'aeName' },
-      { title: 'Work ID', dataKey: 'work_id' },
-      { title: 'AS Letter', dataKey: 'asLetter' },
+        { title: 'S.No', dataKey: 'sno' },
+        { title: 'Head No', dataKey: 'grantNo' },
+        { title: 'Head', dataKey: 'head' },
+        { title: 'Division', dataKey: 'divName_En' },
+        { title: 'District', dataKey: 'district' },
+        { title: 'Block', dataKey: 'blockname' },
+        { title: 'AS Letter No', dataKey: 'letterNo' },
+        { title: 'Approver', dataKey: 'approver' },
+        { title: 'Work', dataKey: 'work' },
+        { title: 'AS Date', dataKey: 'aadt' },
+        { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+        { title: 'TS Date', dataKey: 'tsDate' },
+        { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+        { title: 'Tender Type', dataKey: 'tType' },
+        { title: 'NIT Reference', dataKey: 'tenderReference' },
+        { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+        { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+        { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+        { title: 'Rate%', dataKey: 'sanctionRate' },
+        { title: 'Sanction', dataKey: 'sanctionDetail' },
+        { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+        { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+        { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
+        { title: 'Work Order DT', dataKey: 'workOrderDT' },
+        { title: 'Time Allowed', dataKey: 'timeAllowed' },
+        { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+        { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+        { title: 'Contractor ID/Class', dataKey: 'cid' },
+        { title: 'Contractor', dataKey: 'contractorName' },
+        { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+        { title: 'Last Progress', dataKey: 'lProgress' },
+        { title: 'Progress DT', dataKey: 'progressDT' },
+        { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
+        { title: 'Delay Reason', dataKey: 'delayreason' },
+        { title: 'Remarks', dataKey: 'pRemarks' },
+        { title: 'Sub Engineer', dataKey: 'subengname' },
+        { title: 'Asst.Eng', dataKey: 'aeName' },
+        { title: 'Work ID', dataKey: 'work_id' },
+        { title: 'AS Letter', dataKey: 'asLetter' }
     ];
+
+    // Format data rows
     const rows = this.dispatchData4.map((row) => ({
       sno: row.sno,
       grantNo: row.grantNo,
@@ -1267,45 +1309,67 @@ export class SchemeWiseDetailsComponent {
       asLetter: row.asLetter,
     }));
 
-    // autoTable(doc, {
-    //   columns: columns,
-    //   body: rows,
-    //   startY: 20,
-    //   theme: 'striped',
-    //   headStyles: { fillColor: [22, 160, 133] },
-    // });
+    // Generate table in PDF
     autoTable(doc, {
-      head: [columns.map(col => col.title)], // Table headers
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+      head: [columns.map(col => col.title)],
+      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
       startY: 20,
       theme: 'grid',
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
-      styles: { textColor: [0, 0, 0], fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+      headStyles: { fillColor: [44, 62, 80], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      styles: { textColor: [0, 0, 0], fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
       columnStyles: {
-        0: { cellWidth: 20 },  
-        1: { cellWidth: 25 },  
-        2: { cellWidth: 20 },  
-        3: { cellWidth: 20 },  
-        4: { cellWidth: 20 },  
-        5: { cellWidth: 30 },  
-        6: { cellWidth: 20 },  
-        7: { cellWidth: 40 },  
-        8: { cellWidth: 30 },  
-        9: { cellWidth: 20 },  
-        10: { cellWidth: 20 }, 
-        11: { cellWidth: 20 }, 
-        12: { cellWidth: 20 }, 
-        13: { cellWidth: 20 }, 
-        14: { cellWidth: 20 }, 
-        15: { cellWidth: 20 }, 
-        16: { cellWidth: 15 }, 
+        0: { cellWidth: 8 },   // S.No
+        1: { cellWidth: 15 },  // Head No
+        2: { cellWidth: 20 },  // Head
+        3: { cellWidth: 20 },  // Division
+        4: { cellWidth: 18 },  // District
+        5: { cellWidth: 18 },  // Block
+        6: { cellWidth: 20 },  // AS Letter No
+        7: { cellWidth: 18 },  // Approver
+        8: { cellWidth: 30 },  // Work
+        9: { cellWidth: 18 },  // AS Date
+        10: { cellWidth: 18 }, // AS Amount
+        11: { cellWidth: 18 }, // TS Date
+        12: { cellWidth: 18 }, // TS Amount
+        13: { cellWidth: 18 }, // Tender Type
+        14: { cellWidth: 22 }, // NIT Reference
+        15: { cellWidth: 22 }, // NIT/Sanction DT
+        16: { cellWidth: 22 }, // Acceptance Letter RefNo
+        17: { cellWidth: 18 }, // Accepted DT
+        18: { cellWidth: 12 }, // Rate%
+        19: { cellWidth: 22 }, // Sanction
+        20: { cellWidth: 22 }, // Contract Amount
+        21: { cellWidth: 22 }, // Total Paid
+        22: { cellWidth: 22 }, // Total Unpaid
+        23: { cellWidth: 22 }, // Work Order DT
+        24: { cellWidth: 18 }, // Time Allowed
+        25: { cellWidth: 22 }, // Due DT Time PerAdded
+        26: { cellWidth: 22 }, // Work Order RefNo
+        27: { cellWidth: 15 }, // Contractor ID/Class
+        28: { cellWidth: 22 }, // Contractor
+        29: { cellWidth: 18 }, // Contractor Mobile No
+        30: { cellWidth: 15 }, // Last Progress
+        31: { cellWidth: 18 }, // Progress DT
+        32: { cellWidth: 18 }, // Exp.Comp DT
+        33: { cellWidth: 30 }, // Delay Reason
+        34: { cellWidth: 15 }, // Remarks
+        35: { cellWidth: 15 }, // Sub Engineer
+        36: { cellWidth: 15 }, // Asst. Eng
+        37: { cellWidth: 15 }, // Work ID
+        38: { cellWidth: 22 }, // AS Letter
+        // 8: { cellWidth: 'wrap' },  // Adjust width for long text columns
+        // 33: { cellWidth: 'wrap' }
       },
-      margin: { top: 20, left: 10, right: 10 },
+      tableWidth: 'wrap',
+      margin: { top: 20, left: 2, right: 2 },
+      pageBreak: 'auto' 
     });
+  
     doc.save('WorksAbstractD.pdf');
-  }
+}
+
   exportToPDFRun_Work() {
-    const doc = new jsPDF('l', 'mm', 'a4');
+    const doc = new jsPDF('l', 'mm', 'a3');
     const columns = [
       { title: 'S.No', dataKey: 'sno' },
       { title: 'Head No', dataKey: 'grantNo' },
@@ -1399,37 +1463,23 @@ export class SchemeWiseDetailsComponent {
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)], // Table headers
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+      head: [columns.map(col => col.title)], 
+      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
       startY: 20,
       theme: 'grid',
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
-      styles: { textColor: [0, 0, 0], fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+      styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
       columnStyles: {
-        0: { cellWidth: 20 },  
-        1: { cellWidth: 25 },  
-        2: { cellWidth: 20 },  
-        3: { cellWidth: 20 },  
-        4: { cellWidth: 20 },  
-        5: { cellWidth: 30 },  
-        6: { cellWidth: 20 },  
-        7: { cellWidth: 40 },  
-        8: { cellWidth: 30 },  
-        9: { cellWidth: 20 },  
-        10: { cellWidth: 20 }, 
-        11: { cellWidth: 20 }, 
-        12: { cellWidth: 20 }, 
-        13: { cellWidth: 20 }, 
-        14: { cellWidth: 20 }, 
-        15: { cellWidth: 20 }, 
-        16: { cellWidth: 15 }, 
+        8: { cellWidth: 'wrap' },  
+        33: { cellWidth: 'wrap' }, 
       },
-      margin: { top: 20, left: 10, right: 10 },
+      tableWidth: 'auto',
+      margin: { top: 20, left: 5, right: 5 },
     });
     doc.save('Running_Work.pdf');
   }
   exportobeTenderAll_PDFT() {
-    const doc = new jsPDF('l', 'mm', 'a4');
+    const doc = new jsPDF('l', 'mm', 'a3');
     const columns = [
       { title: 'S.No', dataKey: 'sno' },
       { title: 'Head No', dataKey: 'grantNo' },
@@ -1511,37 +1561,23 @@ export class SchemeWiseDetailsComponent {
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)], // Table headers
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+      head: [columns.map(col => col.title)], 
+      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
       startY: 20,
       theme: 'grid',
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
-      styles: { textColor: [0, 0, 0], fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+      styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
       columnStyles: {
-        0: { cellWidth: 20 },  
-        1: { cellWidth: 25 },  
-        2: { cellWidth: 20 },  
-        3: { cellWidth: 20 },  
-        4: { cellWidth: 20 },  
-        5: { cellWidth: 30 },  
-        6: { cellWidth: 20 },  
-        7: { cellWidth: 40 },  
-        8: { cellWidth: 30 },  
-        9: { cellWidth: 20 },  
-        10: { cellWidth: 20 }, 
-        11: { cellWidth: 20 }, 
-        12: { cellWidth: 20 }, 
-        13: { cellWidth: 20 }, 
-        14: { cellWidth: 20 }, 
-        15: { cellWidth: 20 }, 
-        16: { cellWidth: 15 }, 
+        8: { cellWidth: 'wrap' },  
+        33: { cellWidth: 'wrap' }, 
       },
-      margin: { top: 20, left: 10, right: 10 },
+      tableWidth: 'auto',
+      margin: { top: 20, left: 5, right: 5 },
     });
     doc.save('DetailProgress.pdf');
   }
   expor_TenderInProcess_PDFT() {
-    const doc = new jsPDF('l', 'mm', 'a4');
+    const doc = new jsPDF('l', 'mm', 'a3');
     const columns = [
       { title: 'S.No', dataKey: 'sno' },
       { title: 'Head No', dataKey: 'grantNo' },
@@ -1580,10 +1616,6 @@ export class SchemeWiseDetailsComponent {
       // { title: 'AS ID', dataKey: 'asid' },
     ];
     const rows = this.dispatchData3.map((row) => ({
-      //  'sno','head','divName_En','district','blockname','letterNo',
-      // 'approver','work','aadt','asAmt','tsDate','tsamt',
-      // 'lProgress','progressDT','fmrcode', 'startdt','enddt', 'noofcalls',
-      // 'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt',     'work_id','asLetter','action'
       sno: row.sno,
       grantNo: row.grantNo,
       head: row.head,
@@ -1630,32 +1662,18 @@ export class SchemeWiseDetailsComponent {
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)], // Table headers
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+      head: [columns.map(col => col.title)], 
+      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
       startY: 20,
       theme: 'grid',
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
-      styles: { textColor: [0, 0, 0], fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
+      styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
       columnStyles: {
-        0: { cellWidth: 20 },  
-        1: { cellWidth: 25 },  
-        2: { cellWidth: 20 },  
-        3: { cellWidth: 20 },  
-        4: { cellWidth: 20 },  
-        5: { cellWidth: 30 },  
-        6: { cellWidth: 20 },  
-        7: { cellWidth: 40 },  
-        8: { cellWidth: 30 },  
-        9: { cellWidth: 20 },  
-        10: { cellWidth: 20 }, 
-        11: { cellWidth: 20 }, 
-        12: { cellWidth: 20 }, 
-        13: { cellWidth: 20 }, 
-        14: { cellWidth: 20 }, 
-        15: { cellWidth: 20 }, 
-        16: { cellWidth: 15 }, 
+        8: { cellWidth: 'wrap' },  
+        33: { cellWidth: 'wrap' }, 
       },
-      margin: { top: 20, left: 10, right: 10 },
+      tableWidth: 'auto',
+      margin: { top: 20, left: 5, right: 5 },
     });
     doc.save('TenderInProcess_Detail.pdf');
   }
@@ -1745,62 +1763,84 @@ export class SchemeWiseDetailsComponent {
       asLetter: row.asLetter,
     }));
   
-    autoTable(doc, {
-      head: [columns.map(col => col.title)], // Table headers
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
-      startY: 20,
-      theme: 'grid',
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
-      styles: { textColor: [0, 0, 0], fontSize: 8, cellPadding: 1, overflow: 'linebreak' },
-      columnStyles: {
-        0: { cellWidth: 10 },  // S.No
-        1: { cellWidth: 20 },  // Head No
-        2: { cellWidth: 25 },  // Head
-        3: { cellWidth: 25 },  // Division
-        4: { cellWidth: 25 },  // District
-        5: { cellWidth: 25 },  // Block
-        6: { cellWidth: 25 },  // AS Letter No
-        7: { cellWidth: 20 },  // Approver
-        8: { cellWidth: 40 },  // Work (Long Text)
-        9: { cellWidth: 20 },  // AS Date
-        10: { cellWidth: 20 }, // AS Amount
-        11: { cellWidth: 20 }, // TS Date
-        12: { cellWidth: 20 }, // TS Amount
-        13: { cellWidth: 20 }, // Tender Type
-        14: { cellWidth: 30 }, // NIT Reference
-        15: { cellWidth: 30 }, // NIT/Sanction DT
-        16: { cellWidth: 30 }, // Acceptance Letter RefNo
-        17: { cellWidth: 20 }, // Accepted DT
-        18: { cellWidth: 15 }, // Rate%
-        19: { cellWidth: 30 }, // Sanction
-        20: { cellWidth: 30 }, // Amount Of Contract
-        21: { cellWidth: 30 }, // Total Paid
-        22: { cellWidth: 30 }, // Total Unpaid
-        23: { cellWidth: 30 }, // Work Order DT
-        24: { cellWidth: 20 }, // Time Allowed
-        25: { cellWidth: 30 }, // Due DT Time PerAdded
-        26: { cellWidth: 30 }, // Work Order RefNo
-        27: { cellWidth: 20 }, // Contractor ID/Class
-        28: { cellWidth: 30 }, // Contractor
-        29: { cellWidth: 20 }, // Contractor Mobile No
-        30: { cellWidth: 20 }, // Last Progress
-        31: { cellWidth: 20 }, // Progress DT
-        32: { cellWidth: 20 }, // Exp.Comp DT
-        33: { cellWidth: 40 }, // Delay Reason
-        34: { cellWidth: 20 }, // Sub Engineer
-        35: { cellWidth: 20 }, // Asst. Eng
-        36: { cellWidth: 20 }, // Work ID
-        37: { cellWidth: 30 }, // AS Letter
-      },
-      margin: { top: 20, left: 10, right: 10 },
+    // autoTable(doc, {
+    //   head: [columns.map(col => col.title)], // Table headers
+    //   body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+    //   startY: 20,
+    //   theme: 'grid',
+    //   headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
+    //   styles: { textColor: [0, 0, 0], fontSize: 8, cellPadding: 1, overflow: 'linebreak' },
+    //   columnStyles: {
+    //     0: { cellWidth: 10 },  // S.No
+    //     1: { cellWidth: 20 },  // Head No
+    //     2: { cellWidth: 25 },  // Head
+    //     3: { cellWidth: 25 },  // Division
+    //     4: { cellWidth: 25 },  // District
+    //     5: { cellWidth: 25 },  // Block
+    //     6: { cellWidth: 25 },  // AS Letter No
+    //     7: { cellWidth: 20 },  // Approver
+    //     8: { cellWidth: 40 },  // Work (Long Text)
+    //     9: { cellWidth: 20 },  // AS Date
+    //     10: { cellWidth: 20 }, // AS Amount
+    //     11: { cellWidth: 20 }, // TS Date
+    //     12: { cellWidth: 20 }, // TS Amount
+    //     13: { cellWidth: 20 }, // Tender Type
+    //     14: { cellWidth: 30 }, // NIT Reference
+    //     15: { cellWidth: 30 }, // NIT/Sanction DT
+    //     16: { cellWidth: 30 }, // Acceptance Letter RefNo
+    //     17: { cellWidth: 20 }, // Accepted DT
+    //     18: { cellWidth: 15 }, // Rate%
+    //     19: { cellWidth: 30 }, // Sanction
+    //     20: { cellWidth: 30 }, // Amount Of Contract
+    //     21: { cellWidth: 30 }, // Total Paid
+    //     22: { cellWidth: 30 }, // Total Unpaid
+    //     23: { cellWidth: 30 }, // Work Order DT
+    //     24: { cellWidth: 20 }, // Time Allowed
+    //     25: { cellWidth: 30 }, // Due DT Time PerAdded
+    //     26: { cellWidth: 30 }, // Work Order RefNo
+    //     27: { cellWidth: 20 }, // Contractor ID/Class
+    //     28: { cellWidth: 30 }, // Contractor
+    //     29: { cellWidth: 20 }, // Contractor Mobile No
+    //     30: { cellWidth: 20 }, // Last Progress
+    //     31: { cellWidth: 20 }, // Progress DT
+    //     32: { cellWidth: 20 }, // Exp.Comp DT
+    //     33: { cellWidth: 40 }, // Delay Reason
+    //     34: { cellWidth: 20 }, // Sub Engineer
+    //     35: { cellWidth: 20 }, // Asst. Eng
+    //     36: { cellWidth: 20 }, // Work ID
+    //     37: { cellWidth: 30 }, // AS Letter
+    //   },
+    //   tableWidth: 'wrap', // Auto fit table width
+    //   margin: { top: 20, left: 5, right: 5 },
 
-      didDrawPage: function (data) {
-        debugger;
-        doc.setFontSize(8);
-        doc.text('Land Issue Report', data.settings.margin.left, 10);
-      }
-    });
-    
+    //   // didDrawPage: function (data) {
+    //   //   debugger;
+    //   //   doc.setFontSize(8);
+    //   //   doc.text('Land Issue Report', data.settings.margin.left, 10);
+    //   // }
+    // });
+
+autoTable(doc, {
+  head: [columns.map(col => col.title)], 
+  body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+  startY: 20,
+  theme: 'grid',
+  styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+  headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+  columnStyles: {
+    8: { cellWidth: 'wrap' },  
+    33: { cellWidth: 'wrap' }, 
+  },
+  tableWidth: 'auto',
+  margin: { top: 20, left: 5, right: 5 },
+
+  // didDrawPage: function (data) {
+  //   doc.setFontSize(8);
+  //   doc.text('Land Issue Report', data.settings.margin.left, 10);
+  // }
+});
+
+
     doc.save('LandIssueReport.pdf');
   }
   // mat-dialog box
@@ -2054,6 +2094,7 @@ export class SchemeWiseDetailsComponent {
     if (selectedUser) {
       //  const MID  =selectedUser.mainSchemeID || null;
       this.mainSchemeID = selectedUser?.mainSchemeID;
+      this.visibale=true;
       this.hide = true;
       const selectedName = selectedUser?.name;
       this.selectedName = selectedName;
@@ -2070,6 +2111,8 @@ export class SchemeWiseDetailsComponent {
       // this.GETRunningWorkTotal();
       this.GETRunningWorksDivision();
       this.GETRunningWorkScheme();
+      this.HandoverAbstractRPTypeTotal();
+      this.handoverAbstractRPTypeScheme();
       // this.GETRunningWorkDistrict();
       // this.GETRunningWorkContractor();
       // alert(this.mainSchemeID);
@@ -3091,6 +3134,105 @@ export class SchemeWiseDetailsComponent {
   // #endregion
   // #region Get API data for Handover
   initializeChartOptionsHandover() {
+    this.chartHandover1 = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: false,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:500,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
+              this.chartHandover1?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartHandover1?.series?.[seriesIndex]?.name;
+            // Ensure the selectedCategory and selectedSeries are valid
+            if (selectedCategory && selectedSeries) {
+              const apiData =  this.HandoverAbstractSchemeData;
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
+                this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth:'40%',
+          borderRadius:3,
+          distributed: false,
+          dataLabels: {
+            position: 'top', // top, center, bottom
+          },
+        },
+      },
+      xaxis: {
+        categories: [],
+        // position: 'top',
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Scheme Wise Handover',
+        align: 'center',
+        style: {
+          fontSize: '14px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
     this.chartHandover = {
       series: [],
       chart: {
@@ -3188,98 +3330,98 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-    this.chartHandover1 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        // height: 300,
-        // width:600,
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartHandover1?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartHandover1?.series?.[seriesIndex]?.name;
-            // Ensure the selectedCategory and selectedSeries are valid
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.HandoverAbstractSchemeData; // Replace with the actual data source or API response
-              // Find the data in your API response that matches the selectedCategory
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name;
-                this.totalWorks = selectedData.totalWorks;
-                this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'Scheme Wise Handover',
-        align: 'center',
-        style: {
-          fontSize: '12px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
+    // this.chartHandover1 = {
+    //   series: [],
+    //   chart: {
+    //     type: 'bar',
+    //     stacked: true,
+    //     // height: 'auto',
+    //     // height: 300,
+    //     // width:600,
+    //     events: {
+    //       dataPointSelection: (
+    //         event,
+    //         chartContext,
+    //         { dataPointIndex, seriesIndex }
+    //       ) => {
+    //         const selectedCategory =
+    //           this.chartHandover1?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+    //         const selectedSeries =
+    //           this.chartHandover1?.series?.[seriesIndex]?.name;
+    //         // Ensure the selectedCategory and selectedSeries are valid
+    //         if (selectedCategory && selectedSeries) {
+    //           const apiData = this.HandoverAbstractSchemeData; // Replace with the actual data source or API response
+    //           // Find the data in your API response that matches the selectedCategory
+    //           const selectedData = apiData.find(
+    //             (data) => data.name === selectedCategory
+    //           );
+    //           // console.log("selectedData chart1",selectedData)
+    //           if (selectedData) {
+    //             const id = selectedData.id; // Extract the id from the matching entry
+    //             this.name = selectedData.name;
+    //             this.totalWorks = selectedData.totalWorks;
+    //             this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
+    //           } else {
+    //             console.log(
+    //               `No data found for selected category: ${selectedCategory}`
+    //             );
+    //           }
+    //         } else {
+    //           console.log('Selected category or series is invalid.');
+    //         }
+    //       },
+    //     },
+    //   },
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: true,
+    //     },
+    //   },
+    //   xaxis: {
+    //     categories: [],
+    //   },
+    //   yaxis: {
+    //     title: {
+    //       text: undefined,
+    //     },
+    //   },
+    //   dataLabels: {
+    //     enabled: true,
+    //     style: {
+    //       // colors: ['#FF0000']
+    //       colors: ['#000'],
+    //     },
+    //   },
+    //   stroke: {
+    //     width: 1,
+    //     // colors: ['#000'],
+    //     colors: ['#fff'],
+    //   },
+    //   title: {
+    //     text: 'Scheme Wise Handover',
+    //     align: 'center',
+    //     style: {
+    //       fontSize: '12px',
+    //       // color: '#000'
+    //       color: '#6e0d25',
+    //     },
+    //   },
+    //   tooltip: {
+    //     y: {
+    //       formatter: function (val: any) {
+    //         return val.toString();
+    //       },
+    //     },
+    //   },
+    //   fill: {
+    //     opacity: 1,
+    //   },
+    //   legend: {
+    //     position: 'top',
+    //     horizontalAlign: 'center',
+    //     offsetX: 40,
+    //   },
+    // };
     this.chartHandover2 = {
       series: [],
       chart: {
@@ -3513,7 +3655,7 @@ export class SchemeWiseDetailsComponent {
           this.districtid,
           this.SWId,
           this.fromdt,
-          this.todt
+          this.todt,this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -3590,7 +3732,7 @@ export class SchemeWiseDetailsComponent {
 
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartHandover1.chart.height = '500';
+      this.chartHandover1.chart.height = '400';
       this.districtid = 0;
     } else if (roleName == 'Collector') {
       this.districtid = sessionStorage.getItem('himisDistrictid');
@@ -3599,22 +3741,14 @@ export class SchemeWiseDetailsComponent {
     } else {
       this.districtid = 0;
       this.divisionid = 0;
-      this.chartHandover1.chart.height = '500';
+      this.chartHandover1.chart.height = '400';
     }
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
-
+    // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&
+    // divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=0&mainSchemeId=142
     var RPType = 'Scheme';
     if (this.fromdt && this.todt) {
-      this.api
-        .HandoverAbstract(
-          RPType,
-          this.dashid,
-          this.divisionid,
-          this.districtid,
-          this.SWId,
-          this.fromdt,
-          this.todt
-        )
+      this.api.HandoverAbstract( RPType, this.dashid,this.divisionid,this.districtid,this.SWId,this.fromdt,this.todt,this.mainSchemeID)
         .subscribe(
           (data: any) => {
             this.HandoverAbstractSchemeData = data;
@@ -3713,7 +3847,7 @@ export class SchemeWiseDetailsComponent {
           this.districtid,
           this.SWId,
           this.fromdt,
-          this.todt
+          this.todt,this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -3817,7 +3951,7 @@ export class SchemeWiseDetailsComponent {
           this.districtid,
           this.SWId,
           this.fromdt,
-          this.todt
+          this.todt,this.mainSchemeID
         )
         .subscribe(
           (data: any) => {

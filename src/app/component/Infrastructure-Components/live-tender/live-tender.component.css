@@ -213,14 +213,16 @@
   }
   
 
-
-  /* footer */
-  .footer {
-    position: fixed;
-    left: 0;
+  .footer{
+    position:sticky;
+    padding: 5px;
     bottom: 0;
     width: 100%;
-    /* background-color: red; */
+    /* height: 93px; */
+    border: #ffff;
+    border-radius: 1%;
+    /* background: rgb(155, 158, 155); */
+    /* background: rgb(55, 61, 55); */
     /* color: white; */
-    text-align: center;
+    font-size: 30px;
   }

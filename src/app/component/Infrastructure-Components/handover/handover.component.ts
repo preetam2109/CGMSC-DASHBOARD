@@ -540,7 +540,7 @@ export class HandoverComponent {
     var RPType = 'Total'
     // RPType=Total/Scheme/District/WorkType
     if (this.fromdt && this.todt) {
-      this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
+      this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt,0).subscribe(
         (data: any) => {
           this.HandoverAbstractTotalData = data;
           // console.log('HandoverAbstractTotalData', this.HandoverAbstractTotalData);
@@ -621,7 +621,7 @@ export class HandoverComponent {
 
     var RPType = 'Scheme'
     if (this.fromdt && this.todt) {
-      this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
+      this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt,0).subscribe(
         (data: any) => {
           this.HandoverAbstractSchemeData = data;
           // console.log('HandoverAbstractSchemeData', this.HandoverAbstractSchemeData);
@@ -701,7 +701,7 @@ export class HandoverComponent {
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     var RPType = 'District'
     if (this.fromdt && this.todt) {
-      this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
+      this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt,0).subscribe(
         (data: any) => {
           this.HandoverAbstractDistrictData = data;
           console.log('HandoverAbstractSchemeData', this.HandoverAbstractDistrictData);
@@ -783,7 +783,7 @@ export class HandoverComponent {
 
    
     if (this.fromdt && this.todt) {
-      this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt).subscribe(
+      this.api.HandoverAbstract(RPType, this.dashid, this.divisionid, this.districtid, this.SWId, this.fromdt, this.todt,0).subscribe(
         (data: any) => {
           this.HandoverAbstractWorkTypeData = data;
           // console.log('HandoverAbstractWorkTypeData', this.HandoverAbstractWorkTypeData);

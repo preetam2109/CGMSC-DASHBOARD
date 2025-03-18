@@ -17,6 +17,7 @@ import { AEDistrictEngAllotedWorks,AEEngAllotedWorks, SbuEngAllotedWorks, sbuDis
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { MatIconModule } from '@angular/material/icon';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -34,7 +35,7 @@ export type ChartOptions = {
   selector: 'app-engineer-works',
   standalone: true,
   imports: [NgApexchartsModule,MatSortModule, MatPaginatorModule,MatTableModule,MatTableExporterModule, MatInputModule,MatDialogModule,
-    MatFormFieldModule,NgbModule, MatMenuModule,CommonModule,NgFor],
+    MatFormFieldModule,NgbModule, MatMenuModule,CommonModule,NgFor,MatIconModule,],
   templateUrl: './engineer-works.component.html',
   styleUrl: './engineer-works.component.css'
 })
