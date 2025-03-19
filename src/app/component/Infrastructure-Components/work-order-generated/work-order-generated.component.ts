@@ -261,7 +261,6 @@ export class WorkOrderGeneratedComponent {
             const selectedSeries =
               this.chartOptions2?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
-            ;
             if (selectedCategory && selectedSeries) {
               const apiData = this.wOIssuedDistrict; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
@@ -948,6 +947,7 @@ export class WorkOrderGeneratedComponent {
     }
   }
   // #endregion
+  
   //#region Fetch database in table form
   fetchDataBasedOnChartSelectionTotal(
     divisionID: any,
@@ -1049,7 +1049,6 @@ export class WorkOrderGeneratedComponent {
       );
     this.openDialog();
   }
-
   fetchDataBasedOnChartSelectionScheme(
     mainSchemeId: any,
     seriesName: string
@@ -1149,6 +1148,7 @@ export class WorkOrderGeneratedComponent {
     this.openDialog();
   }
   // #endregion
+
   // data filter
   applyTextFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

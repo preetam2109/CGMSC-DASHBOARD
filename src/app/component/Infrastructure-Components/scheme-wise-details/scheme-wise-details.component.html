@@ -267,295 +267,109 @@
                 </div>
             </div>
         </div>
+        <!--Land Issued-->
+        <div class="card shadow mb-3" *ngIf="visibale">
+          <div class="card-body">
+            <div class="w-100 mt-1 pb-2 rounded">
+              <h3 class="bold text-light bg-dark" style="font-size: large;">Land Issue</h3>
+          </div>
+            <div class="container-fluid p-1" >
+              <div class="row" *ngIf="LIPendingTotalData.length > 0;else other_content">
+                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LIPendingTotalData.length > 0">
+                  <div class="chart-container">
 
+                    <apx-chart [series]="chartOptionsLITotal.series" [chart]="chartOptionsLITotal.chart"
+                      [dataLabels]="chartOptionsLITotal.dataLabels" [plotOptions]="chartOptionsLITotal.plotOptions"
+                      [xaxis]="chartOptionsLITotal.xaxis" [stroke]="chartOptionsLITotal.stroke" [fill]="chartOptionsLITotal.fill"
+                      [yaxis]="chartOptionsLITotal.yaxis" [title]="chartOptionsLITotal.title" [tooltip]="chartOptionsLITotal.tooltip"
+                      [legend]="chartOptionsLITotal.legend"></apx-chart>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-2 border rounded"  *ngIf="LIPendingSchemeData.length > 0">
+                  <div class="chart-container">
+                    <apx-chart [series]="chartOptionsLIScheme.series" [chart]="chartOptionsLIScheme.chart"
+                      [dataLabels]="chartOptionsLIScheme.dataLabels" [plotOptions]="chartOptionsLIScheme.plotOptions"
+                      [xaxis]="chartOptionsLIScheme.xaxis" [stroke]="chartOptionsLIScheme.stroke" [fill]="chartOptionsLIScheme.fill"
+                      [yaxis]="chartOptionsLIScheme.yaxis" [title]="chartOptionsLIScheme.title"
+                      [tooltip]="chartOptionsLIScheme.tooltip" [legend]="chartOptionsLIScheme.legend"></apx-chart>
+                  </div>
+                </div>
+              </div>
+              <ng-template class="row" #other_content>
+                <strong style="font-size: 20px;">No Land Issued are currently available for the scheme.</strong> 
+               </ng-template>
+            </div>
+          </div>
+        </div>
         <!-- Running Works summary -->
         <div class="card shadow mb-3" *ngIf="visibale">
-            <div class="card-body">
-                <div class="w-100 mt-1 pb-2 rounded">
-                    <!-- #e2e3e5 -->
-                    <h3 class="bold text-light bg-dark" style="font-size: large;">Running Works Summary</h3>
-                </div>
-                <!-- <div class="card-body pt-0"> -->
-                <div class="container-fluid  p-1">
-                    <div class="row">
-                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataGTotal.length > 0"> -->
-                          <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
-                            <div class="chart-container">
-                                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
-                                    [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
-                                    [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
-                                    [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
-                                    [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"></apx-chart>
-
-
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDivision.length > 0">
-                            <div class="chart-container">
-                                <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
-                                    [dataLabels]="chartOptions1.dataLabels" [plotOptions]="chartOptions1.plotOptions"
-                                    [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke"
-                                    [fill]="chartOptions1.fill" [yaxis]="chartOptions1.yaxis"
-                                    [title]="chartOptions1.title" [tooltip]="chartOptions1.tooltip"
-                                    [legend]="chartOptions1.legend"></apx-chart>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
-                            <div class="chart-container">
-                                <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
-                                    [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
-                                    [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
-                                    [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis"
-                                    [title]="chartOptions2.title" [tooltip]="chartOptions2.tooltip"
-                                    [legend]="chartOptions2.legend"></apx-chart>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDistrict.length > 0">
-                            <div class="chart-container">
-                                <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart"
-                                    [dataLabels]="chartOptions3.dataLabels" [plotOptions]="chartOptions3.plotOptions"
-                                    [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
-                                    [fill]="chartOptions3.fill" [yaxis]="chartOptions3.yaxis"
-                                    [title]="chartOptions3.title" [tooltip]="chartOptions3.tooltip"
-                                    [legend]="chartOptions3.legend"></apx-chart>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataContractor.length > 0">
-                            <div class="chart-container">
-                                <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart"
-                                    [dataLabels]="chartOptions4.dataLabels" [plotOptions]="chartOptions4.plotOptions"
-                                    [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
-                                    [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis"
-                                    [title]="chartOptions4.title" [tooltip]="chartOptions4.tooltip"
-                                    [legend]="chartOptions4.legend"></apx-chart>
-                            </div>
-                        </div> -->
-                    </div>
-                </div> 
-                <!-- </div> -->
+          <div class="card-body">
+            <div class="w-100 mt-1 pb-2 rounded">
+              <!-- #e2e3e5 -->
+              <h3 class="bold text-light bg-dark" style="font-size: large;">Running Works Summary</h3>
             </div>
-        </div>
-
-        <!-- Handover Works -->
-        <div class="card shadow mb-3" *ngIf="visibale">
-            <div class="card-body">
-                <div class="w-100"> <!--#e2e3e5 style="background-color:#858681"-->
-                    <h3 class="bold text-light bg-dark">Handover Works Summary</h3>
-                </div>
-                <div class="container-fluid  p-1 mt-0">
-                    <div class="row">
-                        <div class="card-body row mt-0 pt-0 pl-0" style="padding-right:0%;">
-                            <div class=" border rounded custom-form-field">
-                                <mat-form-field class="filter-field w-100 " appearance="fill">
-                                    <mat-label>Date Range</mat-label>
-                                    <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
-                                        <input matStartDate placeholder="Start date" formControlName="start"
-                                            class="custom-inputt">
-                                        <input matEndDate placeholder="End date" formControlName="end"
-                                            class="custom-inputt">
-                                    </mat-date-range-input>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-date-range-picker #picker></mat-date-range-picker>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractSchemeData.length > 0">
-                      <div class="chart-container">
-                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
-                              {{todt}}</span>
-                          <apx-chart [series]="chartHandover1.series" [chart]="chartHandover1.chart"
-                              [dataLabels]="chartHandover1.dataLabels" [plotOptions]="chartHandover1.plotOptions"
-                              [xaxis]="chartHandover1.xaxis" [stroke]="chartHandover1.stroke"
-                              [fill]="chartHandover1.fill" [yaxis]="chartHandover1.yaxis"
-                              [title]="chartHandover1.title" [tooltip]="chartHandover1.tooltip"
-                              [legend]="chartHandover1.legend"></apx-chart>
-                      </div>
-                  </div>
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractTotalData.length > 0">
-                            <div class="chart-container">
-                                <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
-                                    {{todt}}</span>
-                                <!-- <span class="bold mt-1">{{fromdt}} To {{todt}}</span> -->
-                                <apx-chart [series]="chartHandover.series" [chart]="chartHandover.chart"
-                                    [dataLabels]="chartHandover.dataLabels" [plotOptions]="chartHandover.plotOptions"
-                                    [xaxis]="chartHandover.xaxis" [stroke]="chartHandover.stroke"
-                                    [fill]="chartHandover.fill" [yaxis]="chartHandover.yaxis"
-                                    [title]="chartHandover.title" [tooltip]="chartHandover.tooltip"
-                                    [legend]="chartHandover.legend"></apx-chart>
-                            </div>
-                        </div>
-                       
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractDistrictData.length > 0">
-                            <div class="chart-container">
-                                <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
-                                    {{todt}}</span>
-                                <apx-chart [series]="chartHandover2.series" [chart]="chartHandover2.chart"
-                                    [dataLabels]="chartHandover2.dataLabels" [plotOptions]="chartHandover2.plotOptions"
-                                    [xaxis]="chartHandover2.xaxis" [stroke]="chartHandover2.stroke"
-                                    [fill]="chartHandover2.fill" [yaxis]="chartHandover2.yaxis"
-                                    [title]="chartHandover2.title" [tooltip]="chartHandover2.tooltip"
-                                    [legend]="chartHandover2.legend"></apx-chart>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded"  *ngIf="HandoverAbstractWorkTypeData.length > 0">
-                            <div class="chart-container">
-                                <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
-                                    {{todt}}</span>
-                                <apx-chart [series]="chartHandover3.series" [chart]="chartHandover3.chart"
-                                    [dataLabels]="chartHandover3.dataLabels" [plotOptions]="chartHandover3.plotOptions"
-                                    [xaxis]="chartHandover3.xaxis" [stroke]="chartHandover3.stroke"
-                                    [fill]="chartHandover3.fill" [yaxis]="chartHandover3.yaxis"
-                                    [title]="chartHandover3.title" [tooltip]="chartHandover3.tooltip"
-                                    [legend]="chartHandover3.legend"></apx-chart>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--Payment Due-->
-        <div class="card shadow mb-3" *ngIf="visibale">
-            <div class="card-body">
-                <div class="w-100 mt-1 pb-0">
-                    <h3 class="bold text-light bg-dark" style="font-size: large;">Payment Due</h3>
-                </div>
-                <!-- <div class="card shadow"> -->
-                <!-- <div class="card-body pt-0 mt-0"> -->
-                <div class="container-fluid  p-1 mt-2">
-                    <div class="row">
-                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryTotal.length > 0"> -->
-                          <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryScheme.length > 0">
-                            <div class="chart-container">
-                                <apx-chart [series]="chartUnPaid3.series" [chart]="chartUnPaid3.chart"
-                                    [dataLabels]="chartUnPaid3.dataLabels" [plotOptions]="chartUnPaid3.plotOptions"
-                                    [xaxis]="chartUnPaid3.xaxis" [stroke]="chartUnPaid3.stroke" [fill]="chartUnPaid3.fill"
-                                    [yaxis]="chartUnPaid3.yaxis" [title]="chartUnPaid3.title" [tooltip]="chartUnPaid3.tooltip"
-                                    [legend]="chartUnPaid3.legend"></apx-chart>
-        
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryDivision.length > 0">
-                            <div class="chart-container">
-                                <apx-chart [series]="chartUnPaid.series" [chart]="chartUnPaid.chart"
-                                    [dataLabels]="chartUnPaid.dataLabels" [plotOptions]="chartUnPaid.plotOptions"
-                                    [xaxis]="chartUnPaid.xaxis" [stroke]="chartUnPaid.stroke" [fill]="chartUnPaid.fill"
-                                    [yaxis]="chartUnPaid.yaxis" [title]="chartUnPaid.title" [tooltip]="chartUnPaid.tooltip"
-                                    [legend]="chartUnPaid.legend"></apx-chart>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="row">
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryScheme.length > 0">
-                            <div class="chart-container">
-                                <apx-chart [series]="chartUnPaid1.series" [chart]="chartUnPaid1.chart"
-                                    [dataLabels]="chartUnPaid1.dataLabels" [plotOptions]="chartUnPaid1.plotOptions"
-                                    [xaxis]="chartUnPaid1.xaxis" [stroke]="chartUnPaid1.stroke" [fill]="chartUnPaid1.fill"
-                                    [yaxis]="chartUnPaid1.yaxis" [title]="chartUnPaid1.title" [tooltip]="chartUnPaid1.tooltip"
-                                    [legend]="chartUnPaid1.legend"></apx-chart>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryDesignation.length > 0">
-                            <div class="chart-container">
-                                <apx-chart [series]="chartUnPaid2.series" [chart]="chartUnPaid2.chart"
-                                    [dataLabels]="chartUnPaid2.dataLabels" [plotOptions]="chartUnPaid2.plotOptions"
-                                    [xaxis]="chartUnPaid2.xaxis" [stroke]="chartUnPaid2.stroke" [fill]="chartUnPaid2.fill"
-                                    [yaxis]="chartUnPaid2.yaxis" [title]="chartUnPaid2.title" [tooltip]="chartUnPaid2.tooltip"
-                                    [legend]="chartUnPaid2.legend"></apx-chart>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-                <!-- </div> -->
-            </div>
-        </div>
-
-        <!-- Payment Done -->
-        <div class="card shadow mb-3" *ngIf="visibale">
-            <div class="card-body">
-                <div class="w-100 mt-1 pb-0">
-                    <!-- #e2e3e5 -->
-                    <h3 class="bold text-light bg-secondary" style="font-size: large;">Payment Done</h3>
-                  </div>
-                  <!-- <div class="card shadow"> -->
-                  <div class="card-body pt-0 mt-0">
-                    <!-- <div class="w-100 ">
-                      #e2e3e5
-                      <h3 class=" bold text-light bg-dark">Work Order Pending</h3>
-                    </div> -->
-                    <div class="card-body row mt-0 pt-0" >
-                      <div class="border rounded custom-form-field">
-                        <mat-form-field class="filter-field w-100 " appearance="fill">
-                          <mat-label>Date Range</mat-label>
-                          <mat-date-range-input [rangePicker]="picker2" [formGroup]="dateRange1">
-                            <input matStartDate placeholder="Start date" formControlName="start" class="custom-inputt">
-                            <input matEndDate placeholder="End date" formControlName="end" class="custom-inputt">
-                          </mat-date-range-input>
-                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                          <mat-date-range-picker #picker2></mat-date-range-picker>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div class="container-fluid  p-3">
-                      <div class="row">
-                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryTotal.length > 0"> -->
-                          <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryScheme.length > 0">
-                          <div class="chart-container">
-                            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
-                            <apx-chart [series]="chartPaid.series" [chart]="chartPaid.chart"
-                              [dataLabels]="chartPaid.dataLabels" [plotOptions]="chartPaid.plotOptions"
-                              [xaxis]="chartPaid.xaxis" [stroke]="chartPaid.stroke"
-                              [fill]="chartPaid.fill" [yaxis]="chartPaid.yaxis"
-                              [title]="chartPaid.title" [tooltip]="chartPaid.tooltip"
-                              [legend]="chartPaid.legend"></apx-chart>
-                          </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryDivision.length > 0">
-                          <div class="chart-container">
-                            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
-                            <apx-chart [series]="chartPaid1.series" [chart]="chartPaid1.chart"
-                              [dataLabels]="chartPaid1.dataLabels" [plotOptions]="chartPaid1.plotOptions"
-                              [xaxis]="chartPaid1.xaxis" [stroke]="chartPaid1.stroke" [fill]="chartPaid1.fill"
-                              [yaxis]="chartPaid1.yaxis" [title]="chartPaid1.title" [tooltip]="chartPaid1.tooltip"
-                              [legend]="chartPaid1.legend"></apx-chart>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryScheme.length > 0">
-                          <div class="chart-container">
-                            <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
-                            <apx-chart [series]="chartPaid2.series" [chart]="chartPaid2.chart"
-                              [dataLabels]="chartPaid2.dataLabels" [plotOptions]="chartPaid2.plotOptions"
-                              [xaxis]="chartPaid2.xaxis" [stroke]="chartPaid2.stroke" [fill]="chartPaid2.fill"
-                              [yaxis]="chartPaid2.yaxis" [title]="chartPaid2.title" [tooltip]="chartPaid2.tooltip"
-                              [legend]="chartPaid2.legend"></apx-chart>
-                          </div>
-                        </div> -->
-                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryDistrict.length > 0">
-                          <div class="chart-container">
-                            <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
-                              [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
-                              [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
-                              [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title"
-                              [tooltip]="chartOptionsLine.tooltip" [legend]="chartOptionsLine.legend"></apx-chart>
-                          </div>
-                        </div> -->
-                      </div>
+            <!-- <div class="card-body pt-0"> -->
+            <div class="container-fluid  p-1">
+              <div class="row" *ngIf="RunningWorkDataScheme.length > 0;else other_content">
+                <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataGTotal.length > 0"> -->
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
+                    <div class="chart-container">
+                      <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                        [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                        [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke" [fill]="chartOptions.fill"
+                        [yaxis]="chartOptions.yaxis" [title]="chartOptions.title" [tooltip]="chartOptions.tooltip"
+                        [legend]="chartOptions.legend"></apx-chart>
                     </div>
                   </div>
-        
+                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDivision.length > 0">
+                  <div class="chart-container">
+                    <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
+                      [dataLabels]="chartOptions1.dataLabels" [plotOptions]="chartOptions1.plotOptions"
+                      [xaxis]="chartOptions1.xaxis" [stroke]="chartOptions1.stroke" [fill]="chartOptions1.fill"
+                      [yaxis]="chartOptions1.yaxis" [title]="chartOptions1.title" [tooltip]="chartOptions1.tooltip"
+                      [legend]="chartOptions1.legend"></apx-chart>
+                  </div>
+                </div>
+              </div>
+              <ng-template class="row" #other_content>
+                <strong style="font-size: 20px;">No Running Works are currently available for the scheme.</strong> 
+               </ng-template>
+              <!-- <div class="row"> -->
+                <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
+                                    <div class="chart-container">
+                                        <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
+                                            [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
+                                            [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
+                                            [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis"
+                                            [title]="chartOptions2.title" [tooltip]="chartOptions2.tooltip"
+                                            [legend]="chartOptions2.legend"></apx-chart>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDistrict.length > 0">
+                                    <div class="chart-container">
+                                        <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart"
+                                            [dataLabels]="chartOptions3.dataLabels" [plotOptions]="chartOptions3.plotOptions"
+                                            [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
+                                            [fill]="chartOptions3.fill" [yaxis]="chartOptions3.yaxis"
+                                            [title]="chartOptions3.title" [tooltip]="chartOptions3.tooltip"
+                                            [legend]="chartOptions3.legend"></apx-chart>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataContractor.length > 0">
+                                    <div class="chart-container">
+                                        <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart"
+                                            [dataLabels]="chartOptions4.dataLabels" [plotOptions]="chartOptions4.plotOptions"
+                                            [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
+                                            [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis"
+                                            [title]="chartOptions4.title" [tooltip]="chartOptions4.tooltip"
+                                            [legend]="chartOptions4.legend"></apx-chart>
+                                    </div>
+                                </div> -->
+              <!-- </div> -->
             </div>
+            <!-- </div> -->
+          </div>
         </div>
-
         <!-- Live Tender -->
         <div class="card shadow mb-3" *ngIf="visibale">
           <div class="card-body">
@@ -566,17 +380,14 @@
               <h3 class="bold text-light bg-info" style="font-size: large;">Live Tender Summary</h3>
           </div>
             <div class="container-fluid  p-1">
-              <div class="row">
+              <div class="row" *ngIf="LiveTenderScheme.length > 0;else other_content">
                 <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderScheme.length > 0">
                   <div class="chart-container">
-        
                     <apx-chart [series]="chartliveTenderTO.series" [chart]="chartliveTenderTO.chart"
                       [dataLabels]="chartliveTenderTO.dataLabels" [plotOptions]="chartliveTenderTO.plotOptions"
                       [xaxis]="chartliveTenderTO.xaxis" [stroke]="chartliveTenderTO.stroke" [fill]="chartliveTenderTO.fill"
                       [yaxis]="chartliveTenderTO.yaxis" [title]="chartliveTenderTO.title" [tooltip]="chartliveTenderTO.tooltip"
                       [legend]="chartliveTenderTO.legend"></apx-chart>
-        
-        
                   </div>
                 </div>
                 <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderDivision.length > 0">
@@ -590,6 +401,45 @@
                   </div>
                 </div>
               </div>
+              <ng-template class="row" #other_content>
+               <strong style="font-size: 20px;">No live tenders are currently available for the scheme.</strong> 
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <!-- To be Tender -->
+        <div class="card shadow mb-3" *ngIf="visibale">
+          <div class="card-body">
+            <div class="w-100 mt-1 pb-2 rounded">
+              <h3 class="bold text-light bg-success" style="font-size: large;">To be Tender Summary</h3>
+          </div>
+            <div class="container-fluid  p-1">
+              <div class="row" *ngIf="TobetenderGTotal.length > 0;else other_content">
+                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="TobetenderGTotal.length > 0">
+                  <div class="chart-container">
+                    <apx-chart [series]="chartOptionsTbetender.series" [chart]="chartOptionsTbetender.chart"
+                      [dataLabels]="chartOptionsTbetender.dataLabels" [plotOptions]="chartOptionsTbetender.plotOptions"
+                      [xaxis]="chartOptionsTbetender.xaxis" [stroke]="chartOptionsTbetender.stroke" [fill]="chartOptionsTbetender.fill"
+                      [yaxis]="chartOptionsTbetender.yaxis" [title]="chartOptionsTbetender.title" [tooltip]="chartOptionsTbetender.tooltip"
+                      [legend]="chartOptionsTbetender.legend"></apx-chart>
+        
+        
+                  </div>
+                </div>
+                <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderDivision.length > 0">
+                  <div class="chart-container">
+        
+                    <apx-chart [series]="chartliveTenderDiv.series" [chart]="chartliveTenderDiv.chart"
+                      [dataLabels]="chartliveTenderDiv.dataLabels" [plotOptions]="chartliveTenderDiv.plotOptions"
+                      [xaxis]="chartliveTenderDiv.xaxis" [stroke]="chartliveTenderDiv.stroke" [fill]="chartliveTenderDiv.fill"
+                      [yaxis]="chartliveTenderDiv.yaxis" [title]="chartliveTenderDiv.title"
+                      [tooltip]="chartliveTenderDiv.tooltip" [legend]="chartliveTenderDiv.legend"></apx-chart>
+                  </div>
+                </div> -->
+              </div>
+              <ng-template class="row" #other_content>
+                <strong style="font-size: 20px;">No Tender are currently available for the scheme.</strong> 
+               </ng-template>
             </div>
           </div>
         </div>
@@ -601,10 +451,9 @@
                 <h3 class="bold text-light bg-dark" style="font-size: large;">Technical Evaluation</h3>
             </div>
               <div class="container-fluid  p-1">
-                <div class="row">
+                <div class="row" *ngIf="TenderEvaluationScheme.length > 0;else other_content">
                   <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="TenderEvaluationScheme.length > 0">
                     <div class="chart-container">
-          
                       <apx-chart [series]="chartOptionsTEScheme.series" [chart]="chartOptionsTEScheme.chart"
                         [dataLabels]="chartOptionsTEScheme.dataLabels" [plotOptions]="chartOptionsTEScheme.plotOptions"
                         [xaxis]="chartOptionsTEScheme.xaxis" [stroke]="chartOptionsTEScheme.stroke" [fill]="chartOptionsTEScheme.fill"
@@ -625,6 +474,9 @@
                     </div>
                   </div>
                 </div>
+                <ng-template class="row" #other_content>
+                  <strong style="font-size: 20px;">No Tender are currently available for the scheme.</strong> 
+                 </ng-template>
               </div>
             </div>
           </div>
@@ -632,13 +484,30 @@
           <div class="card shadow mb-3" *ngIf="visibale">
             <div class="card-body">
               <div class="w-100 mt-1 pb-2 rounded">
-                <h3 class="bold text-light bg-dark" style="font-size: large;">Work Order Pending</h3>
+                <h3 class="bold text-light bg-dark" style="font-size: large;">Work Order</h3>
             </div>
-              <div class="container-fluid  p-1">
+              <div class="container-fluid  p-1" >
                 <div class="row">
-                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingScheme.length > 0">
+                  <div class="card-body row mt-0 pt-0 pl-0" style="padding-right:0%;">
+                      <div class=" border rounded custom-form-field">
+                          <mat-form-field class="filter-field w-100 " appearance="fill">
+                              <mat-label>Date Range</mat-label>
+                              <mat-date-range-input [rangePicker]="picker3" [formGroup]="dateRange2">
+                                  <input matStartDate placeholder="Start date" formControlName="start"
+                                      class="custom-inputt">
+                                  <input matEndDate placeholder="End date" formControlName="end"
+                                      class="custom-inputt">
+                              </mat-date-range-input>
+                              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                              <mat-date-range-picker #picker3></mat-date-range-picker>
+                          </mat-form-field>
+                      </div>
+                  </div>
+              </div>
+                <div class="row" *ngIf="WoIssuedTotal.length > 0;else other_content">
+
+                  <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingScheme.length > 0">
                     <div class="chart-container">
-          
                       <apx-chart [series]="chartOptionsWOPScheme.series" [chart]="chartOptionsWOPScheme.chart"
                         [dataLabels]="chartOptionsWOPScheme.dataLabels" [plotOptions]="chartOptionsWOPScheme.plotOptions"
                         [xaxis]="chartOptionsWOPScheme.xaxis" [stroke]="chartOptionsWOPScheme.stroke" [fill]="chartOptionsWOPScheme.fill"
@@ -647,10 +516,9 @@
           
           
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingDivision.length > 0">
                     <div class="chart-container">
-          
                       <apx-chart [series]="chartOptionsWOPDivision.series" [chart]="chartOptionsWOPDivision.chart"
                         [dataLabels]="chartOptionsWOPDivision.dataLabels" [plotOptions]="chartOptionsWOPDivision.plotOptions"
                         [xaxis]="chartOptionsWOPDivision.xaxis" [stroke]="chartOptionsWOPDivision.stroke" [fill]="chartOptionsWOPDivision.fill"
@@ -658,10 +526,247 @@
                         [tooltip]="chartOptionsWOPDivision.tooltip" [legend]="chartOptionsWOPDivision.legend"></apx-chart>
                     </div>
                   </div>
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded"  *ngIf="WoIssuedTotal.length > 0">
+                    <div class="chart-container">
+                      <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt3}} To {{todt3}}</span>
+                      <apx-chart [series]="chartOptionsWOI.series" [chart]="chartOptionsWOI.chart"
+                        [dataLabels]="chartOptionsWOI.dataLabels" [plotOptions]="chartOptionsWOI.plotOptions"
+                        [xaxis]="chartOptionsWOI.xaxis" [stroke]="chartOptionsWOI.stroke" [fill]="chartOptionsWOI.fill"
+                        [yaxis]="chartOptionsWOI.yaxis" [title]="chartOptionsWOI.title"
+                        [tooltip]="chartOptionsWOI.tooltip" [legend]="chartOptionsWOI.legend"></apx-chart>
+                    </div>
+                  </div>
                 </div>
+                <ng-template class="row" #other_content>
+                  <strong style="font-size: 20px;">No Work Order are currently available for the scheme.</strong> 
+                 </ng-template>
               </div>
+             
             </div>
           </div>
+         <!-- Handover Works -->
+       <div class="card shadow mb-3" *ngIf="visibale">
+    <div class="card-body">
+        <div class="w-100"> <!--#e2e3e5 style="background-color:#858681"-->
+            <h3 class="bold text-light bg-dark">Handover Works Summary</h3>
+        </div>
+        <div class="container-fluid  p-1 mt-0">
+            <div class="row">
+                <div class="card-body row mt-0 pt-0 pl-0" style="padding-right:0%;">
+                    <div class=" border rounded custom-form-field">
+                        <mat-form-field class="filter-field w-100 " appearance="fill">
+                            <mat-label>Date Range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                                <input matStartDate placeholder="Start date" formControlName="start"
+                                    class="custom-inputt">
+                                <input matEndDate placeholder="End date" formControlName="end"
+                                    class="custom-inputt">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="HandoverAbstractSchemeData.length > 0;else other_content">
+              <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractSchemeData.length > 0">
+                <div class="chart-container">
+                  <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
+                    {{todt}}</span>
+                  <apx-chart [series]="chartHandover1.series" [chart]="chartHandover1.chart"
+                    [dataLabels]="chartHandover1.dataLabels" [plotOptions]="chartHandover1.plotOptions"
+                    [xaxis]="chartHandover1.xaxis" [stroke]="chartHandover1.stroke" [fill]="chartHandover1.fill"
+                    [yaxis]="chartHandover1.yaxis" [title]="chartHandover1.title" [tooltip]="chartHandover1.tooltip"
+                    [legend]="chartHandover1.legend"></apx-chart>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractTotalData.length > 0">
+                <div class="chart-container">
+                  <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
+                    {{todt}}</span>
+                  <!-- <span class="bold mt-1">{{fromdt}} To {{todt}}</span> -->
+                  <apx-chart [series]="chartHandover.series" [chart]="chartHandover.chart" [dataLabels]="chartHandover.dataLabels"
+                    [plotOptions]="chartHandover.plotOptions" [xaxis]="chartHandover.xaxis" [stroke]="chartHandover.stroke"
+                    [fill]="chartHandover.fill" [yaxis]="chartHandover.yaxis" [title]="chartHandover.title"
+                    [tooltip]="chartHandover.tooltip" [legend]="chartHandover.legend"></apx-chart>
+                </div>
+              </div>
+            
+            </div>
+            <ng-template class="row" #other_content>
+              <strong style="font-size: 20px;">No Handover Work are currently available for the scheme.</strong> 
+             </ng-template>
+            <!-- <div class="row">
+                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractDistrictData.length > 0">
+                    <div class="chart-container">
+                        <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
+                            {{todt}}</span>
+                        <apx-chart [series]="chartHandover2.series" [chart]="chartHandover2.chart"
+                            [dataLabels]="chartHandover2.dataLabels" [plotOptions]="chartHandover2.plotOptions"
+                            [xaxis]="chartHandover2.xaxis" [stroke]="chartHandover2.stroke"
+                            [fill]="chartHandover2.fill" [yaxis]="chartHandover2.yaxis"
+                            [title]="chartHandover2.title" [tooltip]="chartHandover2.tooltip"
+                            [legend]="chartHandover2.legend"></apx-chart>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-2 border rounded"  *ngIf="HandoverAbstractWorkTypeData.length > 0">
+                    <div class="chart-container">
+                        <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
+                            {{todt}}</span>
+                        <apx-chart [series]="chartHandover3.series" [chart]="chartHandover3.chart"
+                            [dataLabels]="chartHandover3.dataLabels" [plotOptions]="chartHandover3.plotOptions"
+                            [xaxis]="chartHandover3.xaxis" [stroke]="chartHandover3.stroke"
+                            [fill]="chartHandover3.fill" [yaxis]="chartHandover3.yaxis"
+                            [title]="chartHandover3.title" [tooltip]="chartHandover3.tooltip"
+                            [legend]="chartHandover3.legend"></apx-chart>
+                    </div>
+                </div>
+
+
+            </div> -->
+        </div>
+        
+    </div>
+        </div>
+           <!--Payment Due-->
+        <div class="card shadow mb-3" *ngIf="visibale">
+          <div class="card-body">
+              <div class="w-100 mt-1 pb-0">
+                  <h3 class="bold text-light bg-dark" style="font-size: large;">Payment Due</h3>
+              </div>
+              <!-- <div class="card shadow"> -->
+              <!-- <div class="card-body pt-0 mt-0"> -->
+              <div class="container-fluid  p-1 mt-2">
+                  <div class="row" *ngIf="UnPaidSummaryScheme.length > 0;else other_content">
+                      <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryTotal.length > 0"> -->
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryScheme.length > 0">
+                          <div class="chart-container">
+                              <apx-chart [series]="chartUnPaid3.series" [chart]="chartUnPaid3.chart"
+                                  [dataLabels]="chartUnPaid3.dataLabels" [plotOptions]="chartUnPaid3.plotOptions"
+                                  [xaxis]="chartUnPaid3.xaxis" [stroke]="chartUnPaid3.stroke" [fill]="chartUnPaid3.fill"
+                                  [yaxis]="chartUnPaid3.yaxis" [title]="chartUnPaid3.title" [tooltip]="chartUnPaid3.tooltip"
+                                  [legend]="chartUnPaid3.legend"></apx-chart>
+      
+                          </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryDivision.length > 0">
+                          <div class="chart-container">
+                              <apx-chart [series]="chartUnPaid.series" [chart]="chartUnPaid.chart"
+                                  [dataLabels]="chartUnPaid.dataLabels" [plotOptions]="chartUnPaid.plotOptions"
+                                  [xaxis]="chartUnPaid.xaxis" [stroke]="chartUnPaid.stroke" [fill]="chartUnPaid.fill"
+                                  [yaxis]="chartUnPaid.yaxis" [title]="chartUnPaid.title" [tooltip]="chartUnPaid.tooltip"
+                                  [legend]="chartUnPaid.legend"></apx-chart>
+                          </div>
+                      </div>
+                  </div>
+                  <ng-template class="row" #other_content>
+                    <strong style="font-size: 20px;">No Payment Due are currently available for the scheme.</strong> 
+                   </ng-template>
+                  <!-- <div class="row">
+                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryScheme.length > 0">
+                          <div class="chart-container">
+                              <apx-chart [series]="chartUnPaid1.series" [chart]="chartUnPaid1.chart"
+                                  [dataLabels]="chartUnPaid1.dataLabels" [plotOptions]="chartUnPaid1.plotOptions"
+                                  [xaxis]="chartUnPaid1.xaxis" [stroke]="chartUnPaid1.stroke" [fill]="chartUnPaid1.fill"
+                                  [yaxis]="chartUnPaid1.yaxis" [title]="chartUnPaid1.title" [tooltip]="chartUnPaid1.tooltip"
+                                  [legend]="chartUnPaid1.legend"></apx-chart>
+                          </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryDesignation.length > 0">
+                          <div class="chart-container">
+                              <apx-chart [series]="chartUnPaid2.series" [chart]="chartUnPaid2.chart"
+                                  [dataLabels]="chartUnPaid2.dataLabels" [plotOptions]="chartUnPaid2.plotOptions"
+                                  [xaxis]="chartUnPaid2.xaxis" [stroke]="chartUnPaid2.stroke" [fill]="chartUnPaid2.fill"
+                                  [yaxis]="chartUnPaid2.yaxis" [title]="chartUnPaid2.title" [tooltip]="chartUnPaid2.tooltip"
+                                  [legend]="chartUnPaid2.legend"></apx-chart>
+                          </div>
+                      </div>
+                  </div> -->
+              </div>
+              <!-- </div> -->
+          </div>
+      </div>
+
+      <!-- Payment Done -->
+      <div class="card shadow mb-3" *ngIf="visibale">
+          <div class="card-body">
+              <div class="w-100 mt-1 pb-0">
+                  <!-- #e2e3e5 -->
+                  <h3 class="bold text-light bg-secondary" style="font-size: large;">Payment Done</h3>
+                </div>
+                <!-- <div class="card shadow"> -->
+                <div class="card-body pt-0 mt-0">
+                  <!-- <div class="w-100 ">
+                    #e2e3e5
+                    <h3 class=" bold text-light bg-dark">Work Order Pending</h3>
+                  </div> -->
+                  <div class="card-body row mt-0 pt-0" >
+                    <div class="border rounded custom-form-field">
+                      <mat-form-field class="filter-field w-100 " appearance="fill">
+                        <mat-label>Date Range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker2" [formGroup]="dateRange1">
+                          <input matStartDate placeholder="Start date" formControlName="start" class="custom-inputt">
+                          <input matEndDate placeholder="End date" formControlName="end" class="custom-inputt">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker2></mat-date-range-picker>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="container-fluid  p-3">
+                    <div class="row" *ngIf="PaidSummaryScheme.length > 0;else other_content">
+                      <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryTotal.length > 0"> -->
+                        <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryScheme.length > 0">
+                        <div class="chart-container">
+                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt1}} To {{todt1}}</span> 
+                          <apx-chart [series]="chartPaid.series" [chart]="chartPaid.chart"
+                            [dataLabels]="chartPaid.dataLabels" [plotOptions]="chartPaid.plotOptions"
+                            [xaxis]="chartPaid.xaxis" [stroke]="chartPaid.stroke"
+                            [fill]="chartPaid.fill" [yaxis]="chartPaid.yaxis"
+                            [title]="chartPaid.title" [tooltip]="chartPaid.tooltip"
+                            [legend]="chartPaid.legend"></apx-chart>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryDivision.length > 0">
+                        <div class="chart-container">
+                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt1}} To {{todt1}}</span> 
+                          <apx-chart [series]="chartPaid1.series" [chart]="chartPaid1.chart"
+                            [dataLabels]="chartPaid1.dataLabels" [plotOptions]="chartPaid1.plotOptions"
+                            [xaxis]="chartPaid1.xaxis" [stroke]="chartPaid1.stroke" [fill]="chartPaid1.fill"
+                            [yaxis]="chartPaid1.yaxis" [title]="chartPaid1.title" [tooltip]="chartPaid1.tooltip"
+                            [legend]="chartPaid1.legend"></apx-chart>
+                        </div>
+                      </div>
+                    </div>
+                    <ng-template class="row" #other_content>
+                      <strong style="font-size: 20px;">No Payment Done are currently available for the scheme.</strong> 
+                     </ng-template>
+                    <!-- <div class="row">
+                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryScheme.length > 0">
+                        <div class="chart-container">
+                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
+                          <apx-chart [series]="chartPaid2.series" [chart]="chartPaid2.chart"
+                            [dataLabels]="chartPaid2.dataLabels" [plotOptions]="chartPaid2.plotOptions"
+                            [xaxis]="chartPaid2.xaxis" [stroke]="chartPaid2.stroke" [fill]="chartPaid2.fill"
+                            [yaxis]="chartPaid2.yaxis" [title]="chartPaid2.title" [tooltip]="chartPaid2.tooltip"
+                            [legend]="chartPaid2.legend"></apx-chart>
+                        </div>
+                      </div> 
+                       <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryDistrict.length > 0">
+                        <div class="chart-container">
+                          <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
+                            [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
+                            [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
+                            [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title"
+                            [tooltip]="chartOptionsLine.tooltip" [legend]="chartOptionsLine.legend"></apx-chart>
+                        </div>
+                      </div> 
+                    </div>-->
+                  </div>
+                </div>
+      
+          </div>
+      </div>
 </div>
   
 
@@ -3966,6 +4071,395 @@
           </tr>
         </table>
         <mat-paginator #paginatorWOP [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="d-grid gap-2 col-12 mx-auto footer mt-1 p-2">
+    <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+      <!-- mat-card-avatar  mat-card-avatar -->
+      <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div> 
+</ng-template>
+
+<!-- Land Issued  -->
+<ng-template class=" " #itemDetailsModalLI let-modal>
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <h1 class="text-primary-emphasis">Land Issue Details</h1>
+      <h1 class="text-primary-emphasis">Selected Name :<span class="text-primary">{{name}}</span></h1>
+      <h1 class="text-primary-emphasis">No. of Works: <span class="text-primary">{{totalWorks}}</span></h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+      <div class="d-flex justify-content-between align-items-center mb-0">
+        <div class="filter-field flex-grow-1">
+          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterLI($event)">
+        </div>
+        <div class="export-menu-container">
+          <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+          <mat-menu #exportMenu="matMenu">
+            <button mat-menu-item
+              (click)="exporter.exportTable('xlsx', { fileName: 'LandIssueDetails', sheet: 'LandIssueDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+            <button mat-menu-item (click)="exportToPDFLI()">PDF</button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <div class="table-responsive ">
+        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+          [dataSource]="dataSourceLI" #exporter="matTableExporter" matSort #sortLI="matSort">
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+            <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+          </ng-container>
+          <ng-container matColumnDef="work_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+            <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
+          </ng-container>
+          <ng-container matColumnDef="grantNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="head">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+            <td mat-cell *matCellDef="let element">{{ element.head}} </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="divName_En">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+            <td mat-cell *matCellDef="let element"> {{ element.divName_En}} </td>
+          </ng-container> -->
+        
+          <ng-container matColumnDef="district">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+            <td mat-cell *matCellDef="let element"> {{ element.district}} </td>
+          </ng-container>
+          <ng-container matColumnDef="blockname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+            <td mat-cell *matCellDef="let element"> {{ element.blockname}} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="work">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+            <td mat-cell *matCellDef="let element">{{ element.work}} </td>
+          </ng-container>
+          
+         
+         
+          <ng-container matColumnDef="wrokOrderDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.wrokOrderDT}} </td>
+          </ng-container>
+          <ng-container matColumnDef="timeAllowed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Time Allowed</th>
+            <td mat-cell *matCellDef="let element"> {{ element.timeAllowed}} </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="dueDTTimePerAdded">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Due DT Completion</th>
+            <td mat-cell *matCellDef="let element"> {{ element.dueDTTimePerAdded}} </td>
+          </ng-container> -->
+          <ng-container matColumnDef="lProgress">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Progress Level</th>
+            <td mat-cell *matCellDef="let element"> {{ element.lProgress}} </td>
+          </ng-container>
+          <ng-container matColumnDef="pdate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Progress DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.pdate}} </td>
+        </ng-container> 
+        
+       <ng-container matColumnDef="delayReason" style="width: 50%;">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Delay Reason</th>
+          <td mat-cell *matCellDef="let element"> {{ element.delayReason}} </td>
+      </ng-container> 
+      <ng-container matColumnDef="pRemarks">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+        <td mat-cell *matCellDef="let element"> {{ element.pRemarks}}/{{ element.remarks}}  </td>
+    </ng-container> 
+    <!-- <ng-container matColumnDef="expcompdt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Exp. Comp DT</th>
+      <td mat-cell *matCellDef="let element"> {{ element.expcompdt}} </td>
+  </ng-container> -->
+       <!-- <ng-container matColumnDef="Remarks">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</th>
+          <td mat-cell *matCellDef="let element"> {{ element.Remarks}} </td>
+      </ng-container>  -->
+     
+          <ng-container matColumnDef="subengname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sub Eng</th>
+            <td mat-cell *matCellDef="let element"> {{ element.subengname}} </td>
+          </ng-container>
+          <ng-container matColumnDef="aeName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Asst.Eng</th>
+            <td mat-cell *matCellDef="let element"> {{ element.aeName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="aaDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.aaDate}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="aaamt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Amount(in Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.aaamt}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tsDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tsDate}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="tsamt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Amount(in Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tsamt}} </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="tType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tender Type</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tType}} </td>
+          </ng-container> -->
+          <ng-container matColumnDef="tenderReference">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT Reference</th>
+            <td mat-cell *matCellDef="let element">{{ element.tenderReference}} </td>
+          </ng-container>
+          <ng-container matColumnDef="dateOfIssueNIT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NIT/Sanction DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.dateOfIssueNIT}}/ {{ element.dateOfSanction}} </td>
+          </ng-container>
+          <ng-container matColumnDef="acceptanceLetterRefNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Acceptance Letter RefNo</th>
+            <td mat-cell *matCellDef="let element"> {{ element.acceptanceLetterRefNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="agreementRefNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work Order RefNo</th>
+            <td mat-cell *matCellDef="let element"> {{ element.agreementRefNo}}/ {{ element.workorderRefNoGovt}}</td>
+          </ng-container>
+          <ng-container matColumnDef="acceptLetterDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.acceptLetterDT}} </td>
+          </ng-container>
+          <ng-container matColumnDef="sanctionRate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rate%</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sanctionRate}} </td>
+          </ng-container>
+          <ng-container matColumnDef="sanctionDetail">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sanction</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sanctionDetail}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalAmountOfContract">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Paid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalunpaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Unpaid(In Lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalunpaid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="contractorNAme">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+            <td mat-cell *matCellDef="let element"> {{ element.contractorNAme}} </td>
+          </ng-container>
+          <ng-container matColumnDef="letterNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO</th>
+            <td mat-cell *matCellDef="let element">{{ element.letterNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="approver">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver</th>
+            <td mat-cell *matCellDef="let element">{{ element.approver}} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="cid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor ID/Class</th>
+            <td mat-cell *matCellDef="let element"> {{ element.cid}}/{{ element.regType}} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="mobNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor Mobile No</th>
+            <td mat-cell *matCellDef="let element"> {{ element.mobNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Download AS</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                  (click)="onButtonClick2(0,element.work_id)">
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container>
+          <tr mat-header-row
+          *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','cid','mobNo','action']">
+           </tr>
+          <tr mat-row
+            *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','cid','mobNo','action']">
+          </tr>
+        </table>
+        <mat-paginator #paginatorLI [pageSizeOptions]="[5, 10,15, 30]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="d-grid gap-2 col-12 mx-auto footer mt-1 p-2">
+    <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+      <!-- mat-card-avatar  mat-card-avatar -->
+      <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div> 
+</ng-template>
+
+<!--Land Issued Gen  -->
+<ng-template class=" " #itemDetailsModalWOGD let-modal>
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <h1 class="text-primary-emphasis">Work Order Issued</h1>
+      <h1 class="text-primary-emphasis">Selected Name :<span class="text-primary">{{name}}</span></h1>
+      <h1 class="text-primary-emphasis">No. of Works: <span class="text-primary">{{totalWorks}}</span></h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+      <div class="d-flex justify-content-between align-items-center mb-0">
+        <div class="filter-field flex-grow-1">
+          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterWGD($event)">
+        </div>
+        <div class="export-menu-container">
+          <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+          <mat-menu #exportMenu="matMenu">
+            <button mat-menu-item
+              (click)="exporter.exportTable('xlsx', { fileName: 'WorkOrderIssued', sheet: 'WorkOrderIssued', Props: { Author: 'cgmsc' }})">Excel</button>
+            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+            <button mat-menu-item (click)="exportToPDFWGD()">PDF</button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <div class="table-responsive ">
+        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+          [dataSource]="dataSourceWOGD" #exporter="matTableExporter" matSort #sortWGD="matSort">
+
+          <!-- Serial Number Column -->
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
+          </ng-container>
+          <ng-container matColumnDef="head">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+            <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
+          </ng-container>
+          <ng-container matColumnDef="letterNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter No</th>
+            <td mat-cell *matCellDef="let element"> {{ element.letterNo }}/DT:{{ element.aaDate }} </td>
+          </ng-container>
+          <ng-container matColumnDef="district">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>District</th>
+            <td mat-cell *matCellDef="let element"> {{ element.district }} </td>
+          </ng-container>
+          <ng-container matColumnDef="blockname">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Block</th>
+            <td mat-cell *matCellDef="let element"> {{ element.blockname }} </td>
+          </ng-container>
+          <ng-container matColumnDef="work">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
+            <td mat-cell *matCellDef="let element"> {{ element.work }} </td>
+          </ng-container>
+          <ng-container matColumnDef="wrokOrderDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Wrok Order DT</th>
+            <td mat-cell *matCellDef="let element"> {{ element.wrokOrderDT }} </td>
+          </ng-container>
+          <ng-container matColumnDef="timeAllowed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Time (month)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.timeAllowed }} </td>
+          </ng-container>
+          <ng-container matColumnDef="dueDTTimePerAdded">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Due DT Completion</th>
+            <td mat-cell *matCellDef="let element"> {{ element.dueDTTimePerAdded }} </td>
+          </ng-container>
+          <ng-container matColumnDef="agreementRefNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ref. No</th>
+            <td mat-cell *matCellDef="let element"> {{ element.agreementRefNo}}/No:{{element.workorderRefNoGovt}} </td>
+          </ng-container>
+          <ng-container matColumnDef="aaamt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AS (In lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.aaamt}} </td>
+          </ng-container>
+          
+          <!-- <ng-container matColumnDef="tsDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tsDate}} </td>
+          </ng-container> -->
+          <ng-container matColumnDef="tsamt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>TS (In lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tsamt}}/DT:{{ element.tsDate}} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="sanctionRate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sanction Rate </th>
+            <td mat-cell *matCellDef="let element"> {{ element.sanctionRate }}/{{element.sanctionDetail}} </td>
+          </ng-container>
+          <ng-container matColumnDef="totalAmountOfContract">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value (In lacs)</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalAmountOfContract }} </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="contractorNAme">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+            <td mat-cell *matCellDef="let element"> {{ element.contractorNAme }}/{{ element.mobNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tenderReference">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tender Ref.</th>
+            <td mat-cell *matCellDef="let element"> {{ element.tenderReference }} </td>
+          </ng-container>
+          <ng-container matColumnDef="acceptLetterDT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Accepted Info</th>
+            <td mat-cell *matCellDef="let element"> {{ element.acceptLetterDT }}/NO:{{element.acceptanceLetterRefNo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="work_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+            <td mat-cell *matCellDef="let element"> {{ element.work_id }} </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Download AS</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                 <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                  (click)="onButtonClick2(0,element.work_id)">
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container>
+          <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
+          <!-- Header Row -->
+          <tr mat-header-row
+            *matHeaderRowDef="['sno', 'head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','agreementRefNo','letterNo','tsamt','sanctionRate','totalAmountOfContract','tenderReference','acceptLetterDT','contractorNAme','work_id','action']">
+          </tr>
+
+          <!-- Data Rows -->
+          <tr mat-row
+            *matRowDef="let row; columns: ['sno', 'head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','agreementRefNo','letterNo','tsamt','sanctionRate','totalAmountOfContract','tenderReference','acceptLetterDT','contractorNAme','work_id','action'];">
+          </tr>
+        </table>
+        <mat-paginator #paginatorWGD [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
       </div>
     </div>
 

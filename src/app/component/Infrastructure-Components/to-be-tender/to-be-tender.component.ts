@@ -295,9 +295,9 @@ export class ToBeTenderComponent {
             { dataPointIndex, seriesIndex }
           ) => {
             const selectedCategory =
-              this.chartOptionsLine2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+              this.chartOptionsLine?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
             const selectedSeries =
-              this.chartOptionsLine2?.series?.[seriesIndex]?.name;
+              this.chartOptionsLine?.series?.[seriesIndex]?.name;
             if (selectedCategory && selectedSeries) {
               const apiData = this.TobetenderGTotal; // Replace with the actual data source or API response
               const selectedData = apiData.find(

@@ -254,6 +254,23 @@ export class DMEAIvsIssue{
     issueitems!: number;
     issuedValuecr!: number;
 }
+export class DMEIssueWihtoutAI{
+    issueYearID!: number;
+    accyear!: string;
+    nositemsissued!: number;
+    issuedValuecr!: number;
+}
+
+export class CollegeHospital_AIvsIssue{
+    facilityid!: number;
+    facilityname!: string;
+    nousitemsIndent!: number;
+    issuenous!: number;
+    issuedcr!: number;
+}
+export class ClgHos_IssueWihtoutAI{
+    
+}
 
 
   

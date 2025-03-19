@@ -356,7 +356,7 @@ isPasswordVisible: boolean = false;
     }
   }
   verifyOTPOther() {
-    
+    debugger
     if (this.otp.length === 5) {
       
   
@@ -454,7 +454,7 @@ handleCgmsclLogin() {
     this.toastr.success('Logged in Successfully');
     console.log('login details',res)
     // this.router.navigate(['home'])
-    this.router.navigate(['home']);
+    this.router.navigate(['/home']);
     // Redirect to category selector after login
   } else {
     this.invalidLogin = true
