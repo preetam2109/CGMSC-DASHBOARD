@@ -21,12 +21,17 @@ import { ASFile, DashProgressCount, DetailProgressTinP, DistrictNameDME,TotalWor
     TenderEvaluation,
     TenderEvaluationDetails,
     WOpendingScheme,
+
     WOpendingTotal,LIPendingTotal,
     WorkOrderPendingDetailsNew,
     LandIssueDetails,
     WorkOrderIssued,
     WorkGenDetails,
     TenderStatus} from 'src/app/Model/DashProgressCount';
+
+    WOpendingTotal,
+    WorkOrderPendingDetailsNew} from 'src/app/Model/DashProgressCount';
+
 import { ApiService } from 'src/app/service/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ApexYAxis, 
@@ -237,6 +242,7 @@ export class SchemeWiseDetailsComponent {
   @ViewChild('paginatorHandover') paginatorHandover!: MatPaginator;
   @ViewChild('itemDetailsModalHandover') itemDetailsModalHandover: any;
   dataSourceHanover!: MatTableDataSource<GetHandoverDetails>;
+
   chartHandover!: ChartOptions;
   chartHandover1!: ChartOptions;
   chartHandover2!: ChartOptions;
@@ -343,6 +349,98 @@ export class SchemeWiseDetailsComponent {
   //#endregion
   constructor( public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,
     private dialog: MatDialog,private fb: FormBuilder,public datePipe: DatePipe ) {
+
+    chartHandover!: ChartOptions;
+    chartHandover1!: ChartOptions;
+    chartHandover2!: ChartOptions;
+    chartHandover3!: ChartOptions;
+    // chartHandover4!: ChartOptions;
+   dispatchDataHandover: GetHandoverDetails[] = [];
+    HandoverAbstractTotalData: HandoverAbstract[] = [];
+    HandoverAbstractSchemeData: HandoverAbstract[] = [];
+    HandoverAbstractDistrictData: HandoverAbstract[] = [];
+    HandoverAbstractWorkTypeData: HandoverAbstract[] = [];
+    // unpaid
+      chartUnPaid!: ChartOptions; // For bar chart
+      chartUnPaid1!: ChartOptions; // For bar charta
+      chartUnPaid2!: ChartOptions; // For line chart
+      chartUnPaid3!: ChartOptions; // For line chart
+
+      chartPaid!: ChartOptions; // For bar chart
+      chartPaid1!: ChartOptions; // For bar charta
+      chartPaid2!: ChartOptions; // For line chart
+      chartPaid3!: ChartOptions; // For line chart
+      dataSourcePaid!: MatTableDataSource<PaidDetails>;
+        dataSourceUnPaid!: MatTableDataSource<UnPaidDetails>;
+    
+      @ViewChild('sortUnPaid') sortUnPaid!: MatSort;
+      @ViewChild('paginatorUnPaid') paginatorUnPaid!: MatPaginator;
+      @ViewChild('itemDetailsModalUnPaid') itemDetailsModalUnPaid: any;
+      @ViewChild('sortPaid') sortPaid!: MatSort;
+      @ViewChild('paginatorPaid') paginatorPaid!: MatPaginator;
+      @ViewChild('itemDetailsModalPaid') itemDetailsModalPaid: any;
+        dispatchDataPaid: PaidDetails[] = [];
+        dispatchDataUnPaid: UnPaidDetails[] = [];
+      
+        PaidSummaryTotal: PaidSummary[] = [];
+        PaidSummaryDivision: PaidSummary[] = [];
+        PaidSummaryScheme: PaidSummary[] = [];
+        PaidSummaryDistrict: PaidSummary[] = [];
+      
+        UnPaidSummaryTotal: UnPaidSummary[] = [];
+        UnPaidSummaryDivision: UnPaidSummary[] = [];
+        UnPaidSummaryScheme: UnPaidSummary[] = [];
+        UnPaidSummaryDesignation: UnPaidSummary[] = [];
+
+        // Live Tender
+        dataSourceLiveTender!: MatTableDataSource<TenderDetails>;
+        @ViewChild('paginatorLivet') paginatorLivet!: MatPaginator;
+        @ViewChild('sortLivet') sortLivet!: MatSort;
+        @ViewChild('itemDetailsModalLT') itemDetailsModalLT: any;
+        dispatchDataLiveTender: TenderDetails[] = [];
+         LiveTenderScheme: LiveTenderdata[] = [];
+         LiveTenderDivision: LiveTenderdata[] = [];
+         chartliveTenderTO!: ChartOptions; // For bar chart
+         chartliveTenderDiv!: ChartOptions; // For bar chart
+// Tender Evalution
+ @ViewChild('itemDetailsModalTE') itemDetailsModalTE: any;
+        chartOptionsTEScheme!: ChartOptions; // For bar chart
+        chartOptionsTESDivision!: ChartOptions; // For bar chart
+         TenderEvaluationDivision: TenderEvaluation[] = [];
+            TenderEvaluationScheme: TenderEvaluation[] = [];
+            dataSourceTenderE!: MatTableDataSource<TenderEvaluationDetails>;
+            dispatchDataTenderE: TenderEvaluationDetails[] = [];
+
+             @ViewChild('paginatorTenderE') paginatorTenderE!: MatPaginator;
+               @ViewChild('sortTenderE') sortTenderE!: MatSort;
+
+
+              //  
+              @ViewChild('paginatorWOP') paginatorWOP!: MatPaginator;
+              @ViewChild('sortWOP') sortWOP!: MatSort;
+              @ViewChild('itemDetailsModalWOP') itemDetailsModalWOP: any;
+              dataSourceWorkP!: MatTableDataSource<WorkOrderPendingDetailsNew>;
+              dispatchDataWOP: WorkOrderPendingDetailsNew[] = [];
+                chartOptionsWOPScheme!: ChartOptions; // For bar chart
+                chartOptionsWOPDivision!: ChartOptions; // For bar chart
+              wOpendingDivision:WOpendingTotal[]=[];
+                wOpendingScheme:WOpendingScheme[]=[];
+         nosWorks:any;
+        TimeStatus: any;
+        visibale:boolean=false;
+  noofWorksGreater7Days: any;
+
+
+          //#endregion
+  constructor(
+    public api: ApiService,
+    public spinner: NgxSpinnerService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    public datePipe: DatePipe
+  ) {
+
     this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSourceCom_Han = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSourceRun_Work = new MatTableDataSource<WORunningHandDetails>([]);
@@ -352,12 +450,19 @@ export class SchemeWiseDetailsComponent {
     this.dataSource3 = new MatTableDataSource<TenderInProcess>([]);
     this.dataSource4 = new MatTableDataSource<TotalWorksAbstract>([]);
     this.dataSourceHanover = new MatTableDataSource<GetHandoverDetails>([]);
+
     this.dataSourcePaid = new MatTableDataSource<PaidDetails>([]);
     this.dataSourceUnPaid = new MatTableDataSource<UnPaidDetails>([]);
     this.dataSourceLiveTender = new MatTableDataSource<TenderDetails>([]);
     this.dataSourceTenderE = new MatTableDataSource<TenderEvaluationDetails>([]);
     this.dataSourceLI = new MatTableDataSource<LandIssueDetails>([]);
     this.dataSourceWOGD = new MatTableDataSource<WorkGenDetails>([]);
+
+      this.dataSourcePaid = new MatTableDataSource<PaidDetails>([]);
+        this.dataSourceUnPaid = new MatTableDataSource<UnPaidDetails>([]);
+        this.dataSourceLiveTender = new MatTableDataSource<TenderDetails>([]);
+        this.dataSourceTenderE = new MatTableDataSource<TenderEvaluationDetails>([]);
+
   }
 
   ngOnInit() {
@@ -405,8 +510,11 @@ export class SchemeWiseDetailsComponent {
     this.initializeChartOptionsLiveTender();
     this.initializeChartOptionsTenderE();
     this.initializeChartOptionsWOP();
+
     this.initializeChartOptionsLI();
     this.initializeChartOptionsTobeTender();
+
+
     this.dateRange.valueChanges.subscribe(() => {
       this.HandoverAbstractRPTypeTotal();
       this.handoverAbstractRPTypeScheme();
@@ -418,9 +526,11 @@ export class SchemeWiseDetailsComponent {
       this.GETPaidSummaryDivision();
       // this.GETPaidSummaryScheme();
     });
+
     this.dateRange2.valueChanges.subscribe(() => {
       this.GetWOIssueTotal();
     });
+
   }
   //#region Scheme-Wise Work Abstract
   loadInitialData() {
@@ -2270,7 +2380,24 @@ export class SchemeWiseDetailsComponent {
        this.TenderStatusTotal()
 
 
+
       // this.
+
+    // this.GETPaidSummaryTotal();
+    this.GETPaidSummaryDivision();
+    this.GETPaidSummaryScheme();
+
+    this.GETLiveTenderScheme();
+    this.GETLiveTenderDivision();
+
+    this.GETTenderEvaluationScheme();
+    this.GETTenderEvaluationDivision();
+
+    this.GetWOPendingScheme();
+    this.GetWOPendingTotal();
+
+    // this.
+
     } else {
       alert('Selected districT_ID not found in the list.');
     }
@@ -4177,9 +4304,15 @@ export class SchemeWiseDetailsComponent {
     // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
+
     const SWId = 0;
     const dashid = 4001;
     const startDate = this.dateRange.value.start;
+
+    const SWId=0;
+    const dashid=4001;
+     const startDate = this.dateRange.value.start;
+
     const endDate = this.dateRange.value.end;
     // const datePipe = new DatePipe('en-US');
     // this.fromdt = startDate ? datePipe.transform(new Date(startDate), 'dd-MM-yyyy') : '';
@@ -4190,6 +4323,7 @@ export class SchemeWiseDetailsComponent {
     this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
+
     this.api
       .GetHandoverDetails(
         dashid,
@@ -4210,6 +4344,16 @@ export class SchemeWiseDetailsComponent {
           );
           this.dataSourceHanover.data = this.dispatchDataHandover;
           // console.log(this.dataSource.data);
+
+    this.api.GetHandoverDetails(dashid,divisionID, this.mainSchemeID, distid,SWId,this.fromdt,this.todt).subscribe(
+      (res) => {
+        this.dispatchDataHandover = res.map((item: GetHandoverDetails, index: number) => ({
+          ...item,
+          sno: index + 1
+        }));
+        this.dataSourceHanover.data = this.dispatchDataHandover;
+        // console.log(this.dataSource.data);
+
           // @ViewChild('sortHandover') sortHandover!: MatSort;
           // @ViewChild('paginatorHandover') paginatorHandover!: MatPaginator;
           this.dataSourceHanover.paginator = this.paginatorHandover;
@@ -4241,8 +4385,13 @@ export class SchemeWiseDetailsComponent {
     }
     // const distid = 0;
     // const mainSchemeId = 0;
+
     const SWId = 0;
     const dashid = 4001;
+
+    const SWId=0;
+    const dashid=4001;
+
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     // const datePipe = new DatePipe('en-US');
@@ -4256,6 +4405,7 @@ export class SchemeWiseDetailsComponent {
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
+
     this.api
       .GetHandoverDetails(
         dashid,
@@ -4276,6 +4426,27 @@ export class SchemeWiseDetailsComponent {
           );
           this.dataSourceHanover.data = this.dispatchDataHandover;
           // console.log(this.dataSource.data);
+
+    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId,this.fromdt,this.todt).subscribe(
+      (res) => {
+        this.dispatchDataHandover = res.map((item: GetHandoverDetails, index: number) => ({
+          ...item,
+          sno: index + 1
+        }));
+        this.dataSourceHanover.data = this.dispatchDataHandover;
+        // console.log(this.dataSource.data);
+        
+        this.dataSourceHanover.paginator = this.paginatorHandover;
+        this.dataSourceHanover.sort = this.sortHandover;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+    this.openDialogHandover();
+
 
           this.dataSourceHanover.paginator = this.paginatorHandover;
           this.dataSourceHanover.sort = this.sortHandover;
@@ -4305,8 +4476,13 @@ export class SchemeWiseDetailsComponent {
       this.divisionid = 0;
     }
     const mainSchemeId = 0;
+
     const SWId = 0;
     const dashid = 4001;
+
+    const SWId=0;
+    const dashid=4001; 
+
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     // const datePipe = new DatePipe('en-US');
@@ -4320,6 +4496,7 @@ export class SchemeWiseDetailsComponent {
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
+
     this.api
       .GetHandoverDetails(
         dashid,
@@ -4340,6 +4517,27 @@ export class SchemeWiseDetailsComponent {
           );
           this.dataSourceHanover.data = this.dispatchDataHandover;
           // console.log(this.dataSource.data);
+
+    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId, distid,SWId,this.fromdt,this.todt).subscribe(
+      (res) => {
+        this.dispatchDataHandover = res.map((item: GetHandoverDetails, index: number) => ({
+          ...item,
+          sno: index + 1
+        }));
+        this.dataSourceHanover.data = this.dispatchDataHandover;
+        // console.log(this.dataSource.data);
+       
+        this.dataSourceHanover.paginator = this.paginatorHandover;
+        this.dataSourceHanover.sort = this.sortHandover;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+    this.openDialogHandover();
+
 
           this.dataSourceHanover.paginator = this.paginatorHandover;
           this.dataSourceHanover.sort = this.sortHandover;
@@ -4368,7 +4566,11 @@ export class SchemeWiseDetailsComponent {
     // const distid = 0;
     const mainSchemeId = 0;
     // const SWId=0;
+
     const dashid = 4001;
+
+    const dashid=4001; 
+
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     // const datePipe = new DatePipe('en-US');
@@ -4382,6 +4584,7 @@ export class SchemeWiseDetailsComponent {
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
+
     this.api
       .GetHandoverDetails(
         dashid,
@@ -4402,6 +4605,27 @@ export class SchemeWiseDetailsComponent {
           );
           this.dataSourceHanover.data = this.dispatchDataHandover;
           // console.log(this.dataSource.data);
+
+    this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId,this.fromdt,this.todt).subscribe(
+      (res) => {
+        this.dispatchDataHandover = res.map((item: GetHandoverDetails, index: number) => ({
+          ...item,
+          sno: index + 1
+        }));
+        this.dataSourceHanover.data = this.dispatchDataHandover;
+        // console.log(this.dataSource.data);
+       
+        this.dataSourceHanover.paginator = this.paginatorHandover;
+        this.dataSourceHanover.sort = this.sortHandover;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+    );
+    this.openDialogHandover();
+
 
           this.dataSourceHanover.paginator = this.paginatorHandover;
           this.dataSourceHanover.sort = this.sortHandover;
@@ -4952,6 +5176,7 @@ export class SchemeWiseDetailsComponent {
             }
           );
 
+
           this.chartUnPaid3.series = [
             {
               name: 'No of Works',
@@ -4978,6 +5203,34 @@ export class SchemeWiseDetailsComponent {
           this.chartUnPaid3.xaxis = { categories: name };
           this.cO = this.chartUnPaid3;
           this.cdr.detectChanges();
+
+        this.chartUnPaid.series = [
+          {
+            name: 'No of Works',
+            data: noofWorks,
+            color: '#eeba0b',
+          },
+          {
+            name: 'Un-paid Value(in Cr),',
+            data: unpaidcr,
+            color:'rgb(0, 227, 150)',
+            // color: 'rgb(0, 143, 251)',
+          },
+          // {
+          //   name: 'Total Value in Cr',
+          //   data: avgDaySinceM,
+          //   color: 'rgba(93, 243, 174, 0.85)',
+          // },
+          // {
+          //   name: 'Avg Days Pending Since Measurement',
+          //   data: avgDaySinceM,
+          //   color: 'rgba(250, 199, 161, 0.85)',
+          // },
+        ];
+        this.chartUnPaid.xaxis = { categories: name };
+        this.cO = this.chartUnPaid;
+        this.cdr.detectChanges();
+
 
           this.spinner.hide();
         },
@@ -5017,8 +5270,73 @@ export class SchemeWiseDetailsComponent {
       this.divisionid,
       'himisDistrictid',
       this.himisDistrictid,
+
       'mainSchemeID',
       this.mainSchemeID
+
+      this.mainSchemeID,
+    )
+    .subscribe(
+      (data: any) => {
+        this.UnPaidSummaryScheme = data;
+        // console.log('API Response total:', this.WoIssuedTotal);
+        // console.log('API Response data:', data);
+
+        const id: string[] = [];
+        const name: string[] = [];
+        const noofWorks: any[] = [];
+        const unpaidcr: number[] = [];
+        const avgDaySinceM: number[] = [];
+
+        data.forEach(
+          (item: {
+            name: string;
+            id: any;
+            noofWorks: any;
+            unpaidcr: number;
+            avgDaySinceM: any;
+          }) => {
+            id.push(item.id);
+            name.push(item.name);
+            noofWorks.push(item.noofWorks);
+            unpaidcr.push(item.unpaidcr);
+            avgDaySinceM.push(item.avgDaySinceM);
+          }
+        );
+
+        this.chartUnPaid3.series = [
+          {
+            name: 'No of Works',
+            data: noofWorks,
+            color: '#eeba0b',
+          },
+          {
+            name: 'Un-paid Value(in Cr),',
+            data: unpaidcr,
+            color:'rgb(0, 227, 150)',
+            // color: 'rgb(0, 143, 251)',
+          },
+          // {
+          //   name: 'Total Value in Cr',
+          //   data: avgDaySinceM,
+          //   color: 'rgba(93, 243, 174, 0.85)',
+          // },
+          // {
+          //   name: 'Avg Days Pending Since Measurement',
+          //   data: avgDaySinceM,
+          //   color: 'rgba(250, 199, 161, 0.85)',
+          // },
+        ];
+        this.chartUnPaid3.xaxis = { categories: name };
+        this.cO = this.chartUnPaid3;
+        this.cdr.detectChanges();
+
+        this.spinner.hide();
+      },
+      (error: any) => {
+        console.error('Error fetching data', error);
+      }
+
     );
     this.api
       .GETUnPaidSummary(
@@ -5339,6 +5657,7 @@ export class SchemeWiseDetailsComponent {
     const OfficerID = 0;
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+
     this.api
       .GETUnPaidDetails(
         divisionID,
@@ -5348,6 +5667,9 @@ export class SchemeWiseDetailsComponent {
         OfficerID
       )
       .subscribe(
+
+    this.api.GETUnPaidDetails(divisionID ,this.mainSchemeID,this.himisDistrictid,designame,OfficerID).subscribe(
+
         (res) => {
           this.dispatchDataUnPaid = res.map(
             (item: UnPaidDetails, index: number) => ({
@@ -5385,6 +5707,7 @@ export class SchemeWiseDetailsComponent {
     // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+
     this.api
       .GETUnPaidDetails(
         divisionID,
@@ -5409,6 +5732,24 @@ export class SchemeWiseDetailsComponent {
           this.cdr.detectChanges();
           this.spinner.hide();
         },
+
+    this.api.GETUnPaidDetails(divisionID,this.mainSchemeID,distid,designame,OfficerID).subscribe(
+      (res) => {
+        this.dispatchDataUnPaid = res.map(
+          (item: UnPaidDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        // console.log('PaidDetailsTotal:', res);
+        // console.log('PaidDetails2=:',  this.dispatchData);
+        this.dataSourceUnPaid.data = this.dispatchDataUnPaid;
+        this.dataSourceUnPaid.paginator = this.paginatorUnPaid;
+        this.dataSourceUnPaid.sort = this.sortUnPaid;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+
         (error) => {
           console.error('Error fetching data', error);
         }
@@ -5495,6 +5836,7 @@ export class SchemeWiseDetailsComponent {
     const OfficerID = 0;
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+
     this.api
       .GETUnPaidDetails(
         this.divisionid,
@@ -5519,6 +5861,24 @@ export class SchemeWiseDetailsComponent {
           this.cdr.detectChanges();
           this.spinner.hide();
         },
+
+    this.api.GETUnPaidDetails(this.divisionid,this.mainSchemeID,this.himisDistrictid,designame,OfficerID).subscribe(
+      (res) => {
+        this.dispatchDataUnPaid = res.map(
+          (item: UnPaidDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
+        // console.log('PaidDetailsTotal:', res);
+        // console.log('PaidDetails2=:',  this.dispatchData);
+        this.dataSourceUnPaid.data = this.dispatchDataUnPaid;
+        this.dataSourceUnPaid.paginator = this.paginatorUnPaid;
+        this.dataSourceUnPaid.sort = this.sortUnPaid;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+
         (error) => {
           console.error('Error fetching data', error);
         }
@@ -6634,6 +6994,7 @@ export class SchemeWiseDetailsComponent {
     //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
     // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
+
     console.log('this.mainSchemeID,=', this.mainSchemeID);
     // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
     this.api
@@ -6644,6 +7005,11 @@ export class SchemeWiseDetailsComponent {
         this.fromdt,
         this.todt
       )
+
+    console.log( 'this.mainSchemeID,=', this.mainSchemeID,)
+    // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
+    this.api.GETPaidDetails(divisionID,this.mainSchemeID,distid,this.fromdt,this.todt)
+
       .subscribe(
         (res) => {
           this.dispatchDataPaid = res.map(
@@ -6728,6 +7094,7 @@ export class SchemeWiseDetailsComponent {
       this.dataSourcePaid.paginator.firstPage();
     }
   }
+
   exportToPDFPaid() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -7036,6 +7403,304 @@ export class SchemeWiseDetailsComponent {
         this.mainSchemeID,
         this.TimeStatus
       )
+=======
+}
+exportToPDFPaid() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    // 'sno', 'head','district','division','workname','wrokOrderDT','billno','agrbillstatus',
+    // 'totalamountofcontract','grosspaid','totalpaidtillinlac','chequeDT','mesurementDT','worK_ID'
+    { title: 'S.No', dataKey: 'sno' },
+    // { title: 'letterno', dataKey: 'letterno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division', dataKey: 'division' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Work', dataKey: 'workname' },
+    { title: 'Work Order DT', dataKey: 'wrokOrderDT' },
+    { title: 'Bill No.', dataKey: 'billno' },
+    { title: 'AGR Bill Status', dataKey: 'agrbillstatus' },
+    { title: 'Contract Value (In lacs)', dataKey: 'totalamountofcontract' },
+    { title: 'Gross Paid Value (In lacs)', dataKey: 'grosspaid' },
+    { title: 'Total Paid Till(In lacs)', dataKey: 'totalpaidtillinlac' },
+    { title: 'Cheque DT.', dataKey: 'chequeDT' },
+    { title: 'Measurement DT', dataKey: 'mesurementDT' },
+    { title: 'WorK ID', dataKey: 'worK_ID' },
+  ];
+  const rows = this.dispatchDataPaid.map((row) => ({
+    sno: row.sno,
+    head: row.head,
+    district: row.district,
+    division: row.division,
+    workname: row.workname,
+    wrokOrderDT: row.wrokOrderDT,
+    billno: row.billno,
+    agrbillstatus: row.agrbillstatus,
+    totalamountofcontract: row.totalamountofcontract,
+    grosspaid: row.grosspaid,
+    totalpaidtillinlac: row.totalpaidtillinlac,
+    chequeDT: row.chequeDT,
+    mesurementDT: row.mesurementDT,
+    worK_ID: row.worK_ID,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+  });
+
+  doc.save('PaymentDetail.pdf');
+}
+openDialogPaid() {
+  const dialogRef = this.dialog.open(this.itemDetailsModalPaid, {
+    width: '100%',
+    height: '100%',
+    maxWidth: '100%',
+    panelClass: 'full-screen-dialog', // Optional for additional styling
+    data: {
+      /* pass any data here */
+    },
+    // width: '100%',
+    // maxWidth: '100%', // Override default maxWidth
+    // maxHeight: '100%', // Override default maxHeight
+    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+    // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log('Dialog closed');
+  });
+}
+// #endregion
+  // #region Get APT data Live Tender
+initializeChartOptionsLiveTender() {
+  this.chartliveTenderTO = {
+    series: [],
+    chart: {
+      type: 'bar',
+      stacked: false,
+      // height: 'auto',
+      // height:400,
+      // height: 200,
+      // width:500,
+      events: {
+        dataPointSelection: (
+          event,
+          chartContext,
+          { dataPointIndex, seriesIndex }
+        ) => {
+          const selectedCategory =
+            this.chartliveTenderTO?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+          const selectedSeries =
+            this.chartliveTenderTO?.series?.[seriesIndex]?.name;
+          // Ensure the selectedCategory and selectedSeries are valid
+          if (selectedCategory && selectedSeries) {
+            const apiData = this.LiveTenderScheme; // Replace with the actual data source or API response
+            // Find the data in your API response that matches the selectedCategory
+            const selectedData = apiData.find(
+              (data) => data.name === selectedCategory
+            );
+            // console.log("selectedData chart1",selectedData)
+            if (selectedData) {
+              const id = selectedData.id; // Extract the id from the matching entry
+              this.name= selectedData.name;
+              this.nosWorks= selectedData.nosWorks;
+              this.fetchDataBasedOnChartSelectionSchemeLIT(id, selectedSeries);
+            } else {
+              console.log(
+                `No data found for selected category: ${selectedCategory}`
+              );
+            }
+          } else {
+            console.log('Selected category or series is invalid.');
+          }
+        },
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth:'30%',
+        borderRadius:3,
+        distributed: false,
+        dataLabels: {
+          position: 'top', // top, center, bottom
+        },
+      },
+    },
+    xaxis: {
+      categories: [],
+      // position: 'top',
+    },
+    yaxis: {
+      title: {
+        text: undefined,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        // colors: ['#FF0000']
+        colors: ['#000'],
+      },
+    },
+    stroke: {
+      width: 1,
+      // colors: ['#000'],
+      colors: ['#fff'],
+    },
+    title: {
+      // text: 'Live Tenders ',
+      align: 'center',
+      style: {
+        fontSize: '12px',
+        // color: '#000'
+        color: '#6e0d25',
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: function (val: any) {
+          return val.toString();
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'center',
+      offsetX: 40,
+    },
+  };
+
+  this.chartliveTenderDiv = {
+    series: [],
+    chart: {
+      type: 'bar',
+      stacked: true,
+      // height: 'auto',
+      // height:400,
+      // height: 200,
+      // width:600,
+      events: {
+        dataPointSelection: (
+          event,
+          chartContext,
+          { dataPointIndex, seriesIndex }
+        ) => {
+          const selectedCategory =
+            this.chartliveTenderDiv?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+          const selectedSeries =
+            this.chartliveTenderDiv?.series?.[seriesIndex]?.name;
+          // Ensure the selectedCategory and selectedSeries are valid
+          if (selectedCategory && selectedSeries) {
+            const apiData = this.LiveTenderDivision; // Replace with the actual data source or API response
+            // Find the data in your API response that matches the selectedCategory
+            const selectedData = apiData.find(
+              (data) => data.name === selectedCategory
+            );
+            // console.log("selectedData chart1",selectedData)
+            if (selectedData) {
+              const id = selectedData.id; // Extract the id from the matching entry
+              this.name= selectedData.name;
+              this.nosWorks= selectedData.nosWorks;
+              this.fetchDataBasedOnChartSelectionDivisionLIT(id, selectedSeries);
+            } else {
+              console.log(
+                `No data found for selected category: ${selectedCategory}`
+              );
+            }
+          } else {
+            console.log('Selected category or series is invalid.');
+          }
+        },
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+      },
+    },
+    xaxis: {
+      categories: [],
+    },
+    yaxis: {
+      title: {
+        text: undefined,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        // colors: ['#FF0000']
+        colors: ['#000'],
+      },
+    },
+    stroke: {
+      width: 1,
+      // colors: ['#000'],
+      colors: ['#fff'],
+    },
+    title: {
+      // text: 'Division-wise Live Tenders',
+      align: 'center',
+      style: {
+        // fontSize: '12px',
+        fontSize: '15px',
+        // color: '#000'
+        color: '#6e0d25',
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: function (val: any) {
+          return val.toString();
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'center',
+      offsetX: 40,
+    },
+  };
+}
+
+GETLiveTenderDivision(): void {
+  this.spinner.show();
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');
+  // var RPType ='Division';
+  var RPType = 'Division';
+    this.chartliveTenderDiv.chart.height = '200px';
+    this.himisDistrictid = 0;
+    // this.mainschemeid=0;
+  } else if (roleName == 'Collector') {
+    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+  //  var RPType="District";
+  var RPType = 'Division';
+    this.divisionid = 0;
+    // this.mainschemeid=0;
+    this.chartliveTenderDiv.chart.height = '400px';
+  } else {
+    this.divisionid = 0;
+    this.himisDistrictid = 0;
+    // this.mainschemeid=0;
+    var RPType = 'Division';
+    this.chartliveTenderDiv.chart.height = '300';
+  }
+  this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+  
+  // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainSchemeID,this.TimeStatus )
+
       .subscribe(
         (data: any) => {
           this.LiveTenderDivision = data;
@@ -7085,6 +7750,7 @@ export class SchemeWiseDetailsComponent {
           this.chartliveTenderDiv.xaxis = { categories: name };
           this.cO = this.chartliveTenderDiv;
           // if(this.selectedTabIndex == 0){
+
           this.chartliveTenderDiv.title = {
             text: 'Division-wise Live Tenders ',
             align: 'center',
@@ -7097,6 +7763,20 @@ export class SchemeWiseDetailsComponent {
 
           // }else{
           //   this.chartliveTenderDiv.title={text: 'Division-wise Live Tenders',
+
+
+            this.chartliveTenderDiv.title={text: 'Division-wise Live Tenders ',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+
+          // }else{
+          //   this.chartliveTenderDiv.title={text: 'Division-wise Live Tenders',
+          
 
           //     // text: 'Live Tenders ',
           //     align: 'center',
@@ -7116,6 +7796,7 @@ export class SchemeWiseDetailsComponent {
         }
       );
   }
+
   GETLiveTenderScheme(): void {
     this.spinner.show();
     var roleName = localStorage.getItem('roleName');
@@ -7153,6 +7834,38 @@ export class SchemeWiseDetailsComponent {
         this.mainSchemeID,
         this.TimeStatus
       )
+
+GETLiveTenderScheme(): void {
+  this.spinner.show();
+  var roleName = localStorage.getItem('roleName');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');
+  // var RPType ='Division';
+  var RPType = 'Scheme';
+
+    this.chartliveTenderTO.chart.height = '200px';
+    this.himisDistrictid = 0;
+    // this.mainschemeid=0;
+  } else if (roleName == 'Collector') {
+    this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+  //  var RPType="District";
+   var RPType = 'Scheme';
+
+    this.divisionid = 0;
+    // this.mainschemeid=0;
+    this.chartliveTenderTO.chart.height = '400px';
+  } else {
+    this.divisionid = 0;
+    this.himisDistrictid = 0;
+    // this.mainschemeid=0;
+    this.chartliveTenderTO.chart.height = '300';
+    var RPType = 'Scheme';
+  }
+  this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+  // alert( this.TimeStatus)
+  // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainSchemeID,this.TimeStatus )
+
       .subscribe(
         (data: any) => {
           this.LiveTenderScheme = data;
@@ -7198,10 +7911,12 @@ export class SchemeWiseDetailsComponent {
               data: totalValuecr,
               color: 'rgba(93, 243, 174, 0.85)',
             },
+
           ];
           this.chartliveTenderTO.xaxis = { categories: name };
           this.cO = this.chartliveTenderTO;
           // if(this.selectedTabIndex == 0){
+
           this.chartliveTenderTO.title = {
             text: 'Scheme-wise Live Tenders ',
             align: 'center',
@@ -7214,6 +7929,20 @@ export class SchemeWiseDetailsComponent {
 
           // }else{
           //   this.chartliveTenderTO.title={text: 'Scheme-wise Pending To Open Tenders',
+
+
+            this.chartliveTenderTO.title={text: 'Scheme-wise Live Tenders ',
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            }
+
+          // }else{
+          //   this.chartliveTenderTO.title={text: 'Scheme-wise Pending To Open Tenders',
+          
 
           //     // text: 'Live Tenders ',
           //     align: 'center',
@@ -7233,6 +7962,7 @@ export class SchemeWiseDetailsComponent {
         }
       );
   }
+
 
   fetchDataBasedOnChartSelectionDivisionLIT(
     divisionID: any,
@@ -9406,4 +10136,1138 @@ export class SchemeWiseDetailsComponent {
     }
 
   // #endregion
+=======
+ fetchDataBasedOnChartSelectionDivisionLIT(  divisionID: any, seriesName: string ): void {
+      // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+      const distid = 0;
+      // const mainSchemeId = 0;
+     const TimeStatus="Live";
+      this.spinner.show();
+      // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+      this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+      // alert(this.TimeStatus);
+      this.api.GETTenderDetails(divisionID,this.mainSchemeID,distid,this.TimeStatus)
+        .subscribe(
+          (res) => {
+            this.dispatchDataLiveTender = res.map(
+              (item: TenderDetails, index: number) => ({
+                ...item,
+                sno: index + 1,
+              })
+            );
+            // console.log('res:', res);
+            // console.log('dispatchData=:', this.dispatchData);
+           
+            this.dataSourceLiveTender.data = this.dispatchDataLiveTender;
+            this.dataSourceLiveTender.paginator = this.paginatorLivet;
+            this.dataSourceLiveTender.sort = this.sortLivet;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            console.error('Error fetching data', error);
+          }
+        );
+      this.openDialogLiT();
+    }
+
+
+     fetchDataBasedOnChartSelectionSchemeLIT (  mainSchemeId: any, seriesName: string ): void {
+        // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+        const divisionID = 0;
+        const distid = 0;
+       const TimeStatus="Live";
+        this.spinner.show();
+        // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+        this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+        // alert(this.TimeStatus);
+        this.api.GETTenderDetails(divisionID,mainSchemeId,distid,this.TimeStatus)
+          .subscribe(
+            (res) => {
+              this.dispatchDataLiveTender = res.map(
+                (item: TenderDetails, index: number) => ({
+                  ...item,
+                  sno: index + 1,
+                })
+              );
+              // console.log('res:', res);
+              // console.log('dispatchData=:', this.dispatchData);
+              this.dataSourceLiveTender.data = this.dispatchDataLiveTender;
+              this.dataSourceLiveTender.paginator = this.paginatorLivet;
+              this.dataSourceLiveTender.sort = this.sortLivet;
+              this.cdr.detectChanges();
+              this.spinner.hide();
+            },
+            (error) => {
+              console.error('Error fetching data', error);
+            }
+          );
+        this.openDialogLiT();
+      }
+
+      applyTextFilterLIT(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSourceLiveTender.filter = filterValue.trim().toLowerCase();
+        if (this.dataSourceLiveTender.paginator) {
+          this.dataSourceLiveTender.paginator.firstPage();
+        }
+      }
+      exportToPDFLIT() {
+        const doc = new jsPDF('l', 'mm', 'a4');
+        const columns = [
+          { title: 'S.No', dataKey: 'sno' },
+          { title: 'AS Letter No', dataKey: 'letterno' },
+          { title: 'Head', dataKey: 'head' },
+          { title: 'AS Date', dataKey: 'aA_RAA_Date' },
+          { title: 'AS Amount', dataKey: 'asAmt' },
+          { title: 'District', dataKey: 'district' },
+          { title: 'Work ID', dataKey: 'work_id' },
+          { title: 'Work Name', dataKey: 'workname' },
+          { title: 'Start Dt', dataKey: 'startdt' },
+          { title: 'End Dt', dataKey: 'enddt' },
+          { title: 'NO of Calls', dataKey: 'noofcalls' },
+          { title: 'e-Procno', dataKey: 'eprocno' },
+          { title: 'NIT NO', dataKey: 'tenderno' },
+        ];
+        const rows = this.dispatchDataLiveTender.map((row) => ({
+          sno: row.sno,
+          letterNo: row.letterno,
+          head: row.head,
+          aA_RAA_Date: row.aA_RAA_Date,
+          asAmt: row.asAmt,
+          district: row.district,
+          work_id: row.work_id,
+          workname: row.workname,
+          startdt: row.startdt,
+          enddt: row.enddt,
+          noofcalls: row.noofcalls,
+          tenderno: row.tenderno,
+          eprocno: row.eprocno,
+        }));
+      
+        autoTable(doc, {
+          columns: columns,
+          body: rows,
+          startY: 20,
+          theme: 'striped',
+          headStyles: { fillColor: [22, 160, 133] },
+        });
+      
+        doc.save('TenderDetails.pdf');
+      }
+      // mat-dialog box
+      openDialogLiT() {
+        const dialogRef = this.dialog.open(this.itemDetailsModalLT, {
+          width: '100%',
+          height: '100%',
+          maxWidth: '100%',
+          panelClass: 'full-screen-dialog', // Optional for additional styling
+          data: {
+            /* pass any data here */
+          },
+          // width: '100%',
+          // maxWidth: '100%', // Override default maxWidth
+          // maxHeight: '100%', // Override default maxHeight
+          // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+          // height: 'auto',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          console.log('Dialog closed');
+        });
+      }
+
+      // #endregion
+ // #region Get APT data Tender Evatuation
+ initializeChartOptionsTenderE() {
+  this.chartOptionsTESDivision = {
+    series: [],
+    chart: {
+      type: 'bar',
+      stacked: true,
+      // height: 'auto',
+      // height:400,
+      // height: 200,
+      // width:600,
+      events: {
+        dataPointSelection: (
+          event,
+          chartContext,
+          { dataPointIndex, seriesIndex }
+        ) => {
+          const selectedCategory =
+            this.chartOptionsTESDivision?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+          const selectedSeries =
+            this.chartOptionsTESDivision?.series?.[seriesIndex]?.name;
+          // Ensure the selectedCategory and selectedSeries are valid
+          if (selectedCategory && selectedSeries) {
+            const apiData = this.TenderEvaluationDivision; // Replace with the actual data source or API response
+            // Find the data in your API response that matches the selectedCategory
+            const selectedData = apiData.find(
+              (data) => data.name === selectedCategory
+            );
+            // console.log("selectedData chart1",selectedData)
+            if (selectedData) {
+              const id = selectedData.id; // Extract the id from the matching entry
+              this.selectedName= selectedData.name;
+              this.nosWorks= selectedData.nosWorks;
+              this.fetchDataBasedOnChartSelectionDivisionTenderE(id, selectedSeries);
+            } else {
+              console.log(
+                `No data found for selected category: ${selectedCategory}`
+              );
+            }
+          } else {
+            console.log('Selected category or series is invalid.');
+          }
+        },
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+      },
+    },
+    xaxis: {
+      categories: [],
+    },
+    yaxis: {
+      title: {
+        text: undefined,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        // colors: ['#FF0000']
+        colors: ['#000'],
+      },
+    },
+    stroke: {
+      width: 1,
+      // colors: ['#000'],
+      colors: ['#fff'],
+    },
+    title: {
+      text: 'Division-wise Technical Evaluation',
+      align: 'center',
+      style: {
+        fontSize: '12px',
+        // color: '#000'
+        color: '#6e0d25',
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: function (val: any) {
+          return val.toString();
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'center',
+      offsetX: 40,
+    },
+  };
+  this.chartOptionsTEScheme = {
+    series: [],
+    chart: {
+      type: 'bar',
+      stacked: false,
+      // height: 'auto',
+      // height:400,
+      // height: 200,
+      // width:500,
+      events: {
+        dataPointSelection: (
+          event,
+          chartContext,
+          { dataPointIndex, seriesIndex }
+        ) => {
+          const selectedCategory =
+            this.chartOptionsTEScheme?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+          const selectedSeries =
+            this.chartOptionsTEScheme?.series?.[seriesIndex]?.name;
+          // Ensure the selectedCategory and selectedSeries are valid
+          if (selectedCategory && selectedSeries) {
+            const apiData = this.TenderEvaluationScheme; // Replace with the actual data source or API response
+            // Find the data in your API response that matches the selectedCategory
+            const selectedData = apiData.find(
+              (data) => data.name === selectedCategory
+            );
+            // console.log("selectedData chart1",selectedData)
+            if (selectedData) {
+              const id = selectedData.id; // Extract the id from the matching entry
+              this.selectedName= selectedData.name;
+              this.nosWorks= selectedData.nosWorks;
+              this.fetchDataBasedOnChartSelectionSchemeTenderE(id, selectedSeries);
+            } else {
+              console.log(
+                `No data found for selected category: ${selectedCategory}`
+              );
+            }
+          } else {
+            console.log('Selected category or series is invalid.');
+          }
+        },
+      },
+    },
+    plotOptions: {
+      bar: {
+       horizontal: false,
+       columnWidth:'30%',
+       borderRadius:3,
+       distributed: false,
+        dataLabels: {
+          position: 'top', // top, center, bottom
+        },
+      },
+    },
+    xaxis: {
+      categories: [],
+      // position: 'top',
+    },
+    yaxis: {
+      title: {
+        text: undefined,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        // colors: ['#FF0000']
+        colors: ['#000'],
+      },
+    },
+    stroke: {
+      width: 1,
+      // colors: ['#000'],
+      colors: ['#fff'],
+    },
+    title: {
+      text: 'Technical Evaluation Summary',
+      align: 'center',
+      style: {
+        fontSize: '12px',
+        // color: '#000'
+        color: '#6e0d25',
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: function (val: any) {
+          return val.toString();
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'center',
+      offsetX: 40,
+    },
+  };
+ }
+
+ GETTenderEvaluationDivision(): void {
+this.spinner.show();
+var roleName = localStorage.getItem('roleName');
+if (roleName == 'Division') {
+ this.divisionid = sessionStorage.getItem('divisionID');
+var RPType ='Division';
+ this.chartOptionsTESDivision.chart.height = '200px';
+ this.himisDistrictid = 0;
+ this.mainschemeid=0;
+} else if (roleName == 'Collector') {
+ this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+var RPType="District";
+ this.divisionid = 0;
+ this.mainschemeid=0;
+ this.chartOptionsTESDivision.chart.height = '400px';
+} else {
+ this.divisionid = 0;
+ this.himisDistrictid = 0;
+ this.mainschemeid=0;
+ this.chartOptionsTESDivision.chart.height = '300';
+}
+this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+var RPType = 'Division';
+// RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+ this.api.GETTenderEvaluation( RPType, this.divisionid,this.himisDistrictid,this.mainSchemeID)
+   .subscribe(
+     (data: any) => {
+       this.TenderEvaluationDivision = data;
+       // console.log('API Response total:', this.WoIssuedTotal);
+       // console.log('API Response data:', data);
+
+       const id: string[] = [];
+       const name: string[] = [];
+       const nosWorks: any[] = [];
+       const nosTender: number[] = [];
+       const totalValuecr: number[] = [];
+       const avgDaysSince: number[] = [];
+
+       data.forEach(
+         (item: {
+           name: string;
+           id: any;
+           nosWorks: any;
+           nosTender: number;
+           totalValuecr: any;avgDaysSince:any
+         }) => {
+           id.push(item.id);
+           name.push(item.name);
+           nosWorks.push(item.nosWorks);
+           nosTender.push(item.nosTender);
+           totalValuecr.push(item.totalValuecr);
+           avgDaysSince.push(item.avgDaysSince);
+         }
+       );
+
+       this.chartOptionsTESDivision.series = [
+        {
+          name: 'No. of Works',
+          data: nosWorks,
+          color: '#eeba0b',
+        },
+        {
+          name: 'No. of Tender',
+          data: nosTender,
+         //  color: 'rgb(0, 143, 251)',
+         color: '#6a6afd',
+        },
+        {
+          name: 'Value(in Cr)',
+          data: totalValuecr,
+          color: 'rgba(93, 243, 174, 0.85)',
+        },
+       //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+        { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+       ];
+       this.chartOptionsTESDivision.xaxis = { categories: name };
+       this.cO = this.chartOptionsTESDivision;
+       this.cdr.detectChanges();
+
+       this.spinner.hide();
+     },
+     (error: any) => {
+       console.error('Error fetching data', error);
+     }
+   );
+}
+GETTenderEvaluationScheme(): void {
+this.spinner.show();
+var roleName = localStorage.getItem('roleName');
+if (roleName == 'Division') {
+ this.divisionid = sessionStorage.getItem('divisionID');
+var RPType ='Division';
+ this.chartOptionsTEScheme.chart.height = '200px';
+ this.himisDistrictid = 0;
+ this.mainschemeid=0;
+} else if (roleName == 'Collector') {
+ this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+var RPType="District";
+ this.divisionid = 0;
+ this.mainschemeid=0;
+ this.chartOptionsTEScheme.chart.height = '400px';
+} else {
+ this.divisionid = 0;
+ this.himisDistrictid = 0;
+ this.mainschemeid=0;
+ this.chartOptionsTEScheme.chart.height = '300';
+}
+this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+// alert( this.TimeStatus)
+var RPType = 'Scheme';
+// RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+ this.api.GETTenderEvaluation( RPType, this.divisionid,this.himisDistrictid,this.mainSchemeID)
+   .subscribe(
+     (data: any) => {
+       this.TenderEvaluationScheme = data;
+       // console.log('API Response total:', this.WoIssuedTotal);
+       // console.log('API Response data:', data);
+
+       const id: string[] = [];
+       const name: string[] = [];
+       const nosWorks: any[] = [];
+       const nosTender: number[] = [];
+       const totalValuecr: number[] = [];
+       const avgDaysSince: number[] = [];
+
+       data.forEach(
+         (item: {
+           name: string;
+           id: any;
+           nosWorks: any;
+           nosTender: number;
+           totalValuecr: any;avgDaysSince:any
+         }) => {
+           id.push(item.id);
+           name.push(item.name);
+           nosWorks.push(item.nosWorks);
+           nosTender.push(item.nosTender);
+           totalValuecr.push(item.totalValuecr);
+           avgDaysSince.push(item.avgDaysSince);
+         }
+       );
+
+       this.chartOptionsTEScheme.series = [
+        {
+          name: 'No. of Works',
+          data: nosWorks,
+          color: '#eeba0b',
+        },
+        {
+          name: 'No. of Tender',
+          data: nosTender,
+         //  color: 'rgb(0, 143, 251)',
+         color: '#6a6afd',
+        },
+        {
+          name: 'Value(in Cr)',
+          data: totalValuecr,
+          color: 'rgba(93, 243, 174, 0.85)',
+        },
+       //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+        { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+       ];
+       this.chartOptionsTEScheme.xaxis = { categories: name };
+       this.cO = this.chartOptionsTEScheme;
+       this.cdr.detectChanges();
+
+       this.spinner.hide();
+     },
+     (error: any) => {
+       console.error('Error fetching data', error);
+     }
+   );
+} 
+
+fetchDataBasedOnChartSelectionSchemeTenderE(  mainSchemeId: any, seriesName: string ): void {
+//  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+ const divisionID = 0;
+ const distid = 0;
+const TimeStatus="Live";
+ this.spinner.show();
+ // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+ this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+ // alert(this.TimeStatus);
+ this.api.GETTenderEvaluationDetails(divisionID,mainSchemeId,distid)
+   .subscribe(
+     (res) => {
+       this.dispatchDataTenderE = res.map(
+         (item: TenderEvaluationDetails, index: number) => ({
+           ...item,
+           sno: index + 1,
+         })
+       );
+      //  console.log('res:', res);
+      //  console.log('dispatchData=:', this.dispatchData);
+     
+       this.dataSourceTenderE.data = this.dispatchDataTenderE;
+       this.dataSourceTenderE.paginator = this.paginatorTenderE;
+       this.dataSourceTenderE.sort = this.sortTenderE;
+       this.cdr.detectChanges();
+       this.spinner.hide();
+     },
+     (error) => {
+       console.error('Error fetching data', error);
+     }
+   );
+ this.openDialogTE();
+}
+
+fetchDataBasedOnChartSelectionDivisionTenderE(  divisionID: any, seriesName: string ): void {
+//  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+ const distid = 0;
+//  const mainSchemeId = 0;
+const TimeStatus="Live";
+ this.spinner.show();
+ // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+ this.TimeStatus=this.selectedTabIndex == 0?'Live':'Timeover';
+ // alert(this.TimeStatus);
+ this.api.GETTenderEvaluationDetails(divisionID,this.mainSchemeID,distid)
+   .subscribe(
+     (res) => {
+       this.dispatchDataTenderE = res.map(
+         (item: TenderEvaluationDetails, index: number) => ({
+           ...item,
+           sno: index + 1,
+         })
+       );
+      //  console.log('res:', res);
+      //  console.log('dispatchData=:', this.dispatchData);
+       this.dataSourceTenderE.data = this.dispatchDataTenderE;
+       this.dataSourceTenderE.paginator = this.paginatorTenderE;
+       this.dataSourceTenderE.sort = this.sortTenderE;
+       this.cdr.detectChanges();
+       this.spinner.hide();
+     },
+     (error) => {
+       console.error('Error fetching data', error);
+     }
+   );
+ this.openDialogTE();
+}
+
+applyTextFilterTE(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceTenderE.filter = filterValue.trim().toLowerCase();
+  if (this.dataSourceTenderE.paginator) {
+   this.dataSourceTenderE.paginator.firstPage();
+  }
+  }
+  exportToPDFTE() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+   { title: 'S.No', dataKey: 'sno' },
+   { title: 'AS Letter No', dataKey: 'letterno' },
+   { title: 'Head', dataKey: 'head' },
+   { title: 'AS Date', dataKey: 'aA_RAA_Date' },
+   { title: 'AS Amount', dataKey: 'asAmt' },
+   { title: 'District', dataKey: 'district' },
+   { title: 'Work ID', dataKey: 'work_id' },
+   { title: 'Work Name', dataKey: 'workname' },
+   { title: 'Start Dt', dataKey: 'startdt' },
+   { title: 'End Dt', dataKey: 'enddt' },
+   { title: 'NO of Calls', dataKey: 'noofcalls' },
+   { title: 'NIT NO', dataKey: 'tenderno' },
+   { title: 'Cover A Opened DT', dataKey: 'tOpnedDT' },
+   { title: 'Cover B Opened DT', dataKey: 'topnedbdt' },
+   { title: 'Days Since Cov A/B Opned', dataKey: 'daysSinceOpen' },
+   { title: 'e-Procno', dataKey: 'eprocno' },
+  ];
+  const rows = this.dispatchDataTenderE.map((row) => ({
+   sno: row.sno,
+   letterNo: row.letterno,
+   head: row.head,
+   aA_RAA_Date: row.aA_RAA_Date,
+   asAmt: row.asAmt,
+   district: row.district,
+   work_id: row.work_id,
+   workname: row.workname,
+   startdt: row.startdt,
+   enddt: row.enddt,
+   noofcalls: row.noofcalls,
+   tenderno: row.tenderno,
+   tOpnedDT: row.tOpnedDT,
+   topnedbdt: row.topnedbdt,
+   daysSinceOpen: row.daysSinceOpen,
+   eprocno: row.eprocno,
+  }));
+  
+  autoTable(doc, {
+   columns: columns,
+   body: rows,
+   startY: 20,
+   theme: 'striped',
+   headStyles: { fillColor: [22, 160, 133] },
+  });
+  
+  doc.save('TechnicalEvaluation.pdf');
+  }
+
+  openDialogTE() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalTE, {
+     width: '100%',
+     height: '100%',
+     maxWidth: '100%',
+     panelClass: 'full-screen-dialog', // Optional for additional styling
+     data: {
+       /* pass any data here */
+     },
+     // width: '100%',
+     // maxWidth: '100%', // Override default maxWidth
+     // maxHeight: '100%', // Override default maxHeight
+     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+     // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+     console.log('Dialog closed');
+    });
+    }
+ // #endregion
+ // #region Get APT data Work Order Pending
+
+ initializeChartOptionsWOP() {
+  this.chartOptionsWOPScheme = {
+    series: [],
+    chart: {
+      type: 'bar',
+      stacked: true,
+      // height: 'auto',
+      // height:400,
+      // height: 200,
+      // width:600,
+      events: {
+        dataPointSelection: (
+          event,
+          chartContext,
+          { dataPointIndex, seriesIndex }
+        ) => {
+          const selectedCategory = this.chartOptionsWOPScheme?.xaxis?.categories?.[dataPointIndex];  // This is likely just the category name (a string)
+          const selectedSeries = this.chartOptionsWOPScheme?.series?.[seriesIndex]?.name;
+          // Ensure the selectedCategory and selectedSeries are valid
+          if (selectedCategory && selectedSeries) {
+            const apiData = this.wOpendingScheme;  // Replace with the actual data source or API response
+            // Find the data in your API response that matches the selectedCategory
+            const selectedData = apiData.find((data) => data.name === selectedCategory);
+            // console.log("selectedData chart1",selectedData)
+            if (selectedData) {
+              const id = selectedData.id;  // Extract the id from the matching entry
+              this.name = selectedData.name;
+              this.noofWorksGreater7Days = selectedData.noofWorksGreater7Days;
+              this.fetchDataBasedOnChartSelectionmainSchemeWOP(id, selectedSeries);
+
+            } else {
+              console.log(`No data found for selected category: ${selectedCategory}`);
+            }
+          } else {
+            console.log('Selected category or series is invalid.');
+          }
+        }
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth:'30%',
+        borderRadius:3,
+        distributed: false,
+         dataLabels: {
+           position: 'top', // top, center, bottom
+         },
+       },
+    },
+    xaxis: {
+      categories: [],
+    },
+    yaxis: {
+      title: {
+        text: undefined,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        // colors: ['#FF0000']
+        colors: ['#000']
+      }
+    },
+    stroke: {
+      width: 1,
+      // colors: ['#000'],
+      colors: ['#fff'],
+    },
+    title: {
+      // text: 'Total Pending Total Works wise Progress ',
+      text: 'Work Order Pending',
+      align: 'center',
+      style: {
+        fontSize: '12px',
+        // color: '#000'
+        color: '#6e0d25'
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: function (val: any) {
+          return val.toString();
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'center',
+      offsetX: 40,
+    },
+  };
+  this.chartOptionsWOPDivision = {
+  
+    series: [],
+    chart: {
+      type: 'bar',
+      stacked: true,
+      // height: 600,
+      // height: 'auto',
+      // width:600,
+     events: {
+        dataPointSelection: (
+          event,
+          chartContext,
+          { dataPointIndex, seriesIndex }
+        ) => {
+          if (dataPointIndex !== undefined && seriesIndex !== undefined) {
+            const selectedCategory = this.chartOptionsWOPDivision?.xaxis?.categories?.[dataPointIndex];
+            const selectedSeries = this.chartOptionsWOPDivision?.series?.[seriesIndex]?.name;
+        
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.wOpendingDivision;
+              console.log('datasch:', apiData);
+            
+              if (Array.isArray(apiData)) {
+                // const selectedData = apiData.find((data) =>
+                //   data.name.trim().toLowerCase() === selectedCategory.trim().toLowerCase()   );
+                const selectedData = apiData.find((data) => data.name === selectedCategory);
+            // console.log("selectedData chart1",selectedData);
+             
+            
+                if (selectedData) {
+                  const id = selectedData.id;
+                  this.name = selectedData.name;
+                  this.noofWorksGreater7Days = selectedData.noofWorksGreater7Days;
+                  this.fetchDataBasedOnChartSelectionmainSchemeWOP(id, selectedSeries);
+                } else {
+                  console.error(`No data found for selected category: ${selectedCategory}`);
+                }
+              } else {
+                console.error('API Data is not an array:', apiData);
+              }
+            } else {
+              console.error('Selected category or series is invalid.');
+            }
+            
+          } else {
+            console.log('Invalid data point or series index.');
+          }
+        }
+        
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+      },
+    },
+    xaxis: {
+      categories: [],
+    },
+    yaxis: {
+      title: {
+        text: undefined,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      style: {
+        // colors: ['#FF0000']
+        colors: ['#000']
+      }
+    },
+    stroke: {
+      width: 1,
+      // colors: ['#000'],
+      colors: ['#fff'],
+    },
+    title: {
+      // text: 'Total Pending Works Scheme wise Progress District-wise Pending',
+      text: 'Scheme-wise Pending Work Order Pending ',
+      align: 'center',
+      style: {
+        fontSize: '12px',
+        // color: '#000'
+        color: '#6e0d25'
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: function (val: any) {
+          return val.toString();
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'center',
+      offsetX: 40,
+    },
+  };
+}
+
+GetWOPendingScheme(): void {
+  this.spinner.show();
+  var roleName  = localStorage.getItem('roleName');
+  if(roleName == 'Division'){
+  this.divisionid = sessionStorage.getItem('divisionID');
+  this.chartOptionsWOPScheme.chart.height = '500px';
+  this.himisDistrictid=0; 
+  }  else if (roleName == 'Collector') {
+  this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+  this.divisionid=0;
+  this.chartOptionsWOPScheme.chart.height = '500px';
+  }
+  else{
+    this.divisionid=0;
+    this.himisDistrictid=0; 
+    this.chartOptionsWOPScheme.chart.height = '400';
+  }
+ var RPType ='Scheme';
+  // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  var fromdt=0,todt=0;
+  this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid).subscribe(
+  // this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
+    (data: any) => {
+      this.wOpendingScheme = data;
+      // console.log('API Response Scheme:',  this.wOpendingScheme);
+      const name: string[] = [];
+      const id: string[] = [];
+      const pendingWork: any[] = [];
+      const contrctValuecr: number[] = [];
+      const noofWorksGreater7Days: any[] = [];
+      data.forEach((item: {
+        name: string; id: any; pendingWork: any; contrctValuecr: number;
+        noofWorksGreater7Days: any
+      }) => {
+        id.push(item.id);
+        name.push(item.name);
+        pendingWork.push(item.pendingWork);
+        contrctValuecr.push(item.contrctValuecr);
+        noofWorksGreater7Days.push(item.noofWorksGreater7Days);
+      });
+      this.chartOptionsWOPScheme.series = [
+
+        {
+          name: 'No of Works ',
+          data: pendingWork,
+          // color: '#0000FF'
+          color:'#eeba0b'
+        }
+        ,
+        {
+          name: 'Contact Value(in Cr)',
+          data: contrctValuecr,
+          // color:'#00b4d8'
+          // color:  'rgb(0, 128, 0)'
+          // color: '#eeba0b'
+        },
+        {
+          name: 'Pending more than 7 Days',
+          data: noofWorksGreater7Days,
+          color: '#fc7c84'
+          // color: 'rgb(144, 238, 144)'
+          // color: '#90EE90'
+         
+        },
+      ];
+
+      this.chartOptionsWOPScheme.xaxis = { categories: name };
+      this.cO = this.chartOptionsWOPScheme;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+
+
+
+GetWOPendingTotal(): void {
+  this.spinner.show();
+  var roleName  = localStorage.getItem('roleName');
+if(roleName == 'Division'){
+this.divisionid = sessionStorage.getItem('divisionID');
+this.chartOptionsWOPDivision.chart.height = '200px';
+this.himisDistrictid=0; 
+}  else if (roleName == 'Collector') {
+this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+this.divisionid=0;
+this.chartOptionsWOPDivision.chart.height = '400px';
+}
+else{
+  this.divisionid=0;
+  this.himisDistrictid=0; 
+  this.chartOptionsWOPDivision.chart.height = 'auto';
+}
+var RPType ='Total';
+  // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  // ?RPType=Scheme&divisionid=0&districtid=0&fromdt=0&todt=0
+  var fromdt=0,todt=0;
+  this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid).subscribe(
+  // this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
+    (data: any) => {
+      this.wOpendingDivision = data;
+      const name: string[] = [];
+      const id: string[] = [];
+      const pendingWork: any[] = [];
+      const contrctValuecr: number[] = [];
+      const noofWorksGreater7Days: any[] = [];
+      data.forEach((item: {
+        name: string; id: any; pendingWork: any; contrctValuecr: number;
+        noofWorksGreater7Days: any
+      }) => {
+        id.push(item.id);
+        name.push(item.name);
+        pendingWork.push(item.pendingWork);
+        contrctValuecr.push(item.contrctValuecr);
+        noofWorksGreater7Days.push(item.noofWorksGreater7Days);
+      });
+      this.chartOptionsWOPDivision.series = [
+        // {name: 'Total Pending Works', data: pendingWork,color:'#eeba0b'} ,
+        {name: ' No of Works', data: pendingWork,color:'#eeba0b'} ,
+        { name: 'Contact Value(in Cr)',data: contrctValuecr },
+        { name: 'Pending more than 7 Days', data: noofWorksGreater7Days, color: '#fc7c84' }, ];
+
+      this.chartOptionsWOPDivision.xaxis = { categories: name };
+      this.cO = this.chartOptionsWOPDivision;
+      this.cdr.detectChanges();
+
+      this.spinner.hide();
+
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+    }
+  );
+}
+
+fetchDataBasedOnChartSelectionDivisionWP(divisionID: any, seriesName: string): void {
+  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  const  distid=0;
+  // const mainSchemeId=0;
+  const contractid=0;
+  this.spinner.show();
+ 
+  this.api.GetWorkOrderPendingDetailsNew(divisionID,this.mainSchemeID,distid,contractid).subscribe(
+    (res) => {
+      this.dispatchDataWOP = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      // @ViewChild('paginatorWOP') paginatorWOP!: MatPaginator;
+      // @ViewChild('sortWOP') sortWOP!: MatSort;
+      // @ViewChild('itemDetailsModalWOP') itemDetailsModalWOP: any;
+
+      this.dataSourceWorkP.data = this.dispatchDataWOP;
+      this.dataSourceWorkP.paginator = this.paginatorWOP;
+      this.dataSourceWorkP.sort = this.sortWOP;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+  this.openDialogWOP();
+
+}
+fetchDataBasedOnChartSelectionmainSchemeWOP(mainSchemeId: any, seriesName: string): void {
+  // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+  var roleName  = localStorage.getItem('roleName');
+  if(roleName == 'Division'){
+  this.divisionid = sessionStorage.getItem('divisionID');
+  this.himisDistrictid=0; 
+  }  else if (roleName == 'Collector') {
+  this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
+  this.divisionid=0;
+  }
+  else{
+    this.divisionid=0;
+    this.himisDistrictid=0; 
+  }
+  // const  distid=0;
+  // const mainSchemeId=0;
+  // const divisionID=0;
+  const contractid=0;
+  this.spinner.show();
+ 
+  this.api.GetWorkOrderPendingDetailsNew(this.divisionid,mainSchemeId,this.himisDistrictid,contractid).subscribe(
+    (res) => {
+      this.dispatchDataWOP = res.map((item: WorkOrderPendingDetailsNew, index: number) => ({
+        ...item,
+        sno: index + 1
+      }));
+      // console.log('res:',res);
+      this.dataSourceWorkP.data = this.dispatchDataWOP;
+      this.dataSourceWorkP.paginator = this.paginatorWOP;
+      this.dataSourceWorkP.sort = this.sortWOP;
+      this.cdr.detectChanges();
+
+      this.spinner.hide();
+    },
+    (error) => {
+      console.error('Error fetching data', error);
+    }
+  );
+  this.openDialogWOP();
+
+}
+
+
+// data filter
+applyTextFilterWOP(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceWorkP.filter = filterValue.trim().toLowerCase();
+  if (this.dataSourceWorkP.paginator) {
+    this.dataSourceWorkP.paginator.firstPage();
+  }
+}
+exportToPDFWOP() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const columns = [
+    // ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
+    { title: "S.No", dataKey: "sno" },
+    { title: "letterNo", dataKey: "letterNo" },
+    { title: "head", dataKey: "head" },
+    { title: "acceptLetterDT", dataKey: "acceptLetterDT" },
+    { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
+    { title: "district", dataKey: "district" },
+    { title: "work", dataKey: "work" },
+    { title: "contractorNAme", dataKey: "contractorNAme" },
+    { title: "work_id", dataKey: "work_id" }
+  ];
+  const rows = this.dispatchDataWOP.map(row => ({
+    sno: row.sno,
+    letterNo: row.letterNo,
+    head: row.head,
+    acceptLetterDT: row.acceptLetterDT,
+    totalAmountOfContract: row.totalAmountOfContract,
+    district: row.district,
+    work: row.work,
+    contractorNAme: row.contractorNAme,
+    work_id: row.work_id,
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('WorkOrderPending.pdf');
+}
+// mat-dialog box
+openDialogWOP() {
+  const dialogRef = this.dialog.open(this.itemDetailsModalWOP, {
+    width: '100%',
+    height: '100%',
+    maxWidth: '100%',
+    panelClass: 'full-screen-dialog', // Optional for additional styling
+    data: { /* pass any data here */ }
+     // width: '100%',
+    // maxWidth: '100%', // Override default maxWidth
+    // maxHeight: '100%', // Override default maxHeight
+    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+    // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Dialog closed');
+  });
+
+}
+ 
 }

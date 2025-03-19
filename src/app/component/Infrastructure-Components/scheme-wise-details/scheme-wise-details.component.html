@@ -409,6 +409,7 @@
         </div>
         <!-- To be Tender -->
         <div class="card shadow mb-3" *ngIf="visibale">
+
           <div class="card-body">
             <div class="w-100 mt-1 pb-2 rounded">
               <h3 class="bold text-light bg-success" style="font-size: large;">To be Tender Summary</h3>
@@ -422,6 +423,24 @@
                       [xaxis]="chartOptionsTbetender.xaxis" [stroke]="chartOptionsTbetender.stroke" [fill]="chartOptionsTbetender.fill"
                       [yaxis]="chartOptionsTbetender.yaxis" [title]="chartOptionsTbetender.title" [tooltip]="chartOptionsTbetender.tooltip"
                       [legend]="chartOptionsTbetender.legend"></apx-chart>
+
+            <div class="card-body">
+                <div class="w-100 mt-1 pb-0">
+                    <h3 class="bold text-light bg-dark" style="font-size: large;">Payment Due</h3>
+                </div>
+                <!-- <div class="card shadow"> -->
+                <!-- <div class="card-body pt-0 mt-0"> -->
+                <div class="container-fluid  p-1 mt-2">
+                    <div class="row">
+                        <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryTotal.length > 0"> -->
+                          <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryScheme.length > 0">
+                            <div class="chart-container">
+                                <apx-chart [series]="chartUnPaid3.series" [chart]="chartUnPaid3.chart"
+                                    [dataLabels]="chartUnPaid3.dataLabels" [plotOptions]="chartUnPaid3.plotOptions"
+                                    [xaxis]="chartUnPaid3.xaxis" [stroke]="chartUnPaid3.stroke" [fill]="chartUnPaid3.fill"
+                                    [yaxis]="chartUnPaid3.yaxis" [title]="chartUnPaid3.title" [tooltip]="chartUnPaid3.tooltip"
+                                    [legend]="chartUnPaid3.legend"></apx-chart>
+
         
         
                   </div>
@@ -444,8 +463,13 @@
           </div>
         </div>
 
+
           <!--Tender Evaluation-->
           <div class="card shadow mb-3" *ngIf="visibale">
+
+        <!-- Payment Done -->
+        <div class="card shadow mb-3" *ngIf="visibale">
+
             <div class="card-body">
               <div class="w-100 mt-1 pb-2 rounded">
                 <h3 class="bold text-light bg-dark" style="font-size: large;">Technical Evaluation</h3>
@@ -713,6 +737,7 @@
                       </mat-form-field>
                     </div>
                   </div>
+
                   <div class="container-fluid  p-3">
                     <div class="row" *ngIf="PaidSummaryScheme.length > 0;else other_content">
                       <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryTotal.length > 0"> -->
@@ -767,6 +792,118 @@
       
           </div>
       </div>
+
+        
+            </div>
+        </div>
+
+        <!-- Live Tender -->
+        <div class="card shadow mb-3" *ngIf="visibale">
+          <div class="card-body">
+            <!-- <div class="w-100 mt-2" style="background-color:#050382;font-size: large;">
+              <h3 class="bold text-light">Live Tender </h3>
+            </div> -->
+            <div class="w-100 mt-1 pb-2 rounded">
+              <h3 class="bold text-light bg-info" style="font-size: large;">Live Tender Summary</h3>
+          </div>
+            <div class="container-fluid  p-1">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderScheme.length > 0">
+                  <div class="chart-container">
+        
+                    <apx-chart [series]="chartliveTenderTO.series" [chart]="chartliveTenderTO.chart"
+                      [dataLabels]="chartliveTenderTO.dataLabels" [plotOptions]="chartliveTenderTO.plotOptions"
+                      [xaxis]="chartliveTenderTO.xaxis" [stroke]="chartliveTenderTO.stroke" [fill]="chartliveTenderTO.fill"
+                      [yaxis]="chartliveTenderTO.yaxis" [title]="chartliveTenderTO.title" [tooltip]="chartliveTenderTO.tooltip"
+                      [legend]="chartliveTenderTO.legend"></apx-chart>
+        
+        
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderDivision.length > 0">
+                  <div class="chart-container">
+        
+                    <apx-chart [series]="chartliveTenderDiv.series" [chart]="chartliveTenderDiv.chart"
+                      [dataLabels]="chartliveTenderDiv.dataLabels" [plotOptions]="chartliveTenderDiv.plotOptions"
+                      [xaxis]="chartliveTenderDiv.xaxis" [stroke]="chartliveTenderDiv.stroke" [fill]="chartliveTenderDiv.fill"
+                      [yaxis]="chartliveTenderDiv.yaxis" [title]="chartliveTenderDiv.title"
+                      [tooltip]="chartliveTenderDiv.tooltip" [legend]="chartliveTenderDiv.legend"></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <!--Tender Evaluation-->
+          <div class="card shadow mb-3" *ngIf="visibale">
+            <div class="card-body">
+              <div class="w-100 mt-1 pb-2 rounded">
+                <h3 class="bold text-light bg-dark" style="font-size: large;">Technical Evaluation</h3>
+            </div>
+              <div class="container-fluid  p-1">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="TenderEvaluationScheme.length > 0">
+                    <div class="chart-container">
+          
+                      <apx-chart [series]="chartOptionsTEScheme.series" [chart]="chartOptionsTEScheme.chart"
+                        [dataLabels]="chartOptionsTEScheme.dataLabels" [plotOptions]="chartOptionsTEScheme.plotOptions"
+                        [xaxis]="chartOptionsTEScheme.xaxis" [stroke]="chartOptionsTEScheme.stroke" [fill]="chartOptionsTEScheme.fill"
+                        [yaxis]="chartOptionsTEScheme.yaxis" [title]="chartOptionsTEScheme.title" [tooltip]="chartOptionsTEScheme.tooltip"
+                        [legend]="chartOptionsTEScheme.legend"></apx-chart>
+          
+          
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="TenderEvaluationDivision.length > 0">
+                    <div class="chart-container">
+          
+                      <apx-chart [series]="chartOptionsTESDivision.series" [chart]="chartOptionsTESDivision.chart"
+                        [dataLabels]="chartOptionsTESDivision.dataLabels" [plotOptions]="chartOptionsTESDivision.plotOptions"
+                        [xaxis]="chartOptionsTESDivision.xaxis" [stroke]="chartOptionsTESDivision.stroke" [fill]="chartOptionsTESDivision.fill"
+                        [yaxis]="chartOptionsTESDivision.yaxis" [title]="chartOptionsTESDivision.title"
+                        [tooltip]="chartOptionsTESDivision.tooltip" [legend]="chartOptionsTESDivision.legend"></apx-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Work Order Pending-->
+          <div class="card shadow mb-3" *ngIf="visibale">
+            <div class="card-body">
+              <div class="w-100 mt-1 pb-2 rounded">
+                <h3 class="bold text-light bg-dark" style="font-size: large;">Work Order Pending</h3>
+            </div>
+              <div class="container-fluid  p-1">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingScheme.length > 0">
+                    <div class="chart-container">
+          
+                      <apx-chart [series]="chartOptionsWOPScheme.series" [chart]="chartOptionsWOPScheme.chart"
+                        [dataLabels]="chartOptionsWOPScheme.dataLabels" [plotOptions]="chartOptionsWOPScheme.plotOptions"
+                        [xaxis]="chartOptionsWOPScheme.xaxis" [stroke]="chartOptionsWOPScheme.stroke" [fill]="chartOptionsWOPScheme.fill"
+                        [yaxis]="chartOptionsWOPScheme.yaxis" [title]="chartOptionsWOPScheme.title" [tooltip]="chartOptionsWOPScheme.tooltip"
+                        [legend]="chartOptionsWOPScheme.legend"></apx-chart>
+          
+          
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingDivision.length > 0">
+                    <div class="chart-container">
+          
+                      <apx-chart [series]="chartOptionsWOPDivision.series" [chart]="chartOptionsWOPDivision.chart"
+                        [dataLabels]="chartOptionsWOPDivision.dataLabels" [plotOptions]="chartOptionsWOPDivision.plotOptions"
+                        [xaxis]="chartOptionsWOPDivision.xaxis" [stroke]="chartOptionsWOPDivision.stroke" [fill]="chartOptionsWOPDivision.fill"
+                        [yaxis]="chartOptionsWOPDivision.yaxis" [title]="chartOptionsWOPDivision.title"
+                        [tooltip]="chartOptionsWOPDivision.tooltip" [legend]="chartOptionsWOPDivision.legend"></apx-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
 </div>
   
 
@@ -4086,6 +4223,7 @@
   </div> 
 </ng-template>
 
+
 <!-- Land Issued  -->
 <ng-template class=" " #itemDetailsModalLI let-modal>
   <div class="row align-items-center p-2 m-2 ">
@@ -4474,4 +4612,5 @@
     </button>
   </div> 
 </ng-template>
+
 
