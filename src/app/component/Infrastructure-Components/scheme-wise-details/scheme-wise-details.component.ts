@@ -21,8 +21,17 @@ import { ASFile, DashProgressCount, DetailProgressTinP, DistrictNameDME,TotalWor
     TenderEvaluation,
     TenderEvaluationDetails,
     WOpendingScheme,
+
+    WOpendingTotal,LIPendingTotal,
+    WorkOrderPendingDetailsNew,
+    LandIssueDetails,
+    WorkOrderIssued,
+    WorkGenDetails,
+    TenderStatus} from 'src/app/Model/DashProgressCount';
+
     WOpendingTotal,
     WorkOrderPendingDetailsNew} from 'src/app/Model/DashProgressCount';
+
 import { ApiService } from 'src/app/service/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ApexYAxis, 
@@ -78,7 +87,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     NgSelectModule,
     FormsModule,
     SelectDropDownModule,
-    DropdownModule, MatDatepickerModule, MatNativeDateModule,
+    DropdownModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
 
   templateUrl: './scheme-wise-details.component.html',
@@ -141,7 +152,7 @@ export class SchemeWiseDetailsComponent {
   dataSource4!: MatTableDataSource<TotalWorksAbstract>;
 
   // dataSourceDivision!: MatTableDataSource<DivisionWiseASPendingDetails>;
-  
+
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
   @ViewChild('itemDetailsModal2') itemDetailsModal2: any;
@@ -187,7 +198,7 @@ export class SchemeWiseDetailsComponent {
   chartOptions2!: ChartOptions; // For bar charta
   chartOptions3!: ChartOptions; // For line chart
   chartOptions4!: ChartOptions; // For line chart
- 
+
   // Running Works
   RunningWorkDataGTotal: RunningWork[] = [];
   RunningWorkDataDivision: RunningWork[] = [];
@@ -205,6 +216,7 @@ export class SchemeWiseDetailsComponent {
 
   dateRange!: FormGroup;
   dateRange1!: FormGroup;
+  dateRange2!: FormGroup;
 
   // new running workr
 
@@ -217,15 +229,127 @@ export class SchemeWiseDetailsComponent {
   // Handover
   dashid = 4001;
   // divisionid: any;
-  totalWorks:any;
+  totalWorks: any;
   districtid: any;
   SWId = 0;
   fromdt: any;
   todt: any;
+  fromdt1: any;
+  todt1: any;
+  fromdt3: any;
+  todt3: any;
   @ViewChild('sortHandover') sortHandover!: MatSort;
   @ViewChild('paginatorHandover') paginatorHandover!: MatPaginator;
   @ViewChild('itemDetailsModalHandover') itemDetailsModalHandover: any;
   dataSourceHanover!: MatTableDataSource<GetHandoverDetails>;
+
+  chartHandover!: ChartOptions;
+  chartHandover1!: ChartOptions;
+  chartHandover2!: ChartOptions;
+  chartHandover3!: ChartOptions;
+  // chartHandover4!: ChartOptions;
+  dispatchDataHandover: GetHandoverDetails[] = [];
+  HandoverAbstractTotalData: HandoverAbstract[] = [];
+  HandoverAbstractSchemeData: HandoverAbstract[] = [];
+  HandoverAbstractDistrictData: HandoverAbstract[] = [];
+  HandoverAbstractWorkTypeData: HandoverAbstract[] = [];
+  // unpaid
+  chartUnPaid!: ChartOptions; // For bar chart
+  chartUnPaid1!: ChartOptions; // For bar charta
+  chartUnPaid2!: ChartOptions; // For line chart
+  chartUnPaid3!: ChartOptions; // For line chart
+
+  chartPaid!: ChartOptions; // For bar chart
+  chartPaid1!: ChartOptions; // For bar charta
+  chartPaid2!: ChartOptions; // For line chart
+  chartPaid3!: ChartOptions; // For line chart
+  dataSourcePaid!: MatTableDataSource<PaidDetails>;
+  dataSourceUnPaid!: MatTableDataSource<UnPaidDetails>;
+
+  @ViewChild('sortUnPaid') sortUnPaid!: MatSort;
+  @ViewChild('paginatorUnPaid') paginatorUnPaid!: MatPaginator;
+  @ViewChild('itemDetailsModalUnPaid') itemDetailsModalUnPaid: any;
+  @ViewChild('sortPaid') sortPaid!: MatSort;
+  @ViewChild('paginatorPaid') paginatorPaid!: MatPaginator;
+  @ViewChild('itemDetailsModalPaid') itemDetailsModalPaid: any;
+  dispatchDataPaid: PaidDetails[] = [];
+  dispatchDataUnPaid: UnPaidDetails[] = [];
+
+  PaidSummaryTotal: PaidSummary[] = [];
+  PaidSummaryDivision: PaidSummary[] = [];
+  PaidSummaryScheme: PaidSummary[] = [];
+  PaidSummaryDistrict: PaidSummary[] = [];
+
+  UnPaidSummaryTotal: UnPaidSummary[] = [];
+  UnPaidSummaryDivision: UnPaidSummary[] = [];
+  UnPaidSummaryScheme: UnPaidSummary[] = [];
+  UnPaidSummaryDesignation: UnPaidSummary[] = [];
+
+  // Live Tender
+  dataSourceLiveTender!: MatTableDataSource<TenderDetails>;
+  @ViewChild('paginatorLivet') paginatorLivet!: MatPaginator;
+  @ViewChild('sortLivet') sortLivet!: MatSort;
+  @ViewChild('itemDetailsModalLT') itemDetailsModalLT: any;
+  dispatchDataLiveTender: TenderDetails[] = [];
+  LiveTenderScheme: LiveTenderdata[] = [];
+  LiveTenderDivision: LiveTenderdata[] = [];
+  chartliveTenderTO!: ChartOptions; // For bar chart
+  chartliveTenderDiv!: ChartOptions; // For bar chart
+  // Tender Evalution
+  @ViewChild('itemDetailsModalTE') itemDetailsModalTE: any;
+  chartOptionsTEScheme!: ChartOptions; // For bar chart
+  chartOptionsTESDivision!: ChartOptions; // For bar chart
+  TenderEvaluationDivision: TenderEvaluation[] = [];
+  TenderEvaluationScheme: TenderEvaluation[] = [];
+  dataSourceTenderE!: MatTableDataSource<TenderEvaluationDetails>;
+  dispatchDataTenderE: TenderEvaluationDetails[] = [];
+
+  @ViewChild('paginatorTenderE') paginatorTenderE!: MatPaginator;
+  @ViewChild('sortTenderE') sortTenderE!: MatSort;
+
+  // Work order
+  @ViewChild('paginatorWOP') paginatorWOP!: MatPaginator;
+  @ViewChild('sortWOP') sortWOP!: MatSort;
+  @ViewChild('itemDetailsModalWOP') itemDetailsModalWOP: any;
+  dataSourceWorkP!: MatTableDataSource<WorkOrderPendingDetailsNew>;
+  dispatchDataWOP: WorkOrderPendingDetailsNew[] = [];
+  chartOptionsWOPScheme!: ChartOptions; // For bar chart
+  chartOptionsWOPDivision!: ChartOptions; // For bar chart
+  wOpendingDivision: WOpendingTotal[] = [];
+  wOpendingScheme: WOpendingScheme[] = [];
+
+
+  WoIssuedTotal: WorkOrderIssued[] = [];
+  chartOptionsWOI!: ChartOptions; // For bar chart
+  dataSourceWOGD!: MatTableDataSource<WorkGenDetails>;
+    @ViewChild('paginatorWGD') paginatorWGD!: MatPaginator;
+    @ViewChild('sortWGD') sortWGD!: MatSort;
+    dispatchWOGD: WorkGenDetails[] = [];
+  nosWorks: any;
+  TimeStatus: any;
+  visibale: boolean = false;
+  noofWorksGreater7Days: any;
+  // land Issued 
+  LIPendingTotalData: LIPendingTotal[] = [];
+  LIPendingSchemeData: LIPendingTotal[] = [];
+  dispatchPendingsLI: LandIssueDetails[] = [];
+  chartOptionsLITotal!: ChartOptions; // For bar chart
+  chartOptionsLIScheme!: ChartOptions; // For bar chart
+  @ViewChild('itemDetailsModalLI') itemDetailsModalLI: any;
+  @ViewChild('itemDetailsModalWOGD') itemDetailsModalWOGD: any;
+  dataSourceLI!: MatTableDataSource<LandIssueDetails>;
+  @ViewChild('paginatorLI') paginatorLI!: MatPaginator;
+  @ViewChild('sortLI') sortLI!: MatSort;
+  // Tobe Tender
+  chartOptionsTbetender!: ChartOptions; // For bar chart
+ TobetenderGTotal: TenderStatus[] = [];
+  // TobetenderProgress: TenderStatus[] = [];
+  // tValues: number[] = []; // Declare tValues as a class property
+  
+  //#endregion
+  constructor( public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,private fb: FormBuilder,public datePipe: DatePipe ) {
+
     chartHandover!: ChartOptions;
     chartHandover1!: ChartOptions;
     chartHandover2!: ChartOptions;
@@ -316,19 +440,29 @@ export class SchemeWiseDetailsComponent {
     private fb: FormBuilder,
     public datePipe: DatePipe
   ) {
+
     this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSourceCom_Han = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSourceRun_Work = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSource1 = new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
-    this.dataSourceLand_isu =new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
+    this.dataSourceLand_isu = new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
     this.dataSource2 = new MatTableDataSource<DetailProgressTinP>([]);
     this.dataSource3 = new MatTableDataSource<TenderInProcess>([]);
     this.dataSource4 = new MatTableDataSource<TotalWorksAbstract>([]);
     this.dataSourceHanover = new MatTableDataSource<GetHandoverDetails>([]);
+
+    this.dataSourcePaid = new MatTableDataSource<PaidDetails>([]);
+    this.dataSourceUnPaid = new MatTableDataSource<UnPaidDetails>([]);
+    this.dataSourceLiveTender = new MatTableDataSource<TenderDetails>([]);
+    this.dataSourceTenderE = new MatTableDataSource<TenderEvaluationDetails>([]);
+    this.dataSourceLI = new MatTableDataSource<LandIssueDetails>([]);
+    this.dataSourceWOGD = new MatTableDataSource<WorkGenDetails>([]);
+
       this.dataSourcePaid = new MatTableDataSource<PaidDetails>([]);
         this.dataSourceUnPaid = new MatTableDataSource<UnPaidDetails>([]);
         this.dataSourceLiveTender = new MatTableDataSource<TenderDetails>([]);
         this.dataSourceTenderE = new MatTableDataSource<TenderEvaluationDetails>([]);
+
   }
 
   ngOnInit() {
@@ -338,13 +472,16 @@ export class SchemeWiseDetailsComponent {
       today.getMonth() - 1,
       1
     );
-   
 
     this.dateRange = this.fb.group({
       start: [firstDayOfMonthLastYear],
       end: [today],
     });
     this.dateRange1 = this.fb.group({
+      start: [firstDayOfMonthLastYear],
+      end: [today],
+    });
+    this.dateRange2 = this.fb.group({
       start: [firstDayOfMonthLastYear],
       end: [today],
     });
@@ -373,6 +510,11 @@ export class SchemeWiseDetailsComponent {
     this.initializeChartOptionsLiveTender();
     this.initializeChartOptionsTenderE();
     this.initializeChartOptionsWOP();
+
+    this.initializeChartOptionsLI();
+    this.initializeChartOptionsTobeTender();
+
+
     this.dateRange.valueChanges.subscribe(() => {
       this.HandoverAbstractRPTypeTotal();
       this.handoverAbstractRPTypeScheme();
@@ -384,6 +526,11 @@ export class SchemeWiseDetailsComponent {
       this.GETPaidSummaryDivision();
       // this.GETPaidSummaryScheme();
     });
+
+    this.dateRange2.valueChanges.subscribe(() => {
+      this.GetWOIssueTotal();
+    });
+
   }
   //#region Scheme-Wise Work Abstract
   loadInitialData() {
@@ -1061,34 +1208,41 @@ export class SchemeWiseDetailsComponent {
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
     // autoTable(doc, {
-    //   head: [columns.map(col => col.title)], 
-    //   body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+    //   head: [columns.map(col => col.title)],
+    //   body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
     //   startY: 20,
     //   theme: 'grid',
     //   styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
     //   headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
     //   columnStyles: {
-    //     8: { cellWidth: 'wrap' },  
-    //     33: { cellWidth: 'wrap' }, 
+    //     8: { cellWidth: 'wrap' },
+    //     33: { cellWidth: 'wrap' },
     //   },
     //   tableWidth: 'auto',
     //   margin: { top: 20, left: 5, right: 5 },
     // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row])),
+      head: [columns.map((col) => col.title)],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row])
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
-          8: { cellWidth: 'auto' },  // Adjust width for long text columns
-          33: { cellWidth: 'auto' }
+        8: { cellWidth: 'auto' }, // Adjust width for long text columns
+        33: { cellWidth: 'auto' },
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
-      pageBreak: 'auto'  // Ensures all rows are included across multiple pages
-  });
+      pageBreak: 'auto', // Ensures all rows are included across multiple pages
+    });
     doc.save('Acceptance_WOrderDetail.pdf');
   }
   exportToPDFCom_Han() {
@@ -1114,7 +1268,10 @@ export class SchemeWiseDetailsComponent {
       { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
       { title: 'Rate%', dataKey: 'sanctionRate' },
       { title: 'Sanction', dataKey: 'sanctionDetail' },
-      { title: 'Amount Of Contract(In Lacs)',dataKey: 'totalAmountOfContract',},
+      {
+        title: 'Amount Of Contract(In Lacs)',
+        dataKey: 'totalAmountOfContract',
+      },
       { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
       { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
@@ -1178,30 +1335,37 @@ export class SchemeWiseDetailsComponent {
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row])),
+      head: [columns.map((col) => col.title)],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row])
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
-          8: { cellWidth: 'auto' },  // Adjust width for long text columns
-          33: { cellWidth: 'auto' }
+        8: { cellWidth: 'auto' }, // Adjust width for long text columns
+        33: { cellWidth: 'auto' },
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
-      pageBreak: 'auto'  // Ensures all rows are included across multiple pages
-  });
+      pageBreak: 'auto', // Ensures all rows are included across multiple pages
+    });
     // autoTable(doc, {
-    //   head: [columns.map(col => col.title)], 
-    //   body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+    //   head: [columns.map(col => col.title)],
+    //   body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
     //   startY: 20,
     //   theme: 'grid',
     //   styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
     //   headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
     //   columnStyles: {
-    //     // 8: { cellWidth: 'wrap' },  
-    //     // 33: { cellWidth: 'wrap' }, 
+    //     // 8: { cellWidth: 'wrap' },
+    //     // 33: { cellWidth: 'wrap' },
     //     0: { cellWidth: 8 },   // S.No
     //     1: { cellWidth: 15 },  // Head No
     //     2: { cellWidth: 20 },  // Head
@@ -1244,7 +1408,7 @@ export class SchemeWiseDetailsComponent {
     //   },
     //   tableWidth: 'auto',
     //   margin: { top: 20, left: 5, right: 5 },
-    
+
     //   // didDrawPage: function (data) {
     //   //   doc.setFontSize(8);
     //   //   doc.text('Land Issue Report', data.settings.margin.left, 10);
@@ -1258,45 +1422,48 @@ export class SchemeWiseDetailsComponent {
 
     // Define table columns
     const columns = [
-        { title: 'S.No', dataKey: 'sno' },
-        { title: 'Head No', dataKey: 'grantNo' },
-        { title: 'Head', dataKey: 'head' },
-        { title: 'Division', dataKey: 'divName_En' },
-        { title: 'District', dataKey: 'district' },
-        { title: 'Block', dataKey: 'blockname' },
-        { title: 'AS Letter No', dataKey: 'letterNo' },
-        { title: 'Approver', dataKey: 'approver' },
-        { title: 'Work', dataKey: 'work' },
-        { title: 'AS Date', dataKey: 'aadt' },
-        { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
-        { title: 'TS Date', dataKey: 'tsDate' },
-        { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
-        { title: 'Tender Type', dataKey: 'tType' },
-        { title: 'NIT Reference', dataKey: 'tenderReference' },
-        { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
-        { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
-        { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
-        { title: 'Rate%', dataKey: 'sanctionRate' },
-        { title: 'Sanction', dataKey: 'sanctionDetail' },
-        { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
-        { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
-        { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
-        { title: 'Work Order DT', dataKey: 'workOrderDT' },
-        { title: 'Time Allowed', dataKey: 'timeAllowed' },
-        { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
-        { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
-        { title: 'Contractor ID/Class', dataKey: 'cid' },
-        { title: 'Contractor', dataKey: 'contractorName' },
-        { title: 'Contractor Mobile No', dataKey: 'mobNo' },
-        { title: 'Last Progress', dataKey: 'lProgress' },
-        { title: 'Progress DT', dataKey: 'progressDT' },
-        { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
-        { title: 'Delay Reason', dataKey: 'delayreason' },
-        { title: 'Remarks', dataKey: 'pRemarks' },
-        { title: 'Sub Engineer', dataKey: 'subengname' },
-        { title: 'Asst.Eng', dataKey: 'aeName' },
-        { title: 'Work ID', dataKey: 'work_id' },
-        { title: 'AS Letter', dataKey: 'asLetter' }
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'Head No', dataKey: 'grantNo' },
+      { title: 'Head', dataKey: 'head' },
+      { title: 'Division', dataKey: 'divName_En' },
+      { title: 'District', dataKey: 'district' },
+      { title: 'Block', dataKey: 'blockname' },
+      { title: 'AS Letter No', dataKey: 'letterNo' },
+      { title: 'Approver', dataKey: 'approver' },
+      { title: 'Work', dataKey: 'work' },
+      { title: 'AS Date', dataKey: 'aadt' },
+      { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+      { title: 'TS Date', dataKey: 'tsDate' },
+      { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+      { title: 'Tender Type', dataKey: 'tType' },
+      { title: 'NIT Reference', dataKey: 'tenderReference' },
+      { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+      { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+      { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+      { title: 'Rate%', dataKey: 'sanctionRate' },
+      { title: 'Sanction', dataKey: 'sanctionDetail' },
+      {
+        title: 'Amount Of Contract(In Lacs)',
+        dataKey: 'totalAmountOfContract',
+      },
+      { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+      { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
+      { title: 'Work Order DT', dataKey: 'workOrderDT' },
+      { title: 'Time Allowed', dataKey: 'timeAllowed' },
+      { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+      { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+      { title: 'Contractor ID/Class', dataKey: 'cid' },
+      { title: 'Contractor', dataKey: 'contractorName' },
+      { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+      { title: 'Last Progress', dataKey: 'lProgress' },
+      { title: 'Progress DT', dataKey: 'progressDT' },
+      { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
+      { title: 'Delay Reason', dataKey: 'delayreason' },
+      { title: 'Remarks', dataKey: 'pRemarks' },
+      { title: 'Sub Engineer', dataKey: 'subengname' },
+      { title: 'Asst.Eng', dataKey: 'aeName' },
+      { title: 'Work ID', dataKey: 'work_id' },
+      { title: 'AS Letter', dataKey: 'asLetter' },
     ];
 
     // Format data rows
@@ -1344,23 +1511,35 @@ export class SchemeWiseDetailsComponent {
 
     // Generate table in PDF
     autoTable(doc, {
-      head: [columns.map(col => col.title)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+      head: [columns.map((col) => col.title)],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || '')
+      ),
       startY: 20,
       theme: 'grid',
-      headStyles: { fillColor: [44, 62, 80], textColor: 255, fontSize: 7, fontStyle: 'bold' },
-      styles: { textColor: [0, 0, 0], fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+      headStyles: {
+        fillColor: [44, 62, 80],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
+      styles: {
+        textColor: [0, 0, 0],
+        fontSize: 6,
+        cellPadding: 0.5,
+        overflow: 'linebreak',
+      },
       columnStyles: {
-        0: { cellWidth: 8 },   // S.No
-        1: { cellWidth: 15 },  // Head No
-        2: { cellWidth: 20 },  // Head
-        3: { cellWidth: 20 },  // Division
-        4: { cellWidth: 18 },  // District
-        5: { cellWidth: 18 },  // Block
-        6: { cellWidth: 20 },  // AS Letter No
-        7: { cellWidth: 18 },  // Approver
-        8: { cellWidth: 30 },  // Work
-        9: { cellWidth: 18 },  // AS Date
+        0: { cellWidth: 8 }, // S.No
+        1: { cellWidth: 15 }, // Head No
+        2: { cellWidth: 20 }, // Head
+        3: { cellWidth: 20 }, // Division
+        4: { cellWidth: 18 }, // District
+        5: { cellWidth: 18 }, // Block
+        6: { cellWidth: 20 }, // AS Letter No
+        7: { cellWidth: 18 }, // Approver
+        8: { cellWidth: 30 }, // Work
+        9: { cellWidth: 18 }, // AS Date
         10: { cellWidth: 18 }, // AS Amount
         11: { cellWidth: 18 }, // TS Date
         12: { cellWidth: 18 }, // TS Amount
@@ -1395,11 +1574,11 @@ export class SchemeWiseDetailsComponent {
       },
       tableWidth: 'wrap',
       margin: { top: 20, left: 2, right: 2 },
-      pageBreak: 'auto' 
+      pageBreak: 'auto',
     });
-  
+
     doc.save('WorksAbstractD.pdf');
-}
+  }
 
   exportToPDFRun_Work() {
     const doc = new jsPDF('l', 'mm', 'a3');
@@ -1496,15 +1675,22 @@ export class SchemeWiseDetailsComponent {
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)], 
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+      head: [columns.map((col) => col.title)],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || '')
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
-        8: { cellWidth: 'wrap' },  
-        33: { cellWidth: 'wrap' }, 
+        8: { cellWidth: 'wrap' },
+        33: { cellWidth: 'wrap' },
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
@@ -1594,15 +1780,22 @@ export class SchemeWiseDetailsComponent {
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)], 
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+      head: [columns.map((col) => col.title)],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || '')
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
-        8: { cellWidth: 'wrap' },  
-        33: { cellWidth: 'wrap' }, 
+        8: { cellWidth: 'wrap' },
+        33: { cellWidth: 'wrap' },
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
@@ -1695,15 +1888,22 @@ export class SchemeWiseDetailsComponent {
     //   headStyles: { fillColor: [22, 160, 133] },
     // });
     autoTable(doc, {
-      head: [columns.map(col => col.title)], 
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+      head: [columns.map((col) => col.title)],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || '')
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
-        8: { cellWidth: 'wrap' },  
-        33: { cellWidth: 'wrap' }, 
+        8: { cellWidth: 'wrap' },
+        33: { cellWidth: 'wrap' },
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
@@ -1712,7 +1912,7 @@ export class SchemeWiseDetailsComponent {
   }
   expor_PDFLand_isu() {
     const doc = new jsPDF('l', 'mm', 'a3'); // Landscape orientation for better width allocation
-  
+
     const columns = [
       { title: 'S.No', dataKey: 'sno' },
       { title: 'Head No', dataKey: 'grantNo' },
@@ -1753,9 +1953,9 @@ export class SchemeWiseDetailsComponent {
       { title: 'Work ID', dataKey: 'work_id' },
       { title: 'AS Letter', dataKey: 'asLetter' },
     ];
-  
+
     // Assuming 'landIssueData' holds the array of objects with the required data
-    const rows =  this.dispatchDataLand_isu.map((row) => ({
+    const rows = this.dispatchDataLand_isu.map((row) => ({
       sno: row.sno,
       grantNo: row.grantNo,
       head: row.head,
@@ -1795,7 +1995,7 @@ export class SchemeWiseDetailsComponent {
       work_id: row.work_id,
       asLetter: row.asLetter,
     }));
-  
+
     // autoTable(doc, {
     //   head: [columns.map(col => col.title)], // Table headers
     //   body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
@@ -1853,26 +2053,32 @@ export class SchemeWiseDetailsComponent {
     //   // }
     // });
 
-autoTable(doc, {
-  head: [columns.map(col => col.title)], 
-  body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
-  startY: 20,
-  theme: 'grid',
-  styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-  headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
-  columnStyles: {
-    8: { cellWidth: 'wrap' },  
-    33: { cellWidth: 'wrap' }, 
-  },
-  tableWidth: 'auto',
-  margin: { top: 20, left: 5, right: 5 },
+    autoTable(doc, {
+      head: [columns.map((col) => col.title)],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || '')
+      ),
+      startY: 20,
+      theme: 'grid',
+      styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
+      columnStyles: {
+        8: { cellWidth: 'wrap' },
+        33: { cellWidth: 'wrap' },
+      },
+      tableWidth: 'auto',
+      margin: { top: 20, left: 5, right: 5 },
 
-  // didDrawPage: function (data) {
-  //   doc.setFontSize(8);
-  //   doc.text('Land Issue Report', data.settings.margin.left, 10);
-  // }
-});
-
+      // didDrawPage: function (data) {
+      //   doc.setFontSize(8);
+      //   doc.text('Land Issue Report', data.settings.margin.left, 10);
+      // }
+    });
 
     doc.save('LandIssueReport.pdf');
   }
@@ -2127,7 +2333,7 @@ autoTable(doc, {
     if (selectedUser) {
       //  const MID  =selectedUser.mainSchemeID || null;
       this.mainSchemeID = selectedUser?.mainSchemeID;
-      this.visibale=true;
+      this.visibale = true;
       this.hide = true;
       const selectedName = selectedUser?.name;
       this.selectedName = selectedName;
@@ -2151,8 +2357,31 @@ autoTable(doc, {
       // alert(this.mainSchemeID);
       // alert(selectedName);
       // this.GETUnPaidSummaryTotal();
-    this.GETUnPaidSummaryDivision();
-    this.GETUnPaidSummaryScheme();
+      this.GETUnPaidSummaryDivision();
+      this.GETUnPaidSummaryScheme();
+
+      // this.GETPaidSummaryTotal();
+      this.GETPaidSummaryDivision();
+      this.GETPaidSummaryScheme();
+
+      this.GETLiveTenderScheme();
+      this.GETLiveTenderDivision();
+
+      this.GETTenderEvaluationScheme();
+      this.GETTenderEvaluationDivision();
+
+      // this.GetWOPendingScheme();
+      this.GetWOPendingTotal();
+
+      this.GetWOIssueTotal();
+
+      this.LIPendingTotal();
+       this.LOPendingScheme()
+       this.TenderStatusTotal()
+
+
+
+      // this.
 
     // this.GETPaidSummaryTotal();
     this.GETPaidSummaryDivision();
@@ -2168,11 +2397,11 @@ autoTable(doc, {
     this.GetWOPendingTotal();
 
     // this.
+
     } else {
       alert('Selected districT_ID not found in the list.');
     }
   }
-
 
   //#region Get API data Running Works
   initializeChartOptions() {
@@ -2221,8 +2450,8 @@ autoTable(doc, {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth:'40%',
-          borderRadius:3,
+          columnWidth: '40%',
+          borderRadius: 3,
           distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
@@ -3199,7 +3428,7 @@ autoTable(doc, {
               this.chartHandover1?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
-              const apiData =  this.HandoverAbstractSchemeData;
+              const apiData = this.HandoverAbstractSchemeData;
               const selectedData = apiData.find(
                 (data) => data.name === selectedCategory
               );
@@ -3223,8 +3452,8 @@ autoTable(doc, {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth:'40%',
-          borderRadius:3,
+          columnWidth: '40%',
+          borderRadius: 3,
           distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
@@ -3699,7 +3928,8 @@ autoTable(doc, {
           this.districtid,
           this.SWId,
           this.fromdt,
-          this.todt,this.mainSchemeID
+          this.todt,
+          this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -3792,7 +4022,17 @@ autoTable(doc, {
     // divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=0&mainSchemeId=142
     var RPType = 'Scheme';
     if (this.fromdt && this.todt) {
-      this.api.HandoverAbstract( RPType, this.dashid,this.divisionid,this.districtid,this.SWId,this.fromdt,this.todt,this.mainSchemeID)
+      this.api
+        .HandoverAbstract(
+          RPType,
+          this.dashid,
+          this.divisionid,
+          this.districtid,
+          this.SWId,
+          this.fromdt,
+          this.todt,
+          this.mainSchemeID
+        )
         .subscribe(
           (data: any) => {
             this.HandoverAbstractSchemeData = data;
@@ -3891,7 +4131,8 @@ autoTable(doc, {
           this.districtid,
           this.SWId,
           this.fromdt,
-          this.todt,this.mainSchemeID
+          this.todt,
+          this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -3995,7 +4236,8 @@ autoTable(doc, {
           this.districtid,
           this.SWId,
           this.fromdt,
-          this.todt,this.mainSchemeID
+          this.todt,
+          this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -4062,9 +4304,15 @@ autoTable(doc, {
     // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
+
+    const SWId = 0;
+    const dashid = 4001;
+    const startDate = this.dateRange.value.start;
+
     const SWId=0;
     const dashid=4001;
      const startDate = this.dateRange.value.start;
+
     const endDate = this.dateRange.value.end;
     // const datePipe = new DatePipe('en-US');
     // this.fromdt = startDate ? datePipe.transform(new Date(startDate), 'dd-MM-yyyy') : '';
@@ -4075,6 +4323,28 @@ autoTable(doc, {
     this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
+
+    this.api
+      .GetHandoverDetails(
+        dashid,
+        divisionID,
+        this.mainSchemeID,
+        distid,
+        SWId,
+        this.fromdt,
+        this.todt
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchDataHandover = res.map(
+            (item: GetHandoverDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          this.dataSourceHanover.data = this.dispatchDataHandover;
+          // console.log(this.dataSource.data);
+
     this.api.GetHandoverDetails(dashid,divisionID, this.mainSchemeID, distid,SWId,this.fromdt,this.todt).subscribe(
       (res) => {
         this.dispatchDataHandover = res.map((item: GetHandoverDetails, index: number) => ({
@@ -4083,21 +4353,24 @@ autoTable(doc, {
         }));
         this.dataSourceHanover.data = this.dispatchDataHandover;
         // console.log(this.dataSource.data);
-          // @ViewChild('sortHandover') sortHandover!: MatSort;
-        // @ViewChild('paginatorHandover') paginatorHandover!: MatPaginator;
-        this.dataSourceHanover.paginator = this.paginatorHandover;
-        this.dataSourceHanover.sort = this.sortHandover;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        console.error('Error fetching data', error);
-      }
-    );
-    this.openDialogHandover();
 
+          // @ViewChild('sortHandover') sortHandover!: MatSort;
+          // @ViewChild('paginatorHandover') paginatorHandover!: MatPaginator;
+          this.dataSourceHanover.paginator = this.paginatorHandover;
+          this.dataSourceHanover.sort = this.sortHandover;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogHandover();
   }
-  fetchDataBasedOnChartSelectionScheme(mainSchemeId: any, seriesName: string): void {
+  fetchDataBasedOnChartSelectionScheme(
+    mainSchemeId: any,
+    seriesName: string
+  ): void {
     // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
@@ -4112,8 +4385,13 @@ autoTable(doc, {
     }
     // const distid = 0;
     // const mainSchemeId = 0;
+
+    const SWId = 0;
+    const dashid = 4001;
+
     const SWId=0;
     const dashid=4001;
+
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     // const datePipe = new DatePipe('en-US');
@@ -4127,6 +4405,28 @@ autoTable(doc, {
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
+
+    this.api
+      .GetHandoverDetails(
+        dashid,
+        this.divisionid,
+        mainSchemeId,
+        this.districtid,
+        SWId,
+        this.fromdt,
+        this.todt
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchDataHandover = res.map(
+            (item: GetHandoverDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          this.dataSourceHanover.data = this.dispatchDataHandover;
+          // console.log(this.dataSource.data);
+
     this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId,this.fromdt,this.todt).subscribe(
       (res) => {
         this.dispatchDataHandover = res.map((item: GetHandoverDetails, index: number) => ({
@@ -4147,9 +4447,22 @@ autoTable(doc, {
     );
     this.openDialogHandover();
 
+
+          this.dataSourceHanover.paginator = this.paginatorHandover;
+          this.dataSourceHanover.sort = this.sortHandover;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogHandover();
   }
-  fetchDataBasedOnChartSelectionDistrict(distid: any, seriesName: string): void {
-    
+  fetchDataBasedOnChartSelectionDistrict(
+    distid: any,
+    seriesName: string
+  ): void {
     // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
@@ -4163,8 +4476,13 @@ autoTable(doc, {
       this.divisionid = 0;
     }
     const mainSchemeId = 0;
+
+    const SWId = 0;
+    const dashid = 4001;
+
     const SWId=0;
     const dashid=4001; 
+
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     // const datePipe = new DatePipe('en-US');
@@ -4178,6 +4496,28 @@ autoTable(doc, {
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
+
+    this.api
+      .GetHandoverDetails(
+        dashid,
+        this.divisionid,
+        mainSchemeId,
+        distid,
+        SWId,
+        this.fromdt,
+        this.todt
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchDataHandover = res.map(
+            (item: GetHandoverDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          this.dataSourceHanover.data = this.dispatchDataHandover;
+          // console.log(this.dataSource.data);
+
     this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId, distid,SWId,this.fromdt,this.todt).subscribe(
       (res) => {
         this.dispatchDataHandover = res.map((item: GetHandoverDetails, index: number) => ({
@@ -4198,6 +4538,17 @@ autoTable(doc, {
     );
     this.openDialogHandover();
 
+
+          this.dataSourceHanover.paginator = this.paginatorHandover;
+          this.dataSourceHanover.sort = this.sortHandover;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogHandover();
   }
   fetchDataBasedOnChartSelectionWorkType(SWId: any, seriesName: string): void {
     // console.log(`Selected ID: ${SWId}, Series: ${seriesName}`);
@@ -4215,7 +4566,11 @@ autoTable(doc, {
     // const distid = 0;
     const mainSchemeId = 0;
     // const SWId=0;
+
+    const dashid = 4001;
+
     const dashid=4001; 
+
     const startDate = this.dateRange.value.start;
     const endDate = this.dateRange.value.end;
     // const datePipe = new DatePipe('en-US');
@@ -4229,6 +4584,28 @@ autoTable(doc, {
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
     this.spinner.show();
     // dashid=4001&divisionId=D1004&mainSchemeId=145&distid=0&SWId=0
+
+    this.api
+      .GetHandoverDetails(
+        dashid,
+        this.divisionid,
+        mainSchemeId,
+        this.districtid,
+        SWId,
+        this.fromdt,
+        this.todt
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchDataHandover = res.map(
+            (item: GetHandoverDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          this.dataSourceHanover.data = this.dispatchDataHandover;
+          // console.log(this.dataSource.data);
+
     this.api.GetHandoverDetails(dashid,this.divisionid, mainSchemeId,this.districtid,SWId,this.fromdt,this.todt).subscribe(
       (res) => {
         this.dispatchDataHandover = res.map((item: GetHandoverDetails, index: number) => ({
@@ -4249,6 +4626,17 @@ autoTable(doc, {
     );
     this.openDialogHandover();
 
+
+          this.dataSourceHanover.paginator = this.paginatorHandover;
+          this.dataSourceHanover.sort = this.sortHandover;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogHandover();
   }
 
   // data filter
@@ -4262,17 +4650,17 @@ autoTable(doc, {
   exportToPDFHandover() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "letterNo", dataKey: "letterNo" },
-      { title: "head", dataKey: "head" },
-      { title: "acceptLetterDT", dataKey: "acceptLetterDT" },
-      { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
-      { title: "district", dataKey: "district" },
-      { title: "work", dataKey: "work" },
-      { title: "contractorNAme", dataKey: "contractorNAme" },
-      { title: "work_id", dataKey: "work_id" }
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'letterNo', dataKey: 'letterNo' },
+      { title: 'head', dataKey: 'head' },
+      { title: 'acceptLetterDT', dataKey: 'acceptLetterDT' },
+      { title: 'totalAmountOfContract', dataKey: 'totalAmountOfContract' },
+      { title: 'district', dataKey: 'district' },
+      { title: 'work', dataKey: 'work' },
+      { title: 'contractorNAme', dataKey: 'contractorNAme' },
+      { title: 'work_id', dataKey: 'work_id' },
     ];
-    const rows = this.dispatchDataHandover.map(row => ({
+    const rows = this.dispatchDataHandover.map((row) => ({
       sno: row.sno,
       letterNo: row.letterNo,
       head: row.head,
@@ -4289,30 +4677,31 @@ autoTable(doc, {
       body: rows,
       startY: 20,
       theme: 'striped',
-      headStyles: { fillColor: [22, 160, 133] }
+      headStyles: { fillColor: [22, 160, 133] },
     });
 
     doc.save('HandoverDetails.pdf');
   }
- // mat-dialog box
- openDialogHandover() {
-  const dialogRef = this.dialog.open(this.itemDetailsModalHandover, {
-    width: '100%',
-    height: '100%',
-    maxWidth: '100%',
-    panelClass: 'full-screen-dialog', // Optional for additional styling
-    data: { /* pass any data here */ }
-    // width: '100%',
-    // maxWidth: '100%', // Override default maxWidth
-    // maxHeight: '100%', // Override default maxHeight
-    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-    // height: 'auto',
-  });
-  dialogRef.afterClosed().subscribe(result => {
-    console.log('Dialog closed');
-  });
-
-}
+  // mat-dialog box
+  openDialogHandover() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalHandover, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
   // #endregion
   //#region Get API data in UnPaidSummary
   initializeChartOptionsUnPaid() {
@@ -4345,8 +4734,11 @@ autoTable(doc, {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name; 
-                this.fetchDataBasedOnChartSelectiondivisionUNP(id, selectedSeries);
+                this.name = selectedData.name;
+                this.fetchDataBasedOnChartSelectiondivisionUNP(
+                  id,
+                  selectedSeries
+                );
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -4437,8 +4829,11 @@ autoTable(doc, {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name; 
-                this.fetchDataBasedOnChartSelectionmainSchemeUNP(id, selectedSeries);
+                this.name = selectedData.name;
+                this.fetchDataBasedOnChartSelectionmainSchemeUNP(
+                  id,
+                  selectedSeries
+                );
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -4530,8 +4925,11 @@ autoTable(doc, {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name; 
-                this.fetchDataBasedOnChartSelectionmainDesignationUNP(id, selectedSeries);
+                this.name = selectedData.name;
+                this.fetchDataBasedOnChartSelectionmainDesignationUNP(
+                  id,
+                  selectedSeries
+                );
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -4623,7 +5021,10 @@ autoTable(doc, {
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
                 this.name = selectedData.name; // Extract the id from the matching entry
-                this.fetchDataBasedOnChartSelectionmainSchemeUNP(id, selectedSeries);
+                this.fetchDataBasedOnChartSelectionmainSchemeUNP(
+                  id,
+                  selectedSeries
+                );
                 // this.fetchDataBasedOnChartSelectionTotalUNP(0, selectedSeries);
               } else {
                 console.log(
@@ -4639,8 +5040,8 @@ autoTable(doc, {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth:'30%',
-          borderRadius:3,
+          columnWidth: '30%',
+          borderRadius: 3,
           dataLabels: {
             position: 'top', // top, center, bottom
           },
@@ -4704,162 +5105,104 @@ autoTable(doc, {
     };
   }
 
-GETUnPaidSummaryTotal(): void {
-  this.spinner.show();
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');
-    var RPType = 'GTotal';
+  GETUnPaidSummaryTotal(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      var RPType = 'GTotal';
 
-    this.himisDistrictid = 0;
-    this.mainschemeid = 0;
-    this.chartUnPaid3.chart.height = '200px';
-  }
-  // else if (roleName == 'Collector') {
-  //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-  // var RPType="District";
-  //  this.divisionid = 0;
-  //  this.mainschemeid=0;
-  //  this.chartOptionsLine2.chart.height = '400px';
-  // }
-  else {
-    this.divisionid = 0;
-    this.himisDistrictid = 0;
-    this.mainschemeid = 0;
-    var RPType = 'GTotal';
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+      this.chartUnPaid3.chart.height = '200px';
+    }
+    // else if (roleName == 'Collector') {
+    //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+    // var RPType="District";
+    //  this.divisionid = 0;
+    //  this.mainschemeid=0;
+    //  this.chartOptionsLine2.chart.height = '400px';
+    // }
+    else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+      var RPType = 'GTotal';
 
-    this.chartUnPaid3.chart.height = '300';
-  }
-  console.log('GETUnPaidSummaryTotal RPType=',  RPType, ' this.divisionid',  this.divisionid, 'himisDistrictid', 
-    this.himisDistrictid, 'mainSchemeID',  this.mainSchemeID );
-  this.api.GETUnPaidSummary(
+      this.chartUnPaid3.chart.height = '300';
+    }
+    console.log(
+      'GETUnPaidSummaryTotal RPType=',
       RPType,
+      ' this.divisionid',
       this.divisionid,
+      'himisDistrictid',
       this.himisDistrictid,
-      this.mainSchemeID,
-    )
-    .subscribe(
-      (data: any) => {
-        this.UnPaidSummaryTotal = data;
-        // console.log('API Response total:', this.UnPaidSummaryTotal);
-        //  console.log('API Response data:', data);
-
-        const id: string[] = [];
-        const name: string[] = [];
-        const noofWorks: any[] = [];
-        const unpaidcr: number[] = [];
-        const avgDaySinceM: number[] = [];
-
-        data.forEach(
-          (item: {
-            name: string;
-            id: any;
-            noofWorks: any;
-            unpaidcr: number;
-            avgDaySinceM: any;
-          }) => {
-            id.push(item.id);
-            name.push(item.name);
-            noofWorks.push(item.noofWorks);
-            unpaidcr.push(item.unpaidcr);
-            avgDaySinceM.push(item.avgDaySinceM);
-          }
-        );
-
-        this.chartUnPaid3.series = [
-          {
-            name: 'No of Works',
-            data: noofWorks,
-            color: '#eeba0b',
-          },
-          {
-            name: 'Un-paid Value(in Cr),',
-            data: unpaidcr,
-            color:'rgb(0, 227, 150)',
-            // color: 'rgb(0, 143, 251)',
-          },
-          // {
-          //   name: 'Total Value in Cr',
-          //   data: avgDaySinceM,
-          //   color: 'rgba(93, 243, 174, 0.85)',
-          // },
-          {
-            name: 'Avg Days Pending Since Measurement',
-            data: avgDaySinceM,
-            color: 'rgba(250, 199, 161, 0.85)',
-          },
-        ];
-        this.chartUnPaid3.xaxis = { categories: name };
-        this.cO = this.chartUnPaid3;
-        this.cdr.detectChanges();
-
-        this.spinner.hide();
-      },
-      (error: any) => {
-        console.error('Error fetching data', error);
-      }
+      'mainSchemeID',
+      this.mainSchemeID
     );
-}
-GETUnPaidSummaryDivision(): void {
-  this.spinner.show();
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');
-    var RPType = 'Division';
-    this.himisDistrictid = 0;
-    this.mainschemeid = 0;
-    this.chartUnPaid.chart.height = '200px';
-  }
-  // else if (roleName == 'Collector') {
-  //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-  // var RPType="District";
-  //  this.divisionid = 0;
-  //  this.mainschemeid=0;
-  //  this.chartOptions.chart.height = '400px';
-  // }
-  else {
-    this.divisionid = 0;
-    this.himisDistrictid = 0;
-    this.mainschemeid = 0;
-    var RPType = 'Division';
-    this.chartUnPaid.chart.height = '300';
-  }
-  console.log('unPaidSummaryDivision RPType=',  RPType, ' this.divisionid',  this.divisionid, 'himisDistrictid', 
-    this.himisDistrictid, 'mainSchemeID',  this.mainSchemeID );
-  this.api
-    .GETUnPaidSummary(
-      RPType,
-      this.divisionid,
-      this.himisDistrictid,
-      this.mainSchemeID,
-    )
-    .subscribe(
-      (data: any) => {
-        this.UnPaidSummaryDivision = data;
-        console.log('API Response division:', this.UnPaidSummaryDivision);
-        // console.log('API Response data:', data);
+    this.api
+      .GETUnPaidSummary(
+        RPType,
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID
+      )
+      .subscribe(
+        (data: any) => {
+          this.UnPaidSummaryTotal = data;
+          // console.log('API Response total:', this.UnPaidSummaryTotal);
+          //  console.log('API Response data:', data);
 
-        const id: string[] = [];
-        const name: string[] = [];
-        const noofWorks: any[] = [];
-        const unpaidcr: number[] = [];
-        const avgDaySinceM: number[] = [];
+          const id: string[] = [];
+          const name: string[] = [];
+          const noofWorks: any[] = [];
+          const unpaidcr: number[] = [];
+          const avgDaySinceM: number[] = [];
 
-        data.forEach(
-          (item: {
-            name: string;
-            id: any;
-            noofWorks: any;
-            unpaidcr: number;
-            avgDaySinceM: any;
-          }) => {
-            id.push(item.id);
-            name.push(item.name);
-            noofWorks.push(item.noofWorks);
-            unpaidcr.push(item.unpaidcr);
-            avgDaySinceM.push(item.avgDaySinceM);
-          }
-        );
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              noofWorks: any;
+              unpaidcr: number;
+              avgDaySinceM: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              noofWorks.push(item.noofWorks);
+              unpaidcr.push(item.unpaidcr);
+              avgDaySinceM.push(item.avgDaySinceM);
+            }
+          );
+
+
+          this.chartUnPaid3.series = [
+            {
+              name: 'No of Works',
+              data: noofWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'Un-paid Value(in Cr),',
+              data: unpaidcr,
+              color: 'rgb(0, 227, 150)',
+              // color: 'rgb(0, 143, 251)',
+            },
+            // {
+            //   name: 'Total Value in Cr',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(93, 243, 174, 0.85)',
+            // },
+            {
+              name: 'Avg Days Pending Since Measurement',
+              data: avgDaySinceM,
+              color: 'rgba(250, 199, 161, 0.85)',
+            },
+          ];
+          this.chartUnPaid3.xaxis = { categories: name };
+          this.cO = this.chartUnPaid3;
+          this.cdr.detectChanges();
 
         this.chartUnPaid.series = [
           {
@@ -4888,44 +5231,49 @@ GETUnPaidSummaryDivision(): void {
         this.cO = this.chartUnPaid;
         this.cdr.detectChanges();
 
-        this.spinner.hide();
-      },
-      (error: any) => {
-        console.error('Error fetching data', error);
-      }
-    );
-}
-GETUnPaidSummaryScheme(): void {
-  this.spinner.show();
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');
-    var RPType = 'Scheme';
-    this.chartUnPaid3.chart.height = '600';
-    this.himisDistrictid = 0;
-    this.mainschemeid = 0;
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
   }
-  //  else if (roleName == 'Collector') {
-  //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-  // var RPType="District";
-  //  this.divisionid = 0;
-  //  this.mainschemeid=0;
-  //  this.chartOptions2.chart.height = '400px';
-  // }
-  else {
-    this.divisionid = 0;
-    this.himisDistrictid = 0;
-    this.mainschemeid = 0;
-    var RPType = 'Scheme';
-    this.chartUnPaid3.chart.height = '600';
-  }
-  console.log('mainScheme RPType=',  RPType, ' this.divisionid',  this.divisionid, 'himisDistrictid', 
-    this.himisDistrictid, 'mainSchemeID',  this.mainSchemeID );
-  this.api
-    .GETUnPaidSummary(
+  GETUnPaidSummaryDivision(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      var RPType = 'Division';
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+      this.chartUnPaid.chart.height = '200px';
+    }
+    // else if (roleName == 'Collector') {
+    //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+    // var RPType="District";
+    //  this.divisionid = 0;
+    //  this.mainschemeid=0;
+    //  this.chartOptions.chart.height = '400px';
+    // }
+    else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+      var RPType = 'Division';
+      this.chartUnPaid.chart.height = '300';
+    }
+    console.log(
+      'unPaidSummaryDivision RPType=',
       RPType,
+      ' this.divisionid',
       this.divisionid,
+      'himisDistrictid',
       this.himisDistrictid,
+
+      'mainSchemeID',
+      this.mainSchemeID
+
       this.mainSchemeID,
     )
     .subscribe(
@@ -4988,133 +5336,308 @@ GETUnPaidSummaryScheme(): void {
       (error: any) => {
         console.error('Error fetching data', error);
       }
-    );
-}
-GETUnPaidSummaryDesignation(): void {
-  this.spinner.show();
-  var roleName = localStorage.getItem('roleName');
-  if (roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');
-    var RPType = 'Designation';
-    this.chartUnPaid2.chart.height = '200px';
-    this.himisDistrictid = 0;
-    this.mainschemeid = 0;
-  }
-  //  else if (roleName == 'Collector') {
-  //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-  //   var RPType = 'District';
-  //   this.divisionid = 0;
-  //   this.mainschemeid = 0;
-  //   this.chartOptionsLine.chart.height = '400px';
-  // }
-   else {
-    this.divisionid = 0;
-    this.himisDistrictid = 0;
-    this.mainschemeid = 0;
-    var RPType = 'Designation';
-    this.chartUnPaid2.chart.height = 'auto';
-  }
 
-  // UnPaidSummary?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
-  this.api
-    .GETUnPaidSummary(
+    );
+    this.api
+      .GETUnPaidSummary(
+        RPType,
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID
+      )
+      .subscribe(
+        (data: any) => {
+          this.UnPaidSummaryDivision = data;
+          console.log('API Response division:', this.UnPaidSummaryDivision);
+          // console.log('API Response data:', data);
+
+          const id: string[] = [];
+          const name: string[] = [];
+          const noofWorks: any[] = [];
+          const unpaidcr: number[] = [];
+          const avgDaySinceM: number[] = [];
+
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              noofWorks: any;
+              unpaidcr: number;
+              avgDaySinceM: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              noofWorks.push(item.noofWorks);
+              unpaidcr.push(item.unpaidcr);
+              avgDaySinceM.push(item.avgDaySinceM);
+            }
+          );
+
+          this.chartUnPaid.series = [
+            {
+              name: 'No of Works',
+              data: noofWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'Un-paid Value(in Cr),',
+              data: unpaidcr,
+              color: 'rgb(0, 227, 150)',
+              // color: 'rgb(0, 143, 251)',
+            },
+            // {
+            //   name: 'Total Value in Cr',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(93, 243, 174, 0.85)',
+            // },
+            // {
+            //   name: 'Avg Days Pending Since Measurement',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(250, 199, 161, 0.85)',
+            // },
+          ];
+          this.chartUnPaid.xaxis = { categories: name };
+          this.cO = this.chartUnPaid;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
+  GETUnPaidSummaryScheme(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      var RPType = 'Scheme';
+      this.chartUnPaid3.chart.height = '600';
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+    //  else if (roleName == 'Collector') {
+    //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+    // var RPType="District";
+    //  this.divisionid = 0;
+    //  this.mainschemeid=0;
+    //  this.chartOptions2.chart.height = '400px';
+    // }
+    else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+      var RPType = 'Scheme';
+      this.chartUnPaid3.chart.height = '600';
+    }
+    console.log(
+      'mainScheme RPType=',
       RPType,
+      ' this.divisionid',
       this.divisionid,
+      'himisDistrictid',
       this.himisDistrictid,
-      this.mainSchemeID,
-    )
-    .subscribe(
-      (data: any) => {
-        this.UnPaidSummaryDesignation = data;
-        // console.log('UnPaidSummaryDesignation:', this.UnPaidSummaryDesignation);
-        // console.log('API Response data:', data);
-
-        const id: string[] = [];
-        const name: string[] = [];
-        const noofWorks: any[] = [];
-        const unpaidcr: number[] = [];
-        const avgDaySinceM: number[] = [];
-
-        data.forEach(
-          (item: {
-            name: string;
-            id: any;
-            noofWorks: any;
-            unpaidcr: number;
-            avgDaySinceM: any;
-          }) => {
-            id.push(item.id);
-            name.push(item.name);
-            noofWorks.push(item.noofWorks);
-            unpaidcr.push(item.unpaidcr);
-            avgDaySinceM.push(item.avgDaySinceM);
-          }
-        );
-
-        this.chartUnPaid2.series = [
-          {
-            name: 'No of Works',
-            data: noofWorks,
-            color: '#eeba0b',
-          },
-          {
-            name: 'Un-paid Value(in Cr),',
-            data: unpaidcr,
-            color:'rgb(0, 227, 150)',
-            // color: 'rgb(0, 143, 251)',
-          },
-          // {
-          //   name: 'Total Value in Cr',
-          //   data: avgDaySinceM,
-          //   color: 'rgba(93, 243, 174, 0.85)',
-          // },
-          {
-            name: 'Avg Days Pending Since Measurement',
-            data: avgDaySinceM,
-            color: 'rgba(250, 199, 161, 0.85)',
-          },
-          // {
-          //   name: 'Total Value in Cr',
-          //   data: avgDaySinceM,
-          //   color: 'rgba(93, 243, 174, 0.85)',
-          // },
-
-          //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-          // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-          // {
-          //   name: 'Zonal Works',
-          //   data: zonalWorks,
-          //   color: 'rgba(31, 225, 11, 0.85)',
-          // },
-          // {
-          //   name: 'Tender Works',
-          //   data: tenderWorks,
-          //   color: 'rgba(2, 202, 227, 0.85)',
-          // },
-          // {
-          //   name: 'Zonal Tender Value',
-          //   data: totalZonalTVC,
-          //   color: 'rgba(172, 5, 26, 0.85)',
-          // },
-          // {
-          //   name: 'Works Tender Value',
-          //   data: totalNormalTVC,
-          //   color: 'rgba(250, 199, 161, 0.85)',
-          // },
-          // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-        ];
-        this.chartUnPaid2.xaxis = { categories: name };
-        this.cO = this.chartUnPaid2;
-        this.cdr.detectChanges();
-
-        this.spinner.hide();
-      },
-      (error: any) => {
-        console.error('Error fetching data', error);
-      }
+      'mainSchemeID',
+      this.mainSchemeID
     );
-}
-  fetchDataBasedOnChartSelectionTotalUNP(divisionID: any,seriesName: string): void {
+    this.api
+      .GETUnPaidSummary(
+        RPType,
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID
+      )
+      .subscribe(
+        (data: any) => {
+          this.UnPaidSummaryScheme = data;
+          // console.log('API Response total:', this.WoIssuedTotal);
+          // console.log('API Response data:', data);
+
+          const id: string[] = [];
+          const name: string[] = [];
+          const noofWorks: any[] = [];
+          const unpaidcr: number[] = [];
+          const avgDaySinceM: number[] = [];
+
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              noofWorks: any;
+              unpaidcr: number;
+              avgDaySinceM: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              noofWorks.push(item.noofWorks);
+              unpaidcr.push(item.unpaidcr);
+              avgDaySinceM.push(item.avgDaySinceM);
+            }
+          );
+
+          this.chartUnPaid3.series = [
+            {
+              name: 'No of Works',
+              data: noofWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'Un-paid Value(in Cr),',
+              data: unpaidcr,
+              color: 'rgb(0, 227, 150)',
+              // color: 'rgb(0, 143, 251)',
+            },
+            // {
+            //   name: 'Total Value in Cr',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(93, 243, 174, 0.85)',
+            // },
+            // {
+            //   name: 'Avg Days Pending Since Measurement',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(250, 199, 161, 0.85)',
+            // },
+          ];
+          this.chartUnPaid3.xaxis = { categories: name };
+          this.cO = this.chartUnPaid3;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
+  GETUnPaidSummaryDesignation(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      var RPType = 'Designation';
+      this.chartUnPaid2.chart.height = '200px';
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    }
+    //  else if (roleName == 'Collector') {
+    //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+    //   var RPType = 'District';
+    //   this.divisionid = 0;
+    //   this.mainschemeid = 0;
+    //   this.chartOptionsLine.chart.height = '400px';
+    // }
+    else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+      var RPType = 'Designation';
+      this.chartUnPaid2.chart.height = 'auto';
+    }
+
+    // UnPaidSummary?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
+    this.api
+      .GETUnPaidSummary(
+        RPType,
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID
+      )
+      .subscribe(
+        (data: any) => {
+          this.UnPaidSummaryDesignation = data;
+          // console.log('UnPaidSummaryDesignation:', this.UnPaidSummaryDesignation);
+          // console.log('API Response data:', data);
+
+          const id: string[] = [];
+          const name: string[] = [];
+          const noofWorks: any[] = [];
+          const unpaidcr: number[] = [];
+          const avgDaySinceM: number[] = [];
+
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              noofWorks: any;
+              unpaidcr: number;
+              avgDaySinceM: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              noofWorks.push(item.noofWorks);
+              unpaidcr.push(item.unpaidcr);
+              avgDaySinceM.push(item.avgDaySinceM);
+            }
+          );
+
+          this.chartUnPaid2.series = [
+            {
+              name: 'No of Works',
+              data: noofWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'Un-paid Value(in Cr),',
+              data: unpaidcr,
+              color: 'rgb(0, 227, 150)',
+              // color: 'rgb(0, 143, 251)',
+            },
+            // {
+            //   name: 'Total Value in Cr',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(93, 243, 174, 0.85)',
+            // },
+            {
+              name: 'Avg Days Pending Since Measurement',
+              data: avgDaySinceM,
+              color: 'rgba(250, 199, 161, 0.85)',
+            },
+            // {
+            //   name: 'Total Value in Cr',
+            //   data: avgDaySinceM,
+            //   color: 'rgba(93, 243, 174, 0.85)',
+            // },
+
+            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
+            // {
+            //   name: 'Zonal Works',
+            //   data: zonalWorks,
+            //   color: 'rgba(31, 225, 11, 0.85)',
+            // },
+            // {
+            //   name: 'Tender Works',
+            //   data: tenderWorks,
+            //   color: 'rgba(2, 202, 227, 0.85)',
+            // },
+            // {
+            //   name: 'Zonal Tender Value',
+            //   data: totalZonalTVC,
+            //   color: 'rgba(172, 5, 26, 0.85)',
+            // },
+            // {
+            //   name: 'Works Tender Value',
+            //   data: totalNormalTVC,
+            //   color: 'rgba(250, 199, 161, 0.85)',
+            // },
+            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+          ];
+          this.chartUnPaid2.xaxis = { categories: name };
+          this.cO = this.chartUnPaid2;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
+  fetchDataBasedOnChartSelectionTotalUNP(
+    divisionID: any,
+    seriesName: string
+  ): void {
     // ;
     // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     // var roleName = localStorage.getItem('roleName');
@@ -5129,12 +5652,24 @@ GETUnPaidSummaryDesignation(): void {
     //   this.mainschemeid = 0;
     // }
     this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    const designame=0;
-    const OfficerID=0;
+    this.mainschemeid = 0;
+    const designame = 0;
+    const OfficerID = 0;
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+
+    this.api
+      .GETUnPaidDetails(
+        divisionID,
+        this.mainSchemeID,
+        this.himisDistrictid,
+        designame,
+        OfficerID
+      )
+      .subscribe(
+
     this.api.GETUnPaidDetails(divisionID ,this.mainSchemeID,this.himisDistrictid,designame,OfficerID).subscribe(
+
         (res) => {
           this.dispatchDataUnPaid = res.map(
             (item: UnPaidDetails, index: number) => ({
@@ -5156,19 +5691,48 @@ GETUnPaidSummaryDesignation(): void {
       );
     this.openDialogUnpaid();
   }
-   fetchDataBasedOnChartSelectiondivisionUNP(divisionID: any,seriesName: string): void {
+  fetchDataBasedOnChartSelectiondivisionUNP(
+    divisionID: any,
+    seriesName: string
+  ): void {
     // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
     const contractid = 0;
-    const designame=0;
-    const OfficerID=0;
+    const designame = 0;
+    const OfficerID = 0;
     // const fromdt="01-jan-2024";
     // const todt="01-jan-2025";
     //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
     // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+
+    this.api
+      .GETUnPaidDetails(
+        divisionID,
+        this.mainSchemeID,
+        distid,
+        designame,
+        OfficerID
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchDataUnPaid = res.map(
+            (item: UnPaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('PaidDetailsTotal:', res);
+          // console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSourceUnPaid.data = this.dispatchDataUnPaid;
+          this.dataSourceUnPaid.paginator = this.paginatorUnPaid;
+          this.dataSourceUnPaid.sort = this.sortUnPaid;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+
     this.api.GETUnPaidDetails(divisionID,this.mainSchemeID,distid,designame,OfficerID).subscribe(
       (res) => {
         this.dispatchDataUnPaid = res.map(
@@ -5185,69 +5749,119 @@ GETUnPaidSummaryDesignation(): void {
         this.cdr.detectChanges();
         this.spinner.hide();
       },
+
         (error) => {
           console.error('Error fetching data', error);
         }
       );
     this.openDialogUnpaid();
   }
-   fetchDataBasedOnChartSelectionmainSchemeUNP(mainSchemeId: any,seriesName: string): void {
+  fetchDataBasedOnChartSelectionmainSchemeUNP(
+    mainSchemeId: any,
+    seriesName: string
+  ): void {
     console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.himisDistrictid = 0;
       // this.mainschemeid = 0;
-    }
-     else {
+    } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
       // this.mainschemeid = 0;
     }
-    const designame=0;
-    const OfficerID=0;
+    const designame = 0;
+    const OfficerID = 0;
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
-    console.log('this.divisionid=',this.divisionid,'mainSchemeId=',mainSchemeId,'this.himisDistrictid=',this.himisDistrictid,"designame=",designame,'OfficerID=',OfficerID)
-    this.api.GETUnPaidDetails(this.divisionid,mainSchemeId,this.himisDistrictid,designame,OfficerID).subscribe(
-      (res) => {
-        this.dispatchDataUnPaid = res.map(
-          (item: UnPaidDetails, index: number) => ({
-            ...item,
-            sno: index + 1,
-          })
-        );
-        // console.log('PaidDetailsTotal:', res);
-        // console.log('PaidDetails2=:',  this.dispatchData);
-        this.dataSourceUnPaid.data = this.dispatchDataUnPaid;
-        this.dataSourceUnPaid.paginator = this.paginatorUnPaid;
-        this.dataSourceUnPaid.sort = this.sortUnPaid;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
+    console.log(
+      'this.divisionid=',
+      this.divisionid,
+      'mainSchemeId=',
+      mainSchemeId,
+      'this.himisDistrictid=',
+      this.himisDistrictid,
+      'designame=',
+      designame,
+      'OfficerID=',
+      OfficerID
+    );
+    this.api
+      .GETUnPaidDetails(
+        this.divisionid,
+        mainSchemeId,
+        this.himisDistrictid,
+        designame,
+        OfficerID
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchDataUnPaid = res.map(
+            (item: UnPaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('PaidDetailsTotal:', res);
+          // console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSourceUnPaid.data = this.dispatchDataUnPaid;
+          this.dataSourceUnPaid.paginator = this.paginatorUnPaid;
+          this.dataSourceUnPaid.sort = this.sortUnPaid;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
         (error) => {
           console.error('Error fetching data', error);
         }
       );
     this.openDialogUnpaid();
   }
-   fetchDataBasedOnChartSelectionmainDesignationUNP(designame: any,seriesName: string): void {
+  fetchDataBasedOnChartSelectionmainDesignationUNP(
+    designame: any,
+    seriesName: string
+  ): void {
     // console.log(`Selected ID: ${designame}, Series: ${seriesName}`);
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
-    }
-     else {
+    } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
     }
-  
-    const OfficerID=0;
+
+    const OfficerID = 0;
     this.spinner.show();
     // Payment/UnPaidDetails?divisionId=D1004&mainSchemeId=0&distid=0
+
+    this.api
+      .GETUnPaidDetails(
+        this.divisionid,
+        this.mainSchemeID,
+        this.himisDistrictid,
+        designame,
+        OfficerID
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchDataUnPaid = res.map(
+            (item: UnPaidDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('PaidDetailsTotal:', res);
+          // console.log('PaidDetails2=:',  this.dispatchData);
+          this.dataSourceUnPaid.data = this.dispatchDataUnPaid;
+          this.dataSourceUnPaid.paginator = this.paginatorUnPaid;
+          this.dataSourceUnPaid.sort = this.sortUnPaid;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+
     this.api.GETUnPaidDetails(this.divisionid,this.mainSchemeID,this.himisDistrictid,designame,OfficerID).subscribe(
       (res) => {
         this.dispatchDataUnPaid = res.map(
@@ -5264,6 +5878,7 @@ GETUnPaidSummaryDesignation(): void {
         this.cdr.detectChanges();
         this.spinner.hide();
       },
+
         (error) => {
           console.error('Error fetching data', error);
         }
@@ -5271,92 +5886,92 @@ GETUnPaidSummaryDesignation(): void {
     this.openDialogUnpaid();
   }
 
-   // data filter
+  // data filter
 
-UNapplyTextFilter(event: Event) {
-  const filterValue = (event.target as HTMLInputElement).value;
-  this.dataSourceUnPaid.filter = filterValue.trim().toLowerCase();
-  if (this.dataSourceUnPaid.paginator) {
-    this.dataSourceUnPaid.paginator.firstPage();
+  UNapplyTextFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceUnPaid.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceUnPaid.paginator) {
+      this.dataSourceUnPaid.paginator.firstPage();
+    }
   }
-}
 
-UNexportToPDF() {
-  const doc = new jsPDF('l', 'mm', 'a4');
-  const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    // { title: 'letterno', dataKey: 'letterno' },
-    { title: 'Head', dataKey: 'head' },
-    { title: 'Division', dataKey: 'division' },
-    { title: 'District', dataKey: 'district' },
-    { title: 'Work', dataKey: 'workname' },
-    { title: 'Wrok Order DT', dataKey: 'wrokOrderDT' },
-    { title: 'Bill No.', dataKey: 'billno' },
-    { title: 'Bill Type', dataKey: 'agrbillstatus' },
-    { title: 'Contract Value (In lacs)', dataKey: 'totalamountofcontract' },
-    { title: 'Gross Amount Due(In lacs)', dataKey: 'grossAmtNew' },
-    { title: 'Total Paid Till(In lacs)', dataKey: 'totalpaidtillinlac' },
-    // { title: 'ChequeDT', dataKey: 'chequeDT' },
-    { title: 'Measurement DT', dataKey: 'mesurementDT' },
-    { title: 'WorK ID', dataKey: 'worK_ID' },
-  ];
-  const rows = this.dispatchDataUnPaid.map((row) => ({
-    sno: row.sno,
-    // letterno: row.letterno,
-    head: row.head,
-    division: row.division,
-    district: row.district,
-    workname: row.workname,
-    wrokOrderDT: row.wrokOrderDT,
-    billno: row.billno,
-    // billdate:row.billdate,
-    agrbillstatus: row.agrbillstatus,
-    totalamountofcontract: row.totalamountofcontract,
-    grossAmtNew: row.grossAmtNew,
-    totalpaidtillinlac: row.totalpaidtillinlac,
-    // chequeDT: row.chequeDT,
-    mesurementDT: row.mesurementDT,
-    // dayssincemeasurement: row.dayssincemeasurement,
-    // workStatus: row.workStatus,
-    worK_ID: row.worK_ID,
-    // designation: row.designation,
-    // engName: row.engName,
-  }));
+  UNexportToPDF() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      { title: 'S.No', dataKey: 'sno' },
+      // { title: 'letterno', dataKey: 'letterno' },
+      { title: 'Head', dataKey: 'head' },
+      { title: 'Division', dataKey: 'division' },
+      { title: 'District', dataKey: 'district' },
+      { title: 'Work', dataKey: 'workname' },
+      { title: 'Wrok Order DT', dataKey: 'wrokOrderDT' },
+      { title: 'Bill No.', dataKey: 'billno' },
+      { title: 'Bill Type', dataKey: 'agrbillstatus' },
+      { title: 'Contract Value (In lacs)', dataKey: 'totalamountofcontract' },
+      { title: 'Gross Amount Due(In lacs)', dataKey: 'grossAmtNew' },
+      { title: 'Total Paid Till(In lacs)', dataKey: 'totalpaidtillinlac' },
+      // { title: 'ChequeDT', dataKey: 'chequeDT' },
+      { title: 'Measurement DT', dataKey: 'mesurementDT' },
+      { title: 'WorK ID', dataKey: 'worK_ID' },
+    ];
+    const rows = this.dispatchDataUnPaid.map((row) => ({
+      sno: row.sno,
+      // letterno: row.letterno,
+      head: row.head,
+      division: row.division,
+      district: row.district,
+      workname: row.workname,
+      wrokOrderDT: row.wrokOrderDT,
+      billno: row.billno,
+      // billdate:row.billdate,
+      agrbillstatus: row.agrbillstatus,
+      totalamountofcontract: row.totalamountofcontract,
+      grossAmtNew: row.grossAmtNew,
+      totalpaidtillinlac: row.totalpaidtillinlac,
+      // chequeDT: row.chequeDT,
+      mesurementDT: row.mesurementDT,
+      // dayssincemeasurement: row.dayssincemeasurement,
+      // workStatus: row.workStatus,
+      worK_ID: row.worK_ID,
+      // designation: row.designation,
+      // engName: row.engName,
+    }));
 
-  autoTable(doc, {
-    columns: columns,
-    body: rows,
-    startY: 20,
-    theme: 'striped',
-    headStyles: { fillColor: [22, 160, 133] },
-  });
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] },
+    });
 
-  doc.save('UnPaidDetails.pdf');
-}
-// mat-dialog box
-openDialogUnpaid() {
-  const dialogRef = this.dialog.open(this.itemDetailsModalUnPaid, {
-    width: '100%',
-    height: '100%',
-    maxWidth: '100%',
-    panelClass: 'full-screen-dialog', // Optional for additional styling
-    data: {
-      /* pass any data here */
-    },
-    // width: '100%',
-    // maxWidth: '100%', // Override default maxWidth
-    // maxHeight: '100%', // Override default maxHeight
-    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-    // height: 'auto',
-  });
-  dialogRef.afterClosed().subscribe((result) => {
-    console.log('Dialog closed');
-  });
-}
+    doc.save('UnPaidDetails.pdf');
+  }
+  // mat-dialog box
+  openDialogUnpaid() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalUnPaid, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
 
-// #endregion
+  // #endregion
   //#region Get API data in PaidSummary
-   initializeChartOptionsPaid() {
+  initializeChartOptionsPaid() {
     this.chartPaid1 = {
       series: [],
       chart: {
@@ -5371,8 +5986,7 @@ openDialogUnpaid() {
           ) => {
             const selectedCategory =
               this.chartPaid1?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartPaid1?.series?.[seriesIndex]?.name;
+            const selectedSeries = this.chartPaid1?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.PaidSummaryDivision; // Replace with the actual data source or API response
@@ -5383,8 +5997,11 @@ openDialogUnpaid() {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name; 
-                this.fetchDataBasedOnChartSelectionDivisionPaid(id, selectedSeries);
+                this.name = selectedData.name;
+                this.fetchDataBasedOnChartSelectionDivisionPaid(
+                  id,
+                  selectedSeries
+                );
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -5460,10 +6077,8 @@ openDialogUnpaid() {
           ) => {
             const selectedCategory =
               this.chartPaid2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartPaid2?.series?.[seriesIndex]?.name;
+            const selectedSeries = this.chartPaid2?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
-            ;
             if (selectedCategory && selectedSeries) {
               const apiData = this.PaidSummaryScheme; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
@@ -5473,8 +6088,11 @@ openDialogUnpaid() {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name; 
-                this.fetchDataBasedOnChartSelectionSchemePaid(id, selectedSeries);
+                this.name = selectedData.name;
+                this.fetchDataBasedOnChartSelectionSchemePaid(
+                  id,
+                  selectedSeries
+                );
               } else {
                 console.log(
                   `No data found for selected category: ${selectedCategory}`
@@ -5550,8 +6168,7 @@ openDialogUnpaid() {
           ) => {
             const selectedCategory =
               this.chartPaid3?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartPaid3?.series?.[seriesIndex]?.name;
+            const selectedSeries = this.chartPaid3?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.PaidSummaryDistrict; // Replace with the actual data source or API response
@@ -5562,7 +6179,7 @@ openDialogUnpaid() {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name; 
+                this.name = selectedData.name;
                 // this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
               } else {
                 console.log(
@@ -5640,8 +6257,7 @@ openDialogUnpaid() {
           ) => {
             const selectedCategory =
               this.chartPaid?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartPaid?.series?.[seriesIndex]?.name;
+            const selectedSeries = this.chartPaid?.series?.[seriesIndex]?.name;
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               const apiData = this.PaidSummaryScheme; // Replace with the actual data source or API response
@@ -5653,8 +6269,11 @@ openDialogUnpaid() {
               // console.log("selectedData chart1",selectedData)
               if (selectedData) {
                 const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name; 
-                this.fetchDataBasedOnChartSelectionSchemePaid(id, selectedSeries);
+                this.name = selectedData.name;
+                this.fetchDataBasedOnChartSelectionSchemePaid(
+                  id,
+                  selectedSeries
+                );
                 // this.fetchDataBasedOnChartSelectionTotalPaid(id, selectedSeries);
               } else {
                 console.log(
@@ -5670,8 +6289,8 @@ openDialogUnpaid() {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth:'20%',
-          borderRadius:3,
+          columnWidth: '20%',
+          borderRadius: 3,
           dataLabels: {
             position: 'top', // top, center, bottom
           },
@@ -5725,7 +6344,7 @@ openDialogUnpaid() {
       },
     };
   }
-   GETPaidSummaryTotal(): void {
+  GETPaidSummaryTotal(): void {
     this.spinner.show();
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
@@ -5752,22 +6371,29 @@ openDialogUnpaid() {
     }
     const startDate = this.dateRange1.value.start;
     const endDate = this.dateRange1.value.end;
-    this.fromdt = startDate
-      ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
-      : '';
-    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.fromdt1 = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy'): '';
+    this.todt1 = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
     // ?RPType=Division&divisionid=0&districtid=0&mainschemeid=0&fromdt=01-Dec-2023&todt=31-Dec-2023
     // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-    console.log('GETUnPaidSummaryTotal RPType=',  RPType, ' this.divisionid',  this.divisionid, 'himisDistrictid', 
-      this.himisDistrictid, 'mainSchemeID',  this.mainSchemeID );
-    this.api.GETPaidSummary(
+    console.log(
+      'GETUnPaidSummaryTotal RPType=',
+      RPType,
+      ' this.divisionid',
+      this.divisionid,
+      'himisDistrictid',
+      this.himisDistrictid,
+      'mainSchemeID',
+      this.mainSchemeID
+    );
+    this.api
+      .GETPaidSummary(
         RPType,
         this.divisionid,
         this.himisDistrictid,
         this.mainSchemeID,
-        this.fromdt,
-        this.todt
+        this.fromdt1,
+        this.todt1
       )
       .subscribe(
         (data: any) => {
@@ -5804,7 +6430,8 @@ openDialogUnpaid() {
               name: string;
               id: any;
               avgDaysSinceMeasurement: any;
-              grossPaidcr: any;noofWorks:number
+              grossPaidcr: any;
+              noofWorks: number;
             }) => {
               id.push(item.id);
               name.push(item.name);
@@ -5900,8 +6527,16 @@ openDialogUnpaid() {
       : '';
     this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
-    console.log('PaidSummaryTotal RPType=',  RPType, ' this.divisionid',  this.divisionid, 'himisDistrictid', 
-      this.himisDistrictid, 'mainSchemeID',  this.mainSchemeID );
+    console.log(
+      'PaidSummaryTotal RPType=',
+      RPType,
+      ' this.divisionid',
+      this.divisionid,
+      'himisDistrictid',
+      this.himisDistrictid,
+      'mainSchemeID',
+      this.mainSchemeID
+    );
     // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api
       .GETPaidSummary(
@@ -5929,7 +6564,8 @@ openDialogUnpaid() {
               name: string;
               id: any;
               avgDaysSinceMeasurement: any;
-              grossPaidcr: any;noofWorks:number
+              grossPaidcr: any;
+              noofWorks: number;
             }) => {
               id.push(item.id);
               name.push(item.name);
@@ -6036,9 +6672,18 @@ openDialogUnpaid() {
     // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
     // alert( this.TimeStatus)
     // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-    console.log('PaidSummaryScheme RPType=',  RPType, ' this.divisionid',  this.divisionid, 'himisDistrictid', 
-      this.himisDistrictid, 'mainSchemeID',  this.mainSchemeID );
-    this.api.GETPaidSummary(
+    console.log(
+      'PaidSummaryScheme RPType=',
+      RPType,
+      ' this.divisionid',
+      this.divisionid,
+      'himisDistrictid',
+      this.himisDistrictid,
+      'mainSchemeID',
+      this.mainSchemeID
+    );
+    this.api
+      .GETPaidSummary(
         RPType,
         this.divisionid,
         this.himisDistrictid,
@@ -6049,7 +6694,10 @@ openDialogUnpaid() {
       .subscribe(
         (data: any) => {
           this.PaidSummaryScheme = data;
-          console.log('API Response PaidSummaryScheme:', this.PaidSummaryScheme);
+          console.log(
+            'API Response PaidSummaryScheme:',
+            this.PaidSummaryScheme
+          );
           // console.log('API Response data:', data);
 
           // const id: string[] = [];
@@ -6081,7 +6729,8 @@ openDialogUnpaid() {
               name: string;
               id: any;
               avgDaysSinceMeasurement: any;
-              grossPaidcr: any;noofWorks:number
+              grossPaidcr: any;
+              noofWorks: number;
             }) => {
               id.push(item.id);
               name.push(item.name);
@@ -6184,7 +6833,7 @@ openDialogUnpaid() {
         RPType,
         this.divisionid,
         this.himisDistrictid,
-        this.mainSchemeID,
+        this.mainSchemeID
       )
       .subscribe(
         (data: any) => {
@@ -6295,8 +6944,7 @@ openDialogUnpaid() {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
-    }
-     else {
+    } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
       this.mainschemeid = 0;
@@ -6306,8 +6954,8 @@ openDialogUnpaid() {
     this.api
       .GETPaidDetails(
         this.divisionid,
-       this. mainschemeid,
-       this.himisDistrictid,
+        this.mainschemeid,
+        this.himisDistrictid,
         this.fromdt,
         this.todt
       )
@@ -6346,9 +6994,22 @@ openDialogUnpaid() {
     //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
     // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
+
+    console.log('this.mainSchemeID,=', this.mainSchemeID);
+    // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
+    this.api
+      .GETPaidDetails(
+        divisionID,
+        this.mainSchemeID,
+        distid,
+        this.fromdt,
+        this.todt
+      )
+
     console.log( 'this.mainSchemeID,=', this.mainSchemeID,)
     // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
     this.api.GETPaidDetails(divisionID,this.mainSchemeID,distid,this.fromdt,this.todt)
+
       .subscribe(
         (res) => {
           this.dispatchDataPaid = res.map(
@@ -6381,8 +7042,7 @@ openDialogUnpaid() {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.himisDistrictid = 0;
       // this.mainschemeid = 0;
-    }
-     else {
+    } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
       // this.mainschemeid = 0;
@@ -6395,7 +7055,13 @@ openDialogUnpaid() {
     // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
     // console.log( 'this.mainSchemeID,=', this.mainSchemeID,)
     this.api
-      .GETPaidDetails(this.divisionid,mainSchemeId,this.himisDistrictid,this.fromdt,this.todt)
+      .GETPaidDetails(
+        this.divisionid,
+        mainSchemeId,
+        this.himisDistrictid,
+        this.fromdt,
+        this.todt
+      )
       .subscribe(
         (res) => {
           this.dispatchDataPaid = res.map(
@@ -6421,12 +7087,323 @@ openDialogUnpaid() {
       );
     this.openDialogPaid();
   }
-   applyTextFilterPaid(event: Event) {
-  const filterValue = (event.target as HTMLInputElement).value;
-  this.dataSourcePaid.filter = filterValue.trim().toLowerCase();
-  if (this.dataSourcePaid.paginator) {
-    this.dataSourcePaid.paginator.firstPage();
+  applyTextFilterPaid(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourcePaid.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourcePaid.paginator) {
+      this.dataSourcePaid.paginator.firstPage();
+    }
   }
+
+  exportToPDFPaid() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      // 'sno', 'head','district','division','workname','wrokOrderDT','billno','agrbillstatus',
+      // 'totalamountofcontract','grosspaid','totalpaidtillinlac','chequeDT','mesurementDT','worK_ID'
+      { title: 'S.No', dataKey: 'sno' },
+      // { title: 'letterno', dataKey: 'letterno' },
+      { title: 'Head', dataKey: 'head' },
+      { title: 'Division', dataKey: 'division' },
+      { title: 'District', dataKey: 'district' },
+      { title: 'Work', dataKey: 'workname' },
+      { title: 'Work Order DT', dataKey: 'wrokOrderDT' },
+      { title: 'Bill No.', dataKey: 'billno' },
+      { title: 'AGR Bill Status', dataKey: 'agrbillstatus' },
+      { title: 'Contract Value (In lacs)', dataKey: 'totalamountofcontract' },
+      { title: 'Gross Paid Value (In lacs)', dataKey: 'grosspaid' },
+      { title: 'Total Paid Till(In lacs)', dataKey: 'totalpaidtillinlac' },
+      { title: 'Cheque DT.', dataKey: 'chequeDT' },
+      { title: 'Measurement DT', dataKey: 'mesurementDT' },
+      { title: 'WorK ID', dataKey: 'worK_ID' },
+    ];
+    const rows = this.dispatchDataPaid.map((row) => ({
+      sno: row.sno,
+      head: row.head,
+      district: row.district,
+      division: row.division,
+      workname: row.workname,
+      wrokOrderDT: row.wrokOrderDT,
+      billno: row.billno,
+      agrbillstatus: row.agrbillstatus,
+      totalamountofcontract: row.totalamountofcontract,
+      grosspaid: row.grosspaid,
+      totalpaidtillinlac: row.totalpaidtillinlac,
+      chequeDT: row.chequeDT,
+      mesurementDT: row.mesurementDT,
+      worK_ID: row.worK_ID,
+    }));
+
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+
+    doc.save('PaymentDetail.pdf');
+  }
+  openDialogPaid() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalPaid, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+  // #endregion
+  // #region Get APT data Live Tender
+  initializeChartOptionsLiveTender() {
+    this.chartliveTenderTO = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: false,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:500,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
+              this.chartliveTenderTO?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartliveTenderTO?.series?.[seriesIndex]?.name;
+            // Ensure the selectedCategory and selectedSeries are valid
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.LiveTenderScheme; // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+                this.name = selectedData.name;
+                this.nosWorks = selectedData.nosWorks;
+                this.fetchDataBasedOnChartSelectionSchemeLIT(
+                  id,
+                  selectedSeries
+                );
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '30%',
+          borderRadius: 3,
+          distributed: false,
+          dataLabels: {
+            position: 'top', // top, center, bottom
+          },
+        },
+      },
+      xaxis: {
+        categories: [],
+        // position: 'top',
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        // text: 'Live Tenders ',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+
+    this.chartliveTenderDiv = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: true,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:600,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
+              this.chartliveTenderDiv?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartliveTenderDiv?.series?.[seriesIndex]?.name;
+            // Ensure the selectedCategory and selectedSeries are valid
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.LiveTenderDivision; // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+                this.name = selectedData.name;
+                this.nosWorks = selectedData.nosWorks;
+                this.fetchDataBasedOnChartSelectionDivisionLIT(
+                  id,
+                  selectedSeries
+                );
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        // text: 'Division-wise Live Tenders',
+        align: 'center',
+        style: {
+          // fontSize: '12px',
+          fontSize: '15px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+  }
+
+  GETLiveTenderDivision(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      // var RPType ='Division';
+      var RPType = 'Division';
+      this.chartliveTenderDiv.chart.height = '200px';
+      this.himisDistrictid = 0;
+      // this.mainschemeid=0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      //  var RPType="District";
+      var RPType = 'Division';
+      this.divisionid = 0;
+      // this.mainschemeid=0;
+      this.chartliveTenderDiv.chart.height = '400px';
+    } else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      // this.mainschemeid=0;
+      var RPType = 'Division';
+      this.chartliveTenderDiv.chart.height = '300';
+    }
+    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
+
+    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    this.api
+      .GETLiveTender(
+        RPType,
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID,
+        this.TimeStatus
+      )
+=======
 }
 exportToPDFPaid() {
   const doc = new jsPDF('l', 'mm', 'a4');
@@ -6723,6 +7700,7 @@ GETLiveTenderDivision(): void {
   
   // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainSchemeID,this.TimeStatus )
+
       .subscribe(
         (data: any) => {
           this.LiveTenderDivision = data;
@@ -6772,6 +7750,21 @@ GETLiveTenderDivision(): void {
           this.chartliveTenderDiv.xaxis = { categories: name };
           this.cO = this.chartliveTenderDiv;
           // if(this.selectedTabIndex == 0){
+
+          this.chartliveTenderDiv.title = {
+            text: 'Division-wise Live Tenders ',
+            align: 'center',
+            style: {
+              fontSize: '12px',
+              // color: '#000'
+              color: '#6e0d25',
+            },
+          };
+
+          // }else{
+          //   this.chartliveTenderDiv.title={text: 'Division-wise Live Tenders',
+
+
             this.chartliveTenderDiv.title={text: 'Division-wise Live Tenders ',
               align: 'center',
               style: {
@@ -6784,6 +7777,7 @@ GETLiveTenderDivision(): void {
           // }else{
           //   this.chartliveTenderDiv.title={text: 'Division-wise Live Tenders',
           
+
           //     // text: 'Live Tenders ',
           //     align: 'center',
           //     style: {
@@ -6802,6 +7796,45 @@ GETLiveTenderDivision(): void {
         }
       );
   }
+
+  GETLiveTenderScheme(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      // var RPType ='Division';
+      var RPType = 'Scheme';
+
+      this.chartliveTenderTO.chart.height = '200px';
+      this.himisDistrictid = 0;
+      // this.mainschemeid=0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      //  var RPType="District";
+      var RPType = 'Scheme';
+
+      this.divisionid = 0;
+      // this.mainschemeid=0;
+      this.chartliveTenderTO.chart.height = '400px';
+    } else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      // this.mainschemeid=0;
+      this.chartliveTenderTO.chart.height = '300';
+      var RPType = 'Scheme';
+    }
+    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
+    // alert( this.TimeStatus)
+    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    this.api
+      .GETLiveTender(
+        RPType,
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID,
+        this.TimeStatus
+      )
+
 GETLiveTenderScheme(): void {
   this.spinner.show();
   var roleName = localStorage.getItem('roleName');
@@ -6832,6 +7865,7 @@ GETLiveTenderScheme(): void {
   // alert( this.TimeStatus)
   // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
     this.api.GETLiveTender( RPType, this.divisionid,this.himisDistrictid,this.mainSchemeID,this.TimeStatus )
+
       .subscribe(
         (data: any) => {
           this.LiveTenderScheme = data;
@@ -6877,11 +7911,26 @@ GETLiveTenderScheme(): void {
               data: totalValuecr,
               color: 'rgba(93, 243, 174, 0.85)',
             },
-        
+
           ];
           this.chartliveTenderTO.xaxis = { categories: name };
           this.cO = this.chartliveTenderTO;
           // if(this.selectedTabIndex == 0){
+
+          this.chartliveTenderTO.title = {
+            text: 'Scheme-wise Live Tenders ',
+            align: 'center',
+            style: {
+              fontSize: '12px',
+              // color: '#000'
+              color: '#6e0d25',
+            },
+          };
+
+          // }else{
+          //   this.chartliveTenderTO.title={text: 'Scheme-wise Pending To Open Tenders',
+
+
             this.chartliveTenderTO.title={text: 'Scheme-wise Live Tenders ',
               align: 'center',
               style: {
@@ -6894,6 +7943,7 @@ GETLiveTenderScheme(): void {
           // }else{
           //   this.chartliveTenderTO.title={text: 'Scheme-wise Pending To Open Tenders',
           
+
           //     // text: 'Live Tenders ',
           //     align: 'center',
           //     style: {
@@ -6913,6 +7963,2180 @@ GETLiveTenderScheme(): void {
       );
   }
 
+
+  fetchDataBasedOnChartSelectionDivisionLIT(
+    divisionID: any,
+    seriesName: string
+  ): void {
+    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    // const mainSchemeId = 0;
+    const TimeStatus = 'Live';
+    this.spinner.show();
+    // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
+    // alert(this.TimeStatus);
+    this.api
+      .GETTenderDetails(divisionID, this.mainSchemeID, distid, this.TimeStatus)
+      .subscribe(
+        (res) => {
+          this.dispatchDataLiveTender = res.map(
+            (item: TenderDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('res:', res);
+          // console.log('dispatchData=:', this.dispatchData);
+
+          this.dataSourceLiveTender.data = this.dispatchDataLiveTender;
+          this.dataSourceLiveTender.paginator = this.paginatorLivet;
+          this.dataSourceLiveTender.sort = this.sortLivet;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogLiT();
+  }
+
+  fetchDataBasedOnChartSelectionSchemeLIT(
+    mainSchemeId: any,
+    seriesName: string
+  ): void {
+    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    const divisionID = 0;
+    const distid = 0;
+    const TimeStatus = 'Live';
+    this.spinner.show();
+    // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
+    // alert(this.TimeStatus);
+    this.api
+      .GETTenderDetails(divisionID, mainSchemeId, distid, this.TimeStatus)
+      .subscribe(
+        (res) => {
+          this.dispatchDataLiveTender = res.map(
+            (item: TenderDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('res:', res);
+          // console.log('dispatchData=:', this.dispatchData);
+          this.dataSourceLiveTender.data = this.dispatchDataLiveTender;
+          this.dataSourceLiveTender.paginator = this.paginatorLivet;
+          this.dataSourceLiveTender.sort = this.sortLivet;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogLiT();
+  }
+
+  applyTextFilterLIT(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceLiveTender.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceLiveTender.paginator) {
+      this.dataSourceLiveTender.paginator.firstPage();
+    }
+  }
+  exportToPDFLIT() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'AS Letter No', dataKey: 'letterno' },
+      { title: 'Head', dataKey: 'head' },
+      { title: 'AS Date', dataKey: 'aA_RAA_Date' },
+      { title: 'AS Amount', dataKey: 'asAmt' },
+      { title: 'District', dataKey: 'district' },
+      { title: 'Work ID', dataKey: 'work_id' },
+      { title: 'Work Name', dataKey: 'workname' },
+      { title: 'Start Dt', dataKey: 'startdt' },
+      { title: 'End Dt', dataKey: 'enddt' },
+      { title: 'NO of Calls', dataKey: 'noofcalls' },
+      { title: 'e-Procno', dataKey: 'eprocno' },
+      { title: 'NIT NO', dataKey: 'tenderno' },
+    ];
+    const rows = this.dispatchDataLiveTender.map((row) => ({
+      sno: row.sno,
+      letterNo: row.letterno,
+      head: row.head,
+      aA_RAA_Date: row.aA_RAA_Date,
+      asAmt: row.asAmt,
+      district: row.district,
+      work_id: row.work_id,
+      workname: row.workname,
+      startdt: row.startdt,
+      enddt: row.enddt,
+      noofcalls: row.noofcalls,
+      tenderno: row.tenderno,
+      eprocno: row.eprocno,
+    }));
+
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+
+    doc.save('TenderDetails.pdf');
+  }
+  // mat-dialog box
+  openDialogLiT() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalLT, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+
+  // #endregion
+  // #region Get APT data Tender Evatuation
+  initializeChartOptionsTenderE() {
+    this.chartOptionsTESDivision = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: true,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:600,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
+              this.chartOptionsTESDivision?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartOptionsTESDivision?.series?.[seriesIndex]?.name;
+            // Ensure the selectedCategory and selectedSeries are valid
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.TenderEvaluationDivision; // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+                this.selectedName = selectedData.name;
+                this.nosWorks = selectedData.nosWorks;
+                this.fetchDataBasedOnChartSelectionDivisionTenderE(
+                  id,
+                  selectedSeries
+                );
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Division-wise Technical Evaluation',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+    this.chartOptionsTEScheme = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: false,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:500,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
+              this.chartOptionsTEScheme?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartOptionsTEScheme?.series?.[seriesIndex]?.name;
+            // Ensure the selectedCategory and selectedSeries are valid
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.TenderEvaluationScheme; // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+                this.selectedName = selectedData.name;
+                this.nosWorks = selectedData.nosWorks;
+                this.fetchDataBasedOnChartSelectionSchemeTenderE(
+                  id,
+                  selectedSeries
+                );
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '30%',
+          borderRadius: 3,
+          distributed: false,
+          dataLabels: {
+            position: 'top', // top, center, bottom
+          },
+        },
+      },
+      xaxis: {
+        categories: [],
+        // position: 'top',
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Technical Evaluation Summary',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+  }
+
+  GETTenderEvaluationDivision(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      var RPType = 'Division';
+      this.chartOptionsTESDivision.chart.height = '200px';
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      var RPType = 'District';
+      this.divisionid = 0;
+      this.mainschemeid = 0;
+      this.chartOptionsTESDivision.chart.height = '400px';
+    } else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+      this.chartOptionsTESDivision.chart.height = '300';
+    }
+    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
+    var RPType = 'Division';
+    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    this.api
+      .GETTenderEvaluation(
+        RPType,
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID
+      )
+      .subscribe(
+        (data: any) => {
+          this.TenderEvaluationDivision = data;
+          // console.log('API Response total:', this.WoIssuedTotal);
+          // console.log('API Response data:', data);
+
+          const id: string[] = [];
+          const name: string[] = [];
+          const nosWorks: any[] = [];
+          const nosTender: number[] = [];
+          const totalValuecr: number[] = [];
+          const avgDaysSince: number[] = [];
+
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              nosWorks: any;
+              nosTender: number;
+              totalValuecr: any;
+              avgDaysSince: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              nosWorks.push(item.nosWorks);
+              nosTender.push(item.nosTender);
+              totalValuecr.push(item.totalValuecr);
+              avgDaysSince.push(item.avgDaysSince);
+            }
+          );
+
+          this.chartOptionsTESDivision.series = [
+            {
+              name: 'No. of Works',
+              data: nosWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'No. of Tender',
+              data: nosTender,
+              //  color: 'rgb(0, 143, 251)',
+              color: '#6a6afd',
+            },
+            {
+              name: 'Value(in Cr)',
+              data: totalValuecr,
+              color: 'rgba(93, 243, 174, 0.85)',
+            },
+            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+            // { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+          ];
+          this.chartOptionsTESDivision.xaxis = { categories: name };
+          this.cO = this.chartOptionsTESDivision;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
+  GETTenderEvaluationScheme(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      var RPType = 'Division';
+      this.chartOptionsTEScheme.chart.height = '200px';
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      var RPType = 'District';
+      this.divisionid = 0;
+      this.mainschemeid = 0;
+      this.chartOptionsTEScheme.chart.height = '400px';
+    } else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+      this.chartOptionsTEScheme.chart.height = '300';
+    }
+    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
+    // alert( this.TimeStatus)
+    var RPType = 'Scheme';
+    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    this.api
+      .GETTenderEvaluation(
+        RPType,
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID
+      )
+      .subscribe(
+        (data: any) => {
+          this.TenderEvaluationScheme = data;
+          // console.log('API Response total:', this.WoIssuedTotal);
+          // console.log('API Response data:', data);
+
+          const id: string[] = [];
+          const name: string[] = [];
+          const nosWorks: any[] = [];
+          const nosTender: number[] = [];
+          const totalValuecr: number[] = [];
+          const avgDaysSince: number[] = [];
+
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              nosWorks: any;
+              nosTender: number;
+              totalValuecr: any;
+              avgDaysSince: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              nosWorks.push(item.nosWorks);
+              nosTender.push(item.nosTender);
+              totalValuecr.push(item.totalValuecr);
+              avgDaysSince.push(item.avgDaysSince);
+            }
+          );
+
+          this.chartOptionsTEScheme.series = [
+            {
+              name: 'No. of Works',
+              data: nosWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'No. of Tender',
+              data: nosTender,
+              //  color: 'rgb(0, 143, 251)',
+              color: '#6a6afd',
+            },
+            {
+              name: 'Value(in Cr)',
+              data: totalValuecr,
+              color: 'rgba(93, 243, 174, 0.85)',
+            },
+            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
+            // { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
+          ];
+          this.chartOptionsTEScheme.xaxis = { categories: name };
+          this.cO = this.chartOptionsTEScheme;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
+
+  fetchDataBasedOnChartSelectionSchemeTenderE(
+    mainSchemeId: any,
+    seriesName: string
+  ): void {
+    //  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    const divisionID = 0;
+    const distid = 0;
+    const TimeStatus = 'Live';
+    this.spinner.show();
+    // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
+    // alert(this.TimeStatus);
+    this.api
+      .GETTenderEvaluationDetails(divisionID, mainSchemeId, distid)
+      .subscribe(
+        (res) => {
+          this.dispatchDataTenderE = res.map(
+            (item: TenderEvaluationDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          //  console.log('res:', res);
+          //  console.log('dispatchData=:', this.dispatchData);
+
+          this.dataSourceTenderE.data = this.dispatchDataTenderE;
+          this.dataSourceTenderE.paginator = this.paginatorTenderE;
+          this.dataSourceTenderE.sort = this.sortTenderE;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogTE();
+  }
+
+  fetchDataBasedOnChartSelectionDivisionTenderE(
+    divisionID: any,
+    seriesName: string
+  ): void {
+    //  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    //  const mainSchemeId = 0;
+    const TimeStatus = 'Live';
+    this.spinner.show();
+    // getTenderDetails?divisionId=D1004&mainSchemeId=0&distid=0&TimeStatus=Live
+    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
+    // alert(this.TimeStatus);
+    this.api
+      .GETTenderEvaluationDetails(divisionID, this.mainSchemeID, distid)
+      .subscribe(
+        (res) => {
+          this.dispatchDataTenderE = res.map(
+            (item: TenderEvaluationDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          //  console.log('res:', res);
+          //  console.log('dispatchData=:', this.dispatchData);
+          this.dataSourceTenderE.data = this.dispatchDataTenderE;
+          this.dataSourceTenderE.paginator = this.paginatorTenderE;
+          this.dataSourceTenderE.sort = this.sortTenderE;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogTE();
+  }
+
+  applyTextFilterTE(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceTenderE.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceTenderE.paginator) {
+      this.dataSourceTenderE.paginator.firstPage();
+    }
+  }
+  exportToPDFTE() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'AS Letter No', dataKey: 'letterno' },
+      { title: 'Head', dataKey: 'head' },
+      { title: 'AS Date', dataKey: 'aA_RAA_Date' },
+      { title: 'AS Amount', dataKey: 'asAmt' },
+      { title: 'District', dataKey: 'district' },
+      { title: 'Work ID', dataKey: 'work_id' },
+      { title: 'Work Name', dataKey: 'workname' },
+      { title: 'Start Dt', dataKey: 'startdt' },
+      { title: 'End Dt', dataKey: 'enddt' },
+      { title: 'NO of Calls', dataKey: 'noofcalls' },
+      { title: 'NIT NO', dataKey: 'tenderno' },
+      { title: 'Cover A Opened DT', dataKey: 'tOpnedDT' },
+      { title: 'Cover B Opened DT', dataKey: 'topnedbdt' },
+      { title: 'Days Since Cov A/B Opned', dataKey: 'daysSinceOpen' },
+      { title: 'e-Procno', dataKey: 'eprocno' },
+    ];
+    const rows = this.dispatchDataTenderE.map((row) => ({
+      sno: row.sno,
+      letterNo: row.letterno,
+      head: row.head,
+      aA_RAA_Date: row.aA_RAA_Date,
+      asAmt: row.asAmt,
+      district: row.district,
+      work_id: row.work_id,
+      workname: row.workname,
+      startdt: row.startdt,
+      enddt: row.enddt,
+      noofcalls: row.noofcalls,
+      tenderno: row.tenderno,
+      tOpnedDT: row.tOpnedDT,
+      topnedbdt: row.topnedbdt,
+      daysSinceOpen: row.daysSinceOpen,
+      eprocno: row.eprocno,
+    }));
+
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+
+    doc.save('TechnicalEvaluation.pdf');
+  }
+
+  openDialogTE() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalTE, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+  // #endregion
+  // #region Get APT data Work Order Pending
+
+  initializeChartOptionsWOP() {
+    // this.chartOptionsWOPScheme = {
+    //   series: [],
+    //   chart: {
+    //     type: 'bar',
+    //     stacked: true,
+    //     // height: 'auto',
+    //     // height:400,
+    //     // height: 200,
+    //     // width:600,
+    //     events: {
+    //       dataPointSelection: (
+    //         event,
+    //         chartContext,
+    //         { dataPointIndex, seriesIndex }
+    //       ) => {
+    //         const selectedCategory =
+    //           this.chartOptionsWOPScheme?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+    //         const selectedSeries =
+    //           this.chartOptionsWOPScheme?.series?.[seriesIndex]?.name;
+    //         // Ensure the selectedCategory and selectedSeries are valid
+    //         if (selectedCategory && selectedSeries) {
+    //           const apiData = this.wOpendingScheme; // Replace with the actual data source or API response
+    //           // Find the data in your API response that matches the selectedCategory
+    //           const selectedData = apiData.find(
+    //             (data) => data.name === selectedCategory
+    //           );
+    //           // console.log("selectedData chart1",selectedData)
+    //           if (selectedData) {
+    //             const id = selectedData.id; // Extract the id from the matching entry
+    //             this.name = selectedData.name;
+    //             this.noofWorksGreater7Days = selectedData.noofWorksGreater7Days;
+    //             this.fetchDataBasedOnChartSelectionmainSchemeWOP(
+    //               id,
+    //               selectedSeries
+    //             );
+    //           } else {
+    //             console.log(
+    //               `No data found for selected category: ${selectedCategory}`
+    //             );
+    //           }
+    //         } else {
+    //           console.log('Selected category or series is invalid.');
+    //         }
+    //       },
+    //     },
+    //   },
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: false,
+    //       columnWidth: '30%',
+    //       borderRadius: 3,
+    //       distributed: false,
+    //       dataLabels: {
+    //         position: 'top', // top, center, bottom
+    //       },
+    //     },
+    //   },
+    //   xaxis: {
+    //     categories: [],
+    //   },
+    //   yaxis: {
+    //     title: {
+    //       text: undefined,
+    //     },
+    //   },
+    //   dataLabels: {
+    //     enabled: true,
+    //     style: {
+    //       // colors: ['#FF0000']
+    //       colors: ['#000'],
+    //     },
+    //   },
+    //   stroke: {
+    //     width: 1,
+    //     // colors: ['#000'],
+    //     colors: ['#fff'],
+    //   },
+    //   title: {
+    //     // text: 'Total Pending Total Works wise Progress ',
+    //     text: 'Scheme-wise Work Order Pending',
+    //     // text: 'Work Order Pending',
+    //     align: 'center',
+    //     style: {
+    //       fontSize: '12px',
+    //       // color: '#000'
+    //       color: '#6e0d25',
+    //     },
+    //   },
+    //   tooltip: {
+    //     y: {
+    //       formatter: function (val: any) {
+    //         return val.toString();
+    //       },
+    //     },
+    //   },
+    //   fill: {
+    //     opacity: 1,
+    //   },
+    //   legend: {
+    //     position: 'top',
+    //     horizontalAlign: 'center',
+    //     offsetX: 40,
+    //   },
+    // };
+    this.chartOptionsWOPDivision = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: true,
+        // height: 600,
+        // height: 'auto',
+        // width:600,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            if (dataPointIndex !== undefined && seriesIndex !== undefined) {
+              const selectedCategory =
+                this.chartOptionsWOPDivision?.xaxis?.categories?.[
+                  dataPointIndex
+                ];
+              const selectedSeries =
+                this.chartOptionsWOPDivision?.series?.[seriesIndex]?.name;
+
+              if (selectedCategory && selectedSeries) {
+                const apiData = this.wOpendingDivision;
+                console.log('datasch:', apiData);
+
+                if (Array.isArray(apiData)) {
+                  // const selectedData = apiData.find((data) =>
+                  //   data.name.trim().toLowerCase() === selectedCategory.trim().toLowerCase()   );
+                  const selectedData = apiData.find(
+                    (data) => data.name === selectedCategory
+                  );
+                  // console.log("selectedData chart1",selectedData);
+
+                  if (selectedData) {
+                    const id = selectedData.id;
+                    this.name = selectedData.name;
+                    this.noofWorksGreater7Days =
+                      selectedData.noofWorksGreater7Days;
+                    this.fetchDataBasedOnChartSelectionmainSchemeWOP(
+                      id,
+                      selectedSeries
+                    );
+                  } else {
+                    console.error(
+                      `No data found for selected category: ${selectedCategory}`
+                    );
+                  }
+                } else {
+                  console.error('API Data is not an array:', apiData);
+                }
+              } else {
+                console.error('Selected category or series is invalid.');
+              }
+            } else {
+              console.log('Invalid data point or series index.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Division-wise Work Order Pending',
+        // text: 'Scheme-wise Pending Work Order Pending',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+
+    this.chartOptionsWOI = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: true,
+        // height: 600,
+        // height: 'auto',
+        // width:600,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            if (dataPointIndex !== undefined && seriesIndex !== undefined) {
+              const selectedCategory =
+                this.chartOptionsWOI?.xaxis?.categories?.[dataPointIndex];
+              const selectedSeries =
+                this.chartOptionsWOI?.series?.[seriesIndex]?.name;
+
+              if (selectedCategory && selectedSeries) {
+                const apiData = this.WoIssuedTotal;
+                // console.log('datasch:', apiData);
+
+                if (Array.isArray(apiData)) {
+                  // const selectedData = apiData.find((data) =>
+                  //   data.name.trim().toLowerCase() === selectedCategory.trim().toLowerCase()   );
+                  const selectedData = apiData.find(
+                    (data) => data.name === selectedCategory
+                  );
+                  // console.log("selectedData chart1",selectedData);
+
+                  if (selectedData) {
+                    const id = selectedData.id;
+                    this.name = selectedData.name;
+                    this.totalWorks = selectedData.totalWorks;
+                    this.fetchDataBasedOnChartSelectionTotalWOGD( id,  selectedSeries  );
+                  } else {
+                    console.error(
+                      `No data found for selected category: ${selectedCategory}`
+                    );
+                  }
+                } else {
+                  console.error('API Data is not an array:', apiData);
+                }
+              } else {
+                console.error('Selected category or series is invalid.');
+              }
+            } else {
+              console.log('Invalid data point or series index.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Division-wise Work Order Issued',
+        // text: 'RP Type Total Pending Works wise Progress',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+  }
+
+  // GetWOPendingScheme(): void {
+  //   this.spinner.show();
+  //   var roleName = localStorage.getItem('roleName');
+  //   if (roleName == 'Division') {
+  //     this.divisionid = sessionStorage.getItem('divisionID');
+  //     this.chartOptionsWOPScheme.chart.height = '500px';
+  //     this.himisDistrictid = 0;
+  //   } else if (roleName == 'Collector') {
+  //     this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+  //     this.divisionid = 0;
+  //     this.chartOptionsWOPScheme.chart.height = '500px';
+  //   } else {
+  //     this.divisionid = 0;
+  //     this.himisDistrictid = 0;
+  //     this.chartOptionsWOPScheme.chart.height = '400';
+  //   }
+  //   var RPType = 'Scheme';
+  //   // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+  //   var fromdt = 0,
+  //     todt = 0;
+  //   this.api
+  //     .WOPendingTotal(RPType, this.divisionid, this.himisDistrictid)
+  //     .subscribe(
+  //       // this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
+  //       (data: any) => {
+  //         this.wOpendingScheme = data;
+  //         // console.log('API Response Scheme:',  this.wOpendingScheme);
+  //         const name: string[] = [];
+  //         const id: string[] = [];
+  //         const pendingWork: any[] = [];
+  //         const contrctValuecr: number[] = [];
+  //         const noofWorksGreater7Days: any[] = [];
+  //         data.forEach(
+  //           (item: {
+  //             name: string;
+  //             id: any;
+  //             pendingWork: any;
+  //             contrctValuecr: number;
+  //             noofWorksGreater7Days: any;
+  //           }) => {
+  //             id.push(item.id);
+  //             name.push(item.name);
+  //             pendingWork.push(item.pendingWork);
+  //             contrctValuecr.push(item.contrctValuecr);
+  //             noofWorksGreater7Days.push(item.noofWorksGreater7Days);
+  //           }
+  //         );
+  //         this.chartOptionsWOPScheme.series = [
+  //           {
+  //             name: 'No of Works ',
+  //             data: pendingWork,
+  //             // color: '#0000FF'
+  //             color: '#eeba0b',
+  //           },
+  //           {
+  //             name: 'Contact Value(in Cr)',
+  //             data: contrctValuecr,
+  //             // color:'#00b4d8'
+  //             // color:  'rgb(0, 128, 0)'
+  //             // color: '#eeba0b'
+  //           },
+  //           // {
+  //           //   name: 'Pending more than 7 Days',
+  //           //   data: noofWorksGreater7Days,
+  //           //   color: '#fc7c84'
+  //           //   // color: 'rgb(144, 238, 144)'
+  //           //   // color: '#90EE90'
+
+  //           // },
+  //         ];
+
+  //         this.chartOptionsWOPScheme.xaxis = { categories: name };
+  //         this.cO = this.chartOptionsWOPScheme;
+  //         this.cdr.detectChanges();
+  //         this.spinner.hide();
+  //       },
+  //       (error: any) => {
+  //         console.error('Error fetching data', error);
+  //       }
+  //     );
+  // }
+
+  GetWOPendingTotal(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptionsWOPDivision.chart.height = '200px';
+      this.himisDistrictid = 0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
+      this.chartOptionsWOPDivision.chart.height = '400px';
+    } else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.chartOptionsWOPDivision.chart.height = 'auto';
+    }
+    var RPType = 'Total';
+    // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    // ?RPType=Scheme&divisionid=0&districtid=0&fromdt=0&todt=0
+    var fromdt = 0,
+      todt = 0;
+    this.api
+      .WOPendingTotal(RPType, this.divisionid, this.himisDistrictid)
+      .subscribe(
+        // this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
+        (data: any) => {
+          this.wOpendingDivision = data;
+          const name: string[] = [];
+          const id: string[] = [];
+          const pendingWork: any[] = [];
+          const contrctValuecr: number[] = [];
+          const noofWorksGreater7Days: any[] = [];
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              pendingWork: any;
+              contrctValuecr: number;
+              noofWorksGreater7Days: any;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              pendingWork.push(item.pendingWork);
+              contrctValuecr.push(item.contrctValuecr);
+              noofWorksGreater7Days.push(item.noofWorksGreater7Days);
+            }
+          );
+          this.chartOptionsWOPDivision.series = [
+            // {name: 'Total Pending Works', data: pendingWork,color:'#eeba0b'} ,
+            { name: ' No of Works', data: pendingWork, color: '#eeba0b' },
+            { name: 'Contact Value(in Cr)', data: contrctValuecr },
+            // { name: 'Pending more than 7 Days', data: noofWorksGreater7Days, color: '#fc7c84' },
+          ];
+
+          this.chartOptionsWOPDivision.xaxis = { categories: name };
+          this.cO = this.chartOptionsWOPDivision;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
+
+  GetWOIssueTotal(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptionsWOI.chart.height = '200px';
+      this.himisDistrictid = 0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
+      this.chartOptionsWOI.chart.height = '400px';
+    } else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.chartOptionsWOI.chart.height = 'auto';
+    }
+    const startDate = this.dateRange2.value.start;
+    const endDate = this.dateRange2.value.end;
+    this.fromdt3 = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    this.todt3 = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    var RPType = 'Total';
+    // console.log('fromdt=',this.fromdt,'todt=',this.todt)
+    // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
+    if (this.fromdt3 && this.todt3) {
+      this.api.GETWorkOrderGenerated(RPType,this.divisionid,this.himisDistrictid,this.fromdt3,this.todt3)
+        .subscribe(
+          (data: any) => {
+            this.WoIssuedTotal = data;
+           // console.log('WoIssuedTotal:', this.WoIssuedTotal);
+            // console.log('API Response data:', data);
+            const id: string[] = [];
+            const name: string[] = [];
+            const totalWorks: any[] = [];
+            const totalTVC: number[] = [];
+            const avgDaysSinceAcceptance: number[] = [];
+            const zonalWorks: number[] = [];
+            const tenderWorks: number[] = [];
+            const totalZonalTVC: number[] = [];
+            const totalNormalTVC: number[] = [];
+
+            data.forEach(
+              (item: {
+                name: string;
+                id: any;
+                totalWorks: any;
+                totalTVC: number;
+                avgDaysSinceAcceptance: any;
+                zonalWorks: any;
+                tenderWorks: any;
+                totalZonalTVC: any;
+                totalNormalTVC: any;
+              }) => {
+                id.push(item.id);
+                name.push(item.name);
+                totalWorks.push(item.totalWorks);
+                totalTVC.push(item.totalTVC);
+                avgDaysSinceAcceptance.push(item.avgDaysSinceAcceptance);
+                zonalWorks.push(item.zonalWorks);
+                tenderWorks.push(item.tenderWorks);
+                totalZonalTVC.push(item.totalZonalTVC);
+                totalNormalTVC.push(item.totalNormalTVC);
+              }
+            );
+            
+            this.chartOptionsWOI.series = [
+              {
+                name: 'No of Works',
+                data: totalWorks,
+                color: '#eeba0b',
+              },
+              {
+                name: 'Contract Value (in Cr)',
+                data: totalTVC,
+                color: 'rgba(93, 243, 174, 0.85)' ,
+              },
+              // {
+              //   name: 'Avg Days Since Acceptance',
+              //   data: avgDaysSinceAcceptance,
+              //   color:  'rgba(250, 199, 161, 0.85)',
+              // },
+
+            
+            ];
+            this.chartOptionsWOI.xaxis = { categories: name };
+            this.cO = this.chartOptionsWOI;
+            this.cdr.detectChanges();
+
+            this.spinner.hide();
+          },
+          (error: any) => {
+            console.error('Error fetching data', error);
+          }
+        );
+    }
+  }
+  fetchDataBasedOnChartSelectionTotalWOGD(
+    divisionID: any,
+    seriesName: string
+  ): void {
+   // console.log(`Selected ID 11: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    const mainSchemeId = 0;
+    const contractid = 0;
+    const work_id = 0;
+    // const fromdt="01-jan-2024";
+    // const todt="01-jan-2025";
+    //     this.fromdt = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.spinner.show();
+    // divisionId: any,mainSchemeId:any,distid: any,work_id:any,fromdt: any,todt: any
+    this.api.GETWorkGenDetails(
+        divisionID,
+        mainSchemeId,
+        distid,
+        work_id,
+        this.fromdt,
+        this.todt
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchWOGD = res.map(
+            (item: WorkGenDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+         // console.log('res:', res);
+          this.dataSourceWOGD.data = this.dispatchWOGD;
+          this.dataSourceWOGD.paginator = this.paginatorWGD;
+          this.dataSourceWOGD.sort = this.sortWGD;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogWOGD();
+  }
+  fetchDataBasedOnChartSelectionDivisionWP(
+    divisionID: any,
+    seriesName: string
+  ): void {
+    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    // const mainSchemeId=0;
+    const contractid = 0;
+    this.spinner.show();
+
+    this.api
+      .GetWorkOrderPendingDetailsNew(
+        divisionID,
+        this.mainSchemeID,
+        distid,
+        contractid
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchDataWOP = res.map(
+            (item: WorkOrderPendingDetailsNew, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // @ViewChild('paginatorWOP') paginatorWOP!: MatPaginator;
+          // @ViewChild('sortWOP') sortWOP!: MatSort;
+          // @ViewChild('itemDetailsModalWOP') itemDetailsModalWOP: any;
+
+          this.dataSourceWorkP.data = this.dispatchDataWOP;
+          this.dataSourceWorkP.paginator = this.paginatorWOP;
+          this.dataSourceWorkP.sort = this.sortWOP;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogWOP();
+  }
+  fetchDataBasedOnChartSelectionmainSchemeWOP(
+    mainSchemeId: any,
+    seriesName: string
+  ): void {
+    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
+    } else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+    }
+    // const  distid=0;
+    // const mainSchemeId=0;
+    // const divisionID=0;
+    const contractid = 0;
+    this.spinner.show();
+
+    this.api
+      .GetWorkOrderPendingDetailsNew(
+        this.divisionid,
+        mainSchemeId,
+        this.himisDistrictid,
+        contractid
+      )
+      .subscribe(
+        (res) => {
+          this.dispatchDataWOP = res.map(
+            (item: WorkOrderPendingDetailsNew, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('res:',res);
+          this.dataSourceWorkP.data = this.dispatchDataWOP;
+          this.dataSourceWorkP.paginator = this.paginatorWOP;
+          this.dataSourceWorkP.sort = this.sortWOP;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+    this.openDialogWOP();
+  }
+
+  // data filter
+  applyTextFilterWOP(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceWorkP.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceWorkP.paginator) {
+      this.dataSourceWorkP.paginator.firstPage();
+    }
+  }
+  exportToPDFWOP() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      // ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'letterNo', dataKey: 'letterNo' },
+      { title: 'head', dataKey: 'head' },
+      { title: 'acceptLetterDT', dataKey: 'acceptLetterDT' },
+      { title: 'totalAmountOfContract', dataKey: 'totalAmountOfContract' },
+      { title: 'district', dataKey: 'district' },
+      { title: 'work', dataKey: 'work' },
+      { title: 'contractorNAme', dataKey: 'contractorNAme' },
+      { title: 'work_id', dataKey: 'work_id' },
+    ];
+    const rows = this.dispatchDataWOP.map((row) => ({
+      sno: row.sno,
+      letterNo: row.letterNo,
+      head: row.head,
+      acceptLetterDT: row.acceptLetterDT,
+      totalAmountOfContract: row.totalAmountOfContract,
+      district: row.district,
+      work: row.work,
+      contractorNAme: row.contractorNAme,
+      work_id: row.work_id,
+    }));
+
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+
+    doc.save('WorkOrderPending.pdf');
+  }
+  // mat-dialog box
+  openDialogWOP() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalWOP, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+  applyTextFilterWGD(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceWOGD.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceWOGD.paginator) {
+      this.dataSourceWOGD.paginator.firstPage();
+    }
+  }
+  exportToPDFWGD() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      // ['sno','letterNo', 'head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id',];
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'letterNo', dataKey: 'letterNo' },
+      { title: 'head', dataKey: 'head' },
+      { title: 'acceptLetterDT', dataKey: 'acceptLetterDT' },
+      { title: 'totalAmountOfContract', dataKey: 'totalAmountOfContract' },
+      { title: 'district', dataKey: 'district' },
+      { title: 'work', dataKey: 'work' },
+      { title: 'contractorNAme', dataKey: 'contractorNAme' },
+      { title: 'work_id', dataKey: 'work_id' },
+    ];
+    const rows = this.dispatchWOGD.map((row) => ({
+      sno: row.sno,
+      letterNo: row.letterNo,
+      head: row.head,
+      acceptLetterDT: row.acceptLetterDT,
+      totalAmountOfContract: row.totalAmountOfContract,
+      district: row.district,
+      work: row.work,
+      contractorNAme: row.contractorNAme,
+      work_id: row.work_id,
+    }));
+
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+
+    doc.save('WorkOrderIssued.pdf');
+  }
+  openDialogWOGD() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalWOGD, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: { /* pass any data here */ }
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed');
+    });
+
+  }
+  // #endregion
+
+  // #region Get APT data Land Issuance
+  initializeChartOptionsLI() {
+    this.chartOptionsLITotal = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: true,
+        // height: 'auto',
+        // height:400,
+        // height: 200,
+        // width:600,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
+              this.chartOptionsLITotal?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartOptionsLITotal?.series?.[seriesIndex]?.name;
+            // Ensure the selectedCategory and selectedSeries are valid
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.LIPendingTotalData; // Replace with the actual data source or API response
+              // Find the data in your API response that matches the selectedCategory
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              // console.log("selectedData chart1",selectedData)
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+                this.name = selectedData.name;
+                this.totalWorks = selectedData.totalWorks;
+                this.fetchDataBasedOnChartSelectionTotalLI(id, selectedSeries);
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Land Issue Overview',
+        // text: 'Land Issuance Overview',
+        // text: 'RP Type Total Pending Works wise Progress',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+    this.chartOptionsLIScheme = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: true,
+        // height: 600,
+        // height: 'auto',
+        // width:600,
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            if (dataPointIndex !== undefined && seriesIndex !== undefined) {
+              const selectedCategory =
+                this.chartOptionsLIScheme?.xaxis?.categories?.[dataPointIndex];
+              const selectedSeries =
+                this.chartOptionsLIScheme?.series?.[seriesIndex]?.name;
+
+              if (selectedCategory && selectedSeries) {
+                const apiData = this.LIPendingSchemeData;
+                // console.log('datasch:', apiData);
+
+                if (Array.isArray(apiData)) {
+                  // const selectedData = apiData.find((data) =>
+                  //   data.name.trim().toLowerCase() === selectedCategory.trim().toLowerCase()   );
+                  const selectedData = apiData.find(
+                    (data) => data.name === selectedCategory
+                  );
+                  // console.log("selectedData chart1",selectedData);
+
+                  if (selectedData) {
+                    const id = selectedData.id;
+                    this.name = selectedData.name;
+                    this.totalWorks = selectedData.totalWorks;
+                    this.fetchDataBasedOnChartSelectionLIScheme( id,  selectedSeries  );
+                  } else {
+                    console.error(
+                      `No data found for selected category: ${selectedCategory}`
+                    );
+                  }
+                } else {
+                  console.error('API Data is not an array:', apiData);
+                }
+              } else {
+                console.error('Selected category or series is invalid.');
+              }
+            } else {
+              console.log('Invalid data point or series index.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+        },
+      },
+      xaxis: {
+        categories: [],
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Scheme-wise Land Issue',
+        // text: 'RP Type Total Pending Works wise Progress',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+  }
+
+  LIPendingTotal(): void {
+    var roleName = localStorage.getItem('roleName');
+    // alert( roleName )
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptionsLITotal.chart.height = '200px';
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+      this.districtid = sessionStorage.getItem('himisDistrictid');
+      this.chartOptionsLITotal.chart.height = '400px';
+      this.divisionid = 0;
+    } else {
+      this.districtid = 0;
+      this.divisionid = 0;
+      this.chartOptionsLITotal.chart.height = '400';
+    }
+    const RPtype = 'Total';
+    this.spinner.show();
+
+    this.api
+      .GetLIPendingTotal(RPtype, this.divisionid, this.districtid)
+      .subscribe(
+        (data: any) => {
+          if (Array.isArray(data) && data.length > 0) {
+            this.LIPendingTotalData = data;
+            const name: string[] = [];
+            const totalWorks: any[] = [];
+            const valuecr: number[] = [];
+            const tvcValuecr: any[] = [];
+            const month2Above: any[] = [];
+            const woIssued: any[] = [];
+
+            data.forEach((item: any) => {
+              if (item) {
+                name.push(item.name ?? '');
+                totalWorks.push(item.totalWorks ?? 0);
+                valuecr.push(item.valuecr ?? 0);
+                tvcValuecr.push(item.tvcValuecr ?? 0);
+                month2Above.push(item.month2Above ?? 0);
+                woIssued.push(item.woIssued ?? 0);
+              }
+            });
+
+            if (name.length > 0) {
+              this.chartOptionsLITotal.series = [
+                { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
+                { name: 'Value of Work (In cr)', data: valuecr },
+                // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+                { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
+                {
+                  name: 'Land Issue > 2 Month',
+                  data: month2Above,
+                  color: 'rgb(255, 69, 96)',
+                },
+              ];
+
+              this.chartOptionsLITotal.xaxis = { categories: name };
+              this.cdr.detectChanges();  // Trigger view update
+            }
+          } else {
+            console.warn('API returned empty or invalid data');
+          }
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+          this.spinner.hide();
+        }
+      );
+  }
+  LOPendingScheme(): void {
+    this.spinner.show();
+
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptionsLIScheme.chart.height = '500px';
+      this.districtid = 0;
+    } else if (roleName == 'Collector') {
+     this.districtid = sessionStorage.getItem('himisDistrictid');
+     this.chartOptionsLIScheme.chart.height = '400px';
+      this.divisionid=0;
+    }
+    else {
+      this.districtid = 0;
+      this.divisionid=0;
+      this.chartOptionsLIScheme.chart.height = '800';
+    }
+   const RPtype="Scheme";
+    this.api.GetLIPendingTotal(RPtype, this.divisionid,this.districtid).subscribe(
+      (data: any) => {
+        if (Array.isArray(data) && data.length > 0) {
+          this.LIPendingSchemeData = data;
+          // console.log('LIPendingSchemeData', this.LIPendingSchemeData);
+          const name: string[] = [];
+          const totalWorks: any[] = [];
+          const valuecr: number[] = [];
+          const tvcValuecr: any[] = [];
+          const month2Above: any[] = [];
+          const woIssued: any[] = [];
+
+          data.forEach((item: any) => {
+            if (item) {
+              name.push(item.name ?? '');
+              totalWorks.push(item.totalWorks ?? 0);
+              valuecr.push(item.valuecr ?? 0);
+              tvcValuecr.push(item.tvcValuecr ?? 0);
+              month2Above.push(item.month2Above ?? 0);
+              woIssued.push(item.woIssued ?? 0);
+            }
+          });
+
+          if (name.length > 0) {
+            this.chartOptionsLIScheme.series = [
+              // { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
+              // { name: 'Value cr', data: valuecr },
+              // { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
+              // { name: 'Month 2 Above', data: month2Above },
+              // { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
+              { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
+              { name: 'Value of Work (In cr)', data: valuecr },
+              // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+              { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
+              { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
+            ];
+
+            this.chartOptionsLIScheme.xaxis = { categories: name };
+            this.cdr.detectChanges(); // Trigger view update
+          }
+        } else {
+          console.warn('API returned empty or invalid data');
+        }
+
+        this.spinner.hide();
+      },
+      (error: any) => {
+        console.error('Error fetching data', error);
+        this.spinner.hide();
+      }
+    );
+  }
+ 
+
+  fetchDataBasedOnChartSelectionTotalLI(divisionID: any, seriesName: string): void {
+    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    const distid = 0;
+    // const mainSchemeId = 0;
+    // var roleName = localStorage.getItem('roleName');
+    // if (roleName == 'Division') {
+    //   this.chartOptions.chart.height = '50px';
+    //   alert("divi")
+    //   // this.divisionid = sessionStorage.getItem('divisionID');
+    // } else {
+    //       this.chartOptions.chart.height ='1500';
+    //      } 
+    this.spinner.show();
+    this.api.GetLandIssueDetails(divisionID, this.mainSchemeID, distid).subscribe(
+      (res) => {
+        this.dispatchPendingsLI = res.map((item: any, index: any) => ({
+          ...item,
+          sno: index + 1
+        }));
+        ;
+        this.dataSourceLI.data = this.dispatchPendingsLI;
+        this.dataSourceLI.paginator = this.paginatorLI;
+        this.dataSourceLI.sort = this.sortLI;
+        // console.log(' this.dataSource.data =', this.dataSource.data );
+        // console.log('this.dataSource1.paginator ', this.paginator );
+        // console.log(' this.dataSource.sort', this.sort );
+
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+      );
+      this.openDialogLI();
+  }
+  fetchDataBasedOnChartSelectionLIScheme(mainSchemeId: any, seriesName: string): void {
+    //  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
+    const distid = 0;
+    const roleName = localStorage.getItem('roleName');
+    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    this.spinner.show();
+    this.api.GetLandIssueDetails(this.divisionid, mainSchemeId, distid).subscribe(
+      (res) => {
+        this.dispatchPendingsLI = res.map((item: any, index: any) => ({
+          ...item,
+          sno: index + 1
+        }));
+        ;
+        this.dataSourceLI.data = this.dispatchPendingsLI;
+        this.dataSourceLI.paginator = this.paginatorLI;
+        this.dataSourceLI.sort = this.sortLI;
+        // console.log(' this.dataSource.data =', this.dataSource.data );
+        // console.log('this.dataSource1.paginator ', this.paginator );
+        // console.log(' this.dataSource.sort', this.sort );
+
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        console.error('Error fetching data', error);
+      }
+      );
+      this.openDialogLI();
+  }
+ 
+
+   // data filter
+   applyTextFilterLI(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceLI.filter = filterValue.trim().toLowerCase();
+    if (this.dataSourceLI.paginator) {
+      this.dataSourceLI.paginator.firstPage();
+    }
+  }
+  exportToPDFLI() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      { title: "S.No", dataKey: "sno" },
+      { title: "letterNo", dataKey: "letterNo" },
+      { title: "head", dataKey: "head" },
+      { title: "acceptLetterDT", dataKey: "acceptLetterDT" },
+      { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
+      { title: "district", dataKey: "district" },
+      { title: "work", dataKey: "work" },
+      { title: "contractorNAme", dataKey: "contractorNAme" },
+      { title: "work_id", dataKey: "work_id" }
+    ];
+    const rows = this.dispatchPendingsLI.map(row => ({
+      sno: row.sno,
+      letterNo: row.letterNo,
+      head: row.head,
+      acceptLetterDT: row.acceptLetterDT,
+      totalAmountOfContract: row.totalAmountOfContract,
+      district: row.district,
+      work: row.work,
+      contractorNAme: row.contractorNAme,
+      work_id: row.work_id,
+    }));
+
+    autoTable(doc, {
+      columns: columns,
+      body: rows,
+      startY: 20,
+      theme: 'striped',
+      headStyles: { fillColor: [22, 160, 133] }
+    });
+
+    doc.save('LandIssued.pdf');
+  }
+  // mat-dialog box
+  openDialogLI() {
+    const dialogRef = this.dialog.open(this.itemDetailsModalLI, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: { /* pass any data here */ }
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed');
+    });
+
+  }
+ 
+  // #endregion
+   // #region Get APT data To be tender
+   initializeChartOptionsTobeTender() {
+    this.chartOptionsTbetender = {
+      series: [],
+      chart: {
+        type: 'bar',
+        stacked: false,
+        // height: 'auto',
+        events: {
+          dataPointSelection: (
+            event,
+            chartContext,
+            { dataPointIndex, seriesIndex }
+          ) => {
+            const selectedCategory =
+              this.chartOptionsTbetender?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartOptionsTbetender?.series?.[seriesIndex]?.name;
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.TobetenderGTotal; // Replace with the actual data source or API response
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              if (selectedData) {
+                const id = selectedData.id; // Extract the id from the matching entry
+
+                // this.fetchDataBasedOnChartSelectionTotal(0, selectedSeries);
+              } else {
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
+              }
+            } else {
+              console.log('Selected category or series is invalid.');
+            }
+          },
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth:'20%',
+          borderRadius:3,
+          distributed: false,
+          dataLabels: {
+            position: 'top', // top, center, bottom
+          },
+        },
+      },
+      xaxis: {
+        categories: [],
+        // position: 'top',
+      },
+      yaxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          // colors: ['#FF0000']
+          colors: ['#000'],
+        },
+      },
+      stroke: {
+        width: 1,
+        // colors: ['#000'],
+        colors: ['#fff'],
+      },
+      title: {
+        text: 'Summary of To be Tender Works',
+        align: 'center',
+        style: {
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25',
+        },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 40,
+      },
+    };
+    }
+    TenderStatusTotal(): void {
+      this.spinner.show();
+      var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        this.divisionid = sessionStorage.getItem('divisionID');
+        this.chartOptionsTbetender.chart.height = '200px';
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
+      } else if (roleName == 'Collector') {
+        this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+        // var RPType = 'GTotal';
+        this.divisionid = 0;
+        this.mainschemeid = 0;
+        this.chartOptionsTbetender.chart.height = '400px';
+      } else {
+        this.divisionid = 0;
+        this.himisDistrictid = 0;
+        this.mainschemeid = 0;
+        this.chartOptionsTbetender.chart.height = '300';
+      }
+      // alert(this.mainSchemeID)
+      this.api
+        .GETTenderStatus('GTotal',this.divisionid, this.himisDistrictid, this.mainSchemeID)
+        // .GETTenderStatus('GTotal',this.divisionid, this.himisDistrictid, this.mainschemeid)
+        .subscribe(
+          (data: any) => {
+            this.TobetenderGTotal = data;
+            // console.log('API Response total:', this.TobetenderGTotal);
+  
+            const id: string[] = [];
+            const name: string[] = [];
+            const nosWorks: any[] = [];
+            const tValue: number[] = [];
+  
+            data.forEach(
+              (item: {
+                name: string;
+                id: any;
+                nosWorks: any;
+                tValue: number;
+              }) => {
+                id.push(item.id);
+                name.push(item.name);
+                nosWorks.push(item.nosWorks);
+                tValue.push(item.tValue);
+              }
+            );
+  
+            this.chartOptionsTbetender.series = [
+              {
+                name: 'No of Works',
+                data: nosWorks,
+                color: '#eeba0b',
+              },
+              {
+                name: 'Total Value in Cr',
+                data: tValue,
+                color: 'rgba(93, 243, 174, 0.85)',
+              },
+            ];
+            this.chartOptionsTbetender.xaxis = { categories: name };
+            this.cO = this.chartOptionsTbetender;
+            this.cdr.detectChanges();
+  
+            this.spinner.hide();
+          },
+          (error: any) => {
+            console.error('Error fetching data', error);
+          }
+        );
+    }
+
+  // #endregion
+=======
  fetchDataBasedOnChartSelectionDivisionLIT(  divisionID: any, seriesName: string ): void {
       // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
       const distid = 0;
@@ -8045,6 +11269,5 @@ openDialogWOP() {
   });
 
 }
- // #endregion
-
+ 
 }
