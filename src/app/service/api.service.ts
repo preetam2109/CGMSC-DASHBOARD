@@ -1217,10 +1217,12 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
 
   getCollegeHospital_AIvsIssue(mcid:any,yearid:any) {
+    debugger
     return this.http.get<CollegeHospital_AIvsIssue[]>(`${this.CGMSCHO_API2}/DashboardDME/CollegeHospital_AIvsIssue?mcid=${mcid}&yearid=${yearid}`);
   }
 
   getClgHos_IssueWihtoutAI(mcid:any,whyearid:any) {
+    debugger
     return this.http.get<ClgHos_IssueWihtoutAI[]>(`${this.CGMSCHO_API2}/DashboardDME/ClgHos_IssueWihtoutAI?mcid=${mcid}&whyearid=${whyearid}`);
   }
 
