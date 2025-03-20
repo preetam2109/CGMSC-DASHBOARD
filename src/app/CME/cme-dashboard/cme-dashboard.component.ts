@@ -27,7 +27,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChartOptions } from 'src/app/component/card/card.component';
-import { CollegeHospital_AIvsIssue } from 'src/app/Model/DashCards';
+import { ClgHos_IssueWihtoutAI, CollegeHospital_AIvsIssue } from 'src/app/Model/DashCards';
 
 
 @Component({
@@ -48,6 +48,12 @@ import { CollegeHospital_AIvsIssue } from 'src/app/Model/DashCards';
   styleUrl: './cme-dashboard.component.css'
 })
 export class CMEDashboardComponent {
+applyTextFilterCollegeHospital_AIvsIssue($event: KeyboardEvent) {
+throw new Error('Method not implemented.');
+}
+CollegeHospital_AIvsIssue() {
+throw new Error('Method not implemented.');
+}
 exportToPDFQCLabPendingTracke() {
 throw new Error('Method not implemented.');
 }
@@ -61,6 +67,8 @@ applyTextFilter($event: KeyboardEvent) {
 throw new Error('Method not implemented.');
 }
 @ViewChild('itemDetailsModal') itemDetailsModal: any;
+@ViewChild('CollegeHospital_AIvsIssueDetailsModal') CollegeHospital_AIvsIssueDetailsModal: any;
+@ViewChild('ClgHos_IssueWihtoutAIDetailsModal') ClgHos_IssueWihtoutAIDetailsModal: any;
 
 
   @ViewChild('chart') chart: ChartComponent | undefined;
@@ -106,11 +114,13 @@ throw new Error('Method not implemented.');
   PartItemissuelist:any
   PartItemRClist:any
   collegeHospital_AIvsIssue:CollegeHospital_AIvsIssue[]=[]
+  getClgHos_IssueWihtoutAI:ClgHos_IssueWihtoutAI[]=[]
   dataSource = new MatTableDataSource<any>();
   dataSource2 = new MatTableDataSource<any>();
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
   dataSource6 = new MatTableDataSource<any>();
+  dataSource5 = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
@@ -121,6 +131,8 @@ throw new Error('Method not implemented.');
     @ViewChild(MatSort) sort4!: MatSort;
     @ViewChild(MatPaginator) paginator6!: MatPaginator;
     @ViewChild(MatSort) sort6!: MatSort;
+    @ViewChild(MatPaginator) paginator5!: MatPaginator;
+    @ViewChild(MatSort) sort5!: MatSort;
 
     selectedCategory:any='';
   
@@ -857,17 +869,18 @@ colors = [];
     this.GetPOCountCFY();
     this.last7DaysIssue();
     this.loadData();
-    this.loadData1();
-    this.loadData2();
-    this.loadData3();
+    // this.loadData1();
+    // this.loadData2();
+    // this.loadData3();
     this.loadStockoutDHS();
-    this.loadIndent();
+    // this.loadIndent();
     this.Nearexp();
-    this.loadUQC();
+    // this.loadUQC();
     this.loadData4();
     this.loadDMEAIvsIssue();
     this.GetDMEIssueWihtoutAI();
     this.getQCResultPendingLabWise();
+    this.GetClgHos_IssueWihtoutAI();
     this.getItemNoDropDown();
   
 
@@ -1072,101 +1085,7 @@ colors = [];
     // );
 }
 
-loadData3(): void {
-  
 
-  this.api.getTotalRC(this.mcid).subscribe(
-    (data: any) => {
-      const categories: string[] = [];
-      const edl: number[] = [];
-      const nedl: number[] = [];
-      const total: number[] = [];
-
-      console.log('Delivered from warehouse Response:', data);
-
-      data.forEach((item: any) => {
-        categories.push(item.mcategory);
-        edl.push(item.edl);
-        nedl.push(item.nedl);
-        total.push(item.total);
-      });
-
-      // Update the bar chart
-      this.chartOptions3 = {
-        series: [
-          {
-            name: 'EDL',
-            data: edl
-          },
-          {
-            name: 'Non-EDL',
-            data: nedl
-          },
-          {
-            name: 'Total',
-            data: total
-          }
-        ],
-        chart: {
-          type: "bar",
-          height: 300
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "50%",
-            endingShape: "rounded"
-          }
-        },
-        dataLabels: {
-          enabled: true
-        },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ["transparent"]
-        },
-        xaxis: {
-          categories: categories // Dynamically set categories from API response
-        },
-        yaxis: {
-          title: {
-            text: "NOS RC"
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-        tooltip: {
-          y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
-          }
-        },
-        legend: {
-          position: "top"
-        },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 300
-              },
-              legend: {
-                position: "bottom"
-              }
-            }
-          }
-        ]
-      } as any;
-    },
-    (error: any) => {
-      console.error('Error fetching data', error);
-    }
-  );
-}
 
 loadStockoutDHS(): void {
 
@@ -1275,108 +1194,7 @@ loadStockoutDHS(): void {
   );
 }
 
-loadIndent(): void {
 
-
-  this.api.IndentcntHome(this.mcid,0).subscribe(
-    (data: any) => {
-      const hod: string[] = [];
-      const nositems: number[] = [];
-      const returned: number[] = [];
-      const actualAI: number[] = [];
-
-      console.log('Annual Indent data:', data);
-
-      data.forEach((item: any) => {
-        hod.push(item.hod);
-        nositems.push(item.nositems);
-        returned.push(item.returned);
-        actualAI.push(item.actualAI);
-      });
-
-      // Update the bar chart
-      this.chartIndent = {
-        series: [
-          {
-            name: 'No of Items',
-            data: nositems
-          },
-          {
-            name: 'Return From CGMSC',
-            data: returned
-          },
-          {
-            name: 'Actual Annual Indent',
-            data: actualAI
-          }
-        ],
-        chart: {
-          type: "bar",
-          height: 300
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "70%",
-            endingShape: "rounded",
-            dataLabels: {
-              position: "top" // Places data labels on top of bars
-            }
-          }
-        },
-      
-        stroke: {
-          show: true,
-          width: 1,
-          colors: ["transparent"]
-        },
-        xaxis: {
-          categories: hod // Dynamically set categories from API response
-        },
-        yaxis: {
-          title: {
-            text: ""
-          },
-        },
-        dataLabels: {
-          enabled: true,
-          style: {
-            colors: ['#000'] 
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-        tooltip: {
-          y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
-          }
-        },
-        legend: {
-          position: "top"
-        },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 300
-              },
-              legend: {
-                position: "bottom"
-              }
-            }
-          }
-        ]
-      } as any;
-    },
-    (error: any) => {
-      console.error('Error fetching data', error);
-    }
-  );
-}
 
 loadData4(): void {
   
@@ -1536,105 +1354,7 @@ Nearexp(): void {
   );
 }
 
-loadUQC(): void {
-  
 
-  this.api.QCPendingHomeDash(this.mcid).subscribe(
-    (data: any) => {
-      
-      const categories: string[] = [];
-      const nositems: number[] = [];
-      const nosbatch: number[] = [];
-      const stkvalue: number[] = [];
-
-      console.log('Under QC home Dashboard:', data);
-
-      data.forEach((item: any) => {
-     
-        categories.push(item.mcategory);
-        nositems.push(item.nositems);
-        nosbatch.push(item.nosbatch);
-        stkvalue.push(item.stkvalue);
-        
-      });
-
-      // Update the bar chart
-      this.chartUQC = {
-        series: [
-          {
-            name: 'UQC Stock Value(in Cr)',
-            data: stkvalue
-  
-          },
-          {
-            name: 'No of Items',
-            data: nositems
-          },
-          {
-            name: 'No of Batches',
-            data: nosbatch
-          }
-        ],
-        chart: {
-          type: "bar",
-          height: 300
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "50%",
-            endingShape: "rounded"
-          }
-        },
-        dataLabels: {
-          enabled: true
-        },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ["transparent"]
-        },
-        xaxis: {
-         categories: categories // Dynamically set categories from API response
-        },
-        yaxis: {
-          title: {
-           text: "Under QC Info"
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-        tooltip: {
-          y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
-          }
-        },
-        legend: {
-          position: "top"
-        },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 300
-              },
-              legend: {
-                position: "bottom"
-              }
-            }
-          }
-        ]
-      } as any;
-    },
-    (error: any) => {
-      console.error('Error fetching data', error);
-    }
-  );
-}
 
 
 loadDMEAIvsIssue(): void {
@@ -1692,7 +1412,7 @@ loadDMEAIvsIssue(): void {
         },
         stroke: {
           show: true,
-          width: 2,
+          width: 4,
           colors: ["transparent"]
         },
         xaxis: {
@@ -1847,7 +1567,6 @@ GetDMEIssueWihtoutAI(): void {
               nosfacility.push(item.nosfacility);
               
             });
-            // console.log('klkllklkk',indentDT);
     
     
             this.chartOptions1.series = [
@@ -2075,6 +1794,32 @@ GetDMEIssueWihtoutAI(): void {
         });  
 
       }
+      GetClgHos_IssueWihtoutAI(){
+        
+        this.api.getClgHos_IssueWihtoutAI(this.mcid,0).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+          
+
+
+            this.getClgHos_IssueWihtoutAI =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.getClgHos_IssueWihtoutAI);
+            this.dataSource5.data = this.getClgHos_IssueWihtoutAI; // Ensure this line executes properly
+            this.dataSource5.paginator = this.paginator5;
+            this.dataSource5.sort = this.sort5;
+            this.spinner.hide();
+          } else {
+            console.error('No nameText found or incorrect structure:', res);
+            this.spinner.hide();
+
+          }
+        });  
+
+      }
 
 
       
@@ -2124,6 +1869,46 @@ GetDMEIssueWihtoutAI(): void {
          console.log('Dialog closed');
         });
         }
+      openDialogCollegeHospital_AIvsIssue() {
+        
+        const dialogRef = this.dialog.open(this.CollegeHospital_AIvsIssueDetailsModal, {
+         width: '100%',
+         height: '100%',
+         maxWidth: '100%',
+         panelClass: 'full-screen-dialog', // Optional for additional styling
+         data: {
+           /* pass any data here */
+         },
+         // width: '100%',
+         // maxWidth: '100%', // Override default maxWidth
+         // maxHeight: '100%', // Override default maxHeight
+         // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+         // height: 'auto',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+         console.log('Dialog closed');
+        });
+        }
+      openDialogClgHos_IssueWihtoutAIDetailsModal() {
+        
+        const dialogRef = this.dialog.open(this.ClgHos_IssueWihtoutAIDetailsModal, {
+         width: '100%',
+         height: '100%',
+         maxWidth: '100%',
+         panelClass: 'full-screen-dialog', // Optional for additional styling
+         data: {
+           /* pass any data here */
+         },
+         // width: '100%',
+         // maxWidth: '100%', // Override default maxWidth
+         // maxHeight: '100%', // Override default maxHeight
+         // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+         // height: 'auto',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+         console.log('Dialog closed');
+        });
+        }
 
 
 
@@ -2144,15 +1929,15 @@ GetDMEIssueWihtoutAI(): void {
   // Create an array of API calls to execute
   forkJoin([
     this.GetPOCountCFY(),
-    this.last7DaysIssue(),
-    this.loadData1(),
-    this.loadData2(),
-    this.loadIndent(),
+    // this.last7DaysIssue(),
+    // this.loadData1(),
+    // this.loadData2(),
+    // this.loadIndent(),
     this.loadData4(),
     this.Nearexp(),
-    this.loadData3(), // Drug rate contract
-    this.loadUQC(),
-    this.loadStockoutDHS(),
+    // this.loadData3(), // Drug rate contract
+    // this.loadUQC(),
+    // this.loadStockoutDHS(),
     this.CGMSCIndentPending(),
     this.getItemNoDropDown(),
     this.GetDeliveryInMonth(),

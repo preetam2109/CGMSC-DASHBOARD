@@ -6162,10 +6162,10 @@ export class SchemeWiseDetailsComponent {
     }
     const startDate = this.dateRange1.value.start;
     const endDate = this.dateRange1.value.end;
-    this.fromdt = startDate
+    this.fromdt1 = startDate
       ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
       : '';
-    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.todt1 = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
     console.log(
       'PaidSummaryTotal RPType=',
@@ -6184,8 +6184,8 @@ export class SchemeWiseDetailsComponent {
         this.divisionid,
         this.himisDistrictid,
         this.mainSchemeID,
-        this.fromdt,
-        this.todt
+        this.fromdt1,
+        this.todt1
       )
       .subscribe(
         (data: any) => {
@@ -6305,10 +6305,10 @@ export class SchemeWiseDetailsComponent {
     }
     const startDate = this.dateRange1.value.start;
     const endDate = this.dateRange1.value.end;
-    this.fromdt = startDate
+    this.fromdt1 = startDate
       ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
       : '';
-    this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+    this.todt1 = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
     // alert( this.TimeStatus)
     // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
@@ -6328,8 +6328,8 @@ export class SchemeWiseDetailsComponent {
         this.divisionid,
         this.himisDistrictid,
         this.mainSchemeID,
-        this.fromdt,
-        this.todt
+        this.fromdt1,
+        this.todt1
       )
       .subscribe(
         (data: any) => {
