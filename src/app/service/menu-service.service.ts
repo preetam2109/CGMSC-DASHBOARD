@@ -223,6 +223,7 @@ export class MenuServiceService {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/dhsdash' },
+          { label: 'Finance', route: '/finance-dash' },
           { label: 'Health Facilities Coverage', route: '/FacCoverage' },
           { label: 'Warehouse Information', route: '/WarehouseInfo' },
           { label: 'Stock Abstract', route: '/whStockAbstract' },
@@ -316,6 +317,7 @@ export class MenuServiceService {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/cmedash' },
+          { label: 'Finance', route: '/finance-dash' },
 
           { label: 'Stock Abstract', route: '/whStockAbstract' },
           { label: 'Growth in Distribution', route: '/distribution' },

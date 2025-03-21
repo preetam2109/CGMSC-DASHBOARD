@@ -1081,8 +1081,9 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartItem_RCs?itemid=${itemid}`);
   }
 
-  getFundsDDL() {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/getFunds`);
+  getFundsDDL(RoleID:any) {
+    debugger
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/getFunds?RoleID=${RoleID}`);
   }
 
   getFundReivedBudgetID(bugetid: any, yrid: any) {
