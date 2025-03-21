@@ -267,18 +267,77 @@ export class SearchingWorkComponent {
         categories: [],
       },
       legend: { show: false },
-      tooltip: {
-            custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
-              const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
-              return`<div style="border-bottom: 1px solid rgba(8, 8, 8, 0.3); border-radius: 6px;  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);  " class="tooltip-box ">
-              <div style="background-color:rgb(114, 113, 113); font-size: 16px; color:#ffff">${dataPoint.x}</div>
-              <div style="background-color:#ffff; font-size: 15px;">
-                <div><strong>Progress Date:</strong> ${dataPoint.dateProgress}</div>
-                </div>
-                </div>`;
+      // tooltip: {
+      //       custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+      //         const dataPoint = w.config.series[seriesIndex].data[dataPointIndex]; 
+      //         // const d=dataPoint.reverse();
+      //         // console.log("dataPoint:", dataPoint);
+      //         // console.log("seriesIndex:", seriesIndex);
+      //         // console.log("dataPointIndex:", dataPointIndex);
+      //         return`<div style="border-bottom: 1px solid rgba(8, 8, 8, 0.3); border-radius: 6px;  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);  " class="tooltip-box ">
+      //         <div style="background-color:rgb(114, 113, 113); font-size: 16px; color:#ffff">${dataPoint.x}</div>
+      //         <div style="background-color:#ffff; font-size: 15px;">
+      //           <div><strong>Progress Date:</strong> ${dataPoint.dateProgress}</div>
+      //           </div>
+      //           </div>`;
                 
-            }
-          },
+      //       }
+      //     },
+      // tooltip: {
+      //   custom: function ({ dataPointIndex, w }: any) {
+      //     debugger;
+      //     // Ensure the correct series data is accessed
+      //     const seriesData = w.config.series[0].data;
+      
+      //     // Prevent errors if index is out of range
+      //     if (!seriesData || dataPointIndex < 0 || dataPointIndex >= seriesData.length) {
+      //       return `<div class="tooltip-box">No data available</div>`;
+      //     }
+      
+      //     const dataPoint = seriesData[dataPointIndex];
+      
+      //     return `<div style="border: 1px solid rgba(8, 8, 8, 0.3); 
+      //                   border-radius: 6px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); 
+      //                   background-color: white; padding: 8px;">
+      //               <div style="background-color:rgb(114, 113, 113); 
+      //                           font-size: 16px; color:#ffff; padding: 5px;">
+      //                 ${dataPoint.x}
+      //               </div>
+      //               <div style="font-size: 15px; color: black; padding: 5px;">
+      //                 <strong>Progress Date:</strong> ${dataPoint.dateProgress}
+      //               </div>
+      //             </div>`;
+      //   }
+      // }
+      
+      tooltip: {
+        custom: function ({ dataPointIndex, w }: any) {
+        // debugger;
+
+          const seriesData = w.config.series[0].data;
+          const correctIndex = seriesData.length - 1 - dataPointIndex; // ✅ उल्टा index लें
+      
+          if (!seriesData || correctIndex < 0 || correctIndex >= seriesData.length) {
+            return `<div class="tooltip-box">No data available</div>`;
+          }
+      
+          const dataPoint = seriesData[correctIndex]; // ✅ अब सही डेटा मिलेगा
+      
+          return `<div style="border: 1px solid rgba(8, 8, 8, 0.3); 
+                        border-radius: 6px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); 
+                        background-color: white; padding: 8px;">
+                    <div style="background-color:rgb(114, 113, 113); 
+                                font-size: 16px; color:#ffff; padding: 5px;">
+                      ${dataPoint.x}
+                    </div>
+                    <div style="font-size: 15px; color: black; padding: 5px;">
+                      <strong>Progress Date:</strong> ${dataPoint.dateProgress}
+                    </div>
+                  </div>`;
+        }
+      }
+      
+      
     };
   }
 
@@ -539,6 +598,7 @@ export class SearchingWorkComponent {
   }
 
   GetProjectTimelineNEW(workID:any) {
+    // debugger
         this.api.GetProjectTimelineNew(workID).subscribe(
     // this.api.GetProjectTimelineNew("W4100398").subscribe(
       (res) => {
@@ -550,8 +610,7 @@ export class SearchingWorkComponent {
           return;
         }
 
-        const seriesData = res
-          .map((item) => ({
+        const seriesData = res.map((item) => ({
             x: item.level, 
             y: item.ppId , 
             dateProgress:item.dateProgress,
@@ -559,8 +618,8 @@ export class SearchingWorkComponent {
             level:item.level,
             fillColor: this.getRandomColor(),
             // ?? 1
-          }))
-          .reverse(); 
+          })).reverse(); 
+          // console.log("seriesData:", seriesData);
 
        
         this.chartOptions = {
@@ -569,9 +628,12 @@ export class SearchingWorkComponent {
           xaxis: {
             // categories: res.map((item) => item.level).reverse(),
             categories: res.map((item) => item.level),
+           
             // categories: res.map((item) => item.level +' / '+ item.dateProgress).reverse(),
           },
         };
+       
+
         // this.chartOptions = {
         //   ...this.chartOptions, // ✅ Keep existing properties
         //   series: [{ name: "Progress ID", data: seriesData }],

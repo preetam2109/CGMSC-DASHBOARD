@@ -741,19 +741,19 @@ export class ApiService {
 
   }
   //#region Work pending 
-  WOPendingTotal(RPType: any, divisionId: any, districtid: any) {
-    return this.http.get<WOpendingTotal[]>(`${this.apiUrl}/WorkOrder/WOPendingTotal?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}`);
+  WOPendingTotal(RPType: any, divisionId: any, districtid: any,mainSchemeId:any) {
+    return this.http.get<WOpendingTotal[]>(`${this.apiUrl}/WorkOrder/WOPendingTotal?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainSchemeId=${mainSchemeId}`);
 
-    // `https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WOPendingTotal?RPType=Scheme&divisionid=0&districtid=0&fromdt=0&todt=0`
+    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WOPendingTotal?RPType=Scheme&divisionid=0&districtid=0&mainSchemeId=145
   }
   GetWorkOrderPendingDetailsNew(divisionId: any, mainSchemeId: any, distid: any, contractid: any) {
     return this.http.get<WorkOrderPendingDetailsNew[]>(`${this.apiUrl}/WorkOrder/getWorkOrderPendingDetailsNew?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&contractid=${contractid}`);
 
   }
 
-  GETWorkOrderGenerated(RPType: any, divisionId: any, districtid: any, fromdt: any, todt: any) {
-    return this.http.get<WorkOrderIssued[]>(`${this.apiUrl}/WorkOrder/WorkOrderGenerated?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&fromdt=${fromdt}&todt=${todt}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
+  GETWorkOrderGenerated(RPType: any, divisionId: any, districtid: any, fromdt: any, todt: any,mainSchemeId:any) {
+    return this.http.get<WorkOrderIssued[]>(`${this.apiUrl}/WorkOrder/WorkOrderGenerated?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&fromdt=${fromdt}&todt=${todt}&mainSchemeId=${mainSchemeId}`);
+    //https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Scheme&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0&mainSchemeId=145
 
   }
   GETWorkGenDetails(divisionId: any, mainSchemeId: any, distid: any, work_id: any, fromdt: any, todt: any) {
@@ -804,9 +804,9 @@ export class ApiService {
   }
   // #endregion
   //#region  LandIssue
-  GetLIPendingTotal(engtype: any, divisionId: any, districtid: any) {
-    return this.http.get<LIPendingTotal[]>(`${this.apiUrl}/LandIssue/LIPendingTotal?RPType=${engtype}&divisionid=${divisionId}&districtid=${districtid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/LandIssue/LIPendingTotal?RPType=Total&divisionid=0&districtid=0
+  GetLIPendingTotal(engtype: any,divisionId: any,districtid:any,mainSchemeId:any) {
+    return this.http.get<LIPendingTotal[]>(`${this.apiUrl}/LandIssue/LIPendingTotal?RPType=${engtype}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainSchemeId}`);
+    // https://cgmsc.gov.in/HIMIS_APIN/api/LandIssue/LIPendingTotal?RPType=Total&divisionid=0&districtid=0&mainSchemeId=145
   }
   GetLandIssueDetails(divisionId: any, mainSchemeId: any, distid: any) {
     return this.http.get<LandIssueDetails[]>(`${this.apiUrl}/LandIssue/getLandIssueDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}`);
