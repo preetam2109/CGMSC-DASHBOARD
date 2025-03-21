@@ -51,7 +51,10 @@ applyTextFilter // this.LiveTenderDivision = data;
 throw new Error('Method not implemented.');
 }
   FundsDDL:any
+
   budgetid:any=1;
+
+
   PODetailsAgainstIndentYrlist:any
    public cO: Partial<ChartOptions> | undefined;
    chartOptionsPaidLineBar!: ChartOptions; // For bar chart
@@ -78,7 +81,7 @@ throw new Error('Method not implemented.');
         @ViewChild('paginator4') paginator4!: MatPaginator;
         @ViewChild('sort3') sort4!: MatSort;
         grossPaidDateWiseDetails:GrossPaidDateWiseDetails[]=[]
-
+        PaidYearwise_Budget:any
         fundReivedBudgetID:FundReivedBudgetID[]=[];
         pODetailsAgainstIndentYr:PODetailsAgainstIndentYr[]=[];
         LibDetailsbasedOnYearID:LibDetailsbasedOnYearID[]=[];
@@ -184,11 +187,17 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
         },
       },
       tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
+        custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+          debugger
+          const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
+           console.log("dataPoint=",dataPoint)
+
+          return `<div class="tooltip-box">
+                    <div><strong>amountPaid:</strong> ${dataPoint.amountPaid}</div>
+                    <div><strong>noofPO:</strong> ${dataPoint.noofPO}</div>
+                  </div>`;
+                 
+        }
       },
       fill: {
         opacity: 1,
@@ -741,6 +750,14 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
 
 
 ngOnInit(): void {
+  const roleID =sessionStorage.getItem('roleId')
+  if(roleID=='485'){
+this.budgetid=2
+  }else if(roleID=='459'){
+    this.budgetid=1
+
+  }
+ 
   this.GetFundsDDL()
   this.GetFundReivedBudgetID();
   this.getPaidYearwise_Budget();
@@ -1117,7 +1134,7 @@ GetPipeline_Libilities(){
 GetFundReivedBudgetID(): void {
   
   this.spinner.show();
-  
+  debugger
     this.api.getFundReivedBudgetID(this.budgetid,0)
       .subscribe(
         (data: any) => {
@@ -1247,77 +1264,75 @@ GetFund_Libilities(): void {
 }
 
 
-    getPaidYearwise_Budget(): void {
-      
-      
-      // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-        this.api.PaidYearwise_Budget(this.budgetid,0)
-          .subscribe(
-            (data: any) => {
-              // this.LiveTenderDivision = data;
-              // console.log('API Response total:', this.WoIssuedTotal);
-              // console.log('API Response data:', data);
-    
-              const accyear: string[] = [];
-              const noofPO: any[] = [];
-              const amountPaid: number[] = [];
-    
-              data.forEach(
-                (item: {
-                  accyear: string;
-                  noofPO: any;
-                  amountPaid: any;
-               
-                }) => {
-                  accyear.push(item.accyear);
-                  noofPO.push(item.noofPO);
-                  amountPaid.push(item.amountPaid);
-                }
-              );
-    
-              this.chartOptionsPaidLineBar.series = [
-                {
-                  name: 'No of PO',
-                  data: noofPO,
-                  color: '#023e8a',
+getPaidYearwise_Budget(): void {
+  this.spinner.show();
 
-                },
-                {
-                  name: 'Gross Paid (in Cr)',
-                  data: amountPaid,
-                  // color: 'rgb(0, 143, 251)',
-                  color: '#38b000',
-                },
-                
-              
-              ];
-              this.chartOptionsPaidLineBar.xaxis = {
-                categories: accyear,
-                labels:{
-                  style:{
-                    // colors:'#390099',
-                    fontWeight:'bold',
-                    fontSize:'15px'
-                  }
-                }
-                
-      
-                
-               };
-              this.cO = this.chartOptionsPaidLineBar;
-              this.cdr.detectChanges();
-              this.spinner.hide();
+  this.api.PaidYearwise_Budget(this.budgetid, 0).subscribe(
+    (data: any) => {
+      this.PaidYearwise_Budget = data;
+      console.log('Show Paid Yearwise Budget:', JSON.stringify(this.PaidYearwise_Budget));
+
+      // Extracting necessary data
+      const categories: string[] = [];
+      const seriesData: { x: string; y: number; extra: { nospo: number; paidvalue: number } }[] = [];
+
+      data.forEach((item: { accyear: string; noofPO: number; amountPaid: number }) => {
+        categories.push(item.accyear);
+        seriesData.push({
+          x: item.accyear, // X-axis category
+          y: item.amountPaid, // Y-axis value
+          extra: {
+            nospo: item.noofPO, // Extra property
+            paidvalue: item.amountPaid,
+          },
+        });
+      });
+
+      // ✅ Ensure `xaxis.categories` is explicitly set
+      this.chartOptionsPaidLineBar = {
+        ...this.chartOptionsPaidLineBar, // Preserve existing properties
+        series: [
+          {
+            name: 'Gross Paid (in Cr)',
+            data: seriesData,
+            color: '#38b000',
+          },
+        ],
+        xaxis: {
+          categories: categories, // ✅ Now explicitly setting categories
+          labels: {
+            style: {
+              fontWeight: 'bold',
+              fontSize: '15px',
             },
-            (error: any) => {
-              console.error('Error fetching data', error);
-              this.spinner.hide();
-            }
-          );
-        }
+          },
+        },
+        tooltip: {
+          custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+            const dataPoint = w.config.series[seriesIndex].data[dataPointIndex]; // Get full object
+            return `<div class="tooltip-box">
+                      <div><strong>No. of PO:</strong> ${dataPoint.extra.nospo}</div>
+                      <div><strong>Paid Amount:</strong> ${dataPoint.extra.paidvalue}</div>
+                    </div>`;
+          },
+        },
+      };
+
+      this.cO = this.chartOptionsPaidLineBar;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+      this.spinner.hide();
+    }
+  );
+}
+
 
 GetFundsDDL(){
   
-  this.api.getFundsDDL().subscribe((res:any[])=>{
+  this.api.getFundsDDL(sessionStorage.getItem('roleId')).subscribe((res:any[])=>{
     // console.log(' Vehicle API dropdown Response:', res);
     if (res && res.length > 0) {
       this.FundsDDL = res.map(item => ({
