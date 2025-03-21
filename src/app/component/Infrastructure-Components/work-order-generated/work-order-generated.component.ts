@@ -101,6 +101,7 @@ export class WorkOrderGeneratedComponent {
   wOIssuedScheme: WorkOrderIssued[] = [];
   divisionid: any;
   himisDistrictid: any;
+  mainSchemeID:any;
   dateRange!: FormGroup;
   fromdt: any;
   todt: any;
@@ -537,13 +538,16 @@ export class WorkOrderGeneratedComponent {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptions.chart.height = '200px';
       this.himisDistrictid = 0;
+      this.mainSchemeID=0;
     } else if (roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.divisionid = 0;
+      this.mainSchemeID=0;
       this.chartOptions.chart.height = '400px';
     } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
+      this.mainSchemeID=0;
       this.chartOptions.chart.height = 'auto';
     }
     const startDate = this.dateRange.value.start;
@@ -563,7 +567,7 @@ export class WorkOrderGeneratedComponent {
           this.divisionid,
           this.himisDistrictid,
           this.fromdt,
-          this.todt
+          this.todt,this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -642,13 +646,16 @@ export class WorkOrderGeneratedComponent {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptions2.chart.height = '400';
       this.himisDistrictid = 0;
+      this.mainSchemeID=0;
     } else if (roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.divisionid = 0;
+      this.mainSchemeID=0;
       this.chartOptions2.chart.height = '400';
     } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
+      this.mainSchemeID=0;
       this.chartOptions2.chart.height = '900';
     }
     const startDate = this.dateRange.value.start;
@@ -668,7 +675,7 @@ export class WorkOrderGeneratedComponent {
           this.divisionid,
           this.himisDistrictid,
           this.fromdt,
-          this.todt
+          this.todt,this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -746,13 +753,16 @@ export class WorkOrderGeneratedComponent {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptionsLine.chart.height = '400';
       this.himisDistrictid = 0;
+      this.mainSchemeID=0;
     } else if (roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.divisionid = 0;
+      this.mainSchemeID=0;
       this.chartOptionsLine.chart.height = '400';
     } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
+      this.mainSchemeID=0;
       this.chartOptionsLine.chart.height = '900';
     }
     const startDate = this.dateRange.value.start;
@@ -772,7 +782,7 @@ export class WorkOrderGeneratedComponent {
           this.divisionid,
           this.himisDistrictid,
           this.fromdt,
-          this.todt
+          this.todt,this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -850,13 +860,16 @@ export class WorkOrderGeneratedComponent {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptionsLine2.chart.height = '300';
       this.himisDistrictid = 0;
+      this.mainSchemeID=0;
     } else if (roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.divisionid = 0;
+      this.mainSchemeID=0;
       this.chartOptionsLine2.chart.height = '300';
     } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
+      this.mainSchemeID=0;
       this.chartOptionsLine2.chart.height = '300';
     }
     const startDate = this.dateRange.value.start;
@@ -876,7 +889,7 @@ export class WorkOrderGeneratedComponent {
           this.divisionid,
           this.himisDistrictid,
           this.fromdt,
-          this.todt
+          this.todt,this.mainSchemeID
         )
         .subscribe(
           (data: any) => {

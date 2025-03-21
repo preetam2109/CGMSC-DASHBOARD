@@ -76,6 +76,7 @@ export class WorkOrderComponent {
   noofWorksGreater7Days:any;
   // divisionid='D1024';
   divisionid:any;
+  mainSchemeID:any;
   Scheme='Scheme';
   Total='Total';
   Contractor='Contractor';
@@ -501,21 +502,24 @@ export class WorkOrderComponent {
   this.divisionid = sessionStorage.getItem('divisionID');
   this.chartOptions.chart.height = '200px';
   this.himisDistrictid=0; 
+  this.mainSchemeID=0;
   }  else if (roleName == 'Collector') {
   this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
   this.divisionid=0;
+  this.mainSchemeID=0;
   this.chartOptions.chart.height = '400px';
   }
   else{
     this.divisionid=0;
     this.himisDistrictid=0; 
+    this.mainSchemeID=0;
     this.chartOptions.chart.height = 'auto';
   }
   var RPType ='Total';
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     // ?RPType=Scheme&divisionid=0&districtid=0&fromdt=0&todt=0
     var fromdt=0,todt=0;
-    this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid).subscribe(
+    this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
       (data: any) => {
         this.wOpendingTotal = data;
         const name: string[] = [];
@@ -568,20 +572,23 @@ export class WorkOrderComponent {
     if(roleName == 'Division'){
     this.divisionid = sessionStorage.getItem('divisionID');
     this.chartOptionsLine2.chart.height = '500px';
-    this.himisDistrictid=0; 
+    this.himisDistrictid=0;
+    this.mainSchemeID=0; 
     }  else if (roleName == 'Collector') {
     this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
     this.divisionid=0;
+    this.mainSchemeID=0;
     this.chartOptionsLine2.chart.height = '1000';
     }
     else{
       this.divisionid=0;
       this.himisDistrictid=0; 
+      this.mainSchemeID=0;
       this.chartOptionsLine2.chart.height = '1000';
     }
    var RPType ='District';
    var fromdt=0,todt=0;
-    this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid).subscribe(
+    this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
       (data: any) => {
         this.wOpendingDistrict = data;
         const name: string[] = [];
@@ -659,19 +666,22 @@ export class WorkOrderComponent {
     this.divisionid = sessionStorage.getItem('divisionID');
     this.chartOptionsLine.chart.height = '500px';
     this.himisDistrictid=0; 
+    this.mainSchemeID=0;
     }  else if (roleName == 'Collector') {
     this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
     this.divisionid=0;
+    this.mainSchemeID=0;
     this.chartOptionsLine.chart.height = '500px';
     }
     else{
       this.divisionid=0;
       this.himisDistrictid=0; 
+      this.mainSchemeID=0;
       this.chartOptionsLine.chart.height = '1000';
     }
    var RPType ='Contractor';
    var fromdt=0,todt=0;
-    this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid).subscribe(
+    this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
       (data: any) => {
         this.wOpendingContractor = data;
         const name: string[] = [];
@@ -754,20 +764,23 @@ export class WorkOrderComponent {
     this.divisionid = sessionStorage.getItem('divisionID');
     this.chartOptionsLine.chart.height = '500px';
     this.himisDistrictid=0; 
+    this.mainSchemeID=0;
     }  else if (roleName == 'Collector') {
     this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
     this.divisionid=0;
+    this.mainSchemeID=0;
     this.chartOptionsLine.chart.height = '500px';
     }
     else{
       this.divisionid=0;
-      this.himisDistrictid=0; 
+      this.himisDistrictid=0;
+      this.mainSchemeID=0; 
       this.chartOptionsLine.chart.height = '1000';
     }
    var RPType ='Scheme';
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     var fromdt=0,todt=0;
-    this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid).subscribe(
+    this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
       (data: any) => {
         this.wOpendingScheme = data;
         // console.log('API Response Scheme:',  this.wOpendingScheme);
@@ -833,7 +846,7 @@ export class WorkOrderComponent {
 //#endregion
 //#region  Fetch Data in table form
 fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
-  console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+  // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   const  distid=0;
   const mainSchemeId=0;
   const contractid=0;

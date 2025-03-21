@@ -48,7 +48,8 @@ export class LandIssueComponent {
   Scheme = 'Scheme';
   Total = 'Total';
   Contractor = 'Contractor';
-  District = 'District'
+  District = 'District';
+ mainSchemeID:any;
   name:any;
   totalWorks:any;
   //#region chart Variable Declarations
@@ -517,20 +518,23 @@ export class LandIssueComponent {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptions.chart.height = '200px';
       this.districtid = 0;
+      this.mainSchemeID=0;
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
      this.chartOptions.chart.height = '400px';
       this.divisionid=0;
+      this.mainSchemeID=0;
     }
     else {
       this.districtid = 0;
       this.divisionid=0;
+      this.mainSchemeID=0
       this.chartOptions.chart.height = '400';
     }
 
     this.spinner.show();
 
-    this.api.GetLIPendingTotal(this.Total, this.divisionid,this.districtid).subscribe(
+    this.api.GetLIPendingTotal(this.Total, this.divisionid,this.districtid,this.mainSchemeID).subscribe(
       (data: any) => {
         if (Array.isArray(data) && data.length > 0) {
           this.LIPendingTotalData = data;
@@ -592,17 +596,20 @@ export class LandIssueComponent {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptions2.chart.height = '500px';
       this.districtid = 0;
+      this.mainSchemeID=0;
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
      this.chartOptions2.chart.height = '400px';
       this.divisionid=0;
+      this.mainSchemeID=0;
     }
     else {
       this.districtid = 0;
       this.divisionid=0;
+      this.mainSchemeID=0;
       this.chartOptions2.chart.height = '800';
     }
-    this.api.GetLIPendingTotal(this.Scheme, this.divisionid,this.districtid).subscribe(
+    this.api.GetLIPendingTotal(this.Scheme, this.divisionid,this.districtid,this.mainSchemeID).subscribe(
       (data: any) => {
         if (Array.isArray(data) && data.length > 0) {
           this.LIPendingSchemeData = data;
@@ -669,17 +676,20 @@ export class LandIssueComponent {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptionsLine.chart.height = '500px';
       this.districtid = 0;
+      this.mainSchemeID=0;
     } else if (roleName == 'Collector') {
      this.districtid = sessionStorage.getItem('himisDistrictid');
      this.chartOptionsLine.chart.height = '200px';
       this.divisionid=0;
+      this.mainSchemeID=0;
     }
     else {
       this.districtid = 0;
       this.divisionid=0;
+      this.mainSchemeID=0;
       this.chartOptionsLine.chart.height = '800';
     }
-    this.api.GetLIPendingTotal(this.District, this.divisionid,this.districtid).subscribe(
+    this.api.GetLIPendingTotal(this.District, this.divisionid,this.districtid,this.mainSchemeID).subscribe(
       (data: any) => {
         if (Array.isArray(data) && data.length > 0) {
           this.LIPendingDistrictData = data;

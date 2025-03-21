@@ -8354,7 +8354,7 @@ export class SchemeWiseDetailsComponent {
     var fromdt = 0,
       todt = 0;
     this.api
-      .WOPendingTotal(RPType, this.divisionid, this.himisDistrictid)
+      .WOPendingTotal(RPType, this.divisionid,this.himisDistrictid,this.mainSchemeID)
       .subscribe(
         // this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
         (data: any) => {
@@ -8423,7 +8423,7 @@ export class SchemeWiseDetailsComponent {
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt3 && this.todt3) {
-      this.api.GETWorkOrderGenerated(RPType,this.divisionid,this.himisDistrictid,this.fromdt3,this.todt3)
+      this.api.GETWorkOrderGenerated(RPType,this.divisionid,this.himisDistrictid,this.fromdt3,this.todt3,this.mainSchemeID)
         .subscribe(
           (data: any) => {
             this.WoIssuedTotal = data;
@@ -8859,63 +8859,53 @@ export class SchemeWiseDetailsComponent {
       series: [],
       chart: {
         type: 'bar',
-        stacked: true,
-        // height: 600,
+        stacked: false,
         // height: 'auto',
-        // width:600,
         events: {
           dataPointSelection: (
             event,
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            if (dataPointIndex !== undefined && seriesIndex !== undefined) {
-              const selectedCategory =
-                this.chartOptionsLIScheme?.xaxis?.categories?.[dataPointIndex];
-              const selectedSeries =
-                this.chartOptionsLIScheme?.series?.[seriesIndex]?.name;
-
-              if (selectedCategory && selectedSeries) {
-                const apiData = this.LIPendingSchemeData;
-                // console.log('datasch:', apiData);
-
-                if (Array.isArray(apiData)) {
-                  // const selectedData = apiData.find((data) =>
-                  //   data.name.trim().toLowerCase() === selectedCategory.trim().toLowerCase()   );
-                  const selectedData = apiData.find(
-                    (data) => data.name === selectedCategory
-                  );
-                  // console.log("selectedData chart1",selectedData);
-
-                  if (selectedData) {
+            const selectedCategory =
+              this.chartOptionsLIScheme?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
+            const selectedSeries =
+              this.chartOptionsLIScheme?.series?.[seriesIndex]?.name;
+            if (selectedCategory && selectedSeries) {
+              const apiData = this.LIPendingSchemeData; // Replace with the actual data source or API response
+              const selectedData = apiData.find(
+                (data) => data.name === selectedCategory
+              );
+              if (selectedData) {
                     const id = selectedData.id;
                     this.name = selectedData.name;
                     this.totalWorks = selectedData.totalWorks;
                     this.fetchDataBasedOnChartSelectionLIScheme( id,  selectedSeries  );
-                  } else {
-                    console.error(
-                      `No data found for selected category: ${selectedCategory}`
-                    );
-                  }
-                } else {
-                  console.error('API Data is not an array:', apiData);
-                }
               } else {
-                console.error('Selected category or series is invalid.');
+                console.log(
+                  `No data found for selected category: ${selectedCategory}`
+                );
               }
             } else {
-              console.log('Invalid data point or series index.');
+              console.log('Selected category or series is invalid.');
             }
           },
         },
       },
       plotOptions: {
         bar: {
-          horizontal: true,
+          horizontal: false,
+          columnWidth:'40%',
+          borderRadius:3,
+          distributed: false,
+          dataLabels: {
+            position: 'top', // top, center, bottom
+          },
         },
       },
       xaxis: {
         categories: [],
+        // position: 'top',
       },
       yaxis: {
         title: {
@@ -8936,7 +8926,6 @@ export class SchemeWiseDetailsComponent {
       },
       title: {
         text: 'Scheme-wise Land Issue',
-        // text: 'RP Type Total Pending Works wise Progress',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -8961,7 +8950,6 @@ export class SchemeWiseDetailsComponent {
       },
     };
   }
-
   LIPendingTotal(): void {
     var roleName = localStorage.getItem('roleName');
     // alert( roleName )
@@ -8982,7 +8970,7 @@ export class SchemeWiseDetailsComponent {
     this.spinner.show();
 
     this.api
-      .GetLIPendingTotal(RPtype, this.divisionid, this.districtid)
+      .GetLIPendingTotal(RPtype, this.divisionid, this.districtid,this.mainSchemeID)
       .subscribe(
         (data: any) => {
           if (Array.isArray(data) && data.length > 0) {
@@ -9049,10 +9037,10 @@ export class SchemeWiseDetailsComponent {
     else {
       this.districtid = 0;
       this.divisionid=0;
-      this.chartOptionsLIScheme.chart.height = '800';
+      this.chartOptionsLIScheme.chart.height = '400';
     }
    const RPtype="Scheme";
-    this.api.GetLIPendingTotal(RPtype, this.divisionid,this.districtid).subscribe(
+    this.api.GetLIPendingTotal(RPtype, this.divisionid,this.districtid,this.mainSchemeID).subscribe(
       (data: any) => {
         if (Array.isArray(data) && data.length > 0) {
           this.LIPendingSchemeData = data;
