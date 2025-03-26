@@ -199,19 +199,30 @@ isPasswordVisible: boolean = false;
     localStorage.setItem('roleName', approle);
   }
 
-  setRolePublic(){
-    
-    this.rolename = 'Public'; 
-    this.setRole(this.rolename);
-    this.firstname = 'Public'
-    sessionStorage.setItem('firstname', this.firstname);
+  setRolePublic(name:any){
+    // alert(name)
+    // return;
+    if(name =='Public'){
+      this.rolename = 'Public'; 
+      this.setRole(this.rolename);
+      this.firstname = 'Public'
+      sessionStorage.setItem('firstname', this.firstname);
+      this.router.navigate(['public-view1'])
+    }else{
+      this.rolename = 'Infrastructure_Public'; 
+      this.setRole(this.rolename);
+      this.firstname = 'Infrastructure_Public'
+      sessionStorage.setItem('firstname', this.firstname);
+      this.router.navigate(['/Infrastructure-Public-View'])
+
+    }
 
     
 
 
     
 
-    this.router.navigate(['public-view1'])
+    
 
 
   }
