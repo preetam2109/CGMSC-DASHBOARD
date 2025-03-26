@@ -8,178 +8,6 @@
           <h3 class="bold text-light text-align text-center">Scheme-Wise Work Abstract</h3>
         </div>
 
-        <!-- <div class="container-fluid">
-        
-        <mat-tab-group (selectedTabChange)="selectedTabValue($event)" (click)="DashProgressCount()">
-        <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
-          <mat-tab label="Total Works">
-            <ng-template matTabContent>
-              <div class="container-fluid mt-4">
-                <div class="container-fluid p-2">
-                  <div class="row ">
-  
-                      <div class="col-12 col-md-6 mb-3">
-                        <div class="columns justify-content-center mb-3">
-                          <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID" [(ngModel)]="mainSchemeID"
-                            name="mainSchemeID" (change)="onselect_mainscheme_data($event)" #emailidField="ngModel"
-                            [placeholder]="!mainSchemeID ? 'Select Scheme : ' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
-                            required class="form-control">
-                          </ng-select>
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-6 mb-3">
-                        <div class="columns justify-content-center mb-3">
-                          <ng-select [items]="budgetOptions" bindLabel="label" bindValue="buid" [(ngModel)]="buid"
-                            name="buid" (change)="onselect_databudgetOptions($event)" #nameidField="ngModel"
-                            [placeholder]="!buid ? 'Select value : ' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
-                            required class="form-control">
-                          </ng-select>
-                        </div>
-                      </div>
-                     
-                  </div>
-                </div>
-  
-  
-              </div>
-            </ng-template>
-          </mat-tab>
-  
-          <mat-tab label="Division-wise" *ngIf="showDivision">
-            <ng-template matTabContent>
-              <div class="card-division">
-                <div class="row ">
-                  <div class="col-12 col-md-3 mt-3">
-                    <div class="columns justify-content-center mb-3">
-                      <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID" [(ngModel)]="mainSchemeID"
-                        name="mainSchemeID" (change)="onselect_mainscheme_data($event)" #emailidField="ngModel"
-                        [placeholder]="!mainSchemeID ? 'Select Scheme : ' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
-                        required class="form-control">
-                      </ng-select>
-                    </div>
-                  </div>
-                  
-                  <div class="col-12 col-md-9  p-2 ">
-                    <div class="button-container">
-                      <label class="division-label align-items-center  pt-2"> Choose Division: </label>
-                      <button class="btn btn-sm align-items-center" style="background-color: #D3D3D3;"
-                        *ngFor="let division of divisions" [ngClass]="{'active-button': selectedDistrict === division.id}"
-                        (click)="onButtonClick(division.name, division.id)">
-                        {{ division.name }}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <label class="division-label" *ngIf="hide">Selected Scheme: {{ selectedName }}</label>&nbsp;
-              <label class="division-label" *ngIf="show">{{ name }}Division</label>
-  
-            </ng-template>
-          </mat-tab>
-  
-          <mat-tab label="District-wise" *ngIf="showDistrict">
-            <ng-template matTabContent>
-              <div class="card-division">
-                <div class="row ">
-                 
-                      <div class="col-12 col-md-6 mt-3">
-                        <div class="columns justify-content-center mb-3">
-                          <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID" [(ngModel)]="mainSchemeID"
-                            name="mainSchemeID" (change)="onselect_mainscheme_data($event)" #emailidField="ngModel"
-                            [placeholder]="!mainSchemeID ? 'Select Scheme' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
-                            required class="form-control">
-                          </ng-select>
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-6 mt-3">
-                        <div class="columns justify-content-center mb-3">
-                          <ng-select [items]="GetDistrict" bindLabel="districtname" bindValue="districT_ID" [(ngModel)]="districT_ID"
-                            name="districT_ID" (change)="onGetDistrictsSelect($event,0)" #emailidField="ngModel"
-                            [placeholder]="!districT_ID ? 'Select District' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
-                            required class="form-control">
-                          </ng-select>
-                        </div>
-                      </div>
-                </div>
-              </div>
-              <label class="division-label" *ngIf="hide">Selected Scheme: {{ selectedName }}</label>&nbsp;
-              <label class="division-label" *ngIf="show">{{ distname }}</label>
-            </ng-template>
-          </mat-tab>
-  
-          <mat-tab label="District-wise">
-        <ng-template matTabContent>
-          <div class="card-division">
-          <div class="dropdown-container">
-            <div class="row ">
-              <div class="col-12 col-md-6  p-2 ">
-                <mat-form-field appearance="fill" class="dropdown-field">
-                  <mat-label>Select Districts</mat-label>
-                  <mat-select (selectionChange)="onGetDistrictsSelect($event.value)">
-                    <mat-option *ngFor="let districts of GetDistrict" [value]="districts.districT_ID">
-                      {{ districts.districtname }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-12 col-md-6  p-2 ">
-                <mat-form-field appearance="fill" class="dropdown-field">
-                  <mat-label>Select Main Scheme</mat-label>
-                  <mat-select (selectionChange)="onselect_mainscheme_data($event.value)">
-                    <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
-                      {{ mainscheme.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-          </div>
-        </ng-template>
-      </mat-tab>
-  
-          <mat-tab label="MedicalCollege-wise">
-            <ng-template matTabContent>
-              <div class="card-division">
-                <div class="row ">
-                  <div class="col-12 col-md-6 mt-3">
-                    <div class="columns justify-content-center mb-3">
-                      <ng-select [items]="DistrictNameDMEData" bindLabel="districtname" bindValue="districT_ID" [(ngModel)]="districT_ID"
-                        name="districT_ID" (change)="onselectDistrictsDME($event,0)" #emailidField="ngModel"
-                        [placeholder]="!districT_ID ? 'Select District' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
-                        required class="form-control">
-                      </ng-select>
-                    </div>
-                  </div>
-  
-  
-  
-                 
-  
-                </div>
-                <div class="container-fluid p-4" *ngIf="showCardss">
-                  <div class="row">
-                    <div class="col-lg-6 col-md-12 mb-4" >
-                      <div class="chart-container">
-                        <apx-chart *ngIf="chartOptions.series.length > 0"  [series]="chartOptions.series" [chart]="chartOptions.chart"
-                          [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
-                          [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke" [fill]="chartOptions.fill"
-                          [yaxis]="chartOptions.yaxis" [title]="chartOptions.title" [tooltip]="chartOptions.tooltip"
-                          [legend]="chartOptions.legend"></apx-chart>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-  
-            </ng-template>
-          </mat-tab>
-  
-        
-        </mat-tab-group>
-  
-      </div> -->
-
         <div class="container-fluid mt-4">
           <div class="container-fluid p-2">
             <div class="row ">
@@ -272,23 +100,24 @@
           <div class="row" *ngIf="LIPendingTotalData.length > 0;else other_content">
             <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LIPendingTotalData.length > 0">
               <div class="chart-container">
-
+                <!-- <p class="bold mt-1 " style="font-size: 12px; text-align: center; color: rgb(110, 13, 37);">Overview of Land Issue: {{this.selectedName}}</p> -->
+                
                 <apx-chart [series]="chartOptionsLITotal.series" [chart]="chartOptionsLITotal.chart"
                   [dataLabels]="chartOptionsLITotal.dataLabels" [plotOptions]="chartOptionsLITotal.plotOptions"
                   [xaxis]="chartOptionsLITotal.xaxis" [stroke]="chartOptionsLITotal.stroke"
                   [fill]="chartOptionsLITotal.fill" [yaxis]="chartOptionsLITotal.yaxis"
-                  [title]="chartOptionsLITotal.title" [tooltip]="chartOptionsLITotal.tooltip"
-                  [legend]="chartOptionsLITotal.legend"></apx-chart>
+                  [title]="chartOptionsLITotal.title" [tooltip]="chartOptionsLITotal.tooltip"[legend]="chartOptionsLITotal.legend"></apx-chart>
+                 
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LIPendingSchemeData.length > 0">
+            <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LIPendingDistrictData.length > 0">
               <div class="chart-container">
-                <apx-chart [series]="chartOptionsLIScheme.series" [chart]="chartOptionsLIScheme.chart"
-                  [dataLabels]="chartOptionsLIScheme.dataLabels" [plotOptions]="chartOptionsLIScheme.plotOptions"
-                  [xaxis]="chartOptionsLIScheme.xaxis" [stroke]="chartOptionsLIScheme.stroke"
-                  [fill]="chartOptionsLIScheme.fill" [yaxis]="chartOptionsLIScheme.yaxis"
-                  [title]="chartOptionsLIScheme.title" [tooltip]="chartOptionsLIScheme.tooltip"
-                  [legend]="chartOptionsLIScheme.legend"></apx-chart>
+                <apx-chart [series]="chartOptionsLIDistrict.series" [chart]="chartOptionsLIDistrict.chart"
+                  [dataLabels]="chartOptionsLIDistrict.dataLabels" [plotOptions]="chartOptionsLIDistrict.plotOptions"
+                  [xaxis]="chartOptionsLIDistrict.xaxis" [stroke]="chartOptionsLIDistrict.stroke"
+                  [fill]="chartOptionsLIDistrict.fill" [yaxis]="chartOptionsLIDistrict.yaxis"
+                  [title]="chartOptionsLIDistrict.title" [tooltip]="chartOptionsLIDistrict.tooltip"
+                  [legend]="chartOptionsLIDistrict.legend"></apx-chart>
               </div>
             </div>
           </div>
@@ -302,13 +131,10 @@
     <div class="card shadow mb-3" *ngIf="visibale">
       <div class="card-body">
         <div class="w-100 mt-1 pb-2 rounded">
-          <!-- #e2e3e5 -->
           <h3 class="bold text-light bg-dark" style="font-size: large;">Running Works Summary</h3>
         </div>
-        <!-- <div class="card-body pt-0"> -->
         <div class="container-fluid  p-1">
           <div class="row" *ngIf="RunningWorkDataScheme.length > 0;else other_content">
-            <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataGTotal.length > 0"> -->
             <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
               <div class="chart-container">
                 <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
@@ -331,40 +157,8 @@
           <ng-template class="row" #other_content>
             <strong style="font-size: 20px;">No Running Works are currently available for the scheme.</strong>
           </ng-template>
-          <!-- <div class="row"> -->
-          <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataScheme.length > 0">
-                                    <div class="chart-container">
-                                        <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart"
-                                            [dataLabels]="chartOptions2.dataLabels" [plotOptions]="chartOptions2.plotOptions"
-                                            [xaxis]="chartOptions2.xaxis" [stroke]="chartOptions2.stroke"
-                                            [fill]="chartOptions2.fill" [yaxis]="chartOptions2.yaxis"
-                                            [title]="chartOptions2.title" [tooltip]="chartOptions2.tooltip"
-                                            [legend]="chartOptions2.legend"></apx-chart>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataDistrict.length > 0">
-                                    <div class="chart-container">
-                                        <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart"
-                                            [dataLabels]="chartOptions3.dataLabels" [plotOptions]="chartOptions3.plotOptions"
-                                            [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
-                                            [fill]="chartOptions3.fill" [yaxis]="chartOptions3.yaxis"
-                                            [title]="chartOptions3.title" [tooltip]="chartOptions3.tooltip"
-                                            [legend]="chartOptions3.legend"></apx-chart>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="RunningWorkDataContractor.length > 0">
-                                    <div class="chart-container">
-                                        <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart"
-                                            [dataLabels]="chartOptions4.dataLabels" [plotOptions]="chartOptions4.plotOptions"
-                                            [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
-                                            [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis"
-                                            [title]="chartOptions4.title" [tooltip]="chartOptions4.tooltip"
-                                            [legend]="chartOptions4.legend"></apx-chart>
-                                    </div>
-                                </div> -->
-          <!-- </div> -->
+         
         </div>
-        <!-- </div> -->
       </div>
     </div>
     <!-- Live Tender -->
@@ -424,16 +218,6 @@
 
               </div>
             </div>
-            <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="LiveTenderDivision.length > 0">
-                  <div class="chart-container">
-        
-                    <apx-chart [series]="chartliveTenderDiv.series" [chart]="chartliveTenderDiv.chart"
-                      [dataLabels]="chartliveTenderDiv.dataLabels" [plotOptions]="chartliveTenderDiv.plotOptions"
-                      [xaxis]="chartliveTenderDiv.xaxis" [stroke]="chartliveTenderDiv.stroke" [fill]="chartliveTenderDiv.fill"
-                      [yaxis]="chartliveTenderDiv.yaxis" [title]="chartliveTenderDiv.title"
-                      [tooltip]="chartliveTenderDiv.tooltip" [legend]="chartliveTenderDiv.legend"></apx-chart>
-                  </div>
-                </div> -->
           </div>
           <ng-template class="row" #other_content>
             <strong style="font-size: 20px;">No Tender are currently available for the scheme.</strong>
@@ -487,34 +271,8 @@
           <h3 class="bold text-light bg-dark" style="font-size: large;">Work Order</h3>
         </div>
         <div class="container-fluid  p-1">
-          <div class="row">
-            <div class="card-body row mt-0 pt-0 pl-0" style="padding-right:0%;">
-              <div class=" border rounded custom-form-field">
-                <mat-form-field class="filter-field w-100 " appearance="fill">
-                  <mat-label>Date Range</mat-label>
-                  <mat-date-range-input [rangePicker]="picker3" [formGroup]="dateRange2">
-                    <input matStartDate placeholder="Start date" formControlName="start" class="custom-inputt">
-                    <input matEndDate placeholder="End date" formControlName="end" class="custom-inputt">
-                  </mat-date-range-input>
-                  <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-                  <mat-date-range-picker #picker3></mat-date-range-picker>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
+          
           <div class="row" *ngIf="WoIssuedTotal.length > 0;else other_content">
-
-            <!-- <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingScheme.length > 0">
-                    <div class="chart-container">
-                      <apx-chart [series]="chartOptionsWOPScheme.series" [chart]="chartOptionsWOPScheme.chart"
-                        [dataLabels]="chartOptionsWOPScheme.dataLabels" [plotOptions]="chartOptionsWOPScheme.plotOptions"
-                        [xaxis]="chartOptionsWOPScheme.xaxis" [stroke]="chartOptionsWOPScheme.stroke" [fill]="chartOptionsWOPScheme.fill"
-                        [yaxis]="chartOptionsWOPScheme.yaxis" [title]="chartOptionsWOPScheme.title" [tooltip]="chartOptionsWOPScheme.tooltip"
-                        [legend]="chartOptionsWOPScheme.legend"></apx-chart>
-          
-          
-                    </div>
-                  </div> -->
             <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="wOpendingDivision.length > 0">
               <div class="chart-container">
                 <apx-chart [series]="chartOptionsWOPDivision.series" [chart]="chartOptionsWOPDivision.chart"
@@ -525,7 +283,23 @@
                   [legend]="chartOptionsWOPDivision.legend"></apx-chart>
               </div>
             </div>
+         
             <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="WoIssuedTotal.length > 0">
+                 <!-- <div class="col-lg-6 col-md-6 mb-2"> -->
+                  <div class="card-body row mt-0 pt-0 pl-0" style="padding-right:0%;padding-left: 0%;">
+                    <div class=" border rounded custom-form-field">
+                      <mat-form-field class="filter-field w-100 " appearance="fill">
+                        <mat-label>Date Range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker3" [formGroup]="dateRange2">
+                          <input matStartDate placeholder="Start date" formControlName="start" class="custom-inputt">
+                          <input matEndDate placeholder="End date" formControlName="end" class="custom-inputt">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker3></mat-date-range-picker>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                <!-- </div> -->
               <div class="chart-container">
                 <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt3}} To {{todt3}}</span>
                 <apx-chart [series]="chartOptionsWOI.series" [chart]="chartOptionsWOI.chart"
@@ -594,34 +368,7 @@
           <ng-template class="row" #other_content>
             <strong style="font-size: 20px;">No Handover Work are currently available for the scheme.</strong>
           </ng-template>
-          <!-- <div class="row">
-                <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractDistrictData.length > 0">
-                    <div class="chart-container">
-                        <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
-                            {{todt}}</span>
-                        <apx-chart [series]="chartHandover2.series" [chart]="chartHandover2.chart"
-                            [dataLabels]="chartHandover2.dataLabels" [plotOptions]="chartHandover2.plotOptions"
-                            [xaxis]="chartHandover2.xaxis" [stroke]="chartHandover2.stroke"
-                            [fill]="chartHandover2.fill" [yaxis]="chartHandover2.yaxis"
-                            [title]="chartHandover2.title" [tooltip]="chartHandover2.tooltip"
-                            [legend]="chartHandover2.legend"></apx-chart>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 mb-2 border rounded"  *ngIf="HandoverAbstractWorkTypeData.length > 0">
-                    <div class="chart-container">
-                        <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To
-                            {{todt}}</span>
-                        <apx-chart [series]="chartHandover3.series" [chart]="chartHandover3.chart"
-                            [dataLabels]="chartHandover3.dataLabels" [plotOptions]="chartHandover3.plotOptions"
-                            [xaxis]="chartHandover3.xaxis" [stroke]="chartHandover3.stroke"
-                            [fill]="chartHandover3.fill" [yaxis]="chartHandover3.yaxis"
-                            [title]="chartHandover3.title" [tooltip]="chartHandover3.tooltip"
-                            [legend]="chartHandover3.legend"></apx-chart>
-                    </div>
-                </div>
-
-
-            </div> -->
+         
         </div>
 
       </div>
@@ -660,26 +407,7 @@
           <ng-template class="row" #other_content>
             <strong style="font-size: 20px;">No Payment Due are currently available for the scheme.</strong>
           </ng-template>
-          <!-- <div class="row">
-                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryScheme.length > 0">
-                          <div class="chart-container">
-                              <apx-chart [series]="chartUnPaid1.series" [chart]="chartUnPaid1.chart"
-                                  [dataLabels]="chartUnPaid1.dataLabels" [plotOptions]="chartUnPaid1.plotOptions"
-                                  [xaxis]="chartUnPaid1.xaxis" [stroke]="chartUnPaid1.stroke" [fill]="chartUnPaid1.fill"
-                                  [yaxis]="chartUnPaid1.yaxis" [title]="chartUnPaid1.title" [tooltip]="chartUnPaid1.tooltip"
-                                  [legend]="chartUnPaid1.legend"></apx-chart>
-                          </div>
-                      </div>
-                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="UnPaidSummaryDesignation.length > 0">
-                          <div class="chart-container">
-                              <apx-chart [series]="chartUnPaid2.series" [chart]="chartUnPaid2.chart"
-                                  [dataLabels]="chartUnPaid2.dataLabels" [plotOptions]="chartUnPaid2.plotOptions"
-                                  [xaxis]="chartUnPaid2.xaxis" [stroke]="chartUnPaid2.stroke" [fill]="chartUnPaid2.fill"
-                                  [yaxis]="chartUnPaid2.yaxis" [title]="chartUnPaid2.title" [tooltip]="chartUnPaid2.tooltip"
-                                  [legend]="chartUnPaid2.legend"></apx-chart>
-                          </div>
-                      </div>
-                  </div> -->
+        
         </div>
         <!-- </div> -->
       </div>
@@ -736,27 +464,7 @@
             <ng-template class="row" #other_content>
               <strong style="font-size: 20px;">No Payment Done are currently available for the scheme.</strong>
             </ng-template>
-            <!-- <div class="row">
-                      <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryScheme.length > 0">
-                        <div class="chart-container">
-                          <span class="bold mt-1" style="color: rgb(110, 13, 37);">Duration: {{fromdt}} To {{todt}}</span> 
-                          <apx-chart [series]="chartPaid2.series" [chart]="chartPaid2.chart"
-                            [dataLabels]="chartPaid2.dataLabels" [plotOptions]="chartPaid2.plotOptions"
-                            [xaxis]="chartPaid2.xaxis" [stroke]="chartPaid2.stroke" [fill]="chartPaid2.fill"
-                            [yaxis]="chartPaid2.yaxis" [title]="chartPaid2.title" [tooltip]="chartPaid2.tooltip"
-                            [legend]="chartPaid2.legend"></apx-chart>
-                        </div>
-                      </div> 
-                       <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="PaidSummaryDistrict.length > 0">
-                        <div class="chart-container">
-                          <apx-chart [series]="chartOptionsLine.series" [chart]="chartOptionsLine.chart"
-                            [dataLabels]="chartOptionsLine.dataLabels" [plotOptions]="chartOptionsLine.plotOptions"
-                            [xaxis]="chartOptionsLine.xaxis" [stroke]="chartOptionsLine.stroke" [fill]="chartOptionsLine.fill"
-                            [yaxis]="chartOptionsLine.yaxis" [title]="chartOptionsLine.title"
-                            [tooltip]="chartOptionsLine.tooltip" [legend]="chartOptionsLine.legend"></apx-chart>
-                        </div>
-                      </div> 
-                    </div>-->
+           
           </div>
         </div>
 
