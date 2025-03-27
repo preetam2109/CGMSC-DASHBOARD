@@ -106,6 +106,7 @@ import { SidebarPublicComponent } from './sidebar-public/sidebar-public.componen
 import { SchemeWiseDetailsComponent } from './component/Infrastructure-Components/scheme-wise-details/scheme-wise-details.component';
 import { DhsdashComponent } from './component/DHS-Components/dhsdash/dhsdash.component';
 import { CMEDashboardComponent } from './CME/cme-dashboard/cme-dashboard.component';
+import { InfrastructurePublicViewComponent } from './component/Infrastructure-Components/infrastructure-public-view/infrastructure-public-view.component';
 
 
 
@@ -118,6 +119,7 @@ const routes: Routes = [
   {path:'otp',component:OtpComponent},
   {path:'public-view1',component:PublicViewComponent},
   {path:'public-view',component:SidebarPublicComponent},
+  {path:'Infrastructure-Public-View',component:InfrastructurePublicViewComponent},
 
   {path:'logout',component:LogoutComponent,canActivate:[RouteGuardService]},
   { path: 'home',component: CategorySelectionComponent,canActivate:[RouteGuardService]}, 
@@ -244,7 +246,6 @@ const routes: Routes = [
 {path:'DropAppWarehousePerformancePublic',component:DropAppWarehousePerformanceComponent},
 {path:'IndentPendingWHdashPublic',component:IndentPendingWhDasComponent },
 {path:'stockDetailsPublic',component:CGMSCStockDetailsComponent },
-
 {path:'WarehouseInfoPublic',component:WarehouseInfoComponent},
 {path:'DevliveryPublic',component:DeliveryComponent},
 {path:'FacCoveragePublic',component:FacCoverageComponent},
