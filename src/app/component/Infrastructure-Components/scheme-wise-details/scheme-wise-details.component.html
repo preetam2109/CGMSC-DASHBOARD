@@ -2010,18 +2010,18 @@
       <div class="row card shadow card-body ">
         <div class="d-flex justify-content-between align-items-center mb-0">
           <div class="filter-field flex-grow-1">
-            <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterretunToD($event)">
           </div>
           <div class="export-menu-container">
             <button type="button" class="btn border rounded btn-outline-secondary" mat-button
               [matMenuTriggerFor]="exportMenu">Export</button>
             <mat-menu #exportMenu="matMenu">
               <button mat-menu-item
-                (click)="exporter.exportTable('xlsx', { fileName: 'LandIssueDetails', sheet: 'LandIssueDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                (click)="exporter.exportTable('xlsx', { fileName: 'RturnTODeptDetails', sheet: 'RturnTODeptDetails', Props: { Author: 'cgmsc' }})">Excel</button>
               <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
               <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
               <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-              <button mat-menu-item (click)="exportToPDF()">PDF</button>
+              <button mat-menu-item (click)="expor_PDFRturntoD()">PDF</button>
             </mat-menu>
           </div>
         </div>
