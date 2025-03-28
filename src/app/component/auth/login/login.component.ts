@@ -211,7 +211,7 @@ isPasswordVisible: boolean = false;
     }else{
       this.rolename = 'Infrastructure_Public'; 
       this.setRole(this.rolename);
-      this.firstname = 'Infrastructure_Public'
+      this.firstname = 'Infrastructure Public'
       sessionStorage.setItem('firstname', this.firstname);
       this.router.navigate(['/Infrastructure-Public-View'])
 

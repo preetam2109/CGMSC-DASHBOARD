@@ -249,6 +249,12 @@ const routes: Routes = [
 {path:'WarehouseInfoPublic',component:WarehouseInfoComponent},
 {path:'DevliveryPublic',component:DeliveryComponent},
 {path:'FacCoveragePublic',component:FacCoverageComponent},
+// infrasturcture
+{path:'InfrastructureHomes',component:InfrastructureHomeComponent},
+{path:'SearchingWorks',component:SearchingWorkComponent},
+{path:'RunningWorks',component:RunningWorkComponent},
+{path:'Handovers',component:HandoverComponent},
+{path:'DivisionsProgress',component:DivisionProgressComponent},
 
 
 

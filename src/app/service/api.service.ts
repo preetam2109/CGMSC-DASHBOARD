@@ -253,7 +253,6 @@ export class ApiService {
 
   // Method for ReagIndentPending with mmid
   getReagIndentPending(mmid: any) {
-    ;
     return this.http.get<ReagIndentPending[]>(`https://dpdmis.in/CGMSCHO_API2/api/Warehouse/ReagIndentPending?mmid=${mmid}`);
   }
 
