@@ -43,6 +43,8 @@ export type ChartOptions = {
   styleUrl: './finance-dash.component.css'
 })
 export class FinanceDashComponent {
+  budgetname: any='DHS Drugs(Non Covid)';
+  po_year: any;
 exportToPDF() {
 throw new Error('Method not implemented.');
 }
@@ -643,7 +645,7 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
             { dataPointIndex, seriesIndex }
           ) => {
             ;
-            
+            debugger
             console.log('dataPointIndex:', dataPointIndex);
             console.log('seriesIndex:', seriesIndex);
             console.log('Categories:', this.chartOptionFundLLibility?.xaxis?.categories);
@@ -653,7 +655,7 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
               console.error('xaxis.categories is not defined or empty.');
               return;
             }
-        
+        debugger
             const selectedCategory = categories[dataPointIndex];
             const selectedSeries = this.chartOptionFundLLibility?.series?.[seriesIndex]?.name;
         
@@ -667,7 +669,7 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
               if (selectedData) {
                 const id = selectedData.id;
                 ;
-                this.fetchDataBasedOnchartOptionFundLLibility(id, selectedSeries);
+                this.fetchDataBasedOnchartOptionFundLLibility(id, selectedSeries,selectedCategory);
               } else {
                 console.warn(`No data found for selected category: ${selectedCategory}`);
               }
@@ -1347,10 +1349,11 @@ GetFundsDDL(){
   });  
 }
   onISelectChange(event: Event): void {
-    
+    debugger
     const selectedUser = this.FundsDDL.find((user: { budgetid: string }) => user.budgetid === this.budgetid); 
   
     if (selectedUser) {
+      this.budgetname=selectedUser.budgetname || null;
       this.budgetid=selectedUser.budgetid || null;
       this.GetFundReivedBudgetID();
       this.getPaidYearwise_Budget();
@@ -1626,8 +1629,9 @@ GetFundsDDL(){
 
       this.openDialogGrossPaidDateWiseDetails();
     }
-    fetchDataBasedOnchartOptionFundLLibility(yrid: any, seriesName: string ): void {
-      
+    fetchDataBasedOnchartOptionFundLLibility(yrid: any, seriesName: string,selectedCategory:any ): void {
+      debugger
+      this.po_year=selectedCategory
       console.log(`Selected ID: ${yrid}, Series: ${seriesName}`);
    this.yrid=yrid;
       this.spinner.show();
