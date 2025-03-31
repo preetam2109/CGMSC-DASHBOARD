@@ -956,7 +956,7 @@ this.openDialogTW();
   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-  // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+  console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
 // Icon for "To be Tender"
   if (did == 1001) {
     // console.log('1001 =: ',did);
@@ -969,7 +969,7 @@ this.openDialogTW();
             sno: index + 1,
           })
         );
-        // console.log('DetailProgressTinP=:', this.dispatchData2);
+        console.log('DetailProgressTinP=:', this.dispatchData2);
         this.dataSource2.data = this.dispatchData2;
         this.dataSource2.paginator = this.paginator2;
         this.dataSource2.sort = this.sort2;
