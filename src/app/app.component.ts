@@ -4,7 +4,6 @@ import { HardcodedAuthenticationService } from './service/authentication/hardcod
 import { ToastrService } from 'ngx-toastr';
 import { MenuServiceService } from './service/menu-service.service';
 import { BasicAuthenticationService } from './service/authentication/basic-authentication.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -88,6 +88,7 @@ import { InTransitIssuesComponent } from './component/warehouse/in-transit-issue
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -178,7 +179,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
         MatDialogModule,
         MatTableModule,
         GoogleMapsModule,
-        MatTableExporterModule,
+        MatTableExporterModule,MatButtonModule,
         ToastrModule.forRoot({
             positionClass: 'toast-top-right' // Set the position to top right
         })
