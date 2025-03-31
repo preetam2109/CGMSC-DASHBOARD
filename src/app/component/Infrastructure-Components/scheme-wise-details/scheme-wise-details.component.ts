@@ -6,31 +6,55 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ASFile, DashProgressCount, DetailProgressTinP, DistrictNameDME,TotalWorksAbstract,
-   DMEProgressSummary, GetDistrict, LandIssue_RetToDeptDetatails, MainScheme,
-    TenderInProcess, WORunningHandDetails, 
-    RunningWork,
-    HandoverAbstract,
-    GetHandoverDetails,
-    PaidSummary,
-    UnPaidSummary,
-    UnPaidDetails,
-    PaidDetails,
-    LiveTenderdata,
-    TenderDetails,
-    TenderEvaluation,
-    TenderEvaluationDetails,
-    WOpendingScheme,
-    WOpendingTotal,LIPendingTotal,
-    WorkOrderPendingDetailsNew,
-    LandIssueDetails,
-    WorkOrderIssued,
-    WorkGenDetails,
-    TenderStatus} from 'src/app/Model/DashProgressCount';
+import {
+  ASFile,
+  DashProgressCount,
+  DetailProgressTinP,
+  DistrictNameDME,
+  TotalWorksAbstract,
+  DMEProgressSummary,
+  GetDistrict,
+  LandIssue_RetToDeptDetatails,
+  MainScheme,
+  TenderInProcess,
+  WORunningHandDetails,
+  RunningWork,
+  HandoverAbstract,
+  GetHandoverDetails,
+  PaidSummary,
+  UnPaidSummary,
+  UnPaidDetails,
+  PaidDetails,
+  LiveTenderdata,
+  TenderDetails,
+  TenderEvaluation,
+  TenderEvaluationDetails,
+  WOpendingScheme,
+  WOpendingTotal,
+  LIPendingTotal,
+  WorkOrderPendingDetailsNew,
+  LandIssueDetails,
+  WorkOrderIssued,
+  WorkGenDetails,
+  TenderStatus,
+} from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ApexYAxis, 
-  ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexFill, ApexLegend, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexDataLabels,
+  ApexPlotOptions,
+  ApexXAxis,
+  ApexYAxis,
+  ApexStroke,
+  ApexTitleSubtitle,
+  ApexTooltip,
+  ApexFill,
+  ApexLegend,
+  ChartComponent,
+  NgApexchartsModule,
+} from 'ng-apexcharts';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -55,7 +79,12 @@ export type ChartOptions = {
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
@@ -312,23 +341,25 @@ export class SchemeWiseDetailsComponent {
   wOpendingDivision: WOpendingTotal[] = [];
   wOpendingScheme: WOpendingScheme[] = [];
 
-
   WoIssuedTotal: WorkOrderIssued[] = [];
   chartOptionsWOI!: ChartOptions; // For bar chart
   dataSourceWOGD!: MatTableDataSource<WorkGenDetails>;
-    @ViewChild('paginatorWGD') paginatorWGD!: MatPaginator;
-    @ViewChild('sortWGD') sortWGD!: MatSort;
-    dispatchWOGD: WorkGenDetails[] = [];
+  @ViewChild('paginatorWGD') paginatorWGD!: MatPaginator;
+  @ViewChild('sortWGD') sortWGD!: MatSort;
+  dispatchWOGD: WorkGenDetails[] = [];
   nosWorks: any;
   TimeStatus: any;
   visibale: boolean = false;
   noofWorksGreater7Days: any;
-  // land Issued 
+  // land Issued
+
   LIPendingTotalData: LIPendingTotal[] = [];
   LIPendingSchemeData: LIPendingTotal[] = [];
+  LIPendingDistrictData: LIPendingTotal[] = [];
   dispatchPendingsLI: LandIssueDetails[] = [];
   chartOptionsLITotal!: ChartOptions; // For bar chart
   chartOptionsLIScheme!: ChartOptions; // For bar chart
+  chartOptionsLIDistrict!: ChartOptions; // For bar chart
   @ViewChild('itemDetailsModalLI') itemDetailsModalLI: any;
   @ViewChild('itemDetailsModalWOGD') itemDetailsModalWOGD: any;
   dataSourceLI!: MatTableDataSource<LandIssueDetails>;
@@ -336,18 +367,25 @@ export class SchemeWiseDetailsComponent {
   @ViewChild('sortLI') sortLI!: MatSort;
   // Tobe Tender
   chartOptionsTbetender!: ChartOptions; // For bar chart
- TobetenderGTotal: TenderStatus[] = [];
+  TobetenderGTotal: TenderStatus[] = [];
   // TobetenderProgress: TenderStatus[] = [];
   // tValues: number[] = []; // Declare tValues as a class property
-  
+
   //#endregion
-  constructor( public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,
-    private dialog: MatDialog,private fb: FormBuilder,public datePipe: DatePipe ) {
+  constructor(
+    public api: ApiService,
+    public spinner: NgxSpinnerService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    public datePipe: DatePipe
+  ) {
     this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSourceCom_Han = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSourceRun_Work = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSource1 = new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
-    this.dataSourceLand_isu = new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
+    this.dataSourceLand_isu =
+      new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
     this.dataSource2 = new MatTableDataSource<DetailProgressTinP>([]);
     this.dataSource3 = new MatTableDataSource<TenderInProcess>([]);
     this.dataSource4 = new MatTableDataSource<TotalWorksAbstract>([]);
@@ -355,9 +393,10 @@ export class SchemeWiseDetailsComponent {
     this.dataSourcePaid = new MatTableDataSource<PaidDetails>([]);
     this.dataSourceUnPaid = new MatTableDataSource<UnPaidDetails>([]);
     this.dataSourceLiveTender = new MatTableDataSource<TenderDetails>([]);
-    this.dataSourceTenderE = new MatTableDataSource<TenderEvaluationDetails>([]);
+    this.dataSourceTenderE = new MatTableDataSource<TenderEvaluationDetails>( [] );
     this.dataSourceLI = new MatTableDataSource<LandIssueDetails>([]);
     this.dataSourceWOGD = new MatTableDataSource<WorkGenDetails>([]);
+    this.dataSourceWorkP = new MatTableDataSource<WorkOrderPendingDetailsNew>([]);
   }
 
   ngOnInit() {
@@ -414,9 +453,9 @@ export class SchemeWiseDetailsComponent {
       // this.handoverAbstractRPTypeWorkType();
     });
     this.dateRange1.valueChanges.subscribe(() => {
-      this.GETPaidSummaryTotal();
+      // this.GETPaidSummaryTotal();
       this.GETPaidSummaryDivision();
-      // this.GETPaidSummaryScheme();
+      this.GETPaidSummaryScheme();
     });
     this.dateRange2.valueChanges.subscribe(() => {
       this.GetWOIssueTotal();
@@ -1009,6 +1048,119 @@ export class SchemeWiseDetailsComponent {
     if (this.dataSourceLand_isu.paginator) {
       this.dataSourceLand_isu.paginator.firstPage();
     }
+  }
+  applyTextFilterretunToD(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource1.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource1.paginator) {
+      this.dataSource1.paginator.firstPage();
+    }
+  }
+  expor_PDFRturntoD() {
+    const doc = new jsPDF('l', 'mm', 'a4');
+    const columns = [
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'Head No', dataKey: 'grantNo' },
+      { title: 'Head', dataKey: 'head' },
+      { title: 'Division', dataKey: 'divName_En' },
+      { title: 'District', dataKey: 'district' },
+      { title: 'Block', dataKey: 'blockname' },
+      { title: 'AS Letter No', dataKey: 'letterNo' },
+      { title: 'Approver', dataKey: 'approver' },
+      { title: 'Work', dataKey: 'work' },
+      { title: 'AS Date', dataKey: 'aadt' },
+      { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+      { title: 'TS Date', dataKey: 'tsDate' },
+      { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+      { title: 'Tender Type', dataKey: 'tType' },
+      { title: 'NIT Reference', dataKey: 'tenderReference' },
+      { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+      { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+      { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
+      { title: 'Rate%', dataKey: 'sanctionRate' },
+      { title: 'Sanction', dataKey: 'sanctionDetail' },
+      { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+      { title: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
+      { title: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
+      { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+      { title: 'Time Allowed', dataKey: 'timeAllowed' },
+      { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+      { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+      { title: 'Contractor ID/Class', dataKey: 'cid' },
+      { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+      { title: 'Contractor Mobile No', dataKey: 'mobNo' },
+      { title: 'Last Progress', dataKey: 'lProgress' },
+      { title: 'Progress DT', dataKey: 'progressDT' },
+      { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
+      { title: 'Delay Reason', dataKey: 'delayreason' },
+      { title: 'Sub Engineer', dataKey: 'subengname' },
+      { title: 'Asst.Eng', dataKey: 'aeName' },
+      { title: 'Work ID', dataKey: 'work_id' },
+      { title: 'AS Letter', dataKey: 'asLetter' },
+    ];
+    const rows = this.dispatchData1.map((row) => ({
+      sno: row.sno,
+      grantNo: row.grantNo,
+      head: row.head,
+      divName_En:row.divName_En,
+      district: row.district,
+      blockname: row.blockname,
+      letterNo: row.letterNo,
+      approver: row.approver,
+      work: row.work,
+      aadt: row.aadt,
+      asAmt: row.asAmt,
+      tsDate: row.tsDate,
+      tsamt: row.tsamt,
+      tType: row.tType,
+      tenderReference: row.tenderReference,
+      dateOfIssueNIT: row.dateOfIssueNIT,
+      acceptanceLetterRefNo: row.acceptanceLetterRefNo,
+      acceptLetterDT: row.acceptLetterDT,
+      sanctionRate: row.sanctionRate,
+      sanctionDetail: row.sanctionDetail,
+      totalAmountOfContract: row.totalAmountOfContract,
+      totalpaid: row.totalpaid ,
+      totalunpaid : row.totalunpaid ,
+      wrokOrderDT: row.wrokOrderDT,
+      timeAllowed: row.timeAllowed,
+      dueDTTimePerAdded: row.dueDTTimePerAdded,
+      agreementRefNo: row.agreementRefNo,
+      cid: row.cid,
+      contractorNAme: row.contractorNAme,
+      mobNo: row.mobNo,
+      lProgress: row.lProgress,
+      progressDT: row.progressDT,
+       expcompdt: row.expcompdt,
+       delayreason: row.delayreason,
+      subengname: row.subengname,
+      aeName: row.aeName,
+      work_id: row.work_id,
+      asLetter: row.asLetter,
+    }));
+  
+    autoTable(doc, {
+      head: [columns.map(col => col.title)], 
+      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+      startY: 20,
+      theme: 'grid',
+      styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      columnStyles: {
+        8: { cellWidth: 'wrap' },  
+        33: { cellWidth: 'wrap' }, 
+      },
+      tableWidth: 'auto',
+      margin: { top: 20, left: 5, right: 5 },
+    
+      // didDrawPage: function (data) {
+      //   doc.setFontSize(8);
+      //   doc.text('Land Issue Report', data.settings.margin.left, 10);
+      // }
+    });
+    
+    
+        doc.save('RturnTODReport.pdf');
   }
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a3');
@@ -2216,6 +2368,7 @@ export class SchemeWiseDetailsComponent {
   }
 
   onselect_mainscheme_data(event: Event): void {
+    // console.log('event',event);
     const selectedUser = this.mainscheme.find(
       (user: { mainSchemeID: any }) => user.mainSchemeID === this.mainSchemeID
     );
@@ -2227,6 +2380,7 @@ export class SchemeWiseDetailsComponent {
       this.hide = true;
       const selectedName = selectedUser?.name;
       this.selectedName = selectedName;
+      // console.log('selectedName',selectedName);
       //  this.mainSchemeID = mainSchemeID;
       // this.divisionid = 0;
       this.distid = 0;
@@ -2236,39 +2390,43 @@ export class SchemeWiseDetailsComponent {
       } else {
         this.show = true;
       }
-      this.DashProgressCount();
       // this.GETRunningWorkTotal();
-      this.GETRunningWorksDivision();
-      this.GETRunningWorkScheme();
-      this.HandoverAbstractRPTypeTotal();
-      this.handoverAbstractRPTypeScheme();
+
       // this.GETRunningWorkDistrict();
       // this.GETRunningWorkContractor();
       // alert(this.mainSchemeID);
       // alert(selectedName);
       // this.GETUnPaidSummaryTotal();
-      this.GETUnPaidSummaryDivision();
-      this.GETUnPaidSummaryScheme();
 
       // this.GETPaidSummaryTotal();
-      this.GETPaidSummaryDivision();
-      this.GETPaidSummaryScheme();
-
-      this.GETLiveTenderScheme();
-      this.GETLiveTenderDivision();
-
-      this.GETTenderEvaluationScheme();
-      this.GETTenderEvaluationDivision();
 
       // this.GetWOPendingScheme();
-      this.GetWOPendingTotal();
 
-      this.GetWOIssueTotal();
+      if (this.mainSchemeID != null) {
+        this.DashProgressCount();
 
-      this.LIPendingTotal();
-       this.LOPendingScheme()
-       this.TenderStatusTotal()
-
+        this.GETRunningWorksDivision();
+        this.GETRunningWorkScheme();
+        this.HandoverAbstractRPTypeTotal();
+        this.handoverAbstractRPTypeScheme();
+        this.GetWOPendingTotal();
+        this.GETPaidSummaryDivision();
+        this.GETPaidSummaryScheme();
+        this.GETUnPaidSummaryDivision();
+        this.GETUnPaidSummaryScheme();
+        this.GETLiveTenderScheme();
+        this.GETLiveTenderDivision();
+        this.GETTenderEvaluationScheme();
+        this.GETTenderEvaluationDivision();
+        this.GetWOIssueTotal();
+        this.LIPendingTotal();
+        this.LOPendingDistrict();
+        this.TenderStatusTotal();
+        // chart  method
+        this.initializeChartOptionsLI();
+        this.initializeChartOptionsWOP();
+        this.initializeChartOptionsTobeTender();
+      }
 
       // this.
     } else {
@@ -2324,7 +2482,7 @@ export class SchemeWiseDetailsComponent {
         bar: {
           horizontal: false,
           columnWidth: '40%',
-          borderRadius: 3,
+          borderRadius: 5,
           distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
@@ -2348,13 +2506,13 @@ export class SchemeWiseDetailsComponent {
         },
       },
       stroke: {
-        width: 1,
+        width: 5,
         // colors: ['#000'],
         colors: ['#fff'],
       },
       title: {
         // text: 'Running Works Summary',
-        text: 'Scheme-wise Running Works',
+        // text: 'Scheme-wise Running Works',
         align: 'center',
         style: {
           fontSize: '14px',
@@ -2445,7 +2603,7 @@ export class SchemeWiseDetailsComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Division-wise Running Works',
+        // text: 'Division-wise Running Works',
         align: 'center',
         style: {
           fontSize: '15px',
@@ -2469,387 +2627,11 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-    this.chartOptions2 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        // height:400,
-        // height: 200,
-        // width:600,
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartOptions2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartOptions2?.series?.[seriesIndex]?.name;
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.RunningWorkDataScheme; // Replace with the actual data source or API response
-              // Find the data in your API response that matches the selectedCategory
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-
-                // this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'Scheme-wise Running Works',
-        align: 'center',
-        style: {
-          fontSize: '15px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
-    this.chartOptions3 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        // height:400,
-        // height: 200,
-        // width:600,
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartOptions3?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartOptions3?.series?.[seriesIndex]?.name;
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.RunningWorkDataDistrict; // Replace with the actual data source or API response
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-
-                // this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'District-wise Running Works',
-        align: 'center',
-        style: {
-          fontSize: '15px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
-    this.chartOptions4 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        // height:400,
-        // height: 200,
-        // width:600,
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartOptions4?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartOptions4?.series?.[seriesIndex]?.name;
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.RunningWorkDataContractor; // Replace with the actual data source or API response
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-
-                // this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'Contractor-wise Running Works',
-        align: 'center',
-        style: {
-          fontSize: '15px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
+    
+    
+   
   }
-  GETRunningWorkTotal(): void {
-    // debugger;
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      // var RPType ='Division';
-      this.chartOptions.chart.height = '400px';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    } else if (roleName == 'Collector') {
-      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-      // var RPType="District";
-      this.divisionid = 0;
-      this.mainschemeid = 0;
-      this.chartOptions.chart.height = '400px';
-    } else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      this.chartOptions.chart.height = '400';
-    }
-    var RPType = 'GTotal';
-    const contractid = 0;
-    // ?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
-    console.log(
-      'RPType=',
-      RPType,
-      ' this.divisionid',
-      this.divisionid,
-      'himisDistrictid',
-      this.himisDistrictid,
-      'mainSchemeID',
-      this.mainSchemeID,
-      'contractid',
-      contractid
-    );
-    this.api
-      .GETRunningWorkSummary(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainSchemeID,
-        contractid
-      )
-      .subscribe(
-        (data: any) => {
-          this.RunningWorkDataGTotal = data;
-          //  console.log('API Response total:', this.RunningWorkDataGTotal);
-          const id: string[] = [];
-          const name: string[] = [];
-          const totalWorks: any[] = [];
-          const tvcValuecr: number[] = [];
-          const paidTillcr: number[] = [];
-          const grossPendingcr: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              totalWorks: any;
-              tvcValuecr: number;
-              paidTillcr: any;
-              grossPendingcr: any;
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              totalWorks.push(item.totalWorks);
-              tvcValuecr.push(item.tvcValuecr);
-              paidTillcr.push(item.paidTillcr);
-              grossPendingcr.push(item.grossPendingcr);
-            }
-          );
-
-          this.chartOptions.series = [
-            {
-              name: 'No. of Works',
-              data: totalWorks,
-              color: '#eeba0b',
-            },
-            {
-              name: 'Contract Value(in Cr)',
-              data: tvcValuecr,
-              color: '#6a6afd',
-            },
-            {
-              name: 'Paid-Value(in Cr)',
-              data: paidTillcr,
-              color: 'rgba(93, 243, 174, 0.85)',
-            },
-            {
-              name: 'Bill Generated & Unpaid Value(in Cr)',
-              data: grossPendingcr,
-              color: 'rgba(250, 199, 161, 0.85)',
-            },
-
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-          ];
-          this.chartOptions.xaxis = { categories: name };
-          this.cO = this.chartOptions;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
+ 
   GETRunningWorksDivision(): void {
     this.spinner.show();
     var roleName = localStorage.getItem('roleName');
@@ -2946,6 +2728,15 @@ export class SchemeWiseDetailsComponent {
             },
           ];
           this.chartOptions1.xaxis = { categories: name };
+          this.chartOptions1.title = {
+            text: `Division-wise Running Works: ${this.selectedName}`,
+            align: 'center',
+            style: {
+              fontSize: '12px',
+              // color: '#000'
+              color: '#6e0d25',
+            },
+          };
           this.cO = this.chartOptions1;
           this.cdr.detectChanges();
 
@@ -3055,6 +2846,15 @@ export class SchemeWiseDetailsComponent {
             },
           ];
           this.chartOptions.xaxis = { categories: name };
+          this.chartOptions.title = {
+            text: `Total Running Works: ${this.selectedName}`,
+            align: 'center',
+            style: {
+              fontSize: '12px',
+              // color: '#000'
+              color: '#6e0d25',
+            },
+          };
           this.cO = this.chartOptions;
           this.cdr.detectChanges();
 
@@ -3065,218 +2865,7 @@ export class SchemeWiseDetailsComponent {
         }
       );
   }
-  GETRunningWorkDistrict(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      // var RPType ='Division';
-      this.chartOptions3.chart.height = '400px';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    } else if (roleName == 'Collector') {
-      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-      // var RPType="District";
-      this.divisionid = 0;
-      this.mainschemeid = 0;
-      this.chartOptions3.chart.height = '400px';
-    } else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      this.chartOptions3.chart.height = '900';
-    }
-    var RPType = 'District';
-    const contractid = 0;
-    console.log(
-      'RPType=',
-      RPType,
-      ' this.divisionid',
-      this.divisionid,
-      'himisDistrictid',
-      this.himisDistrictid,
-      'mainSchemeID',
-      this.mainSchemeID,
-      'contractid',
-      contractid
-    );
 
-    this.api
-      .GETRunningWorkSummary(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainSchemeID,
-        contractid
-      )
-      .subscribe(
-        (data: any) => {
-          this.RunningWorkDataDistrict = data;
-          // console.log('API Response total:', this.RunningWorkDataDistrict);
-          const id: string[] = [];
-          const name: string[] = [];
-          const totalWorks: any[] = [];
-          const tvcValuecr: number[] = [];
-          const paidTillcr: number[] = [];
-          const grossPendingcr: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              totalWorks: any;
-              tvcValuecr: number;
-              paidTillcr: any;
-              grossPendingcr: any;
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              totalWorks.push(item.totalWorks);
-              tvcValuecr.push(item.tvcValuecr);
-              paidTillcr.push(item.paidTillcr);
-              grossPendingcr.push(item.grossPendingcr);
-            }
-          );
-
-          this.chartOptions3.series = [
-            {
-              name: 'No. of Works',
-              data: totalWorks,
-              color: '#eeba0b',
-            },
-            {
-              name: 'Contract Value(in Cr)',
-              data: tvcValuecr,
-              color: '#6a6afd',
-            },
-            {
-              name: 'Paid-Value(in Cr)',
-              data: paidTillcr,
-              color: 'rgba(93, 243, 174, 0.85)',
-            },
-            {
-              name: 'Bill Generated & Unpaid Value(in Cr)',
-              data: grossPendingcr,
-              color: 'rgba(250, 199, 161, 0.85)',
-            },
-          ];
-          this.chartOptions3.xaxis = { categories: name };
-          this.cO = this.chartOptions3;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
-  GETRunningWorkContractor(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      // var RPType ='Division';
-      this.chartOptions4.chart.height = '400px';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    } else if (roleName == 'Collector') {
-      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-      // var RPType="District";
-      this.divisionid = 0;
-      this.mainschemeid = 0;
-      this.chartOptions4.chart.height = '400px';
-    } else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      this.chartOptions4.chart.height = '900';
-    }
-    var RPType = 'Contractor';
-    const contractid = 0;
-    console.log(
-      'RPType=',
-      RPType,
-      ' this.divisionid',
-      this.divisionid,
-      'himisDistrictid',
-      this.himisDistrictid,
-      'mainSchemeID',
-      this.mainSchemeID,
-      'contractid',
-      contractid
-    );
-
-    this.api
-      .GETRunningWorkSummary(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainSchemeID,
-        contractid
-      )
-      .subscribe(
-        (data: any) => {
-          this.RunningWorkDataContractor = data;
-          // console.log('API Response total:', this.RunningWorkDataContractor);
-          const id: string[] = [];
-          const name: string[] = [];
-          const totalWorks: any[] = [];
-          const tvcValuecr: number[] = [];
-          const paidTillcr: number[] = [];
-          const grossPendingcr: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              totalWorks: any;
-              tvcValuecr: number;
-              paidTillcr: any;
-              grossPendingcr: any;
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              totalWorks.push(item.totalWorks);
-              tvcValuecr.push(item.tvcValuecr);
-              paidTillcr.push(item.paidTillcr);
-              grossPendingcr.push(item.grossPendingcr);
-            }
-          );
-
-          this.chartOptions4.series = [
-            {
-              name: 'No. of Works',
-              data: totalWorks,
-              color: '#eeba0b',
-            },
-            {
-              name: 'Contract Value(in Cr)',
-              data: tvcValuecr,
-              color: '#6a6afd',
-            },
-            {
-              name: 'Paid-Value(in Cr)',
-              data: paidTillcr,
-              color: 'rgba(93, 243, 174, 0.85)',
-            },
-            {
-              name: 'Bill Generated & Unpaid Value(in Cr)',
-              data: grossPendingcr,
-              color: 'rgba(250, 199, 161, 0.85)',
-            },
-          ];
-          this.chartOptions4.xaxis = { categories: name };
-          this.cO = this.chartOptions4;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
   // #endregion
   // #region Get API data for Handover
   initializeChartOptionsHandover() {
@@ -3325,8 +2914,8 @@ export class SchemeWiseDetailsComponent {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: '40%',
-          borderRadius: 3,
+          columnWidth: '20%',
+          borderRadius: 5,
           distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
@@ -3350,12 +2939,12 @@ export class SchemeWiseDetailsComponent {
         },
       },
       stroke: {
-        width: 1,
+        width: 5,
         // colors: ['#000'],
         colors: ['#fff'],
       },
       title: {
-        text: 'Scheme Wise Handover',
+        // text: 'Scheme  Wise Handover',
         align: 'center',
         style: {
           fontSize: '14px',
@@ -3452,7 +3041,7 @@ export class SchemeWiseDetailsComponent {
       },
       title: {
         // text: 'Total Handover',
-        text: 'Division wise Handover',
+        // text: 'Division wise Handover',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -3476,282 +3065,8 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-    // this.chartHandover1 = {
-    //   series: [],
-    //   chart: {
-    //     type: 'bar',
-    //     stacked: true,
-    //     // height: 'auto',
-    //     // height: 300,
-    //     // width:600,
-    //     events: {
-    //       dataPointSelection: (
-    //         event,
-    //         chartContext,
-    //         { dataPointIndex, seriesIndex }
-    //       ) => {
-    //         const selectedCategory =
-    //           this.chartHandover1?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-    //         const selectedSeries =
-    //           this.chartHandover1?.series?.[seriesIndex]?.name;
-    //         // Ensure the selectedCategory and selectedSeries are valid
-    //         if (selectedCategory && selectedSeries) {
-    //           const apiData = this.HandoverAbstractSchemeData; // Replace with the actual data source or API response
-    //           // Find the data in your API response that matches the selectedCategory
-    //           const selectedData = apiData.find(
-    //             (data) => data.name === selectedCategory
-    //           );
-    //           // console.log("selectedData chart1",selectedData)
-    //           if (selectedData) {
-    //             const id = selectedData.id; // Extract the id from the matching entry
-    //             this.name = selectedData.name;
-    //             this.totalWorks = selectedData.totalWorks;
-    //             this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
-    //           } else {
-    //             console.log(
-    //               `No data found for selected category: ${selectedCategory}`
-    //             );
-    //           }
-    //         } else {
-    //           console.log('Selected category or series is invalid.');
-    //         }
-    //       },
-    //     },
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //     },
-    //   },
-    //   xaxis: {
-    //     categories: [],
-    //   },
-    //   yaxis: {
-    //     title: {
-    //       text: undefined,
-    //     },
-    //   },
-    //   dataLabels: {
-    //     enabled: true,
-    //     style: {
-    //       // colors: ['#FF0000']
-    //       colors: ['#000'],
-    //     },
-    //   },
-    //   stroke: {
-    //     width: 1,
-    //     // colors: ['#000'],
-    //     colors: ['#fff'],
-    //   },
-    //   title: {
-    //     text: 'Scheme Wise Handover',
-    //     align: 'center',
-    //     style: {
-    //       fontSize: '12px',
-    //       // color: '#000'
-    //       color: '#6e0d25',
-    //     },
-    //   },
-    //   tooltip: {
-    //     y: {
-    //       formatter: function (val: any) {
-    //         return val.toString();
-    //       },
-    //     },
-    //   },
-    //   fill: {
-    //     opacity: 1,
-    //   },
-    //   legend: {
-    //     position: 'top',
-    //     horizontalAlign: 'center',
-    //     offsetX: 40,
-    //   },
-    // };
-    this.chartHandover2 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        // height: 1000,
-        // width:600,
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartHandover2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartHandover2?.series?.[seriesIndex]?.name;
-            // Ensure the selectedCategory and selectedSeries are valid
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.HandoverAbstractDistrictData; // Replace with the actual data source or API response
-              // Find the data in your API response that matches the selectedCategory
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name;
-                this.totalWorks = selectedData.totalWorks;
-                this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'District Wise Handover',
-        align: 'center',
-        style: {
-          fontSize: '12px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
-    this.chartHandover3 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        // height: 1000,
-        // width:600,
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartHandover3?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartHandover3?.series?.[seriesIndex]?.name;
-            // Ensure the selectedCategory and selectedSeries are valid
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.HandoverAbstractWorkTypeData; // Replace with the actual data source or API response
-              // Find the data in your API response that matches the selectedCategory
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name;
-                this.totalWorks = selectedData.totalWorks;
-                this.fetchDataBasedOnChartSelectionWorkType(id, selectedSeries);
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'WorkType Wise Handover',
-        align: 'center',
-        style: {
-          fontSize: '12px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
+    
+    
   }
   HandoverAbstractRPTypeTotal(): void {
     // const roleName = localStorage.getItem('roleName');
@@ -3852,6 +3167,15 @@ export class SchemeWiseDetailsComponent {
             ];
 
             this.chartHandover.xaxis = { categories: name };
+            this.chartHandover.title = {
+              text: `Division-wise Handover: ${this.selectedName}`,
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            };
             this.cO = this.chartHandover;
             this.cdr.detectChanges();
 
@@ -3955,6 +3279,15 @@ export class SchemeWiseDetailsComponent {
             ];
 
             this.chartHandover1.xaxis = { categories: name };
+            this.chartHandover1.title = {
+              text: `Total Handover: ${this.selectedName}`,
+              align: 'center',
+              style: {
+                fontSize: '12px',
+                // color: '#000'
+                color: '#6e0d25',
+              },
+            };
             this.cO = this.chartHandover1;
             this.cdr.detectChanges();
 
@@ -4071,107 +3404,7 @@ export class SchemeWiseDetailsComponent {
         );
     }
   }
-  handoverAbstractRPTypeWorkType(): void {
-    this.spinner.show();
-    // const StartDate = this.dateRange3.value.wstart;
-    // const EndDate = this.dateRange3.value.wend;
-    const startDate = this.dateRange.value.start;
-    const endDate = this.dateRange.value.end;
-    const datePipe = new DatePipe('en-US');
-    this.fromdt = startDate ? datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
-    this.todt = endDate ? datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-
-    // const roleName = localStorage.getItem('roleName');
-    // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
-    var RPType = 'WorkType';
-    const roleName = localStorage.getItem('roleName');
-
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartHandover3.chart.height = '500';
-      this.districtid = 0;
-    } else if (roleName == 'Collector') {
-      this.districtid = sessionStorage.getItem('himisDistrictid');
-      this.chartHandover3.chart.height = '400px';
-      this.divisionid = 0;
-    } else {
-      this.districtid = 0;
-      this.divisionid = 0;
-      this.chartHandover3.chart.height = '2000';
-    }
-
-    if (this.fromdt && this.todt) {
-      this.api
-        .HandoverAbstract(
-          RPType,
-          this.dashid,
-          this.divisionid,
-          this.districtid,
-          this.SWId,
-          this.fromdt,
-          this.todt,
-          this.mainSchemeID
-        )
-        .subscribe(
-          (data: any) => {
-            this.HandoverAbstractWorkTypeData = data;
-            // console.log('HandoverAbstractWorkTypeData', this.HandoverAbstractWorkTypeData);
-            const id: string[] = [];
-            const name: string[] = [];
-            const totalWorks: any[] = [];
-            const tvcValuecr: number[] = [];
-            const avgMonthTaken: any[] = [];
-            // console.log('API Response total:', data);
-            data.forEach(
-              (item: {
-                name: string;
-                id: any;
-                totalWorks: any;
-                tvcValuecr: number;
-                avgMonthTaken: any;
-              }) => {
-                id.push(item.id);
-                name.push(item.name);
-                totalWorks.push(item.totalWorks);
-                tvcValuecr.push(item.tvcValuecr);
-                avgMonthTaken.push(item.avgMonthTaken);
-
-                // console.log('name:', item.name, 'id:', item.id);
-                if (item.name && item.id) {
-                } else {
-                  console.warn(
-                    'Missing whid for handover Abstract :',
-                    item.name
-                  );
-                }
-              }
-            );
-
-            this.chartHandover3.series = [
-              // { name: 'Total Works', data: totalWorks, color: '#eeba0b' },
-              // { name: 'TVC Value cr', data: tvcValuecr },
-              // { name: 'AVG Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
-              { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
-              { name: 'Contract Value (in cr)', data: tvcValuecr },
-              {
-                name: 'Avg Month Taken',
-                data: avgMonthTaken,
-                color: 'rgb(0, 143, 251)',
-              },
-            ];
-            this.chartHandover3.xaxis = { categories: name };
-            this.cO = this.chartHandover3;
-            this.cdr.detectChanges();
-
-            this.spinner.hide();
-          },
-          (error: any) => {
-            console.error('Error fetching data', error);
-            this.spinner.hide();
-          }
-        );
-    }
-  }
+ 
 
   fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
     // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
@@ -4552,7 +3785,7 @@ export class SchemeWiseDetailsComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Division-wise Payment Due',
+        // text: 'Division-wise Payment Due',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -4576,197 +3809,8 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-    this.chartUnPaid1 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        // height:400,
-        // height: 200,
-        // width:600,
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartUnPaid1?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartUnPaid1?.series?.[seriesIndex]?.name;
-            // Ensure the selectedCategory and selectedSeries are valid
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.UnPaidSummaryScheme; // Replace with the actual data source or API response
-              // Find the data in your API response that matches the selectedCategory
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name;
-                this.fetchDataBasedOnChartSelectionmainSchemeUNP(
-                  id,
-                  selectedSeries
-                );
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'Scheme-wise Payment Due',
-        align: 'center',
-        style: {
-          fontSize: '12px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
-    this.chartUnPaid2 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        // height:400,
-        // height: 200,
-        // width:600,
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            // ;
-            const selectedCategory =
-              this.chartUnPaid2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartUnPaid2?.series?.[seriesIndex]?.name;
-            // Ensure the selectedCategory and selectedSeries are valid
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.UnPaidSummaryDesignation; // Replace with the actual data source or API response
-              // Find the data in your API response that matches the selectedCategory
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name;
-                this.fetchDataBasedOnChartSelectionmainDesignationUNP(
-                  id,
-                  selectedSeries
-                );
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'Designation-wise Payment Due',
-        align: 'center',
-        style: {
-          fontSize: '12px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
+   
+   
     this.chartUnPaid3 = {
       series: [],
       chart: {
@@ -4816,8 +3860,8 @@ export class SchemeWiseDetailsComponent {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: '30%',
-          borderRadius: 3,
+          columnWidth: '20%',
+          borderRadius: 5,
           dataLabels: {
             position: 'top', // top, center, bottom
           },
@@ -4848,13 +3892,13 @@ export class SchemeWiseDetailsComponent {
         },
       },
       stroke: {
-        width: 1,
+        width: 5,
         // colors: ['#000'],
         colors: ['#fff'],
       },
       title: {
         // text: 'Total Payment Pending',
-        text: 'Scheme-wise Payment Due',
+        // text: 'Scheme-wise Payment Due',
         // text: 'Payment Due Summary',
         align: 'center',
         style: {
@@ -4881,111 +3925,7 @@ export class SchemeWiseDetailsComponent {
     };
   }
 
-  GETUnPaidSummaryTotal(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      var RPType = 'GTotal';
-
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      this.chartUnPaid3.chart.height = '200px';
-    }
-    // else if (roleName == 'Collector') {
-    //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-    // var RPType="District";
-    //  this.divisionid = 0;
-    //  this.mainschemeid=0;
-    //  this.chartOptionsLine2.chart.height = '400px';
-    // }
-    else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      var RPType = 'GTotal';
-
-      this.chartUnPaid3.chart.height = '300';
-    }
-    console.log(
-      'GETUnPaidSummaryTotal RPType=',
-      RPType,
-      ' this.divisionid',
-      this.divisionid,
-      'himisDistrictid',
-      this.himisDistrictid,
-      'mainSchemeID',
-      this.mainSchemeID
-    );
-    this.api
-      .GETUnPaidSummary(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainSchemeID
-      )
-      .subscribe(
-        (data: any) => {
-          this.UnPaidSummaryTotal = data;
-          // console.log('API Response total:', this.UnPaidSummaryTotal);
-          //  console.log('API Response data:', data);
-
-          const id: string[] = [];
-          const name: string[] = [];
-          const noofWorks: any[] = [];
-          const unpaidcr: number[] = [];
-          const avgDaySinceM: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              noofWorks: any;
-              unpaidcr: number;
-              avgDaySinceM: any;
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              noofWorks.push(item.noofWorks);
-              unpaidcr.push(item.unpaidcr);
-              avgDaySinceM.push(item.avgDaySinceM);
-            }
-          );
-
-          this.chartUnPaid3.series = [
-            {
-              name: 'No of Works',
-              data: noofWorks,
-              color: '#eeba0b',
-            },
-            {
-              name: 'Un-paid Value(in Cr),',
-              data: unpaidcr,
-              color: 'rgb(0, 227, 150)',
-              // color: 'rgb(0, 143, 251)',
-            },
-            // {
-            //   name: 'Total Value in Cr',
-            //   data: avgDaySinceM,
-            //   color: 'rgba(93, 243, 174, 0.85)',
-            // },
-            {
-              name: 'Avg Days Pending Since Measurement',
-              data: avgDaySinceM,
-              color: 'rgba(250, 199, 161, 0.85)',
-            },
-          ];
-          this.chartUnPaid3.xaxis = { categories: name };
-          this.cO = this.chartUnPaid3;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
+ 
   GETUnPaidSummaryDivision(): void {
     this.spinner.show();
     var roleName = localStorage.getItem('roleName');
@@ -5079,6 +4019,15 @@ export class SchemeWiseDetailsComponent {
             // },
           ];
           this.chartUnPaid.xaxis = { categories: name };
+          this.chartUnPaid.title = {
+            text: `Division-wise Payment Pending : ${this.selectedName}`,
+            align: 'center',
+            style: {
+              fontSize: '12px',
+              // color: '#000'
+              color: '#6e0d25',
+            },
+          };
           this.cO = this.chartUnPaid;
           this.cdr.detectChanges();
 
@@ -5182,6 +4131,15 @@ export class SchemeWiseDetailsComponent {
             // },
           ];
           this.chartUnPaid3.xaxis = { categories: name };
+          this.chartUnPaid3.title = {
+            text: `Total Payment Pending : ${this.selectedName}`,
+            align: 'center',
+            style: {
+              fontSize: '12px',
+              // color: '#000'
+              color: '#6e0d25',
+            },
+          };
           this.cO = this.chartUnPaid3;
           this.cdr.detectChanges();
 
@@ -5192,130 +4150,7 @@ export class SchemeWiseDetailsComponent {
         }
       );
   }
-  GETUnPaidSummaryDesignation(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      var RPType = 'Designation';
-      this.chartUnPaid2.chart.height = '200px';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    }
-    //  else if (roleName == 'Collector') {
-    //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-    //   var RPType = 'District';
-    //   this.divisionid = 0;
-    //   this.mainschemeid = 0;
-    //   this.chartOptionsLine.chart.height = '400px';
-    // }
-    else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      var RPType = 'Designation';
-      this.chartUnPaid2.chart.height = 'auto';
-    }
 
-    // UnPaidSummary?RPType=GTotal&divisionid=0&districtid=0&mainschemeid=0
-    this.api
-      .GETUnPaidSummary(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainSchemeID
-      )
-      .subscribe(
-        (data: any) => {
-          this.UnPaidSummaryDesignation = data;
-          // console.log('UnPaidSummaryDesignation:', this.UnPaidSummaryDesignation);
-          // console.log('API Response data:', data);
-
-          const id: string[] = [];
-          const name: string[] = [];
-          const noofWorks: any[] = [];
-          const unpaidcr: number[] = [];
-          const avgDaySinceM: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              noofWorks: any;
-              unpaidcr: number;
-              avgDaySinceM: any;
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              noofWorks.push(item.noofWorks);
-              unpaidcr.push(item.unpaidcr);
-              avgDaySinceM.push(item.avgDaySinceM);
-            }
-          );
-
-          this.chartUnPaid2.series = [
-            {
-              name: 'No of Works',
-              data: noofWorks,
-              color: '#eeba0b',
-            },
-            {
-              name: 'Un-paid Value(in Cr),',
-              data: unpaidcr,
-              color: 'rgb(0, 227, 150)',
-              // color: 'rgb(0, 143, 251)',
-            },
-            // {
-            //   name: 'Total Value in Cr',
-            //   data: avgDaySinceM,
-            //   color: 'rgba(93, 243, 174, 0.85)',
-            // },
-            {
-              name: 'Avg Days Pending Since Measurement',
-              data: avgDaySinceM,
-              color: 'rgba(250, 199, 161, 0.85)',
-            },
-            // {
-            //   name: 'Total Value in Cr',
-            //   data: avgDaySinceM,
-            //   color: 'rgba(93, 243, 174, 0.85)',
-            // },
-
-            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-            // {
-            //   name: 'Zonal Works',
-            //   data: zonalWorks,
-            //   color: 'rgba(31, 225, 11, 0.85)',
-            // },
-            // {
-            //   name: 'Tender Works',
-            //   data: tenderWorks,
-            //   color: 'rgba(2, 202, 227, 0.85)',
-            // },
-            // {
-            //   name: 'Zonal Tender Value',
-            //   data: totalZonalTVC,
-            //   color: 'rgba(172, 5, 26, 0.85)',
-            // },
-            // {
-            //   name: 'Works Tender Value',
-            //   data: totalNormalTVC,
-            //   color: 'rgba(250, 199, 161, 0.85)',
-            // },
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-          ];
-          this.chartUnPaid2.xaxis = { categories: name };
-          this.cO = this.chartUnPaid2;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
   fetchDataBasedOnChartSelectionTotalUNP(
     divisionID: any,
     seriesName: string
@@ -5679,7 +4514,7 @@ export class SchemeWiseDetailsComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Division-wise',
+        // text: 'Division-wise',
         align: 'center',
         style: {
           fontSize: '15px',
@@ -5703,185 +4538,7 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-    this.chartPaid2 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartPaid2?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries = this.chartPaid2?.series?.[seriesIndex]?.name;
-            // Ensure the selectedCategory and selectedSeries are valid
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.PaidSummaryScheme; // Replace with the actual data source or API response
-              // Find the data in your API response that matches the selectedCategory
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name;
-                this.fetchDataBasedOnChartSelectionSchemePaid(
-                  id,
-                  selectedSeries
-                );
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'Scheme-wise',
-        align: 'center',
-        style: {
-          fontSize: '15px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
-    this.chartPaid3 = {
-      series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        // height: 'auto',
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartPaid3?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries = this.chartPaid3?.series?.[seriesIndex]?.name;
-            // Ensure the selectedCategory and selectedSeries are valid
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.PaidSummaryDistrict; // Replace with the actual data source or API response
-              // Find the data in your API response that matches the selectedCategory
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              // console.log("selectedData chart1",selectedData)
-              if (selectedData) {
-                const id = selectedData.id; // Extract the id from the matching entry
-                this.name = selectedData.name;
-                // this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
-              } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
-              }
-            } else {
-              console.log('Selected category or series is invalid.');
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000'],
-        },
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'Total Live Tender District wise Progress',
-        align: 'center',
-        style: {
-          fontSize: '15px',
-          // color: '#000'
-          color: '#6e0d25',
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
-    };
+   
     this.chartPaid = {
       // animationEnabled: true,
       series: [],
@@ -5930,7 +4587,7 @@ export class SchemeWiseDetailsComponent {
         bar: {
           horizontal: false,
           columnWidth: '20%',
-          borderRadius: 3,
+          borderRadius: 5,
           dataLabels: {
             position: 'top', // top, center, bottom
           },
@@ -5953,13 +4610,13 @@ export class SchemeWiseDetailsComponent {
         },
       },
       stroke: {
-        width: 1,
+        width: 5,
         // colors: ['#000'],
         colors: ['#fff'],
       },
       title: {
         // text: 'Summary: Payment Completed',
-        text: 'Scheme-wise',
+        // text: 'Scheme-wise',
         align: 'center',
         style: {
           fontSize: '15px',
@@ -5984,158 +4641,6 @@ export class SchemeWiseDetailsComponent {
       },
     };
   }
-  GETPaidSummaryTotal(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      var RPType = 'GTotal';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      this.chartPaid.chart.height = '200px';
-    }
-    // else if (roleName == 'Collector') {
-    //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-    // var RPType="District";
-    //  this.divisionid = 0;
-    //  this.mainschemeid=0;
-    //  this.chartOptionsLine2.chart.height = '400px';
-    // }
-    else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      var RPType = 'GTotal';
-
-      this.chartPaid.chart.height = '300';
-    }
-    const startDate = this.dateRange1.value.start;
-    const endDate = this.dateRange1.value.end;
-    this.fromdt1 = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy'): '';
-    this.todt1 = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
-    // ?RPType=Division&divisionid=0&districtid=0&mainschemeid=0&fromdt=01-Dec-2023&todt=31-Dec-2023
-    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-    console.log(
-      'GETUnPaidSummaryTotal RPType=',
-      RPType,
-      ' this.divisionid',
-      this.divisionid,
-      'himisDistrictid',
-      this.himisDistrictid,
-      'mainSchemeID',
-      this.mainSchemeID
-    );
-    this.api
-      .GETPaidSummary(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainSchemeID,
-        this.fromdt1,
-        this.todt1
-      )
-      .subscribe(
-        (data: any) => {
-          this.PaidSummaryTotal = data;
-          // console.log('API Response total:', this.PaidSummaryTotal);
-          //  console.log('API Response data:', data);
-
-          // const id: string[] = [];
-          // const name: string[] = [];
-          // const avgDaysSinceMeasurement: any[] = [];
-          // const grossPaidcr: number[] = [];
-
-          // data.forEach(
-          //   (item: {
-          //     name: string;
-          //     id: any;
-          //     avgDaysSinceMeasurement: any;
-          //     grossPaidcr: any;
-          //   }) => {
-          //     id.push(item.id);
-          //     name.push(item.name);
-          //     avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
-          //     grossPaidcr.push(item.grossPaidcr);
-          //   }
-          // );
-          const id: string[] = [];
-          const name: string[] = [];
-          const noofWorks: number[] = [];
-          const avgDaysSinceMeasurement: any[] = [];
-          const grossPaidcr: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              avgDaysSinceMeasurement: any;
-              grossPaidcr: any;
-              noofWorks: number;
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
-              grossPaidcr.push(item.grossPaidcr);
-              noofWorks.push(item.noofWorks);
-            }
-          );
-          this.chartPaid.series = [
-            {
-              name: 'No. of Works',
-              data: noofWorks,
-              color: '#eeba0b',
-            },
-            // {
-            //   name: 'No. of Works',
-            //   data: avgDaysSinceMeasurement,
-            //   color: '#eeba0b',
-            // },
-            {
-              name: 'Paid Value(in Cr)',
-              data: grossPaidcr,
-              color: 'rgb(0, 143, 251)',
-            },
-            //  {
-            //    name: 'Total Value in Cr',
-            //    data: totalValuecr,
-            //    color: 'rgba(93, 243, 174, 0.85)',
-            //  },
-            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-            //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
-            // {
-            //   name: 'Zonal Works',
-            //   data: zonalWorks,
-            //   color: 'rgba(31, 225, 11, 0.85)',
-            // },
-            // {
-            //   name: 'Tender Works',
-            //   data: tenderWorks,
-            //   color: 'rgba(2, 202, 227, 0.85)',
-            // },
-            // {
-            //   name: 'Zonal Tender Value',
-            //   data: totalZonalTVC,
-            //   color: 'rgba(172, 5, 26, 0.85)',
-            // },
-            // {
-            //   name: 'Works Tender Value',
-            //   data: totalNormalTVC,
-            //   color: 'rgba(250, 199, 161, 0.85)',
-            // },
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-          ];
-          this.chartPaid.xaxis = { categories: name };
-          this.cO = this.chartPaid;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
   GETPaidSummaryDivision(): void {
     this.spinner.show();
     var roleName = localStorage.getItem('roleName');
@@ -6143,7 +4648,7 @@ export class SchemeWiseDetailsComponent {
       this.divisionid = sessionStorage.getItem('divisionID');
       var RPType = 'Division';
       this.himisDistrictid = 0;
-      this.mainschemeid = 0;
+      // this.mainschemeid = 0;
       this.chartPaid1.chart.height = '200px';
     }
     // else if (roleName == 'Collector') {
@@ -6156,7 +4661,7 @@ export class SchemeWiseDetailsComponent {
     else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
-      this.mainschemeid = 0;
+      // this.mainschemeid = 0;
       var RPType = 'Division';
       this.chartPaid1.chart.height = '300';
     }
@@ -6166,18 +4671,7 @@ export class SchemeWiseDetailsComponent {
       ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
       : '';
     this.todt1 = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
-    console.log(
-      'PaidSummaryTotal RPType=',
-      RPType,
-      ' this.divisionid',
-      this.divisionid,
-      'himisDistrictid',
-      this.himisDistrictid,
-      'mainSchemeID',
-      this.mainSchemeID
-    );
-    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
+    
     this.api
       .GETPaidSummary(
         RPType,
@@ -6236,38 +4730,18 @@ export class SchemeWiseDetailsComponent {
             //   data: avgDaysSinceMeasurement,
             //   color: '#eeba0b',
             // },
-            // {
-            //   name: 'Total Numbers of Tender',
-            //   data: grossPaidcr,
-            //   color: 'rgb(0, 143, 251)',
-            // },
-            //  { name: 'Avg Days Since', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
-
-            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-            // {
-            //   name: 'Zonal Works',
-            //   data: zonalWorks,
-            //   color: 'rgba(31, 225, 11, 0.85)',
-            // },
-            // {
-            //   name: 'Tender Works',
-            //   data: tenderWorks,
-            //   color: 'rgba(2, 202, 227, 0.85)',
-            // },
-            // {
-            //   name: 'Zonal Tender Value',
-            //   data: totalZonalTVC,
-            //   color: 'rgba(172, 5, 26, 0.85)',
-            // },
-            // {
-            //   name: 'Works Tender Value',
-            //   data: totalNormalTVC,
-            //   color: 'rgba(250, 199, 161, 0.85)',
-            // },
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+            
           ];
           this.chartPaid1.xaxis = { categories: name };
+          this.chartPaid1.title = {
+            text: `Division-wise Payment Processed: ${this.selectedName}`,
+            align: 'center',
+            style: {
+              fontSize: '12px',
+              // color: '#000'
+              color: '#6e0d25',
+            },
+          };
           this.cO = this.chartPaid1;
           this.cdr.detectChanges();
 
@@ -6286,7 +4760,7 @@ export class SchemeWiseDetailsComponent {
       var RPType = 'Scheme';
       this.chartPaid.chart.height = '400';
       this.himisDistrictid = 0;
-      this.mainschemeid = 0;
+      // this.mainschemeid = 0;
     }
     //  else if (roleName == 'Collector') {
     //  this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
@@ -6298,7 +4772,7 @@ export class SchemeWiseDetailsComponent {
     else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
-      this.mainschemeid = 0;
+      // this.mainschemeid = 0;
 
       this.chartPaid.chart.height = '500';
       var RPType = 'Scheme';
@@ -6312,16 +4786,16 @@ export class SchemeWiseDetailsComponent {
     // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
     // alert( this.TimeStatus)
     // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-    console.log(
-      'PaidSummaryScheme RPType=',
-      RPType,
-      ' this.divisionid',
-      this.divisionid,
-      'himisDistrictid',
-      this.himisDistrictid,
-      'mainSchemeID',
-      this.mainSchemeID
-    );
+    // console.log(
+    //   'PaidSummaryScheme RPType=',
+    //   RPType,
+    //   ' this.divisionid',
+    //   this.divisionid,
+    //   'himisDistrictid',
+    //   this.himisDistrictid,
+    //   'mainSchemeID',
+    //   this.mainSchemeID
+    // );
     this.api
       .GETPaidSummary(
         RPType,
@@ -6338,26 +4812,6 @@ export class SchemeWiseDetailsComponent {
             'API Response PaidSummaryScheme:',
             this.PaidSummaryScheme
           );
-          // console.log('API Response data:', data);
-
-          // const id: string[] = [];
-          // const name: string[] = [];
-          // const avgDaysSinceMeasurement: any[] = [];
-          // const grossPaidcr: number[] = [];
-
-          // data.forEach(
-          //   (item: {
-          //     name: string;
-          //     id: any;
-          //     avgDaysSinceMeasurement: any;
-          //     grossPaidcr: any;
-          //   }) => {
-          //     id.push(item.id);
-          //     name.push(item.name);
-          //     avgDaysSinceMeasurement.push(item.avgDaysSinceMeasurement);
-          //     grossPaidcr.push(item.grossPaidcr);
-          //   }
-          // );
           const id: string[] = [];
           const name: string[] = [];
           const noofWorks: number[] = [];
@@ -6400,37 +4854,18 @@ export class SchemeWiseDetailsComponent {
             //   data: avgDaysSinceMeasurement,
             //   color: '#eeba0b',
             // },
-            // {
-            //   name: 'Total Numbers of Tender',
-            //   data: grossPaidcr,
-            //   color: 'rgb(0, 143, 251)',
-            // },
-
-            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-            // {
-            //   name: 'Zonal Works',
-            //   data: zonalWorks,
-            //   color: 'rgba(31, 225, 11, 0.85)',
-            // },
-            // {
-            //   name: 'Tender Works',
-            //   data: tenderWorks,
-            //   color: 'rgba(2, 202, 227, 0.85)',
-            // },
-            // {
-            //   name: 'Zonal Tender Value',
-            //   data: totalZonalTVC,
-            //   color: 'rgba(172, 5, 26, 0.85)',
-            // },
-            // {
-            //   name: 'Works Tender Value',
-            //   data: totalNormalTVC,
-            //   color: 'rgba(250, 199, 161, 0.85)',
-            // },
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
+            
           ];
           this.chartPaid.xaxis = { categories: name };
+          this.chartPaid.title = {
+            text: `Total Payment Processed: ${this.selectedName}`,
+            align: 'center',
+            style: {
+              fontSize: '12px',
+              // color: '#000'
+              color: '#6e0d25',
+            },
+          };
           this.cO = this.chartPaid;
           this.cdr.detectChanges();
 
@@ -6441,193 +4876,14 @@ export class SchemeWiseDetailsComponent {
         }
       );
   }
-  GETTenderEvaluationDistrict(): void {
-    this.spinner.show();
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      var RPType = 'Division';
-      this.chartPaid3.chart.height = '200px';
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    }
-    //  else if (roleName == 'Collector') {
-    //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-    //   var RPType = 'District';
-    //   this.divisionid = 0;
-    //   this.mainschemeid = 0;
-    //   this.chartOptionsLine.chart.height = '400px';
-    // }
-    else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-      this.chartPaid3.chart.height = 'auto';
-    }
-    this.TimeStatus = this.selectedTabIndex == 0 ? 'Live' : 'Timeover';
-    // alert( this.TimeStatus)
-    var RPType = 'District';
-    // RPType=Total&divisionid=0&districtid=0&mainschemeid=0&TimeStatus=0
-    this.api
-      .GETTenderEvaluation(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainSchemeID
-      )
-      .subscribe(
-        (data: any) => {
-          this.PaidSummaryDistrict = data;
-          // console.log('API Response total:', this.PaidSummaryDistrict);
-          // console.log('API Response data:', data);
 
-          const id: string[] = [];
-          const name: string[] = [];
-          const nosWorks: any[] = [];
-          const nosTender: number[] = [];
-          const totalValuecr: number[] = [];
-          const avgDaysSince: number[] = [];
-
-          data.forEach(
-            (item: {
-              name: string;
-              id: any;
-              nosWorks: any;
-              nosTender: number;
-              totalValuecr: any;
-              avgDaysSince: any;
-            }) => {
-              id.push(item.id);
-              name.push(item.name);
-              nosWorks.push(item.nosWorks);
-              nosTender.push(item.nosTender);
-              totalValuecr.push(item.totalValuecr);
-              avgDaysSince.push(item.avgDaysSince);
-            }
-          );
-
-          this.chartPaid3.series = [
-            // {
-            //   name: 'No. of Works',
-            //   data: avgDaysSinceMeasurement,
-            //   color: '#eeba0b',
-            // },
-            // {
-            //   name: 'Paid Value(in Cr)',
-            //   data: grossPaidcr,
-            //   color: 'rgb(0, 143, 251)',
-            // },
-
-            {
-              name: 'Total Numbers of Works',
-              data: nosWorks,
-              color: '#eeba0b',
-            },
-            {
-              name: 'Total Numbers of Tender',
-              data: nosTender,
-              color: 'rgb(0, 143, 251)',
-            },
-            {
-              name: 'Total Value in Cr',
-              data: totalValuecr,
-              color: 'rgba(93, 243, 174, 0.85)',
-            },
-            {
-              name: 'Avg Days Since',
-              data: avgDaysSince,
-              color: 'rgba(250, 199, 161, 0.85)',
-            },
-
-            //  { name: 'Avg Days Since', data: avgDaysSince, color:' rgba(181, 7, 212, 0.85)' },
-            // { name: 'Zonal Works', data: zonalWorks,color:'#fae4e4'},
-            // {
-            //   name: 'Zonal Works',
-            //   data: zonalWorks,
-            //   color: 'rgba(31, 225, 11, 0.85)',
-            // },
-            // {
-            //   name: 'Tender Works',
-            //   data: tenderWorks,
-            //   color: 'rgba(2, 202, 227, 0.85)',
-            // },
-            // {
-            //   name: 'Zonal Tender Value',
-            //   data: totalZonalTVC,
-            //   color: 'rgba(172, 5, 26, 0.85)',
-            // },
-            // {
-            //   name: 'Works Tender Value',
-            //   data: totalNormalTVC,
-            //   color: 'rgba(250, 199, 161, 0.85)',
-            // },
-            // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-          ];
-          this.chartPaid3.xaxis = { categories: name };
-          this.cO = this.chartPaid3;
-          this.cdr.detectChanges();
-
-          this.spinner.hide();
-        },
-        (error: any) => {
-          console.error('Error fetching data', error);
-        }
-      );
-  }
-  fetchDataBasedOnChartSelectionTotalPaid(
-    divisionID: any,
-    seriesName: string
-  ): void {
-    // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    } else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-      this.mainschemeid = 0;
-    }
-    this.spinner.show();
-    // t/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
-    this.api
-      .GETPaidDetails(
-        this.divisionid,
-        this.mainschemeid,
-        this.himisDistrictid,
-        this.fromdt,
-        this.todt
-      )
-      .subscribe(
-        (res) => {
-          this.dispatchDataPaid = res.map(
-            (item: PaidDetails, index: number) => ({
-              ...item,
-              sno: index + 1,
-            })
-          );
-          // console.log('PaidDetails total:', res);
-          // console.log('PaidDetails2=:',  this.dispatchData);
-          this.dataSourcePaid.data = this.dispatchDataPaid;
-          this.dataSourcePaid.paginator = this.paginatorPaid;
-          this.dataSourcePaid.sort = this.sortPaid;
-          this.cdr.detectChanges();
-          this.spinner.hide();
-        },
-        (error) => {
-          console.error('Error fetching data', error);
-        }
-      );
-    this.openDialogPaid();
-  }
   fetchDataBasedOnChartSelectionDivisionPaid(
     divisionID: any,
     seriesName: string
   ): void {
     console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
-    const mainSchemeId = 0;
+    // const mainSchemeId = 0;
     const contractid = 0;
     // const fromdt="01-jan-2024";
     // const todt="01-jan-2025";
@@ -6666,6 +4922,7 @@ export class SchemeWiseDetailsComponent {
       );
     this.openDialogPaid();
   }
+
   fetchDataBasedOnChartSelectionSchemePaid(
     mainSchemeId: any,
     seriesName: string
@@ -6848,7 +5105,7 @@ export class SchemeWiseDetailsComponent {
         bar: {
           horizontal: false,
           columnWidth: '30%',
-          borderRadius: 3,
+          borderRadius: 5,
           distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
@@ -6872,7 +5129,7 @@ export class SchemeWiseDetailsComponent {
         },
       },
       stroke: {
-        width: 1,
+        width: 4,
         // colors: ['#000'],
         colors: ['#fff'],
       },
@@ -7083,10 +5340,12 @@ export class SchemeWiseDetailsComponent {
             },
           ];
           this.chartliveTenderDiv.xaxis = { categories: name };
+          // this.chartliveTenderDiv.title.text = `Technical Evaluation Summary: ${this.selectedName}`;
           this.cO = this.chartliveTenderDiv;
           // if(this.selectedTabIndex == 0){
           this.chartliveTenderDiv.title = {
-            text: 'Division-wise Live Tenders ',
+            // text: 'Division-wise Live Tenders ',
+            text: `Division-wise Live Tenders: ${this.selectedName}`,
             align: 'center',
             style: {
               fontSize: '12px',
@@ -7200,10 +5459,12 @@ export class SchemeWiseDetailsComponent {
             },
           ];
           this.chartliveTenderTO.xaxis = { categories: name };
+          // this.chartliveTenderTO.title.text = `Technical Evaluation Summary: ${this.selectedName}`;
           this.cO = this.chartliveTenderTO;
           // if(this.selectedTabIndex == 0){
           this.chartliveTenderTO.title = {
-            text: 'Scheme-wise Live Tenders ',
+            // text: 'Scheme-wise Live Tenders ',
+            text: `Scheme-wise Live Tenders: ${this.selectedName}`,
             align: 'center',
             style: {
               fontSize: '12px',
@@ -7455,7 +5716,7 @@ export class SchemeWiseDetailsComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Division-wise Technical Evaluation',
+        // text: 'Division-wise Technical Evaluation',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -7529,7 +5790,7 @@ export class SchemeWiseDetailsComponent {
         bar: {
           horizontal: false,
           columnWidth: '30%',
-          borderRadius: 3,
+          borderRadius: 5,
           distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
@@ -7553,12 +5814,12 @@ export class SchemeWiseDetailsComponent {
         },
       },
       stroke: {
-        width: 1,
+        width: 5,
         // colors: ['#000'],
         colors: ['#fff'],
       },
       title: {
-        text: 'Technical Evaluation Summary',
+        // text: 'Technical Evaluation Summary',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -7667,6 +5928,7 @@ export class SchemeWiseDetailsComponent {
             // { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
           ];
           this.chartOptionsTESDivision.xaxis = { categories: name };
+          this.chartOptionsTESDivision.title.text = `Division-wise Technical Evaluation: ${this.selectedName}`;
           this.cO = this.chartOptionsTESDivision;
           this.cdr.detectChanges();
 
@@ -7761,6 +6023,7 @@ export class SchemeWiseDetailsComponent {
             // { name: 'Avg Days Since Opened Date', data: avgDaysSince,color:'rgba(250, 199, 161, 0.85)'},
           ];
           this.chartOptionsTEScheme.xaxis = { categories: name };
+          this.chartOptionsTEScheme.title.text = `Technical Evaluation Summary: ${this.selectedName}`;
           this.cO = this.chartOptionsTEScheme;
           this.cdr.detectChanges();
 
@@ -7927,118 +6190,12 @@ export class SchemeWiseDetailsComponent {
   // #region Get APT data Work Order Pending
 
   initializeChartOptionsWOP() {
-    // this.chartOptionsWOPScheme = {
-    //   series: [],
-    //   chart: {
-    //     type: 'bar',
-    //     stacked: true,
-    //     // height: 'auto',
-    //     // height:400,
-    //     // height: 200,
-    //     // width:600,
-    //     events: {
-    //       dataPointSelection: (
-    //         event,
-    //         chartContext,
-    //         { dataPointIndex, seriesIndex }
-    //       ) => {
-    //         const selectedCategory =
-    //           this.chartOptionsWOPScheme?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-    //         const selectedSeries =
-    //           this.chartOptionsWOPScheme?.series?.[seriesIndex]?.name;
-    //         // Ensure the selectedCategory and selectedSeries are valid
-    //         if (selectedCategory && selectedSeries) {
-    //           const apiData = this.wOpendingScheme; // Replace with the actual data source or API response
-    //           // Find the data in your API response that matches the selectedCategory
-    //           const selectedData = apiData.find(
-    //             (data) => data.name === selectedCategory
-    //           );
-    //           // console.log("selectedData chart1",selectedData)
-    //           if (selectedData) {
-    //             const id = selectedData.id; // Extract the id from the matching entry
-    //             this.name = selectedData.name;
-    //             this.noofWorksGreater7Days = selectedData.noofWorksGreater7Days;
-    //             this.fetchDataBasedOnChartSelectionmainSchemeWOP(
-    //               id,
-    //               selectedSeries
-    //             );
-    //           } else {
-    //             console.log(
-    //               `No data found for selected category: ${selectedCategory}`
-    //             );
-    //           }
-    //         } else {
-    //           console.log('Selected category or series is invalid.');
-    //         }
-    //       },
-    //     },
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: false,
-    //       columnWidth: '30%',
-    //       borderRadius: 3,
-    //       distributed: false,
-    //       dataLabels: {
-    //         position: 'top', // top, center, bottom
-    //       },
-    //     },
-    //   },
-    //   xaxis: {
-    //     categories: [],
-    //   },
-    //   yaxis: {
-    //     title: {
-    //       text: undefined,
-    //     },
-    //   },
-    //   dataLabels: {
-    //     enabled: true,
-    //     style: {
-    //       // colors: ['#FF0000']
-    //       colors: ['#000'],
-    //     },
-    //   },
-    //   stroke: {
-    //     width: 1,
-    //     // colors: ['#000'],
-    //     colors: ['#fff'],
-    //   },
-    //   title: {
-    //     // text: 'Total Pending Total Works wise Progress ',
-    //     text: 'Scheme-wise Work Order Pending',
-    //     // text: 'Work Order Pending',
-    //     align: 'center',
-    //     style: {
-    //       fontSize: '12px',
-    //       // color: '#000'
-    //       color: '#6e0d25',
-    //     },
-    //   },
-    //   tooltip: {
-    //     y: {
-    //       formatter: function (val: any) {
-    //         return val.toString();
-    //       },
-    //     },
-    //   },
-    //   fill: {
-    //     opacity: 1,
-    //   },
-    //   legend: {
-    //     position: 'top',
-    //     horizontalAlign: 'center',
-    //     offsetX: 40,
-    //   },
-    // };
+    
     this.chartOptionsWOPDivision = {
       series: [],
       chart: {
         type: 'bar',
         stacked: true,
-        // height: 600,
-        // height: 'auto',
-        // width:600,
         events: {
           dataPointSelection: (
             event,
@@ -8055,7 +6212,7 @@ export class SchemeWiseDetailsComponent {
 
               if (selectedCategory && selectedSeries) {
                 const apiData = this.wOpendingDivision;
-                console.log('datasch:', apiData);
+                // console.log('datasch:', apiData);
 
                 if (Array.isArray(apiData)) {
                   // const selectedData = apiData.find((data) =>
@@ -8070,10 +6227,8 @@ export class SchemeWiseDetailsComponent {
                     this.name = selectedData.name;
                     this.noofWorksGreater7Days =
                       selectedData.noofWorksGreater7Days;
-                    this.fetchDataBasedOnChartSelectionmainSchemeWOP(
-                      id,
-                      selectedSeries
-                    );
+                    this.fetchDataBasedOnChartSelectionDivisionWP( id, selectedSeries);
+                    // this.fetchDataBasedOnChartSelectionmainSchemeWOP( id, selectedSeries);
                   } else {
                     console.error(
                       `No data found for selected category: ${selectedCategory}`
@@ -8117,7 +6272,7 @@ export class SchemeWiseDetailsComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Division-wise Work Order Pending',
+        // text: 'Division-wise Work Order Pending',
         // text: 'Scheme-wise Pending Work Order Pending',
         align: 'center',
         style: {
@@ -8179,7 +6334,10 @@ export class SchemeWiseDetailsComponent {
                     const id = selectedData.id;
                     this.name = selectedData.name;
                     this.totalWorks = selectedData.totalWorks;
-                    this.fetchDataBasedOnChartSelectionTotalWOGD( id,  selectedSeries  );
+                    this.fetchDataBasedOnChartSelectionTotalWOGD(
+                      id,
+                      selectedSeries
+                    );
                   } else {
                     console.error(
                       `No data found for selected category: ${selectedCategory}`
@@ -8223,7 +6381,7 @@ export class SchemeWiseDetailsComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Division-wise Work Order Issued',
+        // text: 'Division-wise Work Order Issued',
         // text: 'RP Type Total Pending Works wise Progress',
         align: 'center',
         style: {
@@ -8250,87 +6408,7 @@ export class SchemeWiseDetailsComponent {
     };
   }
 
-  // GetWOPendingScheme(): void {
-  //   this.spinner.show();
-  //   var roleName = localStorage.getItem('roleName');
-  //   if (roleName == 'Division') {
-  //     this.divisionid = sessionStorage.getItem('divisionID');
-  //     this.chartOptionsWOPScheme.chart.height = '500px';
-  //     this.himisDistrictid = 0;
-  //   } else if (roleName == 'Collector') {
-  //     this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-  //     this.divisionid = 0;
-  //     this.chartOptionsWOPScheme.chart.height = '500px';
-  //   } else {
-  //     this.divisionid = 0;
-  //     this.himisDistrictid = 0;
-  //     this.chartOptionsWOPScheme.chart.height = '400';
-  //   }
-  //   var RPType = 'Scheme';
-  //   // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  //   var fromdt = 0,
-  //     todt = 0;
-  //   this.api
-  //     .WOPendingTotal(RPType, this.divisionid, this.himisDistrictid)
-  //     .subscribe(
-  //       // this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
-  //       (data: any) => {
-  //         this.wOpendingScheme = data;
-  //         // console.log('API Response Scheme:',  this.wOpendingScheme);
-  //         const name: string[] = [];
-  //         const id: string[] = [];
-  //         const pendingWork: any[] = [];
-  //         const contrctValuecr: number[] = [];
-  //         const noofWorksGreater7Days: any[] = [];
-  //         data.forEach(
-  //           (item: {
-  //             name: string;
-  //             id: any;
-  //             pendingWork: any;
-  //             contrctValuecr: number;
-  //             noofWorksGreater7Days: any;
-  //           }) => {
-  //             id.push(item.id);
-  //             name.push(item.name);
-  //             pendingWork.push(item.pendingWork);
-  //             contrctValuecr.push(item.contrctValuecr);
-  //             noofWorksGreater7Days.push(item.noofWorksGreater7Days);
-  //           }
-  //         );
-  //         this.chartOptionsWOPScheme.series = [
-  //           {
-  //             name: 'No of Works ',
-  //             data: pendingWork,
-  //             // color: '#0000FF'
-  //             color: '#eeba0b',
-  //           },
-  //           {
-  //             name: 'Contact Value(in Cr)',
-  //             data: contrctValuecr,
-  //             // color:'#00b4d8'
-  //             // color:  'rgb(0, 128, 0)'
-  //             // color: '#eeba0b'
-  //           },
-  //           // {
-  //           //   name: 'Pending more than 7 Days',
-  //           //   data: noofWorksGreater7Days,
-  //           //   color: '#fc7c84'
-  //           //   // color: 'rgb(144, 238, 144)'
-  //           //   // color: '#90EE90'
-
-  //           // },
-  //         ];
-
-  //         this.chartOptionsWOPScheme.xaxis = { categories: name };
-  //         this.cO = this.chartOptionsWOPScheme;
-  //         this.cdr.detectChanges();
-  //         this.spinner.hide();
-  //       },
-  //       (error: any) => {
-  //         console.error('Error fetching data', error);
-  //       }
-  //     );
-  // }
+  
 
   GetWOPendingTotal(): void {
     this.spinner.show();
@@ -8351,10 +6429,13 @@ export class SchemeWiseDetailsComponent {
     var RPType = 'Total';
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     // ?RPType=Scheme&divisionid=0&districtid=0&fromdt=0&todt=0
-    var fromdt = 0,
-      todt = 0;
-    this.api
-      .WOPendingTotal(RPType, this.divisionid,this.himisDistrictid,this.mainSchemeID)
+    var fromdt = 0, todt = 0;
+    this.api.WOPendingTotal(
+        RPType,
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID
+      )
       .subscribe(
         // this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
         (data: any) => {
@@ -8387,6 +6468,7 @@ export class SchemeWiseDetailsComponent {
           ];
 
           this.chartOptionsWOPDivision.xaxis = { categories: name };
+          this.chartOptionsWOPDivision.title.text = `Division-wise Work Order Pending: ${this.selectedName}`;
           this.cO = this.chartOptionsWOPDivision;
           this.cdr.detectChanges();
 
@@ -8416,18 +6498,28 @@ export class SchemeWiseDetailsComponent {
     }
     const startDate = this.dateRange2.value.start;
     const endDate = this.dateRange2.value.end;
-    this.fromdt3 = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+    this.fromdt3 = startDate
+      ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
+      : '';
     this.todt3 = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     var RPType = 'Total';
     // console.log('fromdt=',this.fromdt,'todt=',this.todt)
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt3 && this.todt3) {
-      this.api.GETWorkOrderGenerated(RPType,this.divisionid,this.himisDistrictid,this.fromdt3,this.todt3,this.mainSchemeID)
+      this.api
+        .GETWorkOrderGenerated(
+          RPType,
+          this.divisionid,
+          this.himisDistrictid,
+          this.fromdt3,
+          this.todt3,
+          this.mainSchemeID
+        )
         .subscribe(
           (data: any) => {
             this.WoIssuedTotal = data;
-           // console.log('WoIssuedTotal:', this.WoIssuedTotal);
+            // console.log('WoIssuedTotal:', this.WoIssuedTotal);
             // console.log('API Response data:', data);
             const id: string[] = [];
             const name: string[] = [];
@@ -8462,7 +6554,7 @@ export class SchemeWiseDetailsComponent {
                 totalNormalTVC.push(item.totalNormalTVC);
               }
             );
-            
+
             this.chartOptionsWOI.series = [
               {
                 name: 'No of Works',
@@ -8472,17 +6564,16 @@ export class SchemeWiseDetailsComponent {
               {
                 name: 'Contract Value (in Cr)',
                 data: totalTVC,
-                color: 'rgba(93, 243, 174, 0.85)' ,
+                color: 'rgba(93, 243, 174, 0.85)',
               },
               // {
               //   name: 'Avg Days Since Acceptance',
               //   data: avgDaysSinceAcceptance,
               //   color:  'rgba(250, 199, 161, 0.85)',
               // },
-
-            
             ];
             this.chartOptionsWOI.xaxis = { categories: name };
+            this.chartOptionsWOI.title.text = `Division-wise Work Order Issued: ${this.selectedName}`;
             this.cO = this.chartOptionsWOI;
             this.cdr.detectChanges();
 
@@ -8498,9 +6589,10 @@ export class SchemeWiseDetailsComponent {
     divisionID: any,
     seriesName: string
   ): void {
-   // console.log(`Selected ID 11: ${divisionID}, Series: ${seriesName}`);
+    debugger;
+    console.log(`Selected ID 11: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
-    const mainSchemeId = 0;
+    // const mainSchemeId = 0;
     const contractid = 0;
     const work_id = 0;
     // const fromdt="01-jan-2024";
@@ -8509,9 +6601,10 @@ export class SchemeWiseDetailsComponent {
     // this.todt  = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     this.spinner.show();
     // divisionId: any,mainSchemeId:any,distid: any,work_id:any,fromdt: any,todt: any
-    this.api.GETWorkGenDetails(
+    this.api
+      .GETWorkGenDetails(
         divisionID,
-        mainSchemeId,
+        this.mainSchemeID,
         distid,
         work_id,
         this.fromdt,
@@ -8525,7 +6618,7 @@ export class SchemeWiseDetailsComponent {
               sno: index + 1,
             })
           );
-         // console.log('res:', res);
+          // console.log('res:', res);
           this.dataSourceWOGD.data = this.dispatchWOGD;
           this.dataSourceWOGD.paginator = this.paginatorWGD;
           this.dataSourceWOGD.sort = this.sortWGD;
@@ -8542,14 +6635,14 @@ export class SchemeWiseDetailsComponent {
     divisionID: any,
     seriesName: string
   ): void {
-    console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
+    debugger;
+    console.log(`Selected ID2: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     // const mainSchemeId=0;
     const contractid = 0;
     this.spinner.show();
 
-    this.api
-      .GetWorkOrderPendingDetailsNew(
+    this.api.GetWorkOrderPendingDetailsNew(
         divisionID,
         this.mainSchemeID,
         distid,
@@ -8571,57 +6664,6 @@ export class SchemeWiseDetailsComponent {
           this.dataSourceWorkP.paginator = this.paginatorWOP;
           this.dataSourceWorkP.sort = this.sortWOP;
           this.cdr.detectChanges();
-          this.spinner.hide();
-        },
-        (error) => {
-          console.error('Error fetching data', error);
-        }
-      );
-    this.openDialogWOP();
-  }
-  fetchDataBasedOnChartSelectionmainSchemeWOP(
-    mainSchemeId: any,
-    seriesName: string
-  ): void {
-    // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
-      this.himisDistrictid = 0;
-    } else if (roleName == 'Collector') {
-      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-      this.divisionid = 0;
-    } else {
-      this.divisionid = 0;
-      this.himisDistrictid = 0;
-    }
-    // const  distid=0;
-    // const mainSchemeId=0;
-    // const divisionID=0;
-    const contractid = 0;
-    this.spinner.show();
-
-    this.api
-      .GetWorkOrderPendingDetailsNew(
-        this.divisionid,
-        mainSchemeId,
-        this.himisDistrictid,
-        contractid
-      )
-      .subscribe(
-        (res) => {
-          this.dispatchDataWOP = res.map(
-            (item: WorkOrderPendingDetailsNew, index: number) => ({
-              ...item,
-              sno: index + 1,
-            })
-          );
-          // console.log('res:',res);
-          this.dataSourceWorkP.data = this.dispatchDataWOP;
-          this.dataSourceWorkP.paginator = this.paginatorWOP;
-          this.dataSourceWorkP.sort = this.sortWOP;
-          this.cdr.detectChanges();
-
           this.spinner.hide();
         },
         (error) => {
@@ -8744,17 +6786,18 @@ export class SchemeWiseDetailsComponent {
       height: '100%',
       maxWidth: '100%',
       panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: { /* pass any data here */ }
+      data: {
+        /* pass any data here */
+      },
       // width: '100%',
       // maxWidth: '100%', // Override default maxWidth
       // maxHeight: '100%', // Override default maxHeight
       // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
       // height: 'auto',
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('Dialog closed');
     });
-
   }
   // #endregion
 
@@ -8829,7 +6872,8 @@ export class SchemeWiseDetailsComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Land Issue Overview',
+        // text: 'Land Issue Overview',
+        // text: `Overview of Land Issue: ${this.selectedName}`,
         // text: 'Land Issuance Overview',
         // text: 'RP Type Total Pending Works wise Progress',
         align: 'center',
@@ -8855,57 +6899,70 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-    this.chartOptionsLIScheme = {
+   
+    this.chartOptionsLIDistrict = {
       series: [],
       chart: {
         type: 'bar',
-        stacked: false,
+        stacked: true,
+        // height: 600,
         // height: 'auto',
+        // width:600,
         events: {
           dataPointSelection: (
             event,
             chartContext,
             { dataPointIndex, seriesIndex }
           ) => {
-            const selectedCategory =
-              this.chartOptionsLIScheme?.xaxis?.categories?.[dataPointIndex]; // This is likely just the category name (a string)
-            const selectedSeries =
-              this.chartOptionsLIScheme?.series?.[seriesIndex]?.name;
-            if (selectedCategory && selectedSeries) {
-              const apiData = this.LIPendingSchemeData; // Replace with the actual data source or API response
-              const selectedData = apiData.find(
-                (data) => data.name === selectedCategory
-              );
-              if (selectedData) {
+            if (dataPointIndex !== undefined && seriesIndex !== undefined) {
+              const selectedCategory =
+                this.chartOptionsLIDistrict?.xaxis?.categories?.[
+                  dataPointIndex
+                ];
+              const selectedSeries =
+                this.chartOptionsLIDistrict?.series?.[seriesIndex]?.name;
+
+              if (selectedCategory && selectedSeries) {
+                const apiData = this.LIPendingDistrictData;
+                // console.log('datasch:', apiData);
+
+                if (Array.isArray(apiData)) {
+                  const selectedData = apiData.find(
+                    (data) => data.name === selectedCategory
+                  );
+                  // console.log("selectedData chart1",selectedData);
+                  if (selectedData) {
                     const id = selectedData.id;
                     this.name = selectedData.name;
                     this.totalWorks = selectedData.totalWorks;
-                    this.fetchDataBasedOnChartSelectionLIScheme( id,  selectedSeries  );
+                    this.fetchDataBasedOnChartSelectionDistrictLI(
+                      id,
+                      selectedSeries
+                    );
+                  } else {
+                    console.error(
+                      `No data found for selected category: ${selectedCategory}`
+                    );
+                  }
+                } else {
+                  console.error('API Data is not an array:', apiData);
+                }
               } else {
-                console.log(
-                  `No data found for selected category: ${selectedCategory}`
-                );
+                console.error('Selected category or series is invalid.');
               }
             } else {
-              console.log('Selected category or series is invalid.');
+              console.log('Invalid data point or series index.');
             }
           },
         },
       },
       plotOptions: {
         bar: {
-          horizontal: false,
-          columnWidth:'40%',
-          borderRadius:3,
-          distributed: false,
-          dataLabels: {
-            position: 'top', // top, center, bottom
-          },
+          horizontal: true,
         },
       },
       xaxis: {
         categories: [],
-        // position: 'top',
       },
       yaxis: {
         title: {
@@ -8925,7 +6982,8 @@ export class SchemeWiseDetailsComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Scheme-wise Land Issue',
+        // text: 'District-wise Land Issuance',
+        // text: 'RP Type Total Pending Works wise Progress',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -8970,7 +7028,12 @@ export class SchemeWiseDetailsComponent {
     this.spinner.show();
 
     this.api
-      .GetLIPendingTotal(RPtype, this.divisionid, this.districtid,this.mainSchemeID)
+      .GetLIPendingTotal(
+        RPtype,
+        this.divisionid,
+        this.districtid,
+        this.mainSchemeID
+      )
       .subscribe(
         (data: any) => {
           if (Array.isArray(data) && data.length > 0) {
@@ -9005,9 +7068,12 @@ export class SchemeWiseDetailsComponent {
                   color: 'rgb(255, 69, 96)',
                 },
               ];
-
+              this.chartOptionsLITotal.title.text = `Overview of Land Issue: ${this.selectedName}`;
+              // text: `Overview of Land Issue: ${this.selectedName}`;
               this.chartOptionsLITotal.xaxis = { categories: name };
-              this.cdr.detectChanges();  // Trigger view update
+
+              // text: `Overview of Land Issue: ${this.selectedName || ''}`,
+              this.cdr.detectChanges(); // Trigger view update
             }
           } else {
             console.warn('API returned empty or invalid data');
@@ -9021,80 +7087,92 @@ export class SchemeWiseDetailsComponent {
         }
       );
   }
-  LOPendingScheme(): void {
-    this.spinner.show();
 
+  LOPendingDistrict(): void {
+    this.spinner.show();
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
-      this.chartOptionsLIScheme.chart.height = '500px';
+      this.chartOptionsLIDistrict.chart.height = '500px';
       this.districtid = 0;
     } else if (roleName == 'Collector') {
-     this.districtid = sessionStorage.getItem('himisDistrictid');
-     this.chartOptionsLIScheme.chart.height = '400px';
-      this.divisionid=0;
-    }
-    else {
+      this.districtid = sessionStorage.getItem('himisDistrictid');
+      this.chartOptionsLIDistrict.chart.height = '200px';
+      this.divisionid = 0;
+    } else {
       this.districtid = 0;
-      this.divisionid=0;
-      this.chartOptionsLIScheme.chart.height = '400';
+      this.divisionid = 0;
+      this.chartOptionsLIDistrict.chart.height = '800';
     }
-   const RPtype="Scheme";
-    this.api.GetLIPendingTotal(RPtype, this.divisionid,this.districtid,this.mainSchemeID).subscribe(
-      (data: any) => {
-        if (Array.isArray(data) && data.length > 0) {
-          this.LIPendingSchemeData = data;
-          // console.log('LIPendingSchemeData', this.LIPendingSchemeData);
-          const name: string[] = [];
-          const totalWorks: any[] = [];
-          const valuecr: number[] = [];
-          const tvcValuecr: any[] = [];
-          const month2Above: any[] = [];
-          const woIssued: any[] = [];
+    const RPtype = 'District';
+    this.api
+      .GetLIPendingTotal(
+        RPtype,
+        this.divisionid,
+        this.districtid,
+        this.mainSchemeID
+      )
+      .subscribe(
+        (data: any) => {
+          if (Array.isArray(data) && data.length > 0) {
+            this.LIPendingDistrictData = data;
+            // console.log('LIPendingDistrictData', this.LIPendingDistrictData);
+            const name: string[] = [];
+            const totalWorks: any[] = [];
+            const valuecr: number[] = [];
+            const tvcValuecr: any[] = [];
+            const month2Above: any[] = [];
+            const woIssued: any[] = [];
 
-          data.forEach((item: any) => {
-            if (item) {
-              name.push(item.name ?? '');
-              totalWorks.push(item.totalWorks ?? 0);
-              valuecr.push(item.valuecr ?? 0);
-              tvcValuecr.push(item.tvcValuecr ?? 0);
-              month2Above.push(item.month2Above ?? 0);
-              woIssued.push(item.woIssued ?? 0);
+            data.forEach((item: any) => {
+              if (item) {
+                name.push(item.name ?? '');
+                totalWorks.push(item.totalWorks ?? 0);
+                valuecr.push(item.valuecr ?? 0);
+                tvcValuecr.push(item.tvcValuecr ?? 0);
+                month2Above.push(item.month2Above ?? 0);
+                woIssued.push(item.woIssued ?? 0);
+              }
+            });
+
+            if (name.length > 0) {
+              this.chartOptionsLIDistrict.series = [
+                // { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
+                // { name: 'Value cr', data: valuecr },
+                // { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
+                // { name: 'Month 2 Above', data: month2Above },
+                // { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
+                { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
+                { name: 'Value of Work (In cr)', data: valuecr },
+                // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+                { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
+                {
+                  name: 'Land Issue > 2 Month',
+                  data: month2Above,
+                  color: 'rgb(255, 69, 96)',
+                },
+              ];
+             
+              this.chartOptionsLIDistrict.xaxis = { categories: name };
+              this.chartOptionsLIDistrict.title.text = `District-wise Land Issue: ${this.selectedName}`;
+              this.cdr.detectChanges(); // Trigger view update
             }
-          });
-
-          if (name.length > 0) {
-            this.chartOptionsLIScheme.series = [
-              // { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
-              // { name: 'Value cr', data: valuecr },
-              // { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
-              // { name: 'Month 2 Above', data: month2Above },
-              // { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
-              { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
-              { name: 'Value of Work (In cr)', data: valuecr },
-              // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
-              { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
-              { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
-            ];
-
-            this.chartOptionsLIScheme.xaxis = { categories: name };
-            this.cdr.detectChanges(); // Trigger view update
+          } else {
+            console.warn('API returned empty or invalid data');
           }
-        } else {
-          console.warn('API returned empty or invalid data');
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+          this.spinner.hide();
         }
-
-        this.spinner.hide();
-      },
-      (error: any) => {
-        console.error('Error fetching data', error);
-        this.spinner.hide();
-      }
-    );
+      );
   }
- 
-
-  fetchDataBasedOnChartSelectionTotalLI(divisionID: any, seriesName: string): void {
+  fetchDataBasedOnChartSelectionTotalLI(
+    divisionID: any,
+    seriesName: string
+  ): void {
     console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     // const mainSchemeId = 0;
@@ -9105,64 +7183,69 @@ export class SchemeWiseDetailsComponent {
     //   // this.divisionid = sessionStorage.getItem('divisionID');
     // } else {
     //       this.chartOptions.chart.height ='1500';
-    //      } 
+    //      }
     this.spinner.show();
-    this.api.GetLandIssueDetails(divisionID, this.mainSchemeID, distid).subscribe(
-      (res) => {
-        this.dispatchPendingsLI = res.map((item: any, index: any) => ({
-          ...item,
-          sno: index + 1
-        }));
-        ;
-        this.dataSourceLI.data = this.dispatchPendingsLI;
-        this.dataSourceLI.paginator = this.paginatorLI;
-        this.dataSourceLI.sort = this.sortLI;
-        // console.log(' this.dataSource.data =', this.dataSource.data );
-        // console.log('this.dataSource1.paginator ', this.paginator );
-        // console.log(' this.dataSource.sort', this.sort );
+    this.api
+      .GetLandIssueDetails(divisionID, this.mainSchemeID, distid)
+      .subscribe(
+        (res) => {
+          this.dispatchPendingsLI = res.map((item: any, index: any) => ({
+            ...item,
+            sno: index + 1,
+          }));
+          this.dataSourceLI.data = this.dispatchPendingsLI;
+          this.dataSourceLI.paginator = this.paginatorLI;
+          this.dataSourceLI.sort = this.sortLI;
+          // console.log(' this.dataSource.data =', this.dataSource.data );
+          // console.log('this.dataSource1.paginator ', this.paginator );
+          // console.log(' this.dataSource.sort', this.sort );
 
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        console.error('Error fetching data', error);
-      }
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
       );
-      this.openDialogLI();
+    this.openDialogLI();
   }
-  fetchDataBasedOnChartSelectionLIScheme(mainSchemeId: any, seriesName: string): void {
-    //  console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-    const distid = 0;
+  fetchDataBasedOnChartSelectionDistrictLI(
+    distid: any,
+    seriesName: string
+  ): void {
+    // const mainSchemeId = 0;
     const roleName = localStorage.getItem('roleName');
-    this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+    this.divisionid =
+      roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+
     this.spinner.show();
-    this.api.GetLandIssueDetails(this.divisionid, mainSchemeId, distid).subscribe(
-      (res) => {
-        this.dispatchPendingsLI = res.map((item: any, index: any) => ({
-          ...item,
-          sno: index + 1
-        }));
-        ;
-        this.dataSourceLI.data = this.dispatchPendingsLI;
-        this.dataSourceLI.paginator = this.paginatorLI;
-        this.dataSourceLI.sort = this.sortLI;
-        // console.log(' this.dataSource.data =', this.dataSource.data );
-        // console.log('this.dataSource1.paginator ', this.paginator );
-        // console.log(' this.dataSource.sort', this.sort );
+    this.api
+      .GetLandIssueDetails(this.divisionid, this.mainSchemeID, distid)
+      .subscribe(
+        (res) => {
+          this.dispatchPendingsLI = res.map((item: any, index: any) => ({
+            ...item,
+            sno: index + 1,
+          }));
+          this.dataSourceLI.data = this.dispatchPendingsLI;
+          this.dataSourceLI.paginator = this.paginatorLI;
+          this.dataSourceLI.sort = this.sortLI;
+          // console.log(' this.dataSource.data =', this.dataSource.data );
+          // console.log('this.dataSource1.paginator ', this.paginator );
+          // console.log(' this.dataSource.sort', this.sort );
 
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        console.error('Error fetching data', error);
-      }
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
       );
-      this.openDialogLI();
+    this.openDialogLI();
   }
- 
 
-   // data filter
-   applyTextFilterLI(event: Event) {
+  // data filter
+  applyTextFilterLI(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceLI.filter = filterValue.trim().toLowerCase();
     if (this.dataSourceLI.paginator) {
@@ -9172,17 +7255,17 @@ export class SchemeWiseDetailsComponent {
   exportToPDFLI() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "letterNo", dataKey: "letterNo" },
-      { title: "head", dataKey: "head" },
-      { title: "acceptLetterDT", dataKey: "acceptLetterDT" },
-      { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
-      { title: "district", dataKey: "district" },
-      { title: "work", dataKey: "work" },
-      { title: "contractorNAme", dataKey: "contractorNAme" },
-      { title: "work_id", dataKey: "work_id" }
+      { title: 'S.No', dataKey: 'sno' },
+      { title: 'letterNo', dataKey: 'letterNo' },
+      { title: 'head', dataKey: 'head' },
+      { title: 'acceptLetterDT', dataKey: 'acceptLetterDT' },
+      { title: 'totalAmountOfContract', dataKey: 'totalAmountOfContract' },
+      { title: 'district', dataKey: 'district' },
+      { title: 'work', dataKey: 'work' },
+      { title: 'contractorNAme', dataKey: 'contractorNAme' },
+      { title: 'work_id', dataKey: 'work_id' },
     ];
-    const rows = this.dispatchPendingsLI.map(row => ({
+    const rows = this.dispatchPendingsLI.map((row) => ({
       sno: row.sno,
       letterNo: row.letterNo,
       head: row.head,
@@ -9199,7 +7282,7 @@ export class SchemeWiseDetailsComponent {
       body: rows,
       startY: 20,
       theme: 'striped',
-      headStyles: { fillColor: [22, 160, 133] }
+      headStyles: { fillColor: [22, 160, 133] },
     });
 
     doc.save('LandIssued.pdf');
@@ -9211,22 +7294,23 @@ export class SchemeWiseDetailsComponent {
       height: '100%',
       maxWidth: '100%',
       panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: { /* pass any data here */ }
+      data: {
+        /* pass any data here */
+      },
       // width: '100%',
       // maxWidth: '100%', // Override default maxWidth
       // maxHeight: '100%', // Override default maxHeight
       // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
       // height: 'auto',
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('Dialog closed');
     });
-
   }
- 
+
   // #endregion
-   // #region Get APT data To be tender
-   initializeChartOptionsTobeTender() {
+  // #region Get APT data To be tender
+  initializeChartOptionsTobeTender() {
     this.chartOptionsTbetender = {
       series: [],
       chart: {
@@ -9266,8 +7350,8 @@ export class SchemeWiseDetailsComponent {
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth:'20%',
-          borderRadius:3,
+          columnWidth: '20%',
+          borderRadius: 5,
           distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
@@ -9291,12 +7375,12 @@ export class SchemeWiseDetailsComponent {
         },
       },
       stroke: {
-        width: 1,
+        width: 5,
         // colors: ['#000'],
         colors: ['#fff'],
       },
       title: {
-        text: 'Summary of To be Tender Works',
+        // text: 'Summary of To be Tender Works',
         align: 'center',
         style: {
           fontSize: '12px',
@@ -9320,78 +7404,84 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
+  }
+  TenderStatusTotal(): void {
+    this.spinner.show();
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.chartOptionsTbetender.chart.height = '200px';
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      // var RPType = 'GTotal';
+      this.divisionid = 0;
+      this.mainschemeid = 0;
+      this.chartOptionsTbetender.chart.height = '400px';
+    } else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
+      this.mainschemeid = 0;
+      this.chartOptionsTbetender.chart.height = '300';
     }
-    TenderStatusTotal(): void {
-      this.spinner.show();
-      var roleName = localStorage.getItem('roleName');
-      if (roleName == 'Division') {
-        this.divisionid = sessionStorage.getItem('divisionID');
-        this.chartOptionsTbetender.chart.height = '200px';
-        this.himisDistrictid = 0;
-        this.mainschemeid = 0;
-      } else if (roleName == 'Collector') {
-        this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-        // var RPType = 'GTotal';
-        this.divisionid = 0;
-        this.mainschemeid = 0;
-        this.chartOptionsTbetender.chart.height = '400px';
-      } else {
-        this.divisionid = 0;
-        this.himisDistrictid = 0;
-        this.mainschemeid = 0;
-        this.chartOptionsTbetender.chart.height = '300';
-      }
-      // alert(this.mainSchemeID)
-      this.api
-        .GETTenderStatus('GTotal',this.divisionid, this.himisDistrictid, this.mainSchemeID)
-        // .GETTenderStatus('GTotal',this.divisionid, this.himisDistrictid, this.mainschemeid)
-        .subscribe(
-          (data: any) => {
-            this.TobetenderGTotal = data;
-            // console.log('API Response total:', this.TobetenderGTotal);
-  
-            const id: string[] = [];
-            const name: string[] = [];
-            const nosWorks: any[] = [];
-            const tValue: number[] = [];
-  
-            data.forEach(
-              (item: {
-                name: string;
-                id: any;
-                nosWorks: any;
-                tValue: number;
-              }) => {
-                id.push(item.id);
-                name.push(item.name);
-                nosWorks.push(item.nosWorks);
-                tValue.push(item.tValue);
-              }
-            );
-  
-            this.chartOptionsTbetender.series = [
-              {
-                name: 'No of Works',
-                data: nosWorks,
-                color: '#eeba0b',
-              },
-              {
-                name: 'Total Value in Cr',
-                data: tValue,
-                color: 'rgba(93, 243, 174, 0.85)',
-              },
-            ];
-            this.chartOptionsTbetender.xaxis = { categories: name };
-            this.cO = this.chartOptionsTbetender;
-            this.cdr.detectChanges();
-  
-            this.spinner.hide();
-          },
-          (error: any) => {
-            console.error('Error fetching data', error);
-          }
-        );
-    }
+    // alert(this.mainSchemeID)
+    this.api
+      .GETTenderStatus(
+        'GTotal',
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID
+      )
+      // .GETTenderStatus('GTotal',this.divisionid, this.himisDistrictid, this.mainschemeid)
+      .subscribe(
+        (data: any) => {
+          this.TobetenderGTotal = data;
+          // console.log('API Response total:', this.TobetenderGTotal);
+
+          const id: string[] = [];
+          const name: string[] = [];
+          const nosWorks: any[] = [];
+          const tValue: number[] = [];
+
+          data.forEach(
+            (item: {
+              name: string;
+              id: any;
+              nosWorks: any;
+              tValue: number;
+            }) => {
+              id.push(item.id);
+              name.push(item.name);
+              nosWorks.push(item.nosWorks);
+              tValue.push(item.tValue);
+            }
+          );
+
+          this.chartOptionsTbetender.series = [
+            {
+              name: 'No of Works',
+              data: nosWorks,
+              color: '#eeba0b',
+            },
+            {
+              name: 'Total Value in Cr',
+              data: tValue,
+              color: 'rgba(93, 243, 174, 0.85)',
+            },
+          ];
+          this.chartOptionsTbetender.xaxis = { categories: name };
+          this.chartOptionsTbetender.title.text = `Summary of To be Tender Works : ${this.selectedName}`;
+          this.cO = this.chartOptionsTbetender;
+          this.cdr.detectChanges();
+
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
 
   // #endregion
 }

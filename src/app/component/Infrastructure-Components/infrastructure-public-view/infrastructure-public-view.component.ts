@@ -38,9 +38,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
-
 @Component({
-  selector: 'app-infrastructure-home',
+  selector: 'app-infrastructure-public-view',
   standalone: true,
   imports: [
     NgFor,
@@ -53,10 +52,10 @@ import { DropdownModule } from 'primeng/dropdown';
         MatTableExporterModule, MatDialogModule, MatMenuModule,NgSelectModule,FormsModule,SelectDropDownModule,DropdownModule,
   ],
 
-  templateUrl: './infrastructure-home.component.html',
-  styleUrl: './infrastructure-home.component.css'
+  templateUrl: './infrastructure-public-view.component.html',
+  styleUrl: './infrastructure-public-view.component.css'
 })
-export class InfrastructureHomeComponent {
+export class InfrastructurePublicViewComponent {
   mainscheme: MainScheme[] = [];
   districtData: DashProgressCount[] = [];
   DMEprogresssummary: DMEProgressSummary[] = [];
@@ -956,7 +955,7 @@ this.openDialogTW();
   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-  console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+  // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
 // Icon for "To be Tender"
   if (did == 1001) {
     // console.log('1001 =: ',did);
@@ -969,7 +968,7 @@ this.openDialogTW();
             sno: index + 1,
           })
         );
-        console.log('DetailProgressTinP=:', this.dispatchData2);
+        // console.log('DetailProgressTinP=:', this.dispatchData2);
         this.dataSource2.data = this.dispatchData2;
         this.dataSource2.paginator = this.paginator2;
         this.dataSource2.sort = this.sort2;
@@ -2498,5 +2497,3 @@ expor_PDFRturntoD() {
   }
 }
 }
-
- 

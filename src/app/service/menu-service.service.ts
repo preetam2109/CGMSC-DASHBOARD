@@ -496,8 +496,20 @@ export class MenuServiceService {
         { label: 'Item Wise Issuance', route: 'http://140.238.246.250/DPDMISStock/FacilityIssue/Cgmsc_Facility_Issue_Summary.aspx' },
         { label: 'Rate Contract Info', route: 'http://140.238.246.250/DPDMISStock/GernalReport/RC_reprot.aspx' },
         { label: 'Warehouse Information', route: '/WarehouseInfoPublic' },
-
-
+        { label: 'Search Works', route: '/SearchingWork' },
+        { label: 'Works Abstract', route: '/InfrastructureHome' },
+        { label: 'Running Work', route: '/RunningWork' },
+        { label: 'Handovers', route: 'Handover' },
+        { label: 'Monitoring with Geographic Coordinates', route: 'DivisionProgress' },
+      ],
+    },
+    Infrastructure_Public: {
+      items: [
+        { label: 'Work Abstract', route: '/InfrastructureHomes' },
+        { label: 'Search Work', route: '/SearchingWorks' },
+        { label: 'Running Works', route: '/RunningWorks' },
+        { label: 'Handover', route: '/Handovers' },
+        { label: 'Monitoring with Geographic Coordinate', route: '/DivisionsProgress' },
       ],
     }
     ,
@@ -526,7 +538,7 @@ export class MenuServiceService {
         // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
         { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
         // { label: 'District Progress Monitoring', route: 'District Progress' },
-        { label: 'Handover Insights', route: 'Handover' },
+        { label: 'Handover Insights', route: 'Handover' }, { label: 'Handover Insights', route: 'Handover' },
       
 
         { label: 'Engineer Work Tracker', route: '/EngineerWorks' },

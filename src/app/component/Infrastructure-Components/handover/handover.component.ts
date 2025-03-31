@@ -503,6 +503,7 @@ export class HandoverComponent {
   HandoverAbstractRPTypeTotal(): void {
     // const roleName = localStorage.getItem('roleName');
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
+  //  var roleName = localStorage.getItem('roleName')
     this.spinner.show();
 
     var roleName = localStorage.getItem('roleName');
@@ -569,12 +570,37 @@ export class HandoverComponent {
               console.warn('Missing whid for handover Abstract :', item.name);
             }
           });
+          // Initialize the series array with common series
+const series = [
+  // { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
+  // { name: 'Contract Value (in cr)', data: tvcValuecr }
+];
 
-          this.chartOptions.series = [
-            { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
-            { name: 'Contract Value (in cr)', data: tvcValuecr },
-            // { name: 'Avg Month Taken', data: avgMonthTaken, color: '#3afce6' },];
-            { name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+// Conditionally add the 'Avg Month Taken' series based on roleName
+if (roleName === 'Infrastructure_Public') {
+  series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+  series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+
+}
+else{
+  series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+  series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+  series.push({ name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' });
+}
+
+// Assign the dynamically constructed series array to chartOptions
+this.chartOptions.series = series;
+
+          // this.chartOptions.series = [
+          //   { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
+          //   { name: 'Contract Value (in cr)', data: tvcValuecr },
+          //   // { name: 'Avg Month Taken', data: avgMonthTaken, color: '#3afce6' },];
+          //   // if (roleName == 'Infrastructure_Public') {
+
+          //     { name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },
+          //   // }
+
+          // ];
 
           this.chartOptions.xaxis = { categories: name };
           this.cO = this.chartOptions;
@@ -650,13 +676,24 @@ export class HandoverComponent {
             }
           });
 
-          this.chartOptions2.series = [
-            // { name: 'Total Works', data: totalWorks, color: '#eeba0b' },
-            // { name: 'TVC Value cr', data: tvcValuecr },
-            // { name: 'AVG Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
-            { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
-            { name: 'Contract Value (in cr)', data: tvcValuecr },
-            { name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+          // this.chartOptions2.series = [
+          //   // { name: 'Total Works', data: totalWorks, color: '#eeba0b' },
+          //   // { name: 'TVC Value cr', data: tvcValuecr },
+          //   // { name: 'AVG Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+          //   { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
+          //   { name: 'Contract Value (in cr)', data: tvcValuecr },
+          //   { name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+          const series = [];
+          if (roleName === 'Infrastructure_Public') {
+            series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+            series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+          }
+          else{
+            series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+            series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+            series.push({ name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' });
+          }
+          this.chartOptions2.series = series;
 
           this.chartOptions2.xaxis = { categories: name };
           this.cO = this.chartOptions2;
@@ -730,13 +767,24 @@ export class HandoverComponent {
             }
           });
 
-          this.chartOptions3.series = [
-            // { name: 'Total Works', data: totalWorks, color: '#eeba0b' },
-            // { name: 'TVC Value cr', data: tvcValuecr },
-            // { name: 'AVG Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
-            { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
-            { name: 'Contract Value (in cr)', data: tvcValuecr },
-            { name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+          // this.chartOptions3.series = [
+          //   // { name: 'Total Works', data: totalWorks, color: '#eeba0b' },
+          //   // { name: 'TVC Value cr', data: tvcValuecr },
+          //   // { name: 'AVG Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+          //   { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
+          //   { name: 'Contract Value (in cr)', data: tvcValuecr },
+          //   { name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+          const series = [];
+          if (roleName === 'Infrastructure_Public') {
+            series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+            series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+          }
+          else{
+            series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+            series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+            series.push({ name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' });
+          }
+          this.chartOptions3.series = series;
 
           this.chartOptions3.xaxis = { categories: name };
           this.cO = this.chartOptions2;
@@ -812,13 +860,24 @@ export class HandoverComponent {
             }
           });
 
-          this.chartOptions4.series = [
-            // { name: 'Total Works', data: totalWorks, color: '#eeba0b' },
-            // { name: 'TVC Value cr', data: tvcValuecr },
-            // { name: 'AVG Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
-            { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
-            { name: 'Contract Value (in cr)', data: tvcValuecr },
-            { name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+          // this.chartOptions4.series = [
+          //   // { name: 'Total Works', data: totalWorks, color: '#eeba0b' },
+          //   // { name: 'TVC Value cr', data: tvcValuecr },
+          //   // { name: 'AVG Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+          //   { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' },
+          //   { name: 'Contract Value (in cr)', data: tvcValuecr },
+          //   { name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' },];
+          const series = [];
+          if (roleName === 'Infrastructure_Public') {
+            series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+            series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+          }
+          else{
+            series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+            series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+            series.push({ name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' });
+          }
+          this.chartOptions4.series = series;
           this.chartOptions4.xaxis = { categories: name };
           this.cO = this.chartOptions2;
           this.cdr.detectChanges();
