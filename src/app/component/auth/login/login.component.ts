@@ -210,12 +210,12 @@ isPasswordVisible: boolean = false;
 
     
     if(name =='Public'){
-
+      this.openDialog();
+      return;
       this.rolename = 'Public'; 
       this.setRole(this.rolename);
       this.firstname = 'Public'
       sessionStorage.setItem('firstname', this.firstname);
-
 
       
       this.router.navigate(['public-view1'])  
@@ -739,22 +739,22 @@ toggleText() {
 
 
 
-
+ 
 
     openDialog() {
       const dialogRef = this.dialog.open(this.itemDetailsModal, {
-        width: '100%',
-        height: '100%',
-        maxWidth: '100%',
-        panelClass: 'full-screen-dialog', // Optional for additional styling
-        data: {
-          /* pass any data here */
-        },
         // width: '100%',
-        // maxWidth: '100%', // Override default maxWidth
-        // maxHeight: '100%', // Override default maxHeight
+        // height: '100%',
+        // maxWidth: '100%',
+        // panelClass: 'full-screen-dialog', // Optional for additional styling
+        // data: {
+        //   /* pass any data here */
+        // },
+        width: '50%',
+        maxWidth: '100%', // Override default maxWidth
+        maxHeight: '100%', // Override default maxHeight
         // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-        // height: 'auto',
+        height: 'auto',
       });
       dialogRef.afterClosed().subscribe((result) => {
         console.log('Dialog closed');
