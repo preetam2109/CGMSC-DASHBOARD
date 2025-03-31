@@ -10,6 +10,7 @@ import { DelvieryDash } from 'src/app/Model/DelvieryDash';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
 
 declare var google: any;
 @Component({
@@ -18,6 +19,8 @@ declare var google: any;
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit,AfterViewInit  {
+  @ViewChild('itemDetailsModal') itemDetailsModal: any;
+
   @ViewChild('captchaInput') captchaInput: ElementRef | undefined;  // Reference to CAPTCHA input
   @ViewChild(GoogleMap)
 
@@ -74,7 +77,7 @@ isPasswordVisible: boolean = false;
 
      @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
   
-  constructor(public loginService:BasicAuthenticationService,public http:HttpClient,
+  constructor(public loginService:BasicAuthenticationService,public http:HttpClient,private dialog: MatDialog,
     private api: ApiService,
     private spinner: NgxSpinnerService
     ,private toastr: ToastrService,private router:Router,public  hardcodedAuthenticationService:HardcodedAuthenticationService){
@@ -202,13 +205,23 @@ isPasswordVisible: boolean = false;
   setRolePublic(name:any){
     // alert(name)
     // return;
+
+
+
+    
     if(name =='Public'){
+
       this.rolename = 'Public'; 
       this.setRole(this.rolename);
       this.firstname = 'Public'
       sessionStorage.setItem('firstname', this.firstname);
-      this.router.navigate(['public-view1'])
+
+
+      
+      this.router.navigate(['public-view1'])  
     }else{
+      this.openDialog();
+      return;
       this.rolename = 'Infrastructure_Public'; 
       this.setRole(this.rolename);
       this.firstname = 'Public View of CGMSCL Infrastructure'
@@ -722,6 +735,30 @@ toggleText() {
       } else {
         console.error('Selected user not found in the list.');
       }
+    }
+
+
+
+
+
+    openDialog() {
+      const dialogRef = this.dialog.open(this.itemDetailsModal, {
+        width: '100%',
+        height: '100%',
+        maxWidth: '100%',
+        panelClass: 'full-screen-dialog', // Optional for additional styling
+        data: {
+          /* pass any data here */
+        },
+        // width: '100%',
+        // maxWidth: '100%', // Override default maxWidth
+        // maxHeight: '100%', // Override default maxHeight
+        // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+        // height: 'auto',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log('Dialog closed');
+      });
     }
 
     // oonUserChangeInfrastructure(event: Event): void {
