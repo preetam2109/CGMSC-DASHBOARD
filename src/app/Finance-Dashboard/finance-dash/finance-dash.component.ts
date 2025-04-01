@@ -190,7 +190,7 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
       },
       tooltip: {
         custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
-          debugger
+          
           const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
            console.log("dataPoint=",dataPoint)
 
@@ -645,7 +645,7 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
             { dataPointIndex, seriesIndex }
           ) => {
             ;
-            debugger
+            
             console.log('dataPointIndex:', dataPointIndex);
             console.log('seriesIndex:', seriesIndex);
             console.log('Categories:', this.chartOptionFundLLibility?.xaxis?.categories);
@@ -655,7 +655,7 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
               console.error('xaxis.categories is not defined or empty.');
               return;
             }
-        debugger
+        
             const selectedCategory = categories[dataPointIndex];
             const selectedSeries = this.chartOptionFundLLibility?.series?.[seriesIndex]?.name;
         
@@ -1136,7 +1136,7 @@ GetPipeline_Libilities(){
 GetFundReivedBudgetID(): void {
   
   this.spinner.show();
-  debugger
+  
     this.api.getFundReivedBudgetID(this.budgetid,0)
       .subscribe(
         (data: any) => {
@@ -1349,7 +1349,7 @@ GetFundsDDL(){
   });  
 }
   onISelectChange(event: Event): void {
-    debugger
+    
     const selectedUser = this.FundsDDL.find((user: { budgetid: string }) => user.budgetid === this.budgetid); 
   
     if (selectedUser) {
@@ -1630,7 +1630,7 @@ GetFundsDDL(){
       this.openDialogGrossPaidDateWiseDetails();
     }
     fetchDataBasedOnchartOptionFundLLibility(yrid: any, seriesName: string,selectedCategory:any ): void {
-      debugger
+      
       this.po_year=selectedCategory
       console.log(`Selected ID: ${yrid}, Series: ${seriesName}`);
    this.yrid=yrid;

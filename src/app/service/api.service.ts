@@ -396,6 +396,7 @@ export class ApiService {
     return this.http.get<LabIssuePendingDetails[]>(`https://dpdmis.in/CGMSCHO_API2/api/QC/LabIssuePendingDetails?mcid=${mcid}&delaypara1=${delaypara1}`);
   }
   getHODYearWiseIssuanceSummary(mcatid: any, hodid: any) {
+    
     return this.http.get<HODYearWiseIssuanceSummary>(`https://dpdmis.in/CGMSCHO_API2/api/HO/HODYearWiseIssuanceSummary?mcatid=${mcatid}&hodid=${hodid}`);
   }
   getHODYearWiseIssuance(yearid: any, mcatid: any, hodid: any, itemid: any, disid: any) {
@@ -1081,7 +1082,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   getFundsDDL(RoleID:any) {
-    debugger
+    
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/getFunds?RoleID=${RoleID}`);
   }
 
@@ -1217,12 +1218,12 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
 
   getCollegeHospital_AIvsIssue(mcid:any,yearid:any) {
-    debugger
+    
     return this.http.get<CollegeHospital_AIvsIssue[]>(`${this.CGMSCHO_API2}/DashboardDME/CollegeHospital_AIvsIssue?mcid=${mcid}&yearid=${yearid}`);
   }
 
   getClgHos_IssueWihtoutAI(mcid:any,whyearid:any) {
-    debugger
+    
     return this.http.get<ClgHos_IssueWihtoutAI[]>(`${this.CGMSCHO_API2}/DashboardDME/ClgHos_IssueWihtoutAI?mcid=${mcid}&whyearid=${whyearid}`);
   }
 
