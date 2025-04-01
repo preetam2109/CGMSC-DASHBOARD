@@ -2089,7 +2089,7 @@ export class SchemeWiseDetailsComponent {
     //   margin: { top: 20, left: 5, right: 5 },
 
     //   // didDrawPage: function (data) {
-    //   //   debugger;
+    //   //   ;
     //   //   doc.setFontSize(8);
     //   //   doc.text('Land Issue Report', data.settings.margin.left, 10);
     //   // }
@@ -6589,7 +6589,7 @@ export class SchemeWiseDetailsComponent {
     divisionID: any,
     seriesName: string
   ): void {
-    debugger;
+    ;
     console.log(`Selected ID 11: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     // const mainSchemeId = 0;
@@ -6635,7 +6635,7 @@ export class SchemeWiseDetailsComponent {
     divisionID: any,
     seriesName: string
   ): void {
-    debugger;
+    ;
     console.log(`Selected ID2: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     // const mainSchemeId=0;

@@ -285,7 +285,7 @@ export class SearchingWorkComponent {
       //     },
       // tooltip: {
       //   custom: function ({ dataPointIndex, w }: any) {
-      //     debugger;
+      //     ;
       //     // Ensure the correct series data is accessed
       //     const seriesData = w.config.series[0].data;
       
@@ -312,7 +312,7 @@ export class SearchingWorkComponent {
       
       tooltip: {
         custom: function ({ dataPointIndex, w }: any) {
-        // debugger;
+        // ;
 
           const seriesData = w.config.series[0].data;
           const correctIndex = seriesData.length - 1 - dataPointIndex; // ✅ उल्टा index लें
@@ -598,7 +598,7 @@ export class SearchingWorkComponent {
   }
 
   GetProjectTimelineNEW(workID:any) {
-    // debugger
+    // 
         this.api.GetProjectTimelineNew(workID).subscribe(
     // this.api.GetProjectTimelineNew("W4100398").subscribe(
       (res) => {
@@ -666,7 +666,7 @@ export class SearchingWorkComponent {
 
 
   getRandomColor() {
-    // debugger;
+    // ;
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
