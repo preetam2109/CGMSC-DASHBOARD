@@ -68,7 +68,7 @@
             <!-- </div> -->
           </ng-template>
         </mat-tab>
-        <mat-tab label="Delay/On Time Works Summary">
+        <mat-tab label="Delay/On Time Works Summary" *ngIf="roleName != 'Infrastructure_Public'">
           <ng-template matTabContent>
             <!-- <div class="card shadow"> -->
               <div class="w-100 mt-1 ">
