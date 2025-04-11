@@ -93,6 +93,7 @@ export class DivisionProgressComponent {
   sr:any;
   ImageName:any;
   mainSchemeID:any;
+  roleName:any;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef) {
     this.chartOptions = {
       series: [],
@@ -178,6 +179,7 @@ export class DivisionProgressComponent {
     this.dataSource = new MatTableDataSource<DivisionPrograss>([]);
   }
   ngOnInit() {
+   this.roleName = localStorage.getItem('roleName');
     this.getmain_scheme();
     // this.loadData();
     // this.GetprogressdetailsLatLong();
@@ -245,9 +247,9 @@ else{
         } else {
           // console.warn('Missing whid for warehousename :', item.divisionID);
         }});
-
-      // console.log('whidMap:', this.whidMap); // Log the populated mmidMap
-        this.chartOptions.series =   this.selectedTabIndex === 0
+// *ngIf="roleName != 'Infrastructure_Public'"
+if (this.roleName != 'Infrastructure_Public') {
+  this.chartOptions.series =   this.selectedTabIndex === 0
         ? [
           { name: 'Total Works', data: nosworks, color: '#0000FF' },
           { name: 'Uploaded Today', data: mobiletoday, color: 'rgb(0, 128, 0)' },
@@ -262,6 +264,46 @@ else{
         { name: 'Total Last 15 Days', data: totalInLast15Days, color: 'rgb(173, 216, 230)' },
         { name: 'Total Before 15 Days', data: totalBefore15Days, color: 'rgb(255, 0, 0)' }
       ]
+}else{
+  const series = [];
+  series.push( {name: 'Uploaded Today', data: mobiletoday, color: 'rgb(0, 128, 0)' });
+    series.push({ name: 'Uploaded In Last 7 Days', data: mobileInLast7Days, color: 'rgb(144, 238, 144)' });
+    series.push({name: 'Uploaded In Last 15 Days', data: mobileLast15Days, color: 'rgb(173, 216, 230)'});
+    series.push({name: 'Uploaded Before 15 Days', data: mobileBefore15Days, color: 'rgb(255, 0, 0)'});
+    this.chartOptions.series = series;
+
+ 
+//   this.chartOptions.series =   this.selectedTabIndex === 0
+//   ? [
+//     { name: 'Total Works', data: nosworks, color: '#0000FF' },
+//     { name: 'Uploaded Today', data: mobiletoday, color: 'rgb(0, 128, 0)' },
+//     { name: 'Uploaded In Last 7 Days', data: mobileInLast7Days, color: 'rgb(144, 238, 144)' },
+//     { name: 'Uploaded In Last 15 Days', data: mobileLast15Days, color: 'rgb(173, 216, 230)' },
+//     { name: 'Uploaded Before 15 Days', data: mobileBefore15Days, color: 'rgb(255, 0, 0)' }
+//   ]
+// :  [
+//   { name: 'Total Works', data: nosworks, color: '#0000FF' },
+//   { name: 'Total Today', data: totalToday, color: 'rgb(0, 128, 0)' },
+//   { name: 'Total In Last 7 Days', data: totalInLast7Days, color: 'rgb(144, 238, 144)' },
+//   { name: 'Total Last 15 Days', data: totalInLast15Days, color: 'rgb(173, 216, 230)' },
+//   { name: 'Total Before 15 Days', data: totalBefore15Days, color: 'rgb(255, 0, 0)' }
+// ]
+}
+
+       
+
+      // const series = [];
+      // if (roleName === 'Infrastructure_Public') {
+      //   series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+      //   series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+      // }
+      // else{
+      //   series.push( { name: 'Nos of Works', data: totalWorks, color: '#eeba0b' });
+      //   series.push({ name: 'Contract Value (in cr)', data: tvcValuecr });
+      //   series.push({ name: 'Avg Month Taken', data: avgMonthTaken, color: 'rgb(0, 143, 251)' });
+      // }
+
+
       this.chartOptions.xaxis = { categories: divisionName };
       this.cO = this.chartOptions;
       this.cdr.detectChanges();

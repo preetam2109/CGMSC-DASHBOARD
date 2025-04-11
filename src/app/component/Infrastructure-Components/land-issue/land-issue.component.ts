@@ -67,6 +67,7 @@ export class LandIssueComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   districtid: any;
+  roleName:any;
   //#endregion
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private modalService: NgbModal, private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<LandIssueDetails>([]);
@@ -74,6 +75,7 @@ export class LandIssueComponent {
 
   ngOnInit() {
     // Initialize dateRange with today and tomorrow
+    this.roleName = localStorage.getItem('roleName');
     this.initializeChartOptions();
     this.LOPendingTotal();
     this.LOPendingScheme();
@@ -557,13 +559,26 @@ export class LandIssueComponent {
           });
 
           if (name.length > 0) {
-            this.chartOptions.series = [
-              { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
-              { name: 'Value of Work (In cr)', data: valuecr },
-              // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
-              { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
-              { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
-            ];
+            // this.chartOptions.series = [
+            //   { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
+            //   { name: 'Value of Work (In cr)', data: valuecr },
+            //   // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+            //   { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
+            //   { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
+            // ];
+            const series = [];
+            if (roleName === 'Infrastructure_Public') {
+              series.push( {  name: 'No. of Works', data: totalWorks, color: '#eeba0b'});
+              series.push({name: 'Value of Work (In cr)', data: valuecr  });
+              // series.push({name: 'Value of Work (In cr)', data: valuecr  });
+            }
+            else{
+              series.push( { name: 'No. of Works', data: totalWorks, color: '#eeba0b' });
+              series.push({ name: 'Value of Work (In cr)', data: valuecr});
+              series.push({ name: 'Work Order Issued', data: woIssued, color: '#6a6afd' });
+              series.push({name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)'});
+            }
+            this.chartOptions.series = series;
 
             this.chartOptions.xaxis = { categories: name };
             this.cdr.detectChanges(); // Trigger view update
@@ -633,18 +648,26 @@ export class LandIssueComponent {
           });
 
           if (name.length > 0) {
-            this.chartOptions2.series = [
-              // { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
-              // { name: 'Value cr', data: valuecr },
-              // { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
-              // { name: 'Month 2 Above', data: month2Above },
-              // { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
-              { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
-              { name: 'Value of Work (In cr)', data: valuecr },
-              // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
-              { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
-              { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
-            ];
+            // this.chartOptions2.series = [
+            //   { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
+            //   { name: 'Value of Work (In cr)', data: valuecr },
+            //   // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+            //   { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
+            //   { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
+            // ];
+            const series = [];
+            if (roleName === 'Infrastructure_Public') {
+              series.push( {  name: 'No. of Works', data: totalWorks, color: '#eeba0b'});
+              series.push({name: 'Value of Work (In cr)', data: valuecr  });
+              // series.push({name: 'Value of Work (In cr)', data: valuecr  });
+            }
+            else{
+              series.push( { name: 'No. of Works', data: totalWorks, color: '#eeba0b' });
+              series.push({ name: 'Value of Work (In cr)', data: valuecr});
+              series.push({ name: 'Work Order Issued', data: woIssued, color: '#6a6afd' });
+              series.push({name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)'});
+            }
+            this.chartOptions2.series = series;
 
             this.chartOptions2.xaxis = { categories: name };
             this.cdr.detectChanges(); // Trigger view update
@@ -713,19 +736,26 @@ export class LandIssueComponent {
           });
 
           if (name.length > 0) {
-            this.chartOptionsLine.series = [
-              // { name: 'Total Pending Works', data: totalWorks, color: '#eeba0b' },
-              // { name: 'Value cr', data: valuecr },
-              // { name: 'TVC Value cr', data: tvcValuecr, color: 'rgb(0, 143, 251)' },
-              // { name: 'Month 2 Above', data: month2Above },
-              // { name: 'Wo Issued', data: woIssued, color: 'rgb(0, 143, 251)' },
-              { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
-              { name: 'Value of Work (In cr)', data: valuecr },
-              // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
-              { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
-              { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
-            ];
-
+            // this.chartOptionsLine.series = [
+            //   { name: 'No. of Works', data: totalWorks, color: '#eeba0b' },
+            //   { name: 'Value of Work (In cr)', data: valuecr },
+            //   // { name: 'Contrct value(In cr)', data: tvcValuecr, color: '#6a6afd' },
+            //   { name: 'Work Order Issued', data: woIssued, color: '#6a6afd' },
+            //   { name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)' },
+            // ];
+            const series = [];
+            if (roleName === 'Infrastructure_Public') {
+              series.push( {  name: 'No. of Works', data: totalWorks, color: '#eeba0b'});
+              series.push({name: 'Value of Work (In cr)', data: valuecr  });
+              // series.push({name: 'Value of Work (In cr)', data: valuecr  });
+            }
+            else{
+              series.push( { name: 'No. of Works', data: totalWorks, color: '#eeba0b' });
+              series.push({ name: 'Value of Work (In cr)', data: valuecr});
+              series.push({ name: 'Work Order Issued', data: woIssued, color: '#6a6afd' });
+              series.push({name: 'Land Issue > 2 Month', data: month2Above,color:'rgb(255, 69, 96)'});
+            }
+            this.chartOptionsLine.series = series;
             this.chartOptionsLine.xaxis = { categories: name };
             this.cdr.detectChanges(); // Trigger view update
           }

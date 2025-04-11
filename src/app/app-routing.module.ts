@@ -250,10 +250,12 @@ const routes: Routes = [
 {path:'DevliveryPublic',component:DeliveryComponent},
 {path:'FacCoveragePublic',component:FacCoverageComponent},
 // infrasturcture
-{path:'InfrastructureHomes',component:InfrastructureHomeComponent},
+// {path:'InfrastructureHomes',component:InfrastructureHomeComponent},
+{path:'Infrastructure-Public-View',component:InfrastructurePublicViewComponent},
 {path:'SearchingWorks',component:SearchingWorkComponent},
 {path:'RunningWorks',component:RunningWorkComponent},
 {path:'Handovers',component:HandoverComponent},
+{path:'LandIssues',component:LandIssueComponent},
 {path:'DivisionsProgress',component:DivisionProgressComponent},
 
 

@@ -315,12 +315,19 @@
               </span>
             </td>
           </ng-container>
-          <tr mat-header-row
+          <tr mat-header-row *matHeaderRowDef="roleName === 'Infrastructure_Public' ? ['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme',]:
+                                                                                      ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','cid','mobNo','action']">
+          </tr>
+        
+          <tr mat-row *matRowDef="let row; columns: roleName === 'Infrastructure_Public' ?['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme',]:
+                                                                                          ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','cid','mobNo','action']">
+          </tr>
+          <!-- <tr mat-header-row
           *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','cid','mobNo','action']">
            </tr>
           <tr mat-row
             *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','lProgress','pdate','delayReason','pRemarks','subengname','aeName','aaDate','aaamt','tsDate','tsamt','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','cid','mobNo','action']">
-          </tr>
+          </tr> -->
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10,15, 30]" showFirstLastButtons></mat-paginator>
       </div>
