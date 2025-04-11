@@ -256,77 +256,77 @@ onCodeClick(itemid: number, itemcode: string, itemname: string, strengtH1: strin
 
 
 onPipelineClick(itemid: number,itemname: string, strengtH1: string, sku: string,edltype:string): void {
-  this.spinner.show();
+  // this.spinner.show();
 
-  this.api.getPipelineDetails(0, itemid, 1, 0, 0).subscribe(
-    (response) => {
-      console.log('API Response:', response);
+  // this.api.getPipelineDetails(0, itemid, 1, 0, 0).subscribe(
+  //   (response) => {
+  //     console.log('API Response:', response);
 
-      // Trigger 
-      ;
+      
+  //     ;
 
-      this.pipiLineDetails = response.map((item: any, index: number) => ({
-        ...item,
-        sno: index + 1
-      }));
+  //     this.pipiLineDetails = response.map((item: any, index: number) => ({
+  //       ...item,
+  //       sno: index + 1
+  //     }));
 
-      console.log('Processed Pipeline Details:', this.pipiLineDetails);
-      this.spinner.hide();
+  //     console.log('Processed Pipeline Details:', this.pipiLineDetails);
+  //     this.spinner.hide();
 
-      this.dialog.open(TotalPipeLineDialogComponent, {
-        width: '800px',
-        data: {
-          pipiLineDetails: this.pipiLineDetails,
-          itemname: itemname,
-          strengtH1: strengtH1,
-          sku: sku,
-          edltype: edltype
-        }
-      });
-    },
-    (error) => {
-      this.spinner.hide();
-      console.error('Error fetching pipeline details', error);
-    }
-  );
+  //     this.dialog.open(TotalPipeLineDialogComponent, {
+  //       width: '800px',
+  //       data: {
+  //         pipiLineDetails: this.pipiLineDetails,
+  //         itemname: itemname,
+  //         strengtH1: strengtH1,
+  //         sku: sku,
+  //         edltype: edltype
+  //       }
+  //     });
+  //   },
+  //   (error) => {
+  //     this.spinner.hide();
+  //     console.error('Error fetching pipeline details', error);
+  //   }
+  // );
 }
 onItemNameClick(itemid:number,edlcat:string,groupname:string,itemcode:string,itemname: string, strengtH1: string, sku: string,edltype:string): void {
-  this.spinner.show();
+  // this.spinner.show();
 
-  this.api.getItemDetails(0,itemid,0,0,0,0,0,0,0,0,0,0,0,0,0).subscribe(
-    (response) => {
-      console.log('API Response:', response);
+  // this.api.getItemDetails(0,itemid,0,0,0,0,0,0,0,0,0,0,0,0,0).subscribe(
+  //   (response) => {
+  //     console.log('API Response:', response);
 
-      // Trigger 
-      ;
+      
+  //     ;
 
-      this.itemDetails = response.map((item: any, index: number) => ({
-        ...item,
-        sno: index + 1
-      }));
+  //     this.itemDetails = response.map((item: any, index: number) => ({
+  //       ...item,
+  //       sno: index + 1
+  //     }));
 
-      console.log('Processed Item Details:', this.itemDetails);
-      this.spinner.hide();
+  //     console.log('Processed Item Details:', this.itemDetails);
+  //     this.spinner.hide();
 
-      this.dialog.open(ItemDialogComponent, {
-        width: '800px',
-        data: {
-          itemDetails: this.itemDetails,
-          groupname:groupname,
-          itemcode:itemcode,
-          itemname: itemname,
-          strengtH1: strengtH1,
-          sku: sku,
-          edlcat:edlcat,
-          edltype: edltype
-        }
-      });
-    },
-    (error) => {
-      this.spinner.hide();
-      console.error('Error fetching pipeline details', error);
-    }
-  );
+  //     this.dialog.open(ItemDialogComponent, {
+  //       width: '800px',
+  //       data: {
+  //         itemDetails: this.itemDetails,
+  //         groupname:groupname,
+  //         itemcode:itemcode,
+  //         itemname: itemname,
+  //         strengtH1: strengtH1,
+  //         sku: sku,
+  //         edlcat:edlcat,
+  //         edltype: edltype
+  //       }
+  //     });
+  //   },
+  //   (error) => {
+  //     this.spinner.hide();
+  //     console.error('Error fetching pipeline details', error);
+  //   }
+  // );
 }
 
 

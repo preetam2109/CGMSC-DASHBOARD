@@ -332,8 +332,12 @@ export class DropAppWarehousePerformanceComponent {
     }
   }
   home(){
-    this.router.navigate(['welcome'])
+    if(localStorage.getItem('roleName')==='Public'){
 
+      this.router.navigate(['public-view1'])
+    }else{
+    this.router.navigate(['welcome'])
+    }
   }
 }
 

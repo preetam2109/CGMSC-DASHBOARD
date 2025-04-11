@@ -16,7 +16,13 @@ constructor(private router:Router){
     this.selectedTabIndex = event.index;
   }
   home(){
-    this.router.navigate(['welcome'])
+    if(localStorage.getItem('roleName')==='Public'){
+
+      this.router.navigate(['public-view1'])
+    }else{
+
+      this.router.navigate(['welcome'])
+    }
 
   }
 }
