@@ -180,13 +180,13 @@ export class InfrastructurePublicViewComponent {
   }
 
   ngOnInit() {
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
+    this.roleName = localStorage.getItem('roleName');
+    if (this.roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.himisDistrictid = 0;
       this.showDivision = false;
       this.loadInitialData();
-    } else if (roleName == 'Collector') {
+    } else if (this.roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.showDistrict = false;
       this.showDivision = false;

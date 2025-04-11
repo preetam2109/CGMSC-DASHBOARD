@@ -220,10 +220,10 @@
               </span>
             </td>
           </ng-container> 
-          <tr mat-header-row *matHeaderRowDef="roleName === 'Infrastructure_Public' ? ['sno','letterNo','head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id']:['sno','letterNo','head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id','action']">
+          <tr mat-header-row *matHeaderRowDef="roleName === 'Infrastructure_Public' ? ['sno','head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id']:['sno','letterNo','head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id','action']">
           </tr>
         
-          <tr mat-row *matRowDef="let row; columns: roleName === 'Infrastructure_Public' ? ['sno','letterNo','head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id']:['sno','letterNo','head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id','action']">
+          <tr mat-row *matRowDef="let row; columns: roleName === 'Infrastructure_Public' ? ['sno','head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id']:['sno','letterNo','head','acceptLetterDT','totalAmountOfContract','district','work','contractorNAme','work_id','action']">
           </tr>
 
 

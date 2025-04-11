@@ -511,8 +511,9 @@ export class MenuServiceService {
         { label: 'Search Work', route: '/SearchingWorks' },
         { label: 'Running Works', route: '/RunningWorks' },
         { label: 'Handover', route: '/Handovers' },
-        { label: 'Land Issue', route: '/LandIssues' },
-        { label: 'Monitoring with Geographic Coordinate', route: '/DivisionsProgress' },
+        { label: 'Land Issues', route: '/LandIssues' },
+        { label: 'Geo Location based Work Progress', route: '/DivisionsProgress' },
+        // { label: 'Monitoring with Geographic Coordinate', route: '/DivisionsProgress' },
       ],
     }
     ,
