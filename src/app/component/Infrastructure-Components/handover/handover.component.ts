@@ -77,6 +77,7 @@ export class HandoverComponent {
   //  GetHandoverDetailsData:GetHandoverDetails[]=[];
   name: any;
   totalWorks: any;
+  roleName:any;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private fb: FormBuilder,
     public datePipe: DatePipe, private dialog: MatDialog, private toastr: ToastrService,) {
     this.dataSource = new MatTableDataSource<GetHandoverDetails>([]);
@@ -97,7 +98,7 @@ export class HandoverComponent {
     //     //  end: [tomorrow]    // Set end date to tomorrow
     //      end: [today]    // Set end date to tomorrow
     //  });
-
+    this.roleName = localStorage.getItem('roleName');
     const today = new Date();
     const firstDayOfMonthLastYear = new Date(today.getFullYear(), today.getMonth()-1, 1);
 

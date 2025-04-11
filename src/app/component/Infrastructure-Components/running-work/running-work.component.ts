@@ -114,6 +114,7 @@ export class RunningWorkComponent {
  mainschemeid:any;
  name:any;
  selectname:any;
+ roleName:any;
  constructor(
   public api: ApiService,
   public spinner: NgxSpinnerService,
@@ -126,6 +127,7 @@ export class RunningWorkComponent {
  }
  
  ngOnInit() {
+  this.roleName = localStorage.getItem('roleName');
   this.initializeChartOptions();
   this.initializeChartOptions2();
   
@@ -135,7 +137,9 @@ export class RunningWorkComponent {
     this.GETRunningWorksDivision();
     this.GETRunningWorkScheme();
     this.GETRunningWorkDistrict();
-    this.GETRunningWorkContractor();
+    if (this.roleName != 'Infrastructure_Public') {
+      this.GETRunningWorkContractor(); 
+    }
  
  }
  }
@@ -1292,26 +1296,24 @@ const contractid=0;
            }
          );
   
-         this.chartOptions.series = [
-          {
-            name: 'No. of Works',
-            data: totalWorks,
-            color: '#eeba0b',
-          },
-          {
-            name: 'Contract Value(in Cr)',
-            data: tvcValuecr,
-           color: '#6a6afd',
-          },
-          {
-            name: 'Paid-Value(in Cr)',
-            data: paidTillcr,
-            color: 'rgba(93, 243, 174, 0.85)',
-          },
-          { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-          
-           // { name: 'Works Tender Value', data: totalNormalTVC,color:'rgba(208, 156, 205, 0.85)'  },
-         ];
+        //  this.chartOptions.series = [
+        //   {name: 'No. of Works', data: totalWorks, color: '#eeba0b',  },
+        //   { name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd', },
+        //   { name: 'Paid-Value(in Cr)', data: paidTillcr, color: 'rgba(93, 243, 174, 0.85)', },
+        //   { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'}, ];
+        const series = [];
+        if (roleName === 'Infrastructure_Public') {
+          series.push( {name: 'No. of Works', data: totalWorks, color: '#eeba0b',  });
+          series.push({ name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd', });
+         
+        }
+        else{
+          series.push( {name: 'No. of Works', data: totalWorks, color: '#eeba0b', });
+          series.push({ name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd',  });
+          series.push({  name: 'Paid-Value(in Cr)', data: paidTillcr, color: 'rgba(93, 243, 174, 0.85)', });
+          series.push({  name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)' });
+        }
+        this.chartOptions.series = series;
          this.chartOptions.xaxis = { categories: name };
          this.cO = this.chartOptions;
          this.cdr.detectChanges();
@@ -1376,25 +1378,24 @@ const contractid=0;
            }
          );
   
-         this.chartOptions1.series = [
-          {
-            name: 'No. of Works',
-            data: totalWorks,
-            color: '#eeba0b',
-          },
-          {
-            name: 'Contract Value(in Cr)',
-            data: tvcValuecr,
-           color: '#6a6afd',
-          },
-          {
-            name: 'Paid-Value(in Cr)',
-            data: paidTillcr,
-            color: 'rgba(93, 243, 174, 0.85)',
-          },
-          { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-          
-         ];
+        //  this.chartOptions1.series = [
+        //   {name: 'No. of Works', data: totalWorks, color: '#eeba0b', },
+        //   {name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd', },
+        //   { name: 'Paid-Value(in Cr)', data: paidTillcr, color: 'rgba(93, 243, 174, 0.85)', },
+        //   { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'}, ];
+        const series = [];
+        if (roleName === 'Infrastructure_Public') {
+          series.push( {name: 'No. of Works', data: totalWorks, color: '#eeba0b',  });
+          series.push({ name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd', });
+         
+        }
+        else{
+          series.push( {name: 'No. of Works', data: totalWorks, color: '#eeba0b', });
+          series.push({ name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd',  });
+          series.push({  name: 'Paid-Value(in Cr)', data: paidTillcr, color: 'rgba(93, 243, 174, 0.85)', });
+          series.push({  name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)' });
+        }
+        this.chartOptions1.series = series;
          this.chartOptions1.xaxis = { categories: name };
          this.cO = this.chartOptions1;
          this.cdr.detectChanges();
@@ -1456,25 +1457,24 @@ const contractid=0;
            }
          );
   
-         this.chartOptions2.series = [
-          {
-            name: 'No. of Works',
-            data: totalWorks,
-            color: '#eeba0b',
-          },
-          {
-            name: 'Contract Value(in Cr)',
-            data: tvcValuecr,
-           color: '#6a6afd',
-          },
-          {
-            name: 'Paid-Value(in Cr)',
-            data: paidTillcr,
-            color: 'rgba(93, 243, 174, 0.85)',
-          },
-          { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-          
-         ];
+        //  this.chartOptions2.series = [
+        //   {name: 'No. of Works', data: totalWorks, color: '#eeba0b', },
+        //   { name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd',},
+        //   {name: 'Paid-Value(in Cr)', data: paidTillcr, color: 'rgba(93, 243, 174, 0.85)', },
+        //   { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'}, ];
+        const series = [];
+        if (roleName === 'Infrastructure_Public') {
+          series.push( {name: 'No. of Works', data: totalWorks, color: '#eeba0b',  });
+          series.push({ name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd', });
+         
+        }
+        else{
+          series.push( {name: 'No. of Works', data: totalWorks, color: '#eeba0b', });
+          series.push({ name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd',  });
+          series.push({  name: 'Paid-Value(in Cr)', data: paidTillcr, color: 'rgba(93, 243, 174, 0.85)', });
+          series.push({  name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)' });
+        }
+        this.chartOptions2.series = series;
          this.chartOptions2.xaxis = { categories: name };
          this.cO = this.chartOptions2;
          this.cdr.detectChanges();
@@ -1539,25 +1539,24 @@ const contractid=0;
         }
       );
 
-      this.chartOptions3.series = [
-        {
-          name: 'No. of Works',
-          data: totalWorks,
-          color: '#eeba0b',
-        },
-        {
-          name: 'Contract Value(in Cr)',
-          data: tvcValuecr,
-         color: '#6a6afd',
-        },
-        {
-          name: 'Paid-Value(in Cr)',
-          data: paidTillcr,
-          color: 'rgba(93, 243, 174, 0.85)',
-        },
-        { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},
-   
-      ];
+      // this.chartOptions3.series = [
+      //   { name: 'No. of Works', data: totalWorks, color: '#eeba0b', },
+      //   {name: 'Contract Value(in Cr)', data: tvcValuecr,  color: '#6a6afd', },
+      //   {name: 'Paid-Value(in Cr)', data: paidTillcr,color: 'rgba(93, 243, 174, 0.85)',},
+      //   { name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)'},];
+      const series = [];
+        if (roleName === 'Infrastructure_Public') {
+          series.push( {name: 'No. of Works', data: totalWorks, color: '#eeba0b',  });
+          series.push({ name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd', });
+         
+        }
+        else{
+          series.push( {name: 'No. of Works', data: totalWorks, color: '#eeba0b', });
+          series.push({ name: 'Contract Value(in Cr)', data: tvcValuecr, color: '#6a6afd',  });
+          series.push({  name: 'Paid-Value(in Cr)', data: paidTillcr, color: 'rgba(93, 243, 174, 0.85)', });
+          series.push({  name: 'Bill Generated & Unpaid Value(in Cr)', data: grossPendingcr,color:'rgba(250, 199, 161, 0.85)' });
+        }
+        this.chartOptions3.series = series;
       this.chartOptions3.xaxis = { categories: name };
       this.cO = this.chartOptions3;
       this.cdr.detectChanges();

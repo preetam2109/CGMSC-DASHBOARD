@@ -76,7 +76,7 @@ export class SearchingWorkComponent {
   ImageName: any;
   himisDistrictid: any;
   divisionid: any;
-
+  roleName:any;
   //#region chart
   // public chartOptions!: Partial<ChartOptions> | any;
   chartOptions: any = {};
@@ -92,6 +92,7 @@ export class SearchingWorkComponent {
   ) {this.dataSource = new MatTableDataSource<WorkBillStatus>([]);}
 
   ngOnInit(): void {
+    this.roleName = localStorage.getItem('roleName');
     this.getworkfill(); // Fetch data on initialization
     this.initializeChartOptions();
     // this.GetProjectTimeline(0);

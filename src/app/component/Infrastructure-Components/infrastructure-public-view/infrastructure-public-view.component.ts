@@ -38,6 +38,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
+import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-infrastructure-public-view',
   standalone: true,
@@ -47,9 +48,9 @@ import { DropdownModule } from 'primeng/dropdown';
     MatCardModule,
     MatIconModule,
     MatTabsModule,
-    CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
+    CommonModule, MatFormFieldModule,MatSelectModule, MatOptionModule,
     NgApexchartsModule, MatSortModule, MatPaginatorModule,MatTableModule,
-        MatTableExporterModule, MatDialogModule, MatMenuModule,NgSelectModule,FormsModule,SelectDropDownModule,DropdownModule,
+        MatTableExporterModule, MatDialogModule, MatMenuModule,NgSelectModule,FormsModule,SelectDropDownModule,DropdownModule,RouterModule,
   ],
 
   templateUrl: './infrastructure-public-view.component.html',

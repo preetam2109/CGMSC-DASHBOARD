@@ -505,10 +505,13 @@ export class MenuServiceService {
     },
     Infrastructure_Public: {
       items: [
-        { label: 'Work Abstract', route: '/InfrastructureHomes' },
+        // { label: 'Work Abstract', route: '/InfrastructureHomes' },
+        // {path:'Infrastructure-Public-View',component:InfrastructurePublicViewComponent},
+        {label:'Work Abstract', route: '/Infrastructure-Public-View'},
         { label: 'Search Work', route: '/SearchingWorks' },
         { label: 'Running Works', route: '/RunningWorks' },
         { label: 'Handover', route: '/Handovers' },
+        { label: 'Land Issue', route: '/LandIssues' },
         { label: 'Monitoring with Geographic Coordinate', route: '/DivisionsProgress' },
       ],
     }

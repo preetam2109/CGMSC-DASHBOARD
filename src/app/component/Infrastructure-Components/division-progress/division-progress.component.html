@@ -7,7 +7,8 @@
         <div class="container-fluid p-2">
             <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
                 <!-- Through Mobile APP Tab -->
-                <mat-tab label="Through Mobile APP">
+                <!-- <mat-tab label= 'Through Mobile APP'> -->
+                <mat-tab  [label]="roleName != 'Infrastructure_Public' ? 'Through Mobile APP' : 'Through Progress with Geo Location'" >
                     <ng-template matTabContent>
                         <div class="card-division">
                             <div class="row ">
@@ -101,7 +102,7 @@
                 </mat-tab>
         
                 <!-- MIS Tab -->
-                <mat-tab label="MIS">
+                <mat-tab label="MIS" *ngIf="roleName != 'Infrastructure_Public'">
                     <ng-template matTabContent>
                         <div class="card-division">
                             <div class="row ">
