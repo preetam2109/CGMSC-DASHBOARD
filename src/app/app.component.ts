@@ -108,6 +108,9 @@ export class AppComponent implements OnInit, DoCheck {
 
     this.roleName = role;
     this.firstname = sessionStorage.getItem('firstname');
+    if(this.firstname==='Public'){
+      this.firstname='Public View Of Drugs and Consumables'
+    }
     this.cdr.detectChanges();
 
   }

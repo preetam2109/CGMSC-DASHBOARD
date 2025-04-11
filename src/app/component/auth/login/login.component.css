@@ -71,7 +71,8 @@ margin-right: 20px; /* Add space between items */
 
 .marquee-item img {
 width: 100px; /* Adjust image width as needed */
-height: auto;
+height: 94px;
+/* height: auto; */
 }
 
 .marquee-item strong {
@@ -106,6 +107,9 @@ transform: translateX(-100%); /* End off-screen to the right */
 }
 
 .marquee-container:hover .marquee {
+  animation-play-state: paused;
+}
+.marquee-container2:hover .marquee2 {
   animation-play-state: paused;
 }
 

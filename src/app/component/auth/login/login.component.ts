@@ -219,7 +219,10 @@ isPasswordVisible: boolean = false;
       // hiding this beacause not using popup   this.openDialog();
 
       
-      this.router.navigate(['public-view1'])  
+      this.router.navigate(['public-view1'])
+
+    }else if(name =='Equipment_Reagent_Public'){
+alert('Public View Features of Equipment & Reagent is coming soon!')
     }else{
       // return;
       this.rolename = 'Infrastructure_Public'; 

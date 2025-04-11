@@ -67,8 +67,11 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
                     <!-- <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td> -->
                     <td mat-cell *matCellDef="let element">
-                      <span (click)="onItemNameClick(element.itemid,element.edlcat,element.groupname,element.itemcode,element.itemname,element.strengtH1,element.sku,element.edltype)">
-                        <a href="javascript:void(0);">{{ element.itemname }}</a>
+                      <span >
+                        <a 
+                        >{{ element.itemname }}</a>
+                        <!-- href="javascript:void(0);" -->
+
                       </span>
                     </td>
                   </ng-container>
@@ -134,10 +137,10 @@
                   
     
               <!-- Header Row -->
-              <tr mat-header-row *matHeaderRowDef="['sno','itemcode','itemname','itemtypename','strengtH1','sku','edl','readyforissue','pending','totlpipeline','issuedfy','edltype']"></tr>
+              <tr mat-header-row *matHeaderRowDef="['sno','itemcode','itemname','itemtypename','strengtH1','sku','edl','readyforissue','pending','issuedfy','edltype']"></tr>
     
               <!-- Data Rows -->
-              <tr mat-row *matRowDef="let row; columns: ['sno','itemcode','itemname','itemtypename','strengtH1','sku','edl','readyforissue','pending','totlpipeline','issuedfy','edltype'];"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['sno','itemcode','itemname','itemtypename','strengtH1','sku','edl','readyforissue','pending','issuedfy','edltype'];"></tr>
     
             </table>
           </div>      

@@ -143,14 +143,24 @@
       /* color: crimson; */
     }
   }
+
   .clickable-link {
-    color: blue; /* Link color */
-    text-decoration: underline; /* Underline for link appearance */
-    cursor: pointer; /* Pointer cursor to indicate clickable */
+    color: blue; 
+    text-decoration: underline;
+    cursor: pointer;
   }
   
   .clickable-link:hover {
-    color: darkblue; /* Darker color on hover */
+    color: darkblue; 
   }
+  /* .clickable-link-code {
+    color: blue; 
+    text-decoration: underline; 
+    cursor: pointer; 
+  }
+  
+  .clickable-link-code:hover {
+    color: darkblue; 
+  } */
   
   
