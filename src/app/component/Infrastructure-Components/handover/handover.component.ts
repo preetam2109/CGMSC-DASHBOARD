@@ -78,6 +78,7 @@ export class HandoverComponent {
   name: any;
   totalWorks: any;
   roleName:any;
+  // visible=false;
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private fb: FormBuilder,
     public datePipe: DatePipe, private dialog: MatDialog, private toastr: ToastrService,) {
     this.dataSource = new MatTableDataSource<GetHandoverDetails>([]);
@@ -104,8 +105,9 @@ export class HandoverComponent {
 
     this.dateRange = this.fb.group({
       start: [firstDayOfMonthLastYear],
-      end: [today]
+      end: [today],
     });
+    
 
     // this.dateRange1 = this.fb.group({
     //   Start: [firstDayOfMonthLastYear],
@@ -128,17 +130,31 @@ export class HandoverComponent {
     // this.dateRange3.valueChanges.subscribe(() => {
     //  this.handoverAbstractRPTypeWorkType();
     // });
-    this.dateRange.valueChanges.subscribe(() => {
-      this.HandoverAbstractRPTypeTotal();
-      this.handoverAbstractRPTypeScheme();
-      this.handoverAbstractRPTypeDistrict();
-      this.handoverAbstractRPTypeWorkType();
-    });
+  
+
+    // this.datechenge();
     this.initializeChartOptions();
     this.HandoverAbstractRPTypeTotal();
     this.handoverAbstractRPTypeScheme();
     this.handoverAbstractRPTypeDistrict();
     this.handoverAbstractRPTypeWorkType();
+  }
+  datechenge(){
+    // this.dateRange.valueChanges.subscribe(() => {
+      
+      const  startDate = this.dateRange.value.start;
+      const endDate = this.dateRange.value.end;
+      if(startDate && endDate != null){
+      this.HandoverAbstractRPTypeTotal();
+      this.handoverAbstractRPTypeScheme();
+      this.handoverAbstractRPTypeDistrict();
+      this.handoverAbstractRPTypeWorkType();
+      }else  {
+        alert("Please select both Start Date and End Date.");
+      }
+
+      
+    // });
   }
   initializeChartOptions() {
     this.chartOptions = {

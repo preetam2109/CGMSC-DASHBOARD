@@ -207,14 +207,9 @@ isPasswordVisible: boolean = false;
     // alert(name)
     // return;
 
-    this.rolename = 'Infrastructure_Public'; 
-    this.setRole(this.rolename);
-    this.firstname = 'Public View of CGMSCL Infrastructure'
-    sessionStorage.setItem('firstname', this.firstname);
-    this.router.navigate(['/Infrastructure-Public-View'])
+
 
     
-
     if(name =='Public'){
       // return;
       this.rolename = 'Public'; 
@@ -234,27 +229,7 @@ isPasswordVisible: boolean = false;
       this.router.navigate(['/Infrastructure-Public-View'])
       //  hiding this beacause not using popup  this.openDialog();
 
-    // if(name =='Public'){
-    //   // return;
-    //   this.rolename = 'Public'; 
-    //   this.setRole(this.rolename);
-    //   this.firstname = 'Public'
-    //   sessionStorage.setItem('firstname', this.firstname);
-    //   this.openDialog();
-
-      
-    //   // this.router.navigate(['public-view1'])  
-    // }else{
-    //   // return;
-    //   this.rolename = 'Infrastructure_Public'; 
-    //   this.setRole(this.rolename);
-    //   this.firstname = 'Public View of CGMSCL Infrastructure'
-    //   sessionStorage.setItem('firstname', this.firstname);
-    //   // this.router.navigate(['/Infrastructure-Public-View'])
-    //   this.openDialog();
-
-
-    // }
+    }
 
     
 
