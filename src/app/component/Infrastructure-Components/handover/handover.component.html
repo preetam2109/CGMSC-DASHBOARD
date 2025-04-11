@@ -4,7 +4,7 @@
       <h3 class="bold text-light bg-dark">Handover Works</h3>
     </div>
     <div class="container-fluid  p-1 mt-0">
-      <div class="row">
+      <!-- <div class="row"> -->
         <!-- <div class="card-body row mt-0 pt-0" >
                 <div class="border rounded custom-form-field">
                   <mat-form-field class="filter-field w-100 " appearance="fill">
@@ -17,9 +17,9 @@
                     <mat-date-range-picker #picker></mat-date-range-picker>
                   </mat-form-field>
                 </div>
-              </div> -->
-        <div class="card-body row mt-0 pt-0">
-          <div class=" border rounded custom-form-field">
+              </div>card-body  -->
+        <div class="row  mb-2 pl-2 pr-2 mr-2 ml-2">
+          <div class="col-md col-md-11 rounded custom-form-field">
             <mat-form-field class="filter-field w-100 " appearance="fill">
               <mat-label>Date Range</mat-label>
               <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
@@ -29,7 +29,13 @@
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
+            
           </div>
+          <div class="col-md col-md-1 d-flex   mr-2 ml-2">
+            <button  type="button" class="btn btn-sm btn-outline-info" (click)="datechenge()">show</button>
+
+          </div>
+
         </div>
 
 
@@ -56,7 +62,7 @@
                   <mat-date-range-picker #picker2></mat-date-range-picker>
                 </mat-form-field>
               </div> -->
-      </div>
+      <!-- </div> -->
       <div class="row">
         <div class="col-lg-6 col-md-6 mb-2 border rounded" *ngIf="HandoverAbstractTotalData.length > 0">
           <div class="chart-container">
