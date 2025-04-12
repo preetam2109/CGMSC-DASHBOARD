@@ -63,26 +63,7 @@
                     </div>
   
                   </div>
-                  <div class="row">
-                    <div class="col-12 col-md-12 p-1">
-                      <div class="button-container">
-                        <!-- <h3 class="division-label align-items-center pt-2 text-align bold">Choose Division:</h3> -->
-                        <button class="btn btn-sm align-items-center btn-outline-secondary btn-secondary bold text-light"
-                        type='button' routerLink="/SearchingWorks" routerLinkActive="active">Search Work</button>
-                        <button class="btn btn-sm align-items-center btn-outline-primary btn-primary bold text-light"
-                        type='button' routerLink="/RunningWorks" routerLinkActive="active">Running Works</button>
-                        <button class="btn btn-sm align-items-center btn-outline-success btn-success bold text-light"
-                        type='button' routerLink="/Handovers" routerLinkActive="active">Handover</button>
-                        <button class="btn btn-sm align-items-center btn-outline-info  btn-info bold text-light"
-                        type='button' routerLink="/DivisionsProgress" routerLinkActive="active">Monitoring P Geo Location</button>
-                        <button class="btn btn-sm align-items-center btn-outline-warning btn-warning  bold text-light"
-                        type='button' routerLink="/LandIssues" routerLinkActive="active">Land Issue</button>
-                        <!-- <button class="btn btn-sm align-items-center btn-outline-secondary btn-secondary bold text-light"></button> -->
-                        <!-- <h2 class="align-items-center division-label bold text-end" >{{ name }}Division</h2> -->
-                        <!-- <h2 class="align-items-center division-label bold text-end" *ngIf="visibale">{{ name }}Division</h2> -->
-                      </div>
-                    </div>
-                  </div>
+                  
   
                   <!-- </div> -->
                 </div>
@@ -236,7 +217,7 @@
       </mat-tab> -->
   
           <!-- MedicalCollege-wise Tab -->
-          <mat-tab label="MedicalCollege-wise">
+          <mat-tab label="MedicalCollege-wise" *ngIf="roleName != 'Infrastructure_Public'">
             <ng-template matTabContent>
               <div class="card-division">
                 <div class="row ">
@@ -392,6 +373,32 @@
               </mat-card>
               <!-- </a> -->
             </a>
+          </div>
+        </div>
+        <div class="row">
+          
+          <div class="w-100" > <!--#e2e3e5 style="background-color:#858681"-->
+            <h3 class="bold text-light bg-dark">Menus</h3>
+            <!-- <h3 class="bold text-light bg-dark">Running Work</h3> -->
+        </div>
+          <div class="col-12 col-md-12 p-1 w-100">
+            <div class="shadow border rounded button-container">
+              
+              <!-- <h3 class="division-label align-items-center pt-2 text-align bold">Choose Division:</h3> -->
+              <button class="btn btn-sm align-items-center btn-outline-secondary btn-secondary bold text-light"
+              type='button' routerLink="/SearchingWorks" routerLinkActive="active">Search Work</button>
+              <button class="btn btn-sm align-items-center btn-outline-primary btn-primary bold text-light"
+              type='button' routerLink="/RunningWorks" routerLinkActive="active">Running Works</button>
+              <button class="btn btn-sm align-items-center btn-outline-success btn-success bold text-light"
+              type='button' routerLink="/Handovers" routerLinkActive="active">Handover</button>
+              <button class="btn btn-sm align-items-center btn-outline-info  btn-info bold text-light"
+              type='button' routerLink="/DivisionsProgress" routerLinkActive="active">Geo Location based Progress</button>
+              <button class="btn btn-sm align-items-center btn-outline-warning btn-warning  bold text-light"
+              type='button' routerLink="/LandIssues" routerLinkActive="active">Land Issues</button>
+              <!-- <button class="btn btn-sm align-items-center btn-outline-secondary btn-secondary bold text-light"></button> -->
+              <!-- <h2 class="align-items-center division-label bold text-end" >{{ name }}Division</h2> -->
+              <!-- <h2 class="align-items-center division-label bold text-end" *ngIf="visibale">{{ name }}Division</h2> -->
+            </div>
           </div>
         </div>
       </div>
@@ -832,10 +839,10 @@
               </td>
             </ng-container>
             <tr mat-header-row
-              *matHeaderRowDef="['sno','work_id','head','district','blockname','work','acceptLetterDT','totalAmountOfContract','wrokOrderDT','lProgress','subengname','aeName','aadt','asAmt','tType','tenderReference','contractorNAme','letterNo','divName_En',]">
+              *matHeaderRowDef="['sno','work_id','head','district','blockname','work','acceptLetterDT','totalAmountOfContract','wrokOrderDT','lProgress','subengname','aeName','aadt','asAmt','tType','tenderReference','contractorNAme','divName_En',]">
             </tr>
             <tr mat-row
-              *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','acceptLetterDT','totalAmountOfContract','wrokOrderDT','lProgress','subengname','aeName','aadt','asAmt','tType','tenderReference','contractorNAme','letterNo','divName_En',]">
+              *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','acceptLetterDT','totalAmountOfContract','wrokOrderDT','lProgress','subengname','aeName','aadt','asAmt','tType','tenderReference','contractorNAme','divName_En',]">
             </tr>
             <!-- <tr mat-header-row
               *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','wrokOrderDT','dueDTTimePerAdded','lProgress','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
@@ -1054,10 +1061,10 @@
               </td>
             </ng-container>
             <tr mat-header-row
-              *matHeaderRowDef="['sno','work_id','head','district','blockname','work','acceptLetterDT','totalAmountOfContract','wrokOrderDT','lProgress','progressDT','subengname','aeName','aadt','asAmt','tType','tenderReference','contractorNAme','letterNo','divName_En',]">
+              *matHeaderRowDef="['sno','work_id','head','district','blockname','work','acceptLetterDT','totalAmountOfContract','wrokOrderDT','lProgress','progressDT','subengname','aeName','aadt','asAmt','tType','tenderReference','contractorNAme','divName_En',]">
             </tr>
             <tr mat-row
-              *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','acceptLetterDT','totalAmountOfContract','wrokOrderDT','lProgress','progressDT','subengname','aeName','aadt','asAmt','tType','tenderReference','contractorNAme','letterNo','divName_En',]">
+              *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','acceptLetterDT','totalAmountOfContract','wrokOrderDT','lProgress','progressDT','subengname','aeName','aadt','asAmt','tType','tenderReference','contractorNAme','divName_En',]">
             </tr>
             <!-- <tr mat-header-row
               *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
@@ -1296,10 +1303,10 @@
               </td>
             </ng-container>
             <tr mat-header-row
-              *matHeaderRowDef="['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tType','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme','letterNo','divName_En',]">
+              *matHeaderRowDef="['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tType','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme','divName_En',]">
             </tr>
             <tr mat-row
-              *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tType','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme','letterNo','divName_En',]">
+              *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tType','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme','divName_En',]">
             </tr>
             <!-- <tr mat-header-row
               *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
@@ -1537,10 +1544,10 @@
               </td>
             </ng-container>
             <tr mat-header-row
-              *matHeaderRowDef="['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tType','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme','letterNo','divName_En',]">
+              *matHeaderRowDef="['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tType','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme','divName_En',]">
             </tr>
             <tr mat-row
-              *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tType','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme','letterNo','divName_En',]">
+              *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','work','wrokOrderDT','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tType','tenderReference','acceptLetterDT','totalAmountOfContract','contractorNAme','divName_En',]">
             </tr>
             <!-- <tr mat-header-row
               *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','delayreason','PRemarks','expcompdt','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
@@ -1704,10 +1711,10 @@
               </td>
             </ng-container>
             <tr mat-header-row
-              *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','work','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','work_id','action']">
+              *matHeaderRowDef="['sno','head','divName_En','district','blockname','work','tType','aadt','asAmt','tenderReference','totalAmountOfContract','work_id',]">
             </tr>
             <tr mat-row
-              *matRowDef="let row; columns: ['sno','head','divName_En','district','blockname','letterNo','work','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','work_id','action']">
+              *matRowDef="let row; columns: ['sno','head','divName_En','district','blockname','work','tType','aadt','asAmt','tenderReference','totalAmountOfContract','work_id',]">
             </tr>
             <!-- <tr mat-header-row
               *matHeaderRowDef="['sno','grantNo','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','totalpaid','totalunpaid','work_id','action']">
@@ -1937,23 +1944,23 @@
                 </span>
               </td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="[ 'sno', 'worK_ID', 'letterNo', 'head',  'divName_En',
-                        'district', 'blockname', 'work', 'asAmt', 'tsamt', 'tsDate', 'aadt',
+            <tr mat-header-row *matHeaderRowDef="[ 'sno', 'worK_ID',  'head',  'divName_En',
+                        'district', 'blockname', 'work', 'asAmt',  'aadt',
                         'lProgress', 'progressDT', 'remarks', 'groupName', 'dashName', 'asPath',
-                        'asLetter', 'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
-                        'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt','action']">
+                         'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
+                        'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt',]">
             </tr>
-            <tr mat-row *matRowDef="let row; columns: [ 'sno', 'worK_ID', 'letterNo', 'head', 'divName_En',
-                        'district', 'blockname', 'work', 'asAmt', 'tsamt', 'tsDate', 'aadt',
+            <tr mat-row *matRowDef="let row; columns: [ 'sno', 'worK_ID',  'head', 'divName_En',
+                        'district', 'blockname', 'work', 'asAmt',  'aadt',
                         'lProgress', 'progressDT', 'remarks', 'groupName', 'dashName', 'asPath',
-                        'asLetter', 'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
-                        'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt','action']">
+                         'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
+                        'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt',]">
             </tr>
             <!-- <tr mat-header-row *matHeaderRowDef="[ 'sno', 'worK_ID', 'letterNo','grantNo', 'head', 'approver', 'divName_En',
                         'district', 'blockname', 'work', 'asAmt', 'totalpaid','totalunpaid','tsamt', 'tsDate', 'aadt',
                         'lProgress', 'progressDT', 'remarks', 'groupName', 'dashName', 'asPath',
                         'asLetter', 'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
-                        'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt','action']">
+                        'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt',]">
             </tr>
             <tr mat-row *matRowDef="let row; columns: [ 'sno', 'worK_ID', 'letterNo','grantNo', 'head', 'approver','divName_En',
                         'district', 'blockname', 'work', 'asAmt','totalpaid','totalunpaid', 'tsamt', 'tsDate', 'aadt',
@@ -2139,15 +2146,15 @@
                 </span>
               </td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="['sno','work_id','head','district','blockname','letterNo',
+            <tr mat-header-row *matHeaderRowDef="['sno','work_id','head','district','blockname',
             'work','tenderno', 'eprocno','noofcalls','aadt','asAmt',
             'lProgress', 'startdt','enddt',
-             'covOpenedDT','topnedpricedt','divName_En','fmrcode','action']">
+             'covOpenedDT','topnedpricedt','divName_En','fmrcode',]">
             </tr>
-            <tr mat-row *matRowDef="let row; columns: ['sno','work_id','head','district','blockname','letterNo',
+            <tr mat-row *matRowDef="let row; columns: ['sno','work_id','head','district','blockname',
             'work','tenderno', 'eprocno','noofcalls','aadt','asAmt',
             'lProgress', 'startdt','enddt',
-             'covOpenedDT','topnedpricedt','divName_En','fmrcode','action']">
+             'covOpenedDT','topnedpricedt','divName_En','fmrcode',]">
             </tr>
             <!-- <tr mat-header-row *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','letterNo',
             'work','tenderno', 'eprocno','noofcalls','aadt','asAmt','totalpaid','totalunpaid','tsDate','tsamt',
