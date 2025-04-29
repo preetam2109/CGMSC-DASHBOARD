@@ -203,6 +203,8 @@
                         <div class="col-12 col-md-4 border p-2 d-flex">
                             <strong *ngIf="roleName != 'Infrastructure_Public'">PAC:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.pac}}</span>
+                            <strong *ngIf="roleName == 'Infrastructure_Public'">Contract Amount (in Lacs):</strong>
+                            <span class="ml-2" *ngIf="roleName == 'Infrastructure_Public'">{{detail.totalAmountOfContract}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex flex-row">
                             <strong *ngIf="roleName != 'Infrastructure_Public'">Sanction:</strong> <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.sanctionDetail}}</span>
@@ -212,8 +214,8 @@
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.sanctionRate | percent}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <strong>Contract Amount (in Lacs):</strong>
-                            <span class="ml-2">{{detail.totalAmountOfContract}}</span>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Contract Amount (in Lacs):</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.totalAmountOfContract}}</span>
                         </div>
 
 
@@ -233,6 +235,9 @@
                         <div class="col-12 col-md-8 border p-2 d-flex">
                             <strong *ngIf="roleName != 'Infrastructure_Public'">Contractor ID:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.cid}}</span>
+                            <strong *ngIf="roleName == 'Infrastructure_Public'">Class:</strong>
+                            <span class="ml-2" *ngIf="roleName == 'Infrastructure_Public'">{{detail.class}}</span>
+                            
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
                             <strong>Contractor:</strong>
@@ -247,8 +252,8 @@
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.regType}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>Class:</strong>
-                            <span class="ml-2">{{detail.class}}</span>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Class:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.class}}</span>
                         </div>
                     </div>
                 </div>
@@ -266,6 +271,8 @@
                         <div class="col-12 col-md-4 border p-2 d-flex">
                             <strong *ngIf="roleName != 'Infrastructure_Public'">Work Order Ref No:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.workorderRefNoGovt}}</span>
+                            <strong *ngIf="roleName == 'Infrastructure_Public'">Agreement Ref No:</strong>
+                            <span class="ml-2" *ngIf="roleName == 'Infrastructure_Public'">{{detail.agreementRefNo}}</span>
                         </div>
 
                         <div class="col-12 col-md-4 border p-2 d-flex">
@@ -292,8 +299,8 @@
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.agreementNo}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex ">
-                            <strong>Agreement Ref No:</strong>
-                            <span class="ml-2">{{detail.agreementRefNo}}</span>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Agreement Ref No:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.agreementRefNo}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
                             <strong *ngIf="roleName != 'Infrastructure_Public'">PG Required:</strong>

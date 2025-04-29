@@ -240,6 +240,13 @@ export class InfrastructurePublicViewComponent {
       this.showCards = false;
     }
   }
+
+  shouldHideCard(did: any): boolean {
+    debugger;
+    const hiddenDids = [6001, 8001, 2001, 1001];
+    return hiddenDids.includes(did);
+  }
+  
   // District-wise Tab 
   // GetDistricts() {
   //   try {
