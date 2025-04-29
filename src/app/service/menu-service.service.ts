@@ -132,7 +132,7 @@ export class MenuServiceService {
           
           { label: 'Work Order', route: '/WorkOrder' },
           { label: 'Running Works', route: '/RunningWork' },
-          { label: 'Land Issue', route: '/LandIssue' },
+          { label: 'Land Issues', route: '/LandIssue' },
           { label: 'Technical Sanction', route: '/TechnicalSanction' },
           // { label: 'District-Progress Monitoring', route: 'DashProgressIstCount' },
           { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
@@ -206,7 +206,7 @@ export class MenuServiceService {
           { label: 'Work Order', route: '/WorkOrder' },
           { label: 'Running Works', route: '/RunningWork' },
 
-          { label: 'Land Issue', route: '/LandIssue' },
+          { label: 'Land Issues', route: '/LandIssue' },
           // { label: 'Technical Sanction', route: '/TechnicalSanction' },
           // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
           { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
@@ -281,7 +281,7 @@ export class MenuServiceService {
           { label: 'Work Order', route: '/WorkOrder' },
           { label: 'Running Works', route: '/RunningWork' },
 
-          { label: 'Land Issue', route: '/LandIssue' },
+          { label: 'Land Issues', route: '/LandIssue' },
           { label: 'Technical Sanction', route: '/TechnicalSanction' },
           // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
           // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
@@ -344,7 +344,7 @@ export class MenuServiceService {
           { label: 'Work Order', route: '/WorkOrder' },
           { label: 'Running Works', route: '/RunningWork' },
 
-          { label: 'Land Issue', route: '/LandIssue' },
+          { label: 'Land Issues', route: '/LandIssue' },
           { label: 'Technical Sanction', route: '/TechnicalSanction' },
           // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
           // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
@@ -511,7 +511,7 @@ export class MenuServiceService {
         { label: 'Search Work', route: '/SearchingWorks' },
         { label: 'Running Works', route: '/RunningWorks' },
         { label: 'Handover', route: '/Handovers' },
-        { label: 'Land Issues', route: '/LandIssues' },
+        // { label: 'Land Issues', route: '/LandIssues' },
         { label: 'Geo Location based Work Progress', route: '/DivisionsProgress' },
         // { label: 'Monitoring with Geographic Coordinate', route: '/DivisionsProgress' },
       ],
@@ -536,7 +536,7 @@ export class MenuServiceService {
         { label: 'Work Order', route: '/WorkOrder' },
         { label: 'Running Works', route: '/RunningWork' },
 
-        { label: 'Land Issue', route: '/LandIssue' },
+        { label: 'Land Issues', route: '/LandIssue' },
         { label: 'Technical Sanction', route: '/TechnicalSanction' },
         // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
         // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
@@ -617,7 +617,7 @@ export class MenuServiceService {
         { label: 'Work Order', route: '/WorkOrder' },
         { label: 'Running Works', route: '/RunningWork' },
 
-        { label: 'Land Issue', route: '/LandIssue' },
+        { label: 'Land Issues', route: '/LandIssue' },
         { label: 'Technical Sanction', route: '/TechnicalSanction' },
         // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
         // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
