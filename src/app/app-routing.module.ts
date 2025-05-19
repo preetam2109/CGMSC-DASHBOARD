@@ -107,6 +107,8 @@ import { SchemeWiseDetailsComponent } from './component/Infrastructure-Component
 import { DhsdashComponent } from './component/DHS-Components/dhsdash/dhsdash.component';
 import { CMEDashboardComponent } from './CME/cme-dashboard/cme-dashboard.component';
 import { InfrastructurePublicViewComponent } from './component/Infrastructure-Components/infrastructure-public-view/infrastructure-public-view.component';
+import { AttendanceDashComponent } from './component/Attendence/attendance-dash/attendance-dash.component';
+import { TenderStatusDashComponent } from './component/Tender-Status /tender-status-dash/tender-status-dash.component';
 
 
 
@@ -236,6 +238,8 @@ const routes: Routes = [
 {path:'home-search',component:HomeSearchComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Collector','Warehouse']} },
 {path:'finance-dash',component:FinanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Collector','Warehouse','GM Finance','DMFin','DM PO']} },
 {path:'qc-dashboard',component:QcDashboardComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
+{path:'attendance-dash',component:AttendanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
+{path:'tender-status',component:TenderStatusDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
 
 
 
