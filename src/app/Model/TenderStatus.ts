@@ -2,6 +2,7 @@ export class TenderStagesTotal{
     status!: string;
     noTenders!: number;
     onOfItems!: number;
+    tenderValue!:number;
 }
 export class TotalRC1{
     mcid!: number;
@@ -9,32 +10,38 @@ export class TotalRC1{
     edl!: number;
     nedl!: number;
     total!: number;
+
 }
 export class StatusDetail{
-    sno:any;
-    categoryname!: string;
-        schemecode!: string;
-        schemename!: string;
+        sno:any;
+        categoryName!: string;
+        schemeCode!: string;
+        schemeName!: string;
         eprocNo!: number;
-        startdt!: string;
-        actclosingdt!: string;
-        noofitems!: number;
-        itemaedl!: number;
-        coV_A_OPDATE!: string;
+        startDt!: string;
+        actClosingDt!: string;
+        noOfItems!: number;
+        itemAEDL!: number;
+        cov_A_Opdate!: string;
         dA_DATE!: string;
         coV_B_OPDATE!: string;
         pricebiddate!: string;
-        nooF_BID_A!: number;
-        noofitemscounta!: number;
-        noofitemscountaedl!: number;
-        webid!: number;
+        noof_Bid_A!: number;
+        noofItemsCountA!: number;
+        noofItemsCountAEDL!: number;
+        webId!: number;
         status!: string;
-        pricenotaccpT_REJECT!: string;
-        schemeid!: number;
-        statusid!: number;
-        remarksdata!: string;
+        priceNotAccpt_Reject!: string;
+        schemeId!: number;
+        statusId!: number;
+        remarksData!: string;
         prc!: number;
-        prebidenddt!: string;
+        preBidEndDt!: string;
+        tenderValue!: string;
+        tenderremark!:string;
+        remarkEntryDate!:string;
+
+
 }
 export class StatusItemDetail{
     sno:any;
@@ -47,6 +54,7 @@ export class StatusItemDetail{
         priceFlag!: string;
         toNoOfParticipant!: number;
         l1Basic!: string;
+        indValue!:string;
 }
 export class TotalTender{
     sno:any;
@@ -60,4 +68,37 @@ export class TotalTender{
         tenderStatus!: string;
         tenderRemark!: string;
         statusEntryDate!: string;
+}
+export class NoOfBidders{
+    sno:any;
+    schemeId!: number;
+    schemeCode!: string;
+    schemeName!: string;
+    supplierId!: number;
+    supplierName!: number;
+    contactPerson!: string;
+    address!: string;
+    phone1!: number;
+    phone2!: number;
+    email!: string;
+    noOfItems!: number;
+}
+export class HOTender{
+    schemeId!: number;
+        schemeName!: string;
+        hod!: string;
+        letterNo!: number;
+        letterDate!: string;
+        remarks!: string;
+        sendDate!: string;
+        entryDate!: string;
+        fileName!: string;
+        filePath!: string;
+        convId!: number;
+        recvDate!: number;
+        replyLetterNo!: string;
+        replyLetterDT!: string;
+        replyRemarks!: string;
+        replyFileName!: string;
+        replyFilePath!: string;
 }

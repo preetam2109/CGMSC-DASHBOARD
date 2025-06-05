@@ -49,6 +49,7 @@ export class CategorySelectionComponent implements OnInit {
 
   // Card click handler
   selectCategory(category: Category) {
+    
     this.selectedCategory = category; // Set the selected category
     localStorage.setItem('selectedCategory', category);
     this.menuService.setSelectedCategory(category); // Store the category in MenuService
@@ -59,6 +60,9 @@ export class CategorySelectionComponent implements OnInit {
 
     }else if(this.role==="CME"){
       this.router.navigate(['/cmedash']); // Redirect after selection
+
+    }else if(this.selectedCategory==='EquipmentReagent'){
+      this.router.navigate(['/eqp-dash']); // Redirect after selection
 
     }
     else

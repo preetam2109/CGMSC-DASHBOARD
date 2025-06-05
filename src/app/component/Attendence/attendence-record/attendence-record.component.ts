@@ -50,7 +50,7 @@ const endDate = this.datePipe.transform(endDateRaw, 'dd-MMM-yyyy');
       if(startDate && endDate != null){
 
         this.spinner.show();
-debugger
+
         this.api.GetAttendenceRecord(startDate,endDate,this.selectedOption,this.locationId).subscribe(
           (res) => {
             // Add serial numbers to the data
@@ -134,7 +134,7 @@ applyTextFilter(event: Event) {
         }
       }
       GetLocationDDL(){
-      debugger
+      
         this.api.GetLocationDDL(this.iswh).subscribe((res:any[])=>{
           // console.log(' Vehicle API dropdown Response:', res);
           if (res && res.length > 0) {

@@ -14,7 +14,7 @@
       (selectedTabChange)="selectedTabValue($event)"
     >
       <mat-tab
-        label="Distribution in C.F.Y"
+        label="Distribution in Current Financial Year"
         [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
       >
         <ng-template matTabContent>
@@ -22,7 +22,7 @@
         </ng-template>
       </mat-tab>
       <mat-tab
-        label="Month-wise Distribution C.F.Y"
+        label="Month-wise Distribution Current Financial Year"
         [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
       >
         <ng-template matTabContent>
@@ -32,7 +32,7 @@
         </ng-template>
       </mat-tab>
       <mat-tab
-        label="District-wise Distribution C.F.Y"
+        label="District-wise Distribution Current Financial Year"
         [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
       >
         <ng-template matTabContent>

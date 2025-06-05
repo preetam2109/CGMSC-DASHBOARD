@@ -966,7 +966,7 @@ colors = [];
 
   getItemNoDropDown(){
   
-    this.api.MasIndentitems(this.mcid,0,2,0).subscribe((res:any[])=>{
+    this.api.MasIndentitems(this.mcid,0,0,0).subscribe((res:any[])=>{
       // console.log(' Vehicle API dropdown Response:', res);
       if (res && res.length > 0) {
         this.MasIndentitemslist = res.map(item => ({

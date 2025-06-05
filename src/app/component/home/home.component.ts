@@ -13,7 +13,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { style } from '@angular/animations';
-import { forkJoin } from 'rxjs';
+import { forkJoin, reduce } from 'rxjs';
+import { WOpendingTotal } from 'src/app/Model/DashProgressCount';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -49,6 +50,14 @@ throw new Error('Method not implemented.');
   nositems: number = 0;
   mcid=1
   selectedCategoryRadio:any='Drugs';
+  NormalZonal:any=0;
+  wOpendingTotal:any;
+  LIPendingTotal:any
+  RunningWork:any
+  handoverAbstractl:any;
+  paidSummary:any;
+
+
 
   totalpoitems:any
   totalrecvalue:any
@@ -69,6 +78,11 @@ throw new Error('Method not implemented.');
   PartPOsSince1920list:any
   PartItemissuelist:any
   PartItemRClist:any
+
+  totalNoTenders: number = 0;
+  totalRC1: any;
+
+
   dataSource = new MatTableDataSource<any>();
   dataSource2 = new MatTableDataSource<any>();
   dataSource3 = new MatTableDataSource<any>();
@@ -823,9 +837,92 @@ colors = [];
     this.loadUQC();
     this.loadData4();
     this.getItemNoDropDown();
-  
+    this.getTenderStatus();
+  this.getTotalRC1();
+  this.wOPendingTotal()
+  this.getLIPendingTotal();
+  this.gETRunningWorkSummary();
+  this.handoverAbstract();
+  this.gETPaidSummary();
+  }
+  gETPaidSummary(){
+    this.api.GETPaidSummary('GTotal',0,0,0,'01-Apr-2025','30-May-2025').subscribe((res:any[])=>{
+      this.paidSummary=res.reduce((sum,item)=>sum+Number(item.noofWorks || 0),0);
+    })  
+  }
+  handoverAbstract(){
+
+  this.api.HandoverAbstract('Total',4001,0,0,0,'01-Apr-2025','30-May-2025',0).subscribe((res:any[])=>{
+      this.handoverAbstractl=res.reduce((sum,item)=>sum+Number(item.totalWorks || 0),0);
+    })
+  }
+  getLIPendingTotal(){
+
+    this.api.GetLIPendingTotal('Total',0,0,0).subscribe((res:any[])=>{
+      this.LIPendingTotal=res.reduce((sum,item)=>sum+Number(item.totalWorks || 0),0);
+    })
+  }
+
+  gETRunningWorkSummary(){
+this.api.GETRunningWorkSummary('GTotal',0,0,0,0).subscribe((res:any[])=>{
+  this.RunningWork=res.reduce((sum,item)=>sum+Number(item.totalWorks || 0),0);
+})
+}
+
+  wOPendingTotal(){
+    this.api.WOPendingTotal('Total',0,0,0).subscribe((res:any[])=>{
+      this.wOpendingTotal = res.reduce((sum, item) => sum + Number(item.pendingWork || 0), 0);
 
 
+
+
+
+      
+    })
+
+  }
+  getTotalRC1() {
+    
+    this.api.GetTotalRC1(this.mcid).subscribe(
+      (res: any[]) => {
+        this.totalRC1 = res;
+        console.log("fjkdjflksdjf"+JSON.stringify(this.totalRC1));
+      },
+      (error) => {
+        console.error('Failed to load tender status:', error);
+      }
+    );
+  }
+
+
+  getTenderStatus() {
+
+    if (this.selectedCategory==='Infrastructure') {
+      this.api.GetConsTenderStatus(this.NormalZonal).subscribe(
+        (res: any[]) => {
+          this.totalNoTenders = res.reduce((sum, item) => sum + (item.nosWorks || 0), 0);
+          this.spinner.hide();
+        },
+        (error) => {
+          console.error('Failed to load tender status (Cons):', error);
+          this.spinner.hide();
+        }
+      );
+    } else{
+
+      this.api.GetTenderStagesTotal(this.mcid).subscribe(
+        (res: any[]) => {
+          // this.tenderStatusList = res;
+           // Calculate total noTenders
+  this.totalNoTenders = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
+  this.spinner.hide();
+        },
+        (error) => {
+          console.error('Failed to load tender status:', error);
+          this.spinner.hide();
+        }
+        );
+    }
   }
 
 
@@ -1916,18 +2013,22 @@ loadUQC(): void {
     this.CGMSCIndentPending(),
     this.getItemNoDropDown(),
     this.GetDeliveryInMonth(),
-  ]).subscribe(
-    () => {
-      // Add a slight delay to ensure the spinner is visible
-      setTimeout(() => {
-        this.spinner.hide();
-      }, 2000); // Adjust delay as needed (1000ms = 1 second)
+    this.getTenderStatus(),
+  this.getTotalRC1()
+
+  ]).subscribe({
+    next: () => {
+      // All API calls completed successfully
+      this.spinner.hide();
     },
-    (error) => {
+    error: (error) => {
       console.error("Error loading data:", error);
-      this.spinner.hide(); // Hide the spinner even if an error occurs
+      this.spinner.hide();
+    },
+    complete: () => {
+      // Optional: Any cleanup after completion
     }
-  );
+  });
 }
     
   }

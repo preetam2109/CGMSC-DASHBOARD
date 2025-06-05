@@ -38,6 +38,14 @@ import { color } from 'html2canvas/dist/types/css/types/color';
 import { StatusDetail, StatusItemDetail } from 'src/app/Model/TenderStatus';
 
 
+// import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import 'src/assets/fonts/NotoSansDevanagari-VariableFont_wdth,wght-normal.js'; // generated with jsPDF font converter
+import html2canvas from 'html2canvas';
+
+
+
+
 @Component({
   selector: 'app-tender-status-dash',
   standalone: true,
@@ -79,6 +87,40 @@ import { StatusDetail, StatusItemDetail } from 'src/app/Model/TenderStatus';
   styleUrl: './tender-status-dash.component.css'
 })
 export class TenderStatusDashComponent {
+  PDF() {
+    const element = document.getElementById('workdetails');
+    const printButton = document.getElementById('printButton'); // Make sure your button has this ID
+  
+    if (element) {
+      // Hide the print button before capturing
+      if (printButton) printButton.style.display = 'none';
+  
+      html2canvas(element, { scale: 2 }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({
+          orientation: 'landscape',
+        });
+  
+        // Add date and time to top-right
+        const now = new Date();
+        const dateTime = now.toLocaleString();
+        pdf.setFontSize(10);
+        pdf.text(dateTime, 270, 10, { align: 'right' });
+  
+        // Add captured content
+        pdf.addImage(imgData, 'PNG', 10, 10, 280, 80);
+  
+        // Save PDF
+        pdf.save('drugtender.pdf');
+  
+        // Show the button again after capture
+        if (printButton) printButton.style.display = 'block';
+      });
+    } else {
+      console.error("Element with ID 'workdetails' not found.");
+    }
+  }
+  
 
   applyTextFilter3($event: KeyboardEvent) {
     throw new Error('Method not implemented.');
@@ -111,6 +153,8 @@ export class TenderStatusDashComponent {
     @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
     @ViewChild('StatusItemDetailModal') StatusItemDetailModal: any;
     @ViewChild('TotalTenderDetailsModal') TotalTenderDetailsModal: any;
+    @ViewChild('BidderslistModal') BidderslistModal: any;
+
 
     
     
@@ -147,7 +191,7 @@ export class TenderStatusDashComponent {
       currentMonth = new Date().toLocaleString('default', { month: 'long' });
       qCPendingItems:any
       itemid:any
-      mcid=1
+      mcid:any=1
       monthid:any=''
       mname:any='';
       area:any=0;
@@ -184,11 +228,16 @@ export class TenderStatusDashComponent {
       tenderStatusList: any[] = [];
       totaltenderList: any[] = [];
       totalNoTenders: number = 0;
+      noOfBidderslist:any[]=[];
       totalRC1: any;
       status:any='';
       statusDetails:StatusDetail[]=[]
       statusItemDetails:StatusItemDetail[]=[];
       schemeId:any;
+      sumtendervalue:any;
+      isVis:any=true;
+
+
 
 
 
@@ -232,15 +281,22 @@ export class TenderStatusDashComponent {
     
     
       
-      
+        displayedColumns: string[] = [
+          'sno', 'schemeCode', 'schemeName', 'eprocNo', 'startDt', 'actClosingDt',
+          'noOfItems', 'tenderValue', 'itemAEDL', 'pricebiddate', 'noof_Bid_A','cov_A_Opdate','dA_DATE',
+          'remarksData', 'status', 'tenderremark', 'remarkEntryDate'
+        ];
     
     
     colors = [];
     cardColors: string[] = [
-      'linear-gradient(to right, #1fd1f9, #a8c1f1)',
-      'linear-gradient(to right, #c346f1, #f8796b)',
+            'linear-gradient(to right, #22C1C3, #1EEB59)',
+
+
+
+      'linear-gradient(to right, #B5A70B, #EB991E)',
       'linear-gradient(to right, #ff9a44, #f25c59)',
-      'linear-gradient(to right, #3f5efb, #fc466b)',
+      'linear-gradient(to right, #3657FF, #FF8099)',
       'linear-gradient(to right, #22C1C3, #FDBB2D)'
     ];
       role:any=localStorage.getItem('roleName')
@@ -879,6 +935,14 @@ export class TenderStatusDashComponent {
 
 
       }
+      
+      checkIfLiveStatusExists(data: any) {
+        const hasLive = data.some((item: any) => item.status === 'Live');
+        if (hasLive) {
+          // Remove columns if status is "Live"
+          this.displayedColumns = this.displayedColumns.filter(col => col !== 'pricebiddate' && col !== 'noof_Bid_A');
+        }
+    }
 
       // fetchtotalTenderDetails() {
       //   this.spinner.show();
@@ -899,6 +963,7 @@ export class TenderStatusDashComponent {
         this.api.GetTenderStagesTotal(this.mcid).subscribe(
           (res: any[]) => {
             this.tenderStatusList = res;
+            console.log('sdsdsds'+this.tenderStatusList)
              // Calculate total noTenders
     this.totalNoTenders = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
     this.spinner.hide();
@@ -909,8 +974,9 @@ export class TenderStatusDashComponent {
           }
         );
       }
+      
       getTotalRC1() {
-        debugger
+        
         this.api.GetTotalRC1(this.mcid).subscribe(
           (res: any[]) => {
             this.totalRC1 = res;
@@ -2015,25 +2081,30 @@ export class TenderStatusDashComponent {
             // });  
           }
     
-          GetPartiIndent(){
-      
-            // this.api.getPartiIndent(this.itemid).subscribe((res:any[])=>{
-            //   if (res && res.length > 0) {
-            //     this.PartiIndentlist =res.map((item: any, index: number) => ({
+          GetNoOfBidders(schemeid:any){
+            this.api.getNoOfBidders(schemeid).subscribe((res:any[])=>{
+              if (res && res.length > 0) {
+                this.noOfBidderslist =res.map((item: any, index: number) => ({
                 
-            //       ...item,
-            //       sno: index + 1,
-            //     }));
-            //     console.log('Mapped List:', this.PartiIndentlist);
-            //     this.dataSource.data = this.PartiIndentlist; // Ensure this line executes properly
-            //     this.dataSource.paginator = this.paginator;
-            //     this.dataSource.sort = this.sort;
-            //     this.spinner.hide();
-            //   } else {
-            //     console.error('No nameText found or incorrect structure:', res);
-            //   }
-            // });  
+                  ...item,
+                  sno: index + 1,
+                }));
+                console.log('Mapped List:', this.noOfBidderslist);
+                this.dataSource.data = this.noOfBidderslist; // Ensure this line executes properly
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                this.spinner.hide();
+              } else {
+                console.error('No nameText found or incorrect structure:', res);
+              }
+            });
+
+            this.openDialog();
+
+
           }
+
+
           getPartPOsSince1920(){
       
             // this.api.PartPOsSince1920(this.itemid).subscribe((res:any[])=>{
@@ -2138,8 +2209,9 @@ export class TenderStatusDashComponent {
             // });  
     
           }
+
           fetchtotalTenderDetails(){
-            debugger
+            
             // totalD
             this.api.getTotalTenderDetails(this.mcid).subscribe((res:any[])=>{
               if (res && res.length > 0) {
@@ -2196,7 +2268,7 @@ export class TenderStatusDashComponent {
     
           }
           QCPendingMonthwiseRecDetails(schemeId:any){
-            debugger
+            
             this.schemeId=schemeId;
             this.spinner.show();
             
@@ -2215,7 +2287,8 @@ export class TenderStatusDashComponent {
                 this.dataSource7.sort = this.sort7;
                 this.spinner.hide();
               } else {
-                console.error('No nameText found or incorrect structure:', res);
+                console.error('No data found:', res);
+                this.toastr.error('No Data Found')
                 this.spinner.hide();
     
               }
@@ -2239,8 +2312,12 @@ export class TenderStatusDashComponent {
                   this.dataSource8.data = this.statusDetails;
                   this.dataSource8.paginator = this.paginator8;
                   this.dataSource8.sort = this.sort8;
+                  this.checkIfLiveStatusExists(this.dataSource8);
                 } else {
                   console.error('No data found or incorrect structure:', res);
+                  this.spinner.hide();  // Always hide spinner whether success or error
+                  this.toastr.error('Failed to load data');
+
                 }
               },
               error: (err) => {
@@ -2258,12 +2335,20 @@ export class TenderStatusDashComponent {
           
             this.openDialogHOD();
           }
+          getTotalTenderValue(): number {
+            
+           this.sumtendervalue= this.dataSource8.data
+              .map(t => t.tenderValue)
+              .reduce((acc, value) => acc + Number(value || 0), 0);
+            return this.sumtendervalue;
+          }
+          
           
           
     
           openDialog() {
             
-            const dialogRef = this.dialog.open(this.itemDetailsModal, {
+            const dialogRef = this.dialog.open(this.BidderslistModal, {
              width: '100%',
              height: '100%',
              maxWidth: '100%',
@@ -2347,6 +2432,7 @@ export class TenderStatusDashComponent {
     
     
             openDialogHOD() {
+            this.getTotalTenderValue()
             
               const dialogRef = this.dialog.open(this.StatusDetailsModal, {
                width: '100%',
@@ -2527,7 +2613,7 @@ export class TenderStatusDashComponent {
     //         }
     
             fetchHOD(status:any){
-              debugger
+              
               this.status=status;
               this.getstatusDetails()
     
@@ -2575,6 +2661,7 @@ export class TenderStatusDashComponent {
                 { title: 'Price Flag', dataKey: 'priceFlag' },
                 { title: 'No. of Participants', dataKey: 'toNoOfParticipant' },
                 { title: 'L1 Basic', dataKey: 'l1Basic' },
+                { title: 'Ind Value', dataKey: 'indValue' },
               ];
             
               const rows = this.statusItemDetails.map((row, index) => ({
@@ -2587,6 +2674,7 @@ export class TenderStatusDashComponent {
                 priceFlag: row.priceFlag,
                 toNoOfParticipant: row.toNoOfParticipant,
                 l1Basic: row.l1Basic,
+                indValue: row.indValue,
               }));
             
               autoTable(doc, {
@@ -2604,7 +2692,12 @@ export class TenderStatusDashComponent {
             
     
    exportToPDFtotaltenderList() {
-    const doc = new jsPDF('l', 'mm', 'a4');
+    const doc = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: 'a3' // larger than A4
+    });
+    doc.setFont('NotoSansDevanagari');
     
     // Get current date and time
     const now = new Date();
@@ -2667,6 +2760,12 @@ export class TenderStatusDashComponent {
     columns: columns,
     body: rows,
     startY: 20,
+    styles: {
+      font: 'NotoSansDevanagari',
+      fontSize: 8,
+      overflow: 'linebreak',
+      cellPadding: 1.5
+    },
     theme: 'striped',
     headStyles: { fillColor: [22, 160, 133] },
   });
@@ -2675,69 +2774,94 @@ export class TenderStatusDashComponent {
 }
 
     
-    
-    exportToPDFHODDetails() {
-      const doc = new jsPDF('l', 'mm', 'a4');
-      const columns = [
-        { title: 'S.No', dataKey: 'sno' },
-        { title: 'Category', dataKey: 'categoryname' },
-        { title: 'Scheme Code', dataKey: 'schemecode' },
-        { title: 'Scheme Name', dataKey: 'schemename' },
-        { title: 'EProc No', dataKey: 'eprocNo' },
-        { title: 'Start Date', dataKey: 'startdt' },
-        { title: 'Actual Closing Date', dataKey: 'actclosingdt' },
-        { title: 'No of Items', dataKey: 'noofitems' },
-        { title: 'Item AEDL', dataKey: 'itemaedl' },
-        { title: 'Price Bid Date', dataKey: 'pricebiddate' },
-        { title: 'No. of Bids (A)', dataKey: 'nooF_BID_A' },
-        { title: 'Remarks', dataKey: 'remarksdata' },
-        { title: 'Status', dataKey: 'status' }
-      ];
-    
-      const rows = this.statusDetails.map((row) => ({
-        sno: row.sno,
-        categoryname: row.categoryname,
-        schemecode: row.schemecode,
-        schemename: row.schemename,
-        eprocNo: row.eprocNo,
-        startdt: row.startdt,
-        actclosingdt: row.actclosingdt,
-        noofitems: row.noofitems,
-        itemaedl: row.itemaedl,
-        pricebiddate: row.pricebiddate,
-        nooF_BID_A: row.nooF_BID_A,
-        remarksdata: row.remarksdata,
-        status: row.status
-      }));
-    
-      autoTable(doc, {
-        head: [columns.map(col => col.title)],
-        body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
-        startY: 20,
-        theme: 'grid',
-        headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 10, fontStyle: 'bold' },
-        styles: { textColor: [0, 0, 0], fontSize: 9, cellPadding: 3, overflow: 'linebreak' },
-        columnStyles: {
-          0: { cellWidth: 10 },  // S.No
-          1: { cellWidth: 20 }, // Category
-          2: { cellWidth: 25 }, // Scheme Code
-          3: { cellWidth: 25 }, // Scheme Name
-          4: { cellWidth: 25 }, // EProc No
-          5: { cellWidth: 15 }, // Start Date
-          6: { cellWidth: 10 }, // Actual Closing Date
-          7: { cellWidth: 20 }, // No of Items
-          8: { cellWidth: 20 }, // Item AEDL
-          9: { cellWidth: 20 }, // Price Bid Date
-          10: { cellWidth: 20 }, // No. of Bids (A)
-          11: { cellWidth: 20 }, // Remarks
-          12: { cellWidth: 20 }, // Status
-        },
-        margin: { top: 20, left: 10, right: 10 },
-      });
-    
-      doc.save('StatusDetails.pdf');
+exportToPDFHODDetails() {
+  
+  const doc = new jsPDF({
+    orientation: 'landscape',
+    unit: 'mm',
+    format: 'a3' // larger than A4
+  });
+  doc.setFont('NotoSansDevanagari');
+  
+
+
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Category', dataKey: 'categoryname' },
+    { title: 'Scheme Name', dataKey: 'schemename' },
+    { title: 'Start Date', dataKey: 'startdt' },
+    { title: 'Actual Closing Date', dataKey: 'actclosingdt' },
+    { title: 'No of Items', dataKey: 'noofitems' },
+    { title: 'Item AEDL', dataKey: 'itemaedl' },
+    { title: 'Price Bid Date', dataKey: 'pricebiddate' },
+    { title: 'No. of Bids', dataKey: 'nooF_BID_A' },
+    { title: 'Remarks', dataKey: 'remarksdata' },
+    { title: 'Status', dataKey: 'status' },
+    { title: 'Tender Value', dataKey: 'tenderValue' },
+    { title: 'Tender Remark', dataKey: 'tenderremark' }, // Hindi content here
+    { title: 'Remark Entry Date', dataKey: 'remarkEntryDate' }
+  ];
+
+  const rows = this.statusDetails.map((row, index) => ({
+    sno: index + 1,
+    categoryname: row.categoryName || '',
+    schemename: row.schemeName || '',
+    startdt: row.startDt || '',
+    actclosingdt: row.actClosingDt || '',
+    noofitems: row.noOfItems || '',
+    itemaedl: row.itemAEDL || '',
+    pricebiddate: row.pricebiddate || '',
+    nooF_BID_A: row.noof_Bid_A || '',
+    remarksdata: row.remarksData || '',
+    status: row.status || '',
+    tenderValue: row.tenderValue || '',
+    tenderremark: row.tenderremark || '', // Hindi text here
+    remarkEntryDate: row.remarkEntryDate || ''
+  }));
+
+  autoTable(doc, {
+    columns,
+    body: rows,
+    startY: 20,
+    styles: {
+      font: 'NotoSansDevanagari',
+      fontSize: 8,
+      overflow: 'linebreak',
+      cellPadding: 1.5
+    },
+    columnStyles: {
+      sno: { cellWidth: 12 },
+      categoryname: { cellWidth: 20 },
+      schemename: { cellWidth: 30 },
+      startdt: { cellWidth: 25 },
+      actclosingdt: { cellWidth: 30 },
+      noofitems: { cellWidth: 20 },
+      itemaedl: { cellWidth: 20 },
+      pricebiddate: { cellWidth: 30 },
+      nooF_BID_A: { cellWidth: 25 },
+      remarksdata: { cellWidth: 35 },
+      status: { cellWidth: 15 },
+      tenderValue: { cellWidth: 20 },
+      tenderremark: { cellWidth: 40 }, // Wider for Hindi text
+      remarkEntryDate: { cellWidth: 30 }
+    },
+    headStyles: {
+      fillColor: [22, 160, 133],
+      textColor: 255,
+      fontSize: 9
+    },
+    margin: { top: 20, left: 5, right: 5 },
+    tableWidth: 'auto',
+    horizontalPageBreak: true,
+    didDrawPage: (data) => {
+      doc.setFontSize(12);
+      doc.text('Status Detail Report', data.settings.margin.left, 10);
     }
-    
+  });
+
+  doc.save('StatusDetails.pdf');
+}
+
     
     exportToPDFPendingTracker() {
       
@@ -2814,6 +2938,66 @@ export class TenderStatusDashComponent {
     
       doc.save('PendingTracker.pdf');
     }
+
+    exportToPDF() {
+      const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
+    
+      const columns = [
+        { title: 'S.No', dataKey: 'sno' },
+        { title: 'Scheme Code', dataKey: 'schemeCode' },
+        { title: 'Scheme Name', dataKey: 'schemeName' },
+        { title: 'Supplier ID', dataKey: 'supplierId' },
+        { title: 'Supplier Name', dataKey: 'supplierName' },
+        { title: 'Contact Person', dataKey: 'contactPerson' },
+        { title: 'Address', dataKey: 'address' },
+        { title: 'Phone 1', dataKey: 'phone1' },
+        { title: 'Phone 2', dataKey: 'phone2' },
+        { title: 'Email', dataKey: 'email' },
+        { title: 'No. of Items', dataKey: 'noOfItems' },
+      ];
+    
+      // Replace `this.data` with your actual data source
+      const rows = this.noOfBidderslist.map((row: any, index: number) => ({
+        sno: index + 1,
+        schemeCode: row.schemeCode,
+        schemeName: row.schemeName,
+        supplierId: row.supplierId,
+        supplierName: row.supplierName,
+        contactPerson: row.contactPerson,
+        address: row.address,
+        phone1: row.phone1,
+        phone2: row.phone2,
+        email: row.email,
+        noOfItems: row.noOfItems,
+      }));
+    
+      autoTable(doc, {
+        head: [columns.map(col => col.title)],
+        body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+        startY: 20,
+        theme: 'grid',
+        headStyles: { fillColor: [41, 128, 185], textColor: 255, fontSize: 10 },
+        styles: { fontSize: 8, cellPadding: 2, textColor: [0, 0, 0] },
+        columnStyles: {
+          0: { cellWidth: 10 },  // S.No
+          1: { cellWidth: 20 },  // Scheme Code
+          2: { cellWidth: 30 },  // Scheme Name
+          3: { cellWidth: 20 },  // Supplier ID
+          4: { cellWidth: 30 },  // Supplier Name
+          5: { cellWidth: 30 },  // Contact Person
+          6: { cellWidth: 35 },  // Address
+          7: { cellWidth: 22 },  // Phone 1
+          8: { cellWidth: 22 },  // Phone 2
+          9: { cellWidth: 35 },  // Email
+          10: { cellWidth: 20 }, // ✅ Now this will fit: No. of Items
+        },
+        margin: { top: 20, left: 10, right: 10 },
+      });
+      
+    
+      doc.save('bidderDetails.pdf');
+    }
+    
     
     
             

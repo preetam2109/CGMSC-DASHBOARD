@@ -30,7 +30,7 @@ export class DistributionTabComponent {
   }
 
   backbutton(){
-    debugger
+    
     if(localStorage.getItem('roleName')==='Public'){
 
       this.router.navigate(['public-view1'])

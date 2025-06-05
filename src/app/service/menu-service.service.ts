@@ -36,6 +36,7 @@ export class MenuServiceService {
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/welcome' },
           { label: 'Attendance', route: '/attendance-dash' },
+          { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
           { label: 'Tender Status', route: '/tender-status' },
           { label: 'QC Insights ', route: '/qc-dashboard' },
           { label: 'Finance', route: '/finance-dash' },
@@ -108,6 +109,7 @@ export class MenuServiceService {
         ],
         EquipmentReagent: [
           { label: 'Home', route: '/home' },
+          { label: 'Dashboard', route: '/eqp-dash' },
           { label: 'RCDetail', route: '/Rcdetail' },
           { label: 'Complaints', route: '/complaints' },
           { label: 'Supply/Installation Status', route: '/dispatchPending' },
@@ -116,6 +118,8 @@ export class MenuServiceService {
         ],
         Infrastructure: [
           { label: 'Home', route: '/home' },
+          { label: 'Dashboard', route: '/infra-dash' },
+
           // { label: 'Home', route: 'InfrastructureHome' },
           // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
           // { label: 'SearchingWork', route: 'SearchingWork' },
@@ -139,7 +143,7 @@ export class MenuServiceService {
           // { label: 'District-Progress Monitoring', route: 'DashProgressIstCount' },
           { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
           // { label: 'District Progress Monitoring', route: 'District Progress' },
-          { label: 'Handover', route: 'Handover' },
+          { label: 'Handover', route: '/Handover' },
 
           { label: 'Engineer-Works', route: '/EngineerWorks' },
           { label: 'Payment', route: '/PriceEvaluation' },

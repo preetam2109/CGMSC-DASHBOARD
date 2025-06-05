@@ -115,7 +115,8 @@ import { DHSDMEStock } from '../Model/DHSDmeStock';
 import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuanceCoonsumptionm';
 import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
 import { AttendenceRecord, Designation, EmployeeDetail, GetLocation } from '../Model/Attendence';
-import { StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalTender } from '../Model/TenderStatus';
+import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalTender } from '../Model/TenderStatus';
+import { GetConsTenderStatusDetail, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
 
 
 
@@ -125,6 +126,7 @@ import { StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalTende
 export class ApiService {
   private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
   private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
+  private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
   // private CGMSCHO_API2 = 'https://dpdmis.in//CGMSCHO_API_TEST/api';
 
   // https://dpdmis.in//CGMSCHO_API_TEST/api
@@ -567,6 +569,7 @@ export class ApiService {
   }
 
   GroupWiseAI_PODetails(yearid: any, mcid: any, hodid: any): Observable<any> {
+    debugger
 
     return this.http.get<GroupWiseAI_PODetails[]>(`${this.CGMSCHO_API2}/HOD/GroupWiseAI_PODetails?yearid=${yearid}&mcid=${mcid}&hodid=${hodid}`);
   }
@@ -1101,7 +1104,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   PODetailsAgainstIndentYr(bugetid: any, yrid: any, HOD: any) {
-    debugger
+    
     return this.http.get<PODetailsAgainstIndentYr[]>(`${this.CGMSCHO_API2}/DashboardFinance/PODetailsAgainstIndentYr?bugetid=${bugetid}&yrid=${yrid}&HOD=${HOD}`);
   }
 
@@ -1136,7 +1139,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   QCPendingHomeDash(mcid: any) {
-    debugger
+    
     return this.http.get<QCPendingHomeDash[]>(`${this.CGMSCHO_API2}/QC/QCPendingDashboard?mcid=${mcid}`);
   }
   QCPendingPlace(mcid: any) {
@@ -1169,12 +1172,12 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   
 
   GetLibDetails(rptype: any, yrid: any, budgetid: any,supplierid:any) {
-    debugger
+    
     return this.http.get<LibDetailsbasedOnYearID[]>(`${this.CGMSCHO_API2}/DashboardFinance/LibDetailsbasedOnYearID?rptype=${rptype}&yrid=${yrid}&budgetid=${budgetid}&supplierid=${supplierid}`);
   }
 
   GetQCFinalResultPending(mcid: any) {
-    debugger
+    
     return this.http.get<QCFinalResultPending[]>(`${this.CGMSCHO_API2}/QC/QCResultFinalUpdatePending?mcid=${mcid}`);
   }
 
@@ -1213,12 +1216,12 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   QCPendingMonthwiseRecDetails(monthid:any,mcid:any,) {
-    debugger
+    
     return this.http.get<QCPendingMonthwiseRecDetails[]>(`${this.CGMSCHO_API2}/QC/QCPendingMonthwiseRecDetails?mcid=${mcid}&monthid=${monthid}`);
   }
   
   HoldItemDetails(mcid:any) {
-    debugger
+    
     return this.http.get<HoldItemDetails[]>(`${this.CGMSCHO_API2}/QC/HoldItemDetails?mcid=${mcid}`);
   }
 
@@ -1281,6 +1284,40 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   getTotalTenderDetails(categoryId  :any) {
     return this.http.get<TotalTender[]>(`${this.CGMSCHO_API2}/HOTender/TotalTender?categoryId=${categoryId}`);
   }
+
+  getNoOfBidders(schemeId:any){
+    return this.http.get<NoOfBidders[]>(`${this.CGMSCHO_API2}/HOTender/NoOfBidders?schemeId=${schemeId}`);
+  }
+  getConversationHodCgmsc(){
+    return this.http.get<HOTender[]>(`${this.CGMSCHO_API2}/HOTender/ConversationHodCgmsc`);
+  }
+  GetEqpTotalTendersByStatus(){
+    return this.http.get<TotalTendersByStatus[]>(`${this.himis_apin}/EMS/GetTotalTendersByStatus`);
+  }
+
+  GetEqpTenderDetail(csid:any){
+    return this.http.get<TenderDetail[]>(`${this.himis_apin}/EMS/GetTenderDetail?csid=${csid}`);
+  }
+
+  GetConsTenderStatus(NormalZonal:any){
+    return this.http.get<TenderInfraDetails[]>(`${this.himis_apin}/TenderStatus/GetTenderStatus?NormalZonal=${NormalZonal}`);
+  }
+
+  GetConsTenderStatusDetail(pGroupId:any,ppid:any){
+    debugger
+    return this.http.get<GetConsTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/GetTenderStatusDetail?pGroupId=${pGroupId}&ppid=${ppid}`);
+  }
+
+
+  GetConsTenderStatusZonal(){
+    return this.http.get<TenderInfraDetailsZonal[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatus`);
+  }
+  
+  ZonalTenderStatusDetail(tid:any){
+    return this.http.get<ZonalTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatusDetail?tid=${tid}`);
+  }
+
+
   
 
 

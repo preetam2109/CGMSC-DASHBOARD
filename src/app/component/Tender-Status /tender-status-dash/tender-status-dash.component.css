@@ -20,12 +20,16 @@
   }
   
   .card-title {
-    font-size: 12px; /* Reduce title size */
+    font-size: 16px; /* Reduce title size */
     font-weight: bold;
     color: #333;
     margin-top: 4px; /* Reduce spacing */
     text-align: center;
     word-wrap: break-word;
+  }
+  .card-value{
+    font-size: 25px; /* Reduce title size */
+
   }
   
   .card-icon img {

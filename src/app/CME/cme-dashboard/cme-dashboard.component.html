@@ -36,7 +36,7 @@
       <div class="col-12 col-sm-6 col-md-3 mb-3"  >
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
           <div class="card-body" routerLink="/GrowthInProcurmentTab" >
-            <h6 class="card-title">No of {{selectedCategoryRadio}} Purchase Ordered in C.F.Y.</h6>
+            <h6 class="card-title">No of {{selectedCategoryRadio}} Purchase Ordered in Current Financial Year.</h6>
             <h2 class="card-value">{{totalpoitems}}</h2>
             <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
           </div>
@@ -47,7 +47,7 @@
       <div class="col-12 col-sm-6 col-md-3 mb-3">
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
           <div class="card-body" routerLink="/distribution">
-            <h6 class="card-title">{{selectedCategoryRadio}} Distribution & Facility Issues in C.F.Y.</h6>
+            <h6 class="card-title">{{selectedCategoryRadio}} Distribution & Facility Issues in Current Financial Year.</h6>
             <h2 class="card-value">{{nositemsI}}</h2>
             <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p>
   
@@ -59,7 +59,7 @@
       <div class="col-12 col-sm-6 col-md-3 mb-3">
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
           <div class="card-body" routerLink="/DropAppWarehousePerformance">
-            <h6 class="card-title">Indent Processing & Fulfillment in C.F.Y.</h6>
+            <h6 class="card-title">Indent Processing & Fulfillment in Current Financial Year.</h6>
             <h2 class="card-value">{{nosindent}}</h2>
             <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
           </div>
@@ -104,7 +104,7 @@
           <div class="d-flex align-items-center">
             <div>
               
-              <h5 class="card-title ml-3">CME {{selectedCategoryRadio}}  Annual Indent Vs Issuance in C.F.Y</h5>
+              <h5 class="card-title ml-3">CME {{selectedCategoryRadio}}  Annual Indent Vs Issuance in Current Financial Year</h5>
             </div>
           </div>
           <p class="card-text text-muted">
@@ -131,7 +131,7 @@
             <div class="d-flex align-items-center">
               <div>
                 
-                <h5 class="card-title ml-3">CME {{selectedCategoryRadio}} Issued Without Annual Indent in C.F.Y</h5>
+                <h5 class="card-title ml-3">CME {{selectedCategoryRadio}} Issued Without Annual Indent in Current Financial Year</h5>
               </div>
             </div>
             <p class="card-text text-muted">

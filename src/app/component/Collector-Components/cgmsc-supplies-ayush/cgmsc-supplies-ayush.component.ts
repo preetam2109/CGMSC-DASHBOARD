@@ -146,7 +146,7 @@ mcid:any='1';
         enabled: true,
       },
       title: {
-        text: 'C.F.Y Ayush Facilities Supplies',
+        text: 'Current Financial Year Ayush Facilities Supplies',
         align: 'center',
       },
       fill: {

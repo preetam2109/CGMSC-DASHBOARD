@@ -57,7 +57,7 @@ const endDate = this.datePipe.transform(endDateRaw, 'dd-MMM-yyyy');
       if(startDate && endDate != null){
 
         this.spinner.show();
-debugger
+
         this.api.GetPresentAbsent(startDate,endDate,0,this.attendanceStatus,this.designationId).subscribe(
           (res) => {
             // Add serial numbers to the data
@@ -145,7 +145,7 @@ applyTextFilter(event: Event) {
         }
       }
       onISelectDChange(selectedId: any): void {
-        debugger
+        
         const selectedUser = this.designations.find(user => user.designationId == selectedId);
       
         if (selectedUser) {
@@ -159,7 +159,7 @@ applyTextFilter(event: Event) {
       
       
       GetLocationDDL(){
-      debugger
+      
         this.api.GetLocationDDL(this.iswh).subscribe((res:any[])=>{
           // console.log(' Vehicle API dropdown Response:', res);
           if (res && res.length > 0) {
@@ -177,7 +177,7 @@ applyTextFilter(event: Event) {
       }
 
       GetDesiginationDDL() {
-        debugger;
+        ;
         this.api.GetDesignation().subscribe((res: any[]) => {
           if (res && res.length > 0) {
             this.designations = res.map(item => ({

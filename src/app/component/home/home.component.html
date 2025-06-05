@@ -91,6 +91,16 @@
 </div>  -->
 <div class="container-fluid p-0 m-0" *ngIf="['SEC1', 'DHS', 'Collector','DM PO','CME'].includes(roleName) && selectedCategory!='Infrastructure' " >
   <div class="row border rounded shadow w-100 mb-0 bg-white p-0 m-0">
+
+      <!-- Section Header -->
+<div class="col-12 text-center mt-3 mb-2">
+  <div class="px-4 py-2 rounded text-white" 
+       style="background: linear-gradient(to right, #6a11cb, #2575fc); font-size: 1.5rem; font-weight: bold;">
+    Section: Drugs & Consumables ({{ selectedCategoryRadio || 'Select Category' }})
+  </div>
+</div>
+
+
     <div class=" col-sm-12 col-sm-6 d-flex justify-content-center m-2">
       <div class="form-check me-3">
         <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
@@ -107,11 +117,7 @@
           value="AYUSH" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="ayush">AYUSH</label>
       </div>
-      <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="reagent"
-          [(ngModel)]="selectedCategoryRadio" value="Reagent" (change)="updateSelectedHodid()" />
-        <label class="form-check-label" for="reagent">Reagent</label>
-      </div>
+     
     </div>
   </div>
 </div>
@@ -121,11 +127,39 @@
 
 <div class="container my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName) && selectedCategory!='Infrastructure'">
   <div class="row">
+
     <!-- Card 1 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3"  >
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body" routerLink="/tender-status" >
+          <h6 class="card-title">Total Tenders Under Process</h6><br>
+          <h2 class="card-value">{{totalNoTenders}}</h2><br>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3"  >
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body">
+          <h6 class="card-title">
+            Total RC for {{ totalRC1[0]?.mcategory ?? 'Consumables' }}
+          </h6><br>
+          <h2 class="card-value">
+            {{ totalRC1[0]?.total ?? 0 }}
+          </h2>
+          <p class="card-text">
+            EDL: {{ totalRC1[0]?.edl ?? 0 }}, NEDL: {{ totalRC1[0]?.nedl ?? 0 }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-12 col-md-4 mb-3"  >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
         <div class="card-body" routerLink="/GrowthInProcurmentTab" >
-          <h6 class="card-title">No of {{selectedCategoryRadio}} Purchase Ordered in C.F.Y.</h6>
+          <h6 class="card-title">No of {{selectedCategoryRadio}} Purchase Ordered in Current Financial Year.</h6>
           <h2 class="card-value">{{totalpoitems}}</h2>
           <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
         </div>
@@ -133,10 +167,10 @@
     </div>
 
     <!-- Card 2 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <div class="col-12 col-md-4 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
         <div class="card-body" routerLink="/distribution">
-          <h6 class="card-title">{{selectedCategoryRadio}} Distribution & Facility Issues in C.F.Y.</h6>
+          <h6 class="card-title">{{selectedCategoryRadio}} Distribution & Facility Issues in Current Financial Year.</h6>
           <h2 class="card-value">{{nositemsI}}</h2>
           <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p>
 
@@ -144,19 +178,10 @@
       </div>
     </div>
 
-    <!-- Card 3 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
-      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
-        <div class="card-body" routerLink="/DropAppWarehousePerformance">
-          <h6 class="card-title">Indent Processing & Fulfillment in C.F.Y.</h6>
-          <h2 class="card-value">{{nosindent}}</h2>
-          <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
-        </div>
-      </div>
-    </div>
+   
 
-    <!-- Card 4 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3"   >
+    <!-- Card 3 -->
+    <div class="col-12 col-md-4 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
         <div class="card-body"   routerLink="/IndentPendingWHdash" >
           <h6 class="card-title">Pending Indents in Warehouse</h6>
@@ -178,6 +203,17 @@
       </div>
     </div>
 
+     <!-- Card 4 -->
+     <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
+        <div class="card-body" routerLink="/DropAppWarehousePerformance">
+          <h6 class="card-title">Indent Processing & Fulfillment in Current Financial Year.</h6>
+          <h2 class="card-value">{{nosindent}}</h2>
+          <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Card 5
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #3f5efb, #fc466b); color: white;">
@@ -191,6 +227,145 @@
     
   </div>
 </div>
+
+<!-- forINfrastructure -->
+<div class="container-fluid my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName) && selectedCategory==='Infrastructure'">
+
+
+        <!-- Section Header -->
+        <div class="w-100 text-center mt-3 mb-4">
+          <div class="px-4 py-2 rounded text-white"
+               style="background: linear-gradient(to right, #6a11cb, #2575fc); font-size: 1.5rem; font-weight: bold;">
+            Section: {{selectedCategory}}
+          </div>
+        </div>
+        
+
+
+    <!-- <div class=" col-sm-12 col-sm-6 d-flex justify-content-center m-2">
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
+          value="Drugs" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="drugs">Drugs</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="consumables"
+          [(ngModel)]="selectedCategoryRadio" value="Consumables" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="consumables">Consumables</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategoryRadio"
+          value="AYUSH" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="ayush">AYUSH</label>
+      </div>
+     
+    </div> -->
+  
+  <div class="row">
+
+    <!-- Card 1 -->
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body" routerLink="/infra-dash" >
+          <h6 class="card-title">Total Tenders Under Process</h6><br>
+          <h2 class="card-value">{{totalNoTenders}}</h2>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3"  >
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body" routerLink="/WorkOrder">
+          <h6 class="card-title">
+            <!-- Total RC for {{ totalRC1[0]?.mcategory ?? 'Consumables' }} -->
+            Work Order Pending 
+
+          </h6><br>
+          <h2 class="card-value">
+            {{ wOpendingTotal }}
+          </h2>
+          <p class="card-text">
+            <!-- EDL: {{ totalRC1[0]?.edl ?? 0 }}, NEDL: {{ totalRC1[0]?.nedl ?? 0 }} -->
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-12 col-md-4 mb-3"  >
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
+        <div class="card-body" routerLink="/LandIssue" >
+          <h6 class="card-title">Land Issuance</h6><br>
+          <h2 class="card-value">{{LIPendingTotal}}</h2>
+          <!-- <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
+        <div class="card-body" routerLink="/RunningWork">
+          <h6 class="card-title">Running Work</h6><br>
+          <h2 class="card-value">{{RunningWork}}</h2>
+          <!-- <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p> -->
+
+        </div>
+      </div>
+    </div>
+
+   
+
+  
+
+     <!-- Card 4 -->
+     <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
+        <div class="card-body" routerLink="/Handover">
+          <h6 class="card-title">Handed Over in Current Financial Year.</h6><br>
+          <h2 class="card-value">{{handoverAbstractl}}</h2>
+          <!-- <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p> -->
+        </div>
+      </div>
+    </div>
+      <!-- Card 3 -->
+      <div class="col-12 col-md-4 mb-3">
+        <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
+          <div class="card-body" routerLink="/PriceEvaluation">
+            <h6 class="card-title">Payment Complete</h6><br>
+            <h2 class="card-value">{{paidSummary}}</h2>
+            <!-- <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p> -->
+            <!-- <ul class="list-unstyled">
+                <li>
+                    <span class="card-value">No of Facility: {{ nosfac }}</span>
+                </li>
+                <li>
+                    <span class="card-value">No of Indent: {{ nosIndent }}</span>
+                </li>
+                <li>
+                    <span class="card-value">No of Items: {{ nositems }}</span>
+                </li>
+            </ul> -->
+            <!-- <p class="card-text">10% Higher Than Last Month</p> -->
+          </div>
+        </div>
+      </div>
+
+    <!-- Card 5
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #3f5efb, #fc466b); color: white;">
+        <div class="card-body">
+          <h6 class="card-title">Total RC Drugs</h6>
+          <h2 class="card-value">{{nosindent}}</h2>
+          <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
+        </div>
+      </div>
+    </div> -->
+    
+  </div>
+</div>
+<!-- forINfrastructure  end -->
 
 
 
@@ -221,6 +396,8 @@
       </div>
     </div>
 
+
+    
     <!-- Card 2 -->
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
@@ -257,7 +434,7 @@
           <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
           <div>
             
-            <h5 class="card-title ml-3">Annual Indent of {{selectedCategoryRadio}} C.F.Y. </h5>
+            <h5 class="card-title ml-3">Annual Indent of {{selectedCategoryRadio}} Current Financial Year. </h5>
             <!-- <p class="card-text">{{currentMonth}} Month</p> -->
           </div>
         </div>
