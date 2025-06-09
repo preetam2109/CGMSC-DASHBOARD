@@ -118,11 +118,11 @@
                             <span class="ml-2">{{detail.type_name}}</span>
                         </div>
                         <div class="col-12 col-md-2 border p-2 d-flex">
-                            <strong>Grant:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Grant:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.grantname}}</span>
                         </div>
                         <div class="col-12 col-md-2 border p-2 d-flex">
-                            <strong>Head No:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Head No:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.grantNo}}</span>
                         </div>
                         <div class="col-6 col-md-3 border p-2 d-flex flex-row">
@@ -138,7 +138,7 @@
                             <span class="ml-2">{{detail.divName_En}}</span>
                         </div>
                       <div class="col-6 col-md-4 border p-2 d-flex flex-row">
-                        <strong class="mt-0">AS Letter Number:</strong>
+                        <strong class="mt-0" *ngIf="roleName != 'Infrastructure_Public'">AS Letter Number:</strong>
                         <a type="link" class="btn-link" (click)="onButtonClick2(0,detail.work_id)" style="cursor: pointer;"><span class="ml-2 mt-0 pt-0 h6" style="font-size:14px;" *ngIf="roleName != 'Infrastructure_Public'">{{detail.letterNo}}</span></a>
                         <!-- <button type="link" class="btn btn-link" (click)="onButtonClick2(0,detail.work_id)"><span class="ml-2">{{detail.letterNo}}</span></button> -->
                         <!-- <a class="link" type="link" (click)="onButtonClick2(0,detail.work_id)">  <span class="ml-2"> {{detail.letterNo}}</span></a> -->
@@ -160,12 +160,12 @@
                         </div>
 
                         <div class="col-6 col-md-3 border p-2 d-flex flex-row">
-                            <strong>TS Date:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">TS Date:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.tsDate}}</span>
                         </div>
 
                         <div class="col-12 col-md-4 border p-2 d-flex flex-row">
-                            <strong>TS Amount (in Lacs):</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">TS Amount (in Lacs):</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.tsamt}}</span>
                         </div>
                         <!-- <div class="col-12 col-md-3 border p-2 d-flex">
@@ -201,19 +201,21 @@
                             <span class="ml-2">{{detail.acceptLetterDT}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>PAC:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">PAC:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.pac}}</span>
+                            <strong *ngIf="roleName == 'Infrastructure_Public'">Contract Amount (in Lacs):</strong>
+                            <span class="ml-2" *ngIf="roleName == 'Infrastructure_Public'">{{detail.totalAmountOfContract}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex flex-row">
-                            <strong>Sanction:</strong> <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.sanctionDetail}}</span>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Sanction:</strong> <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.sanctionDetail}}</span>
                         </div>
                         <div class="col-12 col-md-2 border p-2 d-flex">
-                            <strong>Sanction Rate:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Sanction Rate:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.sanctionRate | percent}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <strong>Contract Amount (in Lacs):</strong>
-                            <span class="ml-2">{{detail.totalAmountOfContract}}</span>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Contract Amount (in Lacs):</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.totalAmountOfContract}}</span>
                         </div>
 
 
@@ -231,24 +233,27 @@
                             <!-- bg-primary text-white -->
                         </div>
                         <div class="col-12 col-md-8 border p-2 d-flex">
-                            <strong>Contractor ID:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Contractor ID:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.cid}}</span>
+                            <strong *ngIf="roleName == 'Infrastructure_Public'">Class:</strong>
+                            <span class="ml-2" *ngIf="roleName == 'Infrastructure_Public'">{{detail.class}}</span>
+                            
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
                             <strong>Contractor:</strong>
                             <span class="ml-2">{{detail.contractorNAme}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>Mobile No:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Mobile No:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.mobNo}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>Registration Type:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Registration Type:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.regType}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>Class:</strong>
-                            <span class="ml-2">{{detail.class}}</span>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Class:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.class}}</span>
                         </div>
                     </div>
                 </div>
@@ -264,8 +269,10 @@
 
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>Work Order Ref No:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Work Order Ref No:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.workorderRefNoGovt}}</span>
+                            <strong *ngIf="roleName == 'Infrastructure_Public'">Agreement Ref No:</strong>
+                            <span class="ml-2" *ngIf="roleName == 'Infrastructure_Public'">{{detail.agreementRefNo}}</span>
                         </div>
 
                         <div class="col-12 col-md-4 border p-2 d-flex">
@@ -279,24 +286,24 @@
                             <span class="ml-2">{{detail.timeAllowed}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>Due Date Of Completion:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Due Date Of Completion:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.actualDueDT}}</span>
                         </div>
 
                         <div class="col-12 col-md-4 border p-2 d-flex ">
-                            <strong>Year of Agreement:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Year of Agreement:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.yearofAgreement}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex ">
-                            <strong>Agreement No:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Agreement No:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.agreementNo}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex ">
-                            <strong>Agreement Ref No:</strong>
-                            <span class="ml-2">{{detail.agreementRefNo}}</span>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Agreement Ref No:</strong>
+                            <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.agreementRefNo}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
-                            <strong>PG Required:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">PG Required:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.pgReq}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
@@ -529,7 +536,7 @@
                             <span class="ml-2">{{detail.pRemarks}}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <strong>Delay Remarks:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Delay Remarks:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.remarks}}</span>
                         </div>
                         <div class="col-12 col-md-4 border p-2 d-flex">
@@ -546,15 +553,15 @@
                             <span class="ml-2">{{detail.desig}}</span>
                         </div> -->
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <strong>Entered By:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Entered By:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{ detail.progressEnterby }}</span>
                         </div>
                         <div class="col-12 col-md-9 border p-2 d-flex">
-                            <strong>Entry Date/Time:</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Entry Date/Time:</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{ detail.progressEntryTime | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
                         </div>
                         <div class="col-12 col-md-3 border p-2 d-flex">
-                            <strong>Expected Completion Date(If Running):</strong>
+                            <strong *ngIf="roleName != 'Infrastructure_Public'">Expected Completion Date(If Running):</strong>
                             <span class="ml-2" *ngIf="roleName != 'Infrastructure_Public'">{{detail.expCompDT | date: 'dd-MM-yyyy' }}</span>
                         </div>
                     </div>

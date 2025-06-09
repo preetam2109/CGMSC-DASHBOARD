@@ -107,6 +107,11 @@ import { SchemeWiseDetailsComponent } from './component/Infrastructure-Component
 import { DhsdashComponent } from './component/DHS-Components/dhsdash/dhsdash.component';
 import { CMEDashboardComponent } from './CME/cme-dashboard/cme-dashboard.component';
 import { InfrastructurePublicViewComponent } from './component/Infrastructure-Components/infrastructure-public-view/infrastructure-public-view.component';
+import { AttendanceDashComponent } from './component/Attendence/attendance-dash/attendance-dash.component';
+import { TenderStatusDashComponent } from './component/Tender-Status /tender-status-dash/tender-status-dash.component';
+import { ConversationHodCgmscComponent } from './component/Tender-Status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
+import { EqpDashComponent } from './Equipment-Dashboard/eqp-dash/eqp-dash.component';
+import { InfraDashComponent } from './component/Infrastructure-Components/infra-dash/infra-dash.component';
 
 
 
@@ -236,6 +241,11 @@ const routes: Routes = [
 {path:'home-search',component:HomeSearchComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Collector','Warehouse']} },
 {path:'finance-dash',component:FinanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Collector','Warehouse','GM Finance','DMFin','DM PO']} },
 {path:'qc-dashboard',component:QcDashboardComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
+{path:'attendance-dash',component:AttendanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
+{path:'tender-status',component:TenderStatusDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
+{path:'conversationHodCgmsc',component:ConversationHodCgmscComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
+{path:'eqp-dash',component:EqpDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
+{path:'infra-dash',component:InfraDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
 
 
 

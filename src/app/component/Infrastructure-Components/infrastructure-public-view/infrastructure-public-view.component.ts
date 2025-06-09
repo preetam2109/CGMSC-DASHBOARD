@@ -180,13 +180,13 @@ export class InfrastructurePublicViewComponent {
   }
 
   ngOnInit() {
-    var roleName = localStorage.getItem('roleName');
-    if (roleName == 'Division') {
+    this.roleName = localStorage.getItem('roleName');
+    if (this.roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.himisDistrictid = 0;
       this.showDivision = false;
       this.loadInitialData();
-    } else if (roleName == 'Collector') {
+    } else if (this.roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.showDistrict = false;
       this.showDivision = false;
@@ -240,6 +240,13 @@ export class InfrastructurePublicViewComponent {
       this.showCards = false;
     }
   }
+
+  shouldHideCard(did: any): boolean {
+    ;
+    const hiddenDids = [6001, 8001, 2001, 1001];
+    return hiddenDids.includes(did);
+  }
+  
   // District-wise Tab 
   // GetDistricts() {
   //   try {

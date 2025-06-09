@@ -19,6 +19,9 @@ declare var google: any;
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit,AfterViewInit  {
+onButtonClick(arg0: string) {
+throw new Error('Method not implemented.');
+}
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
 
   @ViewChild('captchaInput') captchaInput: ElementRef | undefined;  // Reference to CAPTCHA input
@@ -86,6 +89,21 @@ isPasswordVisible: boolean = false;
       this.generateCaptcha();
   }
 
+
+  // theme
+  gradients: string[] = [
+    'linear-gradient(1deg, rgb(18, 166, 210) 15%, rgb(49, 65, 252) 100%)',
+    'linear-gradient(180deg, #FF6000 11%, #FFA559 100%)',
+    'linear-gradient(rgb(93, 18, 210) 11%, rgb(184, 49, 252) 100%)'
+  ];
+  selectedColor:any;
+
+  setTheme(gradient: string) {
+    sessionStorage.setItem('selectedColor',gradient);
+    document.documentElement.style.setProperty('--theme-gradient', gradient);
+    
+  }
+
   generateCaptcha(): void {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     this.captcha = Array.from({ length: 6 }, () =>
@@ -94,6 +112,12 @@ isPasswordVisible: boolean = false;
   }
   days:any=0
   ngOnInit() {
+
+    this.selectedColor = sessionStorage.getItem('selectedColor');
+    if(this.selectedColor != 'linear-gradient(1deg, rgb(18, 166, 210) 15%, rgb(49, 65, 252) 100%)'){
+      document.documentElement.style.setProperty('--theme-gradient', this.selectedColor );
+    }
+
     this.adminLoginDropdown();
     this.cgmsclLoginDropdown();
     this.fetchActualDropInfo(this.days);

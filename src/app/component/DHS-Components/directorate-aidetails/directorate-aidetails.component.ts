@@ -133,7 +133,7 @@ export class DirectorateAIDetailsComponent {
         colors: ['#fff'],
       },
       title: {
-        text: 'Drugs GroupWise Indent vs Orders C.F.Y',
+        text: 'Drugs GroupWise Indent vs Orders Current Financial Year',
         align: 'center',
         style: {
           fontSize: '12px',
