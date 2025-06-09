@@ -64,7 +64,7 @@
          <div class="col-md-4 mb-3" *ngIf="mcid!=3">
             <div class="card p-3 shadow w-100"
                  style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
-                 <div class="d-flex justify-content-between align-items-center" (click)="fetchHOD(0,'Total')" >
+                 <div class="d-flex justify-content-between align-items-center" (click)="fetchHOD(0,'Total',totalNoTenders)" >
                 <div class="flex-grow-1 d-flex flex-column align-items-center">
                 <h6 class="card-title">Total Tenders</h6>
                 <h2 class="card-value">{{ totalNoTenders }}</h2>
@@ -110,7 +110,7 @@
       <div class="col-md-4 mb-3">
         <div class="card  p-3 shadow w-100"
              [ngStyle]="{ 'background': cardColors[i % cardColors.length], 'color': 'white' }">
-          <div class="d-flex justify-content-between align-items-center" (click)="fetchHOD(tender.csid, tender.cStatus)">
+          <div class="d-flex justify-content-between align-items-center" (click)="fetchHOD(tender.csid, tender.cStatus,tender.noofTender)">
             <div class="flex-grow-1 d-flex flex-column align-items-center">
             <h6 class="card-title">{{ tender.cStatus }}</h6>
             <h2 class="card-value">{{ tender.noofTender }}</h2>
@@ -180,7 +180,7 @@
            *ngIf="!(mcid === 1 && tender.status === 'Cover B Opened')">
         <div class="card  p-3 shadow w-100"
              [ngStyle]="{ 'background': cardColors[i % cardColors.length], 'color': 'white' }">
-          <div class="d-flex justify-content-between align-items-center" (click)="fetchHOD(mcid,tender.status)">
+          <div class="d-flex justify-content-between align-items-center" (click)="fetchHOD(mcid,tender.status,tender.noTenders)">
             <div class="flex-grow-1 d-flex flex-column align-items-center">
             <h6 class="card-title">
               {{ tender.status === 'Acceptance' ? 'Letter of Intent (Acceptance)' : tender.status }}

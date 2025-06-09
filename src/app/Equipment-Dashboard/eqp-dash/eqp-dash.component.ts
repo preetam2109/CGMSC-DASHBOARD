@@ -2184,7 +2184,13 @@ export class EqpDashComponent {
     // // this.openDialogUQC();
     //         }
     
-            fetchHOD(csid:any,status:any){
+            fetchHOD(csid:any,status:any,noTenders:any){
+
+debugger
+              if (noTenders=== 0) {
+                this.toastr.error('No Data Found');
+                return; // exit early to avoid further execution
+              }
 
               
               this.csid=csid;

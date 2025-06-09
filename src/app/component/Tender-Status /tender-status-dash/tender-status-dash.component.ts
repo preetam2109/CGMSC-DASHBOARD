@@ -2612,8 +2612,12 @@ export class TenderStatusDashComponent {
     // // this.openDialogUQC();
     //         }
     
-            fetchHOD(status:any){
+            fetchHOD(status:any,noTenders:any){
               
+              if (noTenders=== 0) {
+                this.toastr.error('No Data Found');
+                return; // exit early to avoid further execution
+              }
               this.status=status;
               this.getstatusDetails()
     

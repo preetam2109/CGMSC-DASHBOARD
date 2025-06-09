@@ -900,8 +900,13 @@ this.api.GETRunningWorkSummary('GTotal',0,0,0,0).subscribe((res:any[])=>{
     if (this.selectedCategory==='Infrastructure') {
       this.api.GetConsTenderStatus(this.NormalZonal).subscribe(
         (res: any[]) => {
-          this.totalNoTenders = res.reduce((sum, item) => sum + (item.nosWorks || 0), 0);
+          this.totalNoTenders = res
+          .filter(item => item.tenderStatus !== 'To Be Tender') // Exclude "To Be Tender"
+          .reduce((sum, item) => sum + (item.nosWorks || 0), 0);
+        
+          console.log('Total (excluding "To Be Tender"):', this.totalNoTenders);
           this.spinner.hide();
+        
         },
         (error) => {
           console.error('Failed to load tender status (Cons):', error);

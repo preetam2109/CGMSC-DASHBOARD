@@ -73,3 +73,18 @@ export class ZonalTenderStatusDetail{
         coverA!: string;
         coverC!: string;
 }
+
+export class GetToBeTender{
+    sno:any;
+    head!: string;
+    division!: string;
+    district!: string;
+    work_id!: string;
+    workname!: string;
+    asLetterNO!: string;
+    asDate!: string;
+    asAmt!: number;
+    tsAmount!: number;
+    valueWorks!: number;
+    workStatus!: string;
+}

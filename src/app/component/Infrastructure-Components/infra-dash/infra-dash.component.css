@@ -171,10 +171,8 @@
     }
     
     .table-container {
-      width: 100% !important; /* Ensure full width */
-      max-width: 100% !important; /* Remove restrictions */
-      overflow-x: auto; /* Keep scrolling enabled if needed */
-      margin: 0 auto; /* Center it */
+      max-height: 60vh; /* Allow vertical scrolling */
+  overflow-y: auto;
     }
     
     
@@ -250,6 +248,15 @@
       width: 100%;
       text-align: center;
     }
+
+
+    .mat-header-row, .mat-row {
+      display: table-row !important;
+    }
+
+    .mat-mdc-table-sticky {
+      position: sticky !important;
+  }
     
 
     

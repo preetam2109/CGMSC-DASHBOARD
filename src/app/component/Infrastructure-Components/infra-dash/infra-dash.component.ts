@@ -41,7 +41,7 @@ import { StatusDetail, StatusItemDetail } from 'src/app/Model/TenderStatus';
 // import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import 'src/assets/fonts/NotoSansDevanagari-VariableFont_wdth,wght-normal.js'; // generated with jsPDF font converter
-import { TenderDetail, ZonalTenderStatusDetail } from 'src/app/Model/Equipment';
+import { GetToBeTender, TenderDetail, ZonalTenderStatusDetail } from 'src/app/Model/Equipment';
 import { Observable } from 'rxjs';
 import html2canvas from 'html2canvas';
 
@@ -248,6 +248,7 @@ export class InfraDashComponent {
       pGroupID:any;
       tenderStatusDetails:any[]=[];
       tenderStatusDetailsZonal: any[]=[];
+      totBetenderList:GetToBeTender[]=[];
 
 
 
@@ -427,14 +428,20 @@ export class InfraDashComponent {
       //   }
     
       getTenderStatus() {
-        debugger
+        
         this.spinner.show();
       
         if (this.NormalZonal==='N') {
           this.api.GetConsTenderStatus(this.NormalZonal).subscribe(
             (res: any[]) => {
               this.tenderStatusList = res;
-              this.totalNoTenders = res.reduce((sum, item) => sum + (item.nosWorks || 0), 0);
+              // this.totalNoTenders = res.reduce((sum, item) => sum + (item.nosWorks || 0), 0);
+              this.totalNoTenders = res
+              .filter(item => item.tenderStatus !== 'To Be Tender') // Exclude "To Be Tender"
+              .reduce((sum, item) => sum + (item.nosWorks || 0), 0);
+
+              console.log('Total non zonal(excluding "To Be Tender"):', this.totalNoTenders);
+
               this.spinner.hide();
             },
             (error) => {
@@ -447,7 +454,16 @@ export class InfraDashComponent {
           this.api.GetConsTenderStatusZonal().subscribe(
             (res: any[]) => {
               this.tenderStatusList = res;
-              this.totalNoTenders = res.reduce((sum, item) => sum + (item.cntTender || 0), 0);
+              // this.totalNoTenders = res.reduce((sum, item) => sum + (item.cntTender || 0), 0);
+
+
+              this.totalNoTenders = res
+              .filter(item => item.tenderStatus !== 'To Be Tender') // Exclude "To Be Tender"
+              .reduce((sum, item) => sum + (item.cntTender || 0), 0);
+
+              console.log('Total non zonal(excluding "To Be Tender"):', this.totalNoTenders);
+
+
               this.spinner.hide();
             },
             (error) => {
@@ -1699,25 +1715,22 @@ export class InfraDashComponent {
     
           }
 
-          fetchtotalTenderDetails(){
+          GetToBeTenderNonZonal(){
             
             // totalD
-            this.api.getTotalTenderDetails(this.mcid).subscribe((res:any[])=>{
+            this.api.GetToBeTenderNonZonal().subscribe((res:any[])=>{
               if (res && res.length > 0) {
                this.spinner.show();
     
-                this.totaltenderList =res.map((item: any, index: number) => ({
+                this.totBetenderList =res.map((item: any, index: number) => ({
                 
                   ...item,
                   sno: index + 1,
                 }));
-                // this.totaltenderList = res; 
+              
     
-    
-                // console.log('only one data'+this.totaltenderList)
-    
-                console.log('pie chart Mapped List:', this.dataSource5);
-                this.dataSource5.data = this.totaltenderList; 
+                // console.log('to be tender  Mapped List:', this.totBetenderList);
+                this.dataSource5.data = this.totBetenderList; 
                 this.dataSource5.paginator = this.paginator5;
                 this.dataSource5.sort = this.sort5;
                 this.spinner.hide();
@@ -1832,7 +1845,7 @@ export class InfraDashComponent {
 
 
           getstatusDetails() {
-            debugger
+            
             this.spinner.show();
           
             // let apiCall$: Observable<any[]>;
@@ -1901,7 +1914,8 @@ export class InfraDashComponent {
               }
             });
           
-            this.openDialog();
+
+              this.openDialog();
           }
           
 
@@ -1943,6 +1957,7 @@ export class InfraDashComponent {
              // height: 'auto',
             });
             dialogRef.afterClosed().subscribe((result) => {
+            this.tenderStatusDetailsZonal=[];
              console.log('Dialog closed');
             });
             }
@@ -2223,26 +2238,45 @@ export class InfraDashComponent {
     // // this.openDialogUQC();
     //         }
     
-            fetchHOD(csid:any,status:any,tenderStatus:any){
+            fetchHOD(csid:any,status:any,tenderStatus:any,totalValuecr:any){
+
+              if (totalValuecr === 0) {
+                this.toastr.error('No Data Found');
+                return; // exit early to avoid further execution
+              }
               
-              this.pGroupID=status;
-              this.tid=csid;
-              this.ppid=csid;
-              this.status=tenderStatus;
               if(this.status==='Total'){
                 this.status='Total Tenders'
               }
+              else if(tenderStatus==='To Be Tender'){
+                this.status=tenderStatus;
+this.GetToBeTenderNonZonal();
 
-              this.csid=csid;
-              // this.status=status,
+              }else{
 
-
-              this.getstatusDetails()
-    
+                this.pGroupID=status;
+                this.tid=csid;
+                this.ppid=csid;
+                this.status=tenderStatus;
+  
+                this.csid=csid;
+                // this.status=status,
+  
+  
+                this.getstatusDetails()
+      
+              }
     // this.openDialogHOD();
             }
 
-            fetchTenderDetailZonal(tid:any,tenderStatus:any){
+          
+
+            fetchTenderDetailZonal(tid:any,tenderStatus:any,cntTender:any){
+debugger
+              if (cntTender === 0) {
+                this.toastr.error('No Data Found');
+                return; // exit early to avoid further execution
+              }
               
               this.tid=tid;
               this.status=tenderStatus;
@@ -2325,88 +2359,93 @@ export class InfraDashComponent {
             }
             
     
-   exportToPDFtotaltenderList() {
-    const doc = new jsPDF({
-      orientation: 'landscape',
-      unit: 'mm',
-      format: 'a3' // larger than A4
-    });
-    doc.setFont('NotoSansDevanagari');
-    
-    // Get current date and time
-    const now = new Date();
-    const dateString = now.toLocaleDateString();
-    const timeString = now.toLocaleTimeString();
-  
-    // Set font size for the title
-    doc.setFontSize(18);
-  
-    // Calculate the position to center the title
-    const header = 'Total Tender Details';
-    const title = '';  
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const titleWidth = doc.getTextWidth(title);
-    const xOffset = (pageWidth - titleWidth) / 2;
-    const xOffset1 = (pageWidth - titleWidth) / 2;
-    
-    doc.setFontSize(18);
-    doc.text(header, xOffset1-30, 10);
-     // Centered title at position Y=20
-  doc.setFontSize(15);
-     
-    doc.text(title, xOffset, 20);
-    doc.setFontSize(15); 
-    // Centered title at position Y=20
-
-  // Set font size for the date and time
-  doc.setFontSize(10);
-
-  // Add the date and time to the top-left corner
-  doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
-
-  const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Category', dataKey: 'categoryName' },
-    { title: 'Scheme', dataKey: 'schemeName' },
-    { title: 'Start Date', dataKey: 'startDt' },
-    { title: 'End Date', dataKey: 'endDate' },
-    { title: 'No. of Items', dataKey: 'noOfItems' },
-    { title: 'No. of Bids (A)', dataKey: 'noOf_Bid_A' },
-    { title: 'Tender Status', dataKey: 'tenderStatus' },
-    { title: 'Remark', dataKey: 'tenderRemark' },
-    { title: 'Status Entry Date', dataKey: 'statusEntryDate' },
-  ];
-
-  const rows = this.totaltenderList.map((row, index) => ({
-    sno: index + 1,
-    categoryName: row.categoryName,
-    schemeName: row.schemeName,
-    startDt: row.startDt,
-    endDate: row.endDate,
-    noOfItems: row.noOfItems,
-    noOf_Bid_A: row.noOf_Bid_A,
-    tenderStatus: row.tenderStatus,
-    tenderRemark: row.tenderRemark || '-',
-    statusEntryDate: row.statusEntryDate || '-',
-  }));
-
-  autoTable(doc, {
-    columns: columns,
-    body: rows,
-    startY: 20,
-    styles: {
-      font: 'NotoSansDevanagari',
-      fontSize: 8,
-      overflow: 'linebreak',
-      cellPadding: 1.5
-    },
-    theme: 'striped',
-    headStyles: { fillColor: [22, 160, 133] },
-  });
-
-  doc.save('totaltenderList.pdf');
-}
-
+            exportToPDFtotaltenderList() {
+              ;
+              const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a3'
+              });
+            
+              const now = new Date();
+              const dateString = now.toLocaleDateString();
+              const timeString = now.toLocaleTimeString();
+            
+              const header = 'To Be Tender Details';
+              const pageWidth = doc.internal.pageSize.getWidth();
+              const headerX = (pageWidth - doc.getTextWidth(header)) / 2;
+            
+              doc.setFont('NotoSansDevanagari');
+              doc.setFontSize(18);
+              doc.text(header, headerX, 15);
+            
+              doc.setFontSize(10);
+              doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+            
+              const columns = [
+                { title: 'S.No', dataKey: 'sno' },
+                { title: 'Head', dataKey: 'head' },
+                { title: 'Division', dataKey: 'division' },
+                { title: 'District', dataKey: 'district' },
+                { title: 'Work Name', dataKey: 'workname' },
+                { title: 'AS Letter No', dataKey: 'asLetterNO' },
+                { title: 'AS Date', dataKey: 'asDate' },
+                { title: 'AS Amount', dataKey: 'asAmt' },
+                { title: 'TS Amount', dataKey: 'tsAmount' },
+                { title: 'Value of Works', dataKey: 'valueWorks' },
+                { title: 'Work Status', dataKey: 'workStatus' },
+              ];
+            
+              const rows = this.totBetenderList.map((row, index) => ({
+                sno: index + 1,
+                head: row.head,
+                division: row.division,
+                district: row.district,
+                workname: row.workname,
+                asLetterNO: row.asLetterNO,
+                asDate: row.asDate,
+                asAmt: row.asAmt,
+                tsAmount: row.tsAmount,
+                valueWorks: row.valueWorks,
+                workStatus: row.workStatus
+              }));
+            
+              
+            
+              autoTable(doc, {
+                head: [columns.map(col => col.title)],
+                body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+                startY: 25,
+                theme: 'grid',
+                styles: {
+                  font: 'NotoSansDevanagari',
+                  fontSize: 8,
+                  cellPadding: 1.5,
+                  overflow: 'linebreak'
+                },
+                headStyles: {
+                  fillColor: [22, 160, 133],
+                  textColor: 255
+                },
+                columnStyles: {
+                  0: { cellWidth: 10 },   // S.No
+                  1: { cellWidth: 30 },
+                  2: { cellWidth: 30 },
+                  3: { cellWidth: 30 },
+                  4: { cellWidth: 50 },
+                  5: { cellWidth: 35 },
+                  6: { cellWidth: 25 },
+                  7: { cellWidth: 30 },
+                  8: { cellWidth: 30 },
+                  9: { cellWidth: 35 },
+                  10: { cellWidth: 35 }
+                },
+                margin: { top: 20, left: 10, right: 10 }
+              });
+            
+              doc.save('TobeTenderList.pdf');
+            }
+            
     
 exportToPDFHODDetails() {
   const doc = new jsPDF('l', 'mm', 'a4');

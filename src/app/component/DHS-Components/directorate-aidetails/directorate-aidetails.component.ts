@@ -310,7 +310,7 @@ export class DirectorateAIDetailsComponent {
   }
 
   loadData(): void {
-    debugger
+    
     this.spinner.show();
     this.api.GroupWiseAI_PODetails(0,1,367).subscribe(
       (data: GroupWiseAI_PODetails[]) => {

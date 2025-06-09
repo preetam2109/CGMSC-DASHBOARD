@@ -116,7 +116,7 @@ import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuance
 import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
 import { AttendenceRecord, Designation, EmployeeDetail, GetLocation } from '../Model/Attendence';
 import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalTender } from '../Model/TenderStatus';
-import { GetConsTenderStatusDetail, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
+import { GetConsTenderStatusDetail, GetToBeTender, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
 
 
 
@@ -569,7 +569,7 @@ export class ApiService {
   }
 
   GroupWiseAI_PODetails(yearid: any, mcid: any, hodid: any): Observable<any> {
-    debugger
+    
 
     return this.http.get<GroupWiseAI_PODetails[]>(`${this.CGMSCHO_API2}/HOD/GroupWiseAI_PODetails?yearid=${yearid}&mcid=${mcid}&hodid=${hodid}`);
   }
@@ -1304,7 +1304,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   GetConsTenderStatusDetail(pGroupId:any,ppid:any){
-    debugger
+    
     return this.http.get<GetConsTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/GetTenderStatusDetail?pGroupId=${pGroupId}&ppid=${ppid}`);
   }
 
@@ -1315,6 +1315,9 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   
   ZonalTenderStatusDetail(tid:any){
     return this.http.get<ZonalTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatusDetail?tid=${tid}`);
+  }
+  GetToBeTenderNonZonal(){
+    return this.http.get<GetToBeTender[]>(`${this.himis_apin}/TenderStatus/GetToBeTender`);
   }
 
 
