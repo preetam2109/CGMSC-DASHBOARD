@@ -88,3 +88,81 @@ export class GetToBeTender{
     valueWorks!: number;
     workStatus!: string;
 }
+export class EqptobeTender{
+    cntItems!: number;
+    indentValue!: number;
+}
+export class EqToBeTenderDetail{
+    indenT_CONSOLIDATION_ID!: number;
+    indent_con_no!: number;
+    consolidateD_DATE!: string;
+    description!: number;
+    item_id!: number;
+    indent_cons_items_id!: number;
+    item_code!: number;
+    item_code_as_per_tender!: string;
+    item_name!: string;
+    item_desc!: number;
+    proposeD_QTY!: number;
+    finaL_QTY!: number;
+    indentValue!: number;
+    year!: string;
+    useR_ID!: number;
+    directoratE_ID!: number;
+    financiaL_YEAR_ID!: number;
+    facility_aut_name!: string;
+    facility_aut_code!: string;
+    eStatus!: string;
+    uploadStatus!: string;
+    createdOn!: string;
+}
+
+export class TobetenderDetails{
+        itemcode!: number;
+        itemname!: string;
+        strength!: string;
+        unit!: string;
+        edl!: string;
+        dhsIndnetQty!: number;
+        dhsaiValue!: number;
+        dmeIndentQty!: number;
+        dmeaiValue!: number;
+        totalIndentQty!: number;
+        totalAIValue!: number;
+        schemecode!: number;
+        schemename!: string;
+        tenderref!: number;
+}
+
+export class SchemeTenderStatus{
+        sno:any
+        schemeid!: number;
+        schemename!: string;
+        tenderstatus!: string;
+        tenderremark!: string;
+        entrydate!: string;
+        tsid!: number;
+}
+export class SchemeReceived{
+    schemeid!: number;
+    schemename!: string;
+    facilitytypecode!: string;
+    letterno!: number;
+    letterdate!: string;
+    remarks!: string;
+    senddate!: string;
+    entrydate!: string;
+    filename!: string;
+    filepath!: string;
+    convid!: number;
+    conrid!: number;
+    recvdate!: string;
+    recvletterno!: string;
+    recvletterdt!: string;
+    recvremark!: string;
+    recvfilename!: string;
+    recvfilepath!: string;
+    recventrydate!: string;
+}
+
+

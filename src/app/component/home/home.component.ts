@@ -271,17 +271,22 @@ colors = [];
     'Tender Evaluation':'assets/dash-icon/check-list.png',
     'Live Tender':'assets/dash-icon/auction.png',
     'To be Tender':'assets/dash-icon/tender.png',
-    'Payment':'assets/dash-icon/payment.png',
+    'Payment Tracker':'assets/dash-icon/payment.png',
     'Search Work':'assets/dash-icon/analysis.png',
     'Work Abstract':'assets/dash-icon/analysis_.png',
     'Administrative Sanction':'assets/dash-icon/blogger.png',
-    'Land Issue':'assets/dash-icon/barrier.png',
+    'Land Issues':'assets/dash-icon/barrier.png',
     'Technical Sanction':'assets/dash-icon/deadline.png',
-    'Division Progress Monitoring':'assets/dash-icon/planning.png',
+    'Monitoring with Geographic Coordinate':'assets/dash-icon/planning.png',
     'District-wise Progress':'assets/dash-icon/online-report.png',
-    'Engineer-Works':'assets/dash-icon/person.png',
+    'Engineer Work Tracker':'assets/dash-icon/person.png',
     'Payment Time Taken':'assets/dash-icon/saving.png',
     'Finance Dashboard':'assets/dash-icon/dashboard.png',
+    'Dashboard':'assets/dash-icon/dashboard.png',
+    'Handover Insights':'assets/dash-icon/hand-over.png'
+    
+
+
 
   };
   constructor(private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
@@ -1989,8 +1994,8 @@ loadUQC(): void {
 
 
 
-     updateSelectedHodid(): void {
-      
+      updateSelectedHodid(): void {
+      debugger
   this.spinner.show(); // Show the spinner before making API calls
 
   if (this.selectedCategoryRadio === 'Drugs') {

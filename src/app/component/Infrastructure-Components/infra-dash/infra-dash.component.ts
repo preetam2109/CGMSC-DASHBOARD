@@ -304,6 +304,20 @@ export class InfraDashComponent {
     
     
     colors = [];
+
+    getCardGradient(nosWorks: number): string {
+      debugger
+      if (nosWorks > 90) {
+        return 'linear-gradient(to right, #ff758c, #ff7eb3)'; // light pink/red
+      } else if (nosWorks > 75) {
+        return 'linear-gradient(to right, #ff9a44, #f25c59)'; // orange
+      } else if (nosWorks >= 60) {
+        return 'linear-gradient(to right, #B5A70B, #EB991E)'; // yellow
+      } else {
+        return 'linear-gradient(to right, #22C1C3, #1EEB59)'; // default (or any other base color)
+      }
+    }
+    
     cardColors: string[] = [
             'linear-gradient(to right, #22C1C3, #1EEB59)',
 
@@ -1715,36 +1729,35 @@ export class InfraDashComponent {
     
           }
 
-          GetToBeTenderNonZonal(){
-            
-            // totalD
-            this.api.GetToBeTenderNonZonal().subscribe((res:any[])=>{
-              if (res && res.length > 0) {
-               this.spinner.show();
-    
-                this.totBetenderList =res.map((item: any, index: number) => ({
-                
-                  ...item,
-                  sno: index + 1,
-                }));
-              
-    
-                // console.log('to be tender  Mapped List:', this.totBetenderList);
-                this.dataSource5.data = this.totBetenderList; 
-                this.dataSource5.paginator = this.paginator5;
-                this.dataSource5.sort = this.sort5;
+          GetToBeTenderNonZonal() {
+            this.spinner.show();
+          
+            this.api.GetToBeTenderNonZonal().subscribe(
+              (res: any[]) => {
+                if (res && res.length > 0) {
+                  this.totBetenderList = res.map((item: any, index: number) => ({
+                    ...item,
+                    sno: index + 1,
+                  }));
+          
+                  this.dataSource5.data = this.totBetenderList;
+                  this.dataSource5.paginator = this.paginator5;
+                  this.dataSource5.sort = this.sort5;
+                } else {
+                  this.toastr.warning('No To Be Tender data found.', 'Warning');
+                }
                 this.spinner.hide();
-              } else {
-                console.error('No nameText found or incorrect structure:', res);
+              },
+              (error) => {
                 this.spinner.hide();
-    
+                console.error('API Error:', error);
+                this.toastr.error('Failed to fetch To Be Tender data. Please try again later.', 'Error');
               }
-            });  
-    
+            );
+          
             this.openDialogfetchtotalTenderDetails();
-            
-    
           }
+          
           getQCResultPendingLabWise(){
             
             // this.api.QCResultPendingLabWise(this.mcid).subscribe((res:any[])=>{
@@ -1859,7 +1872,7 @@ export class InfraDashComponent {
             //   this.toastr.error('Unsupported operation');
             //   return;
             // }
-          
+          debugger
             this.api.GetConsTenderStatusDetail(this.pGroupID, this.ppid).subscribe({
               next: (res: any[]) => {
                 if (res && res.length > 0) {
@@ -2139,7 +2152,7 @@ export class InfraDashComponent {
                
     
     
-              this.spinner.hide()
+              // this.spinner.hide()
     
     
     
@@ -2167,7 +2180,7 @@ export class InfraDashComponent {
                
     
     
-              this.spinner.hide()
+              // this.spinner.hide()
     
     
     

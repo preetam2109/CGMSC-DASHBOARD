@@ -531,6 +531,8 @@ export class MenuServiceService {
         // { label: 'SearchingWork', route: 'SearchingWork' },
         // { label: 'District Progress', route: 'District Progress' },
         // { label: 'DivisionProgress', route: 'DivisionProgress' },
+        { label: 'Dashboard', route: '/welcome' },
+
         { label: 'Search Work', route: '/SearchingWork' },
         { label: 'Work Abstract', route: '/InfrastructureHome' },
         { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
@@ -546,9 +548,10 @@ export class MenuServiceService {
         { label: 'Technical Sanction', route: '/TechnicalSanction' },
         // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
         // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
-        { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
+        { label: 'Monitoring with Geographic Coordinate', route: '/DivisionProgress' },
         // { label: 'District Progress Monitoring', route: 'District Progress' },
-        { label: 'Handover Insights', route: 'Handover' }, { label: 'Handover Insights', route: 'Handover' },
+        { label: 'Handover Insights', route: '/Handover' }, 
+        // { label: 'Handover Insights', route: 'Handover' },
       
 
         { label: 'Engineer Work Tracker', route: '/EngineerWorks' },

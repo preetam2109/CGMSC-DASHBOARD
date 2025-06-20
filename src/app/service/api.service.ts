@@ -116,7 +116,7 @@ import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuance
 import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
 import { AttendenceRecord, Designation, EmployeeDetail, GetLocation } from '../Model/Attendence';
 import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalTender } from '../Model/TenderStatus';
-import { GetConsTenderStatusDetail, GetToBeTender, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
+import { EqptobeTender, EqToBeTenderDetail, GetConsTenderStatusDetail, GetToBeTender, SchemeReceived, SchemeTenderStatus, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, TobetenderDetails, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
 
 
 
@@ -1316,11 +1316,45 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   ZonalTenderStatusDetail(tid:any){
     return this.http.get<ZonalTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatusDetail?tid=${tid}`);
   }
+
   GetToBeTenderNonZonal(){
+    
     return this.http.get<GetToBeTender[]>(`${this.himis_apin}/TenderStatus/GetToBeTender`);
   }
-
-
+  GetToBeTenderEqp(){
+    
+    return this.http.get<EqptobeTender[]>(`${this.himis_apin}/EMS/EqToBeTender`);
+  }
+  
+  GetToBeTenderDrugsSection(mcid:any){
+    debugger
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTender?mcid=${mcid}`);
+  }
+  
+  GetToBeTenderDetail(mcid:any){
+    debugger
+    return this.http.get<TobetenderDetails[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTenderDetail?mcid=${mcid}`);
+  }
+  
+  
+  SchemeReceived(schemeid:any){
+    debugger
+    return this.http.get<SchemeReceived[]>(`${this.CGMSCHO_API2}/HOTender/SchemeReceived?schemeid=${schemeid}`);
+  }
+  
+  SchemeTenderStatus(schemeid:any){
+    debugger
+    return this.http.get<SchemeTenderStatus[]>(`${this.CGMSCHO_API2}/HOTender/SchemeTenderStatus?schemeid=${schemeid}`);
+  }
+  
+  GetEqToBeTenderDetail(){
+    
+    return this.http.get<EqToBeTenderDetail[]>(`${this.himis_apin}/EMS/EqToBeTenderDetail`);
+  }
+  
+  
+  
+  
   
 
 

@@ -692,6 +692,8 @@ handleInfrastructureLogin() {
             error => {
               this.invalidLogin = true;
               this.errorMessage = 'Invalid Credentials';
+              this.toastr.error('Login Failed', 'Invalid Credentials');
+
               console.error('Login error', error);
             }
       );

@@ -245,7 +245,7 @@ const routes: Routes = [
 {path:'tender-status',component:TenderStatusDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
 {path:'conversationHodCgmsc',component:ConversationHodCgmscComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
 {path:'eqp-dash',component:EqpDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
-{path:'infra-dash',component:InfraDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','Warehouse','DM PO','QC']} },
+{path:'infra-dash',component:InfraDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','CME','Warehouse','DM PO','QC']} },
 
 
 

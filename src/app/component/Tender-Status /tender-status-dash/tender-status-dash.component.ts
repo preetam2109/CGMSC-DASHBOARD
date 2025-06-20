@@ -42,6 +42,7 @@ import { StatusDetail, StatusItemDetail } from 'src/app/Model/TenderStatus';
 import 'jspdf-autotable';
 import 'src/assets/fonts/NotoSansDevanagari-VariableFont_wdth,wght-normal.js'; // generated with jsPDF font converter
 import html2canvas from 'html2canvas';
+import { SchemeReceived, SchemeTenderStatus, TobetenderDetails } from 'src/app/Model/Equipment';
 
 
 
@@ -87,6 +88,7 @@ import html2canvas from 'html2canvas';
   styleUrl: './tender-status-dash.component.css'
 })
 export class TenderStatusDashComponent {
+  
   PDF() {
     const element = document.getElementById('workdetails');
     const printButton = document.getElementById('printButton'); // Make sure your button has this ID
@@ -133,6 +135,14 @@ export class TenderStatusDashComponent {
         this.dataSource5.paginator.firstPage();
       }
     }
+    applyTextFiltertobeTenderList(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource9.filter = filterValue.trim().toLowerCase();
+    
+      if (this.dataSource9.paginator) {
+        this.dataSource9.paginator.firstPage();
+      }
+    }
     
     applyTextFilterPT(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
@@ -147,14 +157,18 @@ export class TenderStatusDashComponent {
     @ViewChild('UQCDetailsModal') UQCDetailsModal: any;
     @ViewChild('HODDetailsModal') HODDetailsModal: any;
     @ViewChild('NSQDetailsModal') NSQDetailsModal: any;
-
-
-
+    
+    
+    
     @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
     @ViewChild('StatusItemDetailModal') StatusItemDetailModal: any;
     @ViewChild('TotalTenderDetailsModal') TotalTenderDetailsModal: any;
     @ViewChild('BidderslistModal') BidderslistModal: any;
+    @ViewChild('ToBeTenderDetailsMOdal') ToBeTenderDetailsMOdal: any;
 
+    @ViewChild('schemeReceiveddModal') schemeReceiveddModal: any;
+    @ViewChild('schemeStatusModal') schemeStatusModal: any;
+    
 
     
     
@@ -206,7 +220,7 @@ export class TenderStatusDashComponent {
       nositemsUQC:any
       nosbatchUQC:any
       stkvalueUQC:any
-    
+      ToBeTender:any;
       pOnositems: any;
       totalsample: any;
       qctimetaken: any;
@@ -232,7 +246,11 @@ export class TenderStatusDashComponent {
       totalRC1: any;
       status:any='';
       statusDetails:StatusDetail[]=[]
+      toBeTenderDetails:TobetenderDetails[]=[]
+
       statusItemDetails:StatusItemDetail[]=[];
+      schemeReceived:SchemeReceived[]=[];
+      schemeTenderStatus:SchemeTenderStatus[]=[];
       schemeId:any;
       sumtendervalue:any;
       isVis:any=true;
@@ -251,6 +269,9 @@ export class TenderStatusDashComponent {
       dataSource6 = new MatTableDataSource<any>();
       dataSource7 = new MatTableDataSource<any>();
       dataSource8 = new MatTableDataSource<any>();
+      dataSource9 = new MatTableDataSource<any>();
+      dataSource10 = new MatTableDataSource<any>();
+      dataSource11 = new MatTableDataSource<any>();
       @ViewChild('paginator') paginator!: MatPaginator;
         @ViewChild('sort') sort!: MatSort;
       @ViewChild('paginator2') paginator2!: MatPaginator;
@@ -267,6 +288,12 @@ export class TenderStatusDashComponent {
         @ViewChild('sort7') sort7!: MatSort;
         @ViewChild('paginator8') paginator8!: MatPaginator;
         @ViewChild('sort8') sort8!: MatSort;
+        @ViewChild('paginator9') paginator9!: MatPaginator;
+        @ViewChild('sort9') sort9!: MatSort;
+        @ViewChild('paginator10') paginator10!: MatPaginator;
+        @ViewChild('sort10') sort10!: MatSort;
+        @ViewChild('paginator11') paginator11!: MatPaginator;
+        @ViewChild('sort11') sort11!: MatSort;
     
         selectedCategory:any='';
         selectedCategoryRadio:any='Drugs';
@@ -930,8 +957,9 @@ export class TenderStatusDashComponent {
 
         this.getTenderStatus();
         this.getTotalRC1();
+        this.getToBeTenderDrugsSection();
               // this.QCPendingMonthwiseRecDetails()
-        this.spinner.hide();
+        // this.spinner.hide();
 
 
       }
@@ -957,19 +985,33 @@ export class TenderStatusDashComponent {
       //     }
       //   );   
       //   }
-    
-      getTenderStatus() {
-        this.spinner.show();
-        this.api.GetTenderStagesTotal(this.mcid).subscribe(
+      getToBeTenderDrugsSection(){
+        debugger
+        this.api.GetToBeTenderDrugsSection(this.mcid).subscribe(
           (res: any[]) => {
-            this.tenderStatusList = res;
-            console.log('sdsdsds'+this.tenderStatusList)
-             // Calculate total noTenders
-    this.totalNoTenders = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
-    this.spinner.hide();
+            this.ToBeTender = res;
+            console.log("lope"+JSON.stringify(this.ToBeTender));
           },
           (error) => {
             console.error('Failed to load tender status:', error);
+          }
+        );
+      }
+    
+      getTenderStatus() {
+        // this.spinner.show();
+        this.api.GetTenderStagesTotal(this.mcid).subscribe(
+          (res: any[]) => {
+            this.tenderStatusList = Array.isArray(res) ? res : [res]; // handles object or array
+            console.log('sdsdsds'+this.tenderStatusList)
+             // Calculate total noTenders
+            this.totalNoTenders = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
+            this.spinner.hide();
+
+          },
+          (error) => {
+            console.error('Failed to load tender status:', error);
+            this.toastr.error('data not foound')
             this.spinner.hide();
           }
         );
@@ -981,9 +1023,13 @@ export class TenderStatusDashComponent {
           (res: any[]) => {
             this.totalRC1 = res;
             console.log("fjkdjflksdjf"+JSON.stringify(this.totalRC1));
+            this.spinner.hide();
           },
           (error) => {
+            this.toastr.error('data not found')
             console.error('Failed to load tender status:', error);
+            this.spinner.hide();
+
           }
         );
       }
@@ -2297,6 +2343,76 @@ export class TenderStatusDashComponent {
             this.openSchemeItemsModal()
     
           }
+
+
+          SchemeReceived(schemeId:any){
+            debugger
+            this.schemeId=schemeId;
+            // this.schemeId=1410;
+            this.spinner.show();
+            
+            this.api.SchemeReceived(this.schemeId).subscribe((res:any[])=>{
+              if (res && res.length > 0) {
+               this.spinner.show();
+    
+                this.schemeReceived =res.map((item: any, index: number) => ({
+                
+                  ...item,
+                  sno: index + 1,
+                }));
+                console.log('Mapped List:', this.schemeReceived);
+                this.dataSource10.data = this.schemeReceived; // Ensure this line executes properly
+                this.dataSource10.paginator = this.paginator10;
+                this.dataSource10.sort = this.sort10;
+                this.spinner.hide();
+              } else {
+                console.error('No data found:', res);
+                this.toastr.error('No Data Found')
+                this.spinner.hide();
+    
+              }
+            });  
+            // this.openDialogUQC();
+            // alert(this.schemeReceived.length)
+            if(this.schemeReceived.length>0){
+
+              this.openSchemeReceivedModal()
+            }
+    
+          }
+          SchemeStatus(schemeId:any){
+            debugger
+            this.schemeId=schemeId;
+            this.spinner.show();
+            
+            this.api.SchemeTenderStatus(this.schemeId).subscribe((res:any[])=>{
+              if (res && res.length > 0) {
+               this.spinner.show();
+    
+                this.schemeTenderStatus =res.map((item: any, index: number) => ({
+                
+                  ...item,
+                  sno: index + 1,
+                }));
+                console.log('Mapped List:', this.schemeTenderStatus);
+                this.dataSource11.data = this.schemeTenderStatus; // Ensure this line executes properly
+                this.dataSource11.paginator = this.paginator11;
+                this.dataSource11.sort = this.sort11;
+                this.spinner.hide();
+              } else {
+                console.error('No data found:', res);
+                this.toastr.error('No Data Found')
+                this.spinner.hide();
+    
+              }
+            });  
+            // this.openDialogUQC();
+            this.openSchemeStatusModal()
+    
+          }
+
+
+
           getstatusDetails() {
             this.spinner.show();
           
@@ -2410,6 +2526,50 @@ export class TenderStatusDashComponent {
                 
                });
             }
+            openSchemeReceivedModal(): void {
+              const dialogRef = this.dialog.open(this.schemeReceiveddModal, {
+                width: '100%',
+                height: '100%',
+                maxWidth: '100%',
+                panelClass: 'full-screen-dialog', // Optional for additional styling
+                data: {
+                  /* pass any data here */
+                },
+                // width: '100%',
+                // maxWidth: '100%', // Override default maxWidth
+                // maxHeight: '100%', // Override default maxHeight
+                // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+                // height: 'auto',
+               });
+               dialogRef.afterClosed().subscribe((result) => {
+                console.log('Dialog closed');
+                
+               });
+            }
+
+
+            
+            openSchemeStatusModal(): void {
+              debugger
+              const dialogRef = this.dialog.open(this.schemeStatusModal, {
+                width: '100%',
+                height: '100%',
+                maxWidth: '100%',
+                panelClass: 'full-screen-dialog', // Optional for additional styling
+                data: {
+                  /* pass any data here */
+                },
+                // width: '100%',
+                // maxWidth: '100%', // Override default maxWidth
+                // maxHeight: '100%', // Override default maxHeight
+                // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+                // height: 'auto',
+               });
+               dialogRef.afterClosed().subscribe((result) => {
+                console.log('Dialog closed');
+                
+               });
+            }
             
 
           openDialogUQC() {
@@ -2452,6 +2612,29 @@ export class TenderStatusDashComponent {
                console.log('Dialog closed');
               });
               }
+
+            openDialogtobeTender() {
+            
+            
+              const dialogRef = this.dialog.open(this.ToBeTenderDetailsMOdal, {
+               width: '100%',
+               height: '100%',
+               maxWidth: '100%',
+               panelClass: 'full-screen-dialog', // Optional for additional styling
+               data: {
+                 /* pass any data here */
+               },
+               // width: '100%',
+               // maxWidth: '100%', // Override default maxWidth
+               // maxHeight: '100%', // Override default maxHeight
+               // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+               // height: 'auto',
+              });
+              dialogRef.afterClosed().subscribe((result) => {
+               console.log('Dialog closed');
+              });
+              }
+
             openDialogNSQ() {
             
               // const dialogRef = this.dialog.open(this.NSQDetailsModal, {
@@ -2490,10 +2673,11 @@ export class TenderStatusDashComponent {
                 // this.QCNSQ_Dash()
                 this.getTenderStatus();
                 this.getTotalRC1()
+                this.getToBeTenderDrugsSection();
                 // this.getstatusDetails()
 
     
-              this.spinner.hide()
+              // this.spinner.hide()
     
                 
                 // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
@@ -2511,12 +2695,14 @@ export class TenderStatusDashComponent {
                 // this.QCHold_Dash()
                 // this.QCNSQ_Dash()
                 // this.getstatusDetails()
+                this.getToBeTenderDrugsSection();
                 this.getTenderStatus();
                 this.getTotalRC1()
 
+                this.getToBeTenderDrugsSection();
     
     
-              this.spinner.hide()
+              // this.spinner.hide()
     
     
     
@@ -2535,15 +2721,17 @@ export class TenderStatusDashComponent {
                 // this.QCTimeTakenYear()
                 // this.QCHold_Dash()
                 // this.QCNSQ_Dash()
+                this.getToBeTenderDrugsSection();
                 this.getTenderStatus();
 
                 this.getTotalRC1()
                 // this.getstatusDetails()
 
                
+                this.getToBeTenderDrugsSection();
     
     
-              this.spinner.hide()
+              // this.spinner.hide()
     
     
     
@@ -2561,14 +2749,16 @@ export class TenderStatusDashComponent {
                 // this.QCTimeTakenYear()
                 // this.QCHold_Dash()
                 // this.QCNSQ_Dash()
+                this.getToBeTenderDrugsSection();
                 this.getTenderStatus();
 
                 this.getTotalRC1()
                 // this.getstatusDetails()
 
+                this.getToBeTenderDrugsSection();
                 
     
-              this.spinner.hide()
+              // this.spinner.hide()
     
     
     
@@ -2622,6 +2812,51 @@ export class TenderStatusDashComponent {
               this.getstatusDetails()
     
     // this.openDialogHOD();
+            }
+
+            fetchDetails(){
+this.status=': To Be Tender';
+              this.gettobetenderDetails()
+
+            }
+            gettobetenderDetails(){
+              debugger
+              this.spinner.show();
+          
+            this.api.GetToBeTenderDetail(this.mcid).subscribe({
+              next: (res: any[]) => {
+                if (res && res.length > 0) {
+                  this.toBeTenderDetails = res.map((item: any, index: number) => ({
+                    ...item,
+                    sno: index + 1,
+                  }));
+                  console.log('Mapped List:', this.toBeTenderDetails);
+          
+                  this.dataSource9.data = this.toBeTenderDetails;
+                  this.dataSource9.paginator = this.paginator9;
+                  this.dataSource9.sort = this.sort9;
+                  // this.checkIfLiveStatusExists(this.dataSource8);
+                } else {
+                  console.error('No data found or incorrect structure:', res);
+                  this.spinner.hide();  // Always hide spinner whether success or error
+                  this.toastr.error('Failed to load data');
+
+                }
+              },
+              error: (err) => {
+                console.error('API error:', err);
+                this.spinner.hide();  // Always hide spinner whether success or error
+                this.toastr.error('Failed to load data');
+
+                
+
+              },
+              complete: () => {
+                this.spinner.hide();  // Always hide spinner whether success or error
+              }
+            });
+          
+            this.openDialogtobeTender();
             }
     
             exportToPDFQCLabPendingTracke() {
@@ -2692,6 +2927,66 @@ export class TenderStatusDashComponent {
               });
             
               doc.save('statusItemDetails.pdf');
+            }
+
+            tobetenderDetailsReceivedPdf  () {
+              const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a3'
+              });
+            
+              doc.setFont('NotoSansDevanagari');
+            
+              const now = new Date();
+              const dateString = now.toLocaleDateString();
+              const timeString = now.toLocaleTimeString();
+            
+              // Header
+              const header = ' Status Details';
+              const pageWidth = doc.internal.pageSize.getWidth();
+              const titleWidth = doc.getTextWidth(header);
+              const xOffset = (pageWidth - titleWidth) / 2;
+            
+              doc.setFontSize(18);
+              doc.text(header, xOffset, 10);
+            
+              doc.setFontSize(10);
+              doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10);
+            
+              // Columns updated
+              const columns = [
+                { title: 'S.No', dataKey: 'sno' },
+                { title: 'Scheme ', dataKey: 'schemename' },
+                { title: 'Tender ', dataKey: 'tenderstatus' },
+                { title: 'Tender ', dataKey: 'tenderremark' },
+                { title: 'Entry ', dataKey: 'entrydate' }
+              ];
+            
+              const rows = this.schemeTenderStatus.map((row, index) => ({
+                sno: index + 1,
+                schemename: row.schemename || '-',
+                tenderstatus: row.tenderstatus || '-',
+                tenderremark: row.tenderremark || '-',
+                entrydate: row.entrydate || '-'
+              }));
+            
+              autoTable(doc, {
+                columns: columns,
+                body: rows,
+                startY: 20,
+                styles: {
+                  font: 'NotoSansDevanagari',
+                  fontSize: 9,
+                  overflow: 'linebreak',
+                  cellPadding: 2
+                },
+                theme: 'striped',
+                headStyles: { fillColor: [22, 160, 133] }
+              });
+            
+              doc.save('received.pdf');
+            
             }
             
     
@@ -2865,6 +3160,89 @@ exportToPDFHODDetails() {
 
   doc.save('StatusDetails.pdf');
 }
+
+
+
+exportToBeTenderDetails() {
+  const doc = new jsPDF({
+    orientation: 'landscape',
+    unit: 'mm',
+    format: 'a3'
+  });
+
+  doc.setFont('NotoSansDevanagari');
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  // Title
+  const header = 'Total Tender Item Details';
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const titleWidth = doc.getTextWidth(header);
+  const xOffset = (pageWidth - titleWidth) / 2;
+
+  doc.setFontSize(18);
+  doc.text(header, xOffset, 10);
+
+  // Date/Time
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10);
+
+  // Updated columns
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Item Name', dataKey: 'itemname' },
+    { title: 'Item Code', dataKey: 'itemcode' },
+    { title: 'Strength', dataKey: 'strength' },
+    { title: 'Unit', dataKey: 'unit' },
+    { title: 'EDL', dataKey: 'edl' },
+    { title: 'DHS Indent Qty', dataKey: 'dhsIndnetQty' },
+    { title: 'DHS AI Value', dataKey: 'dhsaiValue' },
+    { title: 'DME Indent Qty', dataKey: 'dmeIndentQty' },
+    { title: 'DME AI Value', dataKey: 'dmeaiValue' },
+    { title: 'Total Indent Qty', dataKey: 'totalIndentQty' },
+    { title: 'Total AI Value', dataKey: 'totalAIValue' },
+    { title: 'Scheme Code', dataKey: 'schemecode' },
+    { title: 'Scheme Name', dataKey: 'schemename' },
+    { title: 'Tender Ref', dataKey: 'tenderref' }
+  ];
+
+  const rows = this.toBeTenderDetails.map((row, index) => ({
+    sno: index + 1,
+    itemname: row.itemname || '-',
+    itemcode: row.itemcode || '-',
+    strength: row.strength || '-',
+    unit: row.unit || '-',
+    edl: row.edl || '-',
+    dhsIndnetQty: row.dhsIndnetQty ?? '-',
+    dhsaiValue: row.dhsaiValue ?? '-',
+    dmeIndentQty: row.dmeIndentQty ?? '-',
+    dmeaiValue: row.dmeaiValue ?? '-',
+    totalIndentQty: row.totalIndentQty ?? '-',
+    totalAIValue: row.totalAIValue ?? '-',
+    schemecode: row.schemecode || '-',
+    schemename: row.schemename || '-',
+    tenderref: row.tenderref || '-'
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 20,
+    styles: {
+      font: 'NotoSansDevanagari',
+      fontSize: 8,
+      overflow: 'linebreak',
+      cellPadding: 1.5
+    },
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('ToBeTender.pdf');
+}
+
 
     
     exportToPDFPendingTracker() {
