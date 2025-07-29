@@ -33,7 +33,7 @@
 
 
     <div class="row mb-3 text-center">
-      <div class="col-md-3">
+      <div class="col-md-3" *ngIf="role!='CME' && role!='DME1'" >
         <button 
         class="btn btn-secondary w-100"
         
@@ -42,11 +42,12 @@
          >Show All
         </button>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" *ngIf="role !== 'CME' && role !== 'DME1'">
         <button class="btn btn-secondary w-100"  [ngClass]="{'Active': HOD === 'DHS'}"  (click)="loadDataDHS(mcid, hodid,'DHS')"   >DHS</button>
       </div>
       <div class="col-md-3">
-        <button class="btn btn-secondary w-100" [ngClass]="{'Active': HOD === 'DME'}"    (click)="loadDataDME(mcid, hodid,'DME')">DME</button>
+        <!-- <button class="btn btn-secondary w-100" [ngClass]="{'Active': HOD === 'DME'}"    (click)="loadDataDME(mcid, hodid,'DME')">DME</button> -->
+        <button class="btn btn-secondary w-100" [ngClass]="{'Active': HOD === 'DME'}"    (click)="loadDataDME(mcid, hodid,'CME')">CME</button>
       </div>
       <div class="col-md-3">
         <button class="btn btn-secondary w-100"  [ngClass]="{'Active': HOD === 'AYUSH'}"   (click)="loadDataAYUSH(mcid, hodid,'AYUSH')">AYUSH</button>

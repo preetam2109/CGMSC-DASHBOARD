@@ -986,7 +986,7 @@ export class TenderStatusDashComponent {
       //   );   
       //   }
       getToBeTenderDrugsSection(){
-        debugger
+        
         this.api.GetToBeTenderDrugsSection(this.mcid).subscribe(
           (res: any[]) => {
             this.ToBeTender = res;
@@ -2346,7 +2346,7 @@ export class TenderStatusDashComponent {
 
 
           SchemeReceived(schemeId:any){
-            debugger
+            
             this.schemeId=schemeId;
             // this.schemeId=1410;
             this.spinner.show();
@@ -2381,7 +2381,7 @@ export class TenderStatusDashComponent {
     
           }
           SchemeStatus(schemeId:any){
-            debugger
+            
             this.schemeId=schemeId;
             this.spinner.show();
             
@@ -2550,7 +2550,7 @@ export class TenderStatusDashComponent {
 
             
             openSchemeStatusModal(): void {
-              debugger
+              
               const dialogRef = this.dialog.open(this.schemeStatusModal, {
                 width: '100%',
                 height: '100%',
@@ -2820,7 +2820,7 @@ this.status=': To Be Tender';
 
             }
             gettobetenderDetails(){
-              debugger
+              
               this.spinner.show();
           
             this.api.GetToBeTenderDetail(this.mcid).subscribe({

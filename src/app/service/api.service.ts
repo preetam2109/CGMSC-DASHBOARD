@@ -62,7 +62,7 @@ import { NearExpRCDetails } from '../Model/NearExpRCDetails';
 import { SupplyDuration } from '../Model/SupplyDuration';
 import { POSuppyTimeTakenYear } from '../Model/POSuppyTimeTakenYear';
 import { PaidTimeTaken } from '../Model/PaidTimeTaken';
-import { QCTimeTakenYearwise } from '../Model/QCTimeTakenYearwise';
+import { nsqDrugDetails, QCTimeTakenYearwise } from '../Model/QCTimeTakenYearwise';
 import { QCLabYearAvgTime } from '../Model/QCLabYearAvgTime';
 import { StockoutSummary } from '../Model/StockoutSummary';
 import { HODYearWiseIssuance } from '../Model/HODYearWiseIssuance';
@@ -113,10 +113,11 @@ import { Masitems } from '../Model/Masitems';
 import { getItemDetailsWithHOD } from '../Model/ItemDetailsWithHod';
 import { DHSDMEStock } from '../Model/DHSDmeStock';
 import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuanceCoonsumptionm';
-import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
+import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, PaidYearwise_Budget, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
 import { AttendenceRecord, Designation, EmployeeDetail, GetLocation } from '../Model/Attendence';
 import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalTender } from '../Model/TenderStatus';
-import { EqptobeTender, EqToBeTenderDetail, GetConsTenderStatusDetail, GetToBeTender, SchemeReceived, SchemeTenderStatus, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, TobetenderDetails, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
+import { CoverStatus, CoverStatusDetail, CoverStatusTenderDetail, EqptobeTender, EqToBeTenderDetail, GetConsTenderStatusDetail, GetToBeTender, SchemeReceived, SchemeTenderStatus, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, ToBeTenderBifurcation, ToBeTenderBifurcationDetail, TobetenderDetails, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
+import { AIvsIssuance, MasfacilityInfoUser, Year } from '../Model/masInfoUser';
 
 
 
@@ -127,6 +128,7 @@ export class ApiService {
   private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
   private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
   private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
+
   // private CGMSCHO_API2 = 'https://dpdmis.in//CGMSCHO_API_TEST/api';
 
   // https://dpdmis.in//CGMSCHO_API_TEST/api
@@ -489,6 +491,7 @@ export class ApiService {
   }
 
   getSeasonDrugs(seasonname: string, groupid: number, itemtypeid: number, storeType: string): Observable<any> {
+
     const apiUrl = `${this.CGMSCHO_API2}/HOD/SeasonDrugs`;
     const params = new HttpParams()
       .set('seasonname', seasonname)
@@ -1096,11 +1099,12 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   getFundReivedBudgetID(bugetid: any, yrid: any) {
+    
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/FundReivedBudgetID?bugetid=${bugetid}&yrid=${yrid}`);
   }
 
   PaidYearwise_Budget(bugetid: any, yrid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/PaidYearwise_Budget?bugetid=${bugetid}&yrid=${yrid}`);
+    return this.http.get<PaidYearwise_Budget[]>(`${this.CGMSCHO_API2}/DashboardFinance/PaidYearwise_Budget?bugetid=${bugetid}&yrid=${yrid}`);
   }
 
   PODetailsAgainstIndentYr(bugetid: any, yrid: any, HOD: any) {
@@ -1150,8 +1154,8 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<QCPendingAreaDetail[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}`);
   }
 
-  GrossPaidDateWiseDetails(bugetid: any, fromdt: any, todt: any, supplierid: any, yrid: any) {
-    return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}`);
+  GrossPaidDateWiseDetails(bugetid: any, fromdt: any, todt: any, supplierid: any, yrid: any,Indentyrid:any) {
+    return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}&Indentyrid=${Indentyrid}`);
   }
   
   Sanc_Cheque(rptype: any,bugetid: any) 
@@ -1276,6 +1280,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   getStatusDetail(status:any,mcatid:any) {
+    
     return this.http.get<StatusDetail[]>(`${this.CGMSCHO_API2}/HOTender/StatusDetail?status=${status}&mcatid=${mcatid}`);
   }
   getStatusItemDetail(schemeId:any) {
@@ -1327,23 +1332,23 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
   
   GetToBeTenderDrugsSection(mcid:any){
-    debugger
+    
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTender?mcid=${mcid}`);
   }
   
   GetToBeTenderDetail(mcid:any){
-    debugger
+    
     return this.http.get<TobetenderDetails[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTenderDetail?mcid=${mcid}`);
   }
   
   
   SchemeReceived(schemeid:any){
-    debugger
+    
     return this.http.get<SchemeReceived[]>(`${this.CGMSCHO_API2}/HOTender/SchemeReceived?schemeid=${schemeid}`);
   }
   
   SchemeTenderStatus(schemeid:any){
-    debugger
+    
     return this.http.get<SchemeTenderStatus[]>(`${this.CGMSCHO_API2}/HOTender/SchemeTenderStatus?schemeid=${schemeid}`);
   }
   
@@ -1351,6 +1356,67 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     
     return this.http.get<EqToBeTenderDetail[]>(`${this.himis_apin}/EMS/EqToBeTenderDetail`);
   }
+  
+
+  CoverStatus(){
+    // card
+    return this.http.get<CoverStatus[]>(`${this.himis_apin}/StockMgm/CoverStatus`);
+
+  }
+  
+  CoverStatusDetail(csid:any){
+    // click
+    return this.http.get<CoverStatusDetail[]>(`${this.himis_apin}/StockMgm/CoverStatusDetail?csid=${csid}`);
+
+  }
+  CoverStatusTenderDetail(tenderId:any){
+    // item click
+    return this.http.get<CoverStatusTenderDetail[]>(`${this.himis_apin}/StockMgm/CoverStatusTenderDetail?tenderId=${tenderId}`);
+
+  }
+  GetnsqDrugDetails(){
+    // item click
+    return this.http.get<nsqDrugDetails[]>(`${this.CGMSCHO_API2}/QC/nsqDrugDetails`);
+
+  }
+
+  ToBeTenderBifurcation(){
+    // item click
+    return this.http.get<ToBeTenderBifurcation[]>(`${this.himis_apin}/TenderStatus/ToBeTenderBifurcation`);
+
+  }
+
+  ToBeTenderBifurcationDetail(tRemarkId:any,){
+    // item click
+    return this.http.get<ToBeTenderBifurcationDetail[]>(`${this.himis_apin}/TenderStatus/ToBeTenderBifurcationDetail?tRemarkId=${tRemarkId}`);
+
+  }
+
+  MasfacilityInfoUser(hod:any,disid:any,factypeid:any,whid:any,facid:any,userid:any,coll_cmho:any){
+    // item click
+    return this.http.get<MasfacilityInfoUser[]>(`${this.CGMSCHO_API2}/Master/MasfacilityInfoUser?hod=${hod}&disid=${disid}&factypeid=${factypeid}&whid=${whid}&facid=${facid}&userid=${userid}&coll_cmho=${coll_cmho}`);
+
+  }
+
+  AIvsIssuance(mcid:any,yrid:any,facid:any){
+    
+    
+    return this.http.get<AIvsIssuance[]>(`${this.CGMSCHO_API2}/HO/AIvsIssuance?mcid=${mcid}&facid=${facid}&yrid=${yrid}`);
+
+  }
+  getYear(){
+
+    return this.http.get<Year[]>(`${this.CGMSCHO_API2}/CGMSCStock/getYear`);
+
+  }
+
+  NearExpRCDetails(mcid:any,mmpara:any){
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/TimeTaken/NearExpRCDetails?mcid=${mcid}&mmpara=${mmpara}`);
+  }
+
+
+
+
   
   
   

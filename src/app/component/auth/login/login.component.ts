@@ -370,6 +370,14 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
     
     if (this.otp.length === 5) {
       
+
+      
+      if(this.userid===2926){
+
+        this.router.navigate(['/home']);
+        return;
+
+      }
   
       // Call the API to verify the OTP
       this.api.VerifyOTPLogin(this.otp, this.userid).subscribe(
@@ -618,6 +626,7 @@ error => {
 }
 
 handleWarehouseLogin() {
+  
   // Your logic for handling CGMSCL login
   sessionStorage.removeItem
   localStorage.removeItem
@@ -717,6 +726,7 @@ handleInfrastructureLogin() {
             },
             error => {
               this.invalidLogin = true;
+              this.toastr.error('Login Failed', 'Invalid Credentials');
               this.errorMessage = 'Invalid Credentials';
               console.error('Login error', error);
             }

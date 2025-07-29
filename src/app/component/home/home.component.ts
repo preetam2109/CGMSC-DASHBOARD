@@ -15,6 +15,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { style } from '@angular/animations';
 import { forkJoin, reduce } from 'rxjs';
 import { WOpendingTotal } from 'src/app/Model/DashProgressCount';
+import autoTable from 'jspdf-autotable';
+import { ToastrService } from 'ngx-toastr';
+import jsPDF from 'jspdf';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -56,6 +59,7 @@ throw new Error('Method not implemented.');
   RunningWork:any
   handoverAbstractl:any;
   paidSummary:any;
+  RCstatusDetails:any[]=[];
 
 
 
@@ -83,10 +87,16 @@ throw new Error('Method not implemented.');
   totalRC1: any;
 
 
+  @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
+
+
   dataSource = new MatTableDataSource<any>();
   dataSource2 = new MatTableDataSource<any>();
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
+  dataSource8 = new MatTableDataSource<any>();
+  @ViewChild('paginator8') paginator8!: MatPaginator;
+  @ViewChild('sort8') sort8!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
@@ -289,7 +299,7 @@ colors = [];
 
 
   };
-  constructor(private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
+  constructor(public toastr: ToastrService,private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
     
    
     this.chartOptions = {
@@ -817,7 +827,14 @@ colors = [];
       },
     };
   }
-
+  applyTextFiltertotal(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource8.filter = filterValue.trim().toLowerCase();
+  
+    if (this.dataSource8.paginator) {
+      this.dataSource8.paginator.firstPage();
+    }
+  }
   ngOnInit() {
      this.username = sessionStorage.getItem('authenticatedUser');
      
@@ -1718,6 +1735,60 @@ loadUQC(): void {
   );
 }
 
+getstatusDetails() {
+            
+  this.spinner.show();
+
+
+
+  this.api.NearExpRCDetails(this.mcid,0).subscribe({
+    next: (res: any[]) => {
+      if (res && res.length > 0) {
+        this.RCstatusDetails = res.map((item: any, index: number) => ({
+          ...item,
+          sno: index + 1,
+        }));
+
+        this.dataSource8.data = this.RCstatusDetails;
+        this.dataSource8.paginator = this.paginator8;
+        this.dataSource8.sort = this.sort8;
+      } else {
+        this.toastr.error('No data found');
+      }
+    },
+    error: (err) => {
+      console.error('API error:', err);
+      this.toastr.error('Failed to load data');
+    },
+    complete: () => {
+      this.spinner.hide();
+    }
+  });
+
+  this.openDialogHOD();
+}
+openDialogHOD() {
+  // this.getTotalTenderValue()
+  
+    const dialogRef = this.dialog.open(this.StatusDetailsModal, {
+     width: '100%',
+     height: '100%',
+     maxWidth: '100%',
+     panelClass: 'full-screen-dialog', // Optional for additional styling
+     data: {
+       /* pass any data here */
+     },
+     // width: '100%',
+     // maxWidth: '100%', // Override default maxWidth
+     // maxHeight: '100%', // Override default maxHeight
+     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+     // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+     console.log('Dialog closed');
+    });
+    }
+
   loadData1(): void {
 
         this.api.Last7DaysIssue(7,this.mcid,0,0,1).subscribe(
@@ -1995,7 +2066,7 @@ loadUQC(): void {
 
 
       updateSelectedHodid(): void {
-      debugger
+      
   this.spinner.show(); // Show the spinner before making API calls
 
   if (this.selectedCategoryRadio === 'Drugs') {
@@ -2040,6 +2111,69 @@ loadUQC(): void {
     }
   });
 }
+
+
+
+
+
+exportToPDFHODDetails() {
+  const doc = new jsPDF('l', 'mm', 'a4'); // landscape
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC  Details';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+
+  const columns = [
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item ID', dataKey: 'itemid' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'Strength', dataKey: 'strength1' },
+    { header: 'Unit', dataKey: 'unit' },
+    { header: 'Basic Rate', dataKey: 'basicrate' },
+    { header: 'GST (%)', dataKey: 'gst' },
+    { header: 'Final Rate (incl. GST)', dataKey: 'finalrategst' },
+    { header: 'RC Start', dataKey: 'rcStart' },
+    { header: 'RC End', dataKey: 'rcEndDT' },
+  ];
+
+  const rows = this.RCstatusDetails.map((item: any, index: number) => ({
+    sno: index + 1,
+    itemid: item.itemid,
+    itemcode: item.itemcode,
+    itemname: item.itemname,
+    strength1: item.strength1,
+    unit: item.unit,
+    basicrate: item.basicrate,
+    gst: item.gst,
+    finalrategst: item.finalrategst,
+    rcStart: item.rcStart,
+    rcEndDT: item.rcEndDT,
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.header)],
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('RC_Details.pdf');
+}
+
     
   }
 

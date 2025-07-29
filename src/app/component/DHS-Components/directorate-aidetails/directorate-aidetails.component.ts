@@ -71,6 +71,7 @@ export class DirectorateAIDetailsComponent {
   selectedTabIndex: number = 0;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  hodid: any;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -312,7 +313,16 @@ export class DirectorateAIDetailsComponent {
   loadData(): void {
     
     this.spinner.show();
-    this.api.GroupWiseAI_PODetails(0,1,367).subscribe(
+    if(localStorage.getItem('roleName')=='CME'){
+       this.hodid=364
+    }else if(localStorage.getItem('roleName')=='DHS'){
+      this.hodid=367
+    }else{
+      this.hodid=0
+
+    }
+    // this.api.GroupWiseAI_PODetails(0,1,367).subscribe(
+    this.api.GroupWiseAI_PODetails(0,1,this.hodid).subscribe(
       (data: GroupWiseAI_PODetails[]) => {
         const groupid: number[] = [];
         const groupname: string[] = [];

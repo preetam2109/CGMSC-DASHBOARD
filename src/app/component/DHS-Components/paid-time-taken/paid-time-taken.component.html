@@ -49,26 +49,31 @@
 
 
   <div class="row mb-3 text-center">
-    <div class="col-md-3">
+    <div class="col-md-3" *ngIf="role !== 'CME' && role !== 'DME1'">
       <button class="btn btn-outline-success w-100" 
               (click)="loadData(mcid, 0, QCRequired, 'All')" 
               [ngClass]="{'Active': hodname === 'All'}">
         All HOD
       </button>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3" *ngIf="role !== 'CME' && role !== 'DME1'">
       <button class="btn btn-outline-info w-100" 
               (click)="loadData(mcid, 367, QCRequired, 'DHS')" 
               [ngClass]="{'Active': hodname === 'DHS'}">
         DHS
       </button>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3" *ngIf="role!=='CME' || role!='DME1'">
       <button class="btn btn-outline-primary w-100" 
               (click)="loadData(mcid, 364, QCRequired, 'DME')" 
               [ngClass]="{'Active': hodname === 'DME'}">
-        DME
+        CME
       </button>
+      <!-- <button class="btn btn-outline-primary w-100" 
+              (click)="loadData(mcid, 364, QCRequired, 'DME')" 
+              [ngClass]="{'Active': hodname === 'DME'}">
+        DME
+      </button> -->
     </div>
     <div class="col-md-3">
       <button class="btn btn-outline-secondary w-100" 

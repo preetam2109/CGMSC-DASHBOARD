@@ -116,6 +116,41 @@ export class EqToBeTenderDetail{
     uploadStatus!: string;
     createdOn!: string;
 }
+export class CoverStatus{
+    csid!: number;
+    cStatus!: string;
+    cntTender!: number;
+    tValue!: number;
+}
+export class CoverStatusDetail{
+    sno:any;
+    csid!: number;
+    tender_id!: number;
+    isGemTender!: string;
+    tender_no!: string;
+    tender_description!: string;
+    tender_date!: string;
+    endDate!: string;
+    cover_a!: string;
+    cover_b!: string;
+    cStatus!: string;
+    cntItems!: number;
+    tenderValue!: number;
+    tenderstatus!: string;
+    tenderremark!: string;
+    entrydate!: string;
+}
+export class CoverStatusTenderDetail{
+        sno:any;
+        tender_id!: number;
+        item_ID!: number;
+        categoryName!: string;
+        item_code!: string;
+        item_Name!: string;
+        estimated_cost!: string;
+        tender_quantity!: number;
+        tenderValue!: string;
+}
 
 export class TobetenderDetails{
         itemcode!: number;
@@ -164,5 +199,31 @@ export class SchemeReceived{
     recvfilepath!: string;
     recventrydate!: string;
 }
+export class ToBeTenderBifurcation{
+        tremarkID!: number;
+        tobetenderstatus!: string;
+        noOfWork!: number;
+
+}
+
+export class ToBeTenderBifurcationDetail{
+    head!: string;
+        divisionID!: string;
+        division!: string;
+        district!: string;
+        work_id!: string;
+        workname!: string;
+        asLetterNO!: string;
+        asDate!: string;
+        asAmt!: number;
+        tsAmount!: number;
+        valueWorks!: number;
+        workStatus!: string;
+        tremarkID!: number;
+        tRemarks!: string;
+        remarkDT!: string;
+        remarks!: string
+}
+
 
 

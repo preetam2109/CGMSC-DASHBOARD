@@ -38,7 +38,7 @@
  
   
   
-  <div class="p-2 my-0 mb-2"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName) && selectedCategory!='Infrastructure'" id="workdetails" >
+  <div class="p-2 my-0 mb-2"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO','MDGMT','TPOBME','Tenders'].includes(roleName) && selectedCategory!='Infrastructure'" id="workdetails" >
     <!-- <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
       <strong style="text-align: center;">{{selectedCategoryRadio}} Tender Status </strong>
     </h1> -->
@@ -247,14 +247,20 @@
 
 
 
-<div >
+<div *ngIf="mcid === 5">
   <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
     <strong style="text-align: center;">{{selectedCategoryRadio}} To Be Tender </strong>
   </h1>
 
 </div>
+<div *ngIf="mcid === 3">
+  <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
+    <strong style="text-align: center;">{{selectedCategoryRadio}} Total RC </strong>
+  </h1>
 
-<div class="col-md-4 mb-3" *ngIf="mcid === 3" >
+</div>
+
+<!-- <div class="col-md-4 mb-3" *ngIf="mcid === 3" >
   <div class="card p-3 shadow w-100"
        style="background: linear-gradient(90deg, #3F2B96 0%, #A8C0FF 100%); color: white;">
        
@@ -262,7 +268,6 @@
 
     <div class="d-flex justify-content-between align-items-center" (click)="fetchDetails(ToBeTender[0]?.cntItems)" >
       
-      <!-- Centered Content -->
       <div class="flex-grow-1 d-flex flex-column align-items-center">
         <h6 class="card-title m-0 text-center">
           To Be Tender
@@ -273,13 +278,21 @@
         </p>
       </div>
  
-      <!-- Right-aligned Image -->
       <img src="assets/dash-icon/tobetender.png" alt=""
            style="width: 100px; height: 100px;" />
            
     </div>
   </div>
- </div>
+
+
+ 
+
+
+ </div> -->
+
+ 
+
+
 <div class="col-md-4 mb-3" *ngIf="mcid === 5" >
   <div class="card p-3 shadow w-100"
        style="background: linear-gradient(90deg, #3F2B96 0%, #A8C0FF 100%); color: white;">
@@ -307,7 +320,33 @@
   </div>
  </div>
 
+ 
 
+  <!-- Total RC1 Card -->
+  <div class="col-md-4 mb-3" *ngIf="mcid === 3" >
+    <div class="card p-3 shadow w-100"
+         style="background: linear-gradient(to right, #e878ee, #afa2e2, #b950e6); color: white;">
+         
+      <div class="d-flex justify-content-between align-items-center">
+        
+        <!-- Centered Content -->
+        <div class="flex-grow-1 d-flex flex-column align-items-center">
+          <h6 class="card-title m-0 text-center">
+            Total RC for {{ totalRC1[0]?.mcategory ?? 'Reagent' }}
+          </h6>
+          <h2 class="card-value m-0">{{ totalRC1[0]?.total ?? 0 }}</h2>
+          <p class="card-text">
+            EDL: {{ totalRC1[0]?.edl ?? 0 }}, NEDL: {{ totalRC1[0]?.nedl ?? 0 }}
+          </p>
+        </div>
+  
+        <!-- Right-aligned Image -->
+        <img src="assets/dash-icon/rc.png" alt=""
+             style="width: 100px; height: 100px;" />
+             
+      </div>
+    </div>
+  </div>
   
 
 
@@ -1675,7 +1714,7 @@
                       
                                       
                                   <ng-container matColumnDef="sno">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header > S.No </th>
                                       <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
                                     </ng-container>
                                     

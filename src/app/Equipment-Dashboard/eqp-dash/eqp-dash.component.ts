@@ -421,7 +421,7 @@ export class EqpDashComponent {
 
 
       SchemeStatus(schemeId:any){
-        debugger
+        
         this.schemeId=schemeId;
         this.spinner.show();
         
@@ -451,7 +451,7 @@ export class EqpDashComponent {
 
       }
       openSchemeStatusModal(): void {
-        debugger
+        
         const dialogRef = this.dialog.open(this.schemeStatusModal, {
           width: '100%',
           height: '100%',
@@ -1900,7 +1900,6 @@ export class EqpDashComponent {
 
 
           getstatusDetails() {
-             
             this.spinner.show();
           
             let apiCall$: Observable<any[]>;
@@ -2278,7 +2277,7 @@ export class EqpDashComponent {
     //         }
     
     fetchDetails(cntItems: number): void {
-      debugger
+      
       if (!cntItems || cntItems === 0) {
         this.toastr.error('No Data Found');
         return;
@@ -2294,7 +2293,7 @@ export class EqpDashComponent {
                   getToBeTenderDrugsSection(){
                     this.spinner.show();
 
-                    debugger
+                    
                     if(this.mcid===5){
                       this.api.GetToBeTenderEqp().subscribe(
                         (res: any[]) => {
@@ -2327,7 +2326,7 @@ export class EqpDashComponent {
                   }
 
                   gettobetenderDetails(){
-                    debugger
+                    
                     this.spinner.show();
                 
                   this.api.GetToBeTenderDetail(this.mcid).subscribe({
@@ -2367,7 +2366,7 @@ export class EqpDashComponent {
                   }
 
                   gettobetenderDetailsEqP(){
-                    debugger
+                    
                     this.spinner.show();
                 
                   this.api.GetEqToBeTenderDetail().subscribe({
@@ -2452,7 +2451,7 @@ export class EqpDashComponent {
 
             fetchHOD(csid:any,status:any,noTenders:any){
 
-debugger
+
               if (noTenders=== 0) {
                 this.toastr.error('No Data Found');
                 return; // exit early to avoid further execution

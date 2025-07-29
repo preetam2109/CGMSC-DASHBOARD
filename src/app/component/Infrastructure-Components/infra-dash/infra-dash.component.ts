@@ -164,6 +164,7 @@ export class InfraDashComponent {
     @ViewChild('StatusItemDetailModal') StatusItemDetailModal: any;
     @ViewChild('TotalTenderDetailsModal') TotalTenderDetailsModal: any;
     @ViewChild('BidderslistModal') BidderslistModal: any;
+    @ViewChild('toBeTenderBifurcationDetailModal') toBeTenderBifurcationDetailModal: any;
 
 
     
@@ -227,6 +228,7 @@ export class InfraDashComponent {
 
 
       tenderStatusList: any[] = [];
+      ToBeTenderBifurcation: any[] = [];
       totaltenderList: any[] = [];
       totalNoTenders: number = 0;
       noOfBidderslist:any[]=[];
@@ -238,6 +240,7 @@ export class InfraDashComponent {
       schemeId:any;
       sumtendervalue:any;
       isVis:any=true;
+      tRemarkId:any=0;
 
 
 
@@ -248,6 +251,7 @@ export class InfraDashComponent {
       pGroupID:any;
       tenderStatusDetails:any[]=[];
       tenderStatusDetailsZonal: any[]=[];
+      toBeTenderBifurcationDetail: any[]=[];
       totBetenderList:GetToBeTender[]=[];
 
 
@@ -264,6 +268,7 @@ export class InfraDashComponent {
       dataSource6 = new MatTableDataSource<any>();
       dataSource7 = new MatTableDataSource<any>();
       dataSource8 = new MatTableDataSource<any>();
+      dataSource9 = new MatTableDataSource<any>();
       @ViewChild('paginator') paginator!: MatPaginator;
         @ViewChild('sort') sort!: MatSort;
       @ViewChild('paginator2') paginator2!: MatPaginator;
@@ -282,6 +287,8 @@ export class InfraDashComponent {
         @ViewChild('sort8') sort8!: MatSort;
         @ViewChild('paginator9') paginator9!: MatPaginator;
         @ViewChild('sort9') sort9!: MatSort;
+        @ViewChild('paginator10') paginator10!: MatPaginator;
+        @ViewChild('sort10') sort10!: MatSort;
     
         selectedCategory:any='';
         selectedCategoryRadio:any='Non Zonal';
@@ -306,7 +313,7 @@ export class InfraDashComponent {
     colors = [];
 
     getCardGradient(nosWorks: number): string {
-      debugger
+      
       if (nosWorks > 90) {
         return 'linear-gradient(to right, #ff758c, #ff7eb3)'; // light pink/red
       } else if (nosWorks > 75) {
@@ -412,6 +419,7 @@ export class InfraDashComponent {
         // this.QCTimeTakenYear();
 
         this.getTenderStatus();
+        this.getToBeTenderBifurcation();
         // this.getTotalRC1();
               // this.QCPendingMonthwiseRecDetails()
         this.spinner.hide();
@@ -491,6 +499,29 @@ export class InfraDashComponent {
           console.warn('Unsupported mcid:', this.NormalZonal);
           this.spinner.hide();
         }
+      }
+
+      getToBeTenderBifurcation(){
+
+        this.spinner.show();
+      
+        if (this.NormalZonal==='N') {
+          this.api.ToBeTenderBifurcation().subscribe(
+            (res: any[]) => {
+              this.ToBeTenderBifurcation = res;
+
+              this.spinner.hide();
+            },
+            (error) => {
+              console.error('Failed to load tender status:', error);
+              this.spinner.hide();
+            }
+          );
+        }else {
+          console.warn('Unsupported mcid:', this.NormalZonal);
+          this.spinner.hide();
+        } 
+
       }
       
       
@@ -1872,7 +1903,7 @@ export class InfraDashComponent {
             //   this.toastr.error('Unsupported operation');
             //   return;
             // }
-          debugger
+          
             this.api.GetConsTenderStatusDetail(this.pGroupID, this.ppid).subscribe({
               next: (res: any[]) => {
                 if (res && res.length > 0) {
@@ -1901,7 +1932,7 @@ export class InfraDashComponent {
           }
 
           getstatusDetailsZonal() {
-            debugger
+            
             this.spinner.show();
             this.api.ZonalTenderStatusDetail(this.tid).subscribe({
               next: (res: any[]) => {
@@ -1956,6 +1987,27 @@ export class InfraDashComponent {
           openDialog() {
             
             const dialogRef = this.dialog.open(this.BidderslistModal, {
+             width: '100%',
+             height: '100%',
+             maxWidth: '100%',
+             panelClass: 'full-screen-dialog', // Optional for additional styling
+             data: {
+               /* pass any data here */
+             },
+             // width: '100%',
+             // maxWidth: '100%', // Override default maxWidth
+             // maxHeight: '100%', // Override default maxHeight
+             // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+             // height: 'auto',
+            });
+            dialogRef.afterClosed().subscribe((result) => {
+            this.tenderStatusDetailsZonal=[];
+             console.log('Dialog closed');
+            });
+            }
+          openDialogtoBeTenderBifurcationDetail() {
+            
+            const dialogRef = this.dialog.open(this.toBeTenderBifurcationDetailModal, {
              width: '100%',
              height: '100%',
              maxWidth: '100%',
@@ -2252,6 +2304,7 @@ export class InfraDashComponent {
     //         }
     
             fetchHOD(csid:any,status:any,tenderStatus:any,totalValuecr:any){
+              
 
               if (totalValuecr === 0) {
                 this.toastr.error('No Data Found');
@@ -2262,8 +2315,9 @@ export class InfraDashComponent {
                 this.status='Total Tenders'
               }
               else if(tenderStatus==='To Be Tender'){
+                // this.GetToBeTenderNonZonal();
+                this.ToBeTenderBifurcationDetail(-1,status)
                 this.status=tenderStatus;
-this.GetToBeTenderNonZonal();
 
               }else{
 
@@ -2282,10 +2336,43 @@ this.GetToBeTenderNonZonal();
     // this.openDialogHOD();
             }
 
+            ToBeTenderBifurcationDetail(tRemarkId:any,status:any){
+              // this.status='To Be Tender Bifurcation Detail'
+              this.status=status
+            this.spinner.show();
+            this.api.ToBeTenderBifurcationDetail(tRemarkId).subscribe({
+              next: (res: any[]) => {
+                if (res && res.length > 0) {
+                  this.toBeTenderBifurcationDetail = res.map((item: any, index: number) => ({
+                    ...item,
+                    sno: index + 1,
+                  }));
+          
+                  this.dataSource9.data = this.toBeTenderBifurcationDetail;
+                  this.dataSource9.paginator = this.paginator10;
+                  this.dataSource9.sort = this.sort10;
+                } else {
+                  this.toastr.error('No data found');
+                }
+              },
+              error: (err) => {
+                console.error('API error:', err);
+                this.toastr.error('Failed to load data');
+              },
+              complete: () => {
+                this.spinner.hide();
+              }
+            });
+          
+
+              this.openDialogtoBeTenderBifurcationDetail();
+
+            }
+
           
 
             fetchTenderDetailZonal(tid:any,tenderStatus:any,cntTender:any){
-debugger
+
               if (cntTender === 0) {
                 this.toastr.error('No Data Found');
                 return; // exit early to avoid further execution
@@ -2718,7 +2805,101 @@ exportToPDFHODDetails() {
       doc.save('TenderStatusZonal.pdf');
     }
     
-    
+
+    exportToPDFBiferCation() {
+  const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
+
+  // Date & Time
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  // Header Info
+  const header = 'To Be Tender Bifurcation Details';
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const titleWidth = doc.getTextWidth(header);
+  const xOffset = (pageWidth - titleWidth) / 2;
+
+  doc.setFontSize(18);
+  doc.text(header, xOffset, 10);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10);
+
+  // Define columns
+  const columns = [
+    { title: 'S.No', dataKey: 'sno' },
+    { title: 'Head', dataKey: 'head' },
+    { title: 'Division ID', dataKey: 'divisionID' },
+    { title: 'Division', dataKey: 'division' },
+    { title: 'District', dataKey: 'district' },
+    { title: 'Work ID', dataKey: 'work_id' },
+    { title: 'Work Name', dataKey: 'workname' },
+    { title: 'AS Letter No', dataKey: 'asLetterNO' },
+    { title: 'AS Date', dataKey: 'asDate' },
+    { title: 'AS Amount', dataKey: 'asAmt' },
+    { title: 'TS Amount', dataKey: 'tsAmount' },
+    { title: 'Value of Works', dataKey: 'valueWorks' },
+    { title: 'Status', dataKey: 'workStatus' },
+    { title: 'Remark ID', dataKey: 'tremarkID' },
+    { title: 'Remarks', dataKey: 'tRemarks' },
+    { title: 'Remark Date', dataKey: 'remarkDT' },
+    { title: 'Other Remarks', dataKey: 'remarks' }
+  ];
+
+  // Format data
+  const rows = this.toBeTenderBifurcationDetail.map((row: any, index: number) => ({
+    sno: index + 1,
+    head: row.head || '',
+    divisionID: row.divisionID || '',
+    division: row.division || '',
+    district: row.district || '',
+    work_id: row.work_id || '',
+    workname: row.workname || '',
+    asLetterNO: row.asLetterNO || '',
+    asDate: row.asDate || '',
+    asAmt: row.asAmt ?? '',
+    tsAmount: row.tsAmount ?? '',
+    valueWorks: row.valueWorks ?? '',
+    workStatus: row.workStatus || '',
+    tremarkID: row.tremarkID ?? '',
+    tRemarks: row.tRemarks || '',
+    remarkDT: row.remarkDT || '-',
+    remarks: row.remarks || '-'
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.title)],
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
+    startY: 20,
+    theme: 'grid',
+    headStyles: { fillColor: [0, 102, 153], textColor: 255, fontSize: 7 },
+    styles: { fontSize: 6.5, cellPadding: 1.5, textColor: [0, 0, 0] },
+    columnStyles: {
+      0: { cellWidth: 8 },   // S.No
+      1: { cellWidth: 15 },  // Head
+      2: { cellWidth: 18 },  // Division ID
+      3: { cellWidth: 25 },  // Division
+      4: { cellWidth: 22 },  // District
+      5: { cellWidth: 22 },  // Work ID
+      6: { cellWidth: 40 },  // Work Name
+      7: { cellWidth: 25 },  // AS Letter No
+      8: { cellWidth: 20 },  // AS Date
+      9: { cellWidth: 18 },  // AS Amount
+      10: { cellWidth: 20 }, // TS Amount
+      11: { cellWidth: 22 }, // Value of Works
+      12: { cellWidth: 22 }, // Status
+      13: { cellWidth: 18 }, // Remark ID
+      14: { cellWidth: 25 }, // Remarks
+      15: { cellWidth: 20 }, // Remark Date
+      16: { cellWidth: 25 }  // Other Remarks
+    },
+    margin: { top: 20, left: 5, right: 5 }
+  });
+
+  doc.save('ToBeTenderBifurcation.pdf');
+}
+
     
             
         
