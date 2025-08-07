@@ -41,7 +41,7 @@
 
   
   
-  <div class="p-2 my-0 mb-2" *ngIf="['SEC1', 'DHS','SE' ,'Collector','DM PO','Division'].includes(roleName)" id="workdetails" >
+  <div class="p-2 my-0 mb-2" *ngIf="['SEC1', 'DHS','SE' ,'Collector','DM PO','Division','HO_Infra'].includes(roleName)" id="workdetails" >
     <!-- <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;" >
       <strong style="text-align: center;">Construction Tender Status : {{
     
@@ -479,7 +479,7 @@
                         </div>
                       </div>
                 
-                      <div class=" table-responsive">
+                      <div class="table-responsive">
                         <table  mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort9="matSort" >
                 
                           <ng-container matColumnDef="sno">
