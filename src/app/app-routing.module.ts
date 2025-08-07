@@ -108,8 +108,8 @@ import { DhsdashComponent } from './component/DHS-Components/dhsdash/dhsdash.com
 import { CMEDashboardComponent } from './CME/cme-dashboard/cme-dashboard.component';
 import { InfrastructurePublicViewComponent } from './component/Infrastructure-Components/infrastructure-public-view/infrastructure-public-view.component';
 import { AttendanceDashComponent } from './component/Attendence/attendance-dash/attendance-dash.component';
-import { TenderStatusDashComponent } from './component/Tender-Status /tender-status-dash/tender-status-dash.component';
-import { ConversationHodCgmscComponent } from './component/Tender-Status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
+import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
+import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 import { EqpDashComponent } from './Equipment-Dashboard/eqp-dash/eqp-dash.component';
 import { InfraDashComponent } from './component/Infrastructure-Components/infra-dash/infra-dash.component';
 import { AdminDashComponent } from './Admin-HR/admin-dash/admin-dash.component';

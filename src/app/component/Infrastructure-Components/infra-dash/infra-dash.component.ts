@@ -1930,7 +1930,7 @@ export class InfraDashComponent {
           }
 
           getstatusDetailsZonal() {
-            
+            debugger
             this.spinner.show();
             this.api.ZonalTenderStatusDetail(this.tid).subscribe({
               next: (res: any[]) => {

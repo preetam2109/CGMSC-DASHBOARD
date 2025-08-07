@@ -1312,7 +1312,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   GetConsTenderStatusDetail(pGroupId:any,ppid:any){
-    
+    debugger
     return this.http.get<GetConsTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/GetTenderStatusDetail?pGroupId=${pGroupId}&ppid=${ppid}`);
   }
 
@@ -1322,6 +1322,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
   
   ZonalTenderStatusDetail(tid:any){
+    debugger
     return this.http.get<ZonalTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatusDetail?tid=${tid}`);
   }
 
