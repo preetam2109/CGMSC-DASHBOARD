@@ -1,0 +1,29 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h3> 
+      <!-- Chhattisgarh Medical Services Corporation Ltd. -->
+  
+    </h3>
+  </div>
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label="Employee Details">
+      <ng-template matTabContent>
+        <app-employee-details *ngIf="selectedTabIndex === 0"></app-employee-details>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Attendence Record">
+      <ng-template matTabContent>
+        <app-attendence-record *ngIf="selectedTabIndex === 1"></app-attendence-record>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Present Absent">
+      <ng-template matTabContent>
+        <app-attendance-present-absent *ngIf="selectedTabIndex === 2"></app-attendance-present-absent>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+  </div>
+  

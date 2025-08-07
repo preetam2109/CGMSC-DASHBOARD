@@ -31,10 +31,11 @@ export class OtpComponent {
 
   // Method to verify the OTP entered by the user
   verifyOTP() {
-    
+    debugger
     if (this.otp.length === 5) {
       // Retrieve user ID from session storage
       this.userid = sessionStorage.getItem('userid');
+
   
       // Call the API to verify the OTP
       this.api.VerifyOTPLogin(this.otp, this.userid).subscribe(

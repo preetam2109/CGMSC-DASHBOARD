@@ -165,7 +165,14 @@ export class MonthwiseIssuanceComponent {
     if(sessionStorage.getItem('roleId')==='482'){
       this.districtid=sessionStorage.getItem('districtid')
     }
-    this.loadData(this.mcid, this.hodid);
+
+     if(localStorage.getItem('roleName')==='CME' ||'DME1' ){
+
+      this.loadDataDME(this.mcid, this.hodid);
+    }else{
+
+      this.loadData(this.mcid, this.hodid);
+    }
   }
 
   
@@ -381,14 +388,14 @@ export class MonthwiseIssuanceComponent {
 
            
           { 
-            name: ' DME Items', 
+            name: 'CME Issued Items', 
             data: dmeissueitems,
             color:'#800000' 
           },
 
 
           { 
-            name: ' DME Value',
+            name: ' CME Issued Value (in Cr)',
             data: dmeissuevalue ,
             color:'#00008B'
 

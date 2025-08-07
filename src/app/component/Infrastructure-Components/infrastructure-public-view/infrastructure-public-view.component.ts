@@ -242,7 +242,7 @@ export class InfrastructurePublicViewComponent {
   }
 
   shouldHideCard(did: any): boolean {
-    debugger;
+    ;
     const hiddenDids = [6001, 8001, 2001, 1001];
     return hiddenDids.includes(did);
   }

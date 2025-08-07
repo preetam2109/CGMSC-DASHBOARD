@@ -17,7 +17,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DropdownModule } from 'primeng/dropdown';
 import { config } from 'rxjs';
 import { TenderDetails } from 'src/app/Model/DashProgressCount';
-import { Fund_Libilities, FundReivedBudgetDetails, FundReivedBudgetID, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, PODetailsAgainstIndentYr } from 'src/app/Model/FinanceDash';
+import { Fund_Libilities, FundReivedBudgetDetails, FundReivedBudgetID, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, PaidYearwise_Budget, PODetailsAgainstIndentYr } from 'src/app/Model/FinanceDash';
 import { ApiService } from 'src/app/service/api.service';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -82,8 +82,8 @@ throw new Error('Method not implemented.');
         @ViewChild('sort3') sort3!: MatSort;
         @ViewChild('paginator4') paginator4!: MatPaginator;
         @ViewChild('sort3') sort4!: MatSort;
-        grossPaidDateWiseDetails:GrossPaidDateWiseDetails[]=[]
-        PaidYearwise_Budget:any
+        grossPaidDateWiseDetails:GrossPaidDateWiseDetails[]=[];
+        PaidYearwise_Budget:PaidYearwise_Budget[]=[];
         fundReivedBudgetID:FundReivedBudgetID[]=[];
         pODetailsAgainstIndentYr:PODetailsAgainstIndentYr[]=[];
         LibDetailsbasedOnYearID:LibDetailsbasedOnYearID[]=[];
@@ -128,7 +128,7 @@ constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner
             // Ensure the selectedCategory and selectedSeries are valid
             if (selectedCategory && selectedSeries) {
               
-              const apiData = this.fundReivedBudgetID; // Replace with the actual data source or API response
+              const apiData = this.PaidYearwise_Budget; // Replace with the actual data source or API response
               // Find the data in your API response that matches the selectedCategory
               const selectedData = apiData.find(
                 (data) => data.accyear === selectedCategory
@@ -1140,10 +1140,10 @@ GetFundReivedBudgetID(): void {
     this.api.getFundReivedBudgetID(this.budgetid,0)
       .subscribe(
         (data: any) => {
-          console.log('sdkokokokokokoksdadsd'+data);
+          console.log('sdkokokokokokoksdadsd'+JSON.stringify(data));
           this.fundReivedBudgetID=data;
           
-          console.log('sdkokokokokokoksdadsd'+this.fundReivedBudgetID);
+          console.log('ukelelukleleuklele '+ JSON.stringify(this.fundReivedBudgetID));
         
           const accyear: string[] = [];
           const recAmt: number[] = [];
@@ -1267,6 +1267,7 @@ GetFund_Libilities(): void {
 
 
 getPaidYearwise_Budget(): void {
+  
   this.spinner.show();
 
   this.api.PaidYearwise_Budget(this.budgetid, 0).subscribe(
@@ -1392,7 +1393,7 @@ GetFundsDDL(){
         
         GrossPaidDateWiseDetails(){
     
-          this.api.GrossPaidDateWiseDetails(this.budgetid,0,0,0,this.yrid).subscribe((res:any[])=>{
+          this.api.GrossPaidDateWiseDetails(this.budgetid,0,0,0,this.yrid,this.yrid).subscribe((res:any[])=>{
             if (res && res.length > 0) {
              this.spinner.show();
   
@@ -1598,6 +1599,7 @@ GetFundsDDL(){
       this.openDialogBudgetDetails();
     }
     fetchDataBasedOnChart2SelectionYrid(  yrid: any, seriesName: string ): void {
+      
       
       console.log(`Selected ID: ${yrid}, Series: ${seriesName}`);
    this.yrid=yrid;

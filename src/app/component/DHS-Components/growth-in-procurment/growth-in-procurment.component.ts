@@ -61,6 +61,7 @@ export class GrowthInProcurmentComponent {
   whidMap: { [key: string]: number } = {};
   mcid=1
   hodid = 0;
+  role:any
   districtid:any=0
    HOD:any='All'
 
@@ -160,6 +161,8 @@ export class GrowthInProcurmentComponent {
   
 
   ngOnInit() {
+  this.role=localStorage.getItem('roleName')
+
     if(sessionStorage.getItem('roleId')==='482'){
       this.districtid=sessionStorage.getItem('districtid')
     }
@@ -496,14 +499,16 @@ this.chartOptions.tooltip = {
 
            
           { 
-            name: 'dmepoitems', 
+            // name: 'dmepoitems', 
+            name: 'CME PO Items', 
             data: dmepoitems,
             color:'#800000' 
           },
 
 
           { 
-            name: 'dmepovalue',
+            // name: 'dmepovalue',
+            name: 'CME PO Value (in Cr)',
             data: dmepovalue ,
             color:'#00008B'
 

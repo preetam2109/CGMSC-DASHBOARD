@@ -1,0 +1,353 @@
+.card {
+  /* width: 300px;   */
+  /* Set a fixed width (adjust as needed) */
+  height: auto;  /* Allow flexible height */
+  padding: 8px; /* Reduce padding */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+  text-align: center;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px; /* Reduce inner padding */
+}
+
+.card-title {
+  font-size: 16px; /* Reduce title size */
+  font-weight: bold;
+  color: #333;
+  margin-top: 4px; /* Reduce spacing */
+  text-align: center;
+  word-wrap: break-word;
+}
+.card-value{
+  font-size: 25px; /* Reduce title size */
+
+}
+
+.card-icon img {
+  width: 50px; /* Reduce image size */
+  height: 50px;
+}
+
+/* Reduce card size on small screens */
+@media (max-width: 576px) {
+  .card {
+    width: 250px;  /* Reduce card width */
+    padding: 6px;
+  }
+
+  .card-title {
+    font-size: 10px; /* Reduce font size */
+  }
+
+  .card-icon img {
+    width: 40px; /* Reduce image size */
+    height: 40px;
+  }
+  .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px; /* Reduce inner padding */
+}
+}
+
+  
+  
+  
+  
+  .modal-content {
+    border-radius: 0;
+  }
+  
+  .modal-body {
+    /* padding: 20px;  */
+    padding-left: 30px;
+    padding-right: 14px;
+  }
+  
+  .fullscreen-modal .modal-dialog {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  }
+  
+  .fullscreen-modal .modal-content {
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  }
+  
+  
+  
+  /* modella popup css */
+  /* .d-block {
+    display: block !important;
+  } */
+  .modal {
+    margin-top: 0px;
+    padding-top: 0px;
+    /* --bs-modal-margin: 0.1rem;
+    --bs-modal-box-shadow: var(--bs-box-shadow); */
+  }
+  @media (min-width: 576px) {
+    .modal {
+        --bs-modal-margin: 1.75rem;
+        --bs-modal-box-shadow: var(--bs-box-shadow);
+    }
+  }
+  
+  .full-screen-dialog .mat-dialog-container {
+    height: 100vh; /* Full viewport height */
+    width: 100vw;  /* Full viewport width */
+    margin: 0;     /* Remove any margin */
+    border-radius: 0; /* Remove default dialog border radius */
+  }
+  .mat-dialog-content {
+    width: 100% !important;  /* Ensure it takes full width */
+    max-width: 100% !important;  /* Override any restrictions */
+    overflow-x: auto;  /* Allow horizontal scrolling */
+    padding: 16px;
+  }
+  @media (max-width: 600px) {
+    .mat-dialog-container {
+      width: 100% !important;
+      height: auto !important;
+      margin: 0 !important;
+      max-height: 100vh !important;
+    }
+  }
+  
+  .custom-dialog-container {
+    height: 110vh; /* Adjust height as needed */
+  }
+  
+  .mat-dialog-content {
+    overflow-y: auto;
+  }
+  .mat-mdc-dialog-content {
+    /* max-height: 65vh; */
+    max-height: 75vh;
+    /* overflow: hidden; */
+  }
+  @media (max-width: 768px) {
+    .custom-dialog-container {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+  
+  
+  
+  
+  .container-fluid {
+    padding: 20px;
+  }
+  .table-responsive {
+    margin-top: 20px;
+    max-width: 100%; 
+    /* max-width: 800px;  */
+    /* Limit the table width */
+    margin: auto; /* Center the table */
+  }
+  
+  .filter-field {
+    margin-right: 16px;
+  }
+  
+  .export-menu-container {
+    margin-left: 16px;
+  }
+  
+  .table-container {
+    max-height: 60vh; /* Allow vertical scrolling */
+overflow-y: auto;
+  }
+  
+  
+  .table {
+    width: 100% !important; /* Ensure full width */
+  }
+  
+  .table th {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 6px; /* Reduce padding */
+    font-size: 12px; /* Reduce font size */
+  }
+  
+  .table td {
+    padding: 6px; /* Reduce padding */
+    border: 1px solid #e0e0e0;
+    font-size: 12px; /* Reduce font size */
+  }
+  
+  .table td, .table th {
+    border: 1px solid #e0e0e0;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .mat-paginator {
+    margin-top: 20px;
+    font-size: 12px; /* Reduce paginator text size */
+  }
+  
+  /* Adjustments for small screens */
+  @media (max-width: 768px) {
+    .table-container {
+      padding: 0;
+      max-width: 100%; /* Ensure it adapts to screen size */
+    }
+  
+    .table {
+      font-size: 10px; /* Reduce text size */
+    }
+  
+    .filter-field,
+    .export-menu-container {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  
+    .text p {
+      font-size: 10px; /* Adjust text size for small screens */
+    }
+  }
+  
+
+  .chart-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+
+  .center-header-cell, .center-cell {
+    display: flex;
+    justify-content: center;   /* Horizontal center */
+    align-items: center;       /* Vertical center */
+    height: 100%;
+    width: 100%;
+    text-align: center;
+  }
+
+
+  .mat-header-row, .mat-row {
+    display: table-row !important;
+  }
+
+  .mat-mdc-table-sticky {
+    position: sticky !important;
+}
+
+/* Custom styles for the popup table container */
+.table-container-popup {
+height: 60vh;
+overflow: auto;
+position: relative;
+}
+
+/* Force sticky behavior */
+::ng-deep .mat-mdc-table thead {
+background: white;
+}
+
+::ng-deep .mat-mdc-table thead th.mat-mdc-header-cell {
+position: sticky !important;
+top: 0;
+z-index: 100;
+background: #f5f5f5;
+}
+
+/* Remove conflicting styles */
+.table-responsive {
+overflow: initial !important;
+}
+
+/* Optional: Style improvements */
+.mat-mdc-table {
+width: 100%;
+}
+
+.mat-mdc-header-cell {
+font-weight: bold;
+padding: 8px;
+border-bottom: 1px solid #ddd;
+}
+
+.mat-mdc-cell {
+padding: 8px;
+border-bottom: 1px solid #ddd;
+}
+
+/* Add to your component CSS */
+::ng-deep .custom-dialog .mat-mdc-dialog-container {
+padding: 0;
+}
+
+::ng-deep .custom-dialog .mat-mdc-dialog-content {
+max-height: calc(80vh - 100px);
+overflow: hidden;
+}
+
+
+
+
+.legend-box {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  border-radius: 3px;
+  display: inline-block;
+  border: 1px solid #ccc;
+}
+
+.legend-color.red {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.legend-color.yellow {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.legend-color.black {
+  background-color: #d6d8d9;
+  border-color: #bfc0c1;
+}
+
+.legend-color.green {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+
+
+
+
+

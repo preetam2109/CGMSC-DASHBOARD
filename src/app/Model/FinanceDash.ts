@@ -140,6 +140,12 @@ export class LibDetailsbasedOnYearID{
         pipeLIvalue!: number;
         pipeLIvalueLAcs!: number;
 }
+export class PaidYearwise_Budget{
+        accyrsetid!: number;
+        accyear!: string;
+        noofPO!: number;
+        amountPaid!: number;
+}
 
 
 

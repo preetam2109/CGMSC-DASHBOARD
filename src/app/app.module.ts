@@ -184,7 +184,8 @@ import { MatButtonModule } from '@angular/material/button';
             positionClass: 'toast-top-right' // Set the position to top right
         })
         // MatTabGroup
-    ], providers: [DatePipe, { provide: APP_BASE_HREF, useValue: '/mdang/' }, provideHttpClient(withInterceptorsFromDi())] })
+    ], providers: [DatePipe, 
+      { provide: APP_BASE_HREF, useValue: '/mdang/' }, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fas);
