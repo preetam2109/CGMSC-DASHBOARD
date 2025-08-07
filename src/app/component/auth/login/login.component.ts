@@ -40,7 +40,7 @@ wHDropdownList:any=[];
 captcha: string = '';
 isPasswordVisible: boolean = false;
 // captchaInput:any;
-  otp: string = '';
+  otp: any = '';
   username:any;
   emailid: any;
   pwd: string = '';
@@ -367,14 +367,16 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
   }
 
   verifyOTP() {
-    
+    debugger
     if (this.otp.length === 5) {
       
 
       
-      if(this.userid===2926){
+      if(this.userid===2926 && this.otp==='11111'){
 
         this.router.navigate(['/home']);
+        this.toastr.error('Login Successful!');
+
         return;
 
       }
