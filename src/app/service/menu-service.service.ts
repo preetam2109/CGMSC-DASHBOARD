@@ -373,7 +373,7 @@ export class MenuServiceService {
           { label: 'Dashboard', route: '/cmedash' },
           { label: 'Finance', route: '/finance-dash' },
           { label: 'CGMSC Institute wise Issuance', route: '/institute-wise-issuance' },
-          { label: 'CGMSC Institute wise Issuance', route: '/cgmsc-supplies' },
+          // { label: 'CGMSC Institute wise Issuance', route: '/cgmsc-supplies' },
 
           { label: 'Stock Details', route: '/stockDetails' },
 

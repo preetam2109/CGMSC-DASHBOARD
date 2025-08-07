@@ -45,14 +45,17 @@ export class CategorySelectionComponent implements OnInit {
     }
   }
   shouldDisplayCategory(category: string): boolean {
-    if (this.role === ' ') {
+    if (this.role === 'HR') {
       return category === 'Admin';
     }
+  
     if (this.role === 'CME' || this.role === 'DME1') {
       return category !== 'Admin';
     }
+  
     return true;
   }
+  
   
  
   

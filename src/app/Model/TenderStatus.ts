@@ -10,8 +10,27 @@ export class TotalRC1{
     edl!: number;
     nedl!: number;
     total!: number;
+    medl!: number;
+    mnedl!: number;
+    mtotal!: number;
+    
 
 }
+export class TotalRC1Details{
+    
+    itemcode!: string;
+    itemname!: string;
+    strength1!: string;
+    unit!: string;
+    suppliername!: string;
+    basicrate!: number;
+    gst!: number;
+    finalrategst!: number;
+    rcStart!: string;
+    rcEndDT!: string;
+    itemid!: number;
+}
+
 export class StatusDetail{
         sno:any;
         categoryName!: string;

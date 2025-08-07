@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { style } from '@angular/animations';
-import { forkJoin, reduce } from 'rxjs';
+import { Observable, catchError, finalize, forkJoin, map, of, reduce, tap } from 'rxjs';
 import { WOpendingTotal } from 'src/app/Model/DashProgressCount';
 import autoTable from 'jspdf-autotable';
 import { ToastrService } from 'ngx-toastr';
@@ -85,21 +85,26 @@ throw new Error('Method not implemented.');
 
   totalNoTenders: number = 0;
   totalRC1: any;
+  totalRC1details: any;
 
 
   @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
+  @ViewChild('RCDetailsModal') RCDetailsModal: any;
 
 
-  dataSource = new MatTableDataSource<any>();
-  dataSource2 = new MatTableDataSource<any>();
-  dataSource3 = new MatTableDataSource<any>();
-  dataSource4 = new MatTableDataSource<any>();
-  dataSource8 = new MatTableDataSource<any>();
-  @ViewChild('paginator8') paginator8!: MatPaginator;
-  @ViewChild('sort8') sort8!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+    dataSource = new MatTableDataSource<any>();
+    dataSource2 = new MatTableDataSource<any>();
+    dataSource3 = new MatTableDataSource<any>();
+    dataSource4 = new MatTableDataSource<any>();
+    dataSource8 = new MatTableDataSource<any>();
+    dataSource9 = new MatTableDataSource<any>();
+    @ViewChild('paginator8') paginator8!: MatPaginator;
+    @ViewChild('sort8') sort8!: MatSort;
+    @ViewChild('paginator9') paginator9!: MatPaginator;
+    @ViewChild('sort9') sort9!: MatSort;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator2!: MatPaginator;
+    @ViewChild(MatPaginator) paginator2!: MatPaginator;
     @ViewChild(MatSort) sort2!: MatSort;
     @ViewChild(MatPaginator) paginator3!: MatPaginator;
     @ViewChild(MatSort) sort3!: MatSort;
@@ -835,7 +840,18 @@ colors = [];
       this.dataSource8.paginator.firstPage();
     }
   }
+  applyTextFiltertotalRC(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource9.filter = filterValue.trim().toLowerCase();
+  
+    if (this.dataSource9.paginator) {
+      this.dataSource9.paginator.firstPage();
+    }
+  }
   ngOnInit() {
+    debugger
+    this.spinner.show();
+
      this.username = sessionStorage.getItem('authenticatedUser');
      
      this.role = this.basicAuthentication.getRole().roleName; // Fetch dynamic role from the authentication service
@@ -844,132 +860,219 @@ colors = [];
     //  this.addIconsToMenu();
     this.selectedCategory=this.menuService.getSelectedCategory();
 
-    
-    this.CGMSCIndentPending();
-    this.GetDeliveryInMonth();
-    this.GetPOCountCFY();
-    this.last7DaysIssue();
-    this.loadData();
-    this.loadData1();
-    this.loadData2();
-    this.loadData3();
-    this.loadStockoutDHS();
-    this.loadIndent();
-    this.Nearexp();
-    this.loadUQC();
-    this.loadData4();
-    this.getItemNoDropDown();
-    this.getTenderStatus();
-  this.getTotalRC1();
-  this.wOPendingTotal()
-  this.getLIPendingTotal();
-  this.gETRunningWorkSummary();
-  this.handoverAbstract();
-  this.gETPaidSummary();
+    forkJoin([
+      this.CGMSCIndentPending().pipe(catchError(() => of(null))),
+      this.GetDeliveryInMonth().pipe(catchError(() => of(null))),
+      this.GetPOCountCFY().pipe(catchError(() => of(null))),
+      this.last7DaysIssue().pipe(catchError(() => of(null))),
+      // this.loadData().pipe(catchError(() => of(null))),
+      this.loadData1().pipe(catchError(() => of(null))),
+      this.loadData2().pipe(catchError(() => of(null))),
+      this.loadData3().pipe(catchError(() => of(null))),
+      this.loadStockoutDHS().pipe(catchError(() => of(null))),
+      this.loadIndent().pipe(catchError(() => of(null))),
+      this.Nearexp().pipe(catchError(() => of(null))),
+      this.loadUQC().pipe(catchError(() => of(null))),
+      this.loadData4().pipe(catchError(() => of(null))),
+      this.getItemNoDropDown().pipe(catchError(() => of(null))),
+      this.getTenderStatus().pipe(catchError(() => of(null))),
+      this.getTotalRC1().pipe(catchError(() => of(null))),
+      this.wOPendingTotal().pipe(catchError(() => of(null))),
+      this.getLIPendingTotal().pipe(catchError(() => of(null))),
+      this.gETRunningWorkSummary().pipe(catchError(() => of(null))),
+      this.handoverAbstract().pipe(catchError(() => of(null))),
+      this.gETPaidSummary().pipe(catchError(() => of(null))),
+    ]).pipe(
+      finalize(() => this.spinner.hide())
+    ).subscribe({
+      error: () => this.toastr.error('Some data failed to load')
+    });
+    // Collect all API observables
+  //   const apiCalls = [
+  //     this.CGMSCIndentPending(),
+  //     this.GetDeliveryInMonth(),
+  //     this.GetPOCountCFY(),
+  //     this.last7DaysIssue(),
+  //     this.loadData(),
+  //     this.loadData1(),
+  //     this.loadData2(),
+  //     this.loadData3(),
+  //     this.loadStockoutDHS(),
+  //     this.loadIndent(),
+  //     this.Nearexp(),
+  //     this.loadUQC(),
+  //     this.loadData4(),
+  //     this.getItemNoDropDown(),
+  //     this.getTenderStatus(),
+  //     this.getTotalRC1(),
+  //     this.wOPendingTotal(),
+  //     this.getLIPendingTotal(),
+  //     this.gETRunningWorkSummary(),
+  //     this.handoverAbstract(),
+  //     this.gETPaidSummary()
+  // ];
+
+  // // Execute all API calls in parallel
+  // forkJoin(apiCalls).pipe(
+  //     finalize(() => this.spinner.hide()) // Hide spinner when all complete
+  // ).subscribe({
+  //     error: () => this.toastr.error('Some data failed to load')
+  // });
+
   }
-  gETPaidSummary(){
-    this.api.GETPaidSummary('GTotal',0,0,0,'01-Apr-2025','30-May-2025').subscribe((res:any[])=>{
-      this.paidSummary=res.reduce((sum,item)=>sum+Number(item.noofWorks || 0),0);
-    })  
-  }
-  handoverAbstract(){
-
-  this.api.HandoverAbstract('Total',4001,0,0,0,'01-Apr-2025','30-May-2025',0).subscribe((res:any[])=>{
-      this.handoverAbstractl=res.reduce((sum,item)=>sum+Number(item.totalWorks || 0),0);
-    })
-  }
-  getLIPendingTotal(){
-
-    this.api.GetLIPendingTotal('Total',0,0,0).subscribe((res:any[])=>{
-      this.LIPendingTotal=res.reduce((sum,item)=>sum+Number(item.totalWorks || 0),0);
-    })
-  }
-
-  gETRunningWorkSummary(){
-this.api.GETRunningWorkSummary('GTotal',0,0,0,0).subscribe((res:any[])=>{
-  this.RunningWork=res.reduce((sum,item)=>sum+Number(item.totalWorks || 0),0);
-})
-}
-
-  wOPendingTotal(){
-    this.api.WOPendingTotal('Total',0,0,0).subscribe((res:any[])=>{
-      this.wOpendingTotal = res.reduce((sum, item) => sum + Number(item.pendingWork || 0), 0);
-
-
-
-
-
-      
-    })
-
-  }
-  getTotalRC1() {
-    
-    this.api.GetTotalRC1(this.mcid).subscribe(
-      (res: any[]) => {
-        this.totalRC1 = res;
-        console.log("fjkdjflksdjf"+JSON.stringify(this.totalRC1));
-      },
-      (error) => {
-        console.error('Failed to load tender status:', error);
-      }
+  gETPaidSummary(): Observable<any> {
+    return this.api.GETPaidSummary('GTotal', 0, 0, 0, '01-Apr-2025', '30-May-2025').pipe(
+      map((res: any[]) => {
+        const total = res.reduce((sum, item) => sum + Number(item?.noofWorks || 0), 0);
+        this.paidSummary = total;
+        return total;
+      }),
+      catchError(error => {
+        console.error('Failed to load paid summary:', error);
+        this.toastr?.error('Error loading paid summary');
+        this.paidSummary = 0;
+        return of(0);
+      })
     );
   }
+  
+  
+  handoverAbstract(): Observable<any> {
+    return this.api.HandoverAbstract('Total', 4001, 0, 0, 0, '01-Apr-2025', '30-May-2025', 0).pipe(
+      catchError(error => {
+        console.error('Failed to load handover abstract:', error);
+        this.toastr.error('Error loading handover data');
+        this.handoverAbstractl = 0;
+        return of([]); // return safe fallback
+      }),
+      tap((res: any[]) => {
+        this.handoverAbstractl = res.reduce((sum, item) => sum + Number(item.totalWorks || 0), 0);
+      })
+    );
+  }
+  
+  
+  getLIPendingTotal(): Observable<any> {
+    return this.api.GetLIPendingTotal('Total', 0, 0, 0).pipe(
+      map((res: any[]) => {
+        const total = res.reduce((sum, item) => sum + Number(item.totalWorks || 0), 0);
+        this.LIPendingTotal = total;
+        return total;
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch LI Pending Total:', error);
+        this.toastr.error('Error loading LI pending total');
+        return of(0);
+      })
+    );
+  }
+  
+
+  gETRunningWorkSummary(): Observable<any> {
+    return this.api.GETRunningWorkSummary('GTotal', 0, 0, 0, 0).pipe(
+      map((res: any[]) => {
+        const total = res.reduce((sum, item) => sum + Number(item.totalWorks || 0), 0);
+        this.RunningWork = total;
+        return total;
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch running work summary:', error);
+        this.toastr.error('Error loading running work summary');
+        return of(0);
+      })
+    );
+  }
+  
+
+wOPendingTotal(): Observable<any> {
+  return this.api.WOPendingTotal('Total', 0, 0, 0).pipe(
+    map((res: any[]) => {
+      const total = res.reduce((sum, item) => sum + Number(item.pendingWork || 0), 0);
+      this.wOpendingTotal = total;
+      return total;
+    }),
+    catchError((error) => {
+      console.error('Failed to fetch WO Pending Total:', error);
+      this.toastr.error('Error loading Work Order pending total');
+      return of(0);
+    })
+  );
+}
+
+  getTotalRC1(): Observable<any[]> {
+    return this.api.GetTotalRC1(this.mcid,'Y').pipe(
+      tap((res: any[]) => {
+        this.totalRC1 = res;
+        console.log("TotalRC1 Response:", JSON.stringify(this.totalRC1));
+      }),
+      catchError((error) => {
+        console.error('Failed to load RC1 data:', error);
+        this.toastr.error('Error loading RC1 data');
+        return of([]); // or of(null) depending on your logic
+      })
+    );
+  }
+ 
+  
 
 
-  getTenderStatus() {
-
-    if (this.selectedCategory==='Infrastructure') {
-      this.api.GetConsTenderStatus(this.NormalZonal).subscribe(
-        (res: any[]) => {
-          this.totalNoTenders = res
-          .filter(item => item.tenderStatus !== 'To Be Tender') // Exclude "To Be Tender"
-          .reduce((sum, item) => sum + (item.nosWorks || 0), 0);
-        
-          console.log('Total (excluding "To Be Tender"):', this.totalNoTenders);
-          this.spinner.hide();
-        
-        },
-        (error) => {
+  getTenderStatus(): Observable<any> {
+    if (this.selectedCategory === 'Infrastructure') {
+      return this.api.GetConsTenderStatus(this.NormalZonal).pipe(
+        map((res: any[]) => {
+          const total = res
+            .filter(item => item.tenderStatus !== 'To Be Tender')
+            .reduce((sum, item) => sum + (item.nosWorks || 0), 0);
+          this.totalNoTenders = total;
+          return total;
+        }),
+        catchError(error => {
           console.error('Failed to load tender status (Cons):', error);
-          this.spinner.hide();
-        }
+          this.toastr.error('Error loading construction tender status');
+          return of(0);
+        })
       );
-    } else{
-
-      this.api.GetTenderStagesTotal(this.mcid).subscribe(
-        (res: any[]) => {
-          // this.tenderStatusList = res;
-           // Calculate total noTenders
-  this.totalNoTenders = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
-  this.spinner.hide();
-        },
-        (error) => {
+    } else {
+      return this.api.GetTenderStagesTotal(this.mcid).pipe(
+        map((res: any[]) => {
+          const total = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
+          this.totalNoTenders = total;
+          return total;
+        }),
+        catchError(error => {
           console.error('Failed to load tender status:', error);
-          this.spinner.hide();
-        }
-        );
+          this.toastr.error('Error loading tender stages');
+          return of(0);
+        })
+      );
     }
   }
-
-
-  getItemNoDropDown(){
   
-    this.api.MasIndentitems(this.mcid,0,0,0).subscribe((res:any[])=>{
-      // console.log(' Vehicle API dropdown Response:', res);
-      if (res && res.length > 0) {
-        this.MasIndentitemslist = res.map(item => ({
-          itemid: item.itemid, // Adjust key names if needed
-          nameText : item.nameText,
-          
-          
-        }));
-        // console.log('VehicleNoDropDownList :', this.VehicleNoDropDownList);
-      } else {
-        console.error('No nameText found or incorrect structure:', res);
-      }
-    });  
+
+
+  getItemNoDropDown(): Observable<any[]> {
+    return this.api.MasIndentitems(this.mcid, 0, 0, 0).pipe(
+      map((res: any[]) => {
+        if (res && res.length > 0) {
+          const mappedList = res.map(item => ({
+            itemid: item.itemid,
+            nameText: item.nameText
+          }));
+          this.MasIndentitemslist = mappedList;
+          return mappedList;
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          return [];
+        }
+      }),
+      catchError(error => {
+        console.error('Error fetching dropdown items:', error);
+        this.toastr.error('Failed to load item dropdown');
+        return of([]);
+      })
+    );
   }
+  
 
   // GetTotalRC(){
   //   this.api.getTotalRC().subscribe((res:any)=>{
@@ -983,39 +1086,68 @@ this.api.GETRunningWorkSummary('GTotal',0,0,0,0).subscribe((res:any[])=>{
     })
 
   }
-  GetDeliveryInMonth(){
-    // let todayDT = new Date();
-    this.api.getDeliveryInMonth(0,0,0,0,this.mcid).subscribe((res:any)=>{
-      // this.dropindentid=res[0].dropindentid
-      this.nosindent=res[0].nosindent
-      this.indentIssued=res[0].indentIssued
-      this.nooffacIndented=res[0].nooffacIndented
-      // this.dropindentid=res[0].dropindentid
-        })
+  GetDeliveryInMonth(): Observable<any> {
+    return this.api.getDeliveryInMonth(0, 0, 0, 0, this.mcid).pipe(
+      tap((res: any) => {
+        this.nosindent = res[0].nosindent;
+        this.indentIssued = res[0].indentIssued;
+        this.nooffacIndented = res[0].nooffacIndented;
+      }),
+      catchError(error => {
+        console.error('Failed to load delivery data:', error);
+        this.toastr.error('Data not found');
+        return of([]); // or of(null), depending on how you handle failure
+      })
+    );
   }
-  GetPOCountCFY(){
-    this.api.getPOCountCFY(0,this.mcid,0).subscribe((res:any)=>{
-  this.totalpoitems=res[0].totalpoitems
-  this.totalpovalue=res[0].totalpovalue
-  this.totalrecvalue=res[0].totalrecvalue
-    })
+  
+  GetPOCountCFY(): Observable<any> {
+    return this.api.getPOCountCFY(0, this.mcid, 0).pipe(
+      tap((res: any) => {
+        this.totalpoitems = res[0].totalpoitems;
+        this.totalpovalue = res[0].totalpovalue;
+        this.totalrecvalue = res[0].totalrecvalue;
+      }),
+      catchError(error => {
+        console.error('Failed to load PO count:', error);
+        this.toastr.error('Data not found');
+        return of([]); // or of(null) based on your use case
+      })
+    );
   }
-  last7DaysIssue(){
-    this.api.Last7DaysIssue(0,this.mcid,0,0,0).subscribe((res:any)=>{
-  this.nositemsI=res[0].nositems  
-  this.totalValuecr=res[0].totalValuecr
-  this.nosfacility=res[0].nosfacility
-    })
+  
+  last7DaysIssue(): Observable<any> {
+    return this.api.Last7DaysIssue(0, this.mcid, 0, 0, 0).pipe(
+      tap((res: any) => {
+        this.nositemsI = res[0].nositems;
+        this.totalValuecr = res[0].totalValuecr;
+        this.nosfacility = res[0].nosfacility;
+      }),
+      catchError(error => {
+        console.error('Failed to load last 7 days issue data:', error);
+        this.toastr.error('Data not found');
+        return of([]); // or of(null) if more appropriate
+      })
+    );
   }
-  CGMSCIndentPending(){
-    
-    this.api.CGMSCIndentPending(this.mcid,0).subscribe((res:any)=>{
-      console.log('dsds',res);
-      this.nosIndent=res[0].nosIndent
-  this.nosfac=res[0].nosfac
-  this.nositems=res[0].nositems
-    })
+  
+  CGMSCIndentPending(): Observable<any> {
+    debugger
+    return this.api.CGMSCIndentPending(this.mcid, 0).pipe(
+      tap((res: any) => {
+        console.log('dsds', res);
+        this.nosIndent = res[0].nosIndent;
+        this.nosfac = res[0].nosfac;
+        this.nositems = res[0].nositems;
+      }),
+      catchError(error => {
+        console.error('Failed to load CGMSC Indent Pending:', error);
+        this.toastr.error('Data not found');
+        return of([]); // return fallback value
+      })
+    );
   }
+  
   menuIcons(){
       
   }
@@ -1122,7 +1254,7 @@ this.api.GETRunningWorkSummary('GTotal',0,0,0,0).subscribe((res:any[])=>{
   //     ];
   //   });
   //   }
-  loadData(): void {
+  loadData(){
     // ;
     // const fromDate = '01-Jan-2025'; 
     // const toDate = '30-Jan-2025'; 
@@ -1171,11 +1303,9 @@ this.api.GETRunningWorkSummary('GTotal',0,0,0,0).subscribe((res:any[])=>{
     // );
 }
 
-loadData3(): void {
-  
-
-  this.api.getTotalRC(this.mcid).subscribe(
-    (data: any) => {
+loadData3(): Observable<any[]> {
+  return this.api.getTotalRC(this.mcid).pipe(
+    tap((data: any) => {
       const categories: string[] = [];
       const edl: number[] = [];
       const nedl: number[] = [];
@@ -1193,54 +1323,34 @@ loadData3(): void {
       // Update the bar chart
       this.chartOptions3 = {
         series: [
-          {
-            name: 'EDL',
-            data: edl
-          },
-          {
-            name: 'Non-EDL',
-            data: nedl
-          },
-          {
-            name: 'Total',
-            data: total
-          }
+          { name: 'EDL', data: edl },
+          { name: 'Non-EDL', data: nedl },
+          { name: 'Total', data: total }
         ],
-        chart: {
-          type: "bar",
-          height: 300
-        },
+        chart: { type: "bar", height: 300 },
         plotOptions: {
           bar: {
-            horizontal: false, // Set to true for horizontal bar chart
+            horizontal: false,
             columnWidth: "50%",
             endingShape: "rounded"
           }
         },
-        dataLabels: {
-          enabled: true
-        },
+        dataLabels: { enabled: true },
         stroke: {
           show: true,
           width: 2,
           colors: ["transparent"]
         },
         xaxis: {
-          categories: categories // Dynamically set categories from API response
+          categories: categories
         },
         yaxis: {
-          title: {
-            text: "NOS RC"
-          }
+          title: { text: "NOS RC" }
         },
-        fill: {
-          opacity: 1
-        },
+        fill: { opacity: 1 },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
@@ -1250,28 +1360,25 @@ loadData3(): void {
           {
             breakpoint: 480,
             options: {
-              chart: {
-                width: 300
-              },
-              legend: {
-                position: "bottom"
-              }
+              chart: { width: 300 },
+              legend: { position: "bottom" }
             }
           }
         ]
       } as any;
-    },
-    (error: any) => {
+    }),
+    catchError(error => {
       console.error('Error fetching data', error);
-    }
+      this.toastr.error('Chart data failed to load');
+      return of([]); // fallback observable
+    })
   );
 }
 
-loadStockoutDHS(): void {
 
-
-  this.api.StockoutPer(this.mcid,1,0,2).subscribe(
-    (data: any) => {
+loadStockoutDHS(): Observable<any[]> {
+  return this.api.StockoutPer(this.mcid, 1, 0, 2).pipe(
+    tap((data: any[]) => {
       const edLtypeid: number[] = [];
       const edLtpe: string[] = [];
       const nositems: number[] = [];
@@ -1281,7 +1388,6 @@ loadStockoutDHS(): void {
       console.log('DHS Stock out percentage:', data);
 
       data.forEach((item: any) => {
-     
         edLtypeid.push(item.edLtypeid);
         edLtpe.push(item.edLtpe);
         nositems.push(item.nositems);
@@ -1289,12 +1395,10 @@ loadStockoutDHS(): void {
         stockoutp.push(item.stockoutp);
       });
 
-      // Update the bar chart
-      this.chartStockoutdhs = 
-      {
+      this.chartStockoutdhs = {
         series: [
           {
-            name: 'Total '+this.selectedCategoryRadio,
+            name: 'Total ' + this.selectedCategoryRadio,
             data: nositems
           },
           {
@@ -1312,32 +1416,31 @@ loadStockoutDHS(): void {
         },
         plotOptions: {
           bar: {
-            horizontal: false, // Set to true for horizontal bar chart
+            horizontal: false,
             columnWidth: "70%",
             endingShape: "rounded",
             dataLabels: {
-              position: "top" // Places data labels on top of bars
+              position: "top"
             }
           }
         },
-      
         stroke: {
           show: true,
           width: 1,
           colors: ["transparent"]
         },
         xaxis: {
-          categories: edLtpe // Dynamically set categories from API response
+          categories: edLtpe
         },
         yaxis: {
           title: {
-            text: "No of "+this.selectedCategoryRadio
-          },
+            text: "No of " + this.selectedCategoryRadio
+          }
         },
         dataLabels: {
           enabled: true,
           style: {
-            colors: ['#000'] 
+            colors: ['#000']
           }
         },
         fill: {
@@ -1345,9 +1448,7 @@ loadStockoutDHS(): void {
         },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
@@ -1367,18 +1468,19 @@ loadStockoutDHS(): void {
           }
         ]
       } as any;
-    },
-    (error: any) => {
+    }),
+    catchError(error => {
       console.error('Error fetching data', error);
-    }
+      this.toastr.error('Failed to load DHS Stockout data');
+      return of([]); // fallback observable
+    })
   );
 }
 
-loadIndent(): void {
 
-
-  this.api.IndentcntHome(this.mcid,0).subscribe(
-    (data: any) => {
+loadIndent(): Observable<any[]> {
+  return this.api.IndentcntHome(this.mcid, 0).pipe(
+    tap((data: any[]) => {
       const hod: string[] = [];
       const nositems: number[] = [];
       const returned: number[] = [];
@@ -1393,7 +1495,6 @@ loadIndent(): void {
         actualAI.push(item.actualAI);
       });
 
-      // Update the bar chart
       this.chartIndent = {
         series: [
           {
@@ -1415,32 +1516,31 @@ loadIndent(): void {
         },
         plotOptions: {
           bar: {
-            horizontal: false, // Set to true for horizontal bar chart
+            horizontal: false,
             columnWidth: "70%",
             endingShape: "rounded",
             dataLabels: {
-              position: "top" // Places data labels on top of bars
+              position: "top"
             }
           }
         },
-      
         stroke: {
           show: true,
           width: 1,
           colors: ["transparent"]
         },
         xaxis: {
-          categories: hod // Dynamically set categories from API response
+          categories: hod
         },
         yaxis: {
           title: {
             text: ""
-          },
+          }
         },
         dataLabels: {
           enabled: true,
           style: {
-            colors: ['#000'] 
+            colors: ['#000']
           }
         },
         fill: {
@@ -1448,9 +1548,7 @@ loadIndent(): void {
         },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
@@ -1470,18 +1568,19 @@ loadIndent(): void {
           }
         ]
       } as any;
-    },
-    (error: any) => {
+    }),
+    catchError(error => {
       console.error('Error fetching data', error);
-    }
+      this.toastr.error('Failed to load Indent chart');
+      return of([]); // Fallback value for forkJoin compatibility
+    })
   );
 }
 
-loadData4(): void {
-  
 
-  this.api.CGMSCStockHome(this.mcid).subscribe(
-    (data: any) => {
+loadData4(): Observable<any[]> {
+  return this.api.CGMSCStockHome(this.mcid).pipe(
+    tap((data: any[]) => {
       const edLtpe: string[] = [];
       const nositems: number[] = [];
       const stkvalue: number[] = [];
@@ -1496,50 +1595,45 @@ loadData4(): void {
         total.push(item.total);
       });
 
-      // Update the bar chart
       this.chartOptions4 = {
         series: [
           {
-            name: 'No of '+this.selectedCategoryRadio,
+            name: 'No of ' + this.selectedCategoryRadio,
             data: nositems,
-            color:'#072ac8'
+            color: '#072ac8'
           },
           {
             name: 'Value (in Cr)',
             data: stkvalue,
-            color:'#774e24'
+            color: '#774e24'
           }
-          
         ],
         chart: {
-          type: "bar",
-          stacked:true,
+          type: 'bar',
+          stacked: true,
           height: 300
-          
         },
         plotOptions: {
           bar: {
-            
-            horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "75%",
-            endingShape: "rounded"
+            horizontal: false,
+            columnWidth: '75%',
+            endingShape: 'rounded'
           }
         },
         dataLabels: {
           enabled: true
-          
         },
         stroke: {
           show: true,
           width: 2,
-          colors: ["transparent"]
+          colors: ['transparent']
         },
         xaxis: {
-          categories: edLtpe // Dynamically set categories from API response
+          categories: edLtpe
         },
         yaxis: {
           title: {
-            text: ""
+            text: ''
           }
         },
         fill: {
@@ -1547,13 +1641,11 @@ loadData4(): void {
         },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
-          position: "top"
+          position: 'top'
         },
         responsive: [
           {
@@ -1563,84 +1655,71 @@ loadData4(): void {
                 width: 300
               },
               legend: {
-                position: "bottom"
+                position: 'bottom'
               }
             }
           }
         ]
       } as any;
-    },
-    (error: any) => {
-      console.error('Error fetching data', error);
-    }
+    }),
+    catchError(error => {
+      console.error('Error fetching CGMSC Stock data', error);
+      this.toastr.error('Failed to load CGMSC stock chart');
+      return of([]);
+    })
   );
 }
 
-Nearexp(): void {
 
-  this.api.NearExp(this.mcid,5).subscribe(
-    (data:any) => {
-
+Nearexp(): Observable<any[]> {
+  return this.api.NearExp(this.mcid, 5).pipe(
+    tap((data: any[]) => {
       const nositems: number[] = [];
-      const mname: any[] = [];
+      const mname: string[] = [];
       const nosbatches: number[] = [];
       const stkvaluEcr: number[] = [];
-      console.log('helo :', data);
 
-      data.forEach((item:any)=> {
-       
+      console.log('Near expiry data:', data);
+
+      data.forEach((item: any) => {
         nositems.push(item.nositems);
-    
         mname.push(item.mname);
         nosbatches.push(item.nosbatches);
         stkvaluEcr.push(item.stkvaluEcr);
-        
       });
-      // console.log('klkllklkk',indentDT);
-
 
       this.chartNearexp.series = [
-
-  
-        { 
+        {
           name: 'Near Exp Value (in Cr)',
-          data: stkvaluEcr ,
-          color:'#5f0f40'
-        },
-     
-
-        
+          data: stkvaluEcr,
+          color: '#5f0f40'
+        }
       ];
 
       this.chartNearexp.xaxis = {
         categories: mname,
-        labels:{
-          style:{
-            // colors:'#390099',
-            fontWeight:'bold',
-            fontSize:'15px'
+        labels: {
+          style: {
+            fontWeight: 'bold',
+            fontSize: '15px'
           }
         }
-        
+      };
 
-        
-       };
       this.cO = this.chartNearexp;
-
-    },
-    (error: any) => {
-      console.error('Error fetching data', error);
-      
-    }
+    }),
+    catchError(error => {
+      console.error('Error fetching Near Exp data', error);
+      this.toastr.error('Failed to load Near Expiry chart');
+      return of([]); // Return empty observable to prevent breaking forkJoin
+    })
   );
 }
 
-loadUQC(): void {
-  
 
-  this.api.QCPendingHomeDash(this.mcid).subscribe(
-    (data: any) => {
-      
+loadUQC(): Observable<any[]> {
+  return this.api.QCPendingHomeDash(this.mcid).pipe(
+    tap((data: any[]) => {
       const categories: string[] = [];
       const nositems: number[] = [];
       const nosbatch: number[] = [];
@@ -1649,21 +1728,17 @@ loadUQC(): void {
       console.log('Under QC home Dashboard:', data);
 
       data.forEach((item: any) => {
-     
         categories.push(item.mcategory);
         nositems.push(item.nositems);
         nosbatch.push(item.nosbatch);
         stkvalue.push(item.stkvalue);
-        
       });
 
-      // Update the bar chart
       this.chartUQC = {
         series: [
           {
-            name: 'UQC Stock Value(in Cr)',
+            name: 'UQC Stock Value (in Cr)',
             data: stkvalue
-  
           },
           {
             name: 'No of Items',
@@ -1675,14 +1750,14 @@ loadUQC(): void {
           }
         ],
         chart: {
-          type: "bar",
+          type: 'bar',
           height: 300
         },
         plotOptions: {
           bar: {
-            horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "50%",
-            endingShape: "rounded"
+            horizontal: false,
+            columnWidth: '50%',
+            endingShape: 'rounded'
           }
         },
         dataLabels: {
@@ -1691,14 +1766,14 @@ loadUQC(): void {
         stroke: {
           show: true,
           width: 2,
-          colors: ["transparent"]
+          colors: ['transparent']
         },
         xaxis: {
-         categories: categories // Dynamically set categories from API response
+          categories: categories
         },
         yaxis: {
           title: {
-           text: "Under QC Info"
+            text: 'Under QC Info'
           }
         },
         fill: {
@@ -1706,13 +1781,11 @@ loadUQC(): void {
         },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
-          position: "top"
+          position: 'top'
         },
         responsive: [
           {
@@ -1722,18 +1795,21 @@ loadUQC(): void {
                 width: 300
               },
               legend: {
-                position: "bottom"
+                position: 'bottom'
               }
             }
           }
         ]
       } as any;
-    },
-    (error: any) => {
-      console.error('Error fetching data', error);
-    }
+    }),
+    catchError(error => {
+      console.error('Error fetching UQC chart data', error);
+      this.toastr.error('Failed to load Under QC chart');
+      return of([]); // Prevent breaking forkJoin
+    })
   );
 }
+
 
 getstatusDetails() {
             
@@ -1767,6 +1843,38 @@ getstatusDetails() {
 
   this.openDialogHOD();
 }
+Rcdetails(value:any) {
+            debugger
+  this.spinner.show();
+
+
+
+  this.api.GetTotalRC1Details(this.mcid,value).subscribe({
+    next: (res: any[]) => {
+      if (res && res.length > 0) {
+        this.totalRC1details = res.map((item: any, index: number) => ({
+          ...item,
+          sno: index + 1,
+        }));
+
+        this.dataSource9.data = this.totalRC1details;
+        this.dataSource9.paginator = this.paginator9;
+        this.dataSource9.sort = this.sort9;
+      } else {
+        this.toastr.error('No data found');
+      }
+    },
+    error: (err) => {
+      console.error('API error:', err);
+      this.toastr.error('Failed to load data');
+    },
+    complete: () => {
+      this.spinner.hide();
+    }
+  });
+
+  this.openDialogTotalRCDetails();
+}
 openDialogHOD() {
   // this.getTotalTenderValue()
   
@@ -1788,127 +1896,122 @@ openDialogHOD() {
      console.log('Dialog closed');
     });
     }
+openDialogTotalRCDetails() {
+  // this.getTotalTenderValue()
+  
+    const dialogRef = this.dialog.open(this.RCDetailsModal, {
+     width: '100%',
+     height: '100%',
+     maxWidth: '100%',
+     panelClass: 'full-screen-dialog', // Optional for additional styling
+     data: {
+       /* pass any data here */
+     },
+     // width: '100%',
+     // maxWidth: '100%', // Override default maxWidth
+     // maxHeight: '100%', // Override default maxHeight
+     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+     // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+     console.log('Dialog closed');
+    });
+    }
 
-  loadData1(): void {
-
-        this.api.Last7DaysIssue(7,this.mcid,0,0,1).subscribe(
-          (data:any) => {
-            const nositems: number[] = [];
-            const indentDT: any[] = [];
-            const indentdate: any[] = [];
-            const totalValuecr: number[] = [];
-            const nosfacility: number[] = [];
-            console.log('helo :', data);
-
-            data.forEach((item:any)=> {
-             
-              nositems.push(item.nositems);
-              indentDT.push(item.indentDT.slice(0, 2));
-              indentdate.push(item.indentdate);
-              totalValuecr.push(item.totalValuecr);
-              nosfacility.push(item.nosfacility);
-              
-            });
-            // console.log('klkllklkk',indentDT);
+    loadData1(): Observable<any[]> {
+      return this.api.Last7DaysIssue(7, this.mcid, 0, 0, 1).pipe(
+        tap((data: any[]) => {
+          const nositems: number[] = [];
+          const indentDT: any[] = [];
+          const indentdate: any[] = [];
+          const totalValuecr: number[] = [];
+          const nosfacility: number[] = [];
     
+          console.log('helo :', data);
     
-            this.chartOptions1.series = [
+          data.forEach((item: any) => {
+            nositems.push(item.nositems);
+            indentDT.push(item.indentDT.slice(0, 2));
+            indentdate.push(item.indentdate);
+            totalValuecr.push(item.totalValuecr);
+            nosfacility.push(item.nosfacility);
+          });
     
-        
-              { 
-                name: 'totalValuecr',
-                data: totalValuecr ,
-                color:'#5f0f40'
-              },
-           
+          this.chartOptions1.series = [
+            {
+              name: 'totalValuecr',
+              data: totalValuecr,
+              color: '#5f0f40'
+            }
+          ];
     
-              
-            ];
- 
-            this.chartOptions1.xaxis = {
-              categories: indentDT,
-              labels:{
-                style:{
-                  // colors:'#390099',
-                  fontWeight:'bold',
-                  fontSize:'15px'
-                }
+          this.chartOptions1.xaxis = {
+            categories: indentDT,
+            labels: {
+              style: {
+                fontWeight: 'bold',
+                fontSize: '15px'
               }
-              
+            }
+          };
     
-              
-             };
-            this.cO = this.chartOptions1;
-   
-          },
-          (error: any) => {
-            console.error('Error fetching data', error);
-            
-          }
-        );
-      }
-  loadData2(): void {
+          this.cO = this.chartOptions1;
+        }),
+        catchError(error => {
+          console.error('Error fetching data', error);
+          this.toastr.error('Chart data failed to load');
+          return of([]); // safe fallback
+        })
+      );
+    }
     
+    loadData2(): Observable<any[]> {
+      return this.api.Last7DaysReceipt(7, this.mcid, 0, 0).pipe(
+        tap((data: any[]) => {
+          const nosPO: number[] = [];
+          const nositems: any[] = [];
+          const receiptdate: any[] = [];
+          const receiptDT: any[] = [];
+          const rvalue: number[] = [];
     
-        this.api.Last7DaysReceipt(7,this.mcid,0,0).subscribe(
-          (data:any) => {
-            const nosPO: number[] = [];
-            const nositems: any[] = [];
-            const receiptdate: any[] = [];
-            const receiptDT: number[] = [];
-            const rvalue: number[] = [];
-            console.log('API Response:', data);
-
-            data.forEach((item:any)=> {
-               
-              nosPO.push(item.nosPO);
-              nositems.push(item.nositems);
-              receiptdate.push(item.receiptdate);
-              receiptDT.push(item.receiptDT.slice(0,2));
-              rvalue.push(item.rvalue);
-                 
-              
-            });
+          console.log('API Response:', data);
     
+          data.forEach((item: any) => {
+            nosPO.push(item.nosPO);
+            nositems.push(item.nositems);
+            receiptdate.push(item.receiptdate);
+            receiptDT.push(item.receiptDT.slice(0, 2));
+            rvalue.push(item.rvalue);
+          });
     
-            this.chartOptions2.series = [
+          this.chartOptions2.series = [
+            {
+              name: 'rvalue',
+              data: rvalue,
+              color: '#004b23'
+            }
+          ];
     
-               
-            
-          
-              { 
-                name: 'rvalue',
-                data: rvalue ,
-                color:'#004b23'
-              },
-
-    
-    
-              
-            ];
-    
-            this.chartOptions2.xaxis = {
-              categories: receiptDT,
-              labels:{
-                style:{
-                  // colors:'#390099',
-                  fontWeight:'bold',
-                  fontSize:'15px'
-                }
+          this.chartOptions2.xaxis = {
+            categories: receiptDT,
+            labels: {
+              style: {
+                fontWeight: 'bold',
+                fontSize: '15px'
               }
-              
+            }
+          };
     
-              
-             };
-            this.cO = this.chartOptions2;
-   
-          },
-          (error: any) => {
-            console.error('Error fetching data', error);
-            
-          }
-        );
-      }
+          this.cO = this.chartOptions2;
+        }),
+        catchError(error => {
+          console.error('Error fetching data', error);
+          this.toastr.error('Chart data failed to load');
+          return of([]); // fallback if error occurs
+        })
+      );
+    }
+    
 
       searchItem() {
         
@@ -2064,54 +2167,38 @@ openDialogHOD() {
         }
 
 
-
-      updateSelectedHodid(): void {
+        updateSelectedHodid(): void {
+          this.spinner.show();
+          
+          // Set category ID
+          if (this.selectedCategoryRadio === 'Drugs') this.mcid = 1;
+          else if (this.selectedCategoryRadio === 'Consumables') this.mcid = 2;
+          else if (this.selectedCategoryRadio === 'Reagent') this.mcid = 3;
+          else if (this.selectedCategoryRadio === 'AYUSH') this.mcid = 4;
       
-  this.spinner.show(); // Show the spinner before making API calls
-
-  if (this.selectedCategoryRadio === 'Drugs') {
-    this.mcid = 1;
-  } else if (this.selectedCategoryRadio === 'Consumables') {
-    this.mcid = 2;
-  } else if (this.selectedCategoryRadio === 'Reagent') {
-    this.mcid = 3;
-  } else if (this.selectedCategoryRadio === 'AYUSH') {
-    this.mcid = 4;
-  }
-
-  // Create an array of API calls to execute
-  forkJoin([
-    this.GetPOCountCFY(),
-    this.last7DaysIssue(),
-    this.loadData1(),
-    this.loadData2(),
-    this.loadIndent(),
-    this.loadData4(),
-    this.Nearexp(),
-    this.loadData3(), // Drug rate contract
-    this.loadUQC(),
-    this.loadStockoutDHS(),
-    this.CGMSCIndentPending(),
-    this.getItemNoDropDown(),
-    this.GetDeliveryInMonth(),
-    this.getTenderStatus(),
-  this.getTotalRC1()
-
-  ]).subscribe({
-    next: () => {
-      // All API calls completed successfully
-      this.spinner.hide();
-    },
-    error: (error) => {
-      console.error("Error loading data:", error);
-      this.spinner.hide();
-    },
-    complete: () => {
-      // Optional: Any cleanup after completion
-    }
-  });
-}
-
+          // Create API calls with individual error handling
+          forkJoin([
+              this.GetPOCountCFY().pipe(catchError(() => of(null))),
+              this.last7DaysIssue().pipe(catchError(() => of(null))),
+              this.loadData1().pipe(catchError(() => of(null))),
+              this.loadData2().pipe(catchError(() => of(null))),
+              this.loadIndent().pipe(catchError(() => of(null))),
+              this.loadData4().pipe(catchError(() => of(null))),
+              this.Nearexp().pipe(catchError(() => of(null))),
+              this.loadData3().pipe(catchError(() => of(null))),
+              this.loadUQC().pipe(catchError(() => of(null))),
+              this.loadStockoutDHS().pipe(catchError(() => of(null))),
+              this.CGMSCIndentPending().pipe(catchError(() => of(null))),
+              this.getItemNoDropDown().pipe(catchError(() => of(null))),
+              this.GetDeliveryInMonth().pipe(catchError(() => of(null))),
+              this.getTenderStatus().pipe(catchError(() => of(null))),
+              this.getTotalRC1().pipe(catchError(() => of(null)))
+          ]).pipe(
+              finalize(() => this.spinner.hide())
+          ).subscribe({
+              error: () => this.toastr.error('Some data failed to load')
+          });
+      }
 
 
 
@@ -2172,6 +2259,64 @@ exportToPDFHODDetails() {
   });
 
   doc.save('RC_Details.pdf');
+}
+exportToPDFRCDDetails() {
+  const doc = new jsPDF('l', 'mm', 'a4'); // landscape
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC  Details';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+
+  const columns = [
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item ID', dataKey: 'itemid' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'Strength', dataKey: 'strength1' },
+    { header: 'Unit', dataKey: 'unit' },
+    { header: 'Basic Rate', dataKey: 'basicrate' },
+    { header: 'GST (%)', dataKey: 'gst' },
+    { header: 'Final Rate (incl. GST)', dataKey: 'finalrategst' },
+    { header: 'RC Start', dataKey: 'rcStart' },
+    { header: 'RC End', dataKey: 'rcEndDT' },
+  ];
+
+  const rows = this.totalRC1details.map((item: any, index: number) => ({
+    sno: index + 1,
+    itemid: item.itemid,
+    itemcode: item.itemcode,
+    itemname: item.itemname,
+    strength1: item.strength1,
+    unit: item.unit,
+    basicrate: item.basicrate,
+    gst: item.gst,
+    finalrategst: item.finalrategst,
+    rcStart: item.rcStart,
+    rcEndDT: item.rcEndDT,
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.header)],
+    body: rows,
+
+
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('Total_RC_Details.pdf');
 }
 
     

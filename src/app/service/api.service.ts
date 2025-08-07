@@ -115,7 +115,7 @@ import { DHSDMEStock } from '../Model/DHSDmeStock';
 import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuanceCoonsumptionm';
 import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, PaidYearwise_Budget, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
 import { AttendenceRecord, Designation, EmployeeDetail, GetLocation } from '../Model/Attendence';
-import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalTender } from '../Model/TenderStatus';
+import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalRC1Details, TotalTender } from '../Model/TenderStatus';
 import { CoverStatus, CoverStatusDetail, CoverStatusTenderDetail, EqptobeTender, EqToBeTenderDetail, GetConsTenderStatusDetail, GetToBeTender, SchemeReceived, SchemeTenderStatus, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, ToBeTenderBifurcation, ToBeTenderBifurcationDetail, TobetenderDetails, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
 import { AIvsIssuance, MasfacilityInfoUser, Year } from '../Model/masInfoUser';
 
@@ -298,13 +298,13 @@ export class ApiService {
 
   }
   NearExpReportbatch(mcid: number, nexppara: number, expmonth: string): Observable<any> {
-
+debugger
     const params = new HttpParams()
       .set('mcid', mcid.toString())
       .set('nexppara', nexppara.toString())
       .set('expmonth', expmonth.toString());
 
-    return this.http.get<NearExpReportbatch>(`${this.CGMSCHO_API2}/HO/NearExpReportbatch`, { params });
+    return this.http.get<NearExpReportbatch>(`${this.CGMSCHO_API2}/HO/ `, { params });
 
   }
 
@@ -561,14 +561,14 @@ export class ApiService {
   }
 
   HODPOYear_AgAI(mcatid: any, hodid: any, Isall: any, IsagainstAI: any): Observable<any> {
-
+debugger
 
     return this.http.get<HODPOYear_AgAI[]>(`${this.CGMSCHO_API2}/HO/HODPOYear_AgAI?mcatid=${mcatid}&hodid=${hodid}&Isall=${Isall}&IsagainstAI=${IsagainstAI}`);
   }
 
-  DirectorateAIDetails(yearid: any, mcid: any, hodid: any, groupid: any, itemtypeid: any): Observable<any> {
+  DirectorateAIDetails(yearid: any, mcid: any, hodid: any, groupid: any, itemtypeid: any,pogiven:any): Observable<any> {
 
-    return this.http.get<DirectorateAIDetails[]>(`${this.CGMSCHO_API2}/HOD/DirectorateAIDetails?yearid=${yearid}&mcid=${mcid}&hodid=${hodid}&groupid=${groupid}&itemtypeid=${itemtypeid}`);
+    return this.http.get<DirectorateAIDetails[]>(`${this.CGMSCHO_API2}/HOD/DirectorateAIDetails?yearid=${yearid}&mcid=${mcid}&hodid=${hodid}&groupid=${groupid}&itemtypeid=${itemtypeid}&pogiven=${pogiven}`);
   }
 
   GroupWiseAI_PODetails(yearid: any, mcid: any, hodid: any): Observable<any> {
@@ -1275,8 +1275,11 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<TenderStagesTotal[]>(`${this.CGMSCHO_API2}/HOTender/TenderStagesTotal?mcatid=${mcatid}`);
   }
 
-  GetTotalRC1(mcatid:any) {
-    return this.http.get<TotalRC1[]>(`${this.CGMSCHO_API2}/HOTender/TotalRC1?mcatid=${mcatid}`);
+  GetTotalRC1(mcatid:any,isEdl:any) {
+    return this.http.get<TotalRC1[]>(`${this.CGMSCHO_API2}/HOTender/TotalRC1?mcatid=${mcatid}&isEdl=${isEdl}`);
+  }
+  GetTotalRC1Details(mcid:any,Isedl:any) {
+    return this.http.get<TotalRC1Details[]>(`${this.CGMSCHO_API2}/HOTender/RcDetail1?mcid=${mcid}&Isedl=${Isedl}`);
   }
 
   getStatusDetail(status:any,mcatid:any) {

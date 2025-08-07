@@ -72,6 +72,7 @@ export class DirectorateAIDetailsComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   hodid: any;
+  pogiven:any=0;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -171,7 +172,7 @@ export class DirectorateAIDetailsComponent {
   getAllDispatchPending() {
     
     this.spinner.show();
-    this.api.DirectorateAIDetails(0,1,367,0,0).subscribe(
+    this.api.DirectorateAIDetails(0,1,367,0,0,this.pogiven).subscribe(
       (res) => {
 
         this.dispatchPendings = res.map((item:DirectorateAIDetails,index:number) => ({
@@ -197,7 +198,7 @@ export class DirectorateAIDetailsComponent {
   }
   showAllData(){
     this.spinner.show();
-    this.api.DirectorateAIDetails(0,1,367,0,0).subscribe(
+    this.api.DirectorateAIDetails(0,1,367,0,0,0).subscribe(
       (res) => {
 
         this.dispatchPendings = res.map((item:DirectorateAIDetails,index:number) => ({
@@ -223,7 +224,7 @@ export class DirectorateAIDetailsComponent {
   }
   showAllDataGreaterthan15days(){
     this.spinner.show();
-    this.api.DirectorateAIDetails(0,1,367,0,0).subscribe(
+    this.api.DirectorateAIDetails(0,1,0,0,0,0).subscribe(
       (res) => {
 
         this.dispatchPendings = res.map((item:DirectorateAIDetails,index:number) => ({
@@ -249,7 +250,7 @@ export class DirectorateAIDetailsComponent {
   }
   showAllData7to15days(){
     this.spinner.show();
-    this.api.DirectorateAIDetails(0,1,367,0,0).subscribe(
+    this.api.DirectorateAIDetails(0,1,0,0,0,0).subscribe(
       (res) => {
 
         this.dispatchPendings = res.map((item:DirectorateAIDetails,index:number) => ({
@@ -275,7 +276,7 @@ export class DirectorateAIDetailsComponent {
   }
   showAllData7days(){
     this.spinner.show();
-    this.api.DirectorateAIDetails(0,1,367,0,0).subscribe(
+    this.api.DirectorateAIDetails(0,1,0,0,0,0).subscribe(
       (res) => {
 
         this.dispatchPendings = res.map((item:DirectorateAIDetails,index:number) => ({
@@ -430,12 +431,17 @@ console.log('groupidMap:', this.groupidMap);
  
   fetchDataBasedOnChartSelection(whid: number, seriesName: string): void {
     
-    
+    debugger
     console.log(`Selected WHID: ${whid}, Series: ${seriesName}`);
     this.groupid=whid
     // Add your logic to fetch data based on selected warehouse (whid)
     this.spinner.show();
-    this.api.DirectorateAIDetails(0,1,367,this.groupid,0).subscribe(
+    if(seriesName==='PO Items'){
+      this.pogiven=1;
+    }else{
+      this.pogiven=0;
+    }
+    this.api.DirectorateAIDetails(0,1,0,this.groupid,0,this.pogiven).subscribe(
       (res) => {
 
           this.dispatchPendings = res.map((item:DirectorateAIDetails,index:number) => ({

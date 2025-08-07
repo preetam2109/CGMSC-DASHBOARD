@@ -42,7 +42,7 @@ import { StatusDetail, StatusItemDetail } from 'src/app/Model/TenderStatus';
 import 'jspdf-autotable';
 import 'src/assets/fonts/NotoSansDevanagari-VariableFont_wdth,wght-normal.js'; // generated with jsPDF font converter
 import { EqToBeTenderDetail, SchemeTenderStatus, TenderDetail, TobetenderDetails } from 'src/app/Model/Equipment';
-import { Observable } from 'rxjs';
+import { Observable, catchError, finalize, forkJoin, of, tap } from 'rxjs';
 import html2canvas from 'html2canvas';
 
 
@@ -379,7 +379,7 @@ export class EqpDashComponent {
     
       ngOnInit() {
         this.spinner.show();
-
+debugger
          this.username = sessionStorage.getItem('authenticatedUser');
          
          this.role = this.basicAuthentication.getRole().roleName; // Fetch dynamic role from the authentication service
@@ -406,13 +406,23 @@ export class EqpDashComponent {
         // this.QCNSQ_Dash()
         // this.loadUQCDashCard()
         // this.QCTimeTakenYear();
-                this.getToBeTenderDrugsSection();
+
+        forkJoin([
+          this.getToBeTenderDrugsSection().pipe(catchError(() => of(null))),
+          this.getTenderStatus().pipe(catchError(() => of(null))),
+          this.getTotalRC1().pipe(catchError(() => of(null))),
+        ]).pipe(
+          finalize(() => this.spinner.hide())
+        ).subscribe({
+          error: () => this.toastr.error('Some data failed to load')
+        });
+                // this.getToBeTenderDrugsSection();
 
 
-        this.getTenderStatus();
+        // this.getTenderStatus();
         // this.getTotalRC1();
               // this.QCPendingMonthwiseRecDetails()
-        this.spinner.hide();
+        // this.spinner.hide();
 
 
       }
@@ -497,53 +507,54 @@ export class EqpDashComponent {
       //   );   
       //   }
     
-      getTenderStatus() {
-        
+      getTenderStatus(): Observable<any[]> {
         this.spinner.show();
       
+        let apiCall: Observable<any[]>;
+      
         if (this.mcid === 5) {
-          this.api.GetEqpTotalTendersByStatus().subscribe(
-            (res: any[]) => {
-              this.tenderStatusList = res;
-              this.totalNoTenders = res.reduce((sum, item) => sum + (item.noofTender || 0), 0);
-              this.spinner.hide();
-            },
-            (error) => {
-              console.error('Failed to load tender status:', error);
-              this.spinner.hide();
-            }
-          );
+          apiCall = this.api.GetEqpTotalTendersByStatus();
         } else if (this.mcid === 3) {
-          this.api.GetTenderStagesTotal(this.mcid).subscribe(
-            (res: any[]) => {
-              this.tenderStatusList = res;
-              this.totalNoTenders = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
-              this.spinner.hide();
-            },
-            (error) => {
-              console.error('Failed to load tender status:', error);
-              this.spinner.hide();
-            }
-          );
+          apiCall = this.api.GetTenderStagesTotal(this.mcid);
         } else {
           console.warn('Unsupported mcid:', this.mcid);
-          this.spinner.hide();
+          return of([]); // Return empty observable to avoid breaking forkJoin
         }
-      }
       
+        return apiCall.pipe(
+          tap((res: any[]) => {
+            this.tenderStatusList = res;
       
-      getTotalRC1() {
-        
-        this.api.GetTotalRC1(this.mcid).subscribe(
-          (res: any[]) => {
-            this.totalRC1 = res;
-            console.log("fjkdjflksdjf"+JSON.stringify(this.totalRC1));
-          },
-          (error) => {
+            // Use correct field name based on API
+            this.totalNoTenders = res.reduce((sum, item) =>
+              sum + (this.mcid === 5 ? (item.noofTender || 0) : (item.noTenders || 0)), 0);
+      
+            console.log('Tender Status Loaded:', res);
+          }),
+          catchError((error) => {
             console.error('Failed to load tender status:', error);
-          }
+            this.toastr.error('Error loading tender status');
+            return of([]); // Return empty array on error
+          })
         );
       }
+      
+      
+      
+      getTotalRC1(): Observable<any[]> {
+        return this.api.GetTotalRC1(this.mcid,'Y').pipe(
+          tap((res: any[]) => {
+            this.totalRC1 = res;
+            console.log("Total RC1 Data:", JSON.stringify(this.totalRC1));
+          }),
+          catchError((error) => {
+            console.error('Failed to load total RC1:', error);
+            this.toastr.error('Error loading total RC1');
+            return of([]); // fallback to empty array so forkJoin doesn't break
+          })
+        );
+      }
+      
 
       getItemNoDropDown(){
     
@@ -2097,149 +2108,54 @@ export class EqpDashComponent {
               // });
               }
     
-            updateSelectedHodid(): void {
-        
-              // Reset hodid to 0 initially
-              // this.mcid = 0;
-          
-              // Map the selected category to the corresponding mcid value
-              this.spinner.show()
-              if (this.selectedCategoryRadio==='Drugs') {
-                
-                this.mcid = 1;
-                // this.loadUQC();
-                // this.loadDataQCStages()
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus()
-                this.getTotalRC1()
-                // this.getstatusDetails()
-
-    
-              this.spinner.hide()
-    
-                
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              } else if (this.selectedCategoryRadio==='Consumables') {
-                this.mcid = 2;
-                // this.loadUQC();
-                // this.loadDataQCStages()
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                // this.getstatusDetails()
-                this.getTenderStatus()
-                this.getTotalRC1()
-
-    
-    
-              this.spinner.hide()
-    
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle + this.selectedCategory;
-              } else if (this.selectedCategoryRadio==='Reagent') {
-                this.mcid = 3;
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getToBeTenderDrugsSection();
-
-                this.getTenderStatus()
-
-                this.getTotalRC1();
-                // this.getstatusDetails()
-
-               
-    
-    
-              // this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              }
-              else if (this.selectedCategoryRadio==='Equipment') {
-                
-                this.mcid = 5;
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getToBeTenderDrugsSection();
-
-                this.getTenderStatus();
-
-                this.getTotalRC1();
-                // this.getstatusDetails()
-
-               
-    
-    
-              // this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              } 
-
-               else if (this.selectedCategoryRadio==='AYUSH') {
-                this.mcid = 4;
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus();
-
-                this.getTotalRC1()
-                // this.getstatusDetails()
-
-                
-    
-              this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text =this.OnChangeTitle +  this.selectedCategory;
-              }
-          
-              // console.log('Selected Hod ID:', this.mcid);
+              updateSelectedHodid(): void {
+                this.spinner.show();
+                let observables: Observable<any>[] = [];
+            
+                // Set mcid based on selected category
+                if (this.selectedCategoryRadio === 'Drugs') {
+                    this.mcid = 1;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Consumables') {
+                    this.mcid = 2;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Reagent') {
+                    this.mcid = 3;
+                    observables = [
+                        this.getToBeTenderDrugsSection(),
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Equipment') {
+                    this.mcid = 5;
+                    observables = [
+                        this.getToBeTenderDrugsSection(),
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'AYUSH') {
+                    this.mcid = 4;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                }
+            
+                // Execute all API calls in parallel
+                forkJoin(observables).pipe(
+                    finalize(() => this.spinner.hide())
+                ).subscribe({
+                    error: (error) => {
+                        console.error("Error loading data:", error);
+                        this.toastr.error('Failed to load some data');
+                    }
+                });
             }
     
             fetchDataBasedOnChartSelectionchartUQCl(month:any,monthid:any){
@@ -2290,40 +2206,27 @@ export class EqpDashComponent {
       isEquipment ? this.gettobetenderDetailsEqP() : this.gettobetenderDetails();
     }
     
-                  getToBeTenderDrugsSection(){
-                    this.spinner.show();
-
-                    
-                    if(this.mcid===5){
-                      this.api.GetToBeTenderEqp().subscribe(
-                        (res: any[]) => {
-                          // this.ToBeTender = res;
-                          this.ToBeTender = Array.isArray(res) ? res : [res];
-                          console.log("lope"+JSON.stringify(this.ToBeTender));
-                        },
-                        (error) => {
-                          this.spinner.hide();
-                          this.toastr.error('Failed to load data')
-                          console.error('Failed to load tender status:', error);
-                        }
-                      );
-
-                    }else{
-
-                      this.api.GetToBeTenderDrugsSection(this.mcid).subscribe(
-                        (res: any[]) => {
-                          // this.ToBeTender = res;
-                          this.ToBeTender = Array.isArray(res) ? res : [res];
-                          console.log("lope"+JSON.stringify(this.ToBeTender));
-                        },
-                        (error) => {
-                          this.spinner.hide();
-                          this.toastr.error('Failed to load data')
-                          console.error('Failed to load tender status:', error);
-                        }
-                      );
-                    }
-                  }
+    getToBeTenderDrugsSection(): Observable<any[]> {
+      this.spinner.show();
+    
+      const apiCall = this.mcid === 5
+        ? this.api.GetToBeTenderEqp()
+        : this.api.GetToBeTenderDrugsSection(this.mcid);
+    
+      return apiCall.pipe(
+        tap((res: any[]) => {
+          this.ToBeTender = Array.isArray(res) ? res : [res];
+          console.log("ToBeTender:", JSON.stringify(this.ToBeTender));
+        }),
+        catchError((error) => {
+          this.toastr.error('Failed to load To Be Tender data');
+          console.error('Failed to load To Be Tender:', error);
+          this.ToBeTender = [];
+          return of([]);
+        })
+      );
+    }
+    
 
                   gettobetenderDetails(){
                     

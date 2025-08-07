@@ -42,7 +42,7 @@ import { StatusDetail, StatusItemDetail } from 'src/app/Model/TenderStatus';
 import 'jspdf-autotable';
 import 'src/assets/fonts/NotoSansDevanagari-VariableFont_wdth,wght-normal.js'; // generated with jsPDF font converter
 import { GetToBeTender, TenderDetail, ZonalTenderStatusDetail } from 'src/app/Model/Equipment';
-import { Observable } from 'rxjs';
+import { Observable, catchError, finalize, forkJoin, of, tap } from 'rxjs';
 import html2canvas from 'html2canvas';
 
 
@@ -418,11 +418,26 @@ export class InfraDashComponent {
         // this.loadUQCDashCard()
         // this.QCTimeTakenYear();
 
-        this.getTenderStatus();
-        this.getToBeTenderBifurcation();
+        // this.getTenderStatus();
+        // this.getToBeTenderBifurcation();
+
+
+
+        forkJoin([
+          this.getTenderStatus().pipe(catchError(() => of(null))),
+          this.getToBeTenderBifurcation().pipe(catchError(() => of(null))),
+          this.getTotalRC1().pipe(catchError(() => of(null))),
+
+        ]).pipe(
+          finalize(() => this.spinner.hide())
+        ).subscribe({
+          error: () => this.toastr.error('Some data failed to load')
+        });
+
+
         // this.getTotalRC1();
               // this.QCPendingMonthwiseRecDetails()
-        this.spinner.hide();
+        // this.spinner.hide();
 
 
       }
@@ -449,94 +464,77 @@ export class InfraDashComponent {
       //   );   
       //   }
     
-      getTenderStatus() {
-        
-        this.spinner.show();
-      
-        if (this.NormalZonal==='N') {
-          this.api.GetConsTenderStatus(this.NormalZonal).subscribe(
-            (res: any[]) => {
+      getTenderStatus(): Observable<any[]> {
+        if (this.NormalZonal === 'N') {
+          return this.api.GetConsTenderStatus(this.NormalZonal).pipe(
+            tap((res: any[]) => {
               this.tenderStatusList = res;
-              // this.totalNoTenders = res.reduce((sum, item) => sum + (item.nosWorks || 0), 0);
               this.totalNoTenders = res
-              .filter(item => item.tenderStatus !== 'To Be Tender') // Exclude "To Be Tender"
-              .reduce((sum, item) => sum + (item.nosWorks || 0), 0);
-
-              console.log('Total non zonal(excluding "To Be Tender"):', this.totalNoTenders);
-
-              this.spinner.hide();
-            },
-            (error) => {
-              console.error('Failed to load tender status:', error);
-              this.spinner.hide();
-            }
+                .filter(item => item.tenderStatus !== 'To Be Tender')
+                .reduce((sum, item) => sum + (item.nosWorks || 0), 0);
+              console.log('Total non-zonal (excluding "To Be Tender"):', this.totalNoTenders);
+            }),
+            catchError(error => {
+              console.error('Failed to load tender status (N):', error);
+              this.toastr.error('Error loading tender status');
+              return of([]); // fallback to empty array
+            })
           );
-        } 
-        else if (this.NormalZonal === 'Z') {
-          this.api.GetConsTenderStatusZonal().subscribe(
-            (res: any[]) => {
+        } else if (this.NormalZonal === 'Z') {
+          return this.api.GetConsTenderStatusZonal().pipe(
+            tap((res: any[]) => {
               this.tenderStatusList = res;
-              // this.totalNoTenders = res.reduce((sum, item) => sum + (item.cntTender || 0), 0);
-
-
               this.totalNoTenders = res
-              .filter(item => item.tenderStatus !== 'To Be Tender') // Exclude "To Be Tender"
-              .reduce((sum, item) => sum + (item.cntTender || 0), 0);
-
-              console.log('Total non zonal(excluding "To Be Tender"):', this.totalNoTenders);
-
-
-              this.spinner.hide();
-            },
-            (error) => {
-              console.error('Failed to load tender status:', error);
-              this.spinner.hide();
-            }
+                .filter(item => item.tenderStatus !== 'To Be Tender')
+                .reduce((sum, item) => sum + (item.cntTender || 0), 0);
+              console.log('Total zonal (excluding "To Be Tender"):', this.totalNoTenders);
+            }),
+            catchError(error => {
+              console.error('Failed to load tender status (Z):', error);
+              this.toastr.error('Error loading tender status');
+              return of([]); // fallback to empty array
+            })
           );
-
-        } 
-        else {
-          console.warn('Unsupported mcid:', this.NormalZonal);
-          this.spinner.hide();
+        } else {
+          console.warn('Unsupported NormalZonal value:', this.NormalZonal);
+          return of([]); // return empty array observable for unsupported case
         }
       }
-
-      getToBeTenderBifurcation(){
-
-        this.spinner.show();
       
-        if (this.NormalZonal==='N') {
-          this.api.ToBeTenderBifurcation().subscribe(
-            (res: any[]) => {
+      getToBeTenderBifurcation(): Observable<any[]> {
+        if (this.NormalZonal === 'N') {
+          return this.api.ToBeTenderBifurcation().pipe(
+            tap((res: any[]) => {
               this.ToBeTenderBifurcation = res;
-
-              this.spinner.hide();
-            },
-            (error) => {
+            }),
+            catchError((error) => {
               console.error('Failed to load tender status:', error);
-              this.spinner.hide();
-            }
+              this.toastr.error('Error loading bifurcation data');
+              return of([]); // fallback value
+            })
           );
-        }else {
-          console.warn('Unsupported mcid:', this.NormalZonal);
-          this.spinner.hide();
-        } 
-
+        } else {
+          console.warn('Unsupported NormalZonal:', this.NormalZonal);
+          return of([]); // return empty array as fallback
+        }
       }
       
       
-      getTotalRC1() {
-        
-        this.api.GetTotalRC1(this.mcid).subscribe(
-          (res: any[]) => {
+      
+      getTotalRC1(): Observable<any[]> {
+        return this.api.GetTotalRC1(this.mcid,'Y').pipe(
+          tap((res: any[]) => {
             this.totalRC1 = res;
-            console.log("fjkdjflksdjf"+JSON.stringify(this.totalRC1));
-          },
-          (error) => {
-            console.error('Failed to load tender status:', error);
-          }
+            console.log('TotalRC1:', JSON.stringify(this.totalRC1));
+          }),
+          catchError((error) => {
+            console.error('Failed to load TotalRC1:', error);
+            this.toastr.error('Error loading Total RC data');
+            return of([]); // fallback to empty array
+          })
         );
       }
+      
 
       getItemNoDropDown(){
     
@@ -2128,145 +2126,57 @@ export class InfraDashComponent {
               // });
               }
     
-            updateSelectedHodid(): void {
-        
-              // Reset hodid to 0 initially
-              // this.mcid = 0;
-          
-              // Map the selected category to the corresponding mcid value
-              this.spinner.show()
-              if (this.selectedCategoryRadio==='Drugs') {
-                this.mcid = 1;
-                // this.loadUQC();
-                // this.loadDataQCStages()
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus()
-                this.getTotalRC1()
-                // this.getstatusDetails()
-
-    
-              this.spinner.hide()
-    
-                
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              } else if (this.selectedCategoryRadio==='Consumables') {
-                this.mcid = 2;
-                // this.loadUQC();
-                // this.loadDataQCStages()
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                // this.getstatusDetails()
-                this.getTenderStatus()
-                this.getTotalRC1()
-
-    
-    
-              this.spinner.hide()
-    
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle + this.selectedCategory;
-              } else if (this.selectedCategoryRadio==='Zonal') {
-                this.mcid = 3;
-                this.NormalZonal='Z'
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus()
-
-                this.getTotalRC1();
-                // this.getstatusDetails()
-
-               
-    
-    
-              // this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              }
-              else if (this.selectedCategoryRadio==='Non Zonal') {
-                this.mcid = 5;
-                this.NormalZonal='N';
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus();
-
-                this.getTotalRC1();
-                // this.getstatusDetails()
-
-               
-    
-    
-              // this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              } 
-
-               else if (this.selectedCategoryRadio==='AYUSH') {
-                this.mcid = 4;
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus();
-
-                this.getTotalRC1()
-                // this.getstatusDetails()
-
-                
-    
-              this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text =this.OnChangeTitle +  this.selectedCategory;
-              }
-          
-              // console.log('Selected Hod ID:', this.mcid);
+              updateSelectedHodid(): void {
+                this.spinner.show();
+                let observables: Observable<any>[] = [];
+            
+                if (this.selectedCategoryRadio === 'Drugs') {
+                    this.mcid = 1;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Consumables') {
+                    this.mcid = 2;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Zonal') {
+                    this.mcid = 3;
+                    this.NormalZonal = 'Z';
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Non Zonal') {
+                    this.mcid = 5;
+                    this.NormalZonal = 'N';
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'AYUSH') {
+                    this.mcid = 4;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                }
+            
+                // Execute all API calls in parallel
+                if (observables.length > 0) {
+                    forkJoin(observables).pipe(
+                        finalize(() => this.spinner.hide())
+                    ).subscribe({
+                        error: (error) => {
+                            console.error("Error loading data:", error);
+                            this.toastr.error('Failed to load some data');
+                        }
+                    });
+                } else {
+                    this.spinner.hide(); // Hide immediately if no APIs to call
+                }
             }
     
             fetchDataBasedOnChartSelectionchartUQCl(month:any,monthid:any){

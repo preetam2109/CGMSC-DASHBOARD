@@ -43,6 +43,7 @@ import 'jspdf-autotable';
 import 'src/assets/fonts/NotoSansDevanagari-VariableFont_wdth,wght-normal.js'; // generated with jsPDF font converter
 import html2canvas from 'html2canvas';
 import { SchemeReceived, SchemeTenderStatus, TobetenderDetails } from 'src/app/Model/Equipment';
+import { forkJoin, catchError, of, finalize, Observable, tap } from 'rxjs';
 
 
 
@@ -954,13 +955,25 @@ export class TenderStatusDashComponent {
         // this.QCNSQ_Dash()
         // this.loadUQCDashCard()
         // this.QCTimeTakenYear();
-
-        this.getTenderStatus();
-        this.getTotalRC1();
-        this.getToBeTenderDrugsSection();
-              // this.QCPendingMonthwiseRecDetails()
         // this.spinner.hide();
+        // this.QCPendingMonthwiseRecDetails()
 
+          // here i am fixing spinner problem
+        // this.getTenderStatus();
+        // this.getTotalRC1();
+        // this.getToBeTenderDrugsSection();
+        forkJoin([
+          this.getTenderStatus().pipe(catchError(() => of(null))),
+          this.getTotalRC1().pipe(catchError(() => of(null))),
+          this.getToBeTenderDrugsSection().pipe(catchError(() => of(null)))
+        ]).pipe(
+          finalize(() => this.spinner.hide())
+        ).subscribe({
+          error: () => this.toastr.error('Some data failed to load')
+        });
+      
+
+// spinner problem end
 
       }
       
@@ -985,54 +998,49 @@ export class TenderStatusDashComponent {
       //     }
       //   );   
       //   }
-      getToBeTenderDrugsSection(){
-        
-        this.api.GetToBeTenderDrugsSection(this.mcid).subscribe(
-          (res: any[]) => {
+      getToBeTenderDrugsSection(): Observable<any[]> {
+        return this.api.GetToBeTenderDrugsSection(this.mcid).pipe(
+          tap((res: any[]) => {
             this.ToBeTender = res;
-            console.log("lope"+JSON.stringify(this.ToBeTender));
-          },
-          (error) => {
+            console.log("lope" + JSON.stringify(this.ToBeTender));
+          }),
+          catchError(error => {
             console.error('Failed to load tender status:', error);
-          }
-        );
-      }
-    
-      getTenderStatus() {
-        // this.spinner.show();
-        this.api.GetTenderStagesTotal(this.mcid).subscribe(
-          (res: any[]) => {
-            this.tenderStatusList = Array.isArray(res) ? res : [res]; // handles object or array
-            console.log('sdsdsds'+this.tenderStatusList)
-             // Calculate total noTenders
-            this.totalNoTenders = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
-            this.spinner.hide();
-
-          },
-          (error) => {
-            console.error('Failed to load tender status:', error);
-            this.toastr.error('data not foound')
-            this.spinner.hide();
-          }
+            return of([]); // fallback value
+          })
         );
       }
       
-      getTotalRC1() {
-        
-        this.api.GetTotalRC1(this.mcid).subscribe(
-          (res: any[]) => {
-            this.totalRC1 = res;
-            console.log("fjkdjflksdjf"+JSON.stringify(this.totalRC1));
-            this.spinner.hide();
-          },
-          (error) => {
-            this.toastr.error('data not found')
+    
+      getTenderStatus(): Observable<any[]> {
+        return this.api.GetTenderStagesTotal(this.mcid).pipe(
+          tap((res: any[]) => {
+            this.tenderStatusList = Array.isArray(res) ? res : [res];
+            this.totalNoTenders = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
+          }),
+          catchError(error => {
             console.error('Failed to load tender status:', error);
-            this.spinner.hide();
-
-          }
+            this.toastr.error('Data not found');
+            return of([]); // return fallback value
+          })
         );
       }
+      
+      
+      getTotalRC1(): Observable<any[]> {
+        return this.api.GetTotalRC1(this.mcid,'Y').pipe(
+          tap((res: any[]) => {
+            this.totalRC1 = res;
+            console.log("fjkdjflksdjf" + JSON.stringify(this.totalRC1));
+          }),
+          catchError(error => {
+            this.toastr.error('Data not found');
+            console.error('Failed to load total RC1:', error);
+            return of([]); // fallback empty array
+          })
+        );
+      }
+      
 
       getItemNoDropDown(){
     
@@ -2651,121 +2659,49 @@ export class TenderStatusDashComponent {
               // });
               }
     
-            updateSelectedHodid(): void {
-        
-              // Reset hodid to 0 initially
-              // this.mcid = 0;
-          
-              // Map the selected category to the corresponding mcid value
-              this.spinner.show()
-              if (this.selectedCategoryRadio==='Drugs') {
-                this.mcid = 1;
-                // this.loadUQC();
-                // this.loadDataQCStages()
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus();
-                this.getTotalRC1()
-                this.getToBeTenderDrugsSection();
-                // this.getstatusDetails()
-
-    
-              // this.spinner.hide()
-    
-                
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              } else if (this.selectedCategoryRadio==='Consumables') {
-                this.mcid = 2;
-                // this.loadUQC();
-                // this.loadDataQCStages()
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                // this.getstatusDetails()
-                this.getToBeTenderDrugsSection();
-                this.getTenderStatus();
-                this.getTotalRC1()
-
-                this.getToBeTenderDrugsSection();
-    
-    
-              // this.spinner.hide()
-    
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle + this.selectedCategory;
-              } else if (this.selectedCategoryRadio==='Reagent') {
-                this.mcid = 3;
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getToBeTenderDrugsSection();
-                this.getTenderStatus();
-
-                this.getTotalRC1()
-                // this.getstatusDetails()
-
-               
-                this.getToBeTenderDrugsSection();
-    
-    
-              // this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              } else if (this.selectedCategoryRadio==='AYUSH') {
-                this.mcid = 4;
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getToBeTenderDrugsSection();
-                this.getTenderStatus();
-
-                this.getTotalRC1()
-                // this.getstatusDetails()
-
-                this.getToBeTenderDrugsSection();
-                
-    
-              // this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text =this.OnChangeTitle +  this.selectedCategory;
-              }
-          
-              // console.log('Selected Hod ID:', this.mcid);
+              updateSelectedHodid(): void {
+                this.spinner.show();
+                let observables: Observable<any>[] = [];
+            
+                if (this.selectedCategoryRadio === 'Drugs') {
+                    this.mcid = 1;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1(),
+                        this.getToBeTenderDrugsSection()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Consumables') {
+                    this.mcid = 2;
+                    observables = [
+                        this.getToBeTenderDrugsSection(),
+                        this.getTenderStatus(),
+                        this.getTotalRC1(),
+                        this.getToBeTenderDrugsSection()  // Duplicate intentional?
+                    ];
+                } else if (this.selectedCategoryRadio === 'Reagent') {
+                    this.mcid = 3;
+                    observables = [
+                        this.getToBeTenderDrugsSection(),
+                        this.getTenderStatus(),
+                        this.getTotalRC1(),
+                        this.getToBeTenderDrugsSection()  // Duplicate intentional?
+                    ];
+                } else if (this.selectedCategoryRadio === 'AYUSH') {
+                    this.mcid = 4;
+                    observables = [
+                        this.getToBeTenderDrugsSection(),
+                        this.getTenderStatus(),
+                        this.getTotalRC1(),
+                        this.getToBeTenderDrugsSection()  // Duplicate intentional?
+                    ];
+                }
+            
+                // Handle all requests and hide spinner when done
+                forkJoin(observables).pipe(
+                    finalize(() => this.spinner.hide())
+                ).subscribe({
+                    error: () => this.toastr.error('Some data failed to load')
+                });
             }
     
             fetchDataBasedOnChartSelectionchartUQCl(month:any,monthid:any){

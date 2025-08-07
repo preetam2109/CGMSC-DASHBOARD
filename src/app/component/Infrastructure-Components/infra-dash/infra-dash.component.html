@@ -1117,7 +1117,7 @@
   
   
   
-    <ng-template class=" " #StatusDetailsModal let-modal  >
+    <ng-template class=" " #StatusDetailsModal let-modal>
       <div class="row align-items-center p-2 m-2 ">
         <div class="col-lg-6 col-md-8">
           <!-- <h1>AS Completed Details</h1> -->
@@ -1129,250 +1129,232 @@
       </div>
       <div class="" mat-dialog-content>
         <div class="row card shadow card-body ">
-              <div class="card shadow" >
-                  <div class="card-body">
-                      <div class="row border mb-1">
-                          <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
-                              <strong>Reports : {{ 
-                                this.status === 'Live' ? 'Live In-Tender/Re-Tender' : 
-                                this.status === 'Price Opened,Not Accepted' ? 'Price Bid Opened' : 
-                                this.status === 'Tender Sanctioned' ? 'Letter of Intent (Acceptance)' : 
-                                this.status 
-                              }}</strong>
-                          </div>
-                      </div>
-                      <div class="col-lg-12 col-md-12 table-container mb-4">
-
-
-                        <div class="row mb-2">
-                          <div class="col-12">
-                            <div class="d-flex flex-wrap gap-2">
-                              <div class="legend-box d-flex align-items-center me-3">
-                                <span class="legend-color red"></span>
-                                <span class="legend-text">Used for tenders closed over 90 days ago</span>
-                              </div>
-                              <div class="legend-box d-flex align-items-center me-3">
-                                <span class="legend-color yellow"></span>
-                                <span class="legend-text">Used for tenders closed between 61 and 90 days ago</span>
-                              </div>
-                              <div class="legend-box d-flex align-items-center me-3">
-                                <span class="legend-color black"></span>
-                                <span class="legend-text">Used for tenders closed Under 60 days</span>
-                              </div>
-                              <div class="legend-box d-flex align-items-center me-3">
-                                <span class="legend-color green"></span>
-                                <span class="legend-text">Used for tenders which are Live</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                   
-                          <div class="d-flex justify-content-between align-items-center mb-3">
-
-
-
-                            
-                            <div class="filter-field flex-grow-1">
-                              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotal($event)">
-                            </div>
-                            <div class="export-menu-container">
-                              <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
-                              <mat-menu #exportMenu="matMenu">
-                                <button mat-menu-item
-                                  (click)="exporter.exportTable('xlsx', { fileName: 'InfraTenderDetails', sheet: 'InfraStatusDetails', Props: { Author: 'cgmsc' }})">Excel</button>
-                                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-                                
-                                <button mat-button (click)="exportToPDFHODDetails()">PDF</button>
-                    
-                              </mat-menu>
-                            </div>
-                          </div>
-                    
-                          <div class="table-responsive">
-                            <table  mat-table matTableExporter [dataSource]="dataSource8" #exporter="matTableExporter" matSort #sort8="matSort">
-                          
-                                         <!-- Serial Number Column -->
-                                         <ng-container  matColumnDef="sno">
-                                          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            <div class="center-header-cell">S.No</div>
-                                          </th>
-                                          <td  mat-cell *matCellDef="let element">
-                                            <div class="center-cell">{{ element.sno }}</div>
-                                          </td>
-                                        </ng-container>
-                                        
-
-                                          <ng-container matColumnDef="tenderID">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tender ID </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.tenderID }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="tenderNo">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> NIT No </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.tenderNo }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="eprocNo">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> eProc No </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.eprocNo }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="workName">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Work Name </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.workName }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="asAmt">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> AS Value (in Lacs) </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.asAmt }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="tsAmount">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> TS Value (in Lacs) </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.tsAmount }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="startDt">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.startDt }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="endDate">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.endDate }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="noOfCalls">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> No. of Calls </th>
-                                            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.noOfCalls }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="coverADT">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cover A Date </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.coverADT }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="coverBDT">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cover B Date </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.coverBDT || '-' }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="coverCDT">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cover C Date </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.coverCDT }} </td>
-                                          </ng-container>
-                                          
-                                          <ng-container matColumnDef="tstatus">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.tstatus }} </td>
-                                          </ng-container>
-                                          <ng-container matColumnDef="tenderremark">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Remarks</th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.tenderremark}} </td>
-                                          </ng-container>
-                                          <ng-container matColumnDef="tenderStatus">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.tenderStatus}} </td>
-                                          </ng-container>
-                                          <ng-container matColumnDef="color">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> color</th>
-                                            <td mat-cell *matCellDef="let element"> {{ element.color}} </td>
-                                          </ng-container>
-  
-  
-                          
-  <tr  mat-header-row *matHeaderRowDef="[
-    'sno',
-  
-  'workName',
-  'asAmt',
-  'tsAmount',
-  'tenderNo',
-  'eprocNo',
-  'startDt',
-  'endDate',
-  'noOfCalls',
-  'coverADT',
-  'coverBDT',
-  'coverCDT',
-  'tenderStatus',
-  'tenderremark'
-]"></tr>
-
-<!-- <tr class="bg-info" mat-row *matRowDef="let row; columns: [
-     'sno',
-  
-  'workName',
-  'asAmt',
-  'tsAmount',
-  'tenderNo',
-  'eprocNo',
-  'startDt',
-  'endDate',
-  'noOfCalls',
-  'coverADT',
-  'coverBDT',
-  'coverCDT',
-  'tenderStatus',
-  'tenderremark','color'
-];"></tr> -->
-
-<tr
-  mat-row
-  *matRowDef="let row; columns: [
-    'sno',
-    'workName',
-    'asAmt',
-    'tsAmount',
-    'tenderNo',
-    'eprocNo',
-    'startDt',
-    'endDate',
-    'noOfCalls',
-    'coverADT',
-    'coverBDT',
-    'coverCDT',
-    'tenderStatus',
-    'tenderremark',
-  ];"
- [ngStyle]="{
-  'background-color': row.color === 'Red' ? '#f8d7da' :
-                      row.color === 'Yellow' ? '#fff3cd' :
-                      row.color === 'Black' ? '#d6d8d9' : ''
-}"
-
->
-</tr>
-
-
-
-                          
-                            </table>
-                          </div>
-                           
-                          <mat-paginator #paginator8 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
-                        </div>
-                  </div>
-            
-                 
-                  
+          <div class="card shadow">
+            <div class="card-body">
+              <div class="row border mb-1">
+                <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                  <strong>Reports : {{
+                    this.status === 'Live' ? 'Live In-Tender/Re-Tender' :
+                    this.status === 'Price Opened,Not Accepted' ? 'Price Bid Opened' :
+                    this.status === 'Tender Sanctioned' ? 'Letter of Intent (Acceptance)' :
+                    this.status
+                    }}</strong>
+                </div>
               </div>
-                  
-              
-                </div>  
-        
-         
-        
-            
-        
-        
+              <div class="col-lg-12 col-md-12 table-container mb-4">
     
+    
+                <div class="row mb-2">
+                  <div class="col-12">
+                    <div class="d-flex flex-wrap gap-2">
+                      <div class="legend-box d-flex align-items-center me-3">
+                        <span class="legend-color red"></span>
+                        <span class="legend-text">Used for tenders closed over 90 days ago</span>
+                      </div>
+                      <div class="legend-box d-flex align-items-center me-3">
+                        <span class="legend-color yellow"></span>
+                        <span class="legend-text">Used for tenders closed between 61 and 90 days ago</span>
+                      </div>
+                      <div class="legend-box d-flex align-items-center me-3">
+                        <span class="legend-color black"></span>
+                        <span class="legend-text">Used for tenders closed Under 60 days</span>
+                      </div>
+                      <div class="legend-box d-flex align-items-center me-3">
+                        <span class="legend-color green"></span>
+                        <span class="legend-text">Used for tenders which are Live</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="d-flex justify-content-between align-items-center mb-3">
+    
+    
+    
+    
+                  <div class="filter-field flex-grow-1">
+                    <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotal($event)">
+                  </div>
+                  <div class="export-menu-container">
+                    <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                    <mat-menu #exportMenu="matMenu">
+                      <button mat-menu-item
+                        (click)="exporter.exportTable('xlsx', { fileName: 'InfraTenderDetails', sheet: 'InfraStatusDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                      <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+    
+                      <button mat-button (click)="exportToPDFHODDetails()">PDF</button>
+    
+                    </mat-menu>
+                  </div>
+                </div>
+    
+                <div class="table-responsive">
+                  <table mat-table matTableExporter [dataSource]="dataSource8" #exporter="matTableExporter" matSort
+                    #sort8="matSort">
+    
+                    <!-- Serial Number Column -->
+                    <ng-container matColumnDef="sno">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <div class="center-header-cell">S.No</div>
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        <div class="center-cell">{{ element.sno }}</div>
+                      </td>
+                    </ng-container>
+    
+    
+                    <ng-container matColumnDef="tenderID">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tender ID </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.tenderID }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="tenderNo">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> NIT No </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.tenderNo }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="eprocNo">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> eProc No </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.eprocNo }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="workName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Work Name </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.workName }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="asAmt">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> AS Value (in Lacs) </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.asAmt }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="tsAmount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> TS Value (in Lacs) </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.tsAmount }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="startDt">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.startDt }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="endDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.endDate }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="noOfCalls">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> No. of Calls </th>
+                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.noOfCalls }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="coverADT">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Cover A Date </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.coverADT }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="coverBDT">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Cover B Date </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.coverBDT || '-' }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="coverCDT">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Cover C Date </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.coverCDT }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="tstatus">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.tstatus }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="tenderremark">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Remarks</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.tenderremark}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="tenderStatus">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.tenderStatus}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="color">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> color</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.color}} </td>
+                    </ng-container>
+    
+    
+    
+                    <tr mat-header-row *matHeaderRowDef="[
+        'sno',
+      
+      'workName',
+      'asAmt',
+      'tsAmount',
+      'tenderNo',
+      'eprocNo',
+      'startDt',
+      'endDate',
+      'noOfCalls',
+      'coverADT',
+      'coverBDT',
+      'coverCDT',
+      'tenderStatus',
+      'tenderremark'
+    ]"></tr>
+    
+                    <!-- <tr class="bg-info" mat-row *matRowDef="let row; columns: [
+         'sno',
+      
+      'workName',
+      'asAmt',
+      'tsAmount',
+      'tenderNo',
+      'eprocNo',
+      'startDt',
+      'endDate',
+      'noOfCalls',
+      'coverADT',
+      'coverBDT',
+      'coverCDT',
+      'tenderStatus',
+      'tenderremark','color'
+    ];"></tr> -->
+    
+                    <tr mat-row *matRowDef="let row; columns: [
+        'sno',
+        'workName',
+        'asAmt',
+        'tsAmount',
+        'tenderNo',
+        'eprocNo',
+        'startDt',
+        'endDate',
+        'noOfCalls',
+        'coverADT',
+        'coverBDT',
+        'coverCDT',
+        'tenderStatus',
+        'tenderremark',
+      ];" [ngStyle]="{
+      'background-color': row.color === 'Red' ? '#f8d7da' :
+                          row.color === 'Yellow' ? '#fff3cd' :
+                          row.color === 'Black' ? '#d6d8d9' : ''
+    }">
+                    </tr>
+  
+                  </table>
+                </div>
+    
+                <mat-paginator #paginator8 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+              </div>
+            </div>
+    
+          </div>
     
     
         </div>
     
     
-      
+      </div>
+  
       <div class="d-grid gap-2 col-12 mx-auto  m-2">
         <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
           <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
@@ -1382,8 +1364,6 @@
         </button>
       </div>
     </ng-template>
-
-
 
     <!-- <ng-template class=" " #StatusDetailsModal let-modal  *ngIf="mcid===3"  >
         <div class="row align-items-center p-2 m-2 ">
@@ -1519,15 +1499,10 @@
       <td mat-cell *matCellDef="let element"> {{ element.remarkEntryDate }} </td>
     </ng-container>
   
-    
-    
-                            
-   
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   
   
-                            
                               </table>
                             </div>
                              
@@ -1547,14 +1522,6 @@
                 
                   </div>  
           
-           
-          
-              
-          
-          
-      
-      
-      
           </div>
       
       

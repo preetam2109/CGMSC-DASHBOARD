@@ -25,6 +25,7 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { DropdownModule } from 'primeng/dropdown';
+import { forkJoin, catchError, of, finalize, Observable, map } from 'rxjs';
 import { QCPendingParticularArea, QCResultPendingLabWise, QCPendingMonthwiseRecDetails, HoldItemDetails, QCPendingMonthwiseRec, QCPendingPlace } from 'src/app/Model/DashCards';
 import { TobetenderDetails, SchemeReceived, SchemeTenderStatus, CoverStatusDetail, CoverStatusTenderDetail } from 'src/app/Model/Equipment';
 import { StatusDetail, StatusItemDetail } from 'src/app/Model/TenderStatus';
@@ -948,9 +949,23 @@ export class AdminDashComponent {
         // this.loadUQCDashCard()
         // this.QCTimeTakenYear();
 
-        this.getTenderStatus();
-        this.getTotalRC1();
-        this.getToBeTenderDrugsSection();
+        // this.getTenderStatus();
+        // this.getTotalRC1();
+        // this.getToBeTenderDrugsSection();
+
+
+
+
+        forkJoin([
+          this.getTenderStatus().pipe(catchError(() => of(null))),
+          this.getToBeTenderDrugsSection().pipe(catchError(() => of(null))),
+          this.getTotalRC1().pipe(catchError(() => of(null))),
+
+        ]).pipe(
+          finalize(() => this.spinner.hide())
+        ).subscribe({
+          error: () => this.toastr.error('Some data failed to load')
+        });
               // this.QCPendingMonthwiseRecDetails()
         // this.spinner.hide();
 
@@ -978,62 +993,67 @@ export class AdminDashComponent {
       //     }
       //   );   
       //   }
-      getToBeTenderDrugsSection(){
-        
-        this.api.GetToBeTenderDrugsSection(this.mcid).subscribe(
-          (res: any[]) => {
+      getToBeTenderDrugsSection(): Observable<any[]> {
+        return this.api.GetToBeTenderDrugsSection(this.mcid).pipe(
+          map((res: any[]) => {
             this.ToBeTender = res;
-            console.log("lope"+JSON.stringify(this.ToBeTender));
-          },
-          (error) => {
-            console.error('Failed to load tender status:', error);
-          }
-        );
-      }
-    
-      getTenderStatus() {
-        // this.spinner.show();
-        this.api.CoverStatus().subscribe(
-          (res: any[]) => {
-            this.tenderStatusList = Array.isArray(res) ? res : [res]; // handles object or array
-            console.log('sdsdsds'+this.tenderStatusList)
-             // Calculate total noTenders
-            this.totalNoTenders = res.filter(item => item.cStatus !== 'To Be Tender')
-            .reduce((sum, item) => sum + (item.cntTender || 0), 0);
-
-
-            // this.totalNoTenders = res
-            // .filter(item => item.tenderStatus !== 'To Be Tender') // Exclude "To Be Tender"
-            // .reduce((sum, item) => sum + (item.nosWorks || 0), 0);
-
-            this.spinner.hide();
-
-          },
-          (error) => {
-            console.error('Failed to load tender status:', error);
-            this.toastr.error('Internal Server Error')
-            this.spinner.hide();
-          }
+            console.log("To Be Tender:", JSON.stringify(this.ToBeTender));
+            return res;
+          }),
+          catchError((error) => {
+            console.error('Failed to load To Be Tender data:', error);
+            this.toastr.error('Data not found');
+            return of([]); // fallback in case of error
+          })
         );
       }
       
-      getTotalRC1() {
-        
-        this.api.GetTotalRC1(this.mcid).subscribe(
-          (res: any[]) => {
-            this.totalRC1 = res;
-            console.log("fjkdjflksdjf"+JSON.stringify(this.totalRC1));
-            this.spinner.hide();
-          },
-          (error) => {
-            this.toastr.error('data not found')
+    
+      getTenderStatus(): Observable<any[]> {
+        return this.api.CoverStatus().pipe(
+          map((res: any[]) => {
+            const data = Array.isArray(res) ? res : [res];
+            this.tenderStatusList = data;
+      
+            // Exclude 'To Be Tender' and calculate total
+            this.totalNoTenders = data
+              .filter(item => item.cStatus !== 'To Be Tender')
+              .reduce((sum, item) => sum + (item.cntTender || 0), 0);
+      
+            console.log('Total Tenders (excluding "To Be Tender"):', this.totalNoTenders);
+            return data;
+          }),
+          catchError(error => {
             console.error('Failed to load tender status:', error);
+            this.toastr.error('Internal Server Error');
+            return of([]); // fallback with empty array
+          }),
+          finalize(() => {
             this.spinner.hide();
-
-          }
+          })
         );
       }
-
+      
+      
+      
+      getTotalRC1(): Observable<any[]> {
+        return this.api.GetTotalRC1(this.mcid,'Y').pipe(
+          map((res: any[]) => {
+            this.totalRC1 = res;
+            console.log('Total RC1:', JSON.stringify(this.totalRC1));
+            return res;
+          }),
+          catchError((error) => {
+            console.error('Failed to load RC1 data:', error);
+            this.toastr.error('Data not found');
+            return of([]); // Return empty array as fallback
+          }),
+          finalize(() => {
+            this.spinner.hide();
+          })
+        );
+      }
+      
       getItemNoDropDown(){
     
       
