@@ -6,10 +6,12 @@ import { MonthwiseIssuanceComponent } from "../monthwise-issuance/monthwise-issu
 import { DiswiseIssuanceComponent } from "../diswise-issuance/diswise-issuance.component";
 import { Router } from '@angular/router';
 import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
+import { ConversationHodCgmscComponent } from "../../tender-status/conversation-hod-cgmsc/conversation-hod-cgmsc.component";
+import { ConsumptionPatternTabComponent } from "./consumption-pattern-tab/consumption-pattern-tab.component";
 @Component({
   selector: 'app-distribution-tab',
   standalone: true,
-  imports: [CommonModule, MatTabsModule, DistributionComponent, MonthwiseIssuanceComponent, DiswiseIssuanceComponent],
+  imports: [CommonModule, MatTabsModule, DistributionComponent, MonthwiseIssuanceComponent, DiswiseIssuanceComponent, ConversationHodCgmscComponent, ConsumptionPatternTabComponent],
   templateUrl: './distribution-tab.component.html',
   styleUrl: './distribution-tab.component.css'
 })

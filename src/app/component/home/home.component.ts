@@ -18,6 +18,8 @@ import { WOpendingTotal } from 'src/app/Model/DashProgressCount';
 import autoTable from 'jspdf-autotable';
 import { ToastrService } from 'ngx-toastr';
 import jsPDF from 'jspdf';
+
+import { StockStatusModel, whstockoutin,StockOutDetailsmodel,IssuePerDetailModel,WhStockOutInDetailModel} from 'src/app/Model/DashLoginDDL';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -60,6 +62,8 @@ throw new Error('Method not implemented.');
   handoverAbstractl:any;
   paidSummary:any;
   RCstatusDetails:any[]=[];
+  parameterNew:any;
+  title1:any;
 
 
 
@@ -114,6 +118,99 @@ throw new Error('Method not implemented.');
     selectedCategory:any='';
   
   
+
+
+    @ViewChild('StockOutDetailsModal') StockOutDetailsModal: any;
+    @ViewChild('IssuePerDetailModal') IssuePerDetailModal: any;
+    @ViewChild('WhStockOutInDetailModal') WhStockOutInDetailModal: any;
+
+    dispatch_WhStockOutInDetail:WhStockOutInDetailModel[]=[];
+    WhStockOutInDetail = new MatTableDataSource<WhStockOutInDetailModel>();
+  
+    dispatch_IssueperDetails:IssuePerDetailModel[]=[];
+    dispatch_StockOutDetails:StockOutDetailsmodel[]=[];
+    dispatch_whstockoutin:whstockoutin[]=[];
+    dispatchdata: StockStatusModel[] = [];
+    IssuePerDetailsdata = new MatTableDataSource<IssuePerDetailModel>();
+    StockoutDetailsdata = new MatTableDataSource<StockOutDetailsmodel>();
+    StockStatusdata = new MatTableDataSource<StockStatusModel>();
+    whstockoutindata = new MatTableDataSource<whstockoutin>();
+    @ViewChild('paginator10') paginator10!: MatPaginator;
+    @ViewChild('sort10') sort10!: MatSort;
+    @ViewChild('paginator11') paginator11!: MatPaginator;
+    @ViewChild('sort11') sort11!: MatSort;
+    @ViewChild('paginator12') paginator12!: MatPaginator;
+    @ViewChild('sort12') sort12!: MatSort;
+    @ViewChild('paginator13') paginator13!: MatPaginator;
+    @ViewChild('sort13') sort13!: MatSort;
+    @ViewChild('paginator14') paginator14!: MatPaginator;
+  @ViewChild('sort14') sort14!: MatSort;
+    displayedColumns: string[] = [
+      // "sno",
+      "parameterNew",
+      "cntItems",
+      "pricecnt",
+      "evalutioncnt",
+      "livecnt",
+      "rentendercn",
+      // "action"
+    ];
+    displayedColumns1: string[] = [
+      "sno",
+      "itemcode",
+      "itemname",
+      "sku",
+      // "unitcount",
+      "dhsaiqty",
+      "dmeaiqty",
+      "avgIssueqty_Last3FY",
+      "tenderstatus",
+      "tenderstartdt",
+      "coV_A_OPDATE",
+      "dayssince",
+      "parameterNew",
+      "styockPer",
+      "pricecnt",
+      "evalutioncnt",
+      "livecnt",
+      "rentendercn",
+      // "action"
+  
+      
+    ];
+
+    displayedColumns2: string[] = [
+      "sno",
+      "warehousename",
+      "stockout",
+      "stockin",
+      "noofitems",
+      
+      // "action"
+  
+      // sno!:number;
+      // warehouseid!:number;
+      // warehousename!:string;
+      // noofitems!:number;
+      // stockout!:number;
+      // stockin!:number;
+    ];
+
+    displayedColumns3: string[] = [
+      "sno",
+      
+      "warehousename",
+      "itemcode",
+      "itemname",
+      "strength",
+      "sku",
+      "readyforissue",
+      "pending",
+      // "stockOut",
+      // "stockIn",
+      // "action"
+      
+    ];
 
 
 
@@ -305,6 +402,13 @@ colors = [];
 
   };
   constructor(public toastr: ToastrService,private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
+
+    this.StockStatusdata = new MatTableDataSource<StockStatusModel>([]);
+    this.whstockoutindata = new MatTableDataSource<whstockoutin>([]);
+    this.StockoutDetailsdata = new MatTableDataSource<StockOutDetailsmodel>([]);
+    this.IssuePerDetailsdata = new MatTableDataSource<IssuePerDetailModel>([]);
+    this.WhStockOutInDetail = new MatTableDataSource<WhStockOutInDetailModel>([]);
+
     
    
     this.chartOptions = {
@@ -849,9 +953,12 @@ colors = [];
     }
   }
   ngOnInit() {
-    debugger
-    this.spinner.show();
 
+   
+    
+    this.spinner.show();
+    this.GETStockStatus(),
+    this.whstockoutin(),
      this.username = sessionStorage.getItem('authenticatedUser');
      
      this.role = this.basicAuthentication.getRole().roleName; // Fetch dynamic role from the authentication service
@@ -861,6 +968,7 @@ colors = [];
     this.selectedCategory=this.menuService.getSelectedCategory();
 
     forkJoin([
+     
       this.CGMSCIndentPending().pipe(catchError(() => of(null))),
       this.GetDeliveryInMonth().pipe(catchError(() => of(null))),
       this.GetPOCountCFY().pipe(catchError(() => of(null))),
@@ -1051,6 +1159,7 @@ wOPendingTotal(): Observable<any> {
 
 
   getItemNoDropDown(): Observable<any[]> {
+    
     return this.api.MasIndentitems(this.mcid, 0, 0, 0).pipe(
       map((res: any[]) => {
         if (res && res.length > 0) {
@@ -1132,7 +1241,7 @@ wOPendingTotal(): Observable<any> {
   }
   
   CGMSCIndentPending(): Observable<any> {
-    debugger
+    
     return this.api.CGMSCIndentPending(this.mcid, 0).pipe(
       tap((res: any) => {
         console.log('dsds', res);
@@ -1844,7 +1953,7 @@ getstatusDetails() {
   this.openDialogHOD();
 }
 Rcdetails(value:any) {
-            debugger
+            
   this.spinner.show();
 
 
@@ -2318,6 +2427,1072 @@ exportToPDFRCDDetails() {
 
   doc.save('Total_RC_Details.pdf');
 }
+
+
+
+
+
+
+
+//#region StockStatus
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+// https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
+
+// https://dpdmis.in/CGMSCHO_API2/api/HO/whstockoutin?yearId=546&mcid=1&catid=52
+
+GETStockStatus(){
+  this.spinner.show();
+  this.api.StockStatus().subscribe((res:any[])=>{
+    if (res && res.length > 0) {
+    
+
+      this.dispatchdata =res.map((item: any, index: number) => ({
+      
+        ...item,
+        sno: index + 1,
+      }));
+      console.log('StockStatusdata:', this.dispatchdata);
+      this.StockStatusdata.data = this.dispatchdata; 
+      this.StockStatusdata.paginator = this.paginator10;
+      this.StockStatusdata.sort = this.sort10;
+      this.spinner.hide();
+    } else {
+      console.error('No nameText found or incorrect structure:', res);
+      this.spinner.hide();
+
+    }
+  }); 
+}
+whstockoutin(){
+//   whstockoutin(mcid:any,catid:any){
+//   return this.http.get<any[]>(${this.CGMSCHO_API2}/HO/whstockoutin?yearId=546&mcid=${mcid}&catid=${catid});
+// }
+
+const yearId=546,mcid=1;
+  this.spinner.show();
+  this.api.whstockoutin(mcid).subscribe((res:any[])=>{
+    if (res && res.length > 0) {
+    
+
+      this.dispatch_whstockoutin =res.map((item: any, index: number) => ({
+      
+        ...item,
+        sno: index + 1,
+      }));
+      console.log('whstockoutindata:', this.dispatch_whstockoutin);
+      this.whstockoutindata.data = this.dispatch_whstockoutin; 
+      this.whstockoutindata.paginator = this.paginator11;
+      this.whstockoutindata.sort = this.sort11;
+      this.spinner.hide();
+    } else {
+      console.error('No nameText found or incorrect structure:', res);
+      this.spinner.hide();
+
+    }
+  }); 
+}
+applyTextFilter1(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.StockStatusdata.filter = filterValue.trim().toLowerCase();
+}
+
+getRowClass(param: string) {
+  let val = param?.replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim().toLowerCase();
+  if (val === '1. stock-out') return 'row-red';
+  if (val === '2. <10% stock against avg issuance') return 'row-yellow';
+  // console.log('PARAM:', JSON.stringify(val)); // Check what you get
+  // if (val === '2. <10% stock against avg issuance') {
+ 
+  //   return 'row-yellow';
+  // }
+  if (val === '3. 10 to 20 % stock against avg issuance') return 'row-pink';
+  if (val === '4. 20 to 40 % stock against avg issuance') return 'row-gray';
+  if (val === '5. 40 to 90 % stock against avg issuance') return 'row-magenta';
+  if (val === '6. sufficient stock') return 'row-green';
+  return '';
+}
+
+StockOutDetails(tendCondition:any){
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockOutDetails?yearId=546&mcid=1&tendCondition=PRICE
+// dispatch_StockOutDetails:StockOutDetailsmodel[]=[];
+
+// StockoutDetailsdata = new MatTableDataSource<StockOutDetailsmodel>();
+  const yearId=546,mcid=1;
+  this.spinner.show();
+  this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+    if (res && res.length > 0) {
+    
+
+      this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+      
+        ...item,
+        sno: index + 1,
+      }));
+      console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+      this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+      this.StockoutDetailsdata.paginator = this.paginator12;
+      this.StockoutDetailsdata.sort = this.sort12;
+      this.spinner.hide();
+    } else {
+      console.error('No nameText found or incorrect structure:', res);
+      this.spinner.hide();
+
+    }
+  }); 
+  this.openStockOutDetails();
+}
+openStockOutDetails() {
+        
+  const dialogRef = this.dialog.open(this.StockOutDetailsModal, {
+   width: '100%',
+   height: '100%',
+   maxWidth: '100%',
+   panelClass: 'full-screen-dialog', // Optional for additional styling
+   data: {
+     /* pass any data here */
+   },
+   // width: '100%',
+   // maxWidth: '100%', // Override default maxWidth
+   // maxHeight: '100%', // Override default maxHeight
+   // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+   // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+   console.log('Dialog closed');
+  });
+  }
+  allvaluecilick(tendCondition:any,item:any,parameterNew:any,title1:any){
+    
+    this.parameterNew=parameterNew;
+    this.title1=title1;
+    const yearId=546,mcid=1;
+    // console.log("parameterNew",parameterNew)
+    // return
+    if(parameterNew=="1. Stock-Out"){
+      
+   
+    
+    if(tendCondition==''){
+ 
+      this.spinner.show();
+      this.api.StockOutDetails(mcid,item).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+
+    } else if(tendCondition=='PRICE'){
+     
+      this.spinner.show();
+      this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+       }else if(tendCondition=='EVAL'){
+      
+        this.spinner.show();
+      this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+
+       }else if(tendCondition=='LIVE'){
+       
+        this.spinner.show();
+      this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+
+       }else if(tendCondition=='TOBETENDER'){
+        
+        this.spinner.show();
+      this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+
+       }else{
+        alert("Value is not Found")
+       }
+      }
+      else if(parameterNew=="2. <10% Stock against Avg Issuance"){
+        if(tendCondition==''){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='PRICE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='EVAL'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='LIVE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='TOBETENDER'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+      }
+// jbchdajs
+else if(parameterNew=="3. 10 to 20 % Stock against Avg Issuance"){
+  if(tendCondition==''){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+  else if(tendCondition=='PRICE'){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+  else if(tendCondition=='EVAL'){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+  else if(tendCondition=='LIVE'){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+  else if(tendCondition=='TOBETENDER'){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+}
+
+      // hjdsfgnksdbfs
+      else if(parameterNew=="4. 20 to 40 % Stock against Avg Issuance"){
+        if(tendCondition==''){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='PRICE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='EVAL'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='LIVE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='TOBETENDER'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+      }
+      // yyyyyyy
+      else if(parameterNew=="5. 40 to 90 % Stock against Avg Issuance"){
+        if(tendCondition==''){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='PRICE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='EVAL'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='LIVE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='TOBETENDER'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+      }
+      // hh
+      else if(parameterNew=="6. Sufficient Stock"){
+        if(tendCondition==''){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='PRICE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='EVAL'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='LIVE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='TOBETENDER'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+      }
+      else{
+        alert("value is not found");
+      }
+      }
+      
+      IssuePerDetail(tendCondition:any){
+         // https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
+
+          const yearId=546,mcid=1,perCondition="PRICE"
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        openIssuePerDetails() {
+        
+          const dialogRef = this.dialog.open(this.IssuePerDetailModal, {
+           width: '100%',
+           height: '100%',
+           maxWidth: '100%',
+           panelClass: 'full-screen-dialog', // Optional for additional styling
+           data: {
+             /* pass any data here */
+           },
+           // width: '100%',
+           // maxWidth: '100%', // Override default maxWidth
+           // maxHeight: '100%', // Override default maxHeight
+           // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+           // height: 'auto',
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+           console.log('Dialog closed');
+          });
+          }
+          getWhStockOutInDetail(whid:any){
+            // whid=2615 
+            
+               const para='STOCKOUT';
+               this.spinner.show();
+               this.api.WhStockOutInDetail(whid,para).subscribe((res:any[])=>{
+                 if (res && res.length > 0) {
+                 
+             
+                   this.dispatch_WhStockOutInDetail =res.map((item: any, index: number) => ({
+                   
+                     ...item,
+                     sno: index + 1,
+                   }));
+                   console.log('dispatch_WhStockOutInDetail:', this.dispatch_WhStockOutInDetail);
+                   this.WhStockOutInDetail.data = this.dispatch_WhStockOutInDetail; 
+                   this.WhStockOutInDetail.paginator = this.paginator14;
+                   this.WhStockOutInDetail.sort = this.sort14;
+                   this.spinner.hide();
+                 } else {
+                   console.error('No nameText found or incorrect structure:', res);
+                   this.spinner.hide();
+             
+                 }
+               }); 
+               this.openWhStockOutInDetailModal();
+             }
+             openWhStockOutInDetailModal() {
+          
+              const dialogRef = this.dialog.open(this.WhStockOutInDetailModal, {
+               width: '100%',
+               height: '100%',
+               maxWidth: '100%',
+               panelClass: 'full-screen-dialog', // Optional for additional styling
+               data: {
+                 /* pass any data here */
+               },
+               // width: '100%',
+               // maxWidth: '100%', // Override default maxWidth
+               // maxHeight: '100%', // Override default maxHeight
+               // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+               // height: 'auto',
+              });
+              dialogRef.afterClosed().subscribe((result) => {
+               console.log('Dialog closed');
+              });
+              }
+
+//#endregion
+
+
 
     
   }

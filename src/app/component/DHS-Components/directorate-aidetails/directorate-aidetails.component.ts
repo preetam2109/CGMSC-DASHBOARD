@@ -431,7 +431,7 @@ console.log('groupidMap:', this.groupidMap);
  
   fetchDataBasedOnChartSelection(whid: number, seriesName: string): void {
     
-    debugger
+    
     console.log(`Selected WHID: ${whid}, Series: ${seriesName}`);
     this.groupid=whid
     // Add your logic to fetch data based on selected warehouse (whid)

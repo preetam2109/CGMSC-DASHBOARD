@@ -10,8 +10,8 @@ export class TenderDetail{
     tendeR_NO!: string;
     tendeR_DATE!: string;
     tender_description!: string;
-    tenderStatus!: string;
-    tenderRemark!: string;
+    tenderstatus!: string;
+    tenderremark!: string;
     noOfItems!: number;
     tenderValue!: number;  
 }

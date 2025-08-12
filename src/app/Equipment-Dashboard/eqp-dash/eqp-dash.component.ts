@@ -379,7 +379,7 @@ export class EqpDashComponent {
     
       ngOnInit() {
         this.spinner.show();
-debugger
+
          this.username = sessionStorage.getItem('authenticatedUser');
          
          this.role = this.basicAuthentication.getRole().roleName; // Fetch dynamic role from the authentication service
@@ -2763,8 +2763,8 @@ exportToPDFHODDetails() {
     tendeR_NO: row.tendeR_NO || '',
     tendeR_DATE: row.tendeR_DATE || '',
     tender_description: row.tender_description || '',
-    tenderStatus: row.tenderStatus || '',
-    tenderRemark: row.tenderRemark || '',
+    tenderStatus: row.tenderstatus || '',
+    tenderRemark: row.tenderremark || '',
     noOfItems: row.noOfItems || 0,
     tenderValue: row.tenderValue || 0
   }));

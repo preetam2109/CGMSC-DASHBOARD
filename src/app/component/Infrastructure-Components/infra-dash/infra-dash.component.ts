@@ -1930,7 +1930,7 @@ export class InfraDashComponent {
           }
 
           getstatusDetailsZonal() {
-            debugger
+            
             this.spinner.show();
             this.api.ZonalTenderStatusDetail(this.tid).subscribe({
               next: (res: any[]) => {
@@ -2462,7 +2462,9 @@ exportToPDFHODDetails() {
 
   const columns = [
     { title: 'S.No', dataKey: 'sno' },
+    { title: 'Work Code', dataKey: 'work_id' },
     { title: 'Work Name', dataKey: 'workName' },
+    { title: 'Head', dataKey: 'head' },
     { title: 'AS Amount (Cr)', dataKey: 'asAmt' },
     { title: 'TS Amount (Cr)', dataKey: 'tsAmount' },
     { title: 'NIT No', dataKey: 'tenderNo' },
@@ -2478,7 +2480,9 @@ exportToPDFHODDetails() {
 
   const rows = this.statusDetails.map((row, index) => ({
     sno: index + 1,
+    work_id: row.work_id || '',
     workName: row.workName || '',
+    head: row.head || '',
     asAmt: row.asAmt || '',
     tsAmount: row.tsAmount || '',
     tenderNo: row.tenderNo || '',

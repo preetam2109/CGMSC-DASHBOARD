@@ -367,7 +367,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
   }
 
   verifyOTP() {
-    debugger
+    
     if (this.otp.length === 5) {
       
 
@@ -375,7 +375,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
       if(this.userid===2926 && this.otp==='11111'){
 
         this.router.navigate(['/home']);
-        this.toastr.error('Login Successful!');
+        this.toastr.success('Login Successful!');
 
         return;
 
@@ -611,7 +611,14 @@ handleCgmsclLogin() {
     this.toastr.success('Logged in Successfully');
     console.log('login details',res)
     // this.router.navigate(['home'])
-    this.router.navigate(['/home']);
+    if(this.rolename==='SSO' || 'Logi Cell'){
+
+      this.router.navigate(['/welcome']);
+
+    }else{
+      
+      this.router.navigate(['/home']);
+    }
     // Redirect to category selector after login
   } else {
     this.invalidLogin = true

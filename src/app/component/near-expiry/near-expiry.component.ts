@@ -174,7 +174,7 @@ export class NearExpiryComponent {
 
   }
   getAllDispatchPending(): Observable<any[]> {
-    debugger
+    
     this.spinner.show();
     return this.api.NearExpReportbatch(this.mcid, this.nexppara, this.expmonth).pipe(
       map((res: NearExpReportbatch[]) => {
@@ -214,79 +214,98 @@ export class NearExpiryComponent {
     return this.api.getNearExpReport(this.mcid, 8).pipe(
       map((data: NearExpReport[]) => {
         const expirymonth: string[] = [];
-        const noofitems: number[] = [];
-        const noofbatches: number[] = [];
-        const nearexpvalue: number[] = [];
+        const barLabels: string[] = [];
+        const barValues: number[] = [];
   
         data.forEach((item) => {
           expirymonth.push(item.expirymonth);
-          noofitems.push(item.noofitems);
-          noofbatches.push(item.noofbatches);
-          nearexpvalue.push(item.nearexpvalue);
+          barLabels.push(`${item.noofitems} Items, ${item.noofbatches} Batches, ${item.nearexpvalue} Lacs`);
+          barValues.push(item.noofitems); // ✅ Use actual item count for bar height
         });
   
         this.chartOptions.series = [
-          { name: 'Items', data: noofitems },
-          { name: 'Batches', data: noofbatches },
-          { name: 'Value (in lakhs)', data: nearexpvalue },
+          {
+            name: 'Number of Items',
+            data: barValues
+          }
         ];
   
         this.chartOptions.xaxis = {
-          categories: expirymonth,
+          categories: expirymonth
+        };
+  
+        // ✅ Label inside the bar
+        this.chartOptions.dataLabels = {
+          enabled: true,
+          formatter: function (_val: any, opts: any) {
+            return barLabels[opts.dataPointIndex];
+          },
+          style: {
+            fontSize: '12px',
+            colors: ['#fff'] // or ['#000'] depending on bar color
+          }
+        };
+  
+        // ✅ Tooltip (optional): show the full combined label or just value
+        this.chartOptions.tooltip = {
+          y: {
+            formatter: function (_val: any, opts: any) {
+              return barLabels[opts.dataPointIndex]; // or just return _val.toString() to show number
+            }
+          }
         };
   
         this.cdr.detectChanges();
         this.spinner.hide();
-        return data; // You can return [] or data based on your usage
+        return data;
       }),
       catchError((error) => {
         console.error('Error fetching Near Expiry Report:', error);
         this.toastr.error('Failed to load expiry data');
         this.spinner.hide();
-        return of([]); // fallback in case of error
+        return of([]);
       })
     );
   }
   
+  
+  
   fetchDataBasedOnChartSelection(selectedCategory: string, seriesName: string): void {
     
     this.spinner.show();
-    debugger
     
+    this.expmonth=selectedCategory;
     this.api.NearExpReportbatch(this.mcid, this.nexppara, this.expmonth).subscribe(
       (res: NearExpReportbatch[]) => {
-        
-        console.log('API Response:', res);
-  
-        // Convert the selected category (expiry month) to targetYear and targetMonth
         const [month, year] = selectedCategory.split('-');
         const targetYear = parseInt(year, 10);
-        const targetMonth = parseInt(month, 10) - 1; // Month is zero-based
-  
-        let filteredData: NearExpReportbatch[] = [];
-  
-        filteredData = res.filter((item: NearExpReportbatch) => {
-          const expDateParts = item.expdate.split('-'); // Format is DD-MMM-YY
-          const expDay = parseInt(expDateParts[0], 10);
-          const expMonth = new Date(Date.parse(expDateParts[1] + " 1, 2020")).getMonth(); // Convert month name to number
-          const expYear = 2000 + parseInt(expDateParts[2], 10); // Convert to four-digit year
-  
+        const targetMonth = parseInt(month, 10) - 1;
+    
+        let filteredData: NearExpReportbatch[] = res.filter((item) => {
+          const expDateParts = item.expdate.split('-'); // Format: DD-MMM-YY
+          const expMonth = new Date(Date.parse(expDateParts[1] + " 1, 2020")).getMonth();
+          const expYear = 2000 + parseInt(expDateParts[2], 10);
           return expYear === targetYear && expMonth === targetMonth;
         });
-  
-        console.log('Filtered Data:', filteredData);
+    
+        // ✅ Add serial number
+        filteredData = filteredData.map((item, index) => ({
+          ...item,
+          sno: index + 1
+        }));
+    
         this.dataSource.data = filteredData;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
         this.spinner.hide();
       },
-      (error: any) => {
+      (error) => {
         console.error('Error fetching data', error);
         this.spinner.hide();
       }
     );
-  }
+    }    
   
   
  
@@ -322,7 +341,7 @@ export class NearExpiryComponent {
       headStyles: { fillColor: [22, 160, 133] }
     });
 
-    doc.save('IndentPending.pdf');
+    doc.save('NearExpReport.pdf');
   }
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
@@ -333,7 +352,7 @@ export class NearExpiryComponent {
   }
 
   updateSelectedHodid(): void {
-    debugger
+    
       
     this.spinner.show(); // Show the spinner before making API calls
   

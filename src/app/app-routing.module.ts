@@ -108,12 +108,19 @@ import { DhsdashComponent } from './component/DHS-Components/dhsdash/dhsdash.com
 import { CMEDashboardComponent } from './CME/cme-dashboard/cme-dashboard.component';
 import { InfrastructurePublicViewComponent } from './component/Infrastructure-Components/infrastructure-public-view/infrastructure-public-view.component';
 import { AttendanceDashComponent } from './component/Attendence/attendance-dash/attendance-dash.component';
-import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
-import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
+// import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
+// import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 import { EqpDashComponent } from './Equipment-Dashboard/eqp-dash/eqp-dash.component';
 import { InfraDashComponent } from './component/Infrastructure-Components/infra-dash/infra-dash.component';
 import { AdminDashComponent } from './Admin-HR/admin-dash/admin-dash.component';
 import { CgmscInstituteWiseIssuanceComponent } from './CME/cgmsc-institute-wise-issuance/cgmsc-institute-wise-issuance.component';
+import { ConversationHodCgmscComponent } from './component/tender-status/conversation-hod-cgmsc/conversation-hod-cgmsc.component';
+import { TenderStatusDashComponent } from './component/tender-status/tender-status-dash/tender-status-dash.component';
+import { TenderStatusDashCmeComponent } from './CME/tender-status-dash-cme/tender-status-dash-cme.component';
+import { ConsumptionPatternTabComponent } from './component/DHS-Components/distribution-tab/consumption-pattern-tab/consumption-pattern-tab.component';
+import { SupplierPendingPaymentsComponent } from './component/Supplier/supplier-pending-payments/supplier-pending-payments.component';
+// import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
+// import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
 
 
 
@@ -132,9 +139,9 @@ const routes: Routes = [
   { path: 'home',component: CategorySelectionComponent,canActivate:[RouteGuardService]}, 
 
 // MD routes
-{ path: 'welcome', component: HomeComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','DME1','Collector','Warehouse','SE','HO_Infra','Division','DM PO']} },
-{ path: 'dhsdash', component: DhsdashComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','DME1','Collector','Warehouse','SE','HO_Infra','Division','DM PO']} },
-{ path: 'cmedash', component: CMEDashboardComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','DME1','Collector','Warehouse','SE','HO_Infra','Division','DM PO']} },
+{ path: 'welcome', component: HomeComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','DME1','Collector','Warehouse','SE','HO_Infra','Division','DM PO','SSO','Logi Cell']} },
+{ path: 'dhsdash', component: DhsdashComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','DME1','Collector','Warehouse','SE','HO_Infra','Division','DM PO','SSO','Logi Cell']} },
+{ path: 'cmedash', component: CMEDashboardComponent, canActivate: [RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','DME1','Collector','Warehouse','SE','HO_Infra','Division','DM PO','SSO','Logi Cell']} },
   // {path:'autocomplete',component:AutocompleteComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
   // {path:'input',component:InputComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
   {path:'card',component:CardComponent,canActivate:[RouteGuardService], data: { allowedRoles: ['SEC1','CME','DME1','Collector']} },
@@ -159,15 +166,15 @@ const routes: Routes = [
   {path:'emd-pending-tenderwise',component:EmdPendingTenderwiseComponent,canActivate:[RouteGuardService], data: { allowedRoles: ['SEC1','CME','DME1','MDGMT','TPOBME']} },
   {path:'emd-dashboard',component:EmdDashboardComponent,canActivate:[RouteGuardService], data: { allowedRoles: ['SEC1','CME','DME1','MDGMT','TPOBME']} },
   //whstock abstract
-  {path:'whStockAbstract',component:WhStockAbstractComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','DME1']} },
+  {path:'whStockAbstract',component:WhStockAbstractComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','DME1','SSO','Logi Cell']} },
   {path:'drugs',component:WhStockDrugsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1']} },
   {path:'consumables',component:WhStockConsumablesComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1']} },
   {path:'reagent',component:WhStockReagentComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1']} },
-  {path:'stockDetails',component:CGMSCStockDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','QC','QC2','Warehouse','Collector']} },
+  {path:'stockDetails',component:CGMSCStockDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','QC','QC2','Warehouse','Collector','SSO','Logi Cell']} },
 
 
   // indent pending 
-  {path:'IndentPendingWHdash',component:IndentPendingWhDasComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Warehouse','Collector']} },
+  {path:'IndentPendingWHdash',component:IndentPendingWhDasComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Warehouse','Collector','SSO','Logi Cell']} },
   // {path:'IndentPendingWH',component:IndentPendingWHComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1']} },
   {path:'ReagentIndentPendingWH',component:ReagentIndentPendingWhComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1']} },
 
@@ -178,7 +185,7 @@ const routes: Routes = [
   {path:'stockDetailsReagent',component:CgmscstockReagentComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','QC','QC2','Warehouse','Collector']} },
 
 // near expiry
-{path:'nearExpiry',component:NearExpiryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Warehouse']} },
+{path:'nearExpiry',component:NearExpiryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Warehouse','SSO','Logi Cell']} },
 
 // reagent issue
 {path:'ReagentIssue',component:ReagentIssueComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','MDGMT','TPOBME']} },
@@ -199,15 +206,15 @@ const routes: Routes = [
 {path:'DistrictWiseStk',component:DistrictWiseStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS']} },
 {path:'DdlItemWiseInHandQty',component:DdlItemWiseInHandQtyComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Collector']} },
 {path:'DistFACwiseStockPostionNew',component:DistFACwiseStockPostionNewComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Collector']} },
-{path:'SeasonDrugs',component:SeasonDrugsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Warehouse','Collector']} },
-{path:'WarehouseInfo',component:WarehouseInfoComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Collector','Warehouse']} },
-{path:'FacCoverage',component:FacCoverageComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Collector','Warehouse']} },
+{path:'SeasonDrugs',component:SeasonDrugsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Warehouse','Collector','SSO','Logi Cell']} },
+{path:'WarehouseInfo',component:WarehouseInfoComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Collector','Warehouse','SSO','Logi Cell']} },
+{path:'FacCoverage',component:FacCoverageComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Collector','Warehouse','SSO','Logi Cell']} },
 {path:'StockSummaryBalanceIndent',component:StockSummaryBalanceIndentComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1']} },
 {path:'timetakenBySupplier',component:TimeTakenBySupplierComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1']} },
 {path:'PaidTimeTaken',component:PaidTimeTakenComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1']} },
 // {path:'QcTimeTaken',component:QCTimeTakenYearwiseComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS']} },
 {path:'QcTimeTaken',component:QCTimeTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1']} },
-{path:'StockoutSummary',component:StockoutSummaryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse']} },
+{path:'StockoutSummary',component:StockoutSummaryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','SSO','Logi Cell']} },
 {path:'HODYearWiseIssuance',component:HODYearWiseIssuanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Collector']} },
 {path:'GrowthInProcurment',component:GrowthInProcurmentComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','GM Finance','DMFin']} },
 {path:'GrowthInProcurmentTab',component:GrowthInProcurmentTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','GM Finance','DMFin']} },
@@ -235,21 +242,24 @@ const routes: Routes = [
 {path:'AdministrativeSanction',component:AdministrativeSanctionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
 {path:'RunningWork',component:RunningWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
 {path:'SchemeWiseDetails',component:SchemeWiseDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
-{path:'institute-wise-issuance',component:CgmscInstituteWiseIssuanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'institute-wise-issuance',component:CgmscInstituteWiseIssuanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division','SSO','Logi Cell']} },
 
 
 {path:'DistDHSStock',component:DistDHSStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector']} },
 {path:'Devlivery',component:DeliveryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','Warehouse']} },
-{path:'field-stock',component:CgmscFieldStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','Warehouse']} },
+{path:'field-stock',component:CgmscFieldStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','Warehouse','SSO','Logi Cell']} },
 {path:'home-search',component:HomeSearchComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','Warehouse']} },
 {path:'finance-dash',component:FinanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','Warehouse','GM Finance','DMFin','DM PO']} },
 {path:'qc-dashboard',component:QcDashboardComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2']} },
 {path:'attendance-dash',component:AttendanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
 {path:'tender-status',component:TenderStatusDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'tender-status-cme',component:TenderStatusDashCmeComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'conversationHodCgmsc',component:ConversationHodCgmscComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2']} },
 {path:'eqp-dash',component:EqpDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','MDGMT','TPOBME','Tenders','Division']} },
 {path:'infra-dash',component:InfraDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','Division']} },
 {path:'admin-dash',component:AdminDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
+{path:'consumption-pattern',component:ConsumptionPatternTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
+{path:'supplier-pending',component:SupplierPendingPaymentsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 
 
 

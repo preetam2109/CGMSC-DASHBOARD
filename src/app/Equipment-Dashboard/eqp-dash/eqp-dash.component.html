@@ -38,7 +38,7 @@
  
   
   
-  <div class="p-2 my-0 mb-2"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO','MDGMT','TPOBME','Tenders'].includes(roleName) && selectedCategory!='Infrastructure'" id="workdetails" >
+  <div class="p-2 my-0 mb-2"     *ngIf="['SEC1','DHS','Collector','DM PO','MDGMT','TPOBME','Tenders'].includes(roleName) && selectedCategory!='Infrastructure'" id="workdetails" >
     <!-- <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
       <strong style="text-align: center;">{{selectedCategoryRadio}} Tender Status </strong>
     </h1> -->
@@ -983,12 +983,12 @@
   
   <ng-container matColumnDef="tenderStatus">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-    <td mat-cell *matCellDef="let element"> {{ element.tenderStatus }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element.tenderstatus }} </td>
   </ng-container>
   
   <ng-container matColumnDef="tenderRemark">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Remark </th>
-    <td mat-cell *matCellDef="let element"> {{ element.tenderRemark }} </td>
+    <td mat-cell *matCellDef="let element"> {{ element.tenderremark }} </td>
   </ng-container>
   
   <ng-container matColumnDef="noOfItems">

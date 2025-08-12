@@ -483,7 +483,7 @@
                         <table  mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort9="matSort" >
                 
                           <ng-container matColumnDef="sno">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header sticky >S.No for sticky</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header sticky >S.No</th>
                             <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
                           </ng-container>
                           
@@ -676,6 +676,7 @@
   <td mat-cell *matCellDef="let element"> {{ element.head }} </td>
 </ng-container>
 
+
 <!-- Division ID -->
 <ng-container matColumnDef="divisionID">
   <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Division ID</th>
@@ -696,7 +697,7 @@
 
 <!-- Work ID -->
 <ng-container matColumnDef="work_id">
-  <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Work ID</th>
+  <th mat-header-cell *matHeaderCellDef mat-sort-header sticky>Work CODE</th>
   <td mat-cell *matCellDef="let element"> {{ element.work_id }} </td>
 </ng-container>
 
@@ -768,13 +769,13 @@
 
 <!-- Table Row Definitions -->
 <tr mat-header-row *matHeaderRowDef="[
-  'head', 'division', 'district','workname', 
+  'head', 'division', 'district','work_id','workname', 
   'asLetterNO', 'asDate', 'asAmt', 'tsAmount', 'valueWorks', 
   'workStatus', 'tremarkID', 'tRemarks', 'remarkDT', 'remarks'
 ]; sticky: true"></tr>
 
 <tr mat-row *matRowDef="let row; columns: [
-  'head', 'division', 'district',  'workname', 
+  'head', 'division', 'district','work_id','workname', 
   'asLetterNO', 'asDate', 'asAmt', 'tsAmount', 'valueWorks', 
   'workStatus', 'tremarkID', 'tRemarks', 'remarkDT', 'remarks'
 ];"></tr>
@@ -1201,8 +1202,12 @@
                         <div class="center-cell">{{ element.sno }}</div>
                       </td>
                     </ng-container>
-    
-    
+  
+                    <!-- Head -->
+<ng-container matColumnDef="head">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
+  <td mat-cell *matCellDef="let element">{{ element.head }}</td>
+</ng-container>
                     <ng-container matColumnDef="tenderID">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Tender ID </th>
                       <td mat-cell *matCellDef="let element"> {{ element.tenderID }} </td>
@@ -1218,6 +1223,10 @@
                       <td mat-cell *matCellDef="let element"> {{ element.eprocNo }} </td>
                     </ng-container>
     
+                    <ng-container matColumnDef="work_id">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Work CODE </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.work_id}} </td>
+                    </ng-container>
                     <ng-container matColumnDef="workName">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Work Name </th>
                       <td mat-cell *matCellDef="let element"> {{ element.workName }} </td>
@@ -1284,8 +1293,9 @@
     
                     <tr mat-header-row *matHeaderRowDef="[
         'sno',
-      
+      'work_id',
       'workName',
+      'head',
       'asAmt',
       'tsAmount',
       'tenderNo',
@@ -1319,11 +1329,13 @@
     ];"></tr> -->
     
                     <tr mat-row *matRowDef="let row; columns: [
-        'sno',
-        'workName',
-        'asAmt',
-        'tsAmount',
-        'tenderNo',
+       'sno',
+      'work_id',
+      'workName',
+      'head',
+      'asAmt',
+      'tsAmount',
+      'tenderNo',
         'eprocNo',
         'startDt',
         'endDate',

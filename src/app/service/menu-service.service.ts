@@ -41,9 +41,11 @@ export class MenuServiceService {
           { label: 'Tender Status', route: '/tender-status' },
           { label: 'QC Insights ', route: '/qc-dashboard' },
           { label: 'Finance', route: '/finance-dash' },
+          { label: 'Supplier Pending Payments', route: '/supplier-pending' },
           { label: 'DHS Dashboard', route: '/dhsdash' },
           { label: 'CME Dashboard', route: '/cmedash' },
-   
+          { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
+          
           // {
           //   label: 'Health Facilities Coverage',
           //   route:  '/FacCoverage',
@@ -63,6 +65,7 @@ export class MenuServiceService {
           { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
           { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
           { label: 'Growth in Distribution', route: '/distribution' },
+          { label: 'Consumption Pattern', route: '/consumption-pattern' },
           { label: 'Near Expiry', route: '/nearExpiry' },
           { label: 'Devlivery', route: '/Devlivery' },
 
@@ -175,6 +178,117 @@ export class MenuServiceService {
         
       },
     },
+    SSO: {
+      items: [
+        
+        
+        { label: 'Home', route: '/home' },
+        { label: 'Dashboard', route: '/welcome' },
+        
+        { label: 'DHS Dashboard', route: '/dhsdash' },
+        { label: 'CME Dashboard', route: '/cmedash' },
+        { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
+
+        { label: 'Health Facilities Coverage', route: '/FacCoverage' },
+        { label: 'Warehouse Information', route: '/WarehouseInfo' },
+        { label: 'Warehouse Stock Abstract', route: '/whStockAbstract' },
+        { label: 'Warehouse Stock Details', route: '/stockDetails' },
+        { label: 'Field Stock', route: '/field-stock' },
+        { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
+        { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
+        { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
+        // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+        // { label: 'Growth in Distribution', route: '/distribution' },
+        { label: 'Near Expiry', route: '/nearExpiry' },
+        // { label: 'Devlivery', route: '/Devlivery' },
+        // { label: 'Quality Control', route: '/qc-dashboard' },
+        // {
+        //   label: 'Quality Control Track',
+        //   submenu: [
+        //     { label: 'QC Courier', route: '/QcPendings' },
+        //     { label: 'QC-Lab Issues', route: '/qc-dash' },
+        //   ],
+        //   route: '/welcome',
+        // },
+
+        // { label: 'IWH Pendings', route: '/iwhPending' },
+        // { label: 'NOC', route: '/noc' },
+        // { label: 'ANPR Report ', route: '/vehicleTracking' },
+        // {
+        //   label: 'Time-Based Analysis',
+
+        //   submenu: [
+        //     {
+        //       label: 'Door Delivery App Uses',
+        //       route: '/DropAppWarehousePerformance',
+        //     },
+        //     {
+        //       label: 'Time Taken By Supplier',
+        //       route: '/timetakenBySupplier',
+        //     },
+        //     { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
+        //     { label: 'QC Time Taken', route: '/QcTimeTaken' },
+        //   ],
+        //   route: '/welcome',
+        // },
+      ],
+    },
+    'Logi Cell': {
+      items: [
+        
+        
+        { label: 'Home', route: '/home' },
+        { label: 'Dashboard', route: '/welcome' },
+        
+        { label: 'DHS Dashboard', route: '/dhsdash' },
+        { label: 'CME Dashboard', route: '/cmedash' },
+        { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
+
+        { label: 'Health Facilities Coverage', route: '/FacCoverage' },
+        { label: 'Warehouse Information', route: '/WarehouseInfo' },
+        { label: 'Warehouse Stock Abstract', route: '/whStockAbstract' },
+        { label: 'Warehouse Stock Details', route: '/stockDetails' },
+        { label: 'Field Stock', route: '/field-stock' },
+        { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
+        { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
+        { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
+        // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+        // { label: 'Growth in Distribution', route: '/distribution' },
+        { label: 'Near Expiry', route: '/nearExpiry' },
+        // { label: 'Devlivery', route: '/Devlivery' },
+        // { label: 'Quality Control', route: '/qc-dashboard' },
+        // {
+        //   label: 'Quality Control Track',
+        //   submenu: [
+        //     { label: 'QC Courier', route: '/QcPendings' },
+        //     { label: 'QC-Lab Issues', route: '/qc-dash' },
+        //   ],
+        //   route: '/welcome',
+        // },
+
+        { label: 'IWH Pendings', route: '/iwhPending' },
+        // { label: 'NOC', route: '/noc' },
+        // { label: 'ANPR Report ', route: '/vehicleTracking' },
+        // {
+        //   label: 'Time-Based Analysis',
+
+        //   submenu: [
+        //     {
+        //       label: 'Door Delivery App Uses',
+        //       route: '/DropAppWarehousePerformance',
+        //     },
+        //     {
+        //       label: 'Time Taken By Supplier',
+        //       route: '/timetakenBySupplier',
+        //     },
+        //     { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
+        //     { label: 'QC Time Taken', route: '/QcTimeTaken' },
+        //   ],
+        //   route: '/welcome',
+        // },
+      ],
+    },
+    
     MDGMT: {
     
        
@@ -371,8 +485,10 @@ export class MenuServiceService {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/cmedash' },
+          { label: 'Tender Status', route: '/tender-status-cme' },
+
           { label: 'Finance', route: '/finance-dash' },
-          { label: 'CGMSC Institute wise Issuance', route: '/institute-wise-issuance' },
+          { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
           // { label: 'CGMSC Institute wise Issuance', route: '/cgmsc-supplies' },
 
           { label: 'Stock Details', route: '/stockDetails' },

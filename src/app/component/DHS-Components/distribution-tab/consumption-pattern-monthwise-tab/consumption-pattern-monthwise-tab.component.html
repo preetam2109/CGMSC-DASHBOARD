@@ -1,0 +1,76 @@
+<div class="container mt-3">
+    <div class="row mb-3">
+      <div class="col-md-6 d-flex flex-wrap">
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategory"
+            value="Drugs" (change)="updateSelectedHodid()"  />
+          <label class="form-check-label" for="drugs">Drugs</label>
+        </div>
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" [(ngModel)]="selectedCategory"
+            value="Consumables" (change)="updateSelectedHodid()" />
+          <label class="form-check-label" for="consumables">Consumables</label>
+        </div>
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" [(ngModel)]="selectedCategory"
+            value="Reagent" (change)="updateSelectedHodid()" />
+          <label class="form-check-label" for="reagent">Reagent</label>
+        </div>
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategory"
+            value="AYUSH" (change)="updateSelectedHodid()" />
+          <label class="form-check-label" for="ayush">AYUSH</label>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="container my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector','DM PO','SSO','Logi Cell'].includes(roleName)  && selectedCategory!='Infrastructure'" >
+        <div class="row justify-content-center" style="height: 20vh;">
+          <div class="col-12">
+            <div class="card shadow p-3 w-100" style="height: 80%;">
+              <div class="card-body">
+                <!-- <h5 class="card-title text-center">Search Item</h5> -->
+                <div class="mb-3 w-100 d-flex align-items-center">
+                  <div class="me-2 w-100" >
+                  <!-- <label class="form-label d-block w-100"><strong>Choose Item</strong>:</label> -->
+                  <ng-select
+                    [items]="MasIndentitemslist"
+                    bindLabel="nameText"
+                    bindValue="itemid"
+                    [(ngModel)]="itemid"
+                    name="itemid"
+                    (change)="onISelectChange($event)"
+                    #emailidField="ngModel"
+                    [placeholder]="!itemid ? 'Search Item' : ''"
+                    [searchable]="true"
+                    [clearable]="true"
+                    [appendTo]="'body'"
+                    required
+                    class="form-control "
+                  >
+                  </ng-select>
+                </div>
+                <img  (click)="searchItem()"  style="width: 50px;height: 50px;" src="assets/dash-icon/magnifier.png" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="chart-container">
+          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+            [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+            [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>

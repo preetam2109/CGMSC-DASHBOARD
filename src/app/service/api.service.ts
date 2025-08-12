@@ -65,7 +65,7 @@ import { PaidTimeTaken } from '../Model/PaidTimeTaken';
 import { nsqDrugDetails, QCTimeTakenYearwise } from '../Model/QCTimeTakenYearwise';
 import { QCLabYearAvgTime } from '../Model/QCLabYearAvgTime';
 import { StockoutSummary } from '../Model/StockoutSummary';
-import { HODYearWiseIssuance } from '../Model/HODYearWiseIssuance';
+import { HODYearWiseIssuance, MontlyItemDemography, YearWiseIssueReport } from '../Model/HODYearWiseIssuance';
 import { DistDrugCount } from '../Model/DistDrugCount';
 import { WHDrugCount } from '../Model/WHDrugCount';
 import { HODPOYear_AgAI } from '../Model/HODPOYear_AgAI';
@@ -298,13 +298,13 @@ export class ApiService {
 
   }
   NearExpReportbatch(mcid: number, nexppara: number, expmonth: string): Observable<any> {
-debugger
+
     const params = new HttpParams()
       .set('mcid', mcid.toString())
       .set('nexppara', nexppara.toString())
       .set('expmonth', expmonth.toString());
 
-    return this.http.get<NearExpReportbatch>(`${this.CGMSCHO_API2}/HO/ `, { params });
+    return this.http.get<NearExpReportbatch>(`${this.CGMSCHO_API2}/HO/NearExpReportbatch`, { params });
 
   }
 
@@ -561,7 +561,7 @@ debugger
   }
 
   HODPOYear_AgAI(mcatid: any, hodid: any, Isall: any, IsagainstAI: any): Observable<any> {
-debugger
+
 
     return this.http.get<HODPOYear_AgAI[]>(`${this.CGMSCHO_API2}/HO/HODPOYear_AgAI?mcatid=${mcatid}&hodid=${hodid}&Isall=${Isall}&IsagainstAI=${IsagainstAI}`);
   }
@@ -1304,6 +1304,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   GetEqpTenderDetail(csid:any){
+    
     return this.http.get<TenderDetail[]>(`${this.himis_apin}/EMS/GetTenderDetail?csid=${csid}`);
   }
 
@@ -1312,7 +1313,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   GetConsTenderStatusDetail(pGroupId:any,ppid:any){
-    debugger
+    
     return this.http.get<GetConsTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/GetTenderStatusDetail?pGroupId=${pGroupId}&ppid=${ppid}`);
   }
 
@@ -1322,7 +1323,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
   
   ZonalTenderStatusDetail(tid:any){
-    debugger
+    
     return this.http.get<ZonalTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatusDetail?tid=${tid}`);
   }
 
@@ -1392,6 +1393,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
   ToBeTenderBifurcationDetail(tRemarkId:any,){
     // item click
+    
     return this.http.get<ToBeTenderBifurcationDetail[]>(`${this.himis_apin}/TenderStatus/ToBeTenderBifurcationDetail?tRemarkId=${tRemarkId}`);
 
   }
@@ -1417,6 +1419,67 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   NearExpRCDetails(mcid:any,mmpara:any){
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/TimeTaken/NearExpRCDetails?mcid=${mcid}&mmpara=${mmpara}`);
   }
+
+
+  variousStatusAgainstCYAI(mcid:any,yearId:any){
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOD/variousStatusAgainstCYAI?yearId=${yearId}&mcid=${mcid}`);
+  }
+
+
+
+  MontlyItemDemography(itemId:any,mcid:any,yearId:any){
+    
+    return this.http.get<MontlyItemDemography[]>(`${this.CGMSCHO_API2}/HO/MontlyItemDemography?itemId=${itemId}&mcid=${mcid}&yearId=${yearId}`);
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/MontlyItemDemography?itemId=9996&mcid=1
+  }
+  YearWiseIssueReport(itemId:any,mcid:any){
+    
+    return this.http.get<YearWiseIssueReport[]>(`${this.CGMSCHO_API2}/HO/YearWiseIssueReport?itemId=${itemId}&mcid=${mcid}`);
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/YearWiseIssueReport?itemId=9996&mcid=1
+  }
+
+
+
+  //#region StockStatus
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+
+// https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockOutDetails?yearId=546&mcid=1&tendCondition=PRICE
+// https://dpdmis.in/CGMSCHO_API2/api/HO/whstockoutin?yearId=546&mcid=1&catid=52
+// https://localhost:7247/api/HO/whstockoutin?yearId=546&mcid=1
+
+StockStatus(){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL`);
+}
+IssuePerDetail(mcid:any,perCondition:any,tendCondition:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/IssuePerDetail?yearId=546&mcid=${mcid}&perCondition=${perCondition}&tendCondition=${tendCondition}`);
+}
+StockOutDetails(mcid:any,tendCondition:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockOutDetails?yearId=546&mcid=${mcid}&tendCondition=${tendCondition}`);
+}
+whstockoutin(mcid:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutIn?mcid=${mcid}`);
+}
+
+WhStockOutInDetail(whid:any,para:any){
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/WhStockOutInDetail?whid=2615&para=STOCKOUT
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutInDetail?whid=${whid}&para=${para}`);
+}
+
+//#endregion
+
+
+
+SupplierPendingPayments(budgetId:any){
+  
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/SupplierPendingPayments?budgetId=${budgetId}`);
+}
+
+
+
+
+
 
 
 

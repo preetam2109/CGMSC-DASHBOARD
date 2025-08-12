@@ -37,6 +37,19 @@ export class CgmscstockDetailsDrugsComponent {
   whid:any=0
   roleName = localStorage.getItem('roleName')
 
+
+
+  wikiTitle: string = '';
+wikiHtml: string = '';
+wikiImages: string[] = [];
+
+
+
+
+  @ViewChild('SearchItemWikipediaModal') SearchItemWikipediaModal: any;
+  wikiDescription: string = '';
+
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -57,6 +70,51 @@ export class CgmscstockDetailsDrugsComponent {
   ngOnInit() {
     this.spinner.show();
     this.getAllDispatchPending();
+  }
+
+  openWikipediaModal(itemName: string) {
+  this.fetchWikipediaFullData('Paracetamol');
+}
+
+fetchWikipediaFullData(searchTerm: string) {
+  // Step 1: Search Wikipedia for closest match
+  const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&utf8=&format=json&origin=*`;
+
+  this.http.get<any>(searchUrl).subscribe(searchResult => {
+    if (searchResult?.query?.search?.length > 0) {
+      const pageTitle = searchResult.query.search[0].title;
+
+      // Step 2: Get full page content (HTML, images, links)
+      const contentUrl = `https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(pageTitle)}&prop=text|images|links&format=json&origin=*`;
+
+      this.http.get<any>(contentUrl).subscribe(contentResult => {
+        this.wikiTitle = pageTitle;
+        this.wikiHtml = contentResult.parse.text['*']; // Full HTML content
+        this.wikiImages = contentResult.parse.images || [];
+        this.openDialogHOD();
+      });
+
+    } else {
+      this.wikiTitle = searchTerm;
+      this.wikiHtml = '<p>No data found.</p>';
+      this.wikiImages = [];
+      this.openDialogHOD();
+    }
+  }, error => {
+    console.error(error);
+    this.wikiHtml = '<p>Error fetching data.</p>';
+    this.openDialogHOD();
+  });
+}
+  openDialogHOD() {
+    const dialogRef = this.dialog.open(this.SearchItemWikipediaModal, {
+      width: '80%',
+      height: '80%',
+      panelClass: 'full-screen-dialog'
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('Dialog closed');
+    });
   }
 
   // getAllDispatchPending() {
