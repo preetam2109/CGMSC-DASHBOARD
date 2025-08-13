@@ -10,3 +10,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .row-gray td   { background-color: #f8f081 !important; }
 .row-magenta td { background-color: #b3eaff !important; }
 .row-green td  { background-color: #7effb4 !important; }
+
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px; 
+    
+  }

@@ -117,7 +117,8 @@ throw new Error('Method not implemented.');
 
     selectedCategory:any='';
   
-  
+    loadingSectionA = false;
+    loadingSectionB = false;
 
 
     @ViewChild('StockOutDetailsModal') StockOutDetailsModal: any;
@@ -2441,7 +2442,8 @@ exportToPDFRCDDetails() {
 // https://dpdmis.in/CGMSCHO_API2/api/HO/whstockoutin?yearId=546&mcid=1&catid=52
 
 GETStockStatus(){
-  this.spinner.show();
+  // this.spinner.show();
+  this.loadingSectionA=true
   this.api.StockStatus().subscribe((res:any[])=>{
     if (res && res.length > 0) {
     
@@ -2455,10 +2457,12 @@ GETStockStatus(){
       this.StockStatusdata.data = this.dispatchdata; 
       this.StockStatusdata.paginator = this.paginator10;
       this.StockStatusdata.sort = this.sort10;
-      this.spinner.hide();
+      this.loadingSectionA=false
+
     } else {
       console.error('No nameText found or incorrect structure:', res);
-      this.spinner.hide();
+      this.loadingSectionA=false
+      
 
     }
   }); 
@@ -2468,8 +2472,11 @@ whstockoutin(){
 //   return this.http.get<any[]>(${this.CGMSCHO_API2}/HO/whstockoutin?yearId=546&mcid=${mcid}&catid=${catid});
 // }
 
+// second card 
+
 const yearId=546,mcid=1;
-  this.spinner.show();
+this.loadingSectionB=true;
+
   this.api.whstockoutin(mcid).subscribe((res:any[])=>{
     if (res && res.length > 0) {
     
@@ -2483,18 +2490,346 @@ const yearId=546,mcid=1;
       this.whstockoutindata.data = this.dispatch_whstockoutin; 
       this.whstockoutindata.paginator = this.paginator11;
       this.whstockoutindata.sort = this.sort11;
-      this.spinner.hide();
+      this.loadingSectionB=false;
+
     } else {
       console.error('No nameText found or incorrect structure:', res);
-      this.spinner.hide();
+      this.loadingSectionB=false;
+
 
     }
   }); 
 }
+
 applyTextFilter1(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.StockStatusdata.filter = filterValue.trim().toLowerCase();
 }
+applyTextFilter2(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.whstockoutindata.filter = filterValue.trim().toLowerCase();
+}
+applyTextFilter3(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.WhStockOutInDetail.filter = filterValue.trim().toLowerCase();
+}
+applyTextFilter4(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.StockoutDetailsdata.filter = filterValue.trim().toLowerCase();
+}
+applyTextFilter5(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.IssuePerDetailsdata.filter = filterValue.trim().toLowerCase();
+}
+
+exportToPDFRCNotValidStock(){
+  const doc = new jsPDF('l', 'mm', 'a4'); // landscape
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC Not Valid Stock Details';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+  const columns = [
+    // { header: 'S.No', dataKey: 'sno' },
+    { header: 'Stock Parameter', dataKey: 'parameterNew' },
+    { header: 'Total Drugs', dataKey: 'cntItems' },
+    { header: 'Price Opned', dataKey: 'pricecnt' },
+    { header: 'Under Evaluation', dataKey: 'evalutioncnt' },
+    { header: 'Live In Tender', dataKey: 'livecnt' },
+    { header: 'To be Retender', dataKey: 'rentendercn' },
+  ];
+  const rows = this.dispatchdata.map((item: any, index: number) => ({
+    // sno: index + 1,
+    parameterNew: item.parameterNew,
+    cntItems: item.cntItems,
+    pricecnt: item.pricecnt,
+    evalutioncnt: item.evalutioncnt,
+    livecnt: item.livecnt,
+    rentendercn: item.rentendercn,
+  }));
+  autoTable(doc, {
+    head: [columns.map(col => col.header)],
+    body: rows.map(row => [
+      row.parameterNew,
+      row.cntItems,
+      row.pricecnt,
+      row.evalutioncnt,
+      row.livecnt,
+      row.rentendercn
+    ]),
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+  doc.save('RCNotValidStock.pdf');
+}
+exportToPDFRCValidStock(){
+  const doc = new jsPDF('l', 'mm', 'a4'); // landscape
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC Valid Stock Details';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+  // "sno",
+  //   "warehousename",
+  //   "noofitems",
+  //   "stockout",
+  //   "stockin",
+  const columns = [
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'WH Name', dataKey: 'warehousename' },
+    { header: 'No of Items', dataKey: 'noofitems' },
+    { header: 'Stock Out', dataKey: 'stockout' },
+    { header: 'Stock In', dataKey: 'stockin' },
+  ];
+  const rows = this.dispatch_whstockoutin.map((item: any, index: number) => ({
+    sno: index + 1,
+    warehousename: item.warehousename,
+    noofitems: item.noofitems,
+    stockout: item.stockout,
+    stockin: item.stockin,
+    
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.header)],
+    body: rows.map(row => [
+      row.sno+1,
+      row.warehousename,
+      row.noofitems,
+      row.stockout,
+      row.stockin
+    ]),
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('RCValidStock.pdf');
+}
+exportToPDFRCValidStockDetail() {
+  const doc = new jsPDF('l', 'mm', 'a4'); 
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC Valid Stock Details';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+
+
+  const columns = [
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Warehouse ID', dataKey: 'warehouseid' },
+    { header: 'WH Name', dataKey: 'warehousename' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'Strength', dataKey: 'strength' },
+    { header: 'SKU', dataKey: 'sku' },
+    { header: 'Item ID', dataKey: 'itemid' },
+    { header: 'Ready For Issue', dataKey: 'readyforissue' },
+    { header: 'Pending', dataKey: 'pending' },
+    { header: 'Stock Out', dataKey: 'stockOut' },
+    { header: 'Stock In', dataKey: 'stockIn' },
+  ];
+
+
+  const rows = this.dispatch_WhStockOutInDetail.map((item: any, index: number) => ({
+    sno: index + 1,
+    warehouseid: item.warehouseid,
+    warehousename: item.warehousename,
+    itemcode: item.itemcode,
+    itemname: item.itemname,
+    strength: item.strength,
+    sku: item.sku,
+    itemid: item.itemid,
+    readyforissue: item.readyforissue,
+    pending: item.pending,
+    stockOut: item.stockOut,
+    stockIn: item.stockIn
+  }));
+
+ 
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('RCValidStockDetail.pdf');
+}
+exportToPDFRCIssuePerDetailsDetail() {
+  const doc = new jsPDF('l', 'mm', 'a4');
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC Issue Percentage Details';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+
+  const columns = [
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'SKU', dataKey: 'sku' },
+    { header: 'Unit Count', dataKey: 'unitcount' },
+    { header: 'DHS AI Qty', dataKey: 'dhsaiqty' },
+    { header: 'DME AI Qty', dataKey: 'dmeaiqty' },
+    { header: 'Avg Issue Qty Last 3 FY', dataKey: 'avgIssueqty_Last3FY' },
+    { header: 'Tender Status', dataKey: 'tenderstatus' },
+    { header: 'Tender Start Date', dataKey: 'tenderstartdt' },
+    { header: 'CoV/A OP Date', dataKey: 'coV_A_OPDATE' },
+    { header: 'Days Since', dataKey: 'dayssince' },
+    { header: 'Parameter New', dataKey: 'parameterNew' },
+    { header: 'Stock %', dataKey: 'styockPer' },
+    { header: 'Price Count', dataKey: 'pricecnt' },
+    { header: 'Evaluation Count', dataKey: 'evalutioncnt' },
+    { header: 'Live Count', dataKey: 'livecnt' },
+    { header: 'Re-Tender Count', dataKey: 'rentendercn' },
+  ];
+
+  const rows = this.dispatch_IssueperDetails.map((item: any, index: number) => ({
+    sno: index + 1,
+    itemcode: item.itemcode,
+    itemname: item.itemname,
+    sku: item.sku,
+    unitcount: item.unitcount,
+    dhsaiqty: item.dhsaiqty,
+    dmeaiqty: item.dmeaiqty,
+    avgIssueqty_Last3FY: item.avgIssueqty_Last3FY,
+    tenderstatus: item.tenderstatus,
+    tenderstartdt: item.tenderstartdt,
+    coV_A_OPDATE: item.coV_A_OPDATE,
+    dayssince: item.dayssince,
+    parameterNew: item.parameterNew,
+    styockPer: item.styockPer,
+    pricecnt: item.pricecnt,
+    evalutioncnt: item.evalutioncnt,
+    livecnt: item.livecnt,
+    rentendercn: item.rentendercn
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('RCIssueperDetails.pdf');
+}
+
+exportToPDFRCStockoutDetailsDetail() {
+  const doc = new jsPDF('l', 'mm', 'a4'); // Landscape mode
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC Stockout Details Detail';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+
+  const columns = [
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'SKU', dataKey: 'sku' },
+    { header: 'Unit Count', dataKey: 'unitcount' },
+    { header: 'DHSAI Qty', dataKey: 'dhsaiqty' },
+    { header: 'DMEAI Qty', dataKey: 'dmeaiqty' },
+    { header: 'Avg Issue Qty (Last 3 FY)', dataKey: 'avgIssueqty_Last3FY' },
+    { header: 'Tender Status', dataKey: 'tenderstatus' },
+    { header: 'Tender Start Date', dataKey: 'tenderstartdt' },
+    { header: 'CoV A OP Date', dataKey: 'coV_A_OPDATE' },
+    { header: 'Days Since', dataKey: 'dayssince' },
+    { header: 'Stock Parameter', dataKey: 'parameterNew' },
+    { header: 'Stock %', dataKey: 'styockPer' },
+    { header: 'Price Opened', dataKey: 'pricecnt' },
+    { header: 'Under Evaluation', dataKey: 'evalutioncnt' },
+    { header: 'Live in Tender', dataKey: 'livecnt' },
+    { header: 'To be Retender', dataKey: 'rentendercn' },
+  ];
+
+  const rows = this.dispatch_StockOutDetails.map((item: any, index: number) => ({
+    sno: index + 1,
+    itemcode: item.itemcode,
+    itemname: item.itemname,
+    sku: item.sku,
+    unitcount: item.unitcount,
+    dhsaiqty: item.dhsaiqty,
+    dmeaiqty: item.dmeaiqty,
+    avgIssueqty_Last3FY: item.avgIssueqty_Last3FY,
+    tenderstatus: item.tenderstatus,
+    tenderstartdt: item.tenderstartdt,
+    coV_A_OPDATE: item.coV_A_OPDATE,
+    dayssince: item.dayssince,
+    parameterNew: item.parameterNew,
+    styockPer: item.styockPer,
+    pricecnt: item.pricecnt,
+    evalutioncnt: item.evalutioncnt,
+    livecnt: item.livecnt,
+    rentendercn: item.rentendercn
+  }));
+
+  autoTable(doc, {
+    columns: columns,
+    body: rows,
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('RCStockoutDetailsDetail.pdf');
+}
+
 
 getRowClass(param: string) {
   let val = param?.replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim().toLowerCase();
@@ -3489,6 +3824,13 @@ else if(parameterNew=="3. 10 to 20 % Stock against Avg Issuance"){
                console.log('Dialog closed');
               });
               }
+
+
+
+
+
+
+
 
 //#endregion
 

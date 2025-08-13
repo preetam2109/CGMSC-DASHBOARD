@@ -351,63 +351,65 @@ export class ConsumptionPatternYearwiseTabComponent {
       { id: 546, label: '2025-2026' }
     ];
   
-    // Sort descending by starting year
     yearIds = yearIds.sort((a, b) => {
       const startA = parseInt(a.label.split('-')[0], 10);
       const startB = parseInt(b.label.split('-')[0], 10);
       return startB - startA;
     });
   
-    this.yearCharts = [];
-  
-    // Create array of API calls
     const requests = yearIds.map(year =>
       this.api.MontlyItemDemography(itemid, mcid, year.id)
         .pipe(map((data: MontlyItemDemography[]) => ({ year, data })))
     );
   
     forkJoin(requests).subscribe(results => {
-      results.forEach(({ year, data }) => {
-        const monthMap = new Map<string, number>();
+      const monthMap = new Map<string, Map<string, number>>(); // Map of months to year-wise quantities
+      const months = ['APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC', 'JAN', 'FEB', 'MAR'];
   
-        // Group data by month
+      // Initialize month map for all months
+      months.forEach(month => monthMap.set(month, new Map()));
+  
+      // Populate data
+      results.forEach(({ year, data }) => {
         data.forEach((item: any) => {
           const month = item.issueMonth;
           const qty = item.iss_qty || 0;
-          monthMap.set(month, (monthMap.get(month) || 0) + qty);
+          monthMap.get(month)?.set(year.label, (monthMap.get(month)?.get(year.label) || 0) + qty);
         });
-  
-        const issueMonth = Array.from(monthMap.keys());
-        const iss_qty = Array.from(monthMap.values());
-  
-        this.yearCharts.push({
-          chart: {
-            type: 'line',
-            height: 300,
-            zoom: { enabled: true }
-          },
-          stroke: { curve: 'smooth' },
-          markers: { size: 4 },
-          dataLabels: {
-            enabled: true,
-            formatter: (val: number) => val.toString(),
-            style: { fontSize: '12px', colors: ['#000'] }
-          },
-          series: [{ name: 'Issued QTY', data: iss_qty }],
-          xaxis: { categories: issueMonth },
-          title: {
-            text: `Consumption (${year.label})`,
-            align: 'center'
-          }
-        } as Partial<ApexOptions>);
       });
   
-      // No need for additional sort, because yearIds was sorted before forkJoin
+      // Prepare series data
+      const series = yearIds.map(year => ({
+        name: year.label,
+        data: months.map(month => monthMap.get(month)?.get(year.label) || 0)
+      }));
+  
+      this.yearCharts = [{
+        chart: {
+          type: 'line',
+          height: 800,
+          zoom: { enabled: true }
+        },
+        stroke: { curve: 'smooth' },
+        markers: { size: 4 },
+        dataLabels: {
+          enabled: true,
+          formatter: (val: number) => val.toString(),
+          style: { fontSize: '12px', colors: ['#000'] }
+        },
+        series: series,
+        xaxis: { categories: months },
+        title: {
+          text: 'Consumption Pattern :'+this.selectedCategory,
+          align: 'center'
+        },
+        colors: ['#1E90FF', '#FFA500', '#32CD32', '#FF4500', '#6A5ACD'] // Distinct colors for each year
+      } as Partial<ApexOptions>];
+  
       this.cdr.detectChanges();
       this.spinner.hide();
     });
   }
-  
   
   
   
