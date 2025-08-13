@@ -100,7 +100,7 @@ mcid:any='1';
         colors: ['#fff'],
       },
       title: {
-        text: 'C.F.Y Demand & CGMSC Total Supply',
+        text: 'Current Financial Year Demand & CGMSC Total Supply',
         align: 'center',
       },
       fill: {
@@ -149,7 +149,7 @@ mcid:any='1';
         enabled: true,
       },
       title: {
-        text: 'DHS Approved Demand Vs CGMSC Supply of C.F.Y.',
+        text: 'DHS Approved Demand Vs CGMSC Supply of Current Financial Year.',
         align: 'center',
       },
       fill: {
@@ -198,7 +198,7 @@ mcid:any='1';
         colors: ['#fff'],
       },
       title: {
-        text: 'C.F.Y Demand & CGMSC Total Supply',
+        text: 'Current Financial Year Demand & CGMSC Total Supply',
         align: 'center',
       },
       fill: {
@@ -247,7 +247,7 @@ mcid:any='1';
         enabled: true,
       },
       title: {
-        text: 'DHS Approved Demand Vs CGMSC Supply  of C.F.Y.',
+        text: 'DHS Approved Demand Vs CGMSC Supply  of Current Financial Year.',
         align: 'center',
       },
       fill: {

@@ -28,6 +28,9 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChartOptions } from 'src/app/component/card/card.component';
 import { ClgHos_IssueWihtoutAI, CollegeHospital_AIvsIssue } from 'src/app/Model/DashCards';
+import { ToastrService } from 'ngx-toastr';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 
 @Component({
@@ -63,12 +66,26 @@ throw new Error('Method not implemented.');
 exportToPDF() {
 throw new Error('Method not implemented.');
 }
-applyTextFilter($event: KeyboardEvent) {
-throw new Error('Method not implemented.');
+applyTextFiltertotal(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource8.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSource8.paginator) {
+    this.dataSource8.paginator.firstPage();
+  }
+}
+applyTextFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource4.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSource4.paginator) {
+    this.dataSource4.paginator.firstPage();
+  }
 }
 @ViewChild('itemDetailsModal') itemDetailsModal: any;
 @ViewChild('CollegeHospital_AIvsIssueDetailsModal') CollegeHospital_AIvsIssueDetailsModal: any;
 @ViewChild('ClgHos_IssueWihtoutAIDetailsModal') ClgHos_IssueWihtoutAIDetailsModal: any;
+@ViewChild('StatusDetailsModal') StatusDetailsModal: any;
 
 
   @ViewChild('chart') chart: ChartComponent | undefined;
@@ -115,12 +132,17 @@ throw new Error('Method not implemented.');
   PartItemRClist:any
   collegeHospital_AIvsIssue:CollegeHospital_AIvsIssue[]=[]
   getClgHos_IssueWihtoutAI:ClgHos_IssueWihtoutAI[]=[]
+  RCstatusDetails:any[]=[];
+
   dataSource = new MatTableDataSource<any>();
   dataSource2 = new MatTableDataSource<any>();
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
   dataSource6 = new MatTableDataSource<any>();
   dataSource5 = new MatTableDataSource<any>();
+  dataSource8 = new MatTableDataSource<any>();
+  @ViewChild('paginator8') paginator8!: MatPaginator;
+  @ViewChild('sort8') sort8!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
@@ -203,7 +225,7 @@ colors = [];
     'Finance Dashboard':'assets/dash-icon/dashboard.png',
 
   };
-  constructor(private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
+  constructor(public toastr: ToastrService,private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
     
    
     this.chartOptions = {
@@ -871,7 +893,7 @@ colors = [];
     this.loadData();
     // this.loadData1();
     // this.loadData2();
-    // this.loadData3();
+    this.loadData3();
     this.loadStockoutDHS();
     // this.loadIndent();
     this.Nearexp();
@@ -1083,6 +1105,102 @@ colors = [];
     //     console.error('Error fetching data', error);
     //   }
     // );
+}
+
+loadData3(): void {
+  
+
+  this.api.getTotalRC(this.mcid).subscribe(
+    (data: any) => {
+      const categories: string[] = [];
+      const edl: number[] = [];
+      const nedl: number[] = [];
+      const total: number[] = [];
+
+      console.log('Delivered from warehouse Response:', data);
+
+      data.forEach((item: any) => {
+        categories.push(item.mcategory);
+        edl.push(item.edl);
+        nedl.push(item.nedl);
+        total.push(item.total);
+      });
+
+      // Update the bar chart
+      this.chartOptions3 = {
+        series: [
+          {
+            name: 'EDL',
+            data: edl
+          },
+          {
+            name: 'Non-EDL',
+            data: nedl
+          },
+          {
+            name: 'Total',
+            data: total
+          }
+        ],
+        chart: {
+          type: "bar",
+          height: 300
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false, // Set to true for horizontal bar chart
+            columnWidth: "50%",
+            endingShape: "rounded"
+          }
+        },
+        dataLabels: {
+          enabled: true
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"]
+        },
+        xaxis: {
+          categories: categories // Dynamically set categories from API response
+        },
+        yaxis: {
+          title: {
+            text: "NOS RC"
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val: number) {
+              return val.toString();
+            }
+          }
+        },
+        legend: {
+          position: "top"
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ]
+      } as any;
+    },
+    (error: any) => {
+      console.error('Error fetching data', error);
+    }
+  );
 }
 
 
@@ -1702,6 +1820,61 @@ GetDMEIssueWihtoutAI(): void {
           }
         });  
       }
+      
+
+      getstatusDetails() {
+            
+        this.spinner.show();
+      
+      
+      
+        this.api.NearExpRCDetails(this.mcid,0).subscribe({
+          next: (res: any[]) => {
+            if (res && res.length > 0) {
+              this.RCstatusDetails = res.map((item: any, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }));
+      
+              this.dataSource8.data = this.RCstatusDetails;
+              this.dataSource8.paginator = this.paginator8;
+              this.dataSource8.sort = this.sort8;
+            } else {
+              this.toastr.error('No data found');
+            }
+          },
+          error: (err) => {
+            console.error('API error:', err);
+            this.toastr.error('Failed to load data');
+          },
+          complete: () => {
+            this.spinner.hide();
+          }
+        });
+      
+        this.openDialogHOD();
+      }
+      openDialogHOD() {
+        // this.getTotalTenderValue()
+        
+          const dialogRef = this.dialog.open(this.StatusDetailsModal, {
+           width: '100%',
+           height: '100%',
+           maxWidth: '100%',
+           panelClass: 'full-screen-dialog', // Optional for additional styling
+           data: {
+             /* pass any data here */
+           },
+           // width: '100%',
+           // maxWidth: '100%', // Override default maxWidth
+           // maxHeight: '100%', // Override default maxHeight
+           // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+           // height: 'auto',
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+           console.log('Dialog closed');
+          });
+          }
 
       GetPartiIndent(){
   
@@ -1935,7 +2108,7 @@ GetDMEIssueWihtoutAI(): void {
     // this.loadIndent(),
     this.loadData4(),
     this.Nearexp(),
-    // this.loadData3(), // Drug rate contract
+    this.loadData3(), // Drug rate contract
     // this.loadUQC(),
     // this.loadStockoutDHS(),
     this.CGMSCIndentPending(),
@@ -1954,6 +2127,68 @@ GetDMEIssueWihtoutAI(): void {
     }
   );
 }
+
+
+
+
+exportToPDFHODDetails() {
+  const doc = new jsPDF('l', 'mm', 'a4'); // landscape
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC  Details';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+
+  const columns = [
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item ID', dataKey: 'itemid' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'Strength', dataKey: 'strength1' },
+    { header: 'Unit', dataKey: 'unit' },
+    { header: 'Basic Rate', dataKey: 'basicrate' },
+    { header: 'GST (%)', dataKey: 'gst' },
+    { header: 'Final Rate (incl. GST)', dataKey: 'finalrategst' },
+    { header: 'RC Start', dataKey: 'rcStart' },
+    { header: 'RC End', dataKey: 'rcEndDT' },
+  ];
+
+  const rows = this.RCstatusDetails.map((item: any, index: number) => ({
+    sno: index + 1,
+    itemid: item.itemid,
+    itemcode: item.itemcode,
+    itemname: item.itemname,
+    strength1: item.strength1,
+    unit: item.unit,
+    basicrate: item.basicrate,
+    gst: item.gst,
+    finalrategst: item.finalrategst,
+    rcStart: item.rcStart,
+    rcEndDT: item.rcEndDT,
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.header)],
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('RC_Details.pdf');
+}
+
     
-  }
+}
 

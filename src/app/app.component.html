@@ -84,9 +84,21 @@
     </h4>
   
     <!-- Logout button on the far right -->
-    <button mat-icon-button (click)="logout()" class="logout-button">
-      <mat-icon>exit_to_app</mat-icon>
-    </button>
+    <!-- logout() -->
+  <!-- Back Button -->
+ <!-- Back Button -->
+ <button mat-button (click)="goBack()" class="back-button" aria-label="Back">
+  <!-- <mat-icon>arrow_back</mat-icon> -->
+  <span class="button-label">Back</span>
+</button>
+
+<span class="spacer"></span>
+
+<!-- Logout Button -->
+<button mat-button (click)="logout()" class="logout-button" aria-label="Logout">
+  Logout
+</button>
+
   </mat-toolbar>
   
 

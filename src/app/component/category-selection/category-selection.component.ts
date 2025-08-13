@@ -5,7 +5,7 @@ import { HardcodedAuthenticationService } from 'src/app/service/authentication/h
 import { MenuServiceService } from 'src/app/service/menu-service.service';
 
 // Define the Category type
-type Category = 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure';
+type Category = 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure' | 'Admin';
 
 @Component({
   selector: 'app-category-selector',
@@ -14,7 +14,7 @@ type Category = 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure';
 })
 export class CategorySelectionComponent implements OnInit {
   // Available categories as cards with the Category type
-  categories: Category[] = ['DrugsConsumables', 'EquipmentReagent', 'Infrastructure']; 
+  categories: Category[] = ['DrugsConsumables', 'EquipmentReagent', 'Infrastructure','Admin']; 
   selectedCategory: Category | '' = ''; // To store the selected category
   menuItems: { label: string; route: string }[] = [];
   role: any = ''; // Dynamic role
@@ -44,11 +44,25 @@ export class CategorySelectionComponent implements OnInit {
       this.updateMenu(); // Update the menu based on the stored category
     }
   }
+  shouldDisplayCategory(category: string): boolean {
+    if (this.role === 'HR') {
+      return category === 'Admin';
+    }
+  
+    if (this.role === 'CME' || this.role === 'DME1') {
+      return category !== 'Admin';
+    }
+  
+    return true;
+  }
+  
+  
  
   
 
   // Card click handler
   selectCategory(category: Category) {
+    
     this.selectedCategory = category; // Set the selected category
     localStorage.setItem('selectedCategory', category);
     this.menuService.setSelectedCategory(category); // Store the category in MenuService
@@ -59,6 +73,12 @@ export class CategorySelectionComponent implements OnInit {
 
     }else if(this.role==="CME"){
       this.router.navigate(['/cmedash']); // Redirect after selection
+
+    }else if(this.selectedCategory==='EquipmentReagent'){
+      this.router.navigate(['/eqp-dash']); // Redirect after selection
+
+    }else if(this.selectedCategory==='Admin'){  
+      this.router.navigate(['/admin-dash']); // Redirect after selection
 
     }
     else
@@ -83,6 +103,8 @@ export class CategorySelectionComponent implements OnInit {
         return 'assets/images/equipment-reagents.jpg';
       case 'Infrastructure':
         return 'assets/images/infrastructure.jpg';
+      case 'Admin':
+        return 'assets/images/admin.jpg';
       default:
         return 'assets/images/default-image.jpg';
     }

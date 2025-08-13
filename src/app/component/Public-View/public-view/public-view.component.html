@@ -53,7 +53,7 @@
       <!-- <div class="col-12 col-sm-6 col-md-3 mb-3"  >
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
           <div class="card-body" (click)="go(1)"   >
-            <h6 class="card-title">No of Drugs Purchase Ordered in C.F.Y.</h6>
+            <h6 class="card-title">No of Drugs Purchase Ordered in Current Financial Year.</h6>
             <h2 class="card-value">{{totalpoitems}}</h2>
             <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
           </div>
@@ -64,7 +64,7 @@
       <div class="col-12 col-sm-6 col-md-4 mb-3">
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
           <div class="card-body"  (click)="go(2)" >
-            <h6 class="card-title">C.F.Y. Items Distribution</h6>
+            <h6 class="card-title">Current Financial Year. Items Distribution</h6>
             <h2 class="card-value">{{nositemsI}}</h2>
             <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p>
             
@@ -77,7 +77,7 @@
       <div class="col-12 col-sm-6 col-md-4 mb-3">
         <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
           <div class="card-body"   (click)="go(3)" >
-            <h6 class="card-title">C.F.Y. Indent Fulfillment to Health facilities</h6>
+            <h6 class="card-title">Current Financial Year. Indent Fulfillment to Health facilities</h6>
             <h2 class="card-value">{{nosindent}}</h2>
             <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
             <img src="assets/dash-icon/tap.png" alt="tap icon" style="width: 30px; height: auto;" class="d-block ms-auto" >
@@ -191,7 +191,7 @@
             <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
             <div>
               
-              <h5 class="card-title ml-3">Annual Indent of  C.F.Y. </h5>
+              <h5 class="card-title ml-3">Annual Indent of  Current Financial Year. </h5>
               <!-- <p class="card-text">{{currentMonth}} Month</p> -->
             </div>
           </div>
@@ -425,8 +425,11 @@
         <!-- <h1>AS Completed Details</h1> -->
         <h1 class="text-info-emphasis">Details</h1>
       </div>
-      <div class="col-lg-6 col-md-4 text-end">
+      <!-- <div class="col-lg-6 col-md-4 text-end">
         <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+      </div> -->
+      <div class="col-lg-6 col-md-4 text-end">
+        <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
       </div>
     </div>
     <div class="" mat-dialog-content>

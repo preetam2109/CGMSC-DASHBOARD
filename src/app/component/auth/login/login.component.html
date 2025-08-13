@@ -1,8 +1,22 @@
+<!-- <div class="container-fluid theme-navbar px-2 py-1">
+  <div class="d-flex flex-wrap justify-content-between align-items-center">
+
+    <div class="d-flex">
+      <input type="button" class="color-input border rounded-circle me-2"
+        [style.background]="gradients[0]" (click)="setTheme(gradients[0])">
+      <input type="button" class="color-input border rounded-circle me-2"
+        [style.background]="gradients[1]" (click)="setTheme(gradients[1])">
+      <input type="button" class="color-input border rounded-circle"
+        [style.background]="gradients[2]" (click)="setTheme(gradients[2])">
+    </div>
+  </div>
+</div> -->
+
 <div class="container-fluid vh-100 d-flex flex-column">
   <!-- new code -->
   <!-- Header style="border: 2px solid;" -->
-  <div class="row">
-    <header class="header text-white  py-3 p-0 m-0 bg-success border rounded">
+  <div class="row ">
+    <header class="header text-white  py-3 p-0 m-0 bg-success border rounded ">
       <div class="container d-flex flex-wrap justify-content-between align-items-center">
         <!-- Left Logo -->
          <div class="col-12 col-md-3">
@@ -222,6 +236,12 @@
               <i style="color: red;" class="bi bi-file-pdf"></i>
             </a>
           </li>
+          <li>
+            3. Essential Drug List for District Hospital 2021
+            <a href="https://dpdmis.in/DPDMISStock/pdf/EDL_2021_17122021.pdf" target="_blank">
+                <i style="color: red;" class="bi bi-file-pdf"></i>
+            </a>
+        </li>
 
         </ul>
       </div>
@@ -560,7 +580,7 @@
 
                   <div class="mb-3">
                     <button type="button" class="btn btn-success btn-sm" (click)="sendOTP()">Generate OTP</button>
-                    <input type="text" id="otpInput" class="form-control" maxlength="6" [(ngModel)]="otp" name="otp"
+                    <input type="text" id="otpInput" class="form-control" maxlength="5" [(ngModel)]="otp" name="otp"
                       placeholder="Enter otp " required>
 
                   </div>
@@ -812,10 +832,21 @@
                 </div>
                 <div class="marquee-item">
 
-                  <img src="assets/images/kiranKaushal.jpg" alt="DHS  Image">
+                  <img src="assets/images/NMD.jpeg" alt="MD Image">
                 <strong>
-                  Smt Kiran Kaushal (IAS)
-                  Commissioner Medical Education
+                  <!-- Smt. Padmini Bhoi Sahu (IAS)
+                  Managing Director CGMSCL -->
+                  Shri Ritesh Kumar Aggarwal (IAS) 
+                  Managing Director CGMSCL
+                  <!-- श्री रितेश कुमार अग्रवाल (आईएएस) प्रबंध निदेशक सीजीएमएससीएल -->
+                </strong>
+                </div>
+                <div class="marquee-item">
+
+                  <img src="./assets/images/sikharajputtiwari.webp" alt="DHS  Image">
+                <strong>
+                  Smt Shikha Rajput Tiwari (IAS)
+                  Comm. Medical Education
                 </strong>
                 </div>
                 <div class="marquee-item">
@@ -823,18 +854,11 @@
                   <img src="assets/images/Dr.Priyanka_Sukla.jpeg" alt="DHS  Image">
                 <strong>
                   Dr. Priyanka Shukla (IAS)
-                  Commissioner-cum-Director of 
+                  Comm. cum-Director of 
                   Health Services
                 </strong>
                 </div>
-                <div class="marquee-item">
-
-                  <img src="assets/images/MD.jpeg" alt="MD Image">
-                <strong>
-                  Smt. Padmini Bhoi Sahu (IAS)
-                  Managing Director CGMSCL
-                </strong>
-                </div>
+                
                 
 
               </div>

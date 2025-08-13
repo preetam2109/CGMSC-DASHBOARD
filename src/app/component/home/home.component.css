@@ -139,7 +139,8 @@ border-radius: 0;
 }
 
 .table-responsive {
-  margin-top: 20px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .filter-field {
@@ -208,6 +209,79 @@ border-radius: 0;
     /* color: crimson; */
   }
 }
+
+
+
+
+
+/* Custom styles for the popup table container */
+.table-container-popup {
+  height: 60vh;
+  overflow: auto;
+  position: relative;
+  }
+  
+  /* Force sticky behavior */
+  ::ng-deep .mat-mdc-table thead {
+  background: white;
+  }
+  
+  ::ng-deep .mat-mdc-table thead th.mat-mdc-header-cell {
+  position: sticky !important;
+  top: 0;
+  z-index: 100;
+  background: #f5f5f5;
+  }
+  
+  /* Remove conflicting styles */
+  .table-responsive {
+    overflow: auto !important;
+  }
+  
+  
+  /* Optional: Style improvements */
+  .mat-mdc-table {
+  width: 100%;
+  }
+  
+  .mat-mdc-header-cell {
+  font-weight: bold;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  }
+  
+  .mat-mdc-cell {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  }
+  
+  /* Add to your component CSS */
+  ::ng-deep .custom-dialog .mat-mdc-dialog-container {
+  padding: 0;
+  }
+  
+  ::ng-deep .custom-dialog .mat-mdc-dialog-content {
+    max-height: calc(80vh - 100px);
+    overflow-y: auto;  /* ✅ Fix for sticky to work */
+  }
+
+  /* Ensure parent container allows vertical scrolling */
+::ng-deep .mat-dialog-content {
+  max-height: 70vh;       /* Ensure the content can scroll */
+  overflow-y: auto !important; /* Scroll must be enabled */
+}
+
+/* Sticky Header */
+::ng-deep table.mat-table thead th.mat-header-cell {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ccc;
+}
+  
+
+
 
 
 

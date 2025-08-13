@@ -1,0 +1,251 @@
+
+
+<div class="container-fluid py-4">
+    <div class="container" style="text-align: center; max-width: 100%; overflow-x: auto;">
+      <h1>
+        <!-- CGMSC Institute/CME wise Issuance -->
+        Medical College/Hospital Wise Annual Indent Vs Issue and NOC From CGMSC
+
+      </h1>
+      <!-- <h1 *ngIf="roleName==='Warehouse'">Warehouse Stock Details</h1> -->
+
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+        <!-- <label class="form-label"><strong>Select Fund Head</strong>:</label> -->
+        <ng-select
+          [items]="MasfacilityInfoUser"
+          bindLabel="facilityname"
+          bindValue="facilityid"
+          [(ngModel)]="facilityid"
+          name="facilityid"
+          (change)="onISelectChange($event)"
+          #emailidField="ngModel"
+          [placeholder]="!facilityid?'Select Facility Name' : ''"
+          [searchable]="true"
+          [clearable]="true"
+          [appendTo]="'body'"
+          required
+          class="form-control"
+        >
+        </ng-select>
+        </div>
+
+    <div class="col-12 col-md-6 mb-3">
+        <!-- <label class="form-label"><strong>Select Fund Head</strong>:</label> -->
+        <ng-select
+          [items]="Year"
+          bindLabel="accyear"
+          bindValue="accyrsetid"
+          [(ngModel)]="accyrsetid"
+          name="accyrsetid"
+          (change)="onISelectChangeYear($event)"
+          #emailidField="ngModel"
+          [placeholder]="!accyrsetid?'Select Year ' : ''"
+          [searchable]="true"
+          [clearable]="true"
+          [appendTo]="'body'"
+          required
+          class="form-control"
+        >
+        </ng-select>
+        </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6 d-flex flex-wrap">
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategory"
+              value="Drugs" (change)="updateSelectedHodid()"  />
+            <label class="form-check-label" for="drugs">Drugs</label>
+          </div>
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" [(ngModel)]="selectedCategory"
+              value="Consumables" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="consumables">Consumables</label>
+          </div>
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" [(ngModel)]="selectedCategory"
+              value="Reagent" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="reagent">Reagent</label>
+          </div>
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategory"
+              value="AYUSH" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="ayush">AYUSH</label>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 text-center mb-2">
+        <button class="btn btn-primary  w-md-auto" (click)="getAllDispatchPending()">Show Details</button>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 table-container mb-4">
+          <div class="text d-flex mt-3">
+            <!-- <p class="text-warning">
+              EMD Data is taken in DPDMIS from Year 2022-23 onwards
+            </p> -->
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div class="export-menu-container">
+              <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-button (click)="exportToPDF()">PDF</button>
+    
+              </mat-menu>
+            </div>
+          </div>
+    
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+    
+<!-- S.No Column (Optional if not in data) -->
+<ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef> S.No </th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+  </ng-container>
+  
+  <!-- itemid -->
+  <ng-container matColumnDef="itemid">
+    <th mat-header-cell *matHeaderCellDef> Item ID </th>
+    <td mat-cell *matCellDef="let element"> {{ element.itemid }} </td>
+  </ng-container>
+  
+  <!-- itemcode -->
+  <ng-container matColumnDef="itemcode">
+    <th mat-header-cell *matHeaderCellDef> Code </th>
+    <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+  </ng-container>
+  
+  <!-- itemname -->
+  <ng-container matColumnDef="itemname">
+    <th mat-header-cell *matHeaderCellDef> Item </th>
+    <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+  </ng-container>
+  
+  <!-- strength1 -->
+  <ng-container matColumnDef="strength1">
+    <th mat-header-cell *matHeaderCellDef> Strength </th>
+    <td mat-cell *matCellDef="let element"> {{ element.strength1 }} </td>
+  </ng-container>
+  
+  <!-- unit -->
+  <ng-container matColumnDef="unit">
+    <th mat-header-cell *matHeaderCellDef> Unit </th>
+    <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+  </ng-container>
+  
+  <!-- unitcount -->
+  <ng-container matColumnDef="unitcount">
+    <th mat-header-cell *matHeaderCellDef> Unit Count </th>
+    <td mat-cell *matCellDef="let element"> {{ element.unitcount }} </td>
+  </ng-container>
+  
+  <!-- ai -->
+  <ng-container matColumnDef="ai">
+    <th mat-header-cell *matHeaderCellDef> AI </th>
+    <td mat-cell *matCellDef="let element"> {{ element.ai }} </td>
+  </ng-container>
+  
+  <!-- ainos -->
+  <ng-container matColumnDef="ainos">
+    <th mat-header-cell *matHeaderCellDef> AI (Nos) </th>
+    <td mat-cell *matCellDef="let element"> {{ element.ainos }} </td>
+  </ng-container>
+  
+  <!-- issuedQTY -->
+  <ng-container matColumnDef="issuedQTY">
+    <th mat-header-cell *matHeaderCellDef> Issued Qty </th>
+    <td mat-cell *matCellDef="let element"> {{ element.issuedQTY }} </td>
+  </ng-container>
+  
+  <!-- issueqtynos -->
+  <ng-container matColumnDef="issueqtynos">
+    <th mat-header-cell *matHeaderCellDef> Issued Qty (Nos) </th>
+    <td mat-cell *matCellDef="let element"> {{ element.issueqtynos }} </td>
+  </ng-container>
+  
+  <!-- issuePEr -->
+  <ng-container matColumnDef="issuePEr">
+    <th mat-header-cell *matHeaderCellDef> Issue % </th>
+    <td mat-cell *matCellDef="let element"> {{ element.issuePEr }} </td>
+  </ng-container>
+  
+  <!-- nocqty -->
+  <ng-container matColumnDef="nocqty">
+    <th mat-header-cell *matHeaderCellDef> NOC Qty </th>
+    <td mat-cell *matCellDef="let element"> {{ element.nocqty }} </td>
+  </ng-container>
+  
+  <!-- nocqtyinNos -->
+  <ng-container matColumnDef="nocqtyinNos">
+    <th mat-header-cell *matHeaderCellDef> NOC Qty (Nos) </th>
+    <td mat-cell *matCellDef="let element"> {{ element.nocqtyinNos }} </td>
+  </ng-container>
+  
+  <!-- color -->
+  <ng-container matColumnDef="color">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> color</th>
+    <td mat-cell *matCellDef="let element"> {{ element.color}} </td>
+  </ng-container>
+                    
+    
+              <!-- Header Row -->
+              <tr mat-header-row *matHeaderRowDef="['sno',
+              
+              'itemcode',
+              'itemname',
+              'strength1',
+              'unit',
+              'unitcount',
+              'ai',
+              'ainos',
+              'issuedQTY',
+              'issueqtynos',
+              'issuePEr',
+              'nocqty',
+              'nocqtyinNos',
+              ]"></tr>
+    
+              <!-- Data Rows -->
+              <tr mat-row *matRowDef="let row; columns: [ 'sno',
+              
+              'itemcode',
+              'itemname',
+              'strength1',
+              'unit',
+              'unitcount',
+              'ai',
+              'ainos',
+              'issuedQTY',
+              'issueqtynos',
+              'issuePEr',
+              'nocqty',
+              'nocqtyinNos',
+              ];"
+             [ngStyle]="{
+                'background-color': row.color === 'Red' ? '#f8d7da' :
+                                    row.color === 'White' ? '#fff3cd' :
+                                    row.color === 'Yellow' ? '#d6d8d9' : ''
+              }">
+              </tr>
+    
+            </table>
+          </div>      
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+    
+
+
+
+
+ 

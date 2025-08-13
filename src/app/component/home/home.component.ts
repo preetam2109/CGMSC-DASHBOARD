@@ -13,7 +13,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { style } from '@angular/animations';
-import { forkJoin } from 'rxjs';
+import { Observable, catchError, finalize, forkJoin, map, of, reduce, tap } from 'rxjs';
+import { WOpendingTotal } from 'src/app/Model/DashProgressCount';
+import autoTable from 'jspdf-autotable';
+import { ToastrService } from 'ngx-toastr';
+import jsPDF from 'jspdf';
+
+import { StockStatusModel, whstockoutin,StockOutDetailsmodel,IssuePerDetailModel,WhStockOutInDetailModel} from 'src/app/Model/DashLoginDDL';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -49,6 +55,17 @@ throw new Error('Method not implemented.');
   nositems: number = 0;
   mcid=1
   selectedCategoryRadio:any='Drugs';
+  NormalZonal:any=0;
+  wOpendingTotal:any;
+  LIPendingTotal:any
+  RunningWork:any
+  handoverAbstractl:any;
+  paidSummary:any;
+  RCstatusDetails:any[]=[];
+  parameterNew:any;
+  title1:any;
+
+
 
   totalpoitems:any
   totalrecvalue:any
@@ -69,13 +86,29 @@ throw new Error('Method not implemented.');
   PartPOsSince1920list:any
   PartItemissuelist:any
   PartItemRClist:any
-  dataSource = new MatTableDataSource<any>();
-  dataSource2 = new MatTableDataSource<any>();
-  dataSource3 = new MatTableDataSource<any>();
-  dataSource4 = new MatTableDataSource<any>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  totalNoTenders: number = 0;
+  totalRC1: any;
+  totalRC1details: any;
+
+
+  @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
+  @ViewChild('RCDetailsModal') RCDetailsModal: any;
+
+
+    dataSource = new MatTableDataSource<any>();
+    dataSource2 = new MatTableDataSource<any>();
+    dataSource3 = new MatTableDataSource<any>();
+    dataSource4 = new MatTableDataSource<any>();
+    dataSource8 = new MatTableDataSource<any>();
+    dataSource9 = new MatTableDataSource<any>();
+    @ViewChild('paginator8') paginator8!: MatPaginator;
+    @ViewChild('sort8') sort8!: MatSort;
+    @ViewChild('paginator9') paginator9!: MatPaginator;
+    @ViewChild('sort9') sort9!: MatSort;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator2!: MatPaginator;
+    @ViewChild(MatPaginator) paginator2!: MatPaginator;
     @ViewChild(MatSort) sort2!: MatSort;
     @ViewChild(MatPaginator) paginator3!: MatPaginator;
     @ViewChild(MatSort) sort3!: MatSort;
@@ -85,6 +118,99 @@ throw new Error('Method not implemented.');
     selectedCategory:any='';
   
   
+
+
+    @ViewChild('StockOutDetailsModal') StockOutDetailsModal: any;
+    @ViewChild('IssuePerDetailModal') IssuePerDetailModal: any;
+    @ViewChild('WhStockOutInDetailModal') WhStockOutInDetailModal: any;
+
+    dispatch_WhStockOutInDetail:WhStockOutInDetailModel[]=[];
+    WhStockOutInDetail = new MatTableDataSource<WhStockOutInDetailModel>();
+  
+    dispatch_IssueperDetails:IssuePerDetailModel[]=[];
+    dispatch_StockOutDetails:StockOutDetailsmodel[]=[];
+    dispatch_whstockoutin:whstockoutin[]=[];
+    dispatchdata: StockStatusModel[] = [];
+    IssuePerDetailsdata = new MatTableDataSource<IssuePerDetailModel>();
+    StockoutDetailsdata = new MatTableDataSource<StockOutDetailsmodel>();
+    StockStatusdata = new MatTableDataSource<StockStatusModel>();
+    whstockoutindata = new MatTableDataSource<whstockoutin>();
+    @ViewChild('paginator10') paginator10!: MatPaginator;
+    @ViewChild('sort10') sort10!: MatSort;
+    @ViewChild('paginator11') paginator11!: MatPaginator;
+    @ViewChild('sort11') sort11!: MatSort;
+    @ViewChild('paginator12') paginator12!: MatPaginator;
+    @ViewChild('sort12') sort12!: MatSort;
+    @ViewChild('paginator13') paginator13!: MatPaginator;
+    @ViewChild('sort13') sort13!: MatSort;
+    @ViewChild('paginator14') paginator14!: MatPaginator;
+  @ViewChild('sort14') sort14!: MatSort;
+    displayedColumns: string[] = [
+      // "sno",
+      "parameterNew",
+      "cntItems",
+      "pricecnt",
+      "evalutioncnt",
+      "livecnt",
+      "rentendercn",
+      // "action"
+    ];
+    displayedColumns1: string[] = [
+      "sno",
+      "itemcode",
+      "itemname",
+      "sku",
+      // "unitcount",
+      "dhsaiqty",
+      "dmeaiqty",
+      "avgIssueqty_Last3FY",
+      "tenderstatus",
+      "tenderstartdt",
+      "coV_A_OPDATE",
+      "dayssince",
+      "parameterNew",
+      "styockPer",
+      "pricecnt",
+      "evalutioncnt",
+      "livecnt",
+      "rentendercn",
+      // "action"
+  
+      
+    ];
+
+    displayedColumns2: string[] = [
+      "sno",
+      "warehousename",
+      "stockout",
+      "stockin",
+      "noofitems",
+      
+      // "action"
+  
+      // sno!:number;
+      // warehouseid!:number;
+      // warehousename!:string;
+      // noofitems!:number;
+      // stockout!:number;
+      // stockin!:number;
+    ];
+
+    displayedColumns3: string[] = [
+      "sno",
+      
+      "warehousename",
+      "itemcode",
+      "itemname",
+      "strength",
+      "sku",
+      "readyforissue",
+      "pending",
+      // "stockOut",
+      // "stockIn",
+      // "action"
+      
+    ];
 
 
 
@@ -257,20 +383,32 @@ colors = [];
     'Tender Evaluation':'assets/dash-icon/check-list.png',
     'Live Tender':'assets/dash-icon/auction.png',
     'To be Tender':'assets/dash-icon/tender.png',
-    'Payment':'assets/dash-icon/payment.png',
+    'Payment Tracker':'assets/dash-icon/payment.png',
     'Search Work':'assets/dash-icon/analysis.png',
     'Work Abstract':'assets/dash-icon/analysis_.png',
     'Administrative Sanction':'assets/dash-icon/blogger.png',
-    'Land Issue':'assets/dash-icon/barrier.png',
+    'Land Issues':'assets/dash-icon/barrier.png',
     'Technical Sanction':'assets/dash-icon/deadline.png',
-    'Division Progress Monitoring':'assets/dash-icon/planning.png',
+    'Monitoring with Geographic Coordinate':'assets/dash-icon/planning.png',
     'District-wise Progress':'assets/dash-icon/online-report.png',
-    'Engineer-Works':'assets/dash-icon/person.png',
+    'Engineer Work Tracker':'assets/dash-icon/person.png',
     'Payment Time Taken':'assets/dash-icon/saving.png',
     'Finance Dashboard':'assets/dash-icon/dashboard.png',
+    'Dashboard':'assets/dash-icon/dashboard.png',
+    'Handover Insights':'assets/dash-icon/hand-over.png'
+    
+
+
 
   };
-  constructor(private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
+  constructor(public toastr: ToastrService,private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
+
+    this.StockStatusdata = new MatTableDataSource<StockStatusModel>([]);
+    this.whstockoutindata = new MatTableDataSource<whstockoutin>([]);
+    this.StockoutDetailsdata = new MatTableDataSource<StockOutDetailsmodel>([]);
+    this.IssuePerDetailsdata = new MatTableDataSource<IssuePerDetailModel>([]);
+    this.WhStockOutInDetail = new MatTableDataSource<WhStockOutInDetailModel>([]);
+
     
    
     this.chartOptions = {
@@ -798,8 +936,29 @@ colors = [];
       },
     };
   }
-
+  applyTextFiltertotal(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource8.filter = filterValue.trim().toLowerCase();
+  
+    if (this.dataSource8.paginator) {
+      this.dataSource8.paginator.firstPage();
+    }
+  }
+  applyTextFiltertotalRC(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource9.filter = filterValue.trim().toLowerCase();
+  
+    if (this.dataSource9.paginator) {
+      this.dataSource9.paginator.firstPage();
+    }
+  }
   ngOnInit() {
+
+   
+    
+    this.spinner.show();
+    this.GETStockStatus(),
+    this.whstockoutin(),
      this.username = sessionStorage.getItem('authenticatedUser');
      
      this.role = this.basicAuthentication.getRole().roleName; // Fetch dynamic role from the authentication service
@@ -808,44 +967,221 @@ colors = [];
     //  this.addIconsToMenu();
     this.selectedCategory=this.menuService.getSelectedCategory();
 
+    forkJoin([
+     
+      this.CGMSCIndentPending().pipe(catchError(() => of(null))),
+      this.GetDeliveryInMonth().pipe(catchError(() => of(null))),
+      this.GetPOCountCFY().pipe(catchError(() => of(null))),
+      this.last7DaysIssue().pipe(catchError(() => of(null))),
+      // this.loadData().pipe(catchError(() => of(null))),
+      this.loadData1().pipe(catchError(() => of(null))),
+      this.loadData2().pipe(catchError(() => of(null))),
+      this.loadData3().pipe(catchError(() => of(null))),
+      this.loadStockoutDHS().pipe(catchError(() => of(null))),
+      this.loadIndent().pipe(catchError(() => of(null))),
+      this.Nearexp().pipe(catchError(() => of(null))),
+      this.loadUQC().pipe(catchError(() => of(null))),
+      this.loadData4().pipe(catchError(() => of(null))),
+      this.getItemNoDropDown().pipe(catchError(() => of(null))),
+      this.getTenderStatus().pipe(catchError(() => of(null))),
+      this.getTotalRC1().pipe(catchError(() => of(null))),
+      this.wOPendingTotal().pipe(catchError(() => of(null))),
+      this.getLIPendingTotal().pipe(catchError(() => of(null))),
+      this.gETRunningWorkSummary().pipe(catchError(() => of(null))),
+      this.handoverAbstract().pipe(catchError(() => of(null))),
+      this.gETPaidSummary().pipe(catchError(() => of(null))),
+    ]).pipe(
+      finalize(() => this.spinner.hide())
+    ).subscribe({
+      error: () => this.toastr.error('Some data failed to load')
+    });
+    // Collect all API observables
+  //   const apiCalls = [
+  //     this.CGMSCIndentPending(),
+  //     this.GetDeliveryInMonth(),
+  //     this.GetPOCountCFY(),
+  //     this.last7DaysIssue(),
+  //     this.loadData(),
+  //     this.loadData1(),
+  //     this.loadData2(),
+  //     this.loadData3(),
+  //     this.loadStockoutDHS(),
+  //     this.loadIndent(),
+  //     this.Nearexp(),
+  //     this.loadUQC(),
+  //     this.loadData4(),
+  //     this.getItemNoDropDown(),
+  //     this.getTenderStatus(),
+  //     this.getTotalRC1(),
+  //     this.wOPendingTotal(),
+  //     this.getLIPendingTotal(),
+  //     this.gETRunningWorkSummary(),
+  //     this.handoverAbstract(),
+  //     this.gETPaidSummary()
+  // ];
+
+  // // Execute all API calls in parallel
+  // forkJoin(apiCalls).pipe(
+  //     finalize(() => this.spinner.hide()) // Hide spinner when all complete
+  // ).subscribe({
+  //     error: () => this.toastr.error('Some data failed to load')
+  // });
+
+  }
+  gETPaidSummary(): Observable<any> {
+    return this.api.GETPaidSummary('GTotal', 0, 0, 0, '01-Apr-2025', '30-May-2025').pipe(
+      map((res: any[]) => {
+        const total = res.reduce((sum, item) => sum + Number(item?.noofWorks || 0), 0);
+        this.paidSummary = total;
+        return total;
+      }),
+      catchError(error => {
+        console.error('Failed to load paid summary:', error);
+        this.toastr?.error('Error loading paid summary');
+        this.paidSummary = 0;
+        return of(0);
+      })
+    );
+  }
+  
+  
+  handoverAbstract(): Observable<any> {
+    return this.api.HandoverAbstract('Total', 4001, 0, 0, 0, '01-Apr-2025', '30-May-2025', 0).pipe(
+      catchError(error => {
+        console.error('Failed to load handover abstract:', error);
+        this.toastr.error('Error loading handover data');
+        this.handoverAbstractl = 0;
+        return of([]); // return safe fallback
+      }),
+      tap((res: any[]) => {
+        this.handoverAbstractl = res.reduce((sum, item) => sum + Number(item.totalWorks || 0), 0);
+      })
+    );
+  }
+  
+  
+  getLIPendingTotal(): Observable<any> {
+    return this.api.GetLIPendingTotal('Total', 0, 0, 0).pipe(
+      map((res: any[]) => {
+        const total = res.reduce((sum, item) => sum + Number(item.totalWorks || 0), 0);
+        this.LIPendingTotal = total;
+        return total;
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch LI Pending Total:', error);
+        this.toastr.error('Error loading LI pending total');
+        return of(0);
+      })
+    );
+  }
+  
+
+  gETRunningWorkSummary(): Observable<any> {
+    return this.api.GETRunningWorkSummary('GTotal', 0, 0, 0, 0).pipe(
+      map((res: any[]) => {
+        const total = res.reduce((sum, item) => sum + Number(item.totalWorks || 0), 0);
+        this.RunningWork = total;
+        return total;
+      }),
+      catchError((error) => {
+        console.error('Failed to fetch running work summary:', error);
+        this.toastr.error('Error loading running work summary');
+        return of(0);
+      })
+    );
+  }
+  
+
+wOPendingTotal(): Observable<any> {
+  return this.api.WOPendingTotal('Total', 0, 0, 0).pipe(
+    map((res: any[]) => {
+      const total = res.reduce((sum, item) => sum + Number(item.pendingWork || 0), 0);
+      this.wOpendingTotal = total;
+      return total;
+    }),
+    catchError((error) => {
+      console.error('Failed to fetch WO Pending Total:', error);
+      this.toastr.error('Error loading Work Order pending total');
+      return of(0);
+    })
+  );
+}
+
+  getTotalRC1(): Observable<any[]> {
+    return this.api.GetTotalRC1(this.mcid,'Y').pipe(
+      tap((res: any[]) => {
+        this.totalRC1 = res;
+        console.log("TotalRC1 Response:", JSON.stringify(this.totalRC1));
+      }),
+      catchError((error) => {
+        console.error('Failed to load RC1 data:', error);
+        this.toastr.error('Error loading RC1 data');
+        return of([]); // or of(null) depending on your logic
+      })
+    );
+  }
+ 
+  
+
+
+  getTenderStatus(): Observable<any> {
+    if (this.selectedCategory === 'Infrastructure') {
+      return this.api.GetConsTenderStatus(this.NormalZonal).pipe(
+        map((res: any[]) => {
+          const total = res
+            .filter(item => item.tenderStatus !== 'To Be Tender')
+            .reduce((sum, item) => sum + (item.nosWorks || 0), 0);
+          this.totalNoTenders = total;
+          return total;
+        }),
+        catchError(error => {
+          console.error('Failed to load tender status (Cons):', error);
+          this.toastr.error('Error loading construction tender status');
+          return of(0);
+        })
+      );
+    } else {
+      return this.api.GetTenderStagesTotal(this.mcid).pipe(
+        map((res: any[]) => {
+          const total = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
+          this.totalNoTenders = total;
+          return total;
+        }),
+        catchError(error => {
+          console.error('Failed to load tender status:', error);
+          this.toastr.error('Error loading tender stages');
+          return of(0);
+        })
+      );
+    }
+  }
+  
+
+
+  getItemNoDropDown(): Observable<any[]> {
     
-    this.CGMSCIndentPending();
-    this.GetDeliveryInMonth();
-    this.GetPOCountCFY();
-    this.last7DaysIssue();
-    this.loadData();
-    this.loadData1();
-    this.loadData2();
-    this.loadData3();
-    this.loadStockoutDHS();
-    this.loadIndent();
-    this.Nearexp();
-    this.loadUQC();
-    this.loadData4();
-    this.getItemNoDropDown();
-  
-
-
+    return this.api.MasIndentitems(this.mcid, 0, 0, 0).pipe(
+      map((res: any[]) => {
+        if (res && res.length > 0) {
+          const mappedList = res.map(item => ({
+            itemid: item.itemid,
+            nameText: item.nameText
+          }));
+          this.MasIndentitemslist = mappedList;
+          return mappedList;
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          return [];
+        }
+      }),
+      catchError(error => {
+        console.error('Error fetching dropdown items:', error);
+        this.toastr.error('Failed to load item dropdown');
+        return of([]);
+      })
+    );
   }
-
-
-  getItemNoDropDown(){
   
-    this.api.MasIndentitems(this.mcid,0,0,0).subscribe((res:any[])=>{
-      // console.log(' Vehicle API dropdown Response:', res);
-      if (res && res.length > 0) {
-        this.MasIndentitemslist = res.map(item => ({
-          itemid: item.itemid, // Adjust key names if needed
-          nameText : item.nameText,
-          
-          
-        }));
-        // console.log('VehicleNoDropDownList :', this.VehicleNoDropDownList);
-      } else {
-        console.error('No nameText found or incorrect structure:', res);
-      }
-    });  
-  }
 
   // GetTotalRC(){
   //   this.api.getTotalRC().subscribe((res:any)=>{
@@ -859,39 +1195,68 @@ colors = [];
     })
 
   }
-  GetDeliveryInMonth(){
-    // let todayDT = new Date();
-    this.api.getDeliveryInMonth(0,0,0,0,this.mcid).subscribe((res:any)=>{
-      // this.dropindentid=res[0].dropindentid
-      this.nosindent=res[0].nosindent
-      this.indentIssued=res[0].indentIssued
-      this.nooffacIndented=res[0].nooffacIndented
-      // this.dropindentid=res[0].dropindentid
-        })
+  GetDeliveryInMonth(): Observable<any> {
+    return this.api.getDeliveryInMonth(0, 0, 0, 0, this.mcid).pipe(
+      tap((res: any) => {
+        this.nosindent = res[0].nosindent;
+        this.indentIssued = res[0].indentIssued;
+        this.nooffacIndented = res[0].nooffacIndented;
+      }),
+      catchError(error => {
+        console.error('Failed to load delivery data:', error);
+        this.toastr.error('Data not found');
+        return of([]); // or of(null), depending on how you handle failure
+      })
+    );
   }
-  GetPOCountCFY(){
-    this.api.getPOCountCFY(0,this.mcid,0).subscribe((res:any)=>{
-  this.totalpoitems=res[0].totalpoitems
-  this.totalpovalue=res[0].totalpovalue
-  this.totalrecvalue=res[0].totalrecvalue
-    })
+  
+  GetPOCountCFY(): Observable<any> {
+    return this.api.getPOCountCFY(0, this.mcid, 0).pipe(
+      tap((res: any) => {
+        this.totalpoitems = res[0].totalpoitems;
+        this.totalpovalue = res[0].totalpovalue;
+        this.totalrecvalue = res[0].totalrecvalue;
+      }),
+      catchError(error => {
+        console.error('Failed to load PO count:', error);
+        this.toastr.error('Data not found');
+        return of([]); // or of(null) based on your use case
+      })
+    );
   }
-  last7DaysIssue(){
-    this.api.Last7DaysIssue(0,this.mcid,0,0,0).subscribe((res:any)=>{
-  this.nositemsI=res[0].nositems  
-  this.totalValuecr=res[0].totalValuecr
-  this.nosfacility=res[0].nosfacility
-    })
+  
+  last7DaysIssue(): Observable<any> {
+    return this.api.Last7DaysIssue(0, this.mcid, 0, 0, 0).pipe(
+      tap((res: any) => {
+        this.nositemsI = res[0].nositems;
+        this.totalValuecr = res[0].totalValuecr;
+        this.nosfacility = res[0].nosfacility;
+      }),
+      catchError(error => {
+        console.error('Failed to load last 7 days issue data:', error);
+        this.toastr.error('Data not found');
+        return of([]); // or of(null) if more appropriate
+      })
+    );
   }
-  CGMSCIndentPending(){
+  
+  CGMSCIndentPending(): Observable<any> {
     
-    this.api.CGMSCIndentPending(this.mcid,0).subscribe((res:any)=>{
-      console.log('dsds',res);
-      this.nosIndent=res[0].nosIndent
-  this.nosfac=res[0].nosfac
-  this.nositems=res[0].nositems
-    })
+    return this.api.CGMSCIndentPending(this.mcid, 0).pipe(
+      tap((res: any) => {
+        console.log('dsds', res);
+        this.nosIndent = res[0].nosIndent;
+        this.nosfac = res[0].nosfac;
+        this.nositems = res[0].nositems;
+      }),
+      catchError(error => {
+        console.error('Failed to load CGMSC Indent Pending:', error);
+        this.toastr.error('Data not found');
+        return of([]); // return fallback value
+      })
+    );
   }
+  
   menuIcons(){
       
   }
@@ -998,7 +1363,7 @@ colors = [];
   //     ];
   //   });
   //   }
-  loadData(): void {
+  loadData(){
     // ;
     // const fromDate = '01-Jan-2025'; 
     // const toDate = '30-Jan-2025'; 
@@ -1047,11 +1412,9 @@ colors = [];
     // );
 }
 
-loadData3(): void {
-  
-
-  this.api.getTotalRC(this.mcid).subscribe(
-    (data: any) => {
+loadData3(): Observable<any[]> {
+  return this.api.getTotalRC(this.mcid).pipe(
+    tap((data: any) => {
       const categories: string[] = [];
       const edl: number[] = [];
       const nedl: number[] = [];
@@ -1069,54 +1432,34 @@ loadData3(): void {
       // Update the bar chart
       this.chartOptions3 = {
         series: [
-          {
-            name: 'EDL',
-            data: edl
-          },
-          {
-            name: 'Non-EDL',
-            data: nedl
-          },
-          {
-            name: 'Total',
-            data: total
-          }
+          { name: 'EDL', data: edl },
+          { name: 'Non-EDL', data: nedl },
+          { name: 'Total', data: total }
         ],
-        chart: {
-          type: "bar",
-          height: 300
-        },
+        chart: { type: "bar", height: 300 },
         plotOptions: {
           bar: {
-            horizontal: false, // Set to true for horizontal bar chart
+            horizontal: false,
             columnWidth: "50%",
             endingShape: "rounded"
           }
         },
-        dataLabels: {
-          enabled: true
-        },
+        dataLabels: { enabled: true },
         stroke: {
           show: true,
           width: 2,
           colors: ["transparent"]
         },
         xaxis: {
-          categories: categories // Dynamically set categories from API response
+          categories: categories
         },
         yaxis: {
-          title: {
-            text: "NOS RC"
-          }
+          title: { text: "NOS RC" }
         },
-        fill: {
-          opacity: 1
-        },
+        fill: { opacity: 1 },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
@@ -1126,28 +1469,25 @@ loadData3(): void {
           {
             breakpoint: 480,
             options: {
-              chart: {
-                width: 300
-              },
-              legend: {
-                position: "bottom"
-              }
+              chart: { width: 300 },
+              legend: { position: "bottom" }
             }
           }
         ]
       } as any;
-    },
-    (error: any) => {
+    }),
+    catchError(error => {
       console.error('Error fetching data', error);
-    }
+      this.toastr.error('Chart data failed to load');
+      return of([]); // fallback observable
+    })
   );
 }
 
-loadStockoutDHS(): void {
 
-
-  this.api.StockoutPer(this.mcid,1,0,2).subscribe(
-    (data: any) => {
+loadStockoutDHS(): Observable<any[]> {
+  return this.api.StockoutPer(this.mcid, 1, 0, 2).pipe(
+    tap((data: any[]) => {
       const edLtypeid: number[] = [];
       const edLtpe: string[] = [];
       const nositems: number[] = [];
@@ -1157,7 +1497,6 @@ loadStockoutDHS(): void {
       console.log('DHS Stock out percentage:', data);
 
       data.forEach((item: any) => {
-     
         edLtypeid.push(item.edLtypeid);
         edLtpe.push(item.edLtpe);
         nositems.push(item.nositems);
@@ -1165,12 +1504,10 @@ loadStockoutDHS(): void {
         stockoutp.push(item.stockoutp);
       });
 
-      // Update the bar chart
-      this.chartStockoutdhs = 
-      {
+      this.chartStockoutdhs = {
         series: [
           {
-            name: 'Total '+this.selectedCategoryRadio,
+            name: 'Total ' + this.selectedCategoryRadio,
             data: nositems
           },
           {
@@ -1188,32 +1525,31 @@ loadStockoutDHS(): void {
         },
         plotOptions: {
           bar: {
-            horizontal: false, // Set to true for horizontal bar chart
+            horizontal: false,
             columnWidth: "70%",
             endingShape: "rounded",
             dataLabels: {
-              position: "top" // Places data labels on top of bars
+              position: "top"
             }
           }
         },
-      
         stroke: {
           show: true,
           width: 1,
           colors: ["transparent"]
         },
         xaxis: {
-          categories: edLtpe // Dynamically set categories from API response
+          categories: edLtpe
         },
         yaxis: {
           title: {
-            text: "No of "+this.selectedCategoryRadio
-          },
+            text: "No of " + this.selectedCategoryRadio
+          }
         },
         dataLabels: {
           enabled: true,
           style: {
-            colors: ['#000'] 
+            colors: ['#000']
           }
         },
         fill: {
@@ -1221,9 +1557,7 @@ loadStockoutDHS(): void {
         },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
@@ -1243,18 +1577,19 @@ loadStockoutDHS(): void {
           }
         ]
       } as any;
-    },
-    (error: any) => {
+    }),
+    catchError(error => {
       console.error('Error fetching data', error);
-    }
+      this.toastr.error('Failed to load DHS Stockout data');
+      return of([]); // fallback observable
+    })
   );
 }
 
-loadIndent(): void {
 
-
-  this.api.IndentcntHome(this.mcid,0).subscribe(
-    (data: any) => {
+loadIndent(): Observable<any[]> {
+  return this.api.IndentcntHome(this.mcid, 0).pipe(
+    tap((data: any[]) => {
       const hod: string[] = [];
       const nositems: number[] = [];
       const returned: number[] = [];
@@ -1269,7 +1604,6 @@ loadIndent(): void {
         actualAI.push(item.actualAI);
       });
 
-      // Update the bar chart
       this.chartIndent = {
         series: [
           {
@@ -1291,32 +1625,31 @@ loadIndent(): void {
         },
         plotOptions: {
           bar: {
-            horizontal: false, // Set to true for horizontal bar chart
+            horizontal: false,
             columnWidth: "70%",
             endingShape: "rounded",
             dataLabels: {
-              position: "top" // Places data labels on top of bars
+              position: "top"
             }
           }
         },
-      
         stroke: {
           show: true,
           width: 1,
           colors: ["transparent"]
         },
         xaxis: {
-          categories: hod // Dynamically set categories from API response
+          categories: hod
         },
         yaxis: {
           title: {
             text: ""
-          },
+          }
         },
         dataLabels: {
           enabled: true,
           style: {
-            colors: ['#000'] 
+            colors: ['#000']
           }
         },
         fill: {
@@ -1324,9 +1657,7 @@ loadIndent(): void {
         },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
@@ -1346,18 +1677,19 @@ loadIndent(): void {
           }
         ]
       } as any;
-    },
-    (error: any) => {
+    }),
+    catchError(error => {
       console.error('Error fetching data', error);
-    }
+      this.toastr.error('Failed to load Indent chart');
+      return of([]); // Fallback value for forkJoin compatibility
+    })
   );
 }
 
-loadData4(): void {
-  
 
-  this.api.CGMSCStockHome(this.mcid).subscribe(
-    (data: any) => {
+loadData4(): Observable<any[]> {
+  return this.api.CGMSCStockHome(this.mcid).pipe(
+    tap((data: any[]) => {
       const edLtpe: string[] = [];
       const nositems: number[] = [];
       const stkvalue: number[] = [];
@@ -1372,50 +1704,45 @@ loadData4(): void {
         total.push(item.total);
       });
 
-      // Update the bar chart
       this.chartOptions4 = {
         series: [
           {
-            name: 'No of '+this.selectedCategoryRadio,
+            name: 'No of ' + this.selectedCategoryRadio,
             data: nositems,
-            color:'#072ac8'
+            color: '#072ac8'
           },
           {
             name: 'Value (in Cr)',
             data: stkvalue,
-            color:'#774e24'
+            color: '#774e24'
           }
-          
         ],
         chart: {
-          type: "bar",
-          stacked:true,
+          type: 'bar',
+          stacked: true,
           height: 300
-          
         },
         plotOptions: {
           bar: {
-            
-            horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "75%",
-            endingShape: "rounded"
+            horizontal: false,
+            columnWidth: '75%',
+            endingShape: 'rounded'
           }
         },
         dataLabels: {
           enabled: true
-          
         },
         stroke: {
           show: true,
           width: 2,
-          colors: ["transparent"]
+          colors: ['transparent']
         },
         xaxis: {
-          categories: edLtpe // Dynamically set categories from API response
+          categories: edLtpe
         },
         yaxis: {
           title: {
-            text: ""
+            text: ''
           }
         },
         fill: {
@@ -1423,13 +1750,11 @@ loadData4(): void {
         },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
-          position: "top"
+          position: 'top'
         },
         responsive: [
           {
@@ -1439,84 +1764,71 @@ loadData4(): void {
                 width: 300
               },
               legend: {
-                position: "bottom"
+                position: 'bottom'
               }
             }
           }
         ]
       } as any;
-    },
-    (error: any) => {
-      console.error('Error fetching data', error);
-    }
+    }),
+    catchError(error => {
+      console.error('Error fetching CGMSC Stock data', error);
+      this.toastr.error('Failed to load CGMSC stock chart');
+      return of([]);
+    })
   );
 }
 
-Nearexp(): void {
 
-  this.api.NearExp(this.mcid,5).subscribe(
-    (data:any) => {
-
+Nearexp(): Observable<any[]> {
+  return this.api.NearExp(this.mcid, 5).pipe(
+    tap((data: any[]) => {
       const nositems: number[] = [];
-      const mname: any[] = [];
+      const mname: string[] = [];
       const nosbatches: number[] = [];
       const stkvaluEcr: number[] = [];
-      console.log('helo :', data);
 
-      data.forEach((item:any)=> {
-       
+      console.log('Near expiry data:', data);
+
+      data.forEach((item: any) => {
         nositems.push(item.nositems);
-    
         mname.push(item.mname);
         nosbatches.push(item.nosbatches);
         stkvaluEcr.push(item.stkvaluEcr);
-        
       });
-      // console.log('klkllklkk',indentDT);
-
 
       this.chartNearexp.series = [
-
-  
-        { 
+        {
           name: 'Near Exp Value (in Cr)',
-          data: stkvaluEcr ,
-          color:'#5f0f40'
-        },
-     
-
-        
+          data: stkvaluEcr,
+          color: '#5f0f40'
+        }
       ];
 
       this.chartNearexp.xaxis = {
         categories: mname,
-        labels:{
-          style:{
-            // colors:'#390099',
-            fontWeight:'bold',
-            fontSize:'15px'
+        labels: {
+          style: {
+            fontWeight: 'bold',
+            fontSize: '15px'
           }
         }
-        
+      };
 
-        
-       };
       this.cO = this.chartNearexp;
-
-    },
-    (error: any) => {
-      console.error('Error fetching data', error);
-      
-    }
+    }),
+    catchError(error => {
+      console.error('Error fetching Near Exp data', error);
+      this.toastr.error('Failed to load Near Expiry chart');
+      return of([]); // Return empty observable to prevent breaking forkJoin
+    })
   );
 }
 
-loadUQC(): void {
-  
 
-  this.api.QCPendingHomeDash(this.mcid).subscribe(
-    (data: any) => {
-      
+loadUQC(): Observable<any[]> {
+  return this.api.QCPendingHomeDash(this.mcid).pipe(
+    tap((data: any[]) => {
       const categories: string[] = [];
       const nositems: number[] = [];
       const nosbatch: number[] = [];
@@ -1525,21 +1837,17 @@ loadUQC(): void {
       console.log('Under QC home Dashboard:', data);
 
       data.forEach((item: any) => {
-     
         categories.push(item.mcategory);
         nositems.push(item.nositems);
         nosbatch.push(item.nosbatch);
         stkvalue.push(item.stkvalue);
-        
       });
 
-      // Update the bar chart
       this.chartUQC = {
         series: [
           {
-            name: 'UQC Stock Value(in Cr)',
+            name: 'UQC Stock Value (in Cr)',
             data: stkvalue
-  
           },
           {
             name: 'No of Items',
@@ -1551,14 +1859,14 @@ loadUQC(): void {
           }
         ],
         chart: {
-          type: "bar",
+          type: 'bar',
           height: 300
         },
         plotOptions: {
           bar: {
-            horizontal: false, // Set to true for horizontal bar chart
-            columnWidth: "50%",
-            endingShape: "rounded"
+            horizontal: false,
+            columnWidth: '50%',
+            endingShape: 'rounded'
           }
         },
         dataLabels: {
@@ -1567,14 +1875,14 @@ loadUQC(): void {
         stroke: {
           show: true,
           width: 2,
-          colors: ["transparent"]
+          colors: ['transparent']
         },
         xaxis: {
-         categories: categories // Dynamically set categories from API response
+          categories: categories
         },
         yaxis: {
           title: {
-           text: "Under QC Info"
+            text: 'Under QC Info'
           }
         },
         fill: {
@@ -1582,13 +1890,11 @@ loadUQC(): void {
         },
         tooltip: {
           y: {
-            formatter: function (val: number) {
-              return val.toString();
-            }
+            formatter: (val: number) => val.toString()
           }
         },
         legend: {
-          position: "top"
+          position: 'top'
         },
         responsive: [
           {
@@ -1598,139 +1904,223 @@ loadUQC(): void {
                 width: 300
               },
               legend: {
-                position: "bottom"
+                position: 'bottom'
               }
             }
           }
         ]
       } as any;
-    },
-    (error: any) => {
-      console.error('Error fetching data', error);
-    }
+    }),
+    catchError(error => {
+      console.error('Error fetching UQC chart data', error);
+      this.toastr.error('Failed to load Under QC chart');
+      return of([]); // Prevent breaking forkJoin
+    })
   );
 }
 
-  loadData1(): void {
 
-        this.api.Last7DaysIssue(7,this.mcid,0,0,1).subscribe(
-          (data:any) => {
-            const nositems: number[] = [];
-            const indentDT: any[] = [];
-            const indentdate: any[] = [];
-            const totalValuecr: number[] = [];
-            const nosfacility: number[] = [];
-            console.log('helo :', data);
-
-            data.forEach((item:any)=> {
-             
-              nositems.push(item.nositems);
-              indentDT.push(item.indentDT.slice(0, 2));
-              indentdate.push(item.indentdate);
-              totalValuecr.push(item.totalValuecr);
-              nosfacility.push(item.nosfacility);
-              
-            });
-            // console.log('klkllklkk',indentDT);
-    
-    
-            this.chartOptions1.series = [
-    
-        
-              { 
-                name: 'totalValuecr',
-                data: totalValuecr ,
-                color:'#5f0f40'
-              },
-           
-    
-              
-            ];
- 
-            this.chartOptions1.xaxis = {
-              categories: indentDT,
-              labels:{
-                style:{
-                  // colors:'#390099',
-                  fontWeight:'bold',
-                  fontSize:'15px'
-                }
-              }
-              
-    
-              
-             };
-            this.cO = this.chartOptions1;
-   
-          },
-          (error: any) => {
-            console.error('Error fetching data', error);
+getstatusDetails() {
             
-          }
-        );
+  this.spinner.show();
+
+
+
+  this.api.NearExpRCDetails(this.mcid,0).subscribe({
+    next: (res: any[]) => {
+      if (res && res.length > 0) {
+        this.RCstatusDetails = res.map((item: any, index: number) => ({
+          ...item,
+          sno: index + 1,
+        }));
+
+        this.dataSource8.data = this.RCstatusDetails;
+        this.dataSource8.paginator = this.paginator8;
+        this.dataSource8.sort = this.sort8;
+      } else {
+        this.toastr.error('No data found');
       }
-  loadData2(): void {
-    
-    
-        this.api.Last7DaysReceipt(7,this.mcid,0,0).subscribe(
-          (data:any) => {
-            const nosPO: number[] = [];
-            const nositems: any[] = [];
-            const receiptdate: any[] = [];
-            const receiptDT: number[] = [];
-            const rvalue: number[] = [];
-            console.log('API Response:', data);
+    },
+    error: (err) => {
+      console.error('API error:', err);
+      this.toastr.error('Failed to load data');
+    },
+    complete: () => {
+      this.spinner.hide();
+    }
+  });
 
-            data.forEach((item:any)=> {
-               
-              nosPO.push(item.nosPO);
-              nositems.push(item.nositems);
-              receiptdate.push(item.receiptdate);
-              receiptDT.push(item.receiptDT.slice(0,2));
-              rvalue.push(item.rvalue);
-                 
-              
-            });
-    
-    
-            this.chartOptions2.series = [
-    
-               
+  this.openDialogHOD();
+}
+Rcdetails(value:any) {
             
-          
-              { 
-                name: 'rvalue',
-                data: rvalue ,
-                color:'#004b23'
-              },
+  this.spinner.show();
 
-    
-    
-              
-            ];
-    
-            this.chartOptions2.xaxis = {
-              categories: receiptDT,
-              labels:{
-                style:{
-                  // colors:'#390099',
-                  fontWeight:'bold',
-                  fontSize:'15px'
-                }
-              }
-              
-    
-              
-             };
-            this.cO = this.chartOptions2;
-   
-          },
-          (error: any) => {
-            console.error('Error fetching data', error);
-            
-          }
-        );
+
+
+  this.api.GetTotalRC1Details(this.mcid,value).subscribe({
+    next: (res: any[]) => {
+      if (res && res.length > 0) {
+        this.totalRC1details = res.map((item: any, index: number) => ({
+          ...item,
+          sno: index + 1,
+        }));
+
+        this.dataSource9.data = this.totalRC1details;
+        this.dataSource9.paginator = this.paginator9;
+        this.dataSource9.sort = this.sort9;
+      } else {
+        this.toastr.error('No data found');
       }
+    },
+    error: (err) => {
+      console.error('API error:', err);
+      this.toastr.error('Failed to load data');
+    },
+    complete: () => {
+      this.spinner.hide();
+    }
+  });
+
+  this.openDialogTotalRCDetails();
+}
+openDialogHOD() {
+  // this.getTotalTenderValue()
+  
+    const dialogRef = this.dialog.open(this.StatusDetailsModal, {
+     width: '100%',
+     height: '100%',
+     maxWidth: '100%',
+     panelClass: 'full-screen-dialog', // Optional for additional styling
+     data: {
+       /* pass any data here */
+     },
+     // width: '100%',
+     // maxWidth: '100%', // Override default maxWidth
+     // maxHeight: '100%', // Override default maxHeight
+     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+     // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+     console.log('Dialog closed');
+    });
+    }
+openDialogTotalRCDetails() {
+  // this.getTotalTenderValue()
+  
+    const dialogRef = this.dialog.open(this.RCDetailsModal, {
+     width: '100%',
+     height: '100%',
+     maxWidth: '100%',
+     panelClass: 'full-screen-dialog', // Optional for additional styling
+     data: {
+       /* pass any data here */
+     },
+     // width: '100%',
+     // maxWidth: '100%', // Override default maxWidth
+     // maxHeight: '100%', // Override default maxHeight
+     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+     // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+     console.log('Dialog closed');
+    });
+    }
+
+    loadData1(): Observable<any[]> {
+      return this.api.Last7DaysIssue(7, this.mcid, 0, 0, 1).pipe(
+        tap((data: any[]) => {
+          const nositems: number[] = [];
+          const indentDT: any[] = [];
+          const indentdate: any[] = [];
+          const totalValuecr: number[] = [];
+          const nosfacility: number[] = [];
+    
+          console.log('helo :', data);
+    
+          data.forEach((item: any) => {
+            nositems.push(item.nositems);
+            indentDT.push(item.indentDT.slice(0, 2));
+            indentdate.push(item.indentdate);
+            totalValuecr.push(item.totalValuecr);
+            nosfacility.push(item.nosfacility);
+          });
+    
+          this.chartOptions1.series = [
+            {
+              name: 'totalValuecr',
+              data: totalValuecr,
+              color: '#5f0f40'
+            }
+          ];
+    
+          this.chartOptions1.xaxis = {
+            categories: indentDT,
+            labels: {
+              style: {
+                fontWeight: 'bold',
+                fontSize: '15px'
+              }
+            }
+          };
+    
+          this.cO = this.chartOptions1;
+        }),
+        catchError(error => {
+          console.error('Error fetching data', error);
+          this.toastr.error('Chart data failed to load');
+          return of([]); // safe fallback
+        })
+      );
+    }
+    
+    loadData2(): Observable<any[]> {
+      return this.api.Last7DaysReceipt(7, this.mcid, 0, 0).pipe(
+        tap((data: any[]) => {
+          const nosPO: number[] = [];
+          const nositems: any[] = [];
+          const receiptdate: any[] = [];
+          const receiptDT: any[] = [];
+          const rvalue: number[] = [];
+    
+          console.log('API Response:', data);
+    
+          data.forEach((item: any) => {
+            nosPO.push(item.nosPO);
+            nositems.push(item.nositems);
+            receiptdate.push(item.receiptdate);
+            receiptDT.push(item.receiptDT.slice(0, 2));
+            rvalue.push(item.rvalue);
+          });
+    
+          this.chartOptions2.series = [
+            {
+              name: 'rvalue',
+              data: rvalue,
+              color: '#004b23'
+            }
+          ];
+    
+          this.chartOptions2.xaxis = {
+            categories: receiptDT,
+            labels: {
+              style: {
+                fontWeight: 'bold',
+                fontSize: '15px'
+              }
+            }
+          };
+    
+          this.cO = this.chartOptions2;
+        }),
+        catchError(error => {
+          console.error('Error fetching data', error);
+          this.toastr.error('Chart data failed to load');
+          return of([]); // fallback if error occurs
+        })
+      );
+    }
+    
 
       searchItem() {
         
@@ -1886,49 +2276,1224 @@ loadUQC(): void {
         }
 
 
-
-     updateSelectedHodid(): void {
+        updateSelectedHodid(): void {
+          this.spinner.show();
+          
+          // Set category ID
+          if (this.selectedCategoryRadio === 'Drugs') this.mcid = 1;
+          else if (this.selectedCategoryRadio === 'Consumables') this.mcid = 2;
+          else if (this.selectedCategoryRadio === 'Reagent') this.mcid = 3;
+          else if (this.selectedCategoryRadio === 'AYUSH') this.mcid = 4;
       
-  this.spinner.show(); // Show the spinner before making API calls
+          // Create API calls with individual error handling
+          forkJoin([
+              this.GetPOCountCFY().pipe(catchError(() => of(null))),
+              this.last7DaysIssue().pipe(catchError(() => of(null))),
+              this.loadData1().pipe(catchError(() => of(null))),
+              this.loadData2().pipe(catchError(() => of(null))),
+              this.loadIndent().pipe(catchError(() => of(null))),
+              this.loadData4().pipe(catchError(() => of(null))),
+              this.Nearexp().pipe(catchError(() => of(null))),
+              this.loadData3().pipe(catchError(() => of(null))),
+              this.loadUQC().pipe(catchError(() => of(null))),
+              this.loadStockoutDHS().pipe(catchError(() => of(null))),
+              this.CGMSCIndentPending().pipe(catchError(() => of(null))),
+              this.getItemNoDropDown().pipe(catchError(() => of(null))),
+              this.GetDeliveryInMonth().pipe(catchError(() => of(null))),
+              this.getTenderStatus().pipe(catchError(() => of(null))),
+              this.getTotalRC1().pipe(catchError(() => of(null)))
+          ]).pipe(
+              finalize(() => this.spinner.hide())
+          ).subscribe({
+              error: () => this.toastr.error('Some data failed to load')
+          });
+      }
 
-  if (this.selectedCategoryRadio === 'Drugs') {
-    this.mcid = 1;
-  } else if (this.selectedCategoryRadio === 'Consumables') {
-    this.mcid = 2;
-  } else if (this.selectedCategoryRadio === 'Reagent') {
-    this.mcid = 3;
-  } else if (this.selectedCategoryRadio === 'AYUSH') {
-    this.mcid = 4;
-  }
 
-  // Create an array of API calls to execute
-  forkJoin([
-    this.GetPOCountCFY(),
-    this.last7DaysIssue(),
-    this.loadData1(),
-    this.loadData2(),
-    this.loadIndent(),
-    this.loadData4(),
-    this.Nearexp(),
-    this.loadData3(), // Drug rate contract
-    this.loadUQC(),
-    this.loadStockoutDHS(),
-    this.CGMSCIndentPending(),
-    this.getItemNoDropDown(),
-    this.GetDeliveryInMonth(),
-  ]).subscribe(
-    () => {
-      // Add a slight delay to ensure the spinner is visible
-      setTimeout(() => {
-        this.spinner.hide();
-      }, 2000); // Adjust delay as needed (1000ms = 1 second)
-    },
-    (error) => {
-      console.error("Error loading data:", error);
-      this.spinner.hide(); // Hide the spinner even if an error occurs
-    }
-  );
+
+
+exportToPDFHODDetails() {
+  const doc = new jsPDF('l', 'mm', 'a4'); // landscape
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC  Details';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+
+  const columns = [
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item ID', dataKey: 'itemid' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'Strength', dataKey: 'strength1' },
+    { header: 'Unit', dataKey: 'unit' },
+    { header: 'Basic Rate', dataKey: 'basicrate' },
+    { header: 'GST (%)', dataKey: 'gst' },
+    { header: 'Final Rate (incl. GST)', dataKey: 'finalrategst' },
+    { header: 'RC Start', dataKey: 'rcStart' },
+    { header: 'RC End', dataKey: 'rcEndDT' },
+  ];
+
+  const rows = this.RCstatusDetails.map((item: any, index: number) => ({
+    sno: index + 1,
+    itemid: item.itemid,
+    itemcode: item.itemcode,
+    itemname: item.itemname,
+    strength1: item.strength1,
+    unit: item.unit,
+    basicrate: item.basicrate,
+    gst: item.gst,
+    finalrategst: item.finalrategst,
+    rcStart: item.rcStart,
+    rcEndDT: item.rcEndDT,
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.header)],
+    body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('RC_Details.pdf');
 }
+exportToPDFRCDDetails() {
+  const doc = new jsPDF('l', 'mm', 'a4'); // landscape
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'RC  Details';
+  doc.setFontSize(18);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const textWidth = doc.getTextWidth(title);
+  const xOffset = (pageWidth - textWidth) / 2;
+  doc.text(title, xOffset, 20);
+
+  doc.setFontSize(10);
+  doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
+
+  const columns = [
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item ID', dataKey: 'itemid' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'Strength', dataKey: 'strength1' },
+    { header: 'Unit', dataKey: 'unit' },
+    { header: 'Basic Rate', dataKey: 'basicrate' },
+    { header: 'GST (%)', dataKey: 'gst' },
+    { header: 'Final Rate (incl. GST)', dataKey: 'finalrategst' },
+    { header: 'RC Start', dataKey: 'rcStart' },
+    { header: 'RC End', dataKey: 'rcEndDT' },
+  ];
+
+  const rows = this.totalRC1details.map((item: any, index: number) => ({
+    sno: index + 1,
+    itemid: item.itemid,
+    itemcode: item.itemcode,
+    itemname: item.itemname,
+    strength1: item.strength1,
+    unit: item.unit,
+    basicrate: item.basicrate,
+    gst: item.gst,
+    finalrategst: item.finalrategst,
+    rcStart: item.rcStart,
+    rcEndDT: item.rcEndDT,
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.header)],
+    body: rows,
+
+
+    startY: 30,
+    theme: 'striped',
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('Total_RC_Details.pdf');
+}
+
+
+
+
+
+
+
+//#region StockStatus
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+// https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
+
+// https://dpdmis.in/CGMSCHO_API2/api/HO/whstockoutin?yearId=546&mcid=1&catid=52
+
+GETStockStatus(){
+  this.spinner.show();
+  this.api.StockStatus().subscribe((res:any[])=>{
+    if (res && res.length > 0) {
+    
+
+      this.dispatchdata =res.map((item: any, index: number) => ({
+      
+        ...item,
+        sno: index + 1,
+      }));
+      console.log('StockStatusdata:', this.dispatchdata);
+      this.StockStatusdata.data = this.dispatchdata; 
+      this.StockStatusdata.paginator = this.paginator10;
+      this.StockStatusdata.sort = this.sort10;
+      this.spinner.hide();
+    } else {
+      console.error('No nameText found or incorrect structure:', res);
+      this.spinner.hide();
+
+    }
+  }); 
+}
+whstockoutin(){
+//   whstockoutin(mcid:any,catid:any){
+//   return this.http.get<any[]>(${this.CGMSCHO_API2}/HO/whstockoutin?yearId=546&mcid=${mcid}&catid=${catid});
+// }
+
+const yearId=546,mcid=1;
+  this.spinner.show();
+  this.api.whstockoutin(mcid).subscribe((res:any[])=>{
+    if (res && res.length > 0) {
+    
+
+      this.dispatch_whstockoutin =res.map((item: any, index: number) => ({
+      
+        ...item,
+        sno: index + 1,
+      }));
+      console.log('whstockoutindata:', this.dispatch_whstockoutin);
+      this.whstockoutindata.data = this.dispatch_whstockoutin; 
+      this.whstockoutindata.paginator = this.paginator11;
+      this.whstockoutindata.sort = this.sort11;
+      this.spinner.hide();
+    } else {
+      console.error('No nameText found or incorrect structure:', res);
+      this.spinner.hide();
+
+    }
+  }); 
+}
+applyTextFilter1(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.StockStatusdata.filter = filterValue.trim().toLowerCase();
+}
+
+getRowClass(param: string) {
+  let val = param?.replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim().toLowerCase();
+  if (val === '1. stock-out') return 'row-red';
+  if (val === '2. <10% stock against avg issuance') return 'row-yellow';
+  // console.log('PARAM:', JSON.stringify(val)); // Check what you get
+  // if (val === '2. <10% stock against avg issuance') {
+ 
+  //   return 'row-yellow';
+  // }
+  if (val === '3. 10 to 20 % stock against avg issuance') return 'row-pink';
+  if (val === '4. 20 to 40 % stock against avg issuance') return 'row-gray';
+  if (val === '5. 40 to 90 % stock against avg issuance') return 'row-magenta';
+  if (val === '6. sufficient stock') return 'row-green';
+  return '';
+}
+
+StockOutDetails(tendCondition:any){
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockOutDetails?yearId=546&mcid=1&tendCondition=PRICE
+// dispatch_StockOutDetails:StockOutDetailsmodel[]=[];
+
+// StockoutDetailsdata = new MatTableDataSource<StockOutDetailsmodel>();
+  const yearId=546,mcid=1;
+  this.spinner.show();
+  this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+    if (res && res.length > 0) {
+    
+
+      this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+      
+        ...item,
+        sno: index + 1,
+      }));
+      console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+      this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+      this.StockoutDetailsdata.paginator = this.paginator12;
+      this.StockoutDetailsdata.sort = this.sort12;
+      this.spinner.hide();
+    } else {
+      console.error('No nameText found or incorrect structure:', res);
+      this.spinner.hide();
+
+    }
+  }); 
+  this.openStockOutDetails();
+}
+openStockOutDetails() {
+        
+  const dialogRef = this.dialog.open(this.StockOutDetailsModal, {
+   width: '100%',
+   height: '100%',
+   maxWidth: '100%',
+   panelClass: 'full-screen-dialog', // Optional for additional styling
+   data: {
+     /* pass any data here */
+   },
+   // width: '100%',
+   // maxWidth: '100%', // Override default maxWidth
+   // maxHeight: '100%', // Override default maxHeight
+   // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+   // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+   console.log('Dialog closed');
+  });
+  }
+  allvaluecilick(tendCondition:any,item:any,parameterNew:any,title1:any){
+    
+    this.parameterNew=parameterNew;
+    this.title1=title1;
+    const yearId=546,mcid=1;
+    // console.log("parameterNew",parameterNew)
+    // return
+    if(parameterNew=="1. Stock-Out"){
+      
+   
+    
+    if(tendCondition==''){
+ 
+      this.spinner.show();
+      this.api.StockOutDetails(mcid,item).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+
+    } else if(tendCondition=='PRICE'){
+     
+      this.spinner.show();
+      this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+       }else if(tendCondition=='EVAL'){
+      
+        this.spinner.show();
+      this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+
+       }else if(tendCondition=='LIVE'){
+       
+        this.spinner.show();
+      this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+
+       }else if(tendCondition=='TOBETENDER'){
+        
+        this.spinner.show();
+      this.api.StockOutDetails(mcid,tendCondition).subscribe((res:any[])=>{
+        if (res && res.length > 0) {
+        
+    
+          this.dispatch_StockOutDetails =res.map((item: any, index: number) => ({
+          
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('dispatch_StockOutDetails:', this.dispatch_StockOutDetails);
+          this.StockoutDetailsdata.data = this.dispatch_StockOutDetails; 
+          this.StockoutDetailsdata.paginator = this.paginator12;
+          this.StockoutDetailsdata.sort = this.sort12;
+          this.spinner.hide();
+        } else {
+          console.error('No nameText found or incorrect structure:', res);
+          this.spinner.hide();
+    
+        }
+      }); 
+      this.openStockOutDetails();
+
+       }else{
+        alert("Value is not Found")
+       }
+      }
+      else if(parameterNew=="2. <10% Stock against Avg Issuance"){
+        if(tendCondition==''){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='PRICE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='EVAL'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='LIVE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='TOBETENDER'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+          const yearId=546,mcid=1,perCondition="BELOW10";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+      }
+// jbchdajs
+else if(parameterNew=="3. 10 to 20 % Stock against Avg Issuance"){
+  if(tendCondition==''){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+  else if(tendCondition=='PRICE'){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+  else if(tendCondition=='EVAL'){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+  else if(tendCondition=='LIVE'){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+  else if(tendCondition=='TOBETENDER'){
+    console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+
+    const yearId=546,mcid=1,perCondition="10TO20";
+    this.spinner.show();
+    this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+      
+  
+        this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+        
+          ...item,
+          sno: index + 1,
+        }));
+        console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+        this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+        this.IssuePerDetailsdata.paginator = this.paginator13;
+        this.IssuePerDetailsdata.sort = this.sort13;
+        this.spinner.hide();
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+        this.spinner.hide();
+  
+      }
+    }); 
+    this.openIssuePerDetails();
+  }
+}
+
+      // hjdsfgnksdbfs
+      else if(parameterNew=="4. 20 to 40 % Stock against Avg Issuance"){
+        if(tendCondition==''){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='PRICE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='EVAL'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='LIVE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='TOBETENDER'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="20TO40";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+      }
+      // yyyyyyy
+      else if(parameterNew=="5. 40 to 90 % Stock against Avg Issuance"){
+        if(tendCondition==''){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='PRICE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='EVAL'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='LIVE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='TOBETENDER'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="40TO90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+      }
+      // hh
+      else if(parameterNew=="6. Sufficient Stock"){
+        if(tendCondition==''){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,item).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='PRICE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='EVAL'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='LIVE'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        else if(tendCondition=='TOBETENDER'){
+          console.log('parameterNew=',parameterNew,'tendCondition=',tendCondition);
+      
+          const yearId=546,mcid=1,perCondition="ABOVE90";
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+      }
+      else{
+        alert("value is not found");
+      }
+      }
+      
+      IssuePerDetail(tendCondition:any){
+         // https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
+
+          const yearId=546,mcid=1,perCondition="PRICE"
+          this.spinner.show();
+          this.api.IssuePerDetail(mcid,perCondition,tendCondition).subscribe((res:any[])=>{
+            if (res && res.length > 0) {
+            
+        
+              this.dispatch_IssueperDetails =res.map((item: any, index: number) => ({
+              
+                ...item,
+                sno: index + 1,
+              }));
+              console.log('dispatch_IssueperDetails:', this.dispatch_IssueperDetails);
+              this.IssuePerDetailsdata.data = this.dispatch_IssueperDetails; 
+              this.IssuePerDetailsdata.paginator = this.paginator13;
+              this.IssuePerDetailsdata.sort = this.sort13;
+              this.spinner.hide();
+            } else {
+              console.error('No nameText found or incorrect structure:', res);
+              this.spinner.hide();
+        
+            }
+          }); 
+          this.openIssuePerDetails();
+        }
+        openIssuePerDetails() {
+        
+          const dialogRef = this.dialog.open(this.IssuePerDetailModal, {
+           width: '100%',
+           height: '100%',
+           maxWidth: '100%',
+           panelClass: 'full-screen-dialog', // Optional for additional styling
+           data: {
+             /* pass any data here */
+           },
+           // width: '100%',
+           // maxWidth: '100%', // Override default maxWidth
+           // maxHeight: '100%', // Override default maxHeight
+           // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+           // height: 'auto',
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+           console.log('Dialog closed');
+          });
+          }
+          getWhStockOutInDetail(whid:any){
+            // whid=2615 
+            
+               const para='STOCKOUT';
+               this.spinner.show();
+               this.api.WhStockOutInDetail(whid,para).subscribe((res:any[])=>{
+                 if (res && res.length > 0) {
+                 
+             
+                   this.dispatch_WhStockOutInDetail =res.map((item: any, index: number) => ({
+                   
+                     ...item,
+                     sno: index + 1,
+                   }));
+                   console.log('dispatch_WhStockOutInDetail:', this.dispatch_WhStockOutInDetail);
+                   this.WhStockOutInDetail.data = this.dispatch_WhStockOutInDetail; 
+                   this.WhStockOutInDetail.paginator = this.paginator14;
+                   this.WhStockOutInDetail.sort = this.sort14;
+                   this.spinner.hide();
+                 } else {
+                   console.error('No nameText found or incorrect structure:', res);
+                   this.spinner.hide();
+             
+                 }
+               }); 
+               this.openWhStockOutInDetailModal();
+             }
+             openWhStockOutInDetailModal() {
+          
+              const dialogRef = this.dialog.open(this.WhStockOutInDetailModal, {
+               width: '100%',
+               height: '100%',
+               maxWidth: '100%',
+               panelClass: 'full-screen-dialog', // Optional for additional styling
+               data: {
+                 /* pass any data here */
+               },
+               // width: '100%',
+               // maxWidth: '100%', // Override default maxWidth
+               // maxHeight: '100%', // Override default maxHeight
+               // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+               // height: 'auto',
+              });
+              dialogRef.afterClosed().subscribe((result) => {
+               console.log('Dialog closed');
+              });
+              }
+
+//#endregion
+
+
+
     
   }
 

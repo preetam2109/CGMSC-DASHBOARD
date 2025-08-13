@@ -1,0 +1,43 @@
+
+
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
+      <strong style="text-align: center;">Consumption Pattern  </strong>
+  <!-- <img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="backbutton()"> -->
+  
+      <!-- <img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="home()" *ngIf="isLoggedIn"  > -->
+    </h1>
+    </div>
+     
+    <div class="container-fluid">
+      <mat-tab-group
+        [(selectedIndex)]="selectedTabIndex"
+        (selectedTabChange)="selectedTabValue($event)"
+      >
+      
+        <!-- isme yearwise ka data hai  -->
+        <mat-tab
+          label="Month Wise"
+          [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
+        >
+          <ng-template matTabContent>
+            <app-consumption-pattern-yearwise-tab
+              *ngIf="selectedTabIndex === 0"
+            ></app-consumption-pattern-yearwise-tab>
+          </ng-template>
+        </mat-tab>
+
+          <!-- isme monthwise ka data hai  -->
+          <mat-tab
+          label="Year Wise"
+          [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+        >
+          <ng-template matTabContent>
+            <app-consumption-pattern-monthwise-tab *ngIf="selectedTabIndex === 1"></app-consumption-pattern-monthwise-tab>
+          </ng-template>
+        </mat-tab>
+     
+      
+      </mat-tab-group>
+    </div>
+    

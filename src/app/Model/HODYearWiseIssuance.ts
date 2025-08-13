@@ -30,3 +30,28 @@ this.accyear=accyear
 }
     
 }
+
+export class MontlyItemDemography{
+
+accyrsetid: number | undefined;
+year: string| undefined;
+issueMonth: string| undefined;
+mcategory: string| undefined;
+iss_qty: number| undefined;
+issuevalue: number| undefined;
+noofitems: number| undefined;
+mcid: number| undefined;
+id: number| undefined;
+ordeerTpe: number | undefined;
+}
+
+export class YearWiseIssueReport {
+    accyear!: string;
+    mcategory!: string;
+    iss_qty!: number;
+    issuevalue!: number;
+    noofitems!: number;
+    mcid!: number;
+    accyrsetid!: number;
+    id!: number;
+}

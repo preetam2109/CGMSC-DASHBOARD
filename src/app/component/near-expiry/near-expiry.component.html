@@ -4,30 +4,30 @@
 <div class="w-100 " style="background-color: #e2e3e5">
   <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
     <strong style="text-align: center;">Near Expiry Items</strong>
-    <img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="home()">
+    <!-- <img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="home()"> -->
   </h1>
   </div>
 
   <div class="row mb-3">
     <div class="col-md-6 d-flex flex-wrap">
       <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs"
-          value="Drugs"  />
+        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
+          value="Drugs" (change)="updateSelectedHodid()"  />
         <label class="form-check-label" for="drugs">Drugs</label>
       </div>
       <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" 
-          value="Consumables"  />
+        <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" [(ngModel)]="selectedCategoryRadio"
+          value="Consumables" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="consumables">Consumables</label>
       </div>
       <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" 
-          value="Reagent"  />
+        <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" [(ngModel)]="selectedCategoryRadio"
+          value="Reagent" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="reagent">Reagent</label>
       </div>
       <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" 
-          value="AYUSH"  />
+        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategoryRadio"
+          value="AYUSH" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="ayush">AYUSH</label>
       </div>
     </div>
@@ -53,7 +53,7 @@
             <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
             <mat-menu #exportMenu="matMenu">
               <button mat-menu-item
-                (click)="exporter.exportTable('xlsx', { fileName: 'complaints', sheet: 'complaints', Props: { Author: 'cgmsc' }})">Excel</button>
+                (click)="exporter.exportTable('xlsx', { fileName: 'NearExpReport', sheet: 'NearExpReport', Props: { Author: 'cgmsc' }})">Excel</button>
               <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
               <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
               <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>

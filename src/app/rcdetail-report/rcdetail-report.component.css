@@ -20,7 +20,8 @@
 
 .table-container {
   flex: 1;
-  overflow-x: auto;
+  overflow: auto;
+  height: 800px;
   min-width: 50%;
   margin-right: 20px; /* Ensure there is a margin on the right side */
 }
@@ -32,10 +33,11 @@
   padding: 10px; /* Optional: Add padding for better spacing */
 }
 
-.table-wrapper {
-  display: block;
+/* .table-wrapper {
+  max-height: 800px;
+  overflow-y: auto;
   overflow-x: auto;
-}
+} */
 
 .table-responsive {
   display: block;
@@ -59,7 +61,7 @@
 }
 
 .mat-header-row, .mat-row {
-  display: flex; /* Ensure rows are displayed as flex */
+  display: table-row !important;
 }
 
 .mat-header-cell {

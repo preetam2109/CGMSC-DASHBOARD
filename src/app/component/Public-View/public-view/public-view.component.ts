@@ -966,7 +966,7 @@ colors = [];
 
   getItemNoDropDown(){
   
-    this.api.MasIndentitems(this.mcid,0,2,0).subscribe((res:any[])=>{
+    this.api.MasIndentitems(this.mcid,0,0,0).subscribe((res:any[])=>{
       // console.log(' Vehicle API dropdown Response:', res);
       if (res && res.length > 0) {
         this.MasIndentitemslist = res.map(item => ({
@@ -1012,6 +1012,7 @@ colors = [];
   }
   last7DaysIssue(){
     this.api.Last7DaysIssue(0,this.mcid,0,0,0).subscribe((res:any)=>{
+      // alert(JSON.stringify(res))
   this.nositemsI=res[0].nositems  
   this.totalValuecr=res[0].totalValuecr
   this.nosfacility=res[0].nosfacility

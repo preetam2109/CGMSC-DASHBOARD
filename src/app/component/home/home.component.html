@@ -1,96 +1,16 @@
-<!-- <div class="container mt-4">
-  <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems; let i = index">
-      
-      <div
-        [style.background-color]="colors[i % colors.length]"
-        class="card mb-4 shadow-sm"
-        [routerLink]="item.route"
-        style="cursor: pointer;"
-      >
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            
-            <mat-icon class="mat-icon">{{ item.icon }}</mat-icon> 
-            <h5 class="card-title ">{{ item.label }}</h5>
-            <mat-icon *ngIf="item.submenu" (click)="toggleSubmenu(item.label); $event.stopPropagation();">
-              {{ expandedMenus[item.label] ? 'expand_less' : 'expand_more' }}
-            </mat-icon>
-          </div>
-          <div *ngIf="expandedMenus[item.label]" class="submenu">
-            <div *ngFor="let subItem of item.submenu">
-              <button
-                [routerLink]="subItem.route"
-                class="btn btn-link"
-                (click)="closeSubmenu(); $event.stopPropagation();"
-              >
-                <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
-                {{ subItem.label }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
 
-<!-- <div class="container mt-4">
-  <div class="card shadow">
-   
-    <div class="card-header d-flex align-items-center">
-      <img src="https://via.placeholder.com/40" alt="Card Title Image" class="me-2" />
-      <h5 class="mb-0">Card Title</h5>
-    </div>
-    
-    <div class="card-body d-flex align-items-center">
-      <img src="https://via.placeholder.com/80" alt="Body Image" class="me-3" />
-      <p class="mb-0 text-center flex-fill">
-        This is the body text of the card. It is centered within the body and complements the image on the left.
-      </p>
-    </div>
-  </div>
-</div> -->
-
-
-
- <!-- <div class="container mt-4">
-  <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of menuItems let i = index">
-      <div [style.background-color]="colors[i % colors.length]" class="card mb-4 shadow-sm" [routerLink]="item.route" style="cursor: pointer;">
-        <div class="card-body">
-
-          <div class="d-flex justify-content-between align-items-center">
-              <div class="col-sm-12 col-md-4">
-
-                <img *ngIf="labelToIconMap[item.label]" [src]="labelToIconMap[item.label]" alt="{{item.label}} icon" class="w-100">
-              </div>
-              <div class="col-sm-12 col-md-8">
-                <h5 class="card-title">{{ item.label }}</h5>
-
-              </div>            
-
-            <mat-icon *ngIf="item.submenu" (click)="toggleSubmenu(item.label); $event.stopPropagation();">
-              {{ expandedMenus[item.label] ? 'expand_less' : 'expand_more' }}
-            </mat-icon>
-
-          </div>
-
-          <div *ngIf="expandedMenus[item.label]" class="submenu">
-            <div *ngFor="let subItem of item.submenu">
-              <button [routerLink]="subItem.route" class="btn btn-link" (click)="closeSubmenu(); $event.stopPropagation();">
-                <mat-icon class="mr-2">subdirectory_arrow_right</mat-icon>
-                {{ subItem.label }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>  -->
-<div class="container-fluid p-0 m-0" *ngIf="['SEC1', 'DHS', 'Collector','DM PO','CME'].includes(roleName) && selectedCategory!='Infrastructure' " >
+<div class="container-fluid p-0 m-0" *ngIf="['SEC1', 'DHS', 'Collector','DM PO','CME','SSO','Logi Cell'].includes(roleName) && selectedCategory!='Infrastructure' " >
   <div class="row border rounded shadow w-100 mb-0 bg-white p-0 m-0">
+
+      <!-- Section Header -->
+<div class="col-12 text-center mt-3 mb-2">
+  <div class="px-4 py-2 rounded text-white" 
+       style="background: linear-gradient(to right, #6a11cb, #2575fc); font-size: 1.5rem; font-weight: bold;">
+    Section: Drugs & Consumables ({{ selectedCategoryRadio || 'Select Category' }})
+  </div>
+</div>
+
+
     <div class=" col-sm-12 col-sm-6 d-flex justify-content-center m-2">
       <div class="form-check me-3">
         <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
@@ -107,59 +27,274 @@
           value="AYUSH" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="ayush">AYUSH</label>
       </div>
-      <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="reagent"
-          [(ngModel)]="selectedCategoryRadio" value="Reagent" (change)="updateSelectedHodid()" />
-        <label class="form-check-label" for="reagent">Reagent</label>
-      </div>
+     
     </div>
   </div>
 </div>
 
 
+<div class="container-fluid row p-4 pr-0 ">
+  <div class="col-12 col-md-8">
+    <!-- <div class="row align-items-center p-2 m-2 ">
+      
+     
+        <h5 class="text-primary-emphasis">RC Not Valid EDL Drugs Stock Status vs Tender Status for EDL Drugs 
+        </h5>
+     
+  
+    </div> -->
+    <div class="row card shadow card-body ">
+      <div class="d-flex justify-content-between align-items-center mb-0">
+        <div class="filter-field flex-grow-1">
+          <h2 class="text-primary-emphasis">RC Not Valid Stock vs Tender Status (EDL Drugs) 
+          </h2>
+          <!-- <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)"> -->
+        </div>
+        <div class="export-menu-container">
+          <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+          <mat-menu #exportMenu="matMenu">
+            <button mat-menu-item
+              (click)="exporter.exportTable('xlsx', { fileName: 'StockStatus', sheet: 'StockStatus', Props: { Author: 'cgmsc' }})">Excel</button>
+            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+            <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
+          </mat-menu>
+        </div>
+      </div>
+
+      <div class="table-responsive ">
+        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+          [dataSource]="StockStatusdata" #exporter="matTableExporter" matSort  #sort10="matSort">
+         <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
+          </ng-container>
+          <ng-container matColumnDef="parameterNew">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock Parameter</th>
+            
+            <td mat-cell *matCellDef="let element"> {{ element.parameterNew }} 
+           
+            </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="cntItems">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total<br> Drugs</th>
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('',0,element.parameterNew,'Drugs')" style="cursor: pointer;" > {{ element.cntItems }} 
+            <!-- <td mat-cell *matCellDef="let element" (click)="StockOutDetails(0)"> {{ element.cntItems }}  -->
+              <!-- <a class="btn btn-xs btn-outline-light align-items-center border-0 rounded  p-1 m-0 bg-transparent "
+              mat-button (click)="StockOutDetails(0)"></a> -->
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="pricecnt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Price<br> Opned</th>
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('PRICE',0,element.parameterNew,'Price Opned')" style="cursor: pointer;"> {{ element.pricecnt }} </td>
+          </ng-container>
+          <ng-container matColumnDef="evalutioncnt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Under<br> Evaluation</th>
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('EVAL',0,element.parameterNew,'Under Evaluation')"style="cursor: pointer;"> {{ element.evalutioncnt }} </td>
+          </ng-container>
+          <ng-container matColumnDef="livecnt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Live In<br>
+              Tender</th>
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('LIVE',0,element.parameterNew,'Live In')"style="cursor: pointer;"> {{ element.livecnt }} </td>
+          </ng-container>
+          <ng-container matColumnDef="rentendercn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>To be Tender<br>
+              Retender</th>
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('TOBETENDER',0,element.parameterNew,'To be Tender')" style="cursor: pointer;"> {{ element.rentendercn }} </td>
+          </ng-container>
+          
+          <ng-container  matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Suggestive Action</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                 >
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container> 
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          [ngClass]="getRowClass(row.parameterNew)">
+      </tr>
+
+       
+        </table>
+        <!-- <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4">
+    <!-- <div class="row align-items-center p-2 m-2 ">
+      
+     
+        <h5 class="text-primary-emphasis">RC Not Valid EDL Drugs Stock Status vs Tender Status for EDL Drugs 
+        </h5>
+     
+  
+    </div> -->
+    <div class="row card shadow card-body ">
+      <div class="d-flex justify-content-between align-items-center mb-0">
+        <div class="filter-field flex-grow-1">
+          <h2 class="text-primary-emphasis">RC Valid Stock Status(EDL Drugs)
+          </h2>
+          <!-- <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)"> -->
+        </div>
+        <div class="export-menu-container">
+          <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+          <mat-menu #exportMenu="matMenu">
+            <button mat-menu-item
+              (click)="exporter.exportTable('xlsx', { fileName: 'StockStatus', sheet: 'StockStatus', Props: { Author: 'cgmsc' }})">Excel</button>
+            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+            <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
+          </mat-menu>
+        </div>
+      </div>
+
+      <div class="table-responsive ">
+        <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+          [dataSource]="whstockoutindata" #exporter="matTableExporter" matSort #sort11="matSort">
+         <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:50px ;">S.NO</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="warehousename">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:100px ;" >Warehouse</th>
+            <td mat-cell *matCellDef="let element"> {{ element.warehousename }} </td>
+          </ng-container>
+         
+          <ng-container matColumnDef="noofitems">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  > Total Items</th>
+            <td mat-cell *matCellDef="let element"> {{ element.noofitems }} </td>
+          </ng-container>
+          <ng-container matColumnDef="stockout" style="justify-content: center;">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:100px ;" >Stock-Out</th>
+            <td mat-cell *matCellDef="let element" (click)="getWhStockOutInDetail(element.warehouseid)" style="cursor: pointer; color: red; " > {{ element.stockout }} </td>
+          </ng-container>
+          <ng-container matColumnDef="stockin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:100px ;" >Stock-In</th>
+            <td mat-cell *matCellDef="let element" style="cursor: pointer; color: green; "> {{ element.stockin }} </td>
+          </ng-container>
+          <ng-container  matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Suggestive Action</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                 >
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container> 
+          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+        </table>
+        <!-- <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
+      </div>
+    </div>
+  </div>
+    
+   
+ 
+</div>
 
 
-<div class="container my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName) && selectedCategory!='Infrastructure'">
+
+
+<div class="container-fluid my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO','SSO','Logi Cell'].includes(roleName) && selectedCategory!='Infrastructure'">
   <div class="row">
-    <!-- Card 1 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3"  >
-      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
-        <div class="card-body" routerLink="/GrowthInProcurmentTab" >
-          <h6 class="card-title">No of {{selectedCategoryRadio}} Purchase Ordered in C.F.Y.</h6>
-          <h2 class="card-value">{{totalpoitems}}</h2>
-          <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
+
+
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
+        <div class="card-body" routerLink="/consumption-pattern">
+          <h6 class="card-title" style="font-size: x-large;">Consumption Pattern</h6>
+            <img src="assets/dash-icon/consumptiondash.png" alt=""
+            style="width: 100px; height: 100px;" />
+
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body">
+          <h6 class="card-title" style="font-size: x-large;">
+            Total RC for {{ totalRC1[0]?.mcategory ?? 'Consumables' }}
+          </h6><br>
+    
+          <h2 class="card-value" (click)="Rcdetails(0)" style="cursor: pointer;">
+            Total RC: {{ totalRC1[0]?.total ?? 0 }} 👈
+          </h2>
+    
+          <p class="card-text d-flex justify-content-center gap-3">
+            <span style="cursor: pointer;" (click)="Rcdetails('Y')">
+              <strong>EDL: {{ totalRC1[0]?.edl ?? 0 }} 👈</strong>
+            </span>
+            <span style="cursor: pointer;" (click)="Rcdetails('N')">
+              <strong>NEDL: {{ totalRC1[0]?.nedl ?? 0 }} 👈</strong>
+            </span>
+          </p>
+          
+          
+        </div>
+      </div>
+    </div>
+    
+
+
+    <div class="col-12 col-md-4 mb-3" *ngIf="roleName!='SSO' && roleName!='Logi Cell'">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body" routerLink="/tender-status" >
+          <h6 class="card-title" style="font-size: x-large;" >Total Tenders Under Process</h6><br>
+          <h2 class="card-value">{{totalNoTenders}}</h2><br>
+          <p class="card-text"></p>
         </div>
       </div>
     </div>
 
+
+  
+
     <!-- Card 2 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <!-- <div class="col-12 col-md-4 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
         <div class="card-body" routerLink="/distribution">
-          <h6 class="card-title">{{selectedCategoryRadio}} Distribution & Facility Issues in C.F.Y.</h6>
+          <h6 class="card-title">{{selectedCategoryRadio}} Distribution & Facility Issues in Current Financial Year.</h6>
           <h2 class="card-value">{{nositemsI}}</h2>
           <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p>
 
         </div>
       </div>
-    </div>
+    </div> -->
+     <!-- Card 1 -->
 
-    <!-- Card 3 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
-      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
-        <div class="card-body" routerLink="/DropAppWarehousePerformance">
-          <h6 class="card-title">Indent Processing & Fulfillment in C.F.Y.</h6>
-          <h2 class="card-value">{{nosindent}}</h2>
-          <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
+       <!-- Card 2 -->
+    <div class="col-12 col-md-4 mb-3"  >
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
+        <div class="card-body" routerLink="/GrowthInProcurmentTab" >
+          <h6 class="card-title" style="font-size: large;">No of {{selectedCategoryRadio}} Purchase Ordered in Current Financial Year.</h6>
+          <h2 class="card-value">{{totalpoitems}}</h2>
+          <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
         </div>
       </div>
     </div>
+    
 
-    <!-- Card 4 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3"   >
+   
+
+    <!-- Card 3 -->
+    <div class="col-12 col-md-4 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
         <div class="card-body"   routerLink="/IndentPendingWHdash" >
-          <h6 class="card-title">Pending Indents in Warehouse</h6>
+          <h6 class="card-title" style="font-size: x-large;" >Pending Indents in Warehouse</h6>
           <h2 class="card-value"> {{ nosIndent }}</h2><br>
           <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p>
           <!-- <ul class="list-unstyled">
@@ -178,6 +313,28 @@
       </div>
     </div>
 
+     <!-- Card 4 -->
+     <!-- <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
+        <div class="card-body" routerLink="/DropAppWarehousePerformance">
+          <h6 class="card-title">Indent Processing & Fulfillment in Current Financial Year.</h6>
+          <h2 class="card-value">{{nosindent}}</h2>
+          <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
+        </div>
+      </div>
+    </div> -->
+     <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
+        <div class="card-body" routerLink="/supplier-pending">
+          <h6 class="card-title" style="font-size: x-large;">Liablity Status</h6>
+          <img src="assets/dash-icon/liablity.png" alt=""
+            style="width: 100px; height: 100px;" />
+          <!-- <h2 class="card-value">{{nosindent}}</h2> -->
+          <!-- <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p> -->
+        </div>
+      </div>
+    </div>
+
     <!-- Card 5
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #3f5efb, #fc466b); color: white;">
@@ -192,13 +349,304 @@
   </div>
 </div>
 
+<!-- forINfrastructure -->
+<div class="container-fluid my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO','Division'].includes(roleName) && selectedCategory==='Infrastructure'">
+
+
+        <!-- Section Header -->
+        <div class="w-100 text-center mt-3 mb-4">
+          <div class="px-4 py-2 rounded text-white"
+               style="background: linear-gradient(to right, #6a11cb, #2575fc); font-size: 1.5rem; font-weight: bold;">
+            Section: {{selectedCategory}}
+          </div>
+        </div>
+        
+
+
+    <!-- <div class=" col-sm-12 col-sm-6 d-flex justify-content-center m-2">
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
+          value="Drugs" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="drugs">Drugs</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="consumables"
+          [(ngModel)]="selectedCategoryRadio" value="Consumables" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="consumables">Consumables</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategoryRadio"
+          value="AYUSH" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="ayush">AYUSH</label>
+      </div>
+     
+    </div> -->
+  
+  <div class="row">
+
+    <!-- Card 1 -->
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body" routerLink="/infra-dash" >
+          <h6 class="card-title">Total Tenders Under Process</h6><br>
+          <h2 class="card-value">{{totalNoTenders}}</h2>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3"  >
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body" routerLink="/WorkOrder">
+          <h6 class="card-title">
+            <!-- Total RC for {{ totalRC1[0]?.mcategory ?? 'Consumables' }} -->
+            Work Order Pending 
+
+          </h6><br>
+          <h2 class="card-value">
+            {{ wOpendingTotal }}
+          </h2>
+          <p class="card-text">
+            <!-- EDL: {{ totalRC1[0]?.edl ?? 0 }}, NEDL: {{ totalRC1[0]?.nedl ?? 0 }} -->
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-12 col-md-4 mb-3"  >
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
+        <div class="card-body" routerLink="/LandIssue" >
+          <h6 class="card-title">Land Issuance</h6><br>
+          <h2 class="card-value">{{LIPendingTotal}}</h2>
+          <!-- <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
+        <div class="card-body" routerLink="/RunningWork">
+          <h6 class="card-title">Running Work</h6><br>
+          <h2 class="card-value">{{RunningWork}}</h2>
+          <!-- <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p> -->
+
+        </div>
+      </div>
+    </div>
+
+   
+
+  
+
+     <!-- Card 4 -->
+     <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
+        <div class="card-body" routerLink="/Handover">
+          <h6 class="card-title">Handed Over in Current Financial Year.</h6><br>
+          <h2 class="card-value">{{handoverAbstractl}}</h2>
+          <!-- <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p> -->
+        </div>
+      </div>
+    </div>
+      <!-- Card 3 -->
+      <div class="col-12 col-md-4 mb-3" *ngIf="role !== 'HO_Infra' && role !== 'Division'"
+
+      >
+
+        <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
+          <div class="card-body" routerLink="/PriceEvaluation">
+            <h6 class="card-title">Payment Complete</h6><br>
+            <h2 class="card-value">{{paidSummary}}</h2>
+            <!-- <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p> -->
+            <!-- <ul class="list-unstyled">
+                <li>
+                    <span class="card-value">No of Facility: {{ nosfac }}</span>
+                </li>
+                <li>
+                    <span class="card-value">No of Indent: {{ nosIndent }}</span>
+                </li>
+                <li>
+                    <span class="card-value">No of Items: {{ nositems }}</span>
+                </li>
+            </ul> -->
+            <!-- <p class="card-text">10% Higher Than Last Month</p> -->
+          </div>
+        </div>
+      </div>
+
+    <!-- Card 5
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #3f5efb, #fc466b); color: white;">
+        <div class="card-body">
+          <h6 class="card-title">Total RC Drugs</h6>
+          <h2 class="card-value">{{nosindent}}</h2>
+          <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
+        </div>
+      </div>
+    </div> -->
+    
+  </div>
+</div>
+<!-- forINfrastructure  end -->
 
 
 
 
 
 
-<div class="container my-4 mb-4" *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
+<!-- SE  forINfrastructure -->
+<div class="container-fluid my-4 mb-4"     *ngIf="['SE','Division','HO_Infra'].includes(roleName)">
+
+
+  <!-- Section Header -->
+  <!-- <div class="w-100 text-center mt-3 mb-4">
+    <div class="px-4 py-2 rounded text-white"
+         style="background: linear-gradient(to right, #6a11cb, #2575fc); font-size: 1.5rem; font-weight: bold;">
+      Section: {{selectedCategory}}
+    </div>
+  </div> -->
+  
+
+
+<!-- <div class=" col-sm-12 col-sm-6 d-flex justify-content-center m-2">
+<div class="form-check me-3">
+  <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
+    value="Drugs" (change)="updateSelectedHodid()" />
+  <label class="form-check-label" for="drugs">Drugs</label>
+</div>
+<div class="form-check me-3">
+  <input class="form-check-input" type="radio" name="categoryGroup" id="consumables"
+    [(ngModel)]="selectedCategoryRadio" value="Consumables" (change)="updateSelectedHodid()" />
+  <label class="form-check-label" for="consumables">Consumables</label>
+</div>
+<div class="form-check me-3">
+  <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategoryRadio"
+    value="AYUSH" (change)="updateSelectedHodid()" />
+  <label class="form-check-label" for="ayush">AYUSH</label>
+</div>
+
+</div> -->
+
+<div class="row">
+
+<!-- Card 1 -->
+<div class="col-12 col-md-4 mb-3">
+<div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+  <div class="card-body" routerLink="/infra-dash" >
+    <h6 class="card-title">Total Tenders Under Process</h6><br>
+    <h2 class="card-value">{{totalNoTenders}}</h2>
+    <p class="card-text"></p>
+  </div>
+</div>
+</div>
+
+<div class="col-12 col-md-4 mb-3"  >
+<div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+  <div class="card-body" routerLink="/WorkOrder">
+    <h6 class="card-title">
+      <!-- Total RC for {{ totalRC1[0]?.mcategory ?? 'Consumables' }} -->
+      Work Order Pending 
+
+    </h6><br>
+    <h2 class="card-value">
+      {{ wOpendingTotal }}
+    </h2>
+    <p class="card-text">
+      <!-- EDL: {{ totalRC1[0]?.edl ?? 0 }}, NEDL: {{ totalRC1[0]?.nedl ?? 0 }} -->
+    </p>
+  </div>
+</div>
+</div>
+
+<!-- Card 2 -->
+<div class="col-12 col-md-4 mb-3"  >
+<div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
+  <div class="card-body" routerLink="/LandIssue" >
+    <h6 class="card-title">Land Issuance</h6><br>
+    <h2 class="card-value">{{LIPendingTotal}}</h2>
+    <!-- <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p> -->
+  </div>
+</div>
+</div>
+
+<!-- Card 2 -->
+<div class="col-12 col-md-4 mb-3">
+<div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
+  <div class="card-body" routerLink="/RunningWork">
+    <h6 class="card-title">Running Work</h6><br>
+    <h2 class="card-value">{{RunningWork}}</h2>
+    <!-- <p class="card-text">Supplied: {{ totalValuecr }} Cr. , Facility : {{ nosfacility }}</p> -->
+
+  </div>
+</div>
+</div>
+
+
+
+
+
+<!-- Card 4 -->
+<div class="col-12 col-md-4 mb-3">
+<div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
+  <div class="card-body" routerLink="/Handover">
+    <h6 class="card-title">Handed Over in Current Financial Year.</h6><br>
+    <h2 class="card-value">{{handoverAbstractl}}</h2>
+    <!-- <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p> -->
+  </div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="col-12 col-md-4 mb-3">
+  <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
+    <div class="card-body" routerLink="/PriceEvaluation">
+      <h6 class="card-title">Payment Complete</h6><br>
+      <h2 class="card-value">{{paidSummary}}</h2>
+      <!-- <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p> -->
+      <!-- <ul class="list-unstyled">
+          <li>
+              <span class="card-value">No of Facility: {{ nosfac }}</span>
+          </li>
+          <li>
+              <span class="card-value">No of Indent: {{ nosIndent }}</span>
+          </li>
+          <li>
+              <span class="card-value">No of Items: {{ nositems }}</span>
+          </li>
+      </ul> -->
+      <!-- <p class="card-text">10% Higher Than Last Month</p> -->
+    </div>
+  </div>
+</div>
+
+<!-- Card 5
+<div class="col-12 col-sm-6 col-md-3 mb-3">
+<div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #3f5efb, #fc466b); color: white;">
+  <div class="card-body">
+    <h6 class="card-title">Total RC Drugs</h6>
+    <h2 class="card-value">{{nosindent}}</h2>
+    <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
+  </div>
+</div>
+</div> -->
+
+</div>
+</div>
+<!--  SE forINfrastructure  end   -->
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container-fluid my-4 mb-4" *ngIf="['SEC1', 'DHS', 'Collector','DM PO','SSO','Logi Cell'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
   <div class="row">
     <!-- Card 1 -->‌
     <div class="col-12 col-sm-6 col-md-3 mb-3">
@@ -221,6 +669,8 @@
       </div>
     </div>
 
+
+    
     <!-- Card 2 -->
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
@@ -257,7 +707,7 @@
           <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
           <div>
             
-            <h5 class="card-title ml-3">Annual Indent of {{selectedCategoryRadio}} C.F.Y. </h5>
+            <h5 class="card-title ml-3">Annual Indent of {{selectedCategoryRadio}} Current Financial Year. </h5>
             <!-- <p class="card-text">{{currentMonth}} Month</p> -->
           </div>
         </div>
@@ -372,7 +822,7 @@
     <!-- edl non rate Contract  Card 1 -->
     <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
-        <div class="card-body">
+        <div class="card-body"(click)="getstatusDetails()">
           <apx-chart  class="border rounded" style="background-color: #e0aaff;"
           [series]="chartOptions3.series" [chart]="chartOptions3.chart" [dataLabels]="chartOptions3.dataLabels"
           [labels]="chartOptions3.labels"
@@ -435,7 +885,7 @@
 
 
 
-<div class="container my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName)  && selectedCategory!='Infrastructure'" >
+<div class="container-fluid my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector','DM PO','SSO','Logi Cell'].includes(roleName)  && selectedCategory!='Infrastructure'" >
   <div class="row justify-content-center" style="height: 20vh;">
     <div class="col-12">
       <div class="card shadow p-3 w-100" style="height: 80%;">
@@ -479,7 +929,7 @@
 
 
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
   <div class="row">
     <ng-container *ngFor="let item of menuItems; let i = index">
       <!-- Main Menu Item -->
@@ -979,6 +1429,796 @@
     </div>
 
 
+  </div>
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+      <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+        aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
+</ng-template>
+
+
+
+<ng-template class=" " #StatusDetailsModal let-modal  >
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <!-- <h1>AS Completed Details</h1> -->
+      <h1 class="text-info-emphasis">Details</h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+          <div class="card shadow" >
+              <div class="card-body">
+                  <div class="row border mb-1">
+                      <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                          <strong>Reports : RC Details </strong>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 table-container mb-4">
+
+
+                  
+               
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+
+
+
+                        
+                        <div class="filter-field flex-grow-1">
+                          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotal($event)">
+                        </div>
+                        <div class="export-menu-container">
+                          <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                          <mat-menu #exportMenu="matMenu">
+                            <button mat-menu-item
+                              (click)="exporter.exportTable('xlsx', { fileName: 'InfraTenderDetails', sheet: 'InfraStatusDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                            
+                            <button mat-button (click)="exportToPDFHODDetails()">PDF</button>
+                
+                          </mat-menu>
+                        </div>
+                      </div>
+                
+                      <div class="table-responsive">
+                        <table  mat-table matTableExporter [dataSource]="dataSource8" #exporter="matTableExporter" matSort #sort8="matSort">
+                      
+                                   <!-- S.No -->
+<ng-container matColumnDef="sno">
+<th mat-header-cell *matHeaderCellDef mat-sort-header>
+<div class="center-header-cell">S.No</div>
+</th>
+<td mat-cell *matCellDef="let element">
+<div class="center-cell">{{ element.sno }}</div>
+</td>
+</ng-container>
+
+<ng-container matColumnDef="itemid">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Item ID </th>
+<td mat-cell *matCellDef="let element"> {{ element.itemid }} </td>
+</ng-container>
+
+<ng-container matColumnDef="itemcode">
+<th mat-header-cell *matHeaderCellDef mat-sort-header>  Code </th>
+<td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+</ng-container>
+
+<ng-container matColumnDef="itemname">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Item  </th>
+<td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+</ng-container>
+
+<ng-container matColumnDef="strength1">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Strength </th>
+<td mat-cell *matCellDef="let element"> {{ element.strength1 }} </td>
+</ng-container>
+
+<ng-container matColumnDef="unit">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+<td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+</ng-container>
+
+<ng-container matColumnDef="basicrate">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Basic Rate </th>
+<td mat-cell *matCellDef="let element"> {{ element.basicrate }} </td>
+</ng-container>
+
+<ng-container matColumnDef="gst">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> GST (%) </th>
+<td mat-cell *matCellDef="let element"> {{ element.gst }} </td>
+</ng-container>
+
+<ng-container matColumnDef="finalrategst">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Final Rate (incl. GST) </th>
+<td mat-cell *matCellDef="let element"> {{ element.finalrategst }} </td>
+</ng-container>
+
+<ng-container matColumnDef="rcStart">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> RC Start Date </th>
+<td mat-cell *matCellDef="let element"> {{ element.rcStart }} </td>
+</ng-container>
+
+<ng-container matColumnDef="rcEndDT">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> RC End Date </th>
+<td mat-cell *matCellDef="let element"> {{ element.rcEndDT }} </td>
+</ng-container>
+
+
+
+                      
+<tr mat-header-row *matHeaderRowDef="[
+'sno',
+'itemcode',
+'itemname',
+'strength1',
+'unit',
+'basicrate',
+'gst',
+'finalrategst',
+'rcStart',
+'rcEndDT'
+]"></tr>
+
+<tr mat-row
+*matRowDef="let row; columns: [
+'sno',
+'itemcode',
+'itemname',
+'strength1',
+'unit',
+'basicrate',
+'gst',
+'finalrategst',
+'rcStart',
+'rcEndDT'
+];"
+></tr>
+
+
+                      
+                        </table>
+                      </div>
+                       
+                      <mat-paginator #paginator8 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                    </div>
+              </div>
+        
+             
+              
+          </div>
+              
+          
+            </div>  
+    
+     
+    
+        
+    
+    
+
+
+
+    </div>
+
+
+  
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+      <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+        aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
+</ng-template>
+
+
+<ng-template class=" " #RCDetailsModal let-modal  >
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <!-- <h1>AS Completed Details</h1> -->
+      <h1 class="text-info-emphasis">Details</h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+          <div class="card shadow" >
+              <div class="card-body">
+                  <div class="row border mb-1">
+                      <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                          <strong>Reports : RC Details </strong>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 table-container mb-4">
+
+
+                  
+               
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+
+
+
+                        
+                        <div class="filter-field flex-grow-1">
+                          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotalRC($event)">
+                        </div>
+                        <div class="export-menu-container">
+                          <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                          <mat-menu #exportMenu="matMenu">
+                            <button mat-menu-item
+                              (click)="exporter.exportTable('xlsx', { fileName: 'RCDetails', sheet: 'RCDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                            
+                            <button mat-button (click)="exportToPDFRCDDetails()">PDF</button>
+                
+                          </mat-menu>
+                        </div>
+                      </div>
+                
+                      <div class="table-responsive">
+                        <table  mat-table matTableExporter [dataSource]="dataSource9" #exporter="matTableExporter" matSort #sort9="matSort">
+                      
+                                   <!-- S.No -->
+<ng-container matColumnDef="sno">
+<th mat-header-cell *matHeaderCellDef mat-sort-header>
+<div class="center-header-cell">S.No</div>
+</th>
+<td mat-cell *matCellDef="let element">
+<div class="center-cell">{{ element.sno }}</div>
+</td>
+</ng-container>
+
+<ng-container matColumnDef="itemid">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Item ID </th>
+<td mat-cell *matCellDef="let element"> {{ element.itemid }} </td>
+</ng-container>
+
+<ng-container matColumnDef="itemcode">
+<th mat-header-cell *matHeaderCellDef mat-sort-header>  Code </th>
+<td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+</ng-container>
+
+<ng-container matColumnDef="itemname">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Item  </th>
+<td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+</ng-container>
+
+<ng-container matColumnDef="strength1">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Strength </th>
+<td mat-cell *matCellDef="let element"> {{ element.strength1 }} </td>
+</ng-container>
+
+<ng-container matColumnDef="unit">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+<td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+</ng-container>
+
+<ng-container matColumnDef="basicrate">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Basic Rate </th>
+<td mat-cell *matCellDef="let element"> {{ element.basicrate }} </td>
+</ng-container>
+
+<ng-container matColumnDef="gst">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> GST (%) </th>
+<td mat-cell *matCellDef="let element"> {{ element.gst }} </td>
+</ng-container>
+
+<ng-container matColumnDef="finalrategst">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> Final Rate (incl. GST) </th>
+<td mat-cell *matCellDef="let element"> {{ element.finalrategst }} </td>
+</ng-container>
+
+<ng-container matColumnDef="rcStart">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> RC Start Date </th>
+<td mat-cell *matCellDef="let element"> {{ element.rcStart }} </td>
+</ng-container>
+
+<ng-container matColumnDef="rcEndDT">
+<th mat-header-cell *matHeaderCellDef mat-sort-header> RC End Date </th>
+<td mat-cell *matCellDef="let element"> {{ element.rcEndDT }} </td>
+</ng-container>
+
+
+
+                      
+<tr mat-header-row *matHeaderRowDef="[
+'sno',
+'itemcode',
+'itemname',
+'strength1',
+'unit',
+'basicrate',
+'gst',
+'finalrategst',
+'rcStart',
+'rcEndDT'
+]"></tr>
+
+<tr mat-row
+*matRowDef="let row; columns: [
+'sno',
+'itemcode',
+'itemname',
+'strength1',
+'unit',
+'basicrate',
+'gst',
+'finalrategst',
+'rcStart',
+'rcEndDT'
+];"
+></tr>
+
+
+                      
+                        </table>
+                      </div>
+                       
+                      <mat-paginator #paginator9 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                    </div>
+              </div>
+        
+             
+              
+          </div>
+              
+          
+            </div>  
+    
+     
+    
+        
+    
+    
+
+
+
+    </div>
+
+
+  
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+      <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+        aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
+</ng-template>
+
+
+
+
+
+<ng-template class=" " #StockOutDetailsModal let-modal>
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <!-- <h1>AS Completed Details</h1> -->
+      <h1 class="text-info-emphasis">Report-:{{parameterNew}},{{title1}}</h1>
+
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row border mb-1">
+            <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+              <strong>Reports : Stock Out Details </strong>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 table-container mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="filter-field flex-grow-1">
+                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotalRC($event)">
+              </div>
+              <div class="export-menu-container">
+                <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                <mat-menu #exportMenu="matMenu">
+                  <button mat-menu-item
+                    (click)="exporter.exportTable('xlsx', { fileName: 'RCDetails', sheet: 'RCDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+
+                  <button mat-button (click)="exportToPDFRCDDetails()">PDF</button>
+
+                </mat-menu>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table mat-table matTableExporter [dataSource]="StockoutDetailsdata" #exporter="matTableExporter" matSort
+                #sort12="matSort">
+
+                <!-- S.No -->
+                <ng-container matColumnDef="sno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div class="center-header-cell">S.No</div>
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="center-cell">{{ element.sno }}</div>
+                  </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="itemcode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Code</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+                </ng-container>
+                <ng-container matColumnDef="itemname">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="sku">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> SKU </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.sku }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="unitcount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.unitcount }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dhsaiqty">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> DHS AI QTY </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.dhsaiqty }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dmeaiqty">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>DME AI QTY </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.dmeaiqty }} </td>
+                </ng-container>
+                <ng-container matColumnDef="avgIssueqty_Last3FY">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>AVG Issued Last 3 Years   </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.avgIssueqty_Last3FY }} </td>
+                </ng-container>
+                <ng-container matColumnDef="tenderstatus">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Tender Status </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.tenderstatus }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tenderstartdt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tender Live DT </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.tenderstartdt }} </td>
+                </ng-container>
+                <ng-container matColumnDef="coV_A_OPDATE">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Cover A Open DT </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.coV_A_OPDATE }} </td>
+                </ng-container>
+                <ng-container matColumnDef="dayssince">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Days Since </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.dayssince }} </td>
+                </ng-container>
+                <ng-container matColumnDef="parameterNew">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Paramater </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.parameterNew }} </td>
+                </ng-container>
+                <ng-container matColumnDef="styockPer">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock % </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.styockPer }} </td>
+                </ng-container>
+                <ng-container matColumnDef="pricecnt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Opened </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.pricecnt }} </td>
+                </ng-container>
+                <ng-container matColumnDef="evalutioncnt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluation</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.evalutioncnt }} </td>
+                </ng-container>
+                <ng-container matColumnDef="livecnt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Live Tender </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.livecnt }} </td>
+                </ng-container>
+                <ng-container matColumnDef="rentendercn">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> To be Tender </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.rentendercn }} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+              </table>
+            </div>
+
+            <mat-paginator #paginator12 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+      <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+        aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
+</ng-template>
+
+
+<ng-template class=" " #IssuePerDetailModal let-modal>
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <!-- <h1>AS Completed Details</h1> -->
+      <h1 class="text-info-emphasis">Report-:{{parameterNew}},{{title1}}</h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row border mb-1">
+            <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+              <strong>Reports : Issue Per Details </strong>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 table-container mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="filter-field flex-grow-1">
+                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotalRC($event)">
+              </div>
+              <div class="export-menu-container">
+                <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                <mat-menu #exportMenu="matMenu">
+                  <button mat-menu-item
+                    (click)="exporter.exportTable('xlsx', { fileName: 'RCDetails', sheet: 'RCDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+
+                  <button mat-button (click)="exportToPDFRCDDetails()">PDF</button>
+
+                </mat-menu>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table mat-table matTableExporter [dataSource]="IssuePerDetailsdata" #exporter="matTableExporter" matSort
+                #sort13="matSort">
+
+                <!-- S.No -->
+                <ng-container matColumnDef="sno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div class="center-header-cell">S.No</div>
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="center-cell">{{ element.sno }}</div>
+                  </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="itemcode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+                </ng-container>
+                <ng-container matColumnDef="itemname">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="sku">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> SKU </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.sku }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="unitcount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> unitcount </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.unitcount }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dhsaiqty">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> DHS AI QTY </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.dhsaiqty }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dmeaiqty">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>DME AI QTY</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.dmeaiqty }} </td>
+                </ng-container>
+                <ng-container matColumnDef="avgIssueqty_Last3FY">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>AVG Issued Last 3 Years </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.avgIssueqty_Last3FY }} </td>
+                </ng-container>
+                <ng-container matColumnDef="tenderstatus">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Tender Status </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.tenderstatus }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tenderstartdt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Tender Live DT </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.tenderstartdt }} </td>
+                </ng-container>
+                <ng-container matColumnDef="coV_A_OPDATE">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Cover A Open DT</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.coV_A_OPDATE }} </td>
+                </ng-container>
+                <ng-container matColumnDef="dayssince">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Days Since </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.dayssince }} </td>
+                </ng-container>
+                <ng-container matColumnDef="parameterNew">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Parameter </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.parameterNew }} </td>
+                </ng-container>
+                <ng-container matColumnDef="styockPer">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock %  </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.styockPer }} </td>
+                </ng-container>
+                <ng-container matColumnDef="pricecnt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Opned </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.pricecnt }} </td>
+                </ng-container>
+                <ng-container matColumnDef="evalutioncnt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Evaluation </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.evalutioncnt }} </td>
+                </ng-container>
+                <ng-container matColumnDef="livecnt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Live In </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.livecnt }} </td>
+                </ng-container>
+                <ng-container matColumnDef="rentendercn">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> To be Tender </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.rentendercn }} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+              </table>
+            </div>
+
+            <mat-paginator #paginator13 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+      <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+        aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template class=" " #WhStockOutInDetailModal let-modal>
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <!-- <h1>AS Completed Details</h1> -->
+      <h1 class="text-info-emphasis">Details</h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="row border mb-1">
+            <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+              <strong>Reports :WH Stock Out In Details </strong>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 table-container mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="filter-field flex-grow-1">
+                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotalRC($event)">
+              </div>
+              <div class="export-menu-container">
+                <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                <mat-menu #exportMenu="matMenu">
+                  <button mat-menu-item
+                    (click)="exporter.exportTable('xlsx', { fileName: 'RCDetails', sheet: 'RCDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+
+                  <button mat-button (click)="exportToPDFRCDDetails()">PDF</button>
+
+                </mat-menu>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table mat-table matTableExporter [dataSource]="WhStockOutInDetail" #exporter="matTableExporter" matSort
+                #sort14="matSort">
+
+                <!-- S.No -->
+                <ng-container matColumnDef="sno">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <div class="center-header-cell">S.No</div>
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="center-cell">{{ element.sno }}</div>
+                  </td>
+                </ng-container>
+            
+              
+               
+              
+                <ng-container matColumnDef="warehouseid">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> warehouseid </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.warehouseid }} </td>
+                </ng-container>
+                <ng-container matColumnDef="warehousename">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.warehousename }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="sku">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> SKU </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.sku }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="itemcode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+                </ng-container>
+              
+             
+                <ng-container matColumnDef="itemname">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="strength">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Strength </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.strength }} </td>
+                </ng-container>
+               
+              
+                <ng-container matColumnDef="itemid">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>itemid </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.itemid }} </td>
+                </ng-container>
+                <ng-container matColumnDef="readyforissue">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Ready Stock </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.readyforissue }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="pending">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> UQC Stock </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.pending }} </td>
+                </ng-container>
+                <ng-container matColumnDef="stockOut">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> stockOut </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.stockOut }} </td>
+                </ng-container>
+                <ng-container matColumnDef="stockIn">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> stockIn </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.stockIn }} </td>
+                </ng-container>
+                
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+              </table>
+            </div>
+
+            <mat-paginator #paginator14 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
   </div>
   <div class="d-grid gap-2 col-12 mx-auto  m-2">
     <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">

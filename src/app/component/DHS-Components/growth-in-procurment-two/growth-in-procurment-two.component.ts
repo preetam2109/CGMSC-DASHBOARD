@@ -62,7 +62,7 @@ export class GrowthInProcurmentTwoComponent {
   hodid = 0;
   districtid:any=0
    HOD:any='All'
-
+   role:any
   selectedCategory: string = ''; 
   OnChangeTitle:string= 'Category: ' 
   selectedCategoryTitle: string = '';
@@ -159,6 +159,8 @@ export class GrowthInProcurmentTwoComponent {
   
 
   ngOnInit() {
+  this.role=localStorage.getItem('roleName')
+
     if(sessionStorage.getItem('roleId')==='482'){
       this.districtid=sessionStorage.getItem('districtid')
     }
@@ -495,14 +497,16 @@ this.chartOptions.tooltip = {
 
            
           { 
-            name: 'dmepoitems', 
+            // name: 'dmepoitems', 
+            name: 'CME PO Items', 
             data: dmepoitems,
             color:'#800000' 
           },
 
 
           { 
-            name: 'dmepovalue',
+            // name: 'dmepovalue',
+            name: 'CME PO Value (in Cr)',
             data: dmepovalue ,
             color:'#00008B'
 

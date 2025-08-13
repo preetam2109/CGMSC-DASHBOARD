@@ -4,6 +4,7 @@ import { HardcodedAuthenticationService } from './service/authentication/hardcod
 import { ToastrService } from 'ngx-toastr';
 import { MenuServiceService } from './service/menu-service.service';
 import { BasicAuthenticationService } from './service/authentication/basic-authentication.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -63,7 +64,7 @@ export class AppComponent implements OnInit, DoCheck {
 
 
 
-  constructor(private cdr: ChangeDetectorRef, private menuService: MenuServiceService, private toastr: ToastrService, private router: Router, public basicAuthentication: BasicAuthenticationService) { }
+  constructor(private location: Location,private cdr: ChangeDetectorRef, private menuService: MenuServiceService, private toastr: ToastrService, private router: Router, public basicAuthentication: BasicAuthenticationService) { }
 
 
   logout() {
@@ -84,6 +85,10 @@ export class AppComponent implements OnInit, DoCheck {
       this.toastr.success('Logout Successfully');
       this.router.navigate(['login'])
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 

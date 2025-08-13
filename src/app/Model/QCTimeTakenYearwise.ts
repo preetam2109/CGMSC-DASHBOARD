@@ -22,3 +22,16 @@ export class QCTimeTakenYearwise{
     
 
 }
+
+export class nsqDrugDetails{
+sno:any;
+    itemCode!: string;
+    itemName!: string;
+    batchNo!: string;
+    mfgDate!: string;
+    expDate!: string;
+    stock!: number;
+    finalRate!: number;
+    stkValue!: number;
+
+}
