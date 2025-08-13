@@ -384,10 +384,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
     }
   }
   verifyOTP_SMIT() {
-    
     if (this.otp.length === 5) {
-      
-  
       // Call the API to verify the OTP
       this.api.VerifyOTPLogin(this.otp, 2926).subscribe(
         (res: any) => {
