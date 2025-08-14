@@ -52,8 +52,16 @@
                   >
                   </ng-select>
                 </div>
-                <img  (click)="searchItem()"  style="width: 50px;height: 50px;" src="assets/dash-icon/magnifier.png" alt="">
+               
+            </div>
+            <div class="row">
+                <div class="col-12 mt-1 mb-1">
+    
+                    <button class="btn btn-primary btn-sm m-2" (click)="searchItem()">Search</button>
+                    <img    style="width: 50px;height: 50px;" src="assets/dash-icon/magnifier.png" alt="">
                 </div>
+                        
+            </div>
               </div>
             </div>
           </div>
@@ -66,15 +74,16 @@
 
   
 
-    <div class="row" *ngFor="let chartOpt of yearCharts">
-        <div class="col-12 mb-3">
+      <div class="row">
+        <div class="col-12 mb-3" *ngFor="let chartOpt of yearCharts">
           <apx-chart
             [series]="chartOpt.series"
             [chart]="chartOpt.chart"
             [xaxis]="chartOpt.xaxis"
             [stroke]="chartOpt.stroke"
             [dataLabels]="chartOpt.dataLabels"
-            [title]="chartOpt.title">
+            [title]="chartOpt.title"
+            [colors]="chartOpt.colors">
           </apx-chart>
         </div>
       </div>

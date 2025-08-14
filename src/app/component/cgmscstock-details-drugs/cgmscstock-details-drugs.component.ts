@@ -43,6 +43,12 @@ export class CgmscstockDetailsDrugsComponent {
 wikiHtml: string = '';
 wikiImages: string[] = [];
 
+googleApiKey = 
+// 'AIzaSyDGxv9V0ppt0stTyx6y9YfK58SSx9QKdeo';
+'a5744e2e5431909d9769ddcdfc4a194e8275f5d'
+
+googleCx = '336cfa66209254b6e';
+
 
 
 
@@ -73,39 +79,61 @@ wikiImages: string[] = [];
   }
 
   openWikipediaModal(itemName: string) {
-  this.fetchWikipediaFullData('Paracetamol');
-}
+    this.fetchWikipediaFullData(itemName);
+  }
 
-fetchWikipediaFullData(searchTerm: string) {
-  // Step 1: Search Wikipedia for closest match
-  const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&utf8=&format=json&origin=*`;
-
-  this.http.get<any>(searchUrl).subscribe(searchResult => {
-    if (searchResult?.query?.search?.length > 0) {
-      const pageTitle = searchResult.query.search[0].title;
-
-      // Step 2: Get full page content (HTML, images, links)
-      const contentUrl = `https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(pageTitle)}&prop=text|images|links&format=json&origin=*`;
-
-      this.http.get<any>(contentUrl).subscribe(contentResult => {
-        this.wikiTitle = pageTitle;
-        this.wikiHtml = contentResult.parse.text['*']; // Full HTML content
-        this.wikiImages = contentResult.parse.images || [];
-        this.openDialogHOD();
-      });
-
-    } else {
+  fetchWikipediaFullData(searchTerm: string) {
+    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(searchTerm)}&utf8=&format=json&origin=*`;
+  
+    this.http.get<any>(searchUrl).subscribe(searchResult => {
+      if (searchResult?.query?.search?.length > 0) {
+        const pageTitle = searchResult.query.search[0].title;
+  
+        const contentUrl = `https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(pageTitle)}&prop=text|images|links&format=json&origin=*`;
+  
+        this.http.get<any>(contentUrl).subscribe(contentResult => {
+          if (contentResult?.parse?.text?.['*']) {
+            this.wikiTitle = pageTitle;
+            this.wikiHtml = contentResult.parse.text['*'];
+            this.wikiImages = contentResult.parse.images || [];
+            this.openDialogHOD();
+          } else {
+            this.fetchGoogleFallback(searchTerm);
+          }
+        }, () => this.fetchGoogleFallback(searchTerm));
+  
+      } else {
+        this.fetchGoogleFallback(searchTerm);
+      }
+    }, () => this.fetchGoogleFallback(searchTerm));
+  }
+  
+  fetchGoogleFallback(searchTerm: string) {
+    const googleUrl = `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(searchTerm)}&cx=${this.googleCx}&key=${this.googleApiKey}&searchType=image`;
+  
+    this.http.get<any>(googleUrl).subscribe(googleResult => {
+      if (googleResult?.items?.length > 0) {
+        const firstImage = googleResult.items[0].link;
+        const snippet = googleResult.items[0].snippet || 'No description available';
+  
+        this.wikiTitle = searchTerm;
+        this.wikiHtml = `<p>${snippet}</p>`;
+        this.wikiImages = [firstImage];
+      } else {
+        this.wikiTitle = searchTerm;
+        this.wikiHtml = '<p>No data found from Google.</p>';
+        this.wikiImages = [];
+      }
+      this.openDialogHOD();
+    }, err => {
+      console.error('Google Search Error', err);
       this.wikiTitle = searchTerm;
-      this.wikiHtml = '<p>No data found.</p>';
+      this.wikiHtml = '<p>Error fetching from Google.</p>';
       this.wikiImages = [];
       this.openDialogHOD();
-    }
-  }, error => {
-    console.error(error);
-    this.wikiHtml = '<p>Error fetching data.</p>';
-    this.openDialogHOD();
-  });
-}
+    });
+  }
+  
   openDialogHOD() {
     const dialogRef = this.dialog.open(this.SearchItemWikipediaModal, {
       width: '80%',
@@ -385,6 +413,10 @@ onItemNameClick(itemid:number,edlcat:string,groupname:string,itemcode:string,ite
   //     console.error('Error fetching pipeline details', error);
   //   }
   // );
+}
+
+closeDialog() {
+  this.dialog.closeAll();
 }
 
 

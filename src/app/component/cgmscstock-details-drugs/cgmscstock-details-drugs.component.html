@@ -153,19 +153,50 @@
 
 
 
-    <ng-template #SearchItemWikipediaModal>
-      <h2>{{ wikiTitle }}</h2>
-    
-      <!-- Display first image if exists -->
-      <div *ngIf="wikiImages && wikiImages.length > 0">
+    <!-- Wikipedia Modal Template -->
+<ng-template #SearchItemWikipediaModal>
+  <div class="modal-header bg-primary text-white">
+    <h4 class="modal-title">{{ wikiTitle }}</h4>
+    <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="closeDialog()"></button>
+  </div>
 
-        <img [src]="'https://en.wikipedia.org/wiki/Special:FilePath/' + wikiImages[0]" 
-             style="max-width:100%; margin-bottom:10px;">
-      </div>
-    
-      <!-- Full Wikipedia content -->
-      <div [innerHTML]="wikiHtml" style="overflow-y: auto; max-height: 70vh;"></div>
-    </ng-template>
+  <div class="modal-body">
+    <!-- Image -->
+    <div *ngIf="wikiImages && wikiImages.length > 0" class="text-center mb-3">
+      <img [src]="'https://en.wikipedia.org/wiki/Special:FilePath/' + wikiImages[0]" 
+           class="img-fluid rounded shadow"
+           alt="{{ wikiTitle }}">
+    </div>
+
+    <!-- Wikipedia Content -->
+    <div class="wiki-content border rounded p-3 bg-light" 
+         [innerHTML]="wikiHtml"
+         style="overflow-y: auto; max-height: 60vh;">
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <a [href]="'https://en.wikipedia.org/wiki/' + wikiTitle" 
+       target="_blank" 
+       class="btn btn-outline-primary">
+      View on Wikipedia
+    </a>
+    <button type="button" class="btn btn-secondary" (click)="closeDialog()">Close</button>
+  </div>
+</ng-template>
+
+<!-- Table Column -->
+<!-- <ng-container matColumnDef="itemname">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+  <td mat-cell *matCellDef="let element">
+    <a href="javascript:void(0)" 
+       class="text-primary fw-bold" 
+       (click)="openWikipediaModal(element.itemname)">
+      {{ element.itemname }}
+    </a>
+  </td>
+</ng-container> -->
+
     
     
 

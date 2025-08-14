@@ -35,15 +35,12 @@
 
 <div class="container-fluid row p-4 pr-0 ">
   <div class="col-12 col-md-8">
-    <!-- <div class="row align-items-center p-2 m-2 ">
-      
-     
-        <h5 class="text-primary-emphasis">RC Not Valid EDL Drugs Stock Status vs Tender Status for EDL Drugs 
-        </h5>
-     
-  
-    </div> -->
+    <div class="" style="padding-right: 0px;  padding-left: 20px; padding-top: 10px; ">
     <div class="row card shadow card-body ">
+      <div *ngIf="loadingSectionA; else sectionAContent" class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+      <ng-template #sectionAContent>
       <div class="d-flex justify-content-between align-items-center mb-0">
         <div class="filter-field flex-grow-1">
           <h2 class="text-primary-emphasis">RC Not Valid Stock vs Tender Status (EDL Drugs) 
@@ -55,13 +52,14 @@
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
               (click)="exporter.exportTable('xlsx', { fileName: 'StockStatus', sheet: 'StockStatus', Props: { Author: 'cgmsc' }})">Excel</button>
-            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+            <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-            <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
+            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+            <button mat-menu-item (click)="exportToPDFRCNotValidStock()">PDF</button>
           </mat-menu>
         </div>
       </div>
+
 
       <div class="table-responsive ">
         <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
@@ -125,18 +123,17 @@
         </table>
         <!-- <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
       </div>
+      </ng-template>
     </div>
   </div>
+  </div>
   <div class="col-12 col-md-4">
-    <!-- <div class="row align-items-center p-2 m-2 ">
-      
-     
-        <h5 class="text-primary-emphasis">RC Not Valid EDL Drugs Stock Status vs Tender Status for EDL Drugs 
-        </h5>
-     
-  
-    </div> -->
+    <div class="" style="padding-right: 0px;  padding-left: 20px; padding-top: 10px;">
     <div class="row card shadow card-body ">
+      <div *ngIf="loadingSectionB; else sectionBContent" class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+      <ng-template #sectionBContent>
       <div class="d-flex justify-content-between align-items-center mb-0">
         <div class="filter-field flex-grow-1">
           <h2 class="text-primary-emphasis">RC Valid Stock Status(EDL Drugs)
@@ -148,15 +145,16 @@
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
               (click)="exporter.exportTable('xlsx', { fileName: 'StockStatus', sheet: 'StockStatus', Props: { Author: 'cgmsc' }})">Excel</button>
-            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+            <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-            <!-- <button mat-menu-item (click)="exportToPDF()">PDF</button> -->
+            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+            <button mat-menu-item (click)="exportToPDFRCValidStock()">PDF</button>
           </mat-menu>
         </div>
       </div>
 
       <div class="table-responsive ">
+
         <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
           [dataSource]="whstockoutindata" #exporter="matTableExporter" matSort #sort11="matSort">
          <ng-container matColumnDef="sno">
@@ -170,12 +168,12 @@
           </ng-container>
          
           <ng-container matColumnDef="noofitems">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header  > Total Items</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  > Total RC Valid Items</th>
             <td mat-cell *matCellDef="let element"> {{ element.noofitems }} </td>
           </ng-container>
           <ng-container matColumnDef="stockout" style="justify-content: center;">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:100px ;" >Stock-Out</th>
-            <td mat-cell *matCellDef="let element" (click)="getWhStockOutInDetail(element.warehouseid)" style="cursor: pointer; color: red; " > {{ element.stockout }} </td>
+            <td mat-cell *matCellDef="let element" (click)="getWhStockOutInDetail(element.warehouseid )" style="cursor: pointer; color: red; " > {{ element.stockout }} </td>
           </ng-container>
           <ng-container matColumnDef="stockin">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:100px ;" >Stock-In</th>
@@ -197,7 +195,9 @@
         </table>
         <!-- <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
       </div>
+    </ng-template>
     </div>
+  </div>
   </div>
     
    
@@ -277,12 +277,23 @@
      <!-- Card 1 -->
 
        <!-- Card 2 -->
-    <div class="col-12 col-md-4 mb-3"  >
+    <!-- <div class="col-12 col-md-4 mb-3"  >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
         <div class="card-body" routerLink="/GrowthInProcurmentTab" >
           <h6 class="card-title" style="font-size: large;">No of {{selectedCategoryRadio}} Purchase Ordered in Current Financial Year.</h6>
           <h2 class="card-value">{{totalpoitems}}</h2>
           <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
+        </div>
+      </div>
+    </div> -->
+    <div class="col-12 col-md-4 mb-3"  >
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
+        <div class="card-body"  >
+          <h6 class="card-title" style="font-size: large;">Indent RC Status</h6>
+          <img src="assets/dash-icon/rc.png" alt=""
+          style="width: 100px; height: 100px;" />
+          <!-- <h2 class="card-value">{{totalpoitems}}</h2> -->
+          <!-- <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p> -->
         </div>
       </div>
     </div>
@@ -672,7 +683,7 @@
 
     
     <!-- Card 2 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
           <apx-chart  class="border rounded" style="background-color: #95d5b2;"
@@ -682,14 +693,14 @@
           [tooltip]="chartOptions2.tooltip" [legend]="chartOptions2.legend" >
           </apx-chart>
           <h5 class="card-title mt-3">Last 7 Days Receipt</h5>
-          <!-- <p class="card-text">Last Campaign Performance</p> -->
+          
           <p class="card-text text-muted">
             <small>Value in Cr.</small>
 
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
 
   <!-- Card 3-->
   <!-- edl non edl indent  Card 3 -->
@@ -1788,7 +1799,7 @@
 
   
   <div class="d-grid gap-2 col-12 mx-auto  m-2">
-    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg border">
       <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
         aria-hidden="true">
         exit_to_app
@@ -1813,27 +1824,27 @@
     </div>
   </div>
   <div class="" mat-dialog-content>
-    <div class="row card shadow card-body ">
+    <!-- <div class="row card shadow card-body "> -->
       <div class="card shadow">
         <div class="card-body">
-          <div class="row border mb-1">
+          <!-- <div class="row border mb-1">
             <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
               <strong>Reports : Stock Out Details </strong>
             </div>
-          </div>
+          </div> -->
           <div class="col-lg-12 col-md-12 table-container mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <div class="filter-field flex-grow-1">
-                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotalRC($event)">
+                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter4($event)">
               </div>
               <div class="export-menu-container">
                 <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                 <mat-menu #exportMenu="matMenu">
                   <button mat-menu-item
                     (click)="exporter.exportTable('xlsx', { fileName: 'RCDetails', sheet: 'RCDetails', Props: { Author: 'cgmsc' }})">Excel</button>
-                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                  <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
 
-                  <button mat-button (click)="exportToPDFRCDDetails()">PDF</button>
+                  <button mat-button (click)="exportToPDFRCStockoutDetailsDetail()">PDF</button>
 
                 </mat-menu>
               </div>
@@ -1938,10 +1949,10 @@
       </div>
 
 
-    </div>
+    <!-- </div> -->
   </div>
   <div class="d-grid gap-2 col-12 mx-auto  m-2">
-    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg border">
       <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
         aria-hidden="true">
         exit_to_app
@@ -1962,27 +1973,27 @@
     </div>
   </div>
   <div class="" mat-dialog-content>
-    <div class="row card shadow card-body ">
+    <!-- <div class="row card shadow card-body "> -->
       <div class="card shadow">
         <div class="card-body">
-          <div class="row border mb-1">
+          <!-- <div class="row border mb-1">
             <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
               <strong>Reports : Issue Per Details </strong>
             </div>
-          </div>
+          </div> -->
           <div class="col-lg-12 col-md-12 table-container mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <div class="filter-field flex-grow-1">
-                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotalRC($event)">
+                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter5($event)">
               </div>
               <div class="export-menu-container">
                 <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                 <mat-menu #exportMenu="matMenu">
                   <button mat-menu-item
                     (click)="exporter.exportTable('xlsx', { fileName: 'RCDetails', sheet: 'RCDetails', Props: { Author: 'cgmsc' }})">Excel</button>
-                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                  <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
 
-                  <button mat-button (click)="exportToPDFRCDDetails()">PDF</button>
+                  <button mat-button (click)="exportToPDFRCIssuePerDetailsDetail()">PDF</button>
 
                 </mat-menu>
               </div>
@@ -2087,10 +2098,10 @@
       </div>
 
 
-    </div>
+    <!-- </div> -->
   </div>
   <div class="d-grid gap-2 col-12 mx-auto  m-2">
-    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg border">
       <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
         aria-hidden="true">
         exit_to_app
@@ -2099,38 +2110,38 @@
   </div>
 </ng-template>
 
-<ng-template class=" " #WhStockOutInDetailModal let-modal>
+<ng-template class="container-fluid" #WhStockOutInDetailModal let-modal>
   <div class="row align-items-center p-2 m-2 ">
     <div class="col-lg-6 col-md-8">
       <!-- <h1>AS Completed Details</h1> -->
-      <h1 class="text-info-emphasis">Details</h1>
+      <h1 class="text-info-emphasis">Reports : WH Stock Out In Details</h1>
     </div>
     <div class="col-lg-6 col-md-4 text-end">
       <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
     </div>
   </div>
   <div class="" mat-dialog-content>
-    <div class="row card shadow card-body ">
+    <!-- <div class="row card shadow card-body "> -->
       <div class="card shadow">
         <div class="card-body">
-          <div class="row border mb-1">
+          <!-- <div class="row border mb-1">
             <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
               <strong>Reports :WH Stock Out In Details </strong>
             </div>
-          </div>
+          </div> -->
           <div class="col-lg-12 col-md-12 table-container mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <div class="filter-field flex-grow-1">
-                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotalRC($event)">
+                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter3($event)">
               </div>
               <div class="export-menu-container">
                 <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                 <mat-menu #exportMenu="matMenu">
                   <button mat-menu-item
                     (click)="exporter.exportTable('xlsx', { fileName: 'RCDetails', sheet: 'RCDetails', Props: { Author: 'cgmsc' }})">Excel</button>
-                  <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                  <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
 
-                  <button mat-button (click)="exportToPDFRCDDetails()">PDF</button>
+                  <button mat-button (click)="exportToPDFRCValidStockDetail()">PDF</button>
 
                 </mat-menu>
               </div>
@@ -2205,6 +2216,15 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> stockIn </th>
                   <td mat-cell *matCellDef="let element"> {{ element.stockIn }} </td>
                 </ng-container>
+               
+                <ng-container matColumnDef="iwhPipeline">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> IWH Pipeline </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.iwhPipeline }} </td>
+                </ng-container>
+                <ng-container matColumnDef="supplierPipeline">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier Pipeline </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.supplierPipeline }} </td>
+                </ng-container>
                 
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
@@ -2218,10 +2238,10 @@
       </div>
 
 
-    </div>
+    <!-- </div> -->
   </div>
   <div class="d-grid gap-2 col-12 mx-auto  m-2">
-    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg border">
       <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
         aria-hidden="true">
         exit_to_app

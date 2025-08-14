@@ -96,4 +96,7 @@ export class IssuePerDetailModel {
     pending!: number
     stockOut!: number
     stockIn!: number
+    iwhPipeline!: number
+    supplierPipeline!:number
+ 
   }
