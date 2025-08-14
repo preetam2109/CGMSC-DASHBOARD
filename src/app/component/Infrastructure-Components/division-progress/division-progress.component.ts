@@ -84,7 +84,7 @@ export class DivisionProgressComponent {
   selectedTabIndex: number=0;
    DID=5001;
   center = { lat: 22.1760124, lng: 82.1228984 }; // Default map center
-  zoom = 8;
+  zoom = 15;
   selectedWarehouse: any;
   progressdetails: any;
   TotMobile:any;

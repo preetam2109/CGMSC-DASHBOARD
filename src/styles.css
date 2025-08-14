@@ -8,8 +8,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .row-yellow td { background-color: #faaaa6 !important; }
 .row-pink td   { background-color: #fdae80 !important; }
 .row-gray td   { background-color: #f8f081 !important; }
-.row-magenta td { background-color: #b3eaff !important; }
+.row-magenta td { background-color: #b3eaff !important;}
 .row-green td  { background-color: #7effb4 !important; }
+
 
 
 .spinner-container {
