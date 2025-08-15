@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MenuServiceService } from './service/menu-service.service';
 import { BasicAuthenticationService } from './service/authentication/basic-authentication.service';
 import { Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +14,8 @@ import { Location } from '@angular/common';
 
 
 export class AppComponent implements OnInit, DoCheck {
-
+  ipAddress: string = '';
+  browserInfo: any;
   deferredPrompt: any;
   showButton = false;
   title!: 'CGMSC DASHBOARD'
@@ -64,7 +66,10 @@ export class AppComponent implements OnInit, DoCheck {
 
 
 
-  constructor(private location: Location,private cdr: ChangeDetectorRef, private menuService: MenuServiceService, private toastr: ToastrService, private router: Router, public basicAuthentication: BasicAuthenticationService) { }
+  constructor(private location: Location,private cdr: ChangeDetectorRef, private menuService: MenuServiceService,
+     private toastr: ToastrService, private router: Router,
+      public basicAuthentication: BasicAuthenticationService,
+      private http: HttpClient) { }
 
 
   logout() {
@@ -93,9 +98,10 @@ export class AppComponent implements OnInit, DoCheck {
 
 
   ngOnInit(): void {
-
-    
-
+    this.getIPAddress();
+    this.browserInfo= this.getBrowserInfo();
+    // console.log('userAgent1=',this.browserInfo.userAgent ); 
+    sessionStorage.setItem('userAgent',this.browserInfo.userAgent );
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.isLoginPage = (event.urlAfterRedirects === '/login' || event.urlAfterRedirects === '/otp' || event.urlAfterRedirects === '/collector-login' || event.urlAfterRedirects === '/public-view' || event.urlAfterRedirects === '/GrowthInProcurmentTabPublic' || event.urlAfterRedirects === '/distributionPublic' || event.urlAfterRedirects === '/IndentPendingWHdashPublic'    );
@@ -104,6 +110,29 @@ export class AppComponent implements OnInit, DoCheck {
         this.updateMenu();
       }
     });
+  }
+
+  getIPAddress() {
+    this.http.get<any>('https://api.ipify.org?format=json')
+      .subscribe(
+        (res) => {
+          this.ipAddress = res.ip;
+          sessionStorage.setItem('ipAddress', this.ipAddress);
+          // console.log('this.ipAddress=',this.ipAddress);
+        },
+        (err) => {
+          console.error('Error fetching IP:', err);
+        }
+      );
+  }
+  getBrowserInfo() {
+    return {
+      appName: navigator.appName,
+      appVersion: navigator.appVersion,
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      language: navigator.language
+    };
   }
   ngDoCheck(): void {
     // 

@@ -17,6 +17,16 @@ export class DashLoginDDL {
 
     }
 }
+export class InsertUserLoginLogmodal {
+  logId!:number
+  userId!: number
+  roleId!: number
+  roleIdName!: string
+  userName!: string
+  ipAddress!: string
+  userAgent!: string
+
+   }
 
 
 export class StockStatusModel {
@@ -99,4 +109,30 @@ export class IssuePerDetailModel {
     iwhPipeline!: number
     supplierPipeline!:number
  
+  }
+  export interface WarehoueWiseStockOutmodel {
+    sno:any
+    edlType: string
+    warehouseid: number
+    warehousename: string
+    noofitems: number
+    stockout: number
+    stockoutiwhpipe: number
+    stockoutpopipe: number
+    stockin: number
+    stockiniwhpipe: number
+    stockinpopipe: number
+    percentage:number
+
+    // "edlType": "EDL",
+    // "warehouseid": 2615,
+    // "warehousename": "Ambikapur",
+    // "noofitems": 239,
+    // "stockout": 91,
+    // "stockoutiwhpipe": 1,
+    // "stockoutpopipe": 9,
+    // "stockin": 148,
+    // "stockiniwhpipe": 0,
+    // "stockinpopipe": 15,
+    // "percentage": 38.08
   }

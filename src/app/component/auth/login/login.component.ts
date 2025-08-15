@@ -12,6 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 
+
 declare var google: any;
 @Component({
   selector: 'app-login',
@@ -174,6 +175,7 @@ isPasswordVisible: boolean = false;
       this.setRole(this.rolename);
       sessionStorage.setItem('firstname', this.firstname);
         sessionStorage.setItem('roleId', this.roleid);
+        sessionStorage.setItem('userid', this.userid);
         sessionStorage.setItem('authenticatedUser', this.emailid);
 
   
@@ -385,7 +387,6 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
       this.api.VerifyOTPLogin(this.otp, this.userid).subscribe(
         (res: any) => {
           console.log("Response", res);
-  
           // Show SweetAlert for successful OTP verification
           Swal.fire({
             title: 'Login Successful!',
@@ -423,7 +424,6 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
       this.api.VerifyOTPLogin(this.otp, 2926).subscribe(
         (res: any) => {
           console.log("Response", res);
-  
           // Show SweetAlert for successful OTP verification
           Swal.fire({
             title: 'Login Successful!',
@@ -720,6 +720,7 @@ handleInfrastructureLogin() {
                 //Redirect to Welcome Page
                 
                 this.invalidLogin = false
+               
                 this.router.navigate(['/welcome']); // Redirect to category selector after login
                 this.toastr.success('Logged in Successfully');
                 console.log('login details',res)
@@ -974,5 +975,6 @@ toggleText() {
     //     console.error('Selected user not found in the list.');
     //   }
     // }
+  
   
 }
