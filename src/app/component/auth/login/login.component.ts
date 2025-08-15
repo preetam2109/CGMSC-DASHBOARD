@@ -467,48 +467,8 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
       });
     }
   }
-  verifyOTPOther() {
-    
-    if (this.otp.length === 5) {
-      
   
-      // Call the API to verify the OTP
-      this.api.VerifyOTPLogin(this.otp, this.userid).subscribe(
-        (res: any) => {
-          console.log("Response", res);
-  
-          // Show SweetAlert for successful OTP verification
-          Swal.fire({
-            title: 'Login Successful!',
-            text: 'You have successfully logged in.',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          }).then(() => {
-            // Navigate to the home page after the SweetAlert is closed
-            // this.router.navigate(['home']);
-          });
-        },
-        (error) => {
-          // Show SweetAlert for OTP verification error
-          
-          Swal.fire({
-            title: 'Error',
-            text: 'Invalid OTP! Please try again.',
-            icon: 'error',
-            confirmButtonText: 'OK'
-          });
-        }
-      );
-    } else {
-      // Show SweetAlert for invalid OTP input
-      Swal.fire({
-        title: 'Invalid OTP!',
-        text: 'Please enter a 5-digit OTP.',
-        icon: 'warning',
-        confirmButtonText: 'OK'
-      });
-    }
-  }
+ 
   handleLogin() {
 
     const captchaValue = this.captchaInput?.nativeElement.value;  // Get value from the input element
@@ -592,44 +552,86 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
 
   // );
 }
-handleCgmsclLogin() {
-  
-  // Your logic for handling CGMSCL login
-  sessionStorage.removeItem
-  localStorage.removeItem
-  this.verifyOTPOther()
-  //  console.log(this.username);
-  //if(this.username==="SEC1" && this.password === '2025#cgmsc') {
-    this.loginService.executeAuthenticationService(this.emailid, this.pwd).subscribe(
-      res => {
-  if (res.message === "Successfully Login"){
-    //Redirect to Welcome Page
-    this.invalidLogin = false
-    this.toastr.success('Logged in Successfully');
-    console.log('login details',res)
-    // this.router.navigate(['home'])
-    if(this.rolename==='SSO' || 'Logi Cell'){
 
-      this.router.navigate(['/welcome']);
 
-    }else{
-      
-      this.router.navigate(['/home']);
+async handleCgmsclLogin() {
+  ;
+  // Clear storage
+  sessionStorage.clear();
+  localStorage.clear();
+
+  // First verify OTP
+  const otpValid = await this.verifyOTPOther();
+  if (!otpValid) return; // Stop if OTP invalid
+
+  // Proceed with login after OTP succeeds
+  this.loginService.executeAuthenticationService(this.emailid, this.pwd).subscribe(
+    res => {
+      if (res.message === "Successfully Login") {
+        this.invalidLogin = false;
+        this.toastr.success('Logged in Successfully');
+        
+        // Fixed role check (was always truthy)
+        
+        this.rolename = res.userInfo.rolename;
+        
+        if (this.rolename === 'SSO' || this.rolename === 'Logi Cell') {
+          this.router.navigate(['/welcome']);
+        } else {
+          this.router.navigate(['/home']);
+        }
+      } else {
+        this.handleLoginFailure();
+      }
+    },
+    error => this.handleLoginFailure()
+  );
+}
+
+// Returns promise that resolves to OTP validity
+verifyOTPOther(): Promise<boolean> {
+  return new Promise((resolve) => {
+    if (!this.otp || this.otp.length !== 5) {
+      Swal.fire({
+        title: 'Invalid OTP!',
+        text: 'Please enter a valid 5-digit OTP.',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+      });
+      resolve(false);
+      return;
     }
-    // Redirect to category selector after login
-  } else {
-    this.invalidLogin = true
-    this.toastr.error('Login Failed', 'Invalid Credentials');
-  }
-},
-error => {
-  this.invalidLogin = true;
-  this.errorMessage = 'Invalid Credentials';
-  console.error('Login error', error);
+
+    this.api.VerifyOTPLogin(this.otp, this.userid).subscribe({
+      next: (res: any) => {
+        Swal.fire({
+          title: 'OTP Verified!',
+          text: 'You may now proceed to login.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+        resolve(true); // OTP valid
+      },
+      error: () => {
+        Swal.fire({
+          title: 'Invalid OTP',
+          text: 'Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+        resolve(false); // OTP invalid
+      }
+    });
+  });
 }
 
-);
+// Shared error handler
+handleLoginFailure() {
+  this.invalidLogin = true;
+  this.toastr.error('Login Failed', 'Invalid Credentials');
+  this.errorMessage = 'Invalid Credentials';
 }
+
 
 handleWarehouseLogin() {
   

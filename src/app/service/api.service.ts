@@ -1505,6 +1505,29 @@ SupplierPendingPayments(budgetId:any){
 
 
 
+RCValidSatus(yearId:any,mcId:any,hoType:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`);
+}
+
+
+
+NearExpiryItemsWH(month:any,mcid:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryItemsWH?month=${month}&mcid=${mcid}`);
+}
+NearExpiryBatchWise(month:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryBatchWise?month=${month}`);
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

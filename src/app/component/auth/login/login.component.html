@@ -699,7 +699,7 @@
 
                   <div class="mb-3">
                     <button type="button" class="btn btn-success btn-sm" (click)="sendOTP()">Generate OTP</button>
-                    <input type="text" id="otpInput" class="form-control" maxlength="6" [(ngModel)]="otp" name="otp"
+                    <input type="text" id="otpInput" class="form-control" maxlength="5" [(ngModel)]="otp" name="otp"
                       #otpField="ngModel" placeholder="Enter OTP" required>
                     <!-- Validation message for OTP -->
                     <div *ngIf="otpField.invalid && (otpField.dirty || otpField.touched)" class="text-danger">

@@ -33,7 +33,7 @@
 </div>
 
 
-<div class="container-fluid row p-4 pr-0 ">
+<div class="container-fluid row p-4 pr-0 " *ngIf="['SEC1', 'DHS', 'Collector','DM PO','CME','SSO','Logi Cell'].includes(roleName) && selectedCategory!='Infrastructure' " >
   <div class="col-12 col-md-8">
     <div class="" style="padding-right: 0px;  padding-left: 20px; padding-top: 10px; ">
     <div class="row card shadow card-body ">
@@ -288,7 +288,7 @@
     </div> -->
     <div class="col-12 col-md-4 mb-3"  >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
-        <div class="card-body"  >
+        <div class="card-body" routerLink="/rc-valid-status" >
           <h6 class="card-title" style="font-size: large;">Indent RC Status</h6>
           <img src="assets/dash-icon/rc.png" alt=""
           style="width: 100px; height: 100px;" />

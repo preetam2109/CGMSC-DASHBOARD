@@ -46,7 +46,7 @@ export class ConsumptionPatternYearwiseTabComponent {
   MasIndentitemslist:any
   itemid:any
   roleName:any = localStorage.getItem('roleName')
-
+  MasItemlist:any
 
 
   selectedCategory: string = 'Drugs'; 
@@ -144,6 +144,28 @@ export class ConsumptionPatternYearwiseTabComponent {
 
   
   
+  getMasitems(){
+  
+    this.api.Masitems(this.itemid,0,0,0,0,0).subscribe((res:any[])=>{
+      if (res && res.length > 0) {
+        this.MasItemlist = res.map(item => ({
+        
+          itemcode:item.itemcode,
+          itemname:item.itemname,
+          strengtH1:item.strengtH1,
+          unit:item.unit,
+          groupname:item.groupname,
+          itemtypename:item.itemtypename,
+          edl:item.edl,
+          edltype:item.edltype
+  
+        }));
+        // console.log('VehicleNoDropDownList :', this.VehicleNoDropDownList);
+      } else {
+        console.error('No nameText found or incorrect structure:', res);
+      }
+    });  
+  }
 
   ngOnInit() {
 
@@ -209,6 +231,7 @@ export class ConsumptionPatternYearwiseTabComponent {
     const itemid=this.itemid
 
     this.loadData(itemid,this.mcid);
+    this.getMasitems(); 
 
     // this.getMasitems(); 
     // this.GetPartiIndent(); 

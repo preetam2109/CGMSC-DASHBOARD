@@ -1,0 +1,172 @@
+<div class="container mt-3">
+    <h1 style="color: rgb(50, 50, 164); margin-bottom: 20px;" > <strong>Indent RC Status</strong></h1>
+    
+    <div class="row mb-3">
+      <div class="col-md-6 d-flex flex-wrap">
+       
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategory"
+            value="Drugs" (change)="updateSelectedHodid()"  />
+          <label class="form-check-label" for="drugs">Drugs</label>
+        </div>
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" [(ngModel)]="selectedCategory"
+            value="Consumables" (change)="updateSelectedHodid()" />
+          <label class="form-check-label" for="consumables">Consumables</label>
+        </div>
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" [(ngModel)]="selectedCategory"
+            value="Reagent" (change)="updateSelectedHodid()" />
+          <label class="form-check-label" for="reagent">Reagent</label>
+        </div>
+        <!-- <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategory"
+            value="AYUSH" (change)="updateSelectedHodid()" />
+          <label class="form-check-label" for="ayush">AYUSH</label>
+        </div> -->
+      </div>
+    </div>
+
+
+    <div class="row mb-3 text-center">
+      <div class="col-md-3" *ngIf="role!='CME' && role!='DME1'" >
+        <button 
+        class="btn btn-secondary w-100"
+        
+        [ngClass]="{'Active': HOD === 'All'}"
+        (click)="loadData(546,mcid,0)"
+         >Show All
+        </button>
+      </div>
+      <div class="col-md-3" *ngIf="role !== 'CME' && role !== 'DME1'">
+        <button class="btn btn-secondary w-100"  [ngClass]="{'Active': HOD === 'DHS'}"  (click)="loadData(546,mcid,'DHS')"   >DHS</button>
+      </div>
+      <div class="col-md-3">
+        <!-- <button class="btn btn-secondary w-100" [ngClass]="{'Active': HOD === 'DME'}"    (click)="loadDataDME(mcid, hodid,'DME')">DME</button> -->
+        <button class="btn btn-secondary w-100" [ngClass]="{'Active': HOD === 'DME'}"    (click)="loadData(546,mcid,'DME')">DME</button>
+      </div>
+      <!-- <div class="col-md-3">
+        <button class="btn btn-secondary w-100"  [ngClass]="{'Active': HOD === 'AYUSH'}"   (click)="loadData(546,mcid,'AYUSH')">AYUSH</button>
+      </div> -->
+    </div>
+
+
+
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 table-container mb-4">
+          <div class="text d-flex mt-3">
+            <!-- <p class="text-warning">
+              EMD Data is taken in DPDMIS from Year 2022-23 onwards
+            </p> -->
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div class="export-menu-container">
+              <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'rcindent', sheet: 'rcindent', Props: { Author: 'cgmsc' }})">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-button (click)="exportToPDF()">PDF</button>
+    
+              </mat-menu>
+            </div>
+          </div>
+    
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+    
+<!-- S.No Column (Optional if not in data) -->
+<ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+  </ng-container>
+  
+ <!-- EDL Type -->
+<ng-container matColumnDef="edltype">
+    <th mat-header-cell *matHeaderCellDef style="width: 100px;"> EDL Type </th>
+    <td mat-cell *matCellDef="let element"> {{ element.edltype }} </td>
+  </ng-container>
+  
+  <!-- No. of Indents -->
+  <ng-container matColumnDef="nosIndent">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;"> No. of Indents </th>
+    <td mat-cell *matCellDef="let element"> {{ element.nosIndent }} </td>
+  </ng-container>
+  
+  <!-- RC Valid Count -->
+  <ng-container matColumnDef="rcValidcnt">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;"> RC Valid Count </th>
+    <td mat-cell *matCellDef="let element"> {{ element.rcValidcnt }} </td>
+  </ng-container>
+  
+  <!-- RC Not Valid Count -->
+  <ng-container matColumnDef="rcNotValidcnt">
+    <th mat-header-cell *matHeaderCellDef style="width: 140px;"> RC Not Valid Count </th>
+    <td mat-cell *matCellDef="let element"> {{ element.rcNotValidcnt }} </td>
+  </ng-container>
+  
+  <!-- Price Count -->
+  <ng-container matColumnDef="pricecnt">
+    <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Price Count </th>
+    <td mat-cell *matCellDef="let element"> {{ element.pricecnt }} </td>
+  </ng-container>
+  
+  <!-- Evaluation Count -->
+  <ng-container matColumnDef="evalutioncnt">
+    <th mat-header-cell *matHeaderCellDef style="width: 130px;"> Evaluation Count </th>
+    <td mat-cell *matCellDef="let element"> {{ element.evalutioncnt }} </td>
+  </ng-container>
+  
+  <!-- Live Count -->
+  <ng-container matColumnDef="liveCnt">
+    <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Live Count </th>
+    <td mat-cell *matCellDef="let element"> {{ element.liveCnt }} </td>
+  </ng-container>
+  
+  <!-- Re-Tender Count -->
+  <ng-container matColumnDef="rentendercn">
+    <th mat-header-cell *matHeaderCellDef style="width: 130px;"> To Be Tender Count </th>
+    <td mat-cell *matCellDef="let element"> {{ element.rentendercn }} </td>
+  </ng-container>
+  
+  <!-- Header Row -->
+  <tr mat-header-row *matHeaderRowDef="[
+    'sno',
+    'edltype',
+    'nosIndent',
+    'rcValidcnt',
+    'rcNotValidcnt',
+    'pricecnt',
+    'evalutioncnt',
+    'liveCnt',
+    'rentendercn'
+  ]"></tr>
+  
+  <!-- Data Rows -->
+  <tr mat-row *matRowDef="let row; columns: [
+    'sno',
+    'edltype',
+    'nosIndent',
+    'rcValidcnt',
+    'rcNotValidcnt',
+    'pricecnt',
+    'evalutioncnt',
+    'liveCnt',
+    'rentendercn'
+  ]"></tr>
+     
+            </table>
+          </div>      
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+
+
+
+    </div>

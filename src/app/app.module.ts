@@ -89,7 +89,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatButtonModule } from '@angular/material/button';
-// import { HttpClientModule } from '@angular/common/http';
+import { NearExpiryBatchwiseComponent } from "./component/near-expiry-batchwise/near-expiry-batchwise.component";
+import { NearExpiryItemwiseComponent } from "./component/near-expiry-itemwise/near-expiry-itemwise.component";
+
 
 
 @NgModule({ declarations: [
@@ -162,31 +164,33 @@ import { MatButtonModule } from '@angular/material/button';
         InTransitIssuesComponent,
     ],
     bootstrap: [AppComponent], imports: [
-      NgSelectModule,
-        // FormsModule,
-        // HttpClientModule,
-        CommonModule,
-        DatePipe,
-        MatProgressSpinnerModule,
-        FontAwesomeModule,
-        NgxSpinnerModule.forRoot({ type: 'line-scale-party' }),
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatTabsModule,
-        NgApexchartsModule,
-        MatDialogModule,
-        MatTableModule,
-        GoogleMapsModule,
-        MatTableExporterModule,MatButtonModule,
-        ToastrModule.forRoot({
-            positionClass: 'toast-top-right' // Set the position to top right
-        })
-        // MatTabGroup
-    ], providers: [DatePipe, 
+    NgSelectModule,
+    // FormsModule,
+    CommonModule,
+    DatePipe,
+    MatProgressSpinnerModule,
+    FontAwesomeModule,
+    NgxSpinnerModule.forRoot({ type: 'line-scale-party' }),
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatTabsModule,
+    NgApexchartsModule,
+    MatDialogModule,
+    MatTableModule,
+    GoogleMapsModule,
+    MatTableExporterModule, MatButtonModule,
+    ToastrModule.forRoot({
+        positionClass: 'toast-top-right' // Set the position to top right
+    })
+    // MatTabGroup
+    ,
+    NearExpiryBatchwiseComponent,
+    NearExpiryItemwiseComponent
+], providers: [DatePipe, 
       { provide: APP_BASE_HREF, useValue: '/mdang/' }, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
   constructor(library: FaIconLibrary) {

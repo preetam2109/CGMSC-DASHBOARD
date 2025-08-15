@@ -119,7 +119,11 @@ import { TenderStatusDashComponent } from './component/tender-status/tender-stat
 import { TenderStatusDashCmeComponent } from './CME/tender-status-dash-cme/tender-status-dash-cme.component';
 import { ConsumptionPatternTabComponent } from './component/DHS-Components/distribution-tab/consumption-pattern-tab/consumption-pattern-tab.component';
 import { SupplierPendingPaymentsComponent } from './component/Supplier/supplier-pending-payments/supplier-pending-payments.component';
+
 import { WHWiseStockOutComponent } from './component/wh-wise-stock-out/wh-wise-stock-out.component';
+
+import { RcValidStatusComponent } from './rcdetail-report/rc-valid-status/rc-valid-status/rc-valid-status.component';
+
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
 
@@ -187,6 +191,7 @@ const routes: Routes = [
 
 // near expiry
 {path:'nearExpiry',component:NearExpiryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Warehouse','SSO','Logi Cell']} },
+// {path:'nearExpiry',component:NearExpiryTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS','Warehouse','SSO','Logi Cell']} },
 
 // reagent issue
 {path:'ReagentIssue',component:ReagentIssueComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','MDGMT','TPOBME']} },
@@ -198,7 +203,7 @@ const routes: Routes = [
 {path:'iwhPending',component:IwhPendingComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','Tenders']} },
 {path:'qc-lab-send',component:QCLabSendComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','QC','QC2']} },
 // {path:'distribution',component:DistributionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','DHS','CME','DME1','Collector']} },
-{path:'qc-dash',component:QcDasboardLabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','QC','QC2','QC2']} },
+{path:'qc-dash',component:QcDasboardLabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','QC','QC2']} },
 {path:'vehicleTracking',component:VehicleTrackingComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','Warehouse']} },
 {path:'intransitIssues',component:InTransitIssuesComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Warehouse']} },
 {path:'EdlNonEdlIssuePercentSummary',component:EdlNonEdlIssuePercentSummaryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','DHS']} },
@@ -261,7 +266,11 @@ const routes: Routes = [
 {path:'admin-dash',component:AdminDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
 {path:'consumption-pattern',component:ConsumptionPatternTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
 {path:'supplier-pending',component:SupplierPendingPaymentsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+
 {path:'WHWiseStockOut',component:WHWiseStockOutComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+
+{path:'rc-valid-status',component:RcValidStatusComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+
 
 
 
