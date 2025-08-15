@@ -89,7 +89,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MatButtonModule } from '@angular/material/button';
-
+// import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({ declarations: [
@@ -164,6 +164,7 @@ import { MatButtonModule } from '@angular/material/button';
     bootstrap: [AppComponent], imports: [
       NgSelectModule,
         // FormsModule,
+        // HttpClientModule,
         CommonModule,
         DatePipe,
         MatProgressSpinnerModule,

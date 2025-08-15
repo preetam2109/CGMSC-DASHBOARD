@@ -119,6 +119,7 @@ import { TenderStatusDashComponent } from './component/tender-status/tender-stat
 import { TenderStatusDashCmeComponent } from './CME/tender-status-dash-cme/tender-status-dash-cme.component';
 import { ConsumptionPatternTabComponent } from './component/DHS-Components/distribution-tab/consumption-pattern-tab/consumption-pattern-tab.component';
 import { SupplierPendingPaymentsComponent } from './component/Supplier/supplier-pending-payments/supplier-pending-payments.component';
+import { WHWiseStockOutComponent } from './component/wh-wise-stock-out/wh-wise-stock-out.component';
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
 
@@ -260,6 +261,7 @@ const routes: Routes = [
 {path:'admin-dash',component:AdminDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
 {path:'consumption-pattern',component:ConsumptionPatternTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
 {path:'supplier-pending',component:SupplierPendingPaymentsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'WHWiseStockOut',component:WHWiseStockOutComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 
 
 

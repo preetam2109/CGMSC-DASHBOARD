@@ -1465,6 +1465,33 @@ WhStockOutInDetail(whid:any,para:any){
   // https://dpdmis.in/CGMSCHO_API2/api/HO/WhStockOutInDetail?whid=2615&para=STOCKOUT
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutInDetail?whid=${whid}&para=${para}`);
 }
+WarehoueWiseStockOut(mcid:any,edlType:any){
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOut?mcid=1
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOut?mcid=${mcid}&edlType=${edlType}`);
+}
+WarehoueWiseStockOut1(mcid:any,edlType:any){
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOutDetail?mcid=1&edlType=EDL&whId=2615&colFlag=POPIPELINE
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOut?mcid=${mcid}&edlType=${edlType}`);
+}
+
+
+
+// https://dpdmis.in/CGMSCHO_API2/api/LogAudit/InsertUserLoginLog
+
+// {
+//   "logId": 0,
+//   "userId": 123,
+//   "roleId": 5,
+//   "roleIdName": "Admin",
+//   "userName": "johnDoe",
+//   "ipAddress": "192.168.1.100",
+//   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
+// }
+
+
+InsertUserLoginLogPOST(values: any) {
+  return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`,values );
+}
 
 //#endregion
 

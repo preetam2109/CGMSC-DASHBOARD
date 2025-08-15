@@ -84,7 +84,7 @@ export class MenuServiceService {
           { label: 'IWH Pendings', route: '/iwhPending' },
           { label: 'NOC', route: '/noc' },
           { label: 'ANPR Report ', route: '/vehicleTracking' },
-
+          { label: 'WH Wise Stock Out', route: '/WHWiseStockOut' },
           // {label:'Quality Controll'
 
           // },
@@ -103,6 +103,7 @@ export class MenuServiceService {
               },
               { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
               { label: 'QC Time Taken', route: '/QcTimeTaken' },
+             
 
               // { label: 'Facility Details', route:  '/facilityDetails' }
             ],
