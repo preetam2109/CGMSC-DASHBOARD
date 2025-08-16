@@ -123,16 +123,20 @@ export class IssuePerDetailModel {
     stockiniwhpipe: number
     stockinpopipe: number
     percentage:number
-
-    // "edlType": "EDL",
-    // "warehouseid": 2615,
-    // "warehousename": "Ambikapur",
-    // "noofitems": 239,
-    // "stockout": 91,
-    // "stockoutiwhpipe": 1,
-    // "stockoutpopipe": 9,
-    // "stockin": 148,
-    // "stockiniwhpipe": 0,
-    // "stockinpopipe": 15,
-    // "percentage": 38.08
+  }
+  export interface WarehoueWiseStockOutDetailmodel {
+    sno: number
+    warehouseid: string
+    warehousename: string
+    itemid: string
+    itemcode: string
+    itemname: string
+    strengtH1: string
+    edlType: string
+    readyforissue: number
+    pending: number
+    stockOut: number
+    stockIn: number
+    stockOutIWHPipe: number
+    stockOutPoPipe: number
   }

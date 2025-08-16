@@ -20,3 +20,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     height: 150px; 
     
   }
+
+ 
+  .link-hoverr:hover {
+    color: #6200ff;         
+    text-decoration: underline; 
+
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+ 
