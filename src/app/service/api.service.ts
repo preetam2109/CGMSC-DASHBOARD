@@ -1466,12 +1466,12 @@ WhStockOutInDetail(whid:any,para:any){
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutInDetail?whid=${whid}&para=${para}`);
 }
 WarehoueWiseStockOut(mcid:any,edlType:any){
-  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOut?mcid=1
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOut?mcid=1&edlType=NON%20EDL
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOut?mcid=${mcid}&edlType=${edlType}`);
 }
-WarehoueWiseStockOut1(mcid:any,edlType:any){
+WarehoueWiseStockOutDetail(mcid:any,edlType:any,whId:any,colFlag:any){
   // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOutDetail?mcid=1&edlType=EDL&whId=2615&colFlag=POPIPELINE
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOut?mcid=${mcid}&edlType=${edlType}`);
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOutDetail?mcid=${mcid}&edlType=${edlType}&whId=${whId}&colFlag=${colFlag}`);
 }
 
 
