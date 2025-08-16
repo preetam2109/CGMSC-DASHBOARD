@@ -304,7 +304,7 @@
     <!-- Card 3 -->
     <div class="col-12 col-md-4 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
-        <div class="card-body"   routerLink="/IndentPendingWHdash" >
+        <div class="card-body"   routerLink="/IndentPendingWHdash">
           <h6 class="card-title" style="font-size: x-large;" >Pending Indents in Warehouse</h6>
           <h2 class="card-value"> {{ nosIndent }}</h2><br>
           <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p>
@@ -2111,13 +2111,21 @@
 </ng-template>
 
 <ng-template class="container-fluid" #WhStockOutInDetailModal let-modal>
-  <div class="row align-items-center p-2 m-2 ">
-    <div class="col-lg-6 col-md-8">
-      <!-- <h1>AS Completed Details</h1> -->
+  <div class="row p-2 m-2 ">
+    <!-- <div class="col-lg-6 col-md-8">
       <h1 class="text-info-emphasis">Reports : WH Stock Out In Details</h1>
     </div>
     <div class="col-lg-6 col-md-4 text-end">
       <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+    </div> -->
+    <div class="col-lg-12 col-md-12">
+      <div class="d-flex align-items-center justify-content-between">
+        <h1 class="text-info-emphasis flex-grow-1 text-center m-0">Reports : WH Stock Out In Details</h1>
+       
+      <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+
+        <!-- <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button> -->
+      </div>
     </div>
   </div>
   <div class="" mat-dialog-content>
