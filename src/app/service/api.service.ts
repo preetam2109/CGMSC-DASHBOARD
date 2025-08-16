@@ -1509,6 +1509,14 @@ RCValidSatus(yearId:any,mcId:any,hoType:any){
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`);
 }
 
+ABCanalysisSummary(yearid:any,mcid:any,isedl:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummary?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}`);
+}
+
+ABCanalysisSummaryDetail(yearid:any,mcid:any,isedl:any,detail:any,isRCvalid:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummaryDetail?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}&detail=${detail}&isRCvalid=${isRCvalid}`);
+}
+
 
 
 NearExpiryItemsWH(month:any,mcid:any){

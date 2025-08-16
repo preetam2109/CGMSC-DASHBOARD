@@ -223,42 +223,34 @@
     </div>
   
 
-    <div class="col-12 col-md-4 mb-3">
-      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
-        <div class="card-body">
-          <h6 class="card-title" style="font-size: x-large;">
-            Total RC for {{ totalRC1[0]?.mcategory ?? 'Consumables' }}
-          </h6><br>
-    
-          <h2 class="card-value" (click)="Rcdetails(0)" style="cursor: pointer;">
-            Total RC: {{ totalRC1[0]?.total ?? 0 }} 👈
-          </h2>
-    
-          <p class="card-text d-flex justify-content-center gap-3">
-            <span style="cursor: pointer;" (click)="Rcdetails('Y')">
-              <strong>EDL: {{ totalRC1[0]?.edl ?? 0 }} 👈</strong>
-            </span>
-            <span style="cursor: pointer;" (click)="Rcdetails('N')">
-              <strong>NEDL: {{ totalRC1[0]?.nedl ?? 0 }} 👈</strong>
-            </span>
-          </p>
-          
-          
+   
+
+    <div class="col-12 col-md-4 mb-3"  >
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #91a6ab, #e1f7ab); color: white;">
+        <div class="card-body" routerLink="/analysis" >
+          <h6 class="card-title" style="font-size: large;">Analysis</h6>
+          <img src="assets/dash-icon/analysis_12139646.png" alt=""
+          style="width: 100px; height: 100px;" />
+          <!-- <h2 class="card-value">{{totalpoitems}}</h2> -->
+          <!-- <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4 mb-3"  >
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #b481f6, #50f0c8); color: rgb(247, 149, 229);">
+        <div class="card-body" routerLink="/WHWiseStockOut" >
+          <h6 class="card-title" style="font-size: large;">Stock Out</h6>
+          <img src="assets/dash-icon/remove_16729362.png" alt=""
+          style="width: 100px; height: 100px;" />
+          <!-- <h2 class="card-value">{{totalpoitems}}</h2> -->
+          <!-- <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p> -->
         </div>
       </div>
     </div>
     
 
 
-    <div class="col-12 col-md-4 mb-3" *ngIf="roleName!='SSO' && roleName!='Logi Cell'">
-      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
-        <div class="card-body" routerLink="/tender-status" >
-          <h6 class="card-title" style="font-size: x-large;" >Total Tenders Under Process</h6><br>
-          <h2 class="card-value">{{totalNoTenders}}</h2><br>
-          <p class="card-text"></p>
-        </div>
-      </div>
-    </div>
+  
 
 
   
@@ -356,6 +348,42 @@
         </div>
       </div>
     </div> -->
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body">
+          <h6 class="card-title" style="font-size: x-large;">
+            Total RC for {{ totalRC1[0]?.mcategory ?? 'Consumables' }}
+          </h6><br>
+    
+          <h2 class="card-value" (click)="Rcdetails(0)" style="cursor: pointer;">
+            Total RC: {{ totalRC1[0]?.total ?? 0 }} 👈
+          </h2>
+    
+          <p class="card-text d-flex justify-content-center gap-3">
+            <span style="cursor: pointer;" (click)="Rcdetails('Y')">
+              <strong>EDL: {{ totalRC1[0]?.edl ?? 0 }} 👈</strong>
+            </span>
+            <span style="cursor: pointer;" (click)="Rcdetails('N')">
+              <strong>NEDL: {{ totalRC1[0]?.nedl ?? 0 }} 👈</strong>
+            </span>
+          </p>
+          
+          
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-12 col-md-4 mb-3" *ngIf="roleName!='SSO' && roleName!='Logi Cell'">
+      <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #46deec, #2685f1); color: white;">
+        <div class="card-body" routerLink="/tender-status" >
+          <h6 class="card-title" style="font-size: x-large;" >Total Tenders Under Process</h6><br>
+          <h2 class="card-value">{{totalNoTenders}}</h2><br>
+          <p class="card-text"></p>
+        </div>
+      </div>
+    </div>
+
     
   </div>
 </div>

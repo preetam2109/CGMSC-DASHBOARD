@@ -36,6 +36,7 @@ export class MenuServiceService {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/welcome' },
+          { label: 'Analysis', route: '/analysis' },
           { label: 'Attendance', route: '/attendance-dash' },
           { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
           { label: 'Tender Status', route: '/tender-status' },

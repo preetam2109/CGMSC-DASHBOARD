@@ -299,8 +299,9 @@
                           <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                           <mat-menu #exportMenu="matMenu">
                             <button mat-menu-item
-                              (click)="exporter.exportTable('xlsx', { fileName: 'Annualindent', sheet: 'Annualindent', Props: { Author: 'cgmsc' }})">Excel</button>
-                            <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                              (click)="exporter.exportTable('xlsx', { fileName: 'BidderDetails', sheet: 'BidderDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                              <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+
                           
                             <button mat-button (click)="exportToPDF()">PDF</button>
                 
@@ -445,7 +446,8 @@
                                   <mat-menu #exportMenu="matMenu">
                                     <button mat-menu-item
                                       (click)="exporter.exportTable('xlsx', { fileName: 'totaltenderList', sheet: 'totaltenderList', Props: { Author: 'cgmsc' }})">Excel</button>
-                                    <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                                                    <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+
                                     <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
                                     <button mat-button (click)="exportToPDFtotaltenderList()">PDF</button>
@@ -622,7 +624,8 @@
                               <mat-menu #exportMenu="matMenu">
                                 <button mat-menu-item
                                   (click)="exporter.exportTable('xlsx', { fileName: 'QCPendingMonthwiseRecDetails', sheet: 'QCPendingMonthwiseRecDetails', Props: { Author: 'cgmsc' }})">Excel</button>
-                                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                                                <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+
                                 
                                 <button mat-button (click)="exportToPDFQCPendingMonthwiseRecDetails()">PDF</button>
                     
@@ -772,8 +775,9 @@
                               <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                               <mat-menu #exportMenu="matMenu">
                                 <button mat-menu-item
-                                  (click)="exporter.exportTable('xlsx', { fileName: 'tobetenderDetailsReceived', sheet: 'tobetenderDetailsReceivedPdf', Props: { Author: 'cgmsc' }})">Excel</button>
-                                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                  (click)="exporter.exportTable('xlsx', { fileName: 'tobetenderDetailsReceived', sheet: 'tobetenderDetailsReceived', Props: { Author: 'cgmsc' }})">Excel</button>
+                                                                <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+
                                 
                                 <button mat-button (click)="tobetenderDetailsReceivedPdf()">PDF</button>
                     
@@ -999,8 +1003,9 @@
                               <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                               <mat-menu #exportMenu="matMenu">
                                 <button mat-menu-item
-                                  (click)="exporter.exportTable('xlsx', { fileName: 'schemeReceiveddModal', sheet: 'schemeReceiveddModalPdf', Props: { Author: 'cgmsc' }})">Excel</button>
-                                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                  (click)="exporter.exportTable('xlsx', { fileName: 'schemeReceived', sheet: 'schemeReceived', Props: { Author: 'cgmsc' }})">Excel</button>
+                                                                <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+
                                 
                                 <button mat-button (click)="tobetenderDetailsReceivedPdf()">PDF</button>
                     
@@ -1225,7 +1230,8 @@
                               <mat-menu #exportMenu="matMenu">
                                 <button mat-menu-item
                                   (click)="exporter.exportTable('xlsx', { fileName: 'StatusDetails', sheet: 'StatusDetails', Props: { Author: 'cgmsc' }})">Excel</button>
-                                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                                                <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+
                                 
                                 <button mat-button (click)="exportToPDFHODDetails()">PDF</button>
                     
@@ -1451,7 +1457,8 @@
                               <mat-menu #exportMenu="matMenu">
                                 <button mat-menu-item
                                   (click)="exporter.exportTable('xlsx', { fileName: 'StatusDetails', sheet: 'StatusDetails', Props: { Author: 'cgmsc' }})">Excel</button>
-                                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                <!--                                 <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+ -->
                                 
                                 <button mat-button (click)="exportToBeTenderDetails()">PDF</button>
                     
