@@ -226,4 +226,37 @@
     /* color: white; */
     font-size: 30px;
   }
-  
+
+/* .mat-header-cell,
+.mat-cell {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+} */
+
+
+::ng-deep .mat-sort-header-container {
+  justify-content: center !important;
+  text-align: center; 
+  margin-left: 0 !important;
+}
+
+
+/* ::ng-deep .mat-header-cell, .mat-cell {
+  justify-content: center;
+  flex: 0 0 200px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: lightgrey;
+  text-align: center; 
+}
+
+::ng-deep .mat-sort-header-container {
+  margin-left: 18px;
+}
+
+::ng-deep .mat-row, .mat-header-row {
+  border-bottom-width: 0px;
+} */
+
