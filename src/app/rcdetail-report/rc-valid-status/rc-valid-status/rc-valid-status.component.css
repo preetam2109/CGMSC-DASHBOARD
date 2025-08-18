@@ -137,3 +137,10 @@ table {
 mat-table {
     overflow-x: scroll;
 }
+
+
+::ng-deep .mat-sort-header-container {
+    justify-content: center !important;
+    text-align: center; 
+    margin-left: 0 !important;
+  }

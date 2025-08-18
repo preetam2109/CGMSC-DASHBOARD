@@ -140,3 +140,21 @@ export class IssuePerDetailModel {
     stockOutIWHPipe: number
     stockOutPoPipe: number
   }
+
+  export interface RCValidDrillDownmodel {
+    sno: number
+    itemId: number
+    itemCode: string
+    itemName: string
+    sku: string
+    unitCount: number
+    edlType: string
+    dhsAiQty: number
+    dmeAiQty: number
+    rcEndDate: string
+    rcRate: number
+    noOfSuppliers: number
+    tenderStatus: string
+    actionCode: string
+  }
+  

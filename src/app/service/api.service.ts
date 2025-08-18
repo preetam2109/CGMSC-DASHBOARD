@@ -1473,6 +1473,10 @@ WarehoueWiseStockOutDetail(mcid:any,edlType:any,whId:any,colFlag:any){
   // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOutDetail?mcid=1&edlType=EDL&whId=2615&colFlag=POPIPELINE
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOutDetail?mcid=${mcid}&edlType=${edlType}&whId=${whId}&colFlag=${colFlag}`);
 }
+RCValidDrillDown(yearId:any,mcid:any,hoType:any,drillType:any,edlType:any){
+  // https://dpdmis.in/CGMSCHO_API2/api/DashboardHome/RCValidDrillDown?yearId=546&mcId=1&hoType=0&drillType=nosIndent&edlType=NON%20EDL
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidDrillDown?yearId=${yearId}&mcId=${mcid}&hoType=${hoType}&drillType=${drillType}&edlType=${edlType}`);
+}
 
 
 
@@ -1490,8 +1494,27 @@ WarehoueWiseStockOutDetail(mcid:any,edlType:any,whId:any,colFlag:any){
 
 
 InsertUserLoginLogPOST(values: any) {
-  return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`,values );
+  return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values, {
+    responseType: 'text' 
+  });
+  // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`,values );
+  // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values);
+
 }
+
+// https://localhost:7247/api/LogAudit/InsertUserPageViewLog
+
+// {
+//   "logId": 0,
+//   "userId": 678,
+//   "roleId": 5,
+//   "roleIdName": "System Administrator",
+//   "pageUrl": "/dashboard/overview",
+//   "pageName": "Dashboard",
+//   "viewTime": "2025-08-11T09:39:02.973Z",
+//   "ipAddress": "192.168.1.100",
+//   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
+// }
 
 //#endregion
 
