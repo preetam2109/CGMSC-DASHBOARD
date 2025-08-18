@@ -201,7 +201,7 @@
               
               RC Valid Details: {{ hoType === 0 ? 'DHS/DME' : hoType }},
               <!-- {{drillType}} -->
-              {{ drillType == 'RCValid' ? 'No. of Items RC Valid' : drillType == 'RCNotValid' ? 'No. of Items RC Not Valid Count' : drillType == 'Price' ? 'Price Opened on RC Not Valid' : drillType == 'Evalution' ? 'Evaluation on RC Not Valid' : drillType == 'Live' ? 'Tender Live on RC Not Valid': drillType == 'Retender' ? 'To be Tender against RC Not Valid': drillType == 'nosIndent' ? 'No. of Items Annual Indent Received':'' }}
+              {{ drillType == 'RCValid' ? 'No. of Items RC Valid' : drillType == 'RCNotValid' ? 'No. of Items RC Not Valid' : drillType == 'Price' ? 'Price Opened on RC Not Valid' : drillType == 'Evalution' ? 'Evaluation on RC Not Valid' : drillType == 'Live' ? 'Tender Live on RC Not Valid': drillType == 'Retender' ? 'To be Tender against RC Not Valid': drillType == 'nosIndent' ? 'No. of Items Annual Indent Received':'' }}
               & {{edlType}}, {{ mcid == 1 ? 'Drugs' : mcid == 2 ? 'Consumables' : mcid == 3 ? 'Reagent' : mcid == 4 ? 'AYUSH' : '' }}
 
             </h2>
@@ -290,15 +290,29 @@
                     <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>DME Annual  Indents Qty </th>
                     <td class="text-center" mat-cell *matCellDef="let element"> {{ element.dmeAiQty}} </td>
                   </ng-container>
-  
-                  <ng-container matColumnDef="rcEndDate" *ngif="drillType ==! 'RCNotValid'">
+                  <!-- <ng-container *ngIf="drillType !== 'RCNotValid', else othervalue"> -->
+                  <!-- <ng-container matColumnDef="rcEndDate" >
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> RC End Date</th>
                     <td mat-cell *matCellDef="let element"> {{ element.rcEndDate}} </td>
                   </ng-container>
-                  <ng-container matColumnDef="rcRate" *ngif="drillType ==! 'RCNotValid'">
+                  
+                  <ng-container matColumnDef="rcRate" *ngIf="drillType !== 'RCNotValid'">
                     <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Rate </th>
                     <td class="text-center" mat-cell *matCellDef="let element"> {{ element.rcRate}} </td>
+                  </ng-container> -->
+                <!-- </ng-container> -->
+                <!-- <ng-template #othervalue> -->
+                  <ng-container matColumnDef="rcEndDate"  >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header > RC End Date</th>
+                    <td mat-cell *matCellDef="let element" > {{ element.rcEndDate}} </td>
                   </ng-container>
+                  
+                  <ng-container matColumnDef="rcRate"  >
+                    
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header > Rate </th>
+                    <td class="text-center" mat-cell *matCellDef="let element" > {{ element.rcRate}} </td>
+                  </ng-container>
+                <!-- </ng-template> [hidden]="drillType === 'RCNotValid'"-->
                   <ng-container matColumnDef="noOfSuppliers">
                     <th class="text-center" class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> No. of Suppliers </th>
                     <td class="text-center" mat-cell *matCellDef="let element"> {{ element.noOfSuppliers}} </td>
@@ -314,7 +328,7 @@
                 
                   
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   
                     <!-- <tr mat-header-row
                       *matHeaderRowDef="['sno','warehousename','itemcode','itemname','strengtH1','edlType','stockOutIWHPipe','stockOutPoPipe']">
@@ -333,12 +347,12 @@
     
     
       </div>
-      <!-- <div class="d-grid gap-2 col-12 mx-auto footer pt-5 pb-0">
+      <div class="d-grid gap-2 col-12 mx-auto footer pt-5 pb-0">
         <button  mat-dialog-close  type="button" class="btn btn-info btn-lg" >
         
           <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
             exit_to_app
           </mat-icon>
         </button>
-      </div> -->
+      </div>
     </ng-template>

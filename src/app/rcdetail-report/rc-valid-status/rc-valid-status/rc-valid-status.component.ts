@@ -53,7 +53,7 @@ export class RcValidStatusComponent {
   @ViewChild('sort1') sort1!: MatSort;
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   hoType:any;
-  displayedColumns: string[] = [
+  baseDisplayedColumns: string[] = [
     "sno",
     // 'itemId',
     'itemCode',
@@ -66,17 +66,31 @@ export class RcValidStatusComponent {
     'rcEndDate',
     'rcRate',
     'noOfSuppliers',
-    'tenderStatus',
     'actionCode',
+    'tenderStatus',
     // "action"
   ];
+  displayedColumns: string[] = [];
   constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner: NgxSpinnerService,private dialog: MatDialog){
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource1 =  new MatTableDataSource<RCValidDrillDownmodel>([]);
 
   }
-
-
+  ngOnInit() {
+    // initial set
+  }
+  updateDisplayedColumns(drillType:any) {
+    debugger;
+    // copy base
+    this.displayedColumns = [...this.baseDisplayedColumns];
+  
+    // if drillType is RCNotValid, remove rcEndDate and rcRate
+    if (drillType === 'RCNotValid') {
+      this.displayedColumns = this.displayedColumns.filter(
+        c => c !== 'rcEndDate' && c !== 'rcRate'
+      );
+    }
+  }
   updateSelectedHodid(): void {
     
     // Reset hodid to 0 initially
@@ -134,6 +148,7 @@ export class RcValidStatusComponent {
         this.spinner.hide();
       }
     );
+ 
     
   }
 
@@ -202,7 +217,8 @@ export class RcValidStatusComponent {
   }
 //#region lomesh code 
 GETRCValidDrillDown(yearId:any,mcid:any,drillType:any,edlType:any){
-try{
+  try{
+  this.updateDisplayedColumns(drillType);
   this.drillType=drillType;
   this.edlType=edlType;
   this.hoType
