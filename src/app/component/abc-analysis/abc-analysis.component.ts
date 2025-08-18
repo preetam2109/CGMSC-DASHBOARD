@@ -188,6 +188,7 @@ public chartOptions: Partial<ChartOptions> | any;
     
   // }
   totalItems: number = 0;  // class level variable
+  totalordeR_value: number = 0;  // class level variable
 
   loadData(yearid: any, mcid: any, isedl: any): void {
     // this.showFooter = false; 
@@ -199,12 +200,15 @@ public chartOptions: Partial<ChartOptions> | any;
   
         // Calculate total noOfItems
         this.totalItems = res.reduce((sum: number, item: any) => sum + item.noOfItems, 0);
+
+        this.totalordeR_value=res.reduce((sum:number,item:any)=>sum + item.ordeR_VALUE,0);
   
         // Add sno + Items % column
         this.ABCanalysisSummary = res.map((item: any, index: number) => ({
           ...item,
           sno: index + 1,
-          itemsPercent: this.totalItems > 0 ? ((item.noOfItems / this.totalItems) * 100).toFixed(2) : '0.00'
+          itemsPercent: this.totalItems > 0 ? ((item.noOfItems / this.totalItems) * 100).toFixed(2) : '0.00',
+          totalordeR_value_Percent:this.totalordeR_value > 0 ? ((item.ordeR_VALUE/this.totalordeR_value)*100).toFixed(2):'0.00'
         }));
   
         this.dataSource.data = this.ABCanalysisSummary;
@@ -226,12 +230,17 @@ public chartOptions: Partial<ChartOptions> | any;
     // Extract data for chart
     const categories = this.ABCanalysisSummary.map((item: any) => item.abC_CATEGORY);
     const itemsPercentValues = this.ABCanalysisSummary.map((item: any) => Number(item.itemsPercent));
+    const ordeR_value_Percent = this.ABCanalysisSummary.map((item: any) => Number(item.totalordeR_value_Percent));
   
     this.chartOptions = {
       series: [
         {
           name: "Items %",
           data: itemsPercentValues
+        },
+        {
+          name: "Order Value %",
+          data: ordeR_value_Percent
         }
       ],
       chart: {

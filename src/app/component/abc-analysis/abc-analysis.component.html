@@ -159,7 +159,7 @@
   <ng-container matColumnDef="ordeR_VALUE">
     <th mat-header-cell *matHeaderCellDef style="width: 120px;">Order Value in(Cr)</th>
     <td mat-cell *matCellDef="let element"> {{ element.ordeR_VALUE }} </td>
-    <td mat-footer-cell *matFooterCellDef> - </td>
+    <td mat-footer-cell *matFooterCellDef> {{totalordeR_value}} </td>
   </ng-container>
   
   <!-- RC Valid -->
@@ -182,9 +182,45 @@
   
   <!-- Items % -->
   <ng-container matColumnDef="itemsPercent">
-    <th mat-header-cell *matHeaderCellDef style="width: 120px;">Items %</th>
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">Cumulative Items %</th>
     <td mat-cell *matCellDef="let element"> {{ element.itemsPercent }} % </td>
     <td mat-footer-cell *matFooterCellDef>-</td>
+  </ng-container>
+
+  <!-- ordeR_value % -->
+  <ng-container matColumnDef="totalordeR_value_Percent">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">Cumulative Order Value %</th>
+    <td mat-cell *matCellDef="let element"> {{ element.totalordeR_value_Percent }} % </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="pricecnt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Opened</th>
+    <td mat-cell *matCellDef="let element"> {{ element.pricecnt }} </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+    
+  </ng-container>
+
+  <ng-container matColumnDef="evalutioncnt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Under Evaluation </th>
+    <td mat-cell *matCellDef="let element"> {{ element.evalutioncnt }} </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+
+  </ng-container>
+
+  <ng-container matColumnDef="liveCnt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>   Live In </th>
+    <td mat-cell *matCellDef="let element"> {{ element.liveCnt }} </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+
+  </ng-container>
+
+  <ng-container matColumnDef="rentendercn">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> To Be Tender </th>
+    <td mat-cell *matCellDef="let element"> {{ element.rentendercn }} </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+
   </ng-container>
   
   
@@ -195,8 +231,13 @@
     'noOfItems',
     'itemsPercent',
     'ordeR_VALUE',
+    'totalordeR_value_Percent',
     'rcValid',
     'rcNotValid',
+    'pricecnt',
+    'evalutioncnt',
+    'liveCnt',
+    'rentendercn'
   ]"></tr>
   
   <!-- Data Row -->
@@ -206,8 +247,13 @@
     'noOfItems',
     'itemsPercent',
     'ordeR_VALUE',
+    'totalordeR_value_Percent',    
     'rcValid',
     'rcNotValid',
+    'pricecnt',
+    'evalutioncnt',
+    'liveCnt',
+    'rentendercn'
   ]"></tr>
   
 <!-- Footer Row -->
@@ -218,8 +264,13 @@
       'noOfItems',
       'itemsPercent',
       'ordeR_VALUE',
+      'totalordeR_value_Percent',
       'rcValid',
       'rcNotValid',
+      'pricecnt',
+      'evalutioncnt',
+      'liveCnt',
+      'rentendercn'
     ]" 
     [hidden]="!showFooter">
 </tr>
