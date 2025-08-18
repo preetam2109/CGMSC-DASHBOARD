@@ -49,7 +49,8 @@ throw new Error('Method not implemented.');
   ABCanalysisSummaryDetail:any
   category:any
   rc:any
-
+  selectedLabele:any;
+  edl:any
   selectedYearId: number | null = null;
   
   @ViewChild('paginator8') paginator8!: MatPaginator;
@@ -85,10 +86,17 @@ throw new Error('Method not implemented.');
   
  
   
-  onYearChange(event: any) {
-    this.selectedYearId = +event.target.value;
-    console.log('Selected Year ID:', this.selectedYearId);
-  }
+    onYearChange(event: any) {
+      this.selectedYearId = +event.target.value;
+    
+      // Get the label/text of the selected option
+      const selectedLabel = event.target.options[event.target.selectedIndex].text;
+      this.selectedLabele=selectedLabel
+    
+      console.log('Selected Year ID:', this.selectedYearId);
+      console.log('Selected Year Label:', selectedLabel);
+    }
+    
   
   updateSelectedHodid(): void {
     
@@ -164,11 +172,21 @@ throw new Error('Method not implemented.');
   noitemslick(rcvalide:any,abc:any) {
     debugger
     this.category=abc
-    if(rcvalide==='Y'){
-      this.rc='Rc Valid';
-    }else{
-      this.rc='Rc Not Valid';
 
+    if(this.selectedEdlType==='Y'){
+      this.edl='EDL';
+    }else{
+      this.edl='NON EDL';
+
+    }
+
+    if(rcvalide==='Y'){
+      this.rc='RC Valid';
+    }else if(rcvalide==='N'){
+      this.rc='RC Not Valid';
+
+    }else{
+      this.rc='';
     }
     this.spinner.show();
 
@@ -360,7 +378,8 @@ exportToPjjDFd() {
 }
 
 exportToPDFd() {
-  const doc = new jsPDF('l', 'mm', 'a4'); // Landscape
+  const doc = new jsPDF('l', 'mm', 'a3'); // Landscape A3 (bigger page)
+
 
   const now = new Date();
   const dateString = now.toLocaleDateString();
@@ -374,69 +393,73 @@ exportToPDFd() {
   doc.text(title, xOffset, 20);
 
   doc.setFontSize(10);
-  // doc.text(Date: ${dateString}  Time: ${timeString}, 10, 10);
-
+  doc.text(`Date: ${dateString}   Time: ${timeString}`, 14, 28);
 
   const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Item Code', dataKey: 'itemcode' },
-    { title: 'Drug Name', dataKey: 'druG_NAME' },
-    { title: 'Strength', dataKey: 'strengtH1' },
-    { title: 'Unit', dataKey: 'unit' },
-    { title: 'Item Type', dataKey: 'itemtypename' },
-    { title: 'EDL Category', dataKey: 'edlcat' },
-    { title: 'RC Status', dataKey: 'rcStatus' },
-    { title: 'RC End Date', dataKey: 'rcendDate' },
-    { title: 'RC Remaining Days', dataKey: 'rcremainingdays' },
-    { title: 'Supplier Count', dataKey: 'cntsup' },
-    { title: 'Tender Status', dataKey: 'tenderstatus' },
-    { title: 'Ready For Issue', dataKey: 'readyforissue' },
-    { title: 'Pending', dataKey: 'pending' },
-    { title: 'IWH Pipeline', dataKey: 'iwhPipeline' },
-    { title: 'Supplier Pipeline', dataKey: 'supplierPipeline' },
-    { title: 'Order Value', dataKey: 'ordeR_VALUE' },
-    { title: 'Cumulative Value', dataKey: 'cumulativE_VALUE' },
-    { title: 'Cumulative %', dataKey: 'cumulativE_PERCENT' },
-    { title: 'ABC Category', dataKey: 'abC_CATEGORY' }
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Drug Name', dataKey: 'drug_name' },
+    { header: 'Strength', dataKey: 'strength' },
+    { header: 'Unit', dataKey: 'unit' },
+    { header: 'Item Type', dataKey: 'itemtypename' },
+    { header: 'EDL Category', dataKey: 'edlcat' },
+    { header: 'RC Status', dataKey: 'rcStatus' },
+    { header: 'RC End Date', dataKey: 'rcendDate' },
+    { header: 'RC Remaining Days', dataKey: 'rcremainingdays' },
+    { header: 'Supplier Count', dataKey: 'cntsup' },
+    { header: 'Tender Status', dataKey: 'tenderstatus' },
+    { header: 'Ready For Issue', dataKey: 'readyforissue' },
+    { header: 'Pending', dataKey: 'pending' },
+    { header: 'IWH Pipeline', dataKey: 'iwhPipeline' },
+    { header: 'Supplier Pipeline', dataKey: 'supplierPipeline' },
+    { header: 'Order Value', dataKey: 'order_value' },
+    { header: 'Cumulative Value', dataKey: 'cumulative_value' },
+    { header: 'Cumulative %', dataKey: 'cumulative_percent' },
+    { header: 'ABC Category', dataKey: 'abc_category' }
   ];
 
-  
-  const rows = this.ABCanalysisSummaryDetail.map(
-    (item: any, index: number) => ({
-      sno: index + 1,
-      itemcode: item.itemcode,
-      druG_NAME: item.druG_NAME,
-      strengtH1: item.strengtH1,
-      unit: item.unit,
-      itemtypename: item.itemtypename,
-      edlcat: item.edlcat,
-      rcStatus: item.rcStatus,
-      rcendDate: item.rcendDate,
-      rcremainingdays: item.rcremainingdays,
-      cntsup: item.cntsup,
-      tenderstatus: item.tenderstatus,
-      readyforissue: item.readyforissue,
-      pending: item.pending,
-      iwhPipeline: item.iwhPipeline,
-      supplierPipeline: item.supplierPipeline,
-      ordeR_VALUE: item.ordeR_VALUE,
-      cumulativE_VALUE: item.cumulativE_VALUE,
-      cumulativE_PERCENT: item.cumulativE_PERCENT,
-      abC_CATEGORY: item.abC_CATEGORY
-    })
-  );
+  const rows = this.ABCanalysisSummaryDetail.map((item: any, index: number) => ({
+    sno: index + 1,
+    itemcode: item.itemcode,
+    drug_name: item.druG_NAME,              // fixed consistent key names
+    strength: item.strengtH1,
+    unit: item.unit,
+    itemtypename: item.itemtypename,
+    edlcat: item.edlcat,
+    rcStatus: item.rcStatus,
+    rcendDate: item.rcendDate,
+    rcremainingdays: item.rcremainingdays,
+    cntsup: item.cntsup,
+    tenderstatus: item.tenderstatus,
+    readyforissue: item.readyforissue,
+    pending: item.pending,
+    iwhPipeline: item.iwhPipeline,
+    supplierPipeline: item.supplierPipeline,
+    order_value: item.ordeR_VALUE,
+    cumulative_value: item.cumulativE_VALUE,
+    cumulative_percent: item.cumulativE_PERCENT,
+    abc_category: item.abC_CATEGORY
+  }));
 
   autoTable(doc, {
-    columns: columns,
-    body: rows,
-    startY: 30,
-    theme: 'striped',
-    styles: { fontSize: 8 },
-    headStyles: { fillColor: [22, 160, 133] },
+    head: [columns.slice(0, 10).map(c => c.header)],
+    body: rows.map((r: any) => columns.slice(0, 10).map(c => r[c.dataKey])),
+    startY: 35,
   });
+  
+  doc.addPage();
+  
+  autoTable(doc, {
+    head: [columns.slice(10).map(c => c.header)],
+    body: rows.map((r: any) => columns.slice(10).map(c => r[c.dataKey])),
+    startY: 35,
+  });
+  
+  
 
   doc.save('ABCanalysisDetail.pdf');
 }
+
 
 
 
