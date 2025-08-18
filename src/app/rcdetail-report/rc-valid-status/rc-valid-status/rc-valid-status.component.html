@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<div class="container-fluid py-3">
     <h1 style="color: rgb(50, 50, 164); margin-bottom: 20px;" > <strong>Indent RC Status</strong></h1>
     
     <div class="row mb-3">
@@ -39,7 +39,7 @@
         </button>
       </div>
       <div class="col-md-3" *ngIf="role !== 'CME' && role !== 'DME1'">
-        <button class="btn btn-secondary w-100"  [ngClass]="{'Active': HOD === 'DHS'}"  (click)="loadData(546,mcid,'DHS')"   >DHS</button>
+        <button class="btn btn-secondary w-100"  [ngClass]="{'Active': HOD === 'DHS'}"  (click)="loadData(546,mcid,'DHS')">DHS</button>
       </div>
       <div class="col-md-3">
         <!-- <button class="btn btn-secondary w-100" [ngClass]="{'Active': HOD === 'DME'}"    (click)="loadDataDME(mcid, hodid,'DME')">DME</button> -->
@@ -69,9 +69,9 @@
               <mat-menu #exportMenu="matMenu">
                 <button mat-menu-item
                   (click)="exporter.exportTable('xlsx', { fileName: 'rcindent', sheet: 'rcindent', Props: { Author: 'cgmsc' }})">Excel</button>
-                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                 <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
                 <button mat-button (click)="exportToPDF()">PDF</button>
     
               </mat-menu>
@@ -86,7 +86,11 @@
     <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
     <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
   </ng-container>
-  
+  <!-- <ng-container matColumnDef="stockoutiwhpipe">
+    <th class="text-center "  mat-header-cell *matHeaderCellDef mat-sort-header>IWH Pipeline<br>
+      Against Stock-Out</th>
+    <td  class="text-center link-hoverr" mat-cell *matCellDef="let element" (click)="GETWarehoueWiseStockOutDetail(1,'NON EDL',element.warehouseid,'IWHPIPELINE')"> {{ element.stockoutiwhpipe}} </td>
+  </ng-container> -->
  <!-- EDL Type -->
 <ng-container matColumnDef="edltype">
     <th mat-header-cell *matHeaderCellDef style="width: 100px;"> EDL Type </th>
@@ -95,44 +99,44 @@
   
   <!-- No. of Indents -->
   <ng-container matColumnDef="nosIndent">
-    <th mat-header-cell *matHeaderCellDef style="width: 120px;"> No. of Indents </th>
-    <td mat-cell *matCellDef="let element"> {{ element.nosIndent }} </td>
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;"> No. of Items Annual Indent Received </th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'nosIndent',element.edltype)">{{ element.nosIndent }} </td>
   </ng-container>
   
   <!-- RC Valid Count -->
   <ng-container matColumnDef="rcValidcnt">
-    <th mat-header-cell *matHeaderCellDef style="width: 120px;"> RC Valid Count </th>
-    <td mat-cell *matCellDef="let element"> {{ element.rcValidcnt }} </td>
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">No. of Items RC Valid </th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'RCValid',element.edltype)"> {{ element.rcValidcnt }} </td>
   </ng-container>
   
   <!-- RC Not Valid Count -->
   <ng-container matColumnDef="rcNotValidcnt">
-    <th mat-header-cell *matHeaderCellDef style="width: 140px;"> RC Not Valid Count </th>
-    <td mat-cell *matCellDef="let element"> {{ element.rcNotValidcnt }} </td>
+    <th mat-header-cell *matHeaderCellDef style="width: 140px;">No. of Items RC Not Valid </th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'RCNotValid',element.edltype)"> {{ element.rcNotValidcnt }} </td>
   </ng-container>
   
   <!-- Price Count -->
   <ng-container matColumnDef="pricecnt">
-    <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Price Count </th>
-    <td mat-cell *matCellDef="let element"> {{ element.pricecnt }} </td>
+    <th mat-header-cell *matHeaderCellDef style="width: 100px;">Price Opened on RC Not Valid</th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'Price',element.edltype)"> {{ element.pricecnt }} </td>
   </ng-container>
   
   <!-- Evaluation Count -->
   <ng-container matColumnDef="evalutioncnt">
-    <th mat-header-cell *matHeaderCellDef style="width: 130px;"> Evaluation Count </th>
-    <td mat-cell *matCellDef="let element"> {{ element.evalutioncnt }} </td>
+    <th mat-header-cell *matHeaderCellDef style="width: 130px;">Evaluation on RC Not Valid</th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'Evalution',element.edltype)"> {{ element.evalutioncnt }} </td>
   </ng-container>
   
   <!-- Live Count -->
   <ng-container matColumnDef="liveCnt">
-    <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Live Count </th>
-    <td mat-cell *matCellDef="let element"> {{ element.liveCnt }} </td>
+    <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Tender Live on RC Not Valid </th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'Live',element.edltype)"> {{ element.liveCnt }} </td>
   </ng-container>
   
   <!-- Re-Tender Count -->
   <ng-container matColumnDef="rentendercn">
-    <th mat-header-cell *matHeaderCellDef style="width: 130px;"> To Be Tender Count </th>
-    <td mat-cell *matCellDef="let element"> {{ element.rentendercn }} </td>
+    <th mat-header-cell *matHeaderCellDef style="width: 130px;"> To be Tender against RC Not Valid </th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'Retender',element.edltype)"> {{ element.rentendercn }} </td>
   </ng-container>
   
   <!-- Header Row -->
@@ -170,3 +174,155 @@
 
 
     </div>
+
+
+    <!-- RCDetails -->
+    <ng-template class=" " #itemDetailsModal let-modal>
+      <div class="row p-2 m-2 ">
+        <div class="col-lg-12 col-md-12">
+          <div class="d-flex align-items-center justify-content-between">
+            <h2 class="flex-grow-1 text-center m-0">
+              
+              RC Valid Details: {{ hoType === 0 ? 'DHS/DME' : hoType }},
+              <!-- {{drillType}} -->
+              {{ drillType == 'RCValid' ? 'No. of Items RC Valid' : drillType == 'RCNotValid' ? 'No. of Items RC Not Valid Count' : drillType == 'Price' ? 'Price Opened on RC Not Valid' : drillType == 'Evalution' ? 'Evaluation on RC Not Valid' : drillType == 'Live' ? 'Tender Live on RC Not Valid': drillType == 'Retender' ? 'To be Tender against RC Not Valid': drillType == 'nosIndent' ? 'No. of Items Annual Indent Received':'' }}
+              & {{edlType}}, {{ mcid == 1 ? 'Drugs' : mcid == 2 ? 'Consumables' : mcid == 3 ? 'Reagent' : mcid == 4 ? 'AYUSH' : '' }}
+
+            </h2>
+            <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+          </div>
+        </div>
+        
+        <!-- <div class="col-lg-12 col-md-12">
+          <h2 class="text-center align-items-center ">Warehouse wise stock Out in {{edlType1}} Drugs
+          <button type="button" class="btn-close text-end" mat-button mat-dialog-close aria-label="Close"></button></h2>
+  
+          <h1 class="text-info-emphasis">Warehouse Wise StockOut Details</h1> justify-content: center !important;
+    text-align: center;
+        </div> -->
+        <!-- <div class="col-lg-6 col-md-4 text-end"> -->
+          <!-- <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button> -->
+        <!-- </div> -->
+      </div>
+      <div class="" mat-dialog-content>
+        <div class="row card shadow card-body">
+          <div class="d-flex justify-content-between align-items-center mb-0">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterRCValidDrillDownDetail($event)">
+            </div>
+            <div class="export-menu-container">
+              <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'RCValidDrillDetails', sheet: 'RCValidDrillDetails', Props: { Author: 'CGMSCL' }})">Excel</button>
+                
+                <button mat-menu-item (click)="exportToPDFRCValidDrillDownDetails()">PDF</button>
+              </mat-menu>
+            </div>
+          </div>
+    
+          <div class="table-responsive ">
+            <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+              [dataSource]="dataSource1" #exporter="matTableExporter" matSort #sort1="matSort">
+    
+                  <!-- S.No -->
+                  <ng-container matColumnDef="sno" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header >
+                      <div class="center-header-cell" style="justify-content: center; text-align: center;">S.No</div>
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="center-cell">{{ element.sno}}</div>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="itemId">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Item Id </th>
+                    <td class="text-center"mat-cell *matCellDef="let element"> {{ element.itemId}} </td>
+                  </ng-container>
+                 
+  
+                  <ng-container matColumnDef="sku">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> SKU </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.sku }} </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="itemCode">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Item Code</th>
+                    <td class="text-center" mat-cell *matCellDef="let element"> {{ element.itemCode}} </td>
+                  </ng-container>
+                
+               
+                  <ng-container matColumnDef="itemName">
+                    <th  mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+                    <td  mat-cell *matCellDef="let element"> {{ element.itemName}} </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="unitcount">
+                    <th  mat-header-cell *matHeaderCellDef mat-sort-header>Unit Count </th>
+                    <td  mat-cell *matCellDef="let element"> {{ element.unitcount}} </td>
+                  </ng-container>
+                 
+                
+                  <ng-container matColumnDef="edlType">
+                    <th  mat-header-cell *matHeaderCellDef mat-sort-header>EDL Type </th>
+                    <td  mat-cell *matCellDef="let element"> {{ element.edlType}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="dhsAiQty">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>DHS Annual  Indents Qty </th>
+                    <td class="text-center" mat-cell *matCellDef="let element"> {{ element.dhsAiQty}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="dmeAiQty">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>DME Annual  Indents Qty </th>
+                    <td class="text-center" mat-cell *matCellDef="let element"> {{ element.dmeAiQty}} </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="rcEndDate" *ngif="drillType ==! 'RCNotValid'">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> RC End Date</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.rcEndDate}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="rcRate" *ngif="drillType ==! 'RCNotValid'">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Rate </th>
+                    <td class="text-center" mat-cell *matCellDef="let element"> {{ element.rcRate}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="noOfSuppliers">
+                    <th class="text-center" class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> No. of Suppliers </th>
+                    <td class="text-center" mat-cell *matCellDef="let element"> {{ element.noOfSuppliers}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="actionCode">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Tender Status </th>
+                    <td class="text-center" mat-cell *matCellDef="let element"> {{ element.actionCode }} </td>
+                  </ng-container>
+                  <ng-container class="text-center" matColumnDef="tenderStatus">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Details</th>
+                    <td class="text-center"  mat-cell *matCellDef="let element"> {{ element.tenderStatus}} </td>
+                  </ng-container>
+                
+                  
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+                    <!-- <tr mat-header-row
+                      *matHeaderRowDef="['sno','warehousename','itemcode','itemname','strengtH1','edlType','stockOutIWHPipe','stockOutPoPipe']">
+                    </tr> -->
+                    <!-- 'itemid','readyforissue','pending','stockOut','stockIn', -->
+                    <!-- 'itemid','readyforissue','pending','stockOut','stockIn', -->
+                    <!-- Data Rows -->
+                    <!-- <tr mat-row
+                      *matRowDef="let row; columns: ['sno','warehousename','itemcode','itemname','strengtH1','edlType','stockOutIWHPipe','stockOutPoPipe']">
+                    </tr> -->
+  
+            </table>
+            <mat-paginator #paginator1 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+    
+    
+      </div>
+      <!-- <div class="d-grid gap-2 col-12 mx-auto footer pt-5 pb-0">
+        <button  mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        
+          <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
+            exit_to_app
+          </mat-icon>
+        </button>
+      </div> -->
+    </ng-template>

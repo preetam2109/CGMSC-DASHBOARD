@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
+import { InsertUserLoginLogmodal } from 'src/app/Model/DashLoginDDL';
 
 
 declare var google: any;
@@ -41,6 +42,8 @@ wHDropdownList:any=[];
 captcha: string = '';
 isPasswordVisible: boolean = false;
 // captchaInput:any;
+InsertUserLoginLogData: InsertUserLoginLogmodal = new InsertUserLoginLogmodal();
+
   otp: any = '';
   username:any;
   emailid: any;
@@ -367,7 +370,9 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
       passwordField.type = this.isPasswordVisible ? 'text' : 'password'; // Toggle input type
     }
   }
-
+  getdata(){
+alert("hi")
+  }
   verifyOTP() {
     
     if (this.otp.length === 5) {
@@ -375,7 +380,8 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
 
       
       if(this.userid===2926 && this.otp==='11111'){
-
+// this.getdata();
+        this.InsertUserLoginLog();
         this.router.navigate(['/home']);
         this.toastr.success('Login Successful!');
 
@@ -978,5 +984,46 @@ toggleText() {
     //   }
     // }
   
+    
+  // https://dpdmis.in/CGMSCHO_API2/api/LogAudit/InsertUserLoginLog
+  
+  InsertUserLoginLog() {
+    try {
+      debugger
+      // console.log("save data");
+      // return;
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserLoginLogData.logId = 0; 
+      this.InsertUserLoginLogData.userId = userId;
+      this.InsertUserLoginLogData.roleId = roleId;
+      this.InsertUserLoginLogData.roleIdName = roleIdName;
+      this.InsertUserLoginLogData.userName = userName;
+      this.InsertUserLoginLogData.ipAddress = ipAddress;
+      this.InsertUserLoginLogData.userAgent = userAgent;
+      console.log('InsertUserLoginLogData=',this.InsertUserLoginLogData);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.api.InsertUserLoginLogPOST(this.InsertUserLoginLogData).subscribe({
+        next: (res: any) => {
+          console.log('Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
+    }
+  }
   
 }
