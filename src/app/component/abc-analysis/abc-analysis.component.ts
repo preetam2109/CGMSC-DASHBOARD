@@ -20,6 +20,24 @@ import { ToastrService } from 'ngx-toastr';
 import { DropdownModule } from 'primeng/dropdown';
 import { ApiService } from 'src/app/service/api.service';
 
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexDataLabels,
+  ApexStroke,
+  ApexTitleSubtitle
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  stroke: ApexStroke;
+  xaxis: ApexXAxis;
+  title: ApexTitleSubtitle;
+};
+
 @Component({
   selector: 'app-abc-analysis',
   standalone: true,
@@ -33,6 +51,8 @@ export class AbcAnalysisComponent {
 applyTextFiltertotal($event: KeyboardEvent) {
 throw new Error('Method not implemented.');
 }
+
+public chartOptions: Partial<ChartOptions> | any;
 
   selectedCategory: string = 'Drugs'; 
   selectedCategoryE: any = 'Y'; 
@@ -52,6 +72,7 @@ throw new Error('Method not implemented.');
   selectedLabele:any;
   edl:any
   selectedYearId: number | null = null;
+  showFooter: boolean = false;
   
   @ViewChild('paginator8') paginator8!: MatPaginator;
   @ViewChild('sort8') sort8!: MatSort;  
@@ -123,6 +144,7 @@ throw new Error('Method not implemented.');
 
 
   showData(){
+    this.showFooter = true;
     // this.loadData(this.selectedYearId,this.mcid,)
     console.log('Selected Type:', this.selectedEdlType);
     console.log('Selected Type:', this.selectedCategory);
@@ -135,26 +157,61 @@ throw new Error('Method not implemented.');
 
 
 
-  loadData(yearid:any,mcid:any,isedl:any): void {
+  // loadData(yearid:any,mcid:any,isedl:any): void {
 
-    this.spinner.show();
+  //   this.spinner.show();
    
-  debugger
-    this.api.ABCanalysisSummary(yearid,mcid,isedl).subscribe(
+  // debugger
+  //   this.api.ABCanalysisSummary(yearid,mcid,isedl).subscribe(
+  //     (res) => {
+  //       console.log('Raw API response:', res);
+  
+  //       this.ABCanalysisSummary = res.map((item: any, index: number) => ({
+  //         ...item,
+  //         sno: index + 1
+  //       }));
+  
+  //       console.log('With S.No:', this.ABCanalysisSummary);
+  
+  //       this.dataSource.data = this.ABCanalysisSummary;
+  //       this.dataSource.paginator = this.paginator;
+  //       this.dataSource.sort = this.sort;
+  
+  //       this.spinner.hide();
+  //       this.cdr.detectChanges();
+  //     },
+  //     (error) => {
+  //       console.error('API error:', error);
+  //       this.spinner.hide();
+  //     }
+  //   );
+    
+  // }
+  totalItems: number = 0;  // class level variable
+
+  loadData(yearid: any, mcid: any, isedl: any): void {
+    // this.showFooter = false; 
+    this.spinner.show();
+  
+    this.api.ABCanalysisSummary(yearid, mcid, isedl).subscribe(
       (res) => {
         console.log('Raw API response:', res);
   
+        // Calculate total noOfItems
+        this.totalItems = res.reduce((sum: number, item: any) => sum + item.noOfItems, 0);
+  
+        // Add sno + Items % column
         this.ABCanalysisSummary = res.map((item: any, index: number) => ({
           ...item,
-          sno: index + 1
+          sno: index + 1,
+          itemsPercent: this.totalItems > 0 ? ((item.noOfItems / this.totalItems) * 100).toFixed(2) : '0.00'
         }));
-  
-        console.log('With S.No:', this.ABCanalysisSummary);
   
         this.dataSource.data = this.ABCanalysisSummary;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-  
+        this.createItemsPercentChart();
+
         this.spinner.hide();
         this.cdr.detectChanges();
       },
@@ -163,8 +220,51 @@ throw new Error('Method not implemented.');
         this.spinner.hide();
       }
     );
-    
   }
+
+  createItemsPercentChart(): void {
+    // Extract data for chart
+    const categories = this.ABCanalysisSummary.map((item: any) => item.abC_CATEGORY);
+    const itemsPercentValues = this.ABCanalysisSummary.map((item: any) => Number(item.itemsPercent));
+  
+    this.chartOptions = {
+      series: [
+        {
+          name: "Items %",
+          data: itemsPercentValues
+        }
+      ],
+      chart: {
+        type: "line",
+        height: 350
+      },
+      dataLabels: {
+        enabled: true
+      },
+      stroke: {
+        curve: "smooth"
+      },
+      title: {
+        text: " ABC Analysis",
+        align: "left"
+      },
+      xaxis: {
+        categories: categories,
+        title: {
+          text: "ABC Category"
+        }
+      },
+      yaxis: {
+        title: {
+          text: "Items %"
+        },
+        labels: {
+          formatter: (val: number) => val + " %"
+        }
+      }
+    };
+  }
+  
 
  
 
@@ -415,7 +515,11 @@ exportToPDFd() {
     { header: 'Order Value', dataKey: 'order_value' },
     { header: 'Cumulative Value', dataKey: 'cumulative_value' },
     { header: 'Cumulative %', dataKey: 'cumulative_percent' },
-    { header: 'ABC Category', dataKey: 'abc_category' }
+    { header: 'ABC Category', dataKey: 'abc_category' },
+    { header: 'Price Opened', dataKey: 'pricecnt' },
+    { header: 'Under Evaluation', dataKey: 'evalutioncnt' },
+    { header: 'Live In ', dataKey: 'liveCnt' },
+    { header: 'To Be Tender', dataKey: 'rentendercn' },
   ];
 
   const rows = this.ABCanalysisSummaryDetail.map((item: any, index: number) => ({
@@ -438,7 +542,11 @@ exportToPDFd() {
     order_value: item.ordeR_VALUE,
     cumulative_value: item.cumulativE_VALUE,
     cumulative_percent: item.cumulativE_PERCENT,
-    abc_category: item.abC_CATEGORY
+    abc_category: item.abC_CATEGORY,
+    pricecnt: item.pricecnt,
+    evalutioncnt: item.evalutioncnt,
+    liveCnt: item.liveCnt,
+    rentendercn: item.rentendercn,
   }));
 
   autoTable(doc, {
