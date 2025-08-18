@@ -1529,6 +1529,7 @@ SupplierPendingPayments(budgetId:any){
 
 
 RCValidSatus(yearId:any,mcId:any,hoType:any){
+  debugger
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`);
 }
 

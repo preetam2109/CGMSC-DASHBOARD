@@ -1,5 +1,8 @@
-<div class="container-fluid py-3">
-    <h1 style="color: rgb(50, 50, 164); margin-bottom: 20px;" > <strong>Indent RC Status</strong></h1>
+
+
+<div class="container mt-3">
+    <h1 style="color: rgb(50, 50, 164); margin-bottom: 20px;" > <strong>Annual Indent Vs RC Status</strong></h1>
+
     
     <div class="row mb-3">
       <div class="col-md-6 d-flex flex-wrap">
@@ -69,9 +72,8 @@
               <mat-menu #exportMenu="matMenu">
                 <button mat-menu-item
                   (click)="exporter.exportTable('xlsx', { fileName: 'rcindent', sheet: 'rcindent', Props: { Author: 'cgmsc' }})">Excel</button>
-                <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+
+
                 <button mat-button (click)="exportToPDF()">PDF</button>
     
               </mat-menu>
@@ -99,44 +101,58 @@
   
   <!-- No. of Indents -->
   <ng-container matColumnDef="nosIndent">
+
     <th mat-header-cell *matHeaderCellDef style="width: 120px;"> No. of Items Annual Indent Received </th>
     <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'nosIndent',element.edltype)">{{ element.nosIndent }} </td>
+
   </ng-container>
   
   <!-- RC Valid Count -->
   <ng-container matColumnDef="rcValidcnt">
+
     <th mat-header-cell *matHeaderCellDef style="width: 120px;">No. of Items RC Valid </th>
     <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'RCValid',element.edltype)"> {{ element.rcValidcnt }} </td>
+
   </ng-container>
   
   <!-- RC Not Valid Count -->
   <ng-container matColumnDef="rcNotValidcnt">
+
     <th mat-header-cell *matHeaderCellDef style="width: 140px;">No. of Items RC Not Valid </th>
     <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'RCNotValid',element.edltype)"> {{ element.rcNotValidcnt }} </td>
+
   </ng-container>
   
   <!-- Price Count -->
   <ng-container matColumnDef="pricecnt">
     <th mat-header-cell *matHeaderCellDef style="width: 100px;">Price Opened on RC Not Valid</th>
+
     <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'Price',element.edltype)"> {{ element.pricecnt }} </td>
+
   </ng-container>
   
   <!-- Evaluation Count -->
   <ng-container matColumnDef="evalutioncnt">
     <th mat-header-cell *matHeaderCellDef style="width: 130px;">Evaluation on RC Not Valid</th>
+
     <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'Evalution',element.edltype)"> {{ element.evalutioncnt }} </td>
+
   </ng-container>
   
   <!-- Live Count -->
   <ng-container matColumnDef="liveCnt">
+
     <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Tender Live on RC Not Valid </th>
     <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'Live',element.edltype)"> {{ element.liveCnt }} </td>
+
   </ng-container>
   
   <!-- Re-Tender Count -->
   <ng-container matColumnDef="rentendercn">
+
     <th mat-header-cell *matHeaderCellDef style="width: 130px;"> To be Tender against RC Not Valid </th>
     <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="GETRCValidDrillDown(546,mcid,'Retender',element.edltype)"> {{ element.rentendercn }} </td>
+
   </ng-container>
   
   <!-- Header Row -->
