@@ -58,5 +58,11 @@ export class HardcodedAuthenticationService {
   logout() {
     sessionStorage.removeItem('authenticatedUser');
     sessionStorage.removeItem('role');
+    sessionStorage.removeItem('ipAddress');
+    sessionStorage.removeItem('userAgent');
+     localStorage.removeItem('roleName');
+   sessionStorage.removeItem('userid');
+    sessionStorage.removeItem('roleId');
+  sessionStorage.removeItem('firstname');
   }
 }
