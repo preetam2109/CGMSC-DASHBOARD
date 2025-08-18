@@ -69,6 +69,7 @@ export class PaidTimeTakenComponent {
   QCRequired:string='Y'
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  role: any;
 
 
   constructor(
@@ -184,6 +185,9 @@ export class PaidTimeTakenComponent {
   
 
   ngOnInit() {
+
+    this.role=localStorage.getItem('roleName')
+    // alert(this.role)
     console.log('Initial hodname:', this.hodname);
     // this.loadData(this.mcid, this.hodid,this.QCRequired,this.hodname);
   }

@@ -1,0 +1,368 @@
+<div class="card shadow">
+    <div class="card-body">
+      <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+        <mat-tab label="Warehouse wise stock Out in EDL Drugs">
+          <ng-template matTabContent>
+            <div class="mt-2">
+  
+              <div class="w-100 mt-2">
+                <h3 class="bold text-info" >Warehouse wise stock Out in EDL Drugs</h3>
+              </div>
+              <div class="card shadow card-body">
+                <div class="d-flex justify-content-between align-items-center mb-0">
+                  <div class="filter-field flex-grow-1">
+                    <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                  </div>
+                  <div class="export-menu-container">
+                    <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                    <mat-menu #exportMenu="matMenu">
+                      <button mat-menu-item
+                        (click)="exporter.exportTable('xlsx', { fileName: 'WHwisestockNONEDL_Drugs', sheet: 'WHwisestockNONEDL_Drugs', Props: { Author: 'cgmsc' }})">Excel</button>
+                      <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                      <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                      <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                      <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                    </mat-menu>
+                  </div>
+                </div>
+                <div class="table-responsive ">
+                  <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+                    [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+  
+                    <!-- Serial Number Column -->
+                    <ng-container matColumnDef="sno">
+                      <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>SL No </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                    </ng-container>
+                    <!-- nocnumber Column -->
+                    <ng-container matColumnDef="warehousename">
+                      <th class="text-center"  mat-header-cell *matHeaderCellDef mat-sort-header>Warehouse</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.warehousename }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="noofitems">
+                      <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Total No Of EDL Items</th>
+                      <td class="text-center"  mat-cell *matCellDef="let element">{{ element.noofitems}} </td>
+                    </ng-container>
+  
+                    <!-- warehousename Column -->
+                    <ng-container matColumnDef="stockin">
+                      <th class="text-center"  mat-header-cell *matHeaderCellDef mat-sort-header>No of Stock Available</th>
+                      <td class="text-center" mat-cell *matCellDef="let element">{{ element.stockin }} </td>
+                    </ng-container>
+  
+                    <!-- facilityname Column -->
+                    <ng-container matColumnDef="stockout">
+                      <th class="text-center"  mat-header-cell *matHeaderCellDef mat-sort-header>No of Stock-Out</th>
+                      <td class="link-hoverr text-center" mat-cell *matCellDef="let element" (click)="GETWarehoueWiseStockOutDetail(1,'EDL',element.warehouseid,'STOCKOUT')"> {{ element.stockout}} </td>
+                    </ng-container>
+  
+                    <!-- nositems Column -->
+                    <ng-container matColumnDef="stockoutiwhpipe">
+                      <th class="text-center"  mat-header-cell *matHeaderCellDef mat-sort-header>IWH Pipeline<br>
+                        Against Stock-Out
+                        </th>
+                      <td class="link-hoverr text-center" mat-cell *matCellDef="let element" (click)="GETWarehoueWiseStockOutDetail(1,'EDL',element.warehouseid,'IWHPIPELINE')"> {{ element.stockoutiwhpipe}} </td>
+                    </ng-container>
+  
+                    <!-- inddt Column -->
+                    <!-- <ng-container matColumnDef="stockinpopipe">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Pipeline
+                        Agianst Stock
+                        Out
+                        </th>
+                      <td mat-cell *matCellDef="let element" (click)="getASEnteredDetails(element.asid,0,0)">{{
+                        element.enteredWorks}} </td>
+                    </ng-container> -->
+  
+                    <!-- pendingday Column -->
+                    <ng-container matColumnDef="stockoutpopipe">
+                      <th class="text-center"  mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Pipeline<br>
+                        Against Stock-Out
+                        </th>
+                      <td class="link-hoverr text-center"  mat-cell *matCellDef="let element" (click)="GETWarehoueWiseStockOutDetail(1,'EDL',element.warehouseid,'POPIPELINE')"> {{ element.stockoutpopipe}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="percentage">
+                      <th class="text-center"  mat-header-cell *matHeaderCellDef mat-sort-header>Stock Out %</th>
+                      <td class="text-center" mat-cell *matCellDef="let element"> {{ element.percentage}} </td>
+                    </ng-container>
+                    <!-- <ng-container matColumnDef="enteredTotalAS">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Entered Total AS</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.enteredTotalAS}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="balanceASAmount">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance ASAmount(In Lacs)</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.balanceASAmount}} </td>
+                    </ng-container> -->
+                    <!-- <ng-container matColumnDef="asid">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>ASID</th>
+                      <td mat-cell *matCellDef="let element"> {{ element.asid}} </td>
+                    </ng-container> -->
+                    <!-- <ng-container matColumnDef="action">
+                      <th mat-header-cell *matHeaderCellDef>Download AS</th>
+                      <td mat-cell *matCellDef="let element">
+                        <span class="d-flex  flex-row-reverse p-2 ">
+                          <button class="btn btn-light btn-sm btn-outline-secondary align-items-center" [ngClass]="[value == 'Active' ? 'btn-secondary' : 'btn-light']"  mat-button (click)="onButtonClick(element.asid,0)">
+                          <button class="btn btn-light btn-sm btn-outline-secondary align-items-center" mat-button
+                            (click)="onButtonClick(element.asid,0)">
+                            <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                          </button>
+                        </span>
+                      </td>
+                    </ng-container> -->
+                    <!-- Header Row -->
+                    <tr mat-header-row
+                      *matHeaderRowDef="['sno','warehousename','noofitems','stockin','stockout','stockoutiwhpipe','stockoutpopipe', 'percentage']">
+                    </tr>
+  
+                    <!-- Data Rows -->
+                    <tr  mat-row
+                      *matRowDef="let row; columns: ['sno','warehousename','noofitems','stockin','stockout','stockoutiwhpipe','stockoutpopipe', 'percentage']">
+                    </tr>
+  
+                  </table>
+                  <mat-paginator #paginatorval [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                </div>
+              </div>
+            </div>
+           
+  
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Warehouse wise stock Out in Non EDL Drugs">
+          <ng-template matTabContent>
+            <div class="mt-2">
+              <div class="w-100 mt-2">
+                <h3 class="bold text-info">Warehouse wise stock Out in Non EDL Drugs</h3>
+              </div>
+              <div class="card shadow card-body">
+                <div class="d-flex justify-content-between align-items-center mb-0">
+                  <div class="filter-field flex-grow-1">
+                    <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                  </div>
+                  <div class="export-menu-container">
+                    <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                    <mat-menu #exportMenu="matMenu">
+                      <button mat-menu-item
+                        (click)="exporter.exportTable('xlsx', { fileName: '
+                        WHwisestockEDL_Drugs', sheet: 'WHwisestockEDL_Drugs', Props: { Author: 'cgmsc' }})">Excel</button>
+                      <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                      <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                      <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                      <button mat-menu-item (click)="exportToPDF1()">PDF</button>
+                    </mat-menu>
+                  </div>
+                </div>
+                <div class="table-responsive ">
+                  <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+                  [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+
+                  <!-- Serial Number Column -->
+                  <ng-container matColumnDef="sno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>SL No </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                  </ng-container>
+                  <!-- nocnumber Column -->
+                  <ng-container matColumnDef="warehousename">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Warehouse</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.warehousename }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="noofitems">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Total No Of Non EDL Items</th>
+                    <td class="text-center" mat-cell *matCellDef="let element">{{ element.noofitems}} </td>
+                  </ng-container>
+
+                  <!-- warehousename Column -->
+                  <ng-container matColumnDef="stockin">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>No of Stock Available</th>
+                    <td class="text-center" mat-cell *matCellDef="let element">{{ element.stockin }} </td>
+                  </ng-container>
+
+                  <!-- facilityname Column -->
+                  <ng-container matColumnDef="stockout">
+                    <th class="text-center"  mat-header-cell *matHeaderCellDef mat-sort-header>NO of Stock-Out</th>
+                    <td  class="text-center link-hoverr" mat-cell *matCellDef="let element" (click)="GETWarehoueWiseStockOutDetail(1,'NON EDL',element.warehouseid,'STOCKOUT')"> {{ element.stockout}} </td>
+                  </ng-container>
+
+                  <!-- nositems Column -->
+                  <ng-container matColumnDef="stockoutiwhpipe">
+                    <th class="text-center "  mat-header-cell *matHeaderCellDef mat-sort-header>IWH Pipeline<br>
+                      Against Stock-Out</th>
+                    <td  class="text-center link-hoverr" mat-cell *matCellDef="let element" (click)="GETWarehoueWiseStockOutDetail(1,'NON EDL',element.warehouseid,'IWHPIPELINE')"> {{ element.stockoutiwhpipe}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="stockoutpopipe">
+                    <th class="text-center "  mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Pipeline<br>
+                      Against Stock-Out </th>
+                    <td  class="text-center link-hoverr" mat-cell *matCellDef="let element"  (click)="GETWarehoueWiseStockOutDetail(1,'NON EDL',element.warehouseid,'POPIPELINE')"> {{ element.stockoutpopipe}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="percentage">
+                    <th class="text-center"  mat-header-cell *matHeaderCellDef mat-sort-header>Stock-Out %</th>
+                    <td  class="text-center" mat-cell *matCellDef="let element"> {{ element.percentage}} </td>
+                  </ng-container>
+                  <!-- Header Row -->
+                  <tr mat-header-row
+                    *matHeaderRowDef="['sno','warehousename','noofitems','stockin','stockout','stockoutiwhpipe','stockoutpopipe', 'percentage']">
+                  </tr>
+
+                  <!-- Data Rows -->
+                  <tr mat-row
+                    *matRowDef="let row; columns: ['sno','warehousename','noofitems','stockin','stockout','stockoutiwhpipe','stockoutpopipe', 'percentage']">
+                  </tr>
+
+                </table>
+                <mat-paginator #paginatorval [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                  <!-- <mat-paginator #paginator3 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+  
+  
+  <ng-template class=" " #itemDetailsModal let-modal>
+    <div class="row p-2 m-2 ">
+      <div class="col-lg-12 col-md-12">
+        <div class="d-flex align-items-center justify-content-between">
+          <h2 class="flex-grow-1 text-center m-0">
+            Warehouse wise stock Out in {{edlType1}} Drugs
+          </h2>
+          <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button>
+        </div>
+      </div>
+      
+      <!-- <div class="col-lg-12 col-md-12">
+        <h2 class="text-center align-items-center ">Warehouse wise stock Out in {{edlType1}} Drugs
+        <button type="button" class="btn-close text-end" mat-button mat-dialog-close aria-label="Close"></button></h2>
+
+        <h1 class="text-info-emphasis">Warehouse Wise StockOut Details</h1> justify-content: center !important;
+  text-align: center;
+      </div> -->
+      <!-- <div class="col-lg-6 col-md-4 text-end"> -->
+        <!-- <button type="button" class="btn-close" mat-button mat-dialog-close aria-label="Close"></button> -->
+      <!-- </div> -->
+    </div>
+    <div class="" mat-dialog-content>
+      <div class="row card shadow card-body">
+        <div class="d-flex justify-content-between align-items-center mb-0">
+          <div class="filter-field flex-grow-1">
+            <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterWarehoueWiseStockOutDetail($event)">
+          </div>
+          <div class="export-menu-container">
+            <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+            <mat-menu #exportMenu="matMenu">
+              <button mat-menu-item
+                (click)="exporter.exportTable('xlsx', { fileName: 'WarehoueWiseStockOutDetail', sheet: 'WarehoueWiseStockOutDetail', Props: { Author: 'cgmsc' }})">Excel</button>
+              
+              <button mat-menu-item (click)="exportToPDFWHStockoutDetails()">PDF</button>
+            </mat-menu>
+          </div>
+        </div>
+  
+        <div class="table-responsive ">
+          <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+            [dataSource]="dataSource2" #exporter="matTableExporter" matSort #sort2="matSort">
+  
+                <!-- S.No -->
+                <ng-container matColumnDef="sno" >
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center; text-align: center;">
+                    <div class="center-header-cell" style="justify-content: center; text-align: center;">S.No</div>
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="center-cell">{{ element.sno}}</div>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="warehouseid">
+                  <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> warehouseid </th>
+                  <td class="text-center"mat-cell *matCellDef="let element"> {{ element.warehouseid}} </td>
+                </ng-container>
+                <ng-container  matColumnDef="warehousename">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.warehousename}} </td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="sku">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> SKU </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.sku }} </td>
+                </ng-container> -->
+
+                <ng-container matColumnDef="itemcode">
+                  <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Item Code</th>
+                  <td class="text-center" mat-cell *matCellDef="let element"> {{ element.itemcode}} </td>
+                </ng-container>
+              
+             
+                <ng-container matColumnDef="itemname">
+                  <th  mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+                  <td  mat-cell *matCellDef="let element"> {{ element.itemname}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="strengtH1">
+                  <th  mat-header-cell *matHeaderCellDef mat-sort-header>Strength </th>
+                  <td  mat-cell *matCellDef="let element"> {{ element.strengtH1}} </td>
+                </ng-container>
+               
+              
+                <ng-container matColumnDef="edlType">
+                  <th  mat-header-cell *matHeaderCellDef mat-sort-header>EDL Type </th>
+                  <td  mat-cell *matCellDef="let element"> {{ element.edlType}} </td>
+                </ng-container>
+                <ng-container matColumnDef="itemid">
+                  <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>itemid </th>
+                  <td class="text-center" mat-cell *matCellDef="let element"> {{ element.itemid}} </td>
+                </ng-container>
+                <ng-container matColumnDef="readyforissue">
+                  <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Ready Stock </th>
+                  <td class="text-center" mat-cell *matCellDef="let element"> {{ element.readyforissue}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="pending">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> UQC Stock </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.pending}} </td>
+                </ng-container>
+                <ng-container matColumnDef="stockOut">
+                  <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Stock Out </th>
+                  <td class="text-center" mat-cell *matCellDef="let element"> {{ element.stockOut}} </td>
+                </ng-container>
+                <ng-container matColumnDef="stockIn">
+                  <th class="text-center" class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Stock In </th>
+                  <td class="text-center" mat-cell *matCellDef="let element"> {{ element.stockIn}} </td>
+                </ng-container>
+               
+                <ng-container class="text-center" matColumnDef="stockOutIWHPipe">
+                  <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> IWH Pipeline </th>
+                  <td class="text-center"  mat-cell *matCellDef="let element"> {{ element.stockOutIWHPipe}} </td>
+                </ng-container>
+                <ng-container matColumnDef="stockOutPoPipe">
+                  <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Supplier Pipeline </th>
+                  <td class="text-center" mat-cell *matCellDef="let element"> {{ element.stockOutPoPipe }} </td>
+                </ng-container>
+                
+
+                  <tr mat-header-row
+                    *matHeaderRowDef="['sno','warehousename','itemcode','itemname','strengtH1','edlType','stockOutIWHPipe','stockOutPoPipe']">
+                  </tr>
+                  <!-- 'itemid','readyforissue','pending','stockOut','stockIn', -->
+                  <!-- 'itemid','readyforissue','pending','stockOut','stockIn', -->
+                  <!-- Data Rows -->
+                  <tr mat-row
+                    *matRowDef="let row; columns: ['sno','warehousename','itemcode','itemname','strengtH1','edlType','stockOutIWHPipe','stockOutPoPipe']">
+                  </tr>
+
+          </table>
+          <mat-paginator #paginatorPageSize [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+  
+  
+    </div>
+    <div class="d-grid gap-2 col-12 mx-auto footer mt-2 p-2">
+      <button mat-button mat-dialog-close  type="button" class="btn btn-info btn-lg" >
+        <!-- mat-card-avatar  mat-card-avatar -->
+        <mat-icon role="img" class="mat-icon notranslate  material-icons mat-icon-no-color" aria-hidden="true">
+          exit_to_app
+        </mat-icon>
+      </button>
+    </div>
+  </ng-template>

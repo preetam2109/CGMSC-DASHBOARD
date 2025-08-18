@@ -62,10 +62,10 @@ import { NearExpRCDetails } from '../Model/NearExpRCDetails';
 import { SupplyDuration } from '../Model/SupplyDuration';
 import { POSuppyTimeTakenYear } from '../Model/POSuppyTimeTakenYear';
 import { PaidTimeTaken } from '../Model/PaidTimeTaken';
-import { QCTimeTakenYearwise } from '../Model/QCTimeTakenYearwise';
+import { nsqDrugDetails, QCTimeTakenYearwise } from '../Model/QCTimeTakenYearwise';
 import { QCLabYearAvgTime } from '../Model/QCLabYearAvgTime';
 import { StockoutSummary } from '../Model/StockoutSummary';
-import { HODYearWiseIssuance } from '../Model/HODYearWiseIssuance';
+import { HODYearWiseIssuance, MontlyItemDemography, YearWiseIssueReport } from '../Model/HODYearWiseIssuance';
 import { DistDrugCount } from '../Model/DistDrugCount';
 import { WHDrugCount } from '../Model/WHDrugCount';
 import { HODPOYear_AgAI } from '../Model/HODPOYear_AgAI';
@@ -113,10 +113,11 @@ import { Masitems } from '../Model/Masitems';
 import { getItemDetailsWithHOD } from '../Model/ItemDetailsWithHod';
 import { DHSDMEStock } from '../Model/DHSDmeStock';
 import { facwiseSTockIssuanceCoonsumptionm } from '../Model/facwiseSTockIssuanceCoonsumptionm';
-import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
+import { Fund_Libilities, FundReivedBudgetDetails, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, PaidYearwise_Budget, Pipeline_Libilities, PODetailsAgainstIndentYr } from '../Model/FinanceDash';
 import { AttendenceRecord, Designation, EmployeeDetail, GetLocation } from '../Model/Attendence';
-import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalTender } from '../Model/TenderStatus';
-import { GetConsTenderStatusDetail, GetToBeTender, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
+import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTotal, TotalRC1, TotalRC1Details, TotalTender } from '../Model/TenderStatus';
+import { CoverStatus, CoverStatusDetail, CoverStatusTenderDetail, EqptobeTender, EqToBeTenderDetail, GetConsTenderStatusDetail, GetToBeTender, SchemeReceived, SchemeTenderStatus, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, ToBeTenderBifurcation, ToBeTenderBifurcationDetail, TobetenderDetails, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
+import { AIvsIssuance, MasfacilityInfoUser, Year } from '../Model/masInfoUser';
 
 
 
@@ -127,6 +128,7 @@ export class ApiService {
   private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
   private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
   private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
+
   // private CGMSCHO_API2 = 'https://dpdmis.in//CGMSCHO_API_TEST/api';
 
   // https://dpdmis.in//CGMSCHO_API_TEST/api
@@ -489,6 +491,7 @@ export class ApiService {
   }
 
   getSeasonDrugs(seasonname: string, groupid: number, itemtypeid: number, storeType: string): Observable<any> {
+
     const apiUrl = `${this.CGMSCHO_API2}/HOD/SeasonDrugs`;
     const params = new HttpParams()
       .set('seasonname', seasonname)
@@ -563,9 +566,9 @@ export class ApiService {
     return this.http.get<HODPOYear_AgAI[]>(`${this.CGMSCHO_API2}/HO/HODPOYear_AgAI?mcatid=${mcatid}&hodid=${hodid}&Isall=${Isall}&IsagainstAI=${IsagainstAI}`);
   }
 
-  DirectorateAIDetails(yearid: any, mcid: any, hodid: any, groupid: any, itemtypeid: any): Observable<any> {
+  DirectorateAIDetails(yearid: any, mcid: any, hodid: any, groupid: any, itemtypeid: any,pogiven:any): Observable<any> {
 
-    return this.http.get<DirectorateAIDetails[]>(`${this.CGMSCHO_API2}/HOD/DirectorateAIDetails?yearid=${yearid}&mcid=${mcid}&hodid=${hodid}&groupid=${groupid}&itemtypeid=${itemtypeid}`);
+    return this.http.get<DirectorateAIDetails[]>(`${this.CGMSCHO_API2}/HOD/DirectorateAIDetails?yearid=${yearid}&mcid=${mcid}&hodid=${hodid}&groupid=${groupid}&itemtypeid=${itemtypeid}&pogiven=${pogiven}`);
   }
 
   GroupWiseAI_PODetails(yearid: any, mcid: any, hodid: any): Observable<any> {
@@ -1096,11 +1099,12 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   getFundReivedBudgetID(bugetid: any, yrid: any) {
+    
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/FundReivedBudgetID?bugetid=${bugetid}&yrid=${yrid}`);
   }
 
   PaidYearwise_Budget(bugetid: any, yrid: any) {
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/PaidYearwise_Budget?bugetid=${bugetid}&yrid=${yrid}`);
+    return this.http.get<PaidYearwise_Budget[]>(`${this.CGMSCHO_API2}/DashboardFinance/PaidYearwise_Budget?bugetid=${bugetid}&yrid=${yrid}`);
   }
 
   PODetailsAgainstIndentYr(bugetid: any, yrid: any, HOD: any) {
@@ -1150,8 +1154,8 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<QCPendingAreaDetail[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}`);
   }
 
-  GrossPaidDateWiseDetails(bugetid: any, fromdt: any, todt: any, supplierid: any, yrid: any) {
-    return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}`);
+  GrossPaidDateWiseDetails(bugetid: any, fromdt: any, todt: any, supplierid: any, yrid: any,Indentyrid:any) {
+    return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}&Indentyrid=${Indentyrid}`);
   }
   
   Sanc_Cheque(rptype: any,bugetid: any) 
@@ -1271,11 +1275,15 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<TenderStagesTotal[]>(`${this.CGMSCHO_API2}/HOTender/TenderStagesTotal?mcatid=${mcatid}`);
   }
 
-  GetTotalRC1(mcatid:any) {
-    return this.http.get<TotalRC1[]>(`${this.CGMSCHO_API2}/HOTender/TotalRC1?mcatid=${mcatid}`);
+  GetTotalRC1(mcatid:any,isEdl:any) {
+    return this.http.get<TotalRC1[]>(`${this.CGMSCHO_API2}/HOTender/TotalRC1?mcatid=${mcatid}&isEdl=${isEdl}`);
+  }
+  GetTotalRC1Details(mcid:any,Isedl:any) {
+    return this.http.get<TotalRC1Details[]>(`${this.CGMSCHO_API2}/HOTender/RcDetail1?mcid=${mcid}&Isedl=${Isedl}`);
   }
 
   getStatusDetail(status:any,mcatid:any) {
+    
     return this.http.get<StatusDetail[]>(`${this.CGMSCHO_API2}/HOTender/StatusDetail?status=${status}&mcatid=${mcatid}`);
   }
   getStatusItemDetail(schemeId:any) {
@@ -1296,6 +1304,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   GetEqpTenderDetail(csid:any){
+    
     return this.http.get<TenderDetail[]>(`${this.himis_apin}/EMS/GetTenderDetail?csid=${csid}`);
   }
 
@@ -1314,13 +1323,252 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
   
   ZonalTenderStatusDetail(tid:any){
+    
     return this.http.get<ZonalTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatusDetail?tid=${tid}`);
   }
+
   GetToBeTenderNonZonal(){
+    
     return this.http.get<GetToBeTender[]>(`${this.himis_apin}/TenderStatus/GetToBeTender`);
+  }
+  GetToBeTenderEqp(){
+    
+    return this.http.get<EqptobeTender[]>(`${this.himis_apin}/EMS/EqToBeTender`);
+  }
+  
+  GetToBeTenderDrugsSection(mcid:any){
+    
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTender?mcid=${mcid}`);
+  }
+  
+  GetToBeTenderDetail(mcid:any){
+    
+    return this.http.get<TobetenderDetails[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTenderDetail?mcid=${mcid}`);
+  }
+  
+  
+  SchemeReceived(schemeid:any){
+    
+    return this.http.get<SchemeReceived[]>(`${this.CGMSCHO_API2}/HOTender/SchemeReceived?schemeid=${schemeid}`);
+  }
+  
+  SchemeTenderStatus(schemeid:any){
+    
+    return this.http.get<SchemeTenderStatus[]>(`${this.CGMSCHO_API2}/HOTender/SchemeTenderStatus?schemeid=${schemeid}`);
+  }
+  
+  GetEqToBeTenderDetail(){
+    
+    return this.http.get<EqToBeTenderDetail[]>(`${this.himis_apin}/EMS/EqToBeTenderDetail`);
+  }
+  
+
+  CoverStatus(){
+    // card
+    return this.http.get<CoverStatus[]>(`${this.himis_apin}/StockMgm/CoverStatus`);
+
+  }
+  
+  CoverStatusDetail(csid:any){
+    // click
+    return this.http.get<CoverStatusDetail[]>(`${this.himis_apin}/StockMgm/CoverStatusDetail?csid=${csid}`);
+
+  }
+  CoverStatusTenderDetail(tenderId:any){
+    // item click
+    return this.http.get<CoverStatusTenderDetail[]>(`${this.himis_apin}/StockMgm/CoverStatusTenderDetail?tenderId=${tenderId}`);
+
+  }
+  GetnsqDrugDetails(){
+    // item click
+    return this.http.get<nsqDrugDetails[]>(`${this.CGMSCHO_API2}/QC/nsqDrugDetails`);
+
+  }
+
+  ToBeTenderBifurcation(){
+    // item click
+    return this.http.get<ToBeTenderBifurcation[]>(`${this.himis_apin}/TenderStatus/ToBeTenderBifurcation`);
+
+  }
+
+  ToBeTenderBifurcationDetail(tRemarkId:any,){
+    // item click
+    
+    return this.http.get<ToBeTenderBifurcationDetail[]>(`${this.himis_apin}/TenderStatus/ToBeTenderBifurcationDetail?tRemarkId=${tRemarkId}`);
+
+  }
+
+  MasfacilityInfoUser(hod:any,disid:any,factypeid:any,whid:any,facid:any,userid:any,coll_cmho:any){
+    // item click
+    return this.http.get<MasfacilityInfoUser[]>(`${this.CGMSCHO_API2}/Master/MasfacilityInfoUser?hod=${hod}&disid=${disid}&factypeid=${factypeid}&whid=${whid}&facid=${facid}&userid=${userid}&coll_cmho=${coll_cmho}`);
+
+  }
+
+  AIvsIssuance(mcid:any,yrid:any,facid:any){
+    
+    
+    return this.http.get<AIvsIssuance[]>(`${this.CGMSCHO_API2}/HO/AIvsIssuance?mcid=${mcid}&facid=${facid}&yrid=${yrid}`);
+
+  }
+  getYear(){
+
+    return this.http.get<Year[]>(`${this.CGMSCHO_API2}/CGMSCStock/getYear`);
+
+  }
+
+  NearExpRCDetails(mcid:any,mmpara:any){
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/TimeTaken/NearExpRCDetails?mcid=${mcid}&mmpara=${mmpara}`);
   }
 
 
+  variousStatusAgainstCYAI(mcid:any,yearId:any){
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOD/variousStatusAgainstCYAI?yearId=${yearId}&mcid=${mcid}`);
+  }
+
+
+
+  MontlyItemDemography(itemId:any,mcid:any,yearId:any){
+    
+    return this.http.get<MontlyItemDemography[]>(`${this.CGMSCHO_API2}/HO/MontlyItemDemography?itemId=${itemId}&mcid=${mcid}&yearId=${yearId}`);
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/MontlyItemDemography?itemId=9996&mcid=1
+  }
+  YearWiseIssueReport(itemId:any,mcid:any){
+    
+    return this.http.get<YearWiseIssueReport[]>(`${this.CGMSCHO_API2}/HO/YearWiseIssueReport?itemId=${itemId}&mcid=${mcid}`);
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/YearWiseIssueReport?itemId=9996&mcid=1
+  }
+
+
+
+  //#region StockStatus
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+// https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
+// https://dpdmis.in/CGMSCHO_API2/api/HO/StockOutDetails?yearId=546&mcid=1&tendCondition=PRICE
+// https://dpdmis.in/CGMSCHO_API2/api/HO/whstockoutin?yearId=546&mcid=1&catid=52
+// https://localhost:7247/api/HO/whstockoutin?yearId=546&mcid=1
+
+StockStatus(){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL`);
+}
+IssuePerDetail(mcid:any,perCondition:any,tendCondition:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/IssuePerDetail?yearId=546&mcid=${mcid}&perCondition=${perCondition}&tendCondition=${tendCondition}`);
+}
+StockOutDetails(mcid:any,tendCondition:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockOutDetails?yearId=546&mcid=${mcid}&tendCondition=${tendCondition}`);
+}
+whstockoutin(mcid:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutIn?mcid=${mcid}`);
+}
+
+WhStockOutInDetail(whid:any,para:any){
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/WhStockOutInDetail?whid=2615&para=STOCKOUT
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutInDetail?whid=${whid}&para=${para}`);
+}
+WarehoueWiseStockOut(mcid:any,edlType:any){
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOut?mcid=1&edlType=NON%20EDL
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOut?mcid=${mcid}&edlType=${edlType}`);
+}
+WarehoueWiseStockOutDetail(mcid:any,edlType:any,whId:any,colFlag:any){
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOutDetail?mcid=1&edlType=EDL&whId=2615&colFlag=POPIPELINE
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOutDetail?mcid=${mcid}&edlType=${edlType}&whId=${whId}&colFlag=${colFlag}`);
+}
+RCValidDrillDown(yearId:any,mcid:any,hoType:any,drillType:any,edlType:any){
+  // https://dpdmis.in/CGMSCHO_API2/api/DashboardHome/RCValidDrillDown?yearId=546&mcId=1&hoType=0&drillType=nosIndent&edlType=NON%20EDL
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidDrillDown?yearId=${yearId}&mcId=${mcid}&hoType=${hoType}&drillType=${drillType}&edlType=${edlType}`);
+}
+
+
+
+// https://dpdmis.in/CGMSCHO_API2/api/LogAudit/InsertUserLoginLog
+
+// {
+//   "logId": 0,
+//   "userId": 123,
+//   "roleId": 5,
+//   "roleIdName": "Admin",
+//   "userName": "johnDoe",
+//   "ipAddress": "192.168.1.100",
+//   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
+// }
+
+
+InsertUserLoginLogPOST(values: any) {
+  return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values, {
+    responseType: 'text' 
+  });
+  // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`,values );
+  // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values);
+
+}
+
+// https://localhost:7247/api/LogAudit/InsertUserPageViewLog
+
+// {
+//   "logId": 0,
+//   "userId": 678,
+//   "roleId": 5,
+//   "roleIdName": "System Administrator",
+//   "pageUrl": "/dashboard/overview",
+//   "pageName": "Dashboard",
+//   "viewTime": "2025-08-11T09:39:02.973Z",
+//   "ipAddress": "192.168.1.100",
+//   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
+// }
+
+//#endregion
+
+
+
+SupplierPendingPayments(budgetId:any){
+  
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/SupplierPendingPayments?budgetId=${budgetId}`);
+}
+
+
+
+
+RCValidSatus(yearId:any,mcId:any,hoType:any){
+  debugger
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`);
+}
+
+ABCanalysisSummary(yearid:any,mcid:any,isedl:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummary?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}`);
+}
+
+ABCanalysisSummaryDetail(yearid:any,mcid:any,isedl:any,detail:any,isRCvalid:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummaryDetail?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}&detail=${detail}&isRCvalid=${isRCvalid}`);
+}
+
+
+
+NearExpiryItemsWH(month:any,mcid:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryItemsWH?month=${month}&mcid=${mcid}`);
+}
+NearExpiryBatchWise(month:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryBatchWise?month=${month}`);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
   
 
 

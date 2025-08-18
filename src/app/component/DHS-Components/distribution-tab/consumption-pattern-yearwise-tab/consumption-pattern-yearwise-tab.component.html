@@ -1,0 +1,142 @@
+<div class="container mt-3">
+    <div class="row mb-3">
+      <div class="col-md-6 d-flex flex-wrap">
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategory"
+            value="Drugs" (change)="updateSelectedHodid()"  />
+          <label class="form-check-label" for="drugs">Drugs</label>
+        </div>
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" [(ngModel)]="selectedCategory"
+            value="Consumables" (change)="updateSelectedHodid()" />
+          <label class="form-check-label" for="consumables">Consumables</label>
+        </div>
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" [(ngModel)]="selectedCategory"
+            value="Reagent" (change)="updateSelectedHodid()" />
+          <label class="form-check-label" for="reagent">Reagent</label>
+        </div>
+        <div class="form-check me-3">
+          <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategory"
+            value="AYUSH" (change)="updateSelectedHodid()" />
+          <label class="form-check-label" for="ayush">AYUSH</label>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="container my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector','DM PO','SSO','Logi Cell'].includes(roleName)  && selectedCategory!='Infrastructure'" >
+        <div class="row justify-content-center" style="height: 20vh;">
+          <div class="col-12">
+            <div class="card shadow p-3 w-100" style="height: 80%;">
+              <div class="card-body">
+                <!-- <h5 class="card-title text-center">Search Item</h5> -->
+                <div class="mb-3 w-100 d-flex align-items-center">
+                  <div class="me-2 w-100" >
+                  <!-- <label class="form-label d-block w-100"><strong>Choose Item</strong>:</label> -->
+                  <ng-select
+                    [items]="MasIndentitemslist"
+                    bindLabel="nameText"
+                    bindValue="itemid"
+                    [(ngModel)]="itemid"
+                    name="itemid"
+                    (change)="onISelectChange($event)"
+                    #emailidField="ngModel"
+                    [placeholder]="!itemid ? 'Search Item' : ''"
+                    [searchable]="true"
+                    [clearable]="true"
+                    [appendTo]="'body'"
+                    required
+                    class="form-control "
+                  >
+                  </ng-select>
+                </div>
+               
+            </div>
+            <div class="row">
+                <div class="col-12 mt-1 mb-1">
+    
+                    <button class="btn btn-primary btn-sm m-2" (click)="searchItem()">Search</button>
+                    <img    style="width: 50px;height: 50px;" src="assets/dash-icon/magnifier.png" alt="">
+                </div>
+                        
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="container-fluid p-2" *ngFor="let detail of MasItemlist" >
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="row border mb-1">
+                    <div class="col-12 text-center font-weight-bold  py-1  text-white " style="background-color: #a05033;">
+                        <strong>Basic Information</strong>
+    
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Code:</strong>
+                        <span class="ml-2">{{detail.itemcode}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Item Name:</strong>
+                        <span class="ml-2">{{detail.itemname}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Strength:</strong>
+                        <span class="ml-2">{{detail.strengtH1}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Unit/Packing(SKU):</strong>
+                        <span class="ml-2">{{detail.unit}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Group:</strong>
+                        <span class="ml-2">{{detail.groupname}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>Item Type:</strong>
+                        <span class="ml-2">{{detail.itemtypename}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>EDL Category :</strong>
+                        <span class="ml-2">{{detail.edl}}</span>
+                    </div>
+                    <div class="col-12 col-md-4 border p-2 d-flex">
+                        <strong>EDL Type :</strong>
+                        <span class="ml-2">{{detail.edltype}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mb-3" *ngFor="let chartOpt of yearCharts">
+            <div class="card shadow">
+                <div class="card-body">
+          <apx-chart
+            [series]="chartOpt.series"
+            [chart]="chartOpt.chart"
+            [xaxis]="chartOpt.xaxis"
+            [stroke]="chartOpt.stroke"
+            [dataLabels]="chartOpt.dataLabels"
+            [title]="chartOpt.title"
+            [colors]="chartOpt.colors">
+          </apx-chart>
+        </div>
+      </div>
+      </div>
+      </div>
+      
+      
+      
+      
+      
+      
+  </div>

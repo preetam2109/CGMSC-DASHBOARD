@@ -41,6 +41,16 @@
           ></app-diswise-issuance>
         </ng-template>
       </mat-tab>
+      <!-- <mat-tab
+        label="Consumption Pattern"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 3 }"
+      >
+        <ng-template matTabContent>
+          <app-consumption-pattern-tab
+            *ngIf="selectedTabIndex === 3"
+          ></app-consumption-pattern-tab>
+        </ng-template>
+      </mat-tab> -->
     </mat-tab-group>
   </div>
   

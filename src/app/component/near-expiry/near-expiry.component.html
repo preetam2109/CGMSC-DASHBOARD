@@ -1,127 +1,182 @@
 <!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#fff" type="line-scale-party" [fullScreen]="true">
     <p style="color: white"> Please wait... </p>
 </ngx-spinner> -->
+
+
+
+
+
+
+
+
+
 <div class="w-100 " style="background-color: #e2e3e5">
   <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
-    <strong style="text-align: center;">Near Expiry Items</strong>
-    <img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="home()">
+    <strong style="text-align: center;">Near Expiry </strong>
+<!-- <img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="backbutton()"> -->
+
+    <!-- <img src="assets/dash-icon/house.png" alt="home icon" style="width: 50px; height: 50px; position: absolute; right: 10px; cursor: pointer;" (click)="home()" *ngIf="isLoggedIn"  > -->
   </h1>
   </div>
+   
+  <div class="container-fluid">
+    <mat-tab-group
+      [(selectedIndex)]="selectedTabIndex"
+      (selectedTabChange)="selectedTabValue($event)"
+    >
+      <mat-tab
+        label="Near Expiry"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
+      >
+        <ng-template matTabContent>
+          
 
-  <div class="row mb-3">
-    <div class="col-md-6 d-flex flex-wrap">
-      <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs"
-          value="Drugs"  />
-        <label class="form-check-label" for="drugs">Drugs</label>
-      </div>
-      <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" 
-          value="Consumables"  />
-        <label class="form-check-label" for="consumables">Consumables</label>
-      </div>
-      <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" 
-          value="Reagent"  />
-        <label class="form-check-label" for="reagent">Reagent</label>
-      </div>
-      <div class="form-check me-3">
-        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" 
-          value="AYUSH"  />
-        <label class="form-check-label" for="ayush">AYUSH</label>
-      </div>
-    </div>
+        
+          
+            <div class="row mb-3">
+              <div class="col-md-6 d-flex flex-wrap">
+                <div class="form-check me-3">
+                  <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategoryRadio"
+                    value="Drugs" (change)="updateSelectedHodid()"  />
+                  <label class="form-check-label" for="drugs">Drugs</label>
+                </div>
+                <div class="form-check me-3">
+                  <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" [(ngModel)]="selectedCategoryRadio"
+                    value="Consumables" (change)="updateSelectedHodid()" />
+                  <label class="form-check-label" for="consumables">Consumables</label>
+                </div>
+                <div class="form-check me-3">
+                  <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" [(ngModel)]="selectedCategoryRadio"
+                    value="Reagent" (change)="updateSelectedHodid()" />
+                  <label class="form-check-label" for="reagent">Reagent</label>
+                </div>
+                <div class="form-check me-3">
+                  <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategoryRadio"
+                    value="AYUSH" (change)="updateSelectedHodid()" />
+                  <label class="form-check-label" for="ayush">AYUSH</label>
+                </div>
+              </div>
+            </div>
+          
+          <div class="container-fluid p-4">
+              <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4">
+                  <div class="chart-container">
+                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+                      [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
+                      [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
+                      [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"></apx-chart>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 table-container mat-elevation-z8">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <mat-form-field class="filter-field flex-grow-1">
+                      <mat-label>Filter</mat-label>
+                      <input matInput (keyup)="applyTextFilter($event)" placeholder="Filter">
+                    </mat-form-field>
+                    <div class="export-menu-container ">
+                      <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                      <mat-menu #exportMenu="matMenu">
+                        <button mat-menu-item
+                          (click)="exporter.exportTable('xlsx', { fileName: 'NearExpReport', sheet: 'NearExpReport', Props: { Author: 'cgmsc' }})">Excel</button>
+                        <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                        <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                        <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                        <button mat-button (click)="exportToPDF()">PDF</button>
+                      </mat-menu>
+                    </div>
+                  </div>
+            
+                  <div class="table-responsive">
+                      <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+              
+                        <!-- Serial Number Column -->
+                        <ng-container matColumnDef="sno">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                          <td mat-cell style="width: 10px;" *matCellDef="let element"> {{ element.sno }} </td>
+                        </ng-container>
+              
+                        <!-- nocnumber Column -->
+                        <ng-container matColumnDef="itemcode">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+                          <td mat-cell style="width: 30px;" *matCellDef="let element"> {{ element.itemcode }} </td>
+                        </ng-container>
+              
+                        <!-- warehousename Column -->
+                        <ng-container matColumnDef="itemname">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+                          <td mat-cell style="width: 200px;" *matCellDef="let element"> {{ element.itemname }} </td>
+                        </ng-container>
+              
+                        <!-- facilityname Column -->
+                        <!-- <ng-container matColumnDef="wh">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>wh </th>
+                          <td mat-cell *matCellDef="let element"> {{ element.wh }} </td>
+                        </ng-container> -->
+              
+                        <!-- nositems Column -->
+                        <ng-container matColumnDef="batchno">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch No </th>
+                          <td mat-cell *matCellDef="let element"> {{ element.batchno }} </td>
+                        </ng-container>
+              
+                        <!-- inddt Column -->
+                        <ng-container matColumnDef="expdate">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Exp Date </th>
+                          <td mat-cell *matCellDef="let element"> {{ element.expdate }} </td>
+                        </ng-container>
+              
+                        <!-- pendingday Column -->
+                        <ng-container matColumnDef="nearexpvalue">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Value (in Laks)</th>
+                          <td mat-cell *matCellDef="let element"> {{ element.nearexpvalue }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="qty">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>QTY</th>
+                          <td mat-cell *matCellDef="let element"> {{ element.qty }} </td>
+                        </ng-container>
+              
+                          <!-- Header Row -->
+                          <tr mat-header-row *matHeaderRowDef="['sno','itemcode', 'itemname',  'nearexpvalue','qty','expdate','batchno']"></tr>
+          
+                          <!-- Data Rows -->
+                          <tr mat-row *matRowDef="let row; columns: ['sno','itemcode', 'itemname',  'nearexpvalue','qty','expdate','batchno']"></tr>
+          
+                      </table>
+                    </div>
+              
+                    <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+        </ng-template>
+      </mat-tab>
+      <mat-tab
+        label="Item Wise "
+        [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+      >
+        <ng-template matTabContent>
+          <app-near-expiry-itemwise
+            *ngIf="selectedTabIndex === 1"
+          ></app-near-expiry-itemwise>
+        </ng-template>
+      </mat-tab>
+      <mat-tab
+        label="Batch Wise"
+        [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
+      >
+        <ng-template matTabContent>
+          <app-near-expiry-batchwise
+            *ngIf="selectedTabIndex === 2"
+          ></app-near-expiry-batchwise>
+        </ng-template>
+      </mat-tab>
+
+    </mat-tab-group>
   </div>
-
-<div class="container-fluid p-4">
-    <div class="row">
-      <div class="col-lg-6 col-md-12 mb-4">
-        <div class="chart-container">
-          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
-            [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke"
-            [fill]="chartOptions.fill" [yaxis]="chartOptions.yaxis" [title]="chartOptions.title"
-            [tooltip]="chartOptions.tooltip" [legend]="chartOptions.legend"></apx-chart>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-12 table-container mat-elevation-z8">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <mat-form-field class="filter-field flex-grow-1">
-            <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyTextFilter($event)" placeholder="Filter">
-          </mat-form-field>
-          <div class="export-menu-container ">
-            <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
-            <mat-menu #exportMenu="matMenu">
-              <button mat-menu-item
-                (click)="exporter.exportTable('xlsx', { fileName: 'complaints', sheet: 'complaints', Props: { Author: 'cgmsc' }})">Excel</button>
-              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-              <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-              <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
-              <button mat-button (click)="exportToPDF()">PDF</button>
-            </mat-menu>
-          </div>
-        </div>
   
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
-    
-              <!-- Serial Number Column -->
-              <ng-container matColumnDef="sno">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
-                <td mat-cell style="width: 10px;" *matCellDef="let element"> {{ element.sno }} </td>
-              </ng-container>
-    
-              <!-- nocnumber Column -->
-              <ng-container matColumnDef="itemcode">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
-                <td mat-cell style="width: 30px;" *matCellDef="let element"> {{ element.itemcode }} </td>
-              </ng-container>
-    
-              <!-- warehousename Column -->
-              <ng-container matColumnDef="itemname">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
-                <td mat-cell style="width: 200px;" *matCellDef="let element"> {{ element.itemname }} </td>
-              </ng-container>
-    
-              <!-- facilityname Column -->
-              <!-- <ng-container matColumnDef="wh">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>wh </th>
-                <td mat-cell *matCellDef="let element"> {{ element.wh }} </td>
-              </ng-container> -->
-    
-              <!-- nositems Column -->
-              <ng-container matColumnDef="batchno">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch No </th>
-                <td mat-cell *matCellDef="let element"> {{ element.batchno }} </td>
-              </ng-container>
-    
-              <!-- inddt Column -->
-              <ng-container matColumnDef="expdate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Exp Date </th>
-                <td mat-cell *matCellDef="let element"> {{ element.expdate }} </td>
-              </ng-container>
-    
-              <!-- pendingday Column -->
-              <ng-container matColumnDef="nearexpvalue">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Value (in Laks)</th>
-                <td mat-cell *matCellDef="let element"> {{ element.nearexpvalue }} </td>
-              </ng-container>
-              <ng-container matColumnDef="qty">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>QTY</th>
-                <td mat-cell *matCellDef="let element"> {{ element.qty }} </td>
-              </ng-container>
-    
-                <!-- Header Row -->
-                <tr mat-header-row *matHeaderRowDef="['sno','itemcode', 'itemname',  'nearexpvalue','qty','expdate','batchno']"></tr>
-
-                <!-- Data Rows -->
-                <tr mat-row *matRowDef="let row; columns: ['sno','itemcode', 'itemname',  'nearexpvalue','qty','expdate','batchno']"></tr>
-
-            </table>
-          </div>
-    
-          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
-        </div>
-      </div>
-    </div>
     

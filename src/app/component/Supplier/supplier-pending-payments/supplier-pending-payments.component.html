@@ -1,0 +1,110 @@
+<div class="container-fluid py-4">
+<div class="col-12 col-md-6 mb-3">
+    <!-- <label class="form-label"><strong>Select Fund Head</strong>:</label> -->
+    <ng-select
+      [items]="FundsDDL"
+      bindLabel="budgetname"
+      bindValue="budgetid"
+      [(ngModel)]="budgetid"
+      name="budgetid"
+      (change)="onISelectChange($event)"
+      #emailidField="ngModel"
+      [placeholder]="!budgetid?'Select Fund Head' : ''"
+      [searchable]="true"
+      [clearable]="true"
+      [appendTo]="'body'"
+      required
+      class="form-control"
+    >
+    </ng-select>
+    </div>
+
+    <div class="col-12 text-center mb-2">
+        <button class="btn btn-primary  w-md-auto" (click)="getAllSupplierPendingDetails()">Show Details</button>
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 table-container mb-4">
+          <div class="text d-flex mt-3">
+            <!-- <p class="text-warning">
+              EMD Data is taken in DPDMIS from Year 2022-23 onwards
+            </p> -->
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div class="export-menu-container">
+              <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
+                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-button (click)="exportToPDF()">PDF</button>
+    
+              </mat-menu>
+            </div>
+          </div>
+    
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+    
+<!-- S.No Column (Optional if not in data) -->
+<ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+  </ng-container>
+  
+  <!-- supplierid -->
+<ng-container matColumnDef="supplierid">
+    <th mat-header-cell *matHeaderCellDef > Supplier ID </th>
+    <td mat-cell *matCellDef="let element"> {{ element.supplierid }} </td>
+  </ng-container>
+  
+  <!-- suppliername -->
+  <ng-container matColumnDef="suppliername">
+    <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Supplier </th>
+    <td mat-cell *matCellDef="let element"> {{ element.suppliername }} </td>
+  </ng-container>
+  
+  <!-- nosPO -->
+  <ng-container matColumnDef="nosPO">
+    <th mat-header-cell *matHeaderCellDef  style="width: 100px;"> No of POs </th>
+    <td mat-cell *matCellDef="let element"> {{ element.nosPO }} </td>
+  </ng-container>
+  
+  <!-- recLibLacs -->
+  <ng-container matColumnDef="recLibLacs">
+    <th mat-header-cell *matHeaderCellDef  style="width: 100px;"> Rec. Liablity (in Lacs) </th>
+    <td mat-cell *matCellDef="let element"> {{ element.recLibLacs }} </td>
+  </ng-container>
+  
+  <!-- Header Row -->
+  <tr mat-header-row *matHeaderRowDef="[
+     'sno',
+    
+    'suppliername',
+    'nosPO',
+    'recLibLacs'
+  ]"></tr>
+  
+  <!-- Data Rows -->
+  <tr mat-row *matRowDef="let row; columns: [
+    'sno',
+    
+    'suppliername',
+    'nosPO',
+    'recLibLacs'
+  ]">
+  </tr>
+    
+            </table>
+          </div>      
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>

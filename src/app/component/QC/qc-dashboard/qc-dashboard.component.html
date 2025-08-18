@@ -121,7 +121,7 @@
 </div>
 
 
-<div class="p-2 my-0 mb-2"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName) && selectedCategory!='Infrastructure'">
+<div class="p-2 my-0 mb-2"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO','QC','QC2'].includes(roleName) && selectedCategory!='Infrastructure'">
     <div class="row">
       <!-- Card 1 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3" >
@@ -164,7 +164,7 @@
       <!-- Card 4 -->
       <div class="col-12 col-sm-6 col-md-3 mb-3"   >
         <div class="card text-center p-3 shadow w-100" style="background: linear-gradient(to right, #3f5efb,#fc466b); color: white;">
-          <div class="card-body"   routerLink="/IndentPendingWHdash" >
+          <div class="card-body"   (click)="nsqDrugDetails()" >
             <h6 class="card-title"> NSQ {{selectedCategoryRadio}} &nbsp;</h6>
                           <h2 class="card-value"> {{ nositemsnsq }}</h2>
             <p class="card-text"> No of Batches: {{  nosbatchnsq }} </p>
@@ -202,7 +202,7 @@
    
 
 
-  <div class="p-2 my-0 mb-2" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName)  && selectedCategory!='Infrastructure'" >
+  <div class="p-2 my-0 mb-2" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector','DM PO','QC','QC2'].includes(roleName)  && selectedCategory!='Infrastructure'" >
     <div class="row justify-content-center" style="height: 20vh;">
       <div class="col-12">
         <div class="card shadow p-3 w-100" style="height: 80%;">
@@ -242,7 +242,7 @@
   
   
   
-  <div class="container-fluid p-2 my-0 mb-4" *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
+  <div class="container-fluid p-2 my-0 mb-4" *ngIf="['SEC1', 'DHS', 'Collector','DM PO','QC','QC2'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
     <div class="row">
 
        <!-- Drugs Under QC container-->
@@ -1812,7 +1812,7 @@
                 <div class="card-body">
                     <div class="row border mb-1">
                         <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
-                            <strong>HOD Details</strong>
+                            <strong>Hold Drug Details</strong>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12 table-container mb-4">
@@ -1906,7 +1906,7 @@
                             </ng-container>
                         
                             <ng-container matColumnDef="stk">
-                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock-Out</th>
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock</th>
                               <td mat-cell *matCellDef="let element"> {{ element.stk }} </td>
                             </ng-container>
                         
@@ -1943,6 +1943,151 @@
                         <mat-paginator #paginator8 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
                       </div>
                 </div>
+            </div>
+                
+            
+              </div>  
+      
+       
+      
+          
+      
+      
+  
+  
+  
+      </div>
+  
+  
+    
+    <div class="d-grid gap-2 col-12 mx-auto  m-2">
+      <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+        <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+          aria-hidden="true">
+          exit_to_app
+        </mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
+
+  <ng-template class=" " #nsqDrugDetailsModal let-modal>
+    <div class="row align-items-center p-2 m-2 ">
+      <div class="col-lg-6 col-md-8">
+        <!-- <h1>AS Completed Details</h1> -->
+        <h1 class="text-info-emphasis">Details</h1>
+      </div>
+      <div class="col-lg-6 col-md-4 text-end">
+        <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+      </div>
+    </div>
+    <div class="" mat-dialog-content>
+      <div class="row card shadow card-body ">
+            <div class="card shadow" >
+                <div class="card-body">
+                    <div class="row border mb-1">
+                        <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                            <strong>NSQ Stock Details </strong>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 table-container mb-4">
+                 
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                          <div class="filter-field flex-grow-1">
+                            <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilternsqDrugDetails($event)">
+                          </div>
+                          <div class="export-menu-container">
+                            <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                            <mat-menu #exportMenu="matMenu">
+                              <button mat-menu-item
+                                (click)="exporter.exportTable('xlsx', { fileName: 'StatusDetails', sheet: 'StatusDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                              <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                              
+                              <button mat-button (click)="exportToBeTenderDetails()">PDF</button>
+                  
+                            </mat-menu>
+                          </div>
+                        </div>
+                  
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource9" #exporter="matTableExporter" matSort #sort9="matSort">
+                        
+                                       <!-- Serial Number Column -->
+                                       <ng-container matColumnDef="sno">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                          <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                                        </ng-container>
+<!-- Item Code -->
+<ng-container matColumnDef="itemCode">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemCode }} </td>
+</ng-container>
+
+<!-- Item Name -->
+<ng-container matColumnDef="itemName">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Item</th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemName }} </td>
+</ng-container>
+
+<!-- Batch No -->
+<ng-container matColumnDef="batchNo">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Batch No</th>
+  <td mat-cell *matCellDef="let element"> {{ element.batchNo }} </td>
+</ng-container>
+
+<!-- Mfg Date -->
+<ng-container matColumnDef="mfgDate">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>MFG Date</th>
+  <td mat-cell *matCellDef="let element"> {{ element.mfgDate | date:'dd-MM-yyyy' }} </td>
+</ng-container>
+
+<!-- Exp Date -->
+<ng-container matColumnDef="expDate">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>EXP Date</th>
+  <td mat-cell *matCellDef="let element"> {{ element.expDate | date:'dd-MM-yyyy' }} </td>
+</ng-container>
+
+<!-- Stock -->
+<ng-container matColumnDef="stock">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock</th>
+  <td mat-cell *matCellDef="let element"> {{ element.stock }} </td>
+</ng-container>
+
+<!-- Final Rate -->
+<ng-container matColumnDef="finalRate">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Final Rate</th>
+  <td mat-cell *matCellDef="let element"> {{ element.finalRate }} </td>
+</ng-container>
+
+<!-- Stock Value -->
+<ng-container matColumnDef="stkValue">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock Value</th>
+  <td mat-cell *matCellDef="let element"> {{ element.stkValue }} </td>
+</ng-container>
+
+<!-- Header and Row Definitions -->
+<tr mat-header-row *matHeaderRowDef="[
+  'itemCode', 'itemName', 'batchNo', 'mfgDate',
+  'expDate', 'stock', 'finalRate', 'stkValue'
+]"></tr>
+
+<tr mat-row *matRowDef="let row; columns: [
+  'itemCode', 'itemName', 'batchNo', 'mfgDate',
+  'expDate', 'stock', 'finalRate', 'stkValue'
+];"></tr>
+
+
+
+                        
+                          </table>
+                        </div>
+                         
+                        <mat-paginator #paginator9 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                      </div>
+                </div>
+          
+                
+                
             </div>
                 
             

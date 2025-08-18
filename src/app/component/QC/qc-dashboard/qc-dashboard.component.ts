@@ -34,6 +34,8 @@ import * as ApexCharts from 'apexcharts';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { color } from 'html2canvas/dist/types/css/types/color';
+import { nsqDrugDetails } from 'src/app/Model/QCTimeTakenYearwise';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -105,6 +107,7 @@ applyTextFilterPT(event: Event) {
 @ViewChild('UQCDetailsModal') UQCDetailsModal: any;
 @ViewChild('HODDetailsModal') HODDetailsModal: any;
 @ViewChild('NSQDetailsModal') NSQDetailsModal: any;
+@ViewChild('nsqDrugDetailsModal') nsqDrugDetailsModal: any;
 
 
   @ViewChild('chart') chart: ChartComponent | undefined;
@@ -172,6 +175,7 @@ applyTextFilterPT(event: Event) {
   qCResultPendingLabWise:QCResultPendingLabWise[]=[]
   qCPendingMonthwiseRecDetails:QCPendingMonthwiseRecDetails[]=[]
   holdItemDetails:HoldItemDetails[]=[]
+  NsqDrugDetails:nsqDrugDetails[]=[]
   dataSource = new MatTableDataSource<any>();
   dataSource2 = new MatTableDataSource<any>();
   dataSource3 = new MatTableDataSource<any>();
@@ -180,6 +184,7 @@ applyTextFilterPT(event: Event) {
   dataSource6 = new MatTableDataSource<any>();
   dataSource7 = new MatTableDataSource<any>();
   dataSource8 = new MatTableDataSource<any>();
+  dataSource9 = new MatTableDataSource<any>();
   @ViewChild('paginator') paginator!: MatPaginator;
     @ViewChild('sort') sort!: MatSort;
   @ViewChild('paginator2') paginator2!: MatPaginator;
@@ -196,6 +201,8 @@ applyTextFilterPT(event: Event) {
     @ViewChild('sort7') sort7!: MatSort;
     @ViewChild('paginator8') paginator8!: MatPaginator;
     @ViewChild('sort8') sort8!: MatSort;
+    @ViewChild('paginator9') paginator9!: MatPaginator;
+    @ViewChild('sort9') sort9!: MatSort;
 
     selectedCategory:any='';
     selectedCategoryRadio:any='Drugs';
@@ -387,7 +394,7 @@ colors = [];
     'Finance Dashboard':'assets/dash-icon/dashboard.png',
 
   };
-  constructor(private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
+  constructor(public toastr: ToastrService,private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
     
    
     this.chartOptions = {
@@ -975,6 +982,78 @@ colors = [];
     this.loadUQCDashCard()
     this.QCTimeTakenYear();
   }
+
+  applyTextFilternsqDrugDetails(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource9.filter = filterValue.trim().toLowerCase();
+  
+    if (this.dataSource9.paginator) {
+      this.dataSource9.paginator.firstPage();
+    }
+  }
+
+  nsqDrugDetails(){
+              
+      this.spinner.show();
+  
+    this.api.GetnsqDrugDetails().subscribe({
+      next: (res: any[]) => {
+        if (res && res.length > 0) {
+          this.NsqDrugDetails = res.map((item: any, index: number) => ({
+            ...item,
+            sno: index + 1,
+          }));
+          console.log('Mapped List:', this.NsqDrugDetails);
+  
+          this.dataSource9.data = this.NsqDrugDetails;
+          this.dataSource9.paginator = this.paginator9;
+          this.dataSource9.sort = this.sort9;
+          // this.checkIfLiveStatusExists(this.dataSource8);
+        } else {
+          console.error('No data found or incorrect structure:', res);
+          this.spinner.hide();  // Always hide spinner whether success or error
+          this.toastr.error('Failed to load data');
+
+        }
+      },
+      error: (err) => {
+        console.error('API error:', err);
+        this.spinner.hide();  // Always hide spinner whether success or error
+        this.toastr.error('Failed to load data');
+
+        
+
+      },
+      complete: () => {
+        this.spinner.hide();  // Always hide spinner whether success or error
+      }
+    });
+  
+    this.openDialogGetnsqDrugDetails();
+    }
+
+    openDialogGetnsqDrugDetails() {
+            
+            
+      const dialogRef = this.dialog.open(this.nsqDrugDetailsModal, {
+       width: '100%',
+       height: '100%',
+       maxWidth: '100%',
+       panelClass: 'full-screen-dialog', // Optional for additional styling
+       data: {
+         /* pass any data here */
+       },
+       // width: '100%',
+       // maxWidth: '100%', // Override default maxWidth
+       // maxHeight: '100%', // Override default maxHeight
+       // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+       // height: 'auto',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+       console.log('Dialog closed');
+      });
+      }
+
 
 
   getItemNoDropDown(){
@@ -2830,6 +2909,48 @@ exportToPDFPendingTracker() {
 
   doc.save('PendingTracker.pdf');
 }
+
+
+
+
+
+
+exportToBeTenderDetails() {
+  const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
+
+  const columns = [
+    { header: 'Item Code', dataKey: 'itemCode' },
+    { header: 'Item Name', dataKey: 'itemName' },
+    { header: 'Batch No', dataKey: 'batchNo' },
+    { header: 'Mfg Date', dataKey: 'mfgDate' },
+    { header: 'Exp Date', dataKey: 'expDate' },
+    { header: 'Stock', dataKey: 'stock' },
+    { header: 'Final Rate', dataKey: 'finalRate' },
+    { header: 'Stock Value', dataKey: 'stkValue' }
+  ];
+
+  const data = this.NsqDrugDetails.map((item: any) => ({
+    itemCode: item.itemCode || '',
+    itemName: item.itemName || '',
+    batchNo: item.batchNo || '',
+    mfgDate: item.mfgDate ? new Date(item.mfgDate).toLocaleDateString('en-IN') : '',
+    expDate: item.expDate ? new Date(item.expDate).toLocaleDateString('en-IN') : '',
+    stock: item.stock ?? 0,
+    finalRate: item.finalRate ?? 0,
+    stkValue: item.stkValue ?? 0
+  }));
+
+  autoTable(doc, {
+    head: [columns.map(col => col.header)],
+    body: data.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
+    startY: 20,
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] }
+  });
+
+  doc.save('nsqdetailsrugsDetails.pdf');
+}
+
 
 
         

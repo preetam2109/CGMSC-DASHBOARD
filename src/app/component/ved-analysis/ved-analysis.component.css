@@ -1,0 +1,139 @@
+.container {
+    max-width: 1200px;
+}
+
+.chart-container {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background: #ffffff;
+}
+
+button {
+    margin-top: 10px;
+}
+
+.form-check {
+    margin-bottom: 10px;
+}
+
+.form-check-label {
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.Active {
+    background-color: #28a745;
+    color: white;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.filter-field {
+    margin-right: 16px;
+}
+
+.export-menu-container {
+    margin-left: 16px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+}
+
+.table th {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    text-align: center; /* Center-align header text */
+    padding: 8px;
+}
+
+.table td {
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    text-align: center; /* Center-align cell text */
+}
+
+.table td, .table th {
+    border: 1px solid #e0e0e0;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.mat-paginator {
+    margin-top: 20px;
+}
+
+.text p {
+    font-size: small;
+}
+
+@media (max-width: 768px) {
+    .table-container {
+        padding: 0;
+    }
+
+    .table {
+        font-size: 14px;
+    }
+
+    .filter-field,
+    .export-menu-container {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .text p {
+        font-size: xx-small;
+    }
+}
+
+.clickable-link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.clickable-link:hover {
+    color: darkblue;
+}
+
+mat-header-cell, mat-cell {
+    justify-content: center;
+    flex: 0 0 200px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: lightgrey;
+    text-align: center; /* Center-align text for Angular Material cells */
+}
+
+.mat-sort-header-container {
+    margin-left: 18px;
+}
+
+.mat-row, .mat-header-row {
+    border-bottom-width: 0px;
+}
+
+table {
+    width: 100%;
+}
+
+mat-table {
+    overflow-x: scroll;
+}

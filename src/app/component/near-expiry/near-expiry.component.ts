@@ -29,6 +29,8 @@ import autoTable from 'jspdf-autotable';
 import { NearExpReportbatch } from 'src/app/Model/NearExpReportbatch';
 import { NearExpReport } from 'src/app/Model/NearExpReport';
 import { Router } from '@angular/router';
+import { Observable, catchError, finalize, forkJoin, map, of } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -58,6 +60,7 @@ export class NearExpiryComponent {
   mcid:number=1
   nexppara:number=3
   expmonth:string='09-2024'
+  selectedCategoryRadio:any='Drugs';
  
 
 
@@ -68,6 +71,7 @@ export class NearExpiryComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
+    public toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private api: ApiService,
     private http: HttpClient,
@@ -153,33 +157,46 @@ export class NearExpiryComponent {
 
   ngOnInit(){
     
-    this.spinner.show();
-    this.getAllDispatchPending();
-    setTimeout(() => this.loadData(), 10000);
+    // this.getAllDispatchPending();
+    // setTimeout(() => this.loadData(), 10000);
     // this.loadData()
-  }
-  getAllDispatchPending() {
     
     this.spinner.show();
-    this.api.NearExpReportbatch(this.mcid,this.nexppara,this.expmonth).subscribe(
-      (res) => {
+    forkJoin([
+      this.getAllDispatchPending().pipe(catchError(() => of(null))),
+      this.loadData().pipe(catchError(() => of(null))),
+    ]).pipe(
+      finalize(() => this.spinner.hide())
+    ).subscribe({
+      error: () => this.toastr.error('Some data failed to load')
+    });
 
-        this.dispatchPendings = res.map((item:NearExpReportbatch,index:number) => ({
+
+  }
+  getAllDispatchPending(): Observable<any[]> {
+    
+    this.spinner.show();
+    return this.api.NearExpReportbatch(this.mcid, this.nexppara, this.expmonth).pipe(
+      map((res: NearExpReportbatch[]) => {
+        this.dispatchPendings = res.map((item, index) => ({
           ...item,
           sno: index + 1
         }));
         this.dataSource.data = this.dispatchPendings;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.spinner.hide();
         this.cdr.detectChanges();
-      },
-      (error) => {
+        this.spinner.hide();
+        return res;
+      }),
+      catchError((error) => {
         console.error('Error fetching data', error);
         this.spinner.hide();
-      }
+        return of([]);
+      })
     );
   }
+  
 
   applyTextFilter(event: Event) {
     ;
@@ -191,102 +208,104 @@ export class NearExpiryComponent {
     }
   }
 
-  loadData(): void {
+  loadData(): Observable<any[]> {
     this.spinner.show();
-    this.api.getNearExpReport(1,8).subscribe(
-      (data:  NearExpReport[]) => {
+  
+    return this.api.getNearExpReport(this.mcid, 8).pipe(
+      map((data: NearExpReport[]) => {
         const expirymonth: string[] = [];
-        const noofitems: number[] = [];
-        const noofbatches: number[] = [];
-        var nearexpvalue: number[] = [];
-        
-        
-
-
-      
-      data.forEach(
-        (item: NearExpReport) => { // Specify the type of `item`
+        const barLabels: string[] = [];
+        const barValues: number[] = [];
+  
+        data.forEach((item) => {
           expirymonth.push(item.expirymonth);
-          noofitems.push(item.noofitems);
-          noofbatches.push(item.noofbatches);
-          nearexpvalue.push(item.nearexpvalue);
-        }
-      );
-      
+          barLabels.push(`${item.noofitems} Items, ${item.noofbatches} Batches, ${item.nearexpvalue} Lacs`);
+          barValues.push(item.noofitems); // ✅ Use actual item count for bar height
+        });
+  
         this.chartOptions.series = [
           {
-            name: 'Items',
-            data: noofitems,
-            // color: '#FF0000',
-          },
-          {
-            name: 'Batches',
-            data: noofbatches,
-            // color: '#0000FF',
-          },
-          {
-            name: 'Value(in laks)',
-            data: nearexpvalue,
-            //color: '#00FF00',
+            name: 'Number of Items',
+            data: barValues
           }
-          //,
-          // {
-          //   name: 'Ayush',
-          //   data: ayush,
-          //   color: '#00FF00',
-          // },
         ];
+  
         this.chartOptions.xaxis = {
-          categories: expirymonth,
+          categories: expirymonth
         };
+  
+        // ✅ Label inside the bar
+        this.chartOptions.dataLabels = {
+          enabled: true,
+          formatter: function (_val: any, opts: any) {
+            return barLabels[opts.dataPointIndex];
+          },
+          style: {
+            fontSize: '12px',
+            colors: ['#fff'] // or ['#000'] depending on bar color
+          }
+        };
+  
+        // ✅ Tooltip (optional): show the full combined label or just value
+        this.chartOptions.tooltip = {
+          y: {
+            formatter: function (_val: any, opts: any) {
+              return barLabels[opts.dataPointIndex]; // or just return _val.toString() to show number
+            }
+          }
+        };
+  
         this.cdr.detectChanges();
         this.spinner.hide();
-      },
-      (error: any) => {
-        console.error('Error fetching data', error);
+        return data;
+      }),
+      catchError((error) => {
+        console.error('Error fetching Near Expiry Report:', error);
+        this.toastr.error('Failed to load expiry data');
         this.spinner.hide();
-      }
+        return of([]);
+      })
     );
   }
- 
+  
+  
+  
   fetchDataBasedOnChartSelection(selectedCategory: string, seriesName: string): void {
     
     this.spinner.show();
     
+    this.expmonth=selectedCategory;
     this.api.NearExpReportbatch(this.mcid, this.nexppara, this.expmonth).subscribe(
       (res: NearExpReportbatch[]) => {
-        
-        console.log('API Response:', res);
-  
-        // Convert the selected category (expiry month) to targetYear and targetMonth
         const [month, year] = selectedCategory.split('-');
         const targetYear = parseInt(year, 10);
-        const targetMonth = parseInt(month, 10) - 1; // Month is zero-based
-  
-        let filteredData: NearExpReportbatch[] = [];
-  
-        filteredData = res.filter((item: NearExpReportbatch) => {
-          const expDateParts = item.expdate.split('-'); // Format is DD-MMM-YY
-          const expDay = parseInt(expDateParts[0], 10);
-          const expMonth = new Date(Date.parse(expDateParts[1] + " 1, 2020")).getMonth(); // Convert month name to number
-          const expYear = 2000 + parseInt(expDateParts[2], 10); // Convert to four-digit year
-  
+        const targetMonth = parseInt(month, 10) - 1;
+    
+        let filteredData: NearExpReportbatch[] = res.filter((item) => {
+          const expDateParts = item.expdate.split('-'); // Format: DD-MMM-YY
+          const expMonth = new Date(Date.parse(expDateParts[1] + " 1, 2020")).getMonth();
+          const expYear = 2000 + parseInt(expDateParts[2], 10);
           return expYear === targetYear && expMonth === targetMonth;
         });
-  
-        console.log('Filtered Data:', filteredData);
+    
+        // ✅ Add serial number
+        filteredData = filteredData.map((item, index) => ({
+          ...item,
+          sno: index + 1
+        }));
+    
         this.dataSource.data = filteredData;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.cdr.detectChanges();
         this.spinner.hide();
       },
-      (error: any) => {
+      (error) => {
         console.error('Error fetching data', error);
         this.spinner.hide();
       }
     );
-  }
+    }    
   
   
  
@@ -322,7 +341,7 @@ export class NearExpiryComponent {
       headStyles: { fillColor: [22, 160, 133] }
     });
 
-    doc.save('IndentPending.pdf');
+    doc.save('NearExpReport.pdf');
   }
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
@@ -331,4 +350,40 @@ export class NearExpiryComponent {
     this.router.navigate(['welcome'])
 
   }
+
+  updateSelectedHodid(): void {
+    
+      
+    this.spinner.show(); // Show the spinner before making API calls
+  
+    if (this.selectedCategoryRadio === 'Drugs') {
+      this.mcid = 1;
+    } else if (this.selectedCategoryRadio === 'Consumables') {
+      this.mcid = 2;
+    } else if (this.selectedCategoryRadio === 'Reagent') {
+      this.mcid = 3;
+    } else if (this.selectedCategoryRadio === 'AYUSH') {
+      this.mcid = 4;
+    }
+  
+    // Create an array of API calls to execute
+    forkJoin([
+      // this.getAllDispatchPending(),
+      this.loadData()
+   
+    ]).subscribe(
+      () => {
+        // Add a slight delay to ensure the spinner is visible
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 2000); // Adjust delay as needed (1000ms = 1 second)
+      },
+      (error) => {
+        console.error("Error loading data:", error);
+        this.spinner.hide(); // Hide the spinner even if an error occurs
+      }
+    );
+  }
+
+
 }

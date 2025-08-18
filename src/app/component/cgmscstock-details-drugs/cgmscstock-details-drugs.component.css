@@ -163,4 +163,28 @@
     color: darkblue; 
   } */
   
+
+
+
+  .wiki-content p {
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  
+  .wiki-content img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .wiki-content table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .wiki-content th,
+  .wiki-content td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
   

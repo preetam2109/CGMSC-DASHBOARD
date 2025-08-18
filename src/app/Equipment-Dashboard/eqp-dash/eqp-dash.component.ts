@@ -41,8 +41,8 @@ import { StatusDetail, StatusItemDetail } from 'src/app/Model/TenderStatus';
 // import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import 'src/assets/fonts/NotoSansDevanagari-VariableFont_wdth,wght-normal.js'; // generated with jsPDF font converter
-import { TenderDetail } from 'src/app/Model/Equipment';
-import { Observable } from 'rxjs';
+import { EqToBeTenderDetail, SchemeTenderStatus, TenderDetail, TobetenderDetails } from 'src/app/Model/Equipment';
+import { Observable, catchError, finalize, forkJoin, of, tap } from 'rxjs';
 import html2canvas from 'html2canvas';
 
 
@@ -137,6 +137,14 @@ export class EqpDashComponent {
         this.dataSource5.paginator.firstPage();
       }
     }
+    applyTextFiltertobeTenderList(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource9.filter = filterValue.trim().toLowerCase();
+    
+      if (this.dataSource9.paginator) {
+        this.dataSource9.paginator.firstPage();
+      }
+    }
     
     applyTextFilterPT(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
@@ -151,6 +159,7 @@ export class EqpDashComponent {
     @ViewChild('UQCDetailsModal') UQCDetailsModal: any;
     @ViewChild('HODDetailsModal') HODDetailsModal: any;
     @ViewChild('NSQDetailsModal') NSQDetailsModal: any;
+    @ViewChild('schemeStatusModal') schemeStatusModal: any;
 
 
 
@@ -158,6 +167,9 @@ export class EqpDashComponent {
     @ViewChild('StatusItemDetailModal') StatusItemDetailModal: any;
     @ViewChild('TotalTenderDetailsModal') TotalTenderDetailsModal: any;
     @ViewChild('BidderslistModal') BidderslistModal: any;
+    @ViewChild('ToBeTenderDetailsMOdal') ToBeTenderDetailsMOdal: any;
+    @ViewChild('ToBeTenderDetailsMOdalEQP') ToBeTenderDetailsMOdalEQP: any;
+
 
 
     
@@ -196,6 +208,8 @@ export class EqpDashComponent {
       nosbatchhold:any
       stkvaluensq:any
       nosbatchnsq:any
+      ToBeTender:any;
+
     
       mcategoryUQC:any
       nositemsUQC:any
@@ -232,6 +246,9 @@ export class EqpDashComponent {
       schemeId:any;
       sumtendervalue:any;
       isVis:any=true;
+      toBeTenderDetails:TobetenderDetails[]=[]
+      toBeTenderDetailsEQP:EqToBeTenderDetail[]=[]
+      schemeTenderStatus:SchemeTenderStatus[]=[];
 
 
 
@@ -247,6 +264,10 @@ export class EqpDashComponent {
       dataSource6 = new MatTableDataSource<any>();
       dataSource7 = new MatTableDataSource<any>();
       dataSource8 = new MatTableDataSource<any>();
+      dataSource9 = new MatTableDataSource<any>();
+      dataSource10 = new MatTableDataSource<any>();
+      dataSource11 = new MatTableDataSource<any>();
+
       @ViewChild('paginator') paginator!: MatPaginator;
         @ViewChild('sort') sort!: MatSort;
       @ViewChild('paginator2') paginator2!: MatPaginator;
@@ -263,6 +284,12 @@ export class EqpDashComponent {
         @ViewChild('sort7') sort7!: MatSort;
         @ViewChild('paginator8') paginator8!: MatPaginator;
         @ViewChild('sort8') sort8!: MatSort;
+        @ViewChild('paginator9') paginator9!: MatPaginator;
+        @ViewChild('sort9') sort9!: MatSort;
+        @ViewChild('paginator10') paginator10!: MatPaginator;
+        @ViewChild('sort10') sort10!: MatSort;
+        @ViewChild('paginator11') paginator11!: MatPaginator;
+        @ViewChild('sort11') sort11!: MatSort;
     
         selectedCategory:any='';
         selectedCategoryRadio:any='Equipment';
@@ -380,14 +407,84 @@ export class EqpDashComponent {
         // this.loadUQCDashCard()
         // this.QCTimeTakenYear();
 
-        this.getTenderStatus();
+        forkJoin([
+          this.getToBeTenderDrugsSection().pipe(catchError(() => of(null))),
+          this.getTenderStatus().pipe(catchError(() => of(null))),
+          this.getTotalRC1().pipe(catchError(() => of(null))),
+        ]).pipe(
+          finalize(() => this.spinner.hide())
+        ).subscribe({
+          error: () => this.toastr.error('Some data failed to load')
+        });
+                // this.getToBeTenderDrugsSection();
+
+
+        // this.getTenderStatus();
         // this.getTotalRC1();
               // this.QCPendingMonthwiseRecDetails()
-        this.spinner.hide();
+        // this.spinner.hide();
 
 
       }
-      
+
+
+
+
+      SchemeStatus(schemeId:any){
+        
+        this.schemeId=schemeId;
+        this.spinner.show();
+        
+        this.api.SchemeTenderStatus(this.schemeId).subscribe((res:any[])=>{
+          if (res && res.length > 0) {
+           this.spinner.show();
+
+            this.schemeTenderStatus =res.map((item: any, index: number) => ({
+            
+              ...item,
+              sno: index + 1,
+            }));
+            console.log('Mapped List:', this.schemeTenderStatus);
+            this.dataSource11.data = this.schemeTenderStatus; // Ensure this line executes properly
+            this.dataSource11.paginator = this.paginator11;
+            this.dataSource11.sort = this.sort11;
+            this.spinner.hide();
+          } else {
+            console.error('No data found:', res);
+            this.toastr.error('No Data Found')
+            this.spinner.hide();
+
+          }
+        });  
+        // this.openDialogUQC();
+        this.openSchemeStatusModal()
+
+      }
+      openSchemeStatusModal(): void {
+        
+        const dialogRef = this.dialog.open(this.schemeStatusModal, {
+          width: '100%',
+          height: '100%',
+          maxWidth: '100%',
+          panelClass: 'full-screen-dialog', // Optional for additional styling
+          data: {
+            /* pass any data here */
+          },
+          // width: '100%',
+          // maxWidth: '100%', // Override default maxWidth
+          // maxHeight: '100%', // Override default maxHeight
+          // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+          // height: 'auto',
+         });
+         dialogRef.afterClosed().subscribe((result) => {
+          console.log('Dialog closed');
+          
+         });
+      }
+
+
+
+
       checkIfLiveStatusExists(data: any) {
         const hasLive = data.some((item: any) => item.status === 'Live');
         if (hasLive) {
@@ -410,53 +507,54 @@ export class EqpDashComponent {
       //   );   
       //   }
     
-      getTenderStatus() {
-        
+      getTenderStatus(): Observable<any[]> {
         this.spinner.show();
       
+        let apiCall: Observable<any[]>;
+      
         if (this.mcid === 5) {
-          this.api.GetEqpTotalTendersByStatus().subscribe(
-            (res: any[]) => {
-              this.tenderStatusList = res;
-              this.totalNoTenders = res.reduce((sum, item) => sum + (item.noofTender || 0), 0);
-              this.spinner.hide();
-            },
-            (error) => {
-              console.error('Failed to load tender status:', error);
-              this.spinner.hide();
-            }
-          );
+          apiCall = this.api.GetEqpTotalTendersByStatus();
         } else if (this.mcid === 3) {
-          this.api.GetTenderStagesTotal(this.mcid).subscribe(
-            (res: any[]) => {
-              this.tenderStatusList = res;
-              this.totalNoTenders = res.reduce((sum, item) => sum + (item.noTenders || 0), 0);
-              this.spinner.hide();
-            },
-            (error) => {
-              console.error('Failed to load tender status:', error);
-              this.spinner.hide();
-            }
-          );
+          apiCall = this.api.GetTenderStagesTotal(this.mcid);
         } else {
           console.warn('Unsupported mcid:', this.mcid);
-          this.spinner.hide();
+          return of([]); // Return empty observable to avoid breaking forkJoin
         }
-      }
       
+        return apiCall.pipe(
+          tap((res: any[]) => {
+            this.tenderStatusList = res;
       
-      getTotalRC1() {
-        
-        this.api.GetTotalRC1(this.mcid).subscribe(
-          (res: any[]) => {
-            this.totalRC1 = res;
-            console.log("fjkdjflksdjf"+JSON.stringify(this.totalRC1));
-          },
-          (error) => {
+            // Use correct field name based on API
+            this.totalNoTenders = res.reduce((sum, item) =>
+              sum + (this.mcid === 5 ? (item.noofTender || 0) : (item.noTenders || 0)), 0);
+      
+            console.log('Tender Status Loaded:', res);
+          }),
+          catchError((error) => {
             console.error('Failed to load tender status:', error);
-          }
+            this.toastr.error('Error loading tender status');
+            return of([]); // Return empty array on error
+          })
         );
       }
+      
+      
+      
+      getTotalRC1(): Observable<any[]> {
+        return this.api.GetTotalRC1(this.mcid,'Y').pipe(
+          tap((res: any[]) => {
+            this.totalRC1 = res;
+            console.log("Total RC1 Data:", JSON.stringify(this.totalRC1));
+          }),
+          catchError((error) => {
+            console.error('Failed to load total RC1:', error);
+            this.toastr.error('Error loading total RC1');
+            return of([]); // fallback to empty array so forkJoin doesn't break
+          })
+        );
+      }
+      
 
       getItemNoDropDown(){
     
@@ -1813,7 +1911,6 @@ export class EqpDashComponent {
 
 
           getstatusDetails() {
-             
             this.spinner.show();
           
             let apiCall$: Observable<any[]>;
@@ -2011,143 +2108,54 @@ export class EqpDashComponent {
               // });
               }
     
-            updateSelectedHodid(): void {
-        
-              // Reset hodid to 0 initially
-              // this.mcid = 0;
-          
-              // Map the selected category to the corresponding mcid value
-              this.spinner.show()
-              if (this.selectedCategoryRadio==='Drugs') {
-                this.mcid = 1;
-                // this.loadUQC();
-                // this.loadDataQCStages()
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus()
-                this.getTotalRC1()
-                // this.getstatusDetails()
-
-    
-              this.spinner.hide()
-    
-                
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              } else if (this.selectedCategoryRadio==='Consumables') {
-                this.mcid = 2;
-                // this.loadUQC();
-                // this.loadDataQCStages()
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                // this.getstatusDetails()
-                this.getTenderStatus()
-                this.getTotalRC1()
-
-    
-    
-              this.spinner.hide()
-    
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle + this.selectedCategory;
-              } else if (this.selectedCategoryRadio==='Reagent') {
-                this.mcid = 3;
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus()
-
-                this.getTotalRC1();
-                // this.getstatusDetails()
-
-               
-    
-    
-              this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              }
-              else if (this.selectedCategoryRadio==='Equipment') {
-                this.mcid = 5;
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus();
-
-                this.getTotalRC1();
-                // this.getstatusDetails()
-
-               
-    
-    
-              this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text = this.OnChangeTitle +  this.selectedCategory;
-              } 
-
-               else if (this.selectedCategoryRadio==='AYUSH') {
-                this.mcid = 4;
-                // this.loadDataQCStages()
-                // this.loadUQC();
-                // this.loadQCPendingAtLab()
-                // this.loadQCfinalUpdatePending()
-                // this.getQCResultPendingLabWise()
-                // this.CGMSCIndentPending()
-                // this.getItemNoDropDown()
-                // this.loadUQCDashCard()
-                // this.QCTimeTakenYear()
-                // this.QCHold_Dash()
-                // this.QCNSQ_Dash()
-                this.getTenderStatus();
-
-                this.getTotalRC1()
-                // this.getstatusDetails()
-
-                
-    
-              this.spinner.hide()
-    
-    
-    
-                // this.chartOptions.title.text =this.OnChangeTitle +  this.selectedCategory;
-              }
-          
-              // console.log('Selected Hod ID:', this.mcid);
+              updateSelectedHodid(): void {
+                this.spinner.show();
+                let observables: Observable<any>[] = [];
+            
+                // Set mcid based on selected category
+                if (this.selectedCategoryRadio === 'Drugs') {
+                    this.mcid = 1;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Consumables') {
+                    this.mcid = 2;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Reagent') {
+                    this.mcid = 3;
+                    observables = [
+                        this.getToBeTenderDrugsSection(),
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'Equipment') {
+                    this.mcid = 5;
+                    observables = [
+                        this.getToBeTenderDrugsSection(),
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                } else if (this.selectedCategoryRadio === 'AYUSH') {
+                    this.mcid = 4;
+                    observables = [
+                        this.getTenderStatus(),
+                        this.getTotalRC1()
+                    ];
+                }
+            
+                // Execute all API calls in parallel
+                forkJoin(observables).pipe(
+                    finalize(() => this.spinner.hide())
+                ).subscribe({
+                    error: (error) => {
+                        console.error("Error loading data:", error);
+                        this.toastr.error('Failed to load some data');
+                    }
+                });
             }
     
             fetchDataBasedOnChartSelectionchartUQCl(month:any,monthid:any){
@@ -2184,9 +2192,169 @@ export class EqpDashComponent {
     // // this.openDialogUQC();
     //         }
     
+    fetchDetails(cntItems: number): void {
+      
+      if (!cntItems || cntItems === 0) {
+        this.toastr.error('No Data Found');
+        return;
+      }
+    
+      this.status = ': To Be Tender';
+    
+      const isEquipment = this.mcid === 5;
+    
+      isEquipment ? this.gettobetenderDetailsEqP() : this.gettobetenderDetails();
+    }
+    
+    getToBeTenderDrugsSection(): Observable<any[]> {
+      this.spinner.show();
+    
+      const apiCall = this.mcid === 5
+        ? this.api.GetToBeTenderEqp()
+        : this.api.GetToBeTenderDrugsSection(this.mcid);
+    
+      return apiCall.pipe(
+        tap((res: any[]) => {
+          this.ToBeTender = Array.isArray(res) ? res : [res];
+          console.log("ToBeTender:", JSON.stringify(this.ToBeTender));
+        }),
+        catchError((error) => {
+          this.toastr.error('Failed to load To Be Tender data');
+          console.error('Failed to load To Be Tender:', error);
+          this.ToBeTender = [];
+          return of([]);
+        })
+      );
+    }
+    
+
+                  gettobetenderDetails(){
+                    
+                    this.spinner.show();
+                
+                  this.api.GetToBeTenderDetail(this.mcid).subscribe({
+                    next: (res: any[]) => {
+                      if (res && res.length > 0) {
+                        this.toBeTenderDetails = res.map((item: any, index: number) => ({
+                          ...item,
+                          sno: index + 1,
+                        }));
+                        console.log('Mapped List:', this.toBeTenderDetails);
+                
+                        this.dataSource9.data = this.toBeTenderDetails;
+                        this.dataSource9.paginator = this.paginator9;
+                        this.dataSource9.sort = this.sort9;
+                        // this.checkIfLiveStatusExists(this.dataSource8);
+                      } else {
+                        console.error('No data found or incorrect structure:', res);
+                        this.spinner.hide();  // Always hide spinner whether success or error
+                        this.toastr.error('Failed to load data');
+      
+                      }
+                    },
+                    error: (err) => {
+                      console.error('API error:', err);
+                      this.spinner.hide();  // Always hide spinner whether success or error
+                      this.toastr.error('Failed to load data');
+      
+                      
+      
+                    },
+                    complete: () => {
+                      this.spinner.hide();  // Always hide spinner whether success or error
+                    }
+                  });
+                
+                  this.openDialogtobeTender();
+                  }
+
+                  gettobetenderDetailsEqP(){
+                    
+                    this.spinner.show();
+                
+                  this.api.GetEqToBeTenderDetail().subscribe({
+                    next: (res: any[]) => {
+                      if (res && res.length > 0) {
+                        this.toBeTenderDetailsEQP = res.map((item: any, index: number) => ({
+                          ...item,
+                          sno: index + 1,
+                        }));
+                        console.log('Mapped List:', this.toBeTenderDetailsEQP);
+                
+                        this.dataSource10.data = this.toBeTenderDetailsEQP;
+                        this.dataSource10.paginator = this.paginator10;
+                        this.dataSource10.sort = this.sort10;
+                        // this.checkIfLiveStatusExists(this.dataSource8);
+                      } else {
+                        console.error('No data found or incorrect structure:', res);
+                        this.spinner.hide();  // Always hide spinner whether success or error
+                        this.toastr.error('Failed to load data');
+      
+                      }
+                    },
+                    error: (err) => {
+                      console.error('API error:', err);
+                      this.spinner.hide();  // Always hide spinner whether success or error
+                      this.toastr.error('Failed to load data');
+      
+                      
+      
+                    },
+                    complete: () => {
+                      this.spinner.hide();  // Always hide spinner whether success or error
+                    }
+                  });
+                
+                  this.openDialogtobeTenderEQP();
+                  }
+                  openDialogtobeTenderEQP() {
+            
+            
+                    const dialogRef = this.dialog.open(this.ToBeTenderDetailsMOdalEQP, {
+                     width: '100%',
+                     height: '100%',
+                     maxWidth: '100%',
+                     panelClass: 'full-screen-dialog', // Optional for additional styling
+                     data: {
+                       /* pass any data here */
+                     },
+                     // width: '100%',
+                     // maxWidth: '100%', // Override default maxWidth
+                     // maxHeight: '100%', // Override default maxHeight
+                     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+                     // height: 'auto',
+                    });
+                    dialogRef.afterClosed().subscribe((result) => {
+                     console.log('Dialog closed');
+                    });
+                    }
+                  openDialogtobeTender() {
+            
+            
+                    const dialogRef = this.dialog.open(this.ToBeTenderDetailsMOdal, {
+                     width: '100%',
+                     height: '100%',
+                     maxWidth: '100%',
+                     panelClass: 'full-screen-dialog', // Optional for additional styling
+                     data: {
+                       /* pass any data here */
+                     },
+                     // width: '100%',
+                     // maxWidth: '100%', // Override default maxWidth
+                     // maxHeight: '100%', // Override default maxHeight
+                     // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+                     // height: 'auto',
+                    });
+                    dialogRef.afterClosed().subscribe((result) => {
+                     console.log('Dialog closed');
+                    });
+                    }
+
+     
+
             fetchHOD(csid:any,status:any,noTenders:any){
 
-debugger
+
               if (noTenders=== 0) {
                 this.toastr.error('No Data Found');
                 return; // exit early to avoid further execution
@@ -2227,7 +2395,227 @@ debugger
               doc.save('QCLabPendingTracker.pdf');
             }
     
-    
+            exportToBeTenderDetails() {
+              const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a3'
+              });
+            
+              doc.setFont('NotoSansDevanagari');
+            
+              const now = new Date();
+              const dateString = now.toLocaleDateString();
+              const timeString = now.toLocaleTimeString();
+            
+              // Title
+              const header = 'Total Tender Item Details';
+              const pageWidth = doc.internal.pageSize.getWidth();
+              const titleWidth = doc.getTextWidth(header);
+              const xOffset = (pageWidth - titleWidth) / 2;
+            
+              doc.setFontSize(18);
+              doc.text(header, xOffset, 10);
+            
+              // Date/Time
+              doc.setFontSize(10);
+              doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10);
+            
+              // Updated columns
+              const columns = [
+                { title: 'S.No', dataKey: 'sno' },
+                { title: 'Item Name', dataKey: 'itemname' },
+                { title: 'Item Code', dataKey: 'itemcode' },
+                { title: 'Strength', dataKey: 'strength' },
+                { title: 'Unit', dataKey: 'unit' },
+                { title: 'EDL', dataKey: 'edl' },
+                { title: 'DHS Indent Qty', dataKey: 'dhsIndnetQty' },
+                { title: 'DHS AI Value', dataKey: 'dhsaiValue' },
+                { title: 'DME Indent Qty', dataKey: 'dmeIndentQty' },
+                { title: 'DME AI Value', dataKey: 'dmeaiValue' },
+                { title: 'Total Indent Qty', dataKey: 'totalIndentQty' },
+                { title: 'Total AI Value', dataKey: 'totalAIValue' },
+                { title: 'Scheme Code', dataKey: 'schemecode' },
+                { title: 'Scheme Name', dataKey: 'schemename' },
+                { title: 'Tender Ref', dataKey: 'tenderref' }
+              ];
+            
+              const rows = this.toBeTenderDetails.map((row, index) => ({
+                sno: index + 1,
+                itemname: row.itemname || '-',
+                itemcode: row.itemcode || '-',
+                strength: row.strength || '-',
+                unit: row.unit || '-',
+                edl: row.edl || '-',
+                dhsIndnetQty: row.dhsIndnetQty ?? '-',
+                dhsaiValue: row.dhsaiValue ?? '-',
+                dmeIndentQty: row.dmeIndentQty ?? '-',
+                dmeaiValue: row.dmeaiValue ?? '-',
+                totalIndentQty: row.totalIndentQty ?? '-',
+                totalAIValue: row.totalAIValue ?? '-',
+                schemecode: row.schemecode || '-',
+                schemename: row.schemename || '-',
+                tenderref: row.tenderref || '-'
+              }));
+            
+              autoTable(doc, {
+                columns: columns,
+                body: rows,
+                startY: 20,
+                styles: {
+                  font: 'NotoSansDevanagari',
+                  fontSize: 8,
+                  overflow: 'linebreak',
+                  cellPadding: 1.5
+                },
+                theme: 'striped',
+                headStyles: { fillColor: [22, 160, 133] }
+              });
+            
+              doc.save('ToBeTender.pdf');
+            }
+
+
+            tobetenderDetailsReceivedPdf  () {
+              const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a3'
+              });
+            
+              doc.setFont('NotoSansDevanagari');
+            
+              const now = new Date();
+              const dateString = now.toLocaleDateString();
+              const timeString = now.toLocaleTimeString();
+            
+              // Header
+              const header = ' Status Details';
+              const pageWidth = doc.internal.pageSize.getWidth();
+              const titleWidth = doc.getTextWidth(header);
+              const xOffset = (pageWidth - titleWidth) / 2;
+            
+              doc.setFontSize(18);
+              doc.text(header, xOffset, 10);
+            
+              doc.setFontSize(10);
+              doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10);
+            
+              // Columns updated
+              const columns = [
+                { title: 'S.No', dataKey: 'sno' },
+                { title: 'Scheme ', dataKey: 'schemename' },
+                { title: 'Tender ', dataKey: 'tenderstatus' },
+                { title: 'Tender ', dataKey: 'tenderremark' },
+                { title: 'Entry ', dataKey: 'entrydate' }
+              ];
+            
+              const rows = this.schemeTenderStatus.map((row, index) => ({
+                sno: index + 1,
+                schemename: row.schemename || '-',
+                tenderstatus: row.tenderstatus || '-',
+                tenderremark: row.tenderremark || '-',
+                entrydate: row.entrydate || '-'
+              }));
+            
+              autoTable(doc, {
+                columns: columns,
+                body: rows,
+                startY: 20,
+                styles: {
+                  font: 'NotoSansDevanagari',
+                  fontSize: 9,
+                  overflow: 'linebreak',
+                  cellPadding: 2
+                },
+                theme: 'striped',
+                headStyles: { fillColor: [22, 160, 133] }
+              });
+            
+              doc.save('received.pdf');
+            
+            }
+
+
+
+            exportToBeTenderDetailsEQP() {
+              const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a3'
+              });
+            
+              doc.setFont('NotoSansDevanagari');
+            
+              const now = new Date();
+              const dateString = now.toLocaleDateString();
+              const timeString = now.toLocaleTimeString();
+            
+              // Title
+              const header = 'To Be Tendered Item Details';
+              const pageWidth = doc.internal.pageSize.getWidth();
+              const titleWidth = doc.getTextWidth(header);
+              const xOffset = (pageWidth - titleWidth) / 2;
+            
+              doc.setFontSize(18);
+              doc.text(header, xOffset, 10);
+            
+              // Date/Time
+              doc.setFontSize(10);
+              doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10);
+            
+              // Updated Columns
+              const columns = [
+                { title: 'S.No', dataKey: 'sno' },
+                { title: 'Date', dataKey: 'consolidateD_DATE' },
+                { title: 'Item Code', dataKey: 'item_code_as_per_tender' },
+                { title: 'Item Name', dataKey: 'item_name' },
+                { title: 'Description', dataKey: 'description' },
+                { title: 'Proposed Qty', dataKey: 'proposeD_QTY' },
+                { title: 'Final Qty', dataKey: 'finaL_QTY' },
+                { title: 'Indent Value', dataKey: 'indentValue' },
+                { title: 'Year', dataKey: 'year' },
+                { title: 'Authority', dataKey: 'facility_aut_name' },
+                { title: 'Code', dataKey: 'facility_aut_code' },
+                { title: 'Status', dataKey: 'eStatus' },
+                { title: 'Upload Status', dataKey: 'uploadStatus' },
+                { title: 'Created On', dataKey: 'createdOn' }
+              ];
+            
+              const rows = this.toBeTenderDetailsEQP.map((row, index) => ({
+                sno: index + 1,
+                consolidateD_DATE: row.consolidateD_DATE || '-',
+                item_code_as_per_tender: row.item_code_as_per_tender || '-',
+                item_name: row.item_name || '-',
+                description: row.description || '-',
+                proposeD_QTY: row.proposeD_QTY ?? '-',
+                finaL_QTY: row.finaL_QTY ?? '-',
+                indentValue: row.indentValue ?? '-',
+                year: row.year || '-',
+                facility_aut_name: row.facility_aut_name || '-',
+                facility_aut_code: row.facility_aut_code || '-',
+                eStatus: row.eStatus || '-',
+                uploadStatus: row.uploadStatus || '-',
+                createdOn: row.createdOn ? new Date(row.createdOn).toLocaleString() : '-'
+              }));
+            
+              autoTable(doc, {
+                columns: columns,
+                body: rows,
+                startY: 20,
+                styles: {
+                  font: 'NotoSansDevanagari',
+                  fontSize: 8,
+                  overflow: 'linebreak',
+                  cellPadding: 1.5
+                },
+                theme: 'striped',
+                headStyles: { fillColor: [22, 160, 133] }
+              });
+            
+              doc.save('ToBeTenderDetails.pdf');
+            }
+            
             exportToPDFQCPendingMonthwiseRecDetails() {
               const doc = new jsPDF('l', 'mm', 'a4');
             
@@ -2375,8 +2763,8 @@ exportToPDFHODDetails() {
     tendeR_NO: row.tendeR_NO || '',
     tendeR_DATE: row.tendeR_DATE || '',
     tender_description: row.tender_description || '',
-    tenderStatus: row.tenderStatus || '',
-    tenderRemark: row.tenderRemark || '',
+    tenderStatus: row.tenderstatus || '',
+    tenderRemark: row.tenderremark || '',
     noOfItems: row.noOfItems || 0,
     tenderValue: row.tenderValue || 0
   }));

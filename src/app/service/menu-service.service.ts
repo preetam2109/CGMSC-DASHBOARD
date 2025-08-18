@@ -13,6 +13,7 @@ export class MenuServiceService {
     | 'DrugsConsumables'
     | 'EquipmentReagent'
     | 'Infrastructure'
+    | 'Admin'
     | undefined;
   private menu: {
     [role: string]: {
@@ -35,14 +36,17 @@ export class MenuServiceService {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/welcome' },
+          { label: 'Analysis', route: '/analysis' },
           { label: 'Attendance', route: '/attendance-dash' },
           { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
           { label: 'Tender Status', route: '/tender-status' },
           { label: 'QC Insights ', route: '/qc-dashboard' },
           { label: 'Finance', route: '/finance-dash' },
+          { label: 'Supplier Pending Payments', route: '/supplier-pending' },
           { label: 'DHS Dashboard', route: '/dhsdash' },
           { label: 'CME Dashboard', route: '/cmedash' },
-   
+          { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
+          
           // {
           //   label: 'Health Facilities Coverage',
           //   route:  '/FacCoverage',
@@ -62,6 +66,7 @@ export class MenuServiceService {
           { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
           { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
           { label: 'Growth in Distribution', route: '/distribution' },
+          { label: 'Consumption Pattern', route: '/consumption-pattern' },
           { label: 'Near Expiry', route: '/nearExpiry' },
           { label: 'Devlivery', route: '/Devlivery' },
 
@@ -80,7 +85,7 @@ export class MenuServiceService {
           { label: 'IWH Pendings', route: '/iwhPending' },
           { label: 'NOC', route: '/noc' },
           { label: 'ANPR Report ', route: '/vehicleTracking' },
-
+          { label: 'WH Wise Stock Out', route: '/WHWiseStockOut' },
           // {label:'Quality Controll'
 
           // },
@@ -99,6 +104,7 @@ export class MenuServiceService {
               },
               { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
               { label: 'QC Time Taken', route: '/QcTimeTaken' },
+             
 
               // { label: 'Facility Details', route:  '/facilityDetails' }
             ],
@@ -156,8 +162,166 @@ export class MenuServiceService {
           // { label: 'Orders', route:  '/dhs' },
           // { label: 'Reagent Issue', route:  '/ReagentIssue' },
         ],
+        Admin:[
+          { label: 'Home', route: '/home' },
+          { label: 'Dashboard', route: '/admin-dash' },
+          { label: 'Attendance', route: '/attendance-dash' },
+
+
+        ],
+        
+        // HR:[
+        //   { label: 'Home', route: '/home' },
+        //   { label: 'Dashboard', route: '/admin-dash' },
+        //   { label: 'Attendance', route: '/attendance-dash' },
+
+        // ]
+        
+        
       },
     },
+    SSO: {
+      items: [
+        
+        
+        { label: 'Home', route: '/home' },
+        { label: 'Dashboard', route: '/welcome' },
+        
+        { label: 'DHS Dashboard', route: '/dhsdash' },
+        { label: 'CME Dashboard', route: '/cmedash' },
+        { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
+
+        { label: 'Health Facilities Coverage', route: '/FacCoverage' },
+        { label: 'Warehouse Information', route: '/WarehouseInfo' },
+        { label: 'Warehouse Stock Abstract', route: '/whStockAbstract' },
+        { label: 'Warehouse Stock Details', route: '/stockDetails' },
+        { label: 'Field Stock', route: '/field-stock' },
+        { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
+        { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
+        { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
+        // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+        // { label: 'Growth in Distribution', route: '/distribution' },
+        { label: 'Near Expiry', route: '/nearExpiry' },
+        // { label: 'Devlivery', route: '/Devlivery' },
+        // { label: 'Quality Control', route: '/qc-dashboard' },
+        // {
+        //   label: 'Quality Control Track',
+        //   submenu: [
+        //     { label: 'QC Courier', route: '/QcPendings' },
+        //     { label: 'QC-Lab Issues', route: '/qc-dash' },
+        //   ],
+        //   route: '/welcome',
+        // },
+
+        // { label: 'IWH Pendings', route: '/iwhPending' },
+        // { label: 'NOC', route: '/noc' },
+        // { label: 'ANPR Report ', route: '/vehicleTracking' },
+        // {
+        //   label: 'Time-Based Analysis',
+
+        //   submenu: [
+        //     {
+        //       label: 'Door Delivery App Uses',
+        //       route: '/DropAppWarehousePerformance',
+        //     },
+        //     {
+        //       label: 'Time Taken By Supplier',
+        //       route: '/timetakenBySupplier',
+        //     },
+        //     { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
+        //     { label: 'QC Time Taken', route: '/QcTimeTaken' },
+        //   ],
+        //   route: '/welcome',
+        // },
+      ],
+    },
+    'Logi Cell': {
+      items: [
+        
+        
+        { label: 'Home', route: '/home' },
+        { label: 'Dashboard', route: '/welcome' },
+        
+        { label: 'DHS Dashboard', route: '/dhsdash' },
+        { label: 'CME Dashboard', route: '/cmedash' },
+        { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
+
+        { label: 'Health Facilities Coverage', route: '/FacCoverage' },
+        { label: 'Warehouse Information', route: '/WarehouseInfo' },
+        { label: 'Warehouse Stock Abstract', route: '/whStockAbstract' },
+        { label: 'Warehouse Stock Details', route: '/stockDetails' },
+        { label: 'Field Stock', route: '/field-stock' },
+        { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
+        { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
+        { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
+        // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+        // { label: 'Growth in Distribution', route: '/distribution' },
+        { label: 'Near Expiry', route: '/nearExpiry' },
+        // { label: 'Devlivery', route: '/Devlivery' },
+        // { label: 'Quality Control', route: '/qc-dashboard' },
+        // {
+        //   label: 'Quality Control Track',
+        //   submenu: [
+        //     { label: 'QC Courier', route: '/QcPendings' },
+        //     { label: 'QC-Lab Issues', route: '/qc-dash' },
+        //   ],
+        //   route: '/welcome',
+        // },
+
+        { label: 'IWH Pendings', route: '/iwhPending' },
+        // { label: 'NOC', route: '/noc' },
+        // { label: 'ANPR Report ', route: '/vehicleTracking' },
+        // {
+        //   label: 'Time-Based Analysis',
+
+        //   submenu: [
+        //     {
+        //       label: 'Door Delivery App Uses',
+        //       route: '/DropAppWarehousePerformance',
+        //     },
+        //     {
+        //       label: 'Time Taken By Supplier',
+        //       route: '/timetakenBySupplier',
+        //     },
+        //     { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
+        //     { label: 'QC Time Taken', route: '/QcTimeTaken' },
+        //   ],
+        //   route: '/welcome',
+        // },
+      ],
+    },
+    
+    MDGMT: {
+    
+       
+        items: [
+          { label: 'Home', route: '/home' },
+          { label: 'Dashboard', route: '/eqp-dash' },
+          { label: 'RCDetail', route: '/Rcdetail' },
+          { label: 'Complaints', route: '/complaints' },
+          { label: 'Supply/Installation Status', route: '/dispatchPending' },
+          { label: 'Orders', route: '/dhs' },
+          { label: 'Reagent Issue', route: '/ReagentIssue' },
+        ]
+      
+     
+    },
+    TPOBME: {
+    
+       
+        items: [
+          { label: 'Home', route: '/home' },
+          { label: 'Dashboard', route: '/eqp-dash' },
+          { label: 'RCDetail', route: '/Rcdetail' },
+          { label: 'Complaints', route: '/complaints' },
+          { label: 'Supply/Installation Status', route: '/dispatchPending' },
+          { label: 'Orders', route: '/dhs' },
+          { label: 'Reagent Issue', route: '/ReagentIssue' },
+        ]
+      
+     
+    },
+    
     Collector: {
       categories: {
         DrugsConsumables: [
@@ -323,9 +487,83 @@ export class MenuServiceService {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/cmedash' },
+          { label: 'Tender Status', route: '/tender-status-cme' },
+
+          { label: 'Finance', route: '/finance-dash' },
+          { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
+          // { label: 'CGMSC Institute wise Issuance', route: '/cgmsc-supplies' },
+
+          { label: 'Stock Details', route: '/stockDetails' },
+
+          { label: 'Growth in Distribution', route: '/distribution' },
+          
+          { label: 'CGMSC TAT For Payment', route: '/PaidTimeTaken' },
+          { label: 'QC Time Taken', route: '/QcTimeTaken' },
+          
+          
+        ],
+        EquipmentReagent: [{ label: 'Home', route: '/home' }],
+        Infrastructure: [
+          { label: 'Verticals', route: '/home' },
+          // { label: 'Home', route: 'InfrastructureHome' },
+          // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
+          // { label: 'SearchingWork', route: 'SearchingWork' },
+          // { label: 'District Progress', route: 'District Progress' },
+          // { label: 'DivisionProgress', route: 'DivisionProgress' },
+          { label: 'Search Work', route: '/SearchingWork' },
+
+          { label: 'Work Abstract', route: '/InfrastructureHome' },
+        { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
+
+
+
+          { label: 'Live Tender', route: '/LiveTender' },
+          { label: 'Evaluation', route: '/TenderEvaluation' },
+          { label: 'To be Tender', route: '/ToBeTender' },
+
+          { label: 'Work Order', route: '/WorkOrder' },
+          { label: 'Running Works', route: '/RunningWork' },
+
+          { label: 'Land Issues', route: '/LandIssue' },
+          { label: 'Technical Sanction', route: '/TechnicalSanction' },
+          // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
+          // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
+          { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
+          // { label: 'District Progress Monitoring', route: 'District Progress' },
+          { label: 'Handover', route: 'Handover' },
+
+          { label: 'Engineer-Works', route: '/EngineerWorks' },
+          { label: 'Payment', route: '/PriceEvaluation' },
+
+          // // { label: 'Home', route: 'InfrastructureHome' },
+          // // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
+          // // { label: 'SearchingWork', route: 'SearchingWork' },
+          // // { label: 'District Progress', route: 'District Progress' },
+          // // { label: 'DivisionProgress', route: 'DivisionProgress' },
+          // { label: 'Search Work', route: 'SearchingWork' },
+          // { label: 'Work Abstract', route: 'InfrastructureHome' },
+          // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
+          // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+          // // { label: 'District Progress Monitoring', route: 'District Progress' },
+          // { label: 'Work Order', route: 'WorkOrder' },
+          // { label: 'Land Issue', route: 'LandIssue' },
+          // { label: 'Live Tender', route: 'LiveTender' },
+
+          // { label: 'Handover', route: 'Handover' },
+          // { label: 'Engineer-Works', route: 'EngineerWorks' },
+          // { label: 'Technical Sanction', route: 'TechnicalSanction' },
+        ],
+      },
+    },
+    DME1: {
+      categories: {
+        DrugsConsumables: [
+          { label: 'Home', route: '/home' },
+          { label: 'Dashboard', route: '/cmedash' },
           { label: 'Finance', route: '/finance-dash' },
 
-          { label: 'Stock Abstract', route: '/whStockAbstract' },
+          { label: 'Stock Details', route: '/stockDetails' },
+
           { label: 'Growth in Distribution', route: '/distribution' },
         ],
         EquipmentReagent: [{ label: 'Home', route: '/home' }],
@@ -382,6 +620,16 @@ export class MenuServiceService {
       },
     },
 
+    HR:{
+
+      items:[
+        { label: 'Home', route: '/home' },
+        { label: 'Dashboard', route: '/admin-dash' },
+        { label: 'Attendance', route: '/attendance-dash' },
+  
+      ]
+    },
+
     QC: {
       items: [
         { label: 'Home', route: '/home' },
@@ -392,6 +640,30 @@ export class MenuServiceService {
         { label: 'QC-Lab Issues', route: '/qc-dash' },
       ],
     },
+    QC2: {
+      items: [
+        { label: 'Home', route: '/home' },
+        { label: 'QC Insights ', route: '/qc-dashboard' },
+
+        { label: 'Stock Details', route: '/stockDetails' },
+        { label: 'QC Courier', route: '/QcPendings' },
+        { label: 'QC-Lab Issues', route: '/qc-dash' },
+      ],
+    },
+  
+    Tenders:{
+      items:[
+        { label: 'Home', route: '/home' },
+        { label: 'Tender Status', route: '/tender-status' },
+        { label: 'Equipment Dashboard', route: '/eqp-dash' },
+        { label: 'RCDetail', route: '/Rcdetail' },
+        { label: 'IWH Pendings', route: '/iwhPending' },
+
+
+
+      ]
+    },
+
     'GM Finance': {
       items: [
         { label: 'Home', route: '/home' },
@@ -522,7 +794,12 @@ export class MenuServiceService {
         // { label: 'Monitoring with Geographic Coordinate', route: '/DivisionsProgress' },
       ],
     }
+    
     ,
+
+
+
+
     SE: {
       items: [
         // { label: 'Verticals', route: '/home' },
@@ -531,6 +808,8 @@ export class MenuServiceService {
         // { label: 'SearchingWork', route: 'SearchingWork' },
         // { label: 'District Progress', route: 'District Progress' },
         // { label: 'DivisionProgress', route: 'DivisionProgress' },
+        { label: 'Dashboard', route: '/welcome' },
+
         { label: 'Search Work', route: '/SearchingWork' },
         { label: 'Work Abstract', route: '/InfrastructureHome' },
         { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
@@ -546,9 +825,10 @@ export class MenuServiceService {
         { label: 'Technical Sanction', route: '/TechnicalSanction' },
         // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
         // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
-        { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
+        { label: 'Monitoring with Geographic Coordinate', route: '/DivisionProgress' },
         // { label: 'District Progress Monitoring', route: 'District Progress' },
-        { label: 'Handover Insights', route: 'Handover' }, { label: 'Handover Insights', route: 'Handover' },
+        { label: 'Handover Insights', route: '/Handover' }, 
+        // { label: 'Handover Insights', route: 'Handover' },
       
 
         { label: 'Engineer Work Tracker', route: '/EngineerWorks' },
@@ -574,6 +854,64 @@ export class MenuServiceService {
         // LiveTenderComponent
       ],
     },
+    HO_Infra: {
+      items: [
+        // { label: 'Verticals', route: '/home' },
+        // { label: 'Home', route: 'InfrastructureHome' },
+        // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
+        // { label: 'SearchingWork', route: 'SearchingWork' },
+        // { label: 'District Progress', route: 'District Progress' },
+        // { label: 'DivisionProgress', route: 'DivisionProgress' },
+        { label: 'Dashboard', route: '/welcome' },
+
+        { label: 'Search Work', route: '/SearchingWork' },
+        { label: 'Work Abstract', route: '/InfrastructureHome' },
+        { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
+
+        { label: 'Live Tender', route: '/LiveTender' },
+        { label: 'Evaluation', route: '/TenderEvaluation' },
+        { label: 'To be Tender', route: '/ToBeTender' },
+
+        { label: 'Work Order', route: '/WorkOrder' },
+        { label: 'Running Works', route: '/RunningWork' },
+
+        { label: 'Land Issues', route: '/LandIssue' },
+        { label: 'Technical Sanction', route: '/TechnicalSanction' },
+        // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
+        // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
+        { label: 'Monitoring with Geographic Coordinate', route: '/DivisionProgress' },
+        // { label: 'District Progress Monitoring', route: 'District Progress' },
+        { label: 'Handover Insights', route: '/Handover' }, 
+        // { label: 'Handover Insights', route: 'Handover' },
+      
+
+        { label: 'Engineer Work Tracker', route: '/EngineerWorks' },
+        // { label: 'Payment Tracker', route: '/PriceEvaluation' },
+
+        // // { label: 'Verticals', route: 'home' },
+        // // { label: 'Home', route: 'InfrastructureHome' },
+        // // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
+        // // { label: 'SearchingWork', route: 'SearchingWork' },
+        // // { label: 'District Progress', route: 'District Progress' },
+        // // { label: 'DivisionProgress', route: 'DivisionProgress' },
+        // { label: 'Search Work', route: 'SearchingWork' },
+        // { label: 'Work Abstract', route: 'InfrastructureHome' },
+        // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
+        // { label: 'Division Progress Monitoring', route: 'DivisionProgress' },
+        // // { label: 'District Progress Monitoring', route: 'District Progress' },
+        // { label: 'Work Order', route: 'WorkOrder' },
+        // { label: 'Land Issue', route: 'LandIssue' },
+        // { label: 'Live Tender', route: 'LiveTender' },
+        // { label: 'Handover', route: 'Handover' },
+        // { label: 'Engineer-Works', route: 'EngineerWorks' },
+        // { label: 'Technical Sanction', route: 'TechnicalSanction' },
+        // LiveTenderComponent
+      ],
+    },
+
+
+
+
     Warehouse: {
       items: [
         { label: 'Home', route: '/home' },
@@ -631,8 +969,8 @@ export class MenuServiceService {
         // { label: 'District Progress Monitoring', route: 'District Progress' },
         { label: 'Handover', route: 'Handover' },
 
-        { label: 'Engineer-Works', route: '/EngineerWorks' },
-        { label: 'Payment', route: '/PriceEvaluation' },
+        { label: 'Engineer Work Tracker', route: '/EngineerWorks' },
+        // { label: 'Payment', route: '/PriceEvaluation' },
 
         // // { label: 'Home', route:  '/InfrastructureHome' },
         // // { label: 'DashProgressIstCount', route:  '/DashProgressIstCount' },
@@ -658,7 +996,7 @@ export class MenuServiceService {
 
   // Store selected category in localStorage to persist across page refreshes
   setSelectedCategory(
-    category: 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure'
+    category: 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure' | 'Admin'
   ) {
     this.selectedCategory = category;
     localStorage.setItem('selectedCategory', category); // Save category to localStorage
@@ -669,6 +1007,8 @@ export class MenuServiceService {
     | 'DrugsConsumables'
     | 'EquipmentReagent'
     | 'Infrastructure'
+    | 'Admin'
+
     | undefined {
     if (!this.selectedCategory) {
       // If category is not set in memory, retrieve it from localStorage
@@ -676,6 +1016,7 @@ export class MenuServiceService {
         | 'DrugsConsumables'
         | 'EquipmentReagent'
         | 'Infrastructure'
+        | 'Admin'
         | undefined;
     }
     return this.selectedCategory;
@@ -692,7 +1033,7 @@ export class MenuServiceService {
       return [];
     }
 
-    const rolesUsingCategories = ['Collector', 'SEC1', 'DHS', 'CME'];
+    const rolesUsingCategories = ['Collector', 'SEC1', 'DHS', 'CME','DME1'];
 
     if (rolesUsingCategories.includes(role) && roleMenu.categories) {
       const selectedCategory = this.getSelectedCategory();

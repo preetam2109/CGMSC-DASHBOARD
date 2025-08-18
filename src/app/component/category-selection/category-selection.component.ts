@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
 import { HardcodedAuthenticationService } from 'src/app/service/authentication/hardcoded-authentication.service';
 import { MenuServiceService } from 'src/app/service/menu-service.service';
-
+import { ApiService } from 'src/app/service/api.service';
 // Define the Category type
-type Category = 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure';
+type Category = 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure' | 'Admin';
 
 @Component({
   selector: 'app-category-selector',
@@ -14,7 +14,7 @@ type Category = 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure';
 })
 export class CategorySelectionComponent implements OnInit {
   // Available categories as cards with the Category type
-  categories: Category[] = ['DrugsConsumables', 'EquipmentReagent', 'Infrastructure']; 
+  categories: Category[] = ['DrugsConsumables', 'EquipmentReagent', 'Infrastructure','Admin']; 
   selectedCategory: Category | '' = ''; // To store the selected category
   menuItems: { label: string; route: string }[] = [];
   role: any = ''; // Dynamic role
@@ -23,20 +23,19 @@ export class CategorySelectionComponent implements OnInit {
   userId=sessionStorage.getItem('authenticatedUser')
   userName='';
   userMobile=''
+  
 
   constructor(
     public loginService:BasicAuthenticationService,
     private menuService: MenuServiceService,
     private authService: HardcodedAuthenticationService,
-    private router: Router
+    private router: Router,   private api: ApiService,
   ) {}
 
   ngOnInit(): void {
-    
+   
+
     this.role = this.loginService.getRole().roleName;
-    
-     
-  
     // Retrieve the selected category from localStorage on page refresh
     const storedCategory = this.menuService.getSelectedCategory(); // No need to directly access localStorage here
     if (storedCategory) {
@@ -44,6 +43,19 @@ export class CategorySelectionComponent implements OnInit {
       this.updateMenu(); // Update the menu based on the stored category
     }
   }
+  shouldDisplayCategory(category: string): boolean {
+    if (this.role === 'HR') {
+      return category === 'Admin';
+    }
+  
+    if (this.role === 'CME' || this.role === 'DME1') {
+      return category !== 'Admin';
+    }
+  
+    return true;
+  }
+  
+  
  
   
 
@@ -63,6 +75,9 @@ export class CategorySelectionComponent implements OnInit {
 
     }else if(this.selectedCategory==='EquipmentReagent'){
       this.router.navigate(['/eqp-dash']); // Redirect after selection
+
+    }else if(this.selectedCategory==='Admin'){  
+      this.router.navigate(['/admin-dash']); // Redirect after selection
 
     }
     else
@@ -87,8 +102,12 @@ export class CategorySelectionComponent implements OnInit {
         return 'assets/images/equipment-reagents.jpg';
       case 'Infrastructure':
         return 'assets/images/infrastructure.jpg';
+      case 'Admin':
+        return 'assets/images/admin.jpg';
       default:
         return 'assets/images/default-image.jpg';
     }
   }
+
+  
 }

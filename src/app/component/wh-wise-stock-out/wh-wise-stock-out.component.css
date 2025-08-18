@@ -1,0 +1,262 @@
+.modal-content {
+    border-radius: 0;
+  }
+  
+  .modal-body {
+    /* padding: 20px;  */
+    padding-left: 30px;
+    padding-right: 14px;
+  }
+  
+  .fullscreen-modal .modal-dialog {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  }
+  
+  .fullscreen-modal .modal-content {
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  }
+  
+  
+  /* .d-block {
+    display: block !important;
+  } */
+  .modal {
+    margin-top: 0px;
+    padding-top: 0px;
+    /* --bs-modal-margin: 0.1rem;
+    --bs-modal-box-shadow: var(--bs-box-shadow); */
+  }
+  @media (min-width: 576px) {
+    .modal {
+        --bs-modal-margin: 1.75rem;
+        --bs-modal-box-shadow: var(--bs-box-shadow);
+    }
+  }
+  
+  .full-screen-dialog .mat-dialog-container {
+    height: 100vh; /* Full viewport height */
+    width: 100vw;  /* Full viewport width */
+    margin: 0;     /* Remove any margin */
+    border-radius: 0; /* Remove default dialog border radius */
+  }
+  .mat-dialog-content {
+    max-height: 300px; /* Set a max height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    padding: 16px;     /* Optional padding for content */
+  }
+  @media (max-width: 600px) {
+    .mat-dialog-container {
+      width: 100% !important;
+      height: auto !important;
+      margin: 0 !important;
+      max-height: 100vh !important;
+    }
+  }
+  
+  .custom-dialog-container {
+    height: 110vh; /* Adjust height as needed */
+  }
+  
+  .mat-dialog-content {
+    overflow-y: auto;
+  }
+  .mat-mdc-dialog-content {
+    /* max-height: 65vh; */
+    max-height: 75vh;
+    /* overflow: hidden; */
+  }
+  @media (max-width: 768px) {
+    .custom-dialog-container {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+  
+  /* table css */
+  .container-fluid {
+    padding: 20px;
+  }
+  
+  .table-responsive {
+    margin-top: 20px;
+  }
+  
+  .filter-field {
+    margin-right: 16px;
+  }
+  
+  .export-menu-container {
+    margin-left: 16px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+  }
+  
+  .table th {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .table td {
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .table td, .table th {
+    border: 1px solid #e0e0e0;
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .mat-paginator {
+    margin-top: 20px;
+  }
+  .text p {
+    font-size: small; /* Adjust text size for small screens */
+    /* color: crimson; */
+  }
+  
+  /* Additional styling for mobile view */
+  @media (max-width: 768px) {
+    .table-container {
+      padding: 0;
+    }
+  
+    .table {
+      font-size: 14px;
+    }
+  
+    .filter-field,
+    .export-menu-container {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    .text p {
+      font-size: xx-small; /* Adjust text size for small screens */
+      /* color: crimson; */
+    }
+  }
+  .clickable-link {
+    color: blue; /* Link color */
+    text-decoration: underline; /* Underline for link appearance */
+    cursor: pointer; /* Pointer cursor to indicate clickable */
+  }
+  
+  .clickable-link:hover {
+    color: darkblue; /* Darker color on hover */
+  }
+  
+  /* date time */
+  .custom-datepicker-container {
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-form-field {
+    background-color: #f9f9f9;
+    /* background-color: #fae4e4; */
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .mat-form-field-appearance-fill .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+  
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding: 10px 0;
+  }
+  
+  .custom-input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: none;
+  }
+  
+  @media (max-width: 768px) {
+    .custom-datepicker-container {
+      padding: 1rem;
+      width: 100%;
+    }
+  
+    .custom-input {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (min-width: 769px) {
+    .custom-datepicker-container {
+      padding: 1.5rem;
+    }
+    
+    .custom-input {
+      font-size: 1rem;
+    }
+  }
+  
+  
+  .footer{
+    position: absolute;
+    padding: 5px;
+    bottom: 0;
+    width: 100%;
+    /* height: 93px; */
+    border: #ffff;
+    border-radius: 1%;
+    /* background: rgb(155, 158, 155); */
+    /* background: rgb(55, 61, 55); */
+    /* color: white; */
+    font-size: 30px;
+  }
+
+/* .mat-header-cell,
+.mat-cell {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+} */
+
+
+::ng-deep .mat-sort-header-container {
+  justify-content: center !important;
+  text-align: center; 
+  margin-left: 0 !important;
+}
+
+
+/* ::ng-deep .mat-header-cell, .mat-cell {
+  justify-content: center;
+  flex: 0 0 200px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: lightgrey;
+  text-align: center; 
+}
+
+::ng-deep .mat-sort-header-container {
+  margin-left: 18px;
+}
+
+::ng-deep .mat-row, .mat-header-row {
+  border-bottom-width: 0px;
+} */
+
