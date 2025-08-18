@@ -114,13 +114,13 @@ export class RcValidStatusComponent {
     const columns = [
       { title: 'S.No', dataKey: 'sno' },
       { title: 'EDL Type', dataKey: 'edltype' },
-      { title: 'No. of Indents', dataKey: 'nosIndent' },
-      { title: 'RC Valid Count', dataKey: 'rcValidcnt' },
-      { title: 'RC Not Valid Count', dataKey: 'rcNotValidcnt' },
-      { title: 'Price Count', dataKey: 'pricecnt' },
-      { title: 'Evaluation Count', dataKey: 'evalutioncnt' },
-      { title: 'Live Count', dataKey: 'liveCnt' },
-      { title: 'To Be Tender Count', dataKey: 'rentendercn' }
+      { title: 'No. of Items Annual Indent Received', dataKey: 'nosIndent' },
+      { title: 'RC Valid', dataKey: 'rcValidcnt' },
+      { title: 'RC Not Valid', dataKey: 'rcNotValidcnt' },
+      { title: 'Price Opened on RC Not Valid', dataKey: 'pricecnt' },
+      { title: 'Evaluation on RC Not Valid', dataKey: 'evalutioncnt' },
+      { title: 'Tender Live on RC Not Valid', dataKey: 'liveCnt' },
+      { title: 'To be Tender against RC Not Valid', dataKey: 'rentendercn' }
     ];
   
     // Prepare rows from your API data

@@ -81,7 +81,7 @@
         
         [ngClass]="{'Active': HOD === 'All'}"
         (click)="showData()"
-         >Show All
+         >Show
         </button>
       </div>
       <!-- <div class="col-md-3" *ngIf="role !== 'CME' && role !== 'DME1'">
@@ -111,9 +111,9 @@
             </p> -->
           </div>
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="filter-field flex-grow-1">
+            <!-- <div class="filter-field flex-grow-1">
               <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
-            </div>
+            </div> -->
             <div class="export-menu-container">
               <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
               <mat-menu #exportMenu="matMenu">
@@ -139,7 +139,7 @@
 
    <!-- No. of Indents -->
    <ng-container matColumnDef="abC_CATEGORY">
-    <th mat-header-cell *matHeaderCellDef style="width: 120px;">ABC_CATEGORY</th>
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">ABC CATEGORY</th>
     <td mat-cell *matCellDef="let element"> {{ element.abC_CATEGORY }} </td>
   </ng-container>
 
@@ -149,15 +149,15 @@
         <td mat-cell *matCellDef="let element"  (click)="noitemslick(element.rcValid,element.abC_CATEGORY)"  style="cursor: pointer;"  > {{ element.noOfItems }} </td>
       </ng-container>
     <ng-container matColumnDef="ordeR_VALUE">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;">ORDER_VALUE</th>
+        <th mat-header-cell *matHeaderCellDef style="width: 120px;">Order Value in(Cr)</th>
         <td mat-cell *matCellDef="let element"> {{ element.ordeR_VALUE }} </td>
       </ng-container>
     <ng-container matColumnDef="rcValid">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;"    >Rc Valid</th>
+        <th mat-header-cell *matHeaderCellDef style="width: 120px;"    >RC Valid</th>
         <td mat-cell *matCellDef="let element" (click)="noitemslick('Y',element.abC_CATEGORY)" style="cursor: pointer;" > {{ element.rcValid }} </td>
       </ng-container>
     <ng-container matColumnDef="rcNotValid">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;">Rc Not Valid</th>
+        <th mat-header-cell *matHeaderCellDef style="width: 120px;">RC Not Valid</th>
         <td mat-cell *matCellDef="let element" (click)="noitemslick('N',element.abC_CATEGORY)" style="cursor: pointer;"> {{ element.rcNotValid }} </td>
       </ng-container>
   
@@ -204,7 +204,7 @@
         <div class="row align-items-center p-2 m-2 ">
           <div class="col-lg-6 col-md-8">
             <!-- <h1>AS Completed Details</h1> -->
-            <h1 class="text-info-emphasis">Details</h1>
+            <h1 class="text-info-emphasis">Report :Procurement Year :{{selectedLabele}}, EDL Type : {{edl}}  </h1>
           </div>
           <div class="col-lg-6 col-md-4 text-end">
             <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
@@ -237,9 +237,9 @@
                                 <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                                 <mat-menu #exportMenu="matMenu">
                                   <button mat-menu-item
-                                    (click)="exporter.exportTable('xlsx', { fileName: 'InfraTenderDetails', sheet: 'InfraStatusDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                                    (click)="exporter.exportTable('xlsx', { fileName: 'abcanalysisdetails', sheet: 'abcanalysisdetails', Props: { Author: 'cgmsc' }})">Excel</button>
                                   
-                                  <!-- <button mat-button (click)="exportToPDFd()">PDF</button> -->
+                                  <button mat-button (click)="exportToPDFd()">PDF</button>
                       
                                 </mat-menu>
                               </div>
