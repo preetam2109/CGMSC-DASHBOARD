@@ -1533,8 +1533,9 @@ RCValidSatus(yearId:any,mcId:any,hoType:any){
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`);
 }
 
-ABCanalysisSummary(yearid:any,mcid:any,isedl:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummary?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}`);
+ABCanalysisSummary(yearid:any,mcid:any,isEDL:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisWithRCvalid?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}`);
+  // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABCanalysisWithRCvalid?yearid=545&mcid=1&isEDL=Y
 }
 
 ABCanalysisSummaryDetail(yearid:any,mcid:any,isedl:any,detail:any,isRCvalid:any){

@@ -124,6 +124,7 @@ import { WHWiseStockOutComponent } from './component/wh-wise-stock-out/wh-wise-s
 
 import { RcValidStatusComponent } from './rcdetail-report/rc-valid-status/rc-valid-status/rc-valid-status.component';
 import { AnalysisTabComponent } from './component/analysis-tab/analysis-tab.component';
+import { AnalysisGraphComponent } from './component/analysis-graph/analysis-graph/analysis-graph.component';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -272,6 +273,8 @@ const routes: Routes = [
 
 {path:'rc-valid-status',component:RcValidStatusComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 {path:'analysis',component:AnalysisTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+
+{path:'analysis-graph',component:AnalysisGraphComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 
 
 

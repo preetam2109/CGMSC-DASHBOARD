@@ -84,7 +84,18 @@
     cursor: pointer;
   }
 
+
+  
+  .welcome-message {
+    font-size: 1rem;
+    color: #ffffff;
+    white-space: nowrap;
+  }
  
+  .navbar-brand {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
   
   /* pwa close */
   
