@@ -48,9 +48,7 @@ export type ChartOptions = {
   styleUrl: './abc-analysis.component.css'
 })
 export class AbcAnalysisComponent {
-applyTextFiltertotal($event: KeyboardEvent) {
-throw new Error('Method not implemented.');
-}
+  
 
 public chartOptions: Partial<ChartOptions> | any;
 
@@ -76,10 +74,13 @@ public chartOptions: Partial<ChartOptions> | any;
   
   @ViewChild('paginator8') paginator8!: MatPaginator;
   @ViewChild('sort8') sort8!: MatSort;  
+  @ViewChild('paginator9') paginator9!: MatPaginator;
+  @ViewChild('sort9') sort9!: MatSort;  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
+  @ViewChild('abcdetailsModal') abcdetailsModal: any;
 
   constructor(
     public toastr: ToastrService,
@@ -191,40 +192,74 @@ public chartOptions: Partial<ChartOptions> | any;
   totalordeR_value: number = 0;  // class level variable
 
   loadData(yearid: any, mcid: any, isedl: any): void {
-    // this.showFooter = false; 
-    this.spinner.show();
+    try {
+      this.spinner.show();
   
-    this.api.ABCanalysisSummary(yearid, mcid, isedl).subscribe(
-      (res) => {
-        console.log('Raw API response:', res);
+      this.api.ABCanalysisSummary(yearid, mcid, isedl).subscribe({
+        next: (res) => {
+          try {
+            console.log('Raw API response:', res);
   
-        // Calculate total noOfItems
-        this.totalItems = res.reduce((sum: number, item: any) => sum + item.noOfItems, 0);
-
-        this.totalordeR_value=res.reduce((sum:number,item:any)=>sum + item.ordeR_VALUE,0);
+            if (!res || res.length === 0) {
+              this.toastr.warning('No data found');
+              this.dataSource.data = [];
+              return;
+            }
   
-        // Add sno + Items % column
-        this.ABCanalysisSummary = res.map((item: any, index: number) => ({
-          ...item,
-          sno: index + 1,
-          itemsPercent: this.totalItems > 0 ? ((item.noOfItems / this.totalItems) * 100).toFixed(2) : '0.00',
-          totalordeR_value_Percent:this.totalordeR_value > 0 ? ((item.ordeR_VALUE/this.totalordeR_value)*100).toFixed(2):'0.00'
-        }));
+            // ✅ Calculate totals safely
+            this.totalItems = res.reduce(
+              (sum: number, item: any) => sum + (item.noOfItems || 0),
+              0
+            );
   
-        this.dataSource.data = this.ABCanalysisSummary;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.createItemsPercentChart();
-
-        this.spinner.hide();
-        this.cdr.detectChanges();
-      },
-      (error) => {
-        console.error('API error:', error);
-        this.spinner.hide();
-      }
-    );
+            this.totalordeR_value = res.reduce(
+              (sum: number, item: any) => sum + (item.ordeR_VALUE || 0),
+              0
+            );
+  
+            // ✅ Map data with calculated columns
+            this.ABCanalysisSummary = res.map((item: any, index: number) => ({
+              ...item,
+              sno: index + 1,
+              itemsPercent:
+                this.totalItems > 0
+                  ? ((item.noOfItems / this.totalItems) * 100).toFixed(2)
+                  : '0.00',
+              totalordeR_value_Percent:
+                this.totalordeR_value > 0
+                  ? ((item.ordeR_VALUE / this.totalordeR_value) * 100).toFixed(2)
+                  : '0.00',
+            }));
+  
+            // ✅ Update table datasource
+            this.dataSource.data = this.ABCanalysisSummary;
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+  
+            // ✅ Draw chart
+            this.createItemsPercentChart();
+  
+            this.cdr.detectChanges();
+          } catch (innerErr) {
+            console.error('Processing error:', innerErr);
+            this.toastr.error('Something went wrong while processing data');
+          }
+        },
+        error: (apiErr) => {
+          console.error('API error:', apiErr);
+          this.toastr.error('Failed to fetch data from server');
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
+    } catch (outerErr) {
+      console.error('Unexpected error in loadData:', outerErr);
+      this.toastr.error('Unexpected error occurred');
+      this.spinner.hide();
+    }
   }
+  
 
   createItemsPercentChart(): void {
     // Extract data for chart
@@ -278,54 +313,78 @@ public chartOptions: Partial<ChartOptions> | any;
  
 
 
-  noitemslick(rcvalide:any,abc:any) {
-    debugger
-    this.category=abc
-
-    if(this.selectedEdlType==='Y'){
-      this.edl='EDL';
-    }else{
-      this.edl='NON EDL';
-
+  noitemslick(rcvalide: any, abc: any) {
+    try {
+      debugger;
+      this.category = abc;
+  
+      // Set EDL type
+      this.edl = this.selectedEdlType === 'Y' ? 'EDL' : 'NON EDL';
+  
+      // Set RC type
+      if (rcvalide === 'Y') {
+        this.rc = 'RC Valid';
+      } else if (rcvalide === 'N') {
+        this.rc = 'RC Not Valid';
+      } else {
+        this.rc = '';
+      }
+  
+      this.spinner.show();
+  
+      this.api.ABCanalysisSummaryDetail(
+        this.selectedYearId,
+        this.mcid,
+        this.selectedEdlType,
+        abc,
+        rcvalide
+      ).subscribe({
+        next: (res: any[]) => {
+          try {
+            if (res && res.length > 0) {
+              this.ABCanalysisSummaryDetail = res.map((item: any, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }));
+  
+              this.dataSource8.data = this.ABCanalysisSummaryDetail;
+              this.dataSource8.paginator = this.paginator8;
+              this.dataSource8.sort = this.sort8;
+            } else {
+              this.toastr.warning('No data found');
+            }
+          } catch (innerErr) {
+            console.error('Processing error:', innerErr);
+            this.toastr.error('Something went wrong while processing data');
+          }
+        },
+        error: (err) => {
+          console.error('API error:', err);
+          this.toastr.error('Failed to load data');
+          this.spinner.hide();
+        },
+        complete: () => {
+          this.spinner.hide();
+        },
+      });
+  
+      this.openDialogHOD();
+  
+    } catch (outerErr) {
+      console.error('Unexpected error:', outerErr);
+      this.toastr.error('An unexpected error occurred');
+      this.spinner.hide();
     }
-
-    if(rcvalide==='Y'){
-      this.rc='RC Valid';
-    }else if(rcvalide==='N'){
-      this.rc='RC Not Valid';
-
-    }else{
-      this.rc='';
-    }
-    this.spinner.show();
-
-    this.api.ABCanalysisSummaryDetail(this.selectedYearId,this.mcid,this.selectedEdlType,abc,rcvalide).subscribe({
-      next: (res: any[]) => {
-        if (res && res.length > 0) {
-          this.ABCanalysisSummaryDetail = res.map((item: any, index: number) => ({
-            ...item,
-            sno: index + 1,
-          }));
-
-          this.dataSource8.data = this.ABCanalysisSummaryDetail;
-          this.dataSource8.paginator = this.paginator8;
-          this.dataSource8.sort = this.sort8;
-        } else {
-          this.toastr.error('No data found');
-        }
-      },
-      error: (err) => {
-        console.error('API error:', err);
-        this.toastr.error('Failed to load data');
-      },
-      complete: () => {
-        this.spinner.hide();
-      },
-    });
-
-    this.openDialogHOD();
   }
-
+  
+  onClick(): void {
+    try {
+  
+    } catch (err) {
+      console.error('Unexpected error during logout:', err);
+    }
+  }
+  
 
 
   exportToPDF() {
@@ -389,11 +448,39 @@ public chartOptions: Partial<ChartOptions> | any;
       this.dataSource.paginator.firstPage();
     }
   }
+  applyTextFilterabc(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource8.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource8.paginator) {
+      this.dataSource8.paginator.firstPage();
+    }
+  }
 
 
 
 openDialogHOD() {
   const dialogRef = this.dialog.open(this.StatusDetailsModal, {
+    width: '100%',
+    height: '100%',
+    maxWidth: '100%',
+    panelClass: 'full-screen-dialog', // Optional for additional styling
+    data: {
+      /* pass any data here */
+    },
+    // width: '100%',
+    // maxWidth: '100%', // Override default maxWidth
+    // maxHeight: '100%', // Override default maxHeight
+    // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+    // height: 'auto',
+  });
+  dialogRef.afterClosed().subscribe((result) => {
+    console.log('Dialog closed');
+  });
+}
+
+openDialogData() {
+  const dialogRef = this.dialog.open(this.abcdetailsModal, {
     width: '100%',
     height: '100%',
     maxWidth: '100%',
@@ -506,7 +593,7 @@ exportToPDFd() {
 
   const columns = [
     { header: 'S.No', dataKey: 'sno' },
-    { header: 'Item Code', dataKey: 'itemcode' },
+    // { header: 'Item Code', dataKey: 'itemcode' },
     { header: 'Drug Name', dataKey: 'drug_name' },
     { header: 'Strength', dataKey: 'strength' },
     { header: 'Unit', dataKey: 'unit' },
@@ -533,7 +620,7 @@ exportToPDFd() {
 
   const rows = this.ABCanalysisSummaryDetail.map((item: any, index: number) => ({
     sno: index + 1,
-    itemcode: item.itemcode,
+    // itemcode: item.itemcode,
     drug_name: item.druG_NAME,              // fixed consistent key names
     strength: item.strengtH1,
     unit: item.unit,
