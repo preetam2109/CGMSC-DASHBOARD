@@ -970,6 +970,8 @@ export class MenuServiceService {
         { label: 'Handover', route: 'Handover' },
 
         { label: 'Engineer Work Tracker', route: '/EngineerWorks' },
+        { label: 'Complaint Types in Hospital Building Construction', route: '/Complaint-Types-Hospital-Building-Con' },
+        { label: 'Complains Report', route: '/ComplainsReport' },
         // { label: 'Payment', route: '/PriceEvaluation' },
 
         // // { label: 'Home', route:  '/InfrastructureHome' },
