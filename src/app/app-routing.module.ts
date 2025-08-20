@@ -124,7 +124,12 @@ import { WHWiseStockOutComponent } from './component/wh-wise-stock-out/wh-wise-s
 
 import { RcValidStatusComponent } from './rcdetail-report/rc-valid-status/rc-valid-status/rc-valid-status.component';
 import { AnalysisTabComponent } from './component/analysis-tab/analysis-tab.component';
+
+import { ComplaintTHospitalBuConstructionComponent } from './component/Infrastructure-Components/complaint-t-hospital-bu-construction/complaint-t-hospital-bu-construction.component';
+import { ComplainsReportComponent } from './component/Infrastructure-Components/complains-report/complains-report.component';
+
 import { AnalysisGraphComponent } from './component/analysis-graph/analysis-graph/analysis-graph.component';
+
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -251,6 +256,8 @@ const routes: Routes = [
 {path:'RunningWork',component:RunningWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
 {path:'SchemeWiseDetails',component:SchemeWiseDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
 {path:'institute-wise-issuance',component:CgmscInstituteWiseIssuanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division','SSO','Logi Cell']} },
+{path:'Complaint-Types-Hospital-Building-Con',component:ComplaintTHospitalBuConstructionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division','SSO','Logi Cell']} },
+{path:'ComplainsReport',component:ComplainsReportComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division','SSO','Logi Cell']} },
 
 
 {path:'DistDHSStock',component:DistDHSStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector']} },

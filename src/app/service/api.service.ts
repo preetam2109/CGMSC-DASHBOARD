@@ -128,7 +128,7 @@ export class ApiService {
   private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
   private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
   private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
-
+ 
   // private CGMSCHO_API2 = 'https://dpdmis.in//CGMSCHO_API_TEST/api';
 
   // https://dpdmis.in//CGMSCHO_API_TEST/api
@@ -1478,7 +1478,44 @@ RCValidDrillDown(yearId:any,mcid:any,hoType:any,drillType:any,edlType:any){
   // https://dpdmis.in/CGMSCHO_API2/api/DashboardHome/RCValidDrillDown?yearId=546&mcId=1&hoType=0&drillType=nosIndent&edlType=NON%20EDL
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidDrillDown?yearId=${yearId}&mcId=${mcid}&hoType=${hoType}&drillType=${drillType}&edlType=${edlType}`);
 }
+ComplainTypes(){
+  //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplainTypes
+  return this.http.get<any[]>(`${this.himis_apin}/LandIssue/GetComplainTypes`);
+}
+Complains(complainTypeId:any){
+  //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplains?complainTypeId=2
+  return this.http.get<any[]>(`${this.himis_apin}/LandIssue/GetComplains?complainTypeId=${complainTypeId}`);
+}
+ComplainsReport(complainTypeId:any,complainId:any,city:any){
+  //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/FeedbackReport?complainTypeId=0&complainId=0&city=0
+  return this.http.get<any[]>(`${this.himis_apin}/LandIssue/FeedbackReport?complainTypeId=${complainTypeId}&complainId=${complainId}&city=${city}`);
+}
+// InsertComplainsPOST(values: any) {
+//   return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, values, {
+//     responseType: 'text' 
+//   });
+// }
+InsertComplainsPOST(data: any): Observable<any> {
+  return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, data);
+}
 
+// POST
+// https://www.cgmsc.gov.in/himis_apin/api/LandIssue/InsertFeedback
+
+// {
+//   "feedbackID": 0,
+//   "firstName": "Sneha",
+//   "lastName": "Sharma",
+//   "email": "sneha.sharma@example.com",
+//   "mobileNumber": "9123456780",
+//   "address": "Flat 502, Green Residency, Sector 21",
+//   "city": "Delhi",
+//   "subject": "Frequent power outages in ICU",
+//   "complainTypeID": 3,
+//   "complainID": 9,
+//   "comments": "The ICU is experiencing frequent power cuts even though backup generators are installed. This is a serious patient safety risk.",
+//   "createdDate": "2025-07-19T15:45:00.000Z"
+// }
 
 
 // https://dpdmis.in/CGMSCHO_API2/api/LogAudit/InsertUserLoginLog
@@ -1492,6 +1529,7 @@ RCValidDrillDown(yearId:any,mcid:any,hoType:any,drillType:any,edlType:any){
 //   "ipAddress": "192.168.1.100",
 //   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
 // }
+
 
 
 InsertUserLoginLogPOST(values: any) {

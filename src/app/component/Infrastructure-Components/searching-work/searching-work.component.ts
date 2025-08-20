@@ -49,7 +49,6 @@ export type ChartOptions = {
     SelectDropDownModule,
     CommonModule,
     NgApexchartsModule,
-    NgStyle,
     DatePipe, MatSortModule, MatPaginatorModule,MatTableModule,
             MatTableExporterModule,MatMenuModule
   ],
@@ -357,7 +356,7 @@ export class SearchingWorkComponent {
       var roleName = localStorage.getItem('roleName');
       // alert( roleName )
       if (roleName == 'Division') {
-        this.divisionid = sessionStorage.getItem('divisionID');
+        this.divisionid = sessionStorage.getItem('c');
         this.himisDistrictid = 0;
         // return;
         // alert( this.divisionid )

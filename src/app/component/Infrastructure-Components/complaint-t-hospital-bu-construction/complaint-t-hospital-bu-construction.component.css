@@ -1,0 +1,31 @@
+::ng-deep .toast-center {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 9999 !important;
+    margin: 0 !important;
+  }
+  
+ 
+  .form-check-input[type="radio"] {
+    border: 2px solid #212529 !important; /* Dark border */
+    width: 18px;
+    height: 18px;
+    background-color: #fff !important; /* Ensure unselected stays white */
+    box-shadow: none !important; /* Remove default Bootstrap glow */
+    cursor: pointer;
+  }
+  
+  .form-check-input[type="radio"]:checked {
+    background-color: #007ffd !important; /* Dark fill when selected */
+    border: 2px solid #0080ff !important;
+  }
+  
+  .is-invalid {
+    border: 1px solid red;
+  }
+  .is-valid {
+    border: 1px solid green;
+  }
+  
