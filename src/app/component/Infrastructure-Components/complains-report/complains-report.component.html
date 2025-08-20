@@ -1,0 +1,170 @@
+<section class="bg-light shadow">
+    <div class="p-2 container-fluid px-2 text-center ">
+        <h3 class="text-bold  f-2">Complaint Report</h3>
+    </div>
+</section>
+<div class="container-fluid p-0 m-0">
+    <div class="" style="padding-right:  0px;  padding-left: 24px; padding-top: 10px; padding-bottom: 50px;">
+        <div class="container-fluid card row shadow ">
+            <div class="d-flex justify-content-between align-items-center m-2">
+
+                <div class="filter-field flex-grow-1">
+                    <ng-select class="form-control" [items]="ComplainTypes" bindLabel="typeName"
+                        bindValue="complainTypeID" [(ngModel)]="typeName"
+                        [placeholder]="!typeName ? 'Select Complaint Types : ' : ''" [searchable]="true"
+                        [clearable]="true" [appendTo]="'body'" #emailidField="ngModel"
+                        (change)="onselectGetComplainTypes($event)">
+                    </ng-select>
+                    <!-- <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)"> -->
+                </div>
+
+                <div class="filter-field flex-grow-1">
+                    <ng-select class="form-control" [items]="Complain" bindLabel="complainName" bindValue="complainID"
+                        [(ngModel)]="complainName" [placeholder]="!complainName ? 'Select Complaint : ' : ''"
+                        [searchable]="true" [clearable]="true" [appendTo]="'body'" #emailidField="ngModel"
+                        (change)="onselectGetcomplain($event)">
+                    </ng-select>
+                    <!-- <ng-select class="form-control" [items]="categoryData" bindLabel="contentCategoryName"
+                                    bindValue="contentCategoryCode" [(ngModel)]="coreCategory" name="coreCategory"
+                                    (change)="onselectCategory($event)" #emailidField="ngModel"
+                                    [placeholder]="'Select Category'" [searchable]="true" [clearable]="true"
+                                    [appendTo]="'body'" required>
+                                </ng-select> -->
+                    <!-- <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)"> -->
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center m-2">
+                <div class="filter-field flex-grow-1">
+                    <input type="text" class="form-control" placeholder="Search " (keyup)="applyTextFilter($event)">
+                </div>
+
+
+
+                <div class="export-menu-container">
+                    <button type="button" class="btn border rounded btn-outline-secondary" mat-button
+                        [matMenuTriggerFor]="exportMenu">Export</button>
+                    <mat-menu #exportMenu="matMenu">
+                        <button mat-menu-item
+                            (click)="exporter.exportTable('xlsx', { fileName: 'ComplaintReport', sheet: 'ComplaintReport', Props: { Author: 'cgmsc' }})">Excel</button>
+                        <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                        <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                    </mat-menu>
+                </div>
+            </div>
+
+            <div class="table-responsive ">
+                <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
+                    [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+
+                    <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.sno}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="feedbackID">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Complaint ID</th>
+                        <td mat-cell *matCellDef="let element" class="text-center" class="text-center"> {{element.feedbackID}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mobileNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile Number</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.mobileNumber}} </td>
+                    </ng-container>
+
+
+
+                    <ng-container matColumnDef="city">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
+                        <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="subject">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
+                        <td mat-cell *matCellDef="let element"> {{element.subject}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="typeName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Complain Type</th>
+                        <td mat-cell *matCellDef="let element"> {{element.typeName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="complainName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Complain</th>
+                        <td mat-cell *matCellDef="let element"> {{element.complainName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="comments">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Comments</th>
+                        <td mat-cell *matCellDef="let element"> {{element.comments}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="createdDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Complaint Date</th>
+                        <td mat-cell *matCellDef="let element"> {{element.createdDate}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="pdfFilePath">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>pdf File Path</th>
+                        <td mat-cell *matCellDef="let element"> {{element.pdfFilePath}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="divname_en">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+                        <td mat-cell *matCellDef="let element"> {{element.divname_en}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="work_text">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Works</th>
+                        <td mat-cell *matCellDef="let element"> {{element.work_text}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Download</th>
+                        <td class="" mat-cell *matCellDef="let element" class="text-center">
+                            <span class="d-flex  flex-row-reverse p-2 ">
+                                <button class="btn btn-sm btn-outline-light align-items-center border border-info rounded text-info"
+                                    mat-button (click)="openPdf(element.pdfFilePath)">
+                                    <i class="bi bi-file-earmark-pdf me-0 text-info"></i>
+                                </button>
+                            </span>
+                        </td>
+                    </ng-container>
+
+
+                    <!-- <ng-container matColumnDef="action">
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Attachments</th>
+                                  <td class="" mat-cell *matCellDef="let element">
+                                    <span class="d-flex  flex-row-reverse p-2 ">
+                                      <button class="btn btn-sm btn-outline-light align-items-center border rounded  " mat-button
+                                        (click)="onButtonClick(element.attachment_Id)">
+                                        <i class="bi bi-folder2-open me-0 gradient-heading"></i>
+                                      </button>
+                                    </span>
+                                  </td>
+                                </ng-container> -->
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                <!-- <mat-paginator #paginator  [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator> -->
+            </div>
+        </div>
+    </div>
+
+</div>

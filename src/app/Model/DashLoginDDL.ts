@@ -157,4 +157,56 @@ export class IssuePerDetailModel {
     tenderStatus: string
     actionCode: string
   }
+  export interface ComplainTypesmodel {
+  
+      complainTypeID: number
+      typeName: string
+    
+  }
+  export interface Complainmodel {
+  
+    complainID: number
+    complainTypeID: number
+    complainName: string
+
+    //   "complainID": 6,
+    // "complainTypeID": 2,
+    // "complainName": "Blocked toilets / drains"
+    
+  }
+  export class InsertComplainmodel {
+    feedbackID!: number
+    firstName!: string
+    lastName!: string
+    email!: string
+    mobileNumber!: string
+    address!: string
+    city!: string
+    subject!: string
+    complainTypeID!: number
+    complainID!: number
+    comments!: string
+    createdDate!: string
+    PdfFile!: any;
+    work_ID!:any;
+    Divisionid!:any;
+  }
+  export interface ComplaintReportmodel {
+    sno: number
+    feedbackID: number
+    firstName: string
+    lastName: string
+    email: string
+    mobileNumber: string
+    city: string
+    subject: string
+    typeName: string
+    complainName: string
+    comments: string
+    createdDate: string
+    pdfFilePath: string
+    divname_en: string
+    work_text: string
+  }
+  
   

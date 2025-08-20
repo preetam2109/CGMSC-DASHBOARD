@@ -1,0 +1,264 @@
+<section class="bg-light shadow">
+  <div class="p-2 container-fluid px-2 text-center ">
+    <!-- <h4 class="mb-4 Heading-font-family">Feedback/Complaint</h4> -->
+    <h3 class="text-bold  f-2">Complaint Registration - Hospital/Projects</h3>
+  </div>
+</section>
+<div class="container-fluid p-0 m-0">
+  <div class="row justify-content-center g-4">
+    <div class="row g-4">
+      <div class="container-fluid ">
+        <div class="row pt-3 p-0">
+          <div class="col-lg-12 mb-5">
+            <div class="card shadow-lg p-4 border-0 bg-white rounded ">
+              <div class="card-body border rounded px-0 pt-2 pb-3 bg-light"
+                style="height: auto; overflow: hidden; position: relative;">
+                <div class="mb-3 Fon-family" style="text-align: justify;">
+                  <form class="p-2" [formGroup]="complainForm" (ngSubmit)="OnSubmit()">
+                    <div class="row pb-3">
+                      <div class="form-group col-md-12 pt-3">
+                        <label for="inputSubject" class="text-primary">Works<span class="text-danger">*</span></label>
+                        <ng-select class="form-control" formControlName="work_ID" [items]="workfill"
+                          bindLabel="searchname" bindValue="worK_ID" placeholder="Select Works :" [searchable]="true"
+                          [clearable]="true" [appendTo]="'body'" [ngStyle]="{
+                                                      'border': (complainForm.get('work_ID')?.touched || submitted) && complainForm.get('work_ID')?.invalid ? '1px solid red' :
+                                                                (complainForm.get('work_ID')?.valid && (complainForm.get('work_ID')?.touched || submitted) ? '1px solid green' : '1px solid #ced4da'),
+                                                      
+                                                    }">
+                        </ng-select>
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('work_ID')?.touched || submitted) && complainForm.get('work_ID')?.errors?.['required']">
+                          Works is required
+
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row pb-3">
+                      <div class="form-group col-md-6 pt-3">
+                        <label for="inputName" class="text-primary">First Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [ngClass]="{
+                                          'is-invalid': (complainForm.get('firstName')?.touched || submitted) && complainForm.get('firstName')?.invalid,
+                                          'is-valid': complainForm.get('firstName')?.valid && (complainForm.get('firstName')?.touched || submitted)
+                                        }" formControlName="firstName" placeholder="Type your First Name"
+                          id="inputName">
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('firstName')?.touched || submitted) && complainForm.get('firstName')?.errors?.['required']">
+                          First Name is required
+
+                        </span>
+                      </div>
+                      <div class="form-group col-md-6  pt-3">
+                        <label for="inputPassword4" class="text-primary">Last Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [ngClass]="{
+                                          'is-invalid': (complainForm.get('lastName')?.touched || submitted) && complainForm.get('lastName')?.invalid,
+                                          'is-valid': complainForm.get('lastName')?.valid && (complainForm.get('lastName')?.touched || submitted)
+                                        }" formControlName="lastName" placeholder="Type your Last Name"
+                          id="inputPassword4">
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('lastName')?.touched || submitted) && complainForm.get('lastName')?.errors?.['required']">
+                          Last Name is required
+
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="row pb-3">
+                      <div class="form-group col-md-6 pt-3">
+                        <label for="inputEmail4" class="text-primary">Email </label>
+                        <input type="email" class="form-control" >
+                        <!-- <span class="text-danger"<span class="text-danger">*</span>
+                          *ngIf="(complainForm.get('email')?.touched || submitted) && complainForm.get('email')?.errors?.['required']">
+                          Email is required
+                        </span>
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('email')?.touched || submitted) && complainForm.get('email')?.errors?.['email']">
+                          Enter a valid email
+                        </span> [ngClass]="{
+                                          'is-invalid': (complainForm.get('email')?.touched || submitted) && complainForm.get('email')?.invalid,
+                                          'is-valid': complainForm.get('email')?.valid && (complainForm.get('email')?.touched || submitted)
+                                        }" formControlName="email" placeholder="name@example.com" id="inputEmail4"-->
+
+                      </div>
+                      <div class="form-group col-md-6 pt-3">
+                        <label for="inputAddress" class="text-primary">Address <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [ngClass]="{
+                                          'is-invalid': (complainForm.get('address')?.touched || submitted) && complainForm.get('address')?.invalid,
+                                          'is-valid': complainForm.get('address')?.valid && (complainForm.get('address')?.touched || submitted)
+                                        }" formControlName="address" placeholder="Type your Address" id="inputAddress">
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('address')?.touched || submitted) && complainForm.get('address')?.errors?.['required']">
+                          Address is required
+
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="row pb-3">
+                      <div class="form-group col-md-6 pt-3">
+                        <label for="inputnumber" class="text-primary">
+                          Mobile Number <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" class="form-control" id="inputnumber" formControlName="mobileNumber"
+                          placeholder="Type your Mobile Number" [ngClass]="{
+                                            'is-invalid': (complainForm.get('mobileNumber')?.touched || submitted) && complainForm.get('mobileNumber')?.invalid,
+                                            'is-valid': complainForm.get('mobileNumber')?.valid && (complainForm.get('mobileNumber')?.touched || submitted)
+                                          }" />
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('mobileNumber')?.touched || submitted) && complainForm.get('mobileNumber')?.errors?.['required']">
+                          Mobile number is required
+                        </span>
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('mobileNumber')?.touched || submitted) && complainForm.get('mobileNumber')?.errors?.['pattern']">
+                          Enter 10 digit valid mobile number
+                        </span>
+                      </div>
+                      <div class="form-group col-md-6 pt-3">
+                        <label for="inputAddress" class="text-primary">City <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [ngClass]="{
+                                          'is-invalid': (complainForm.get('city')?.touched || submitted) && complainForm.get('city')?.invalid,
+                                          'is-valid': complainForm.get('city')?.valid && (complainForm.get('city')?.touched || submitted)
+                                        }" formControlName="city" placeholder="Type your City" id="inputAddress">
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('city')?.touched || submitted) && complainForm.get('city')?.errors?.['required']">
+                          City is required
+
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="row pb-3">
+                      <div class="form-group col-md-6 pt-3">
+                        <label for="inputSubject" class="text-primary">Subject <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [ngClass]="{
+                                          'is-invalid': (complainForm.get('subject')?.touched || submitted) && complainForm.get('subject')?.invalid,
+                                          'is-valid': complainForm.get('subject')?.valid && (complainForm.get('subject')?.touched || submitted)
+                                        }" formControlName="subject" placeholder="Type Subject" id="inputSubject">
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('subject')?.touched || submitted) && complainForm.get('subject')?.errors?.['required']">
+                          Subject is required
+
+                        </span>
+                      </div>
+
+
+                      <div class="form-group col-md-6 pt-3">
+                        <label for="inputSubject" class="text-primary">Document<span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" (change)="onFileSelected($event)" [ngClass]="{
+                                          'is-invalid': (complainForm.get('PdfFile')?.touched || submitted) && complainForm.get('PdfFile')?.invalid,
+                                          'is-valid': complainForm.get('PdfFile')?.valid && (complainForm.get('PdfFile')?.touched || submitted)
+                                        }" formControlName="PdfFile" placeholder="Type Subject" id="inputSubject">
+                        <p *ngIf="fileError" class="text-danger ">{{ fileError }}</p>
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('PdfFile')?.touched || submitted) && complainForm.get('PdfFile')?.errors?.['required']">
+                          Document is required
+
+                        </span>
+                      </div>
+
+                    </div>
+                    <div class="row pb-3">
+                      <div class="form-group col-md-6 pt-3">
+                        <label for="inputSubject" class="text-primary">Complaint Types in Hospital Building Construction <span
+                            class="text-danger">*</span></label>
+                        <ng-select class="form-control" formControlName="complainTypeID" [items]="ComplainTypes"
+                          bindLabel="typeName" bindValue="complainTypeID"
+                          [placeholder]="!typeName ? 'Select Complaint Types : ' : ''" [searchable]="true"
+                          [clearable]="true" [appendTo]="'body'" (change)="onselectGetComplainTypes($event)" [ngStyle]="{
+                                          'border': (complainForm.get('complainTypeID')?.touched || submitted) && complainForm.get('complainTypeID')?.invalid ? '1px solid red' :
+                                                    (complainForm.get('complainTypeID')?.valid && (complainForm.get('complainTypeID')?.touched || submitted) ? '1px solid green' : '1px solid #ced4da'),
+                                          
+                                        }">
+                        </ng-select>
+
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('complainTypeID')?.touched || submitted) && complainForm.get('complainTypeID')?.errors?.['required']">
+                          Complaint Types is required
+
+                        </span>
+                      </div>
+
+
+
+
+                      <div class="form-group col-md-6 pt-3">
+                        <label class="text-primary">Complaint Sub Types in Hospital Building Construction <span
+                            class="text-danger">*</span></label>
+                        <ng-select class="form-control" formControlName="complainID" [items]="Complain"
+                          bindLabel="complainName" bindValue="complainID"
+                          [placeholder]="!complainName ? 'Select Complaint Sub Types : ' : ''" [searchable]="true"
+                          [clearable]="true" [appendTo]="'body'" [ngStyle]="{
+                                              'border': (complainForm.get('complainID')?.touched || submitted) && complainForm.get('complainID')?.invalid ? '1px solid red' :
+                                                        (complainForm.get('complainID')?.valid && (complainForm.get('complainID')?.touched || submitted) ? '1px solid green' : '1px solid #ced4da'),
+                                              
+                                            }">
+                        </ng-select>
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('complainID')?.touched || submitted) && complainForm.get('complainID')?.errors?.['required']">
+                          Complaint is required
+
+                        </span>
+                      </div>
+
+                    </div>
+                    <div class="form-group pb-3">
+                      <label for="inputComments" class="text-primary">Complaint Description in (English) <span class="text-danger">*</span></label>
+                      <textarea class="form-control" [ngClass]="{
+                                        'is-invalid': (complainForm.get('comments')?.touched || submitted) && complainForm.get('comments')?.invalid,
+                                        'is-valid': complainForm.get('comments')?.valid && (complainForm.get('comments')?.touched || submitted)
+                                      }" formControlName="comments" id="inputComments" rows="4"
+                        placeholder="Type your Complaint Description  here..."></textarea>
+                      <span class="text-danger"
+                        *ngIf="(complainForm.get('comments')?.touched || submitted) && complainForm.get('comments')?.errors?.['required']">
+                        Comments is required
+                      </span>
+
+                    </div>
+
+                    <div class="row pb-3">
+                      <div class="form-group col-md-6 pt-3">
+                        <label for="captchaInput" class="text-primary">Verification Code <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" [ngClass]="{
+                                          'is-invalid': (complainForm.get('captchaInput')?.touched || submitted) && complainForm.get('captchaInput')?.invalid,
+                                          'is-valid': complainForm.get('captchaInput')?.valid && (complainForm.get('captchaInput')?.touched || submitted)
+                                        }" formControlName="captchaInput" placeholder="Enter Captcha Code"
+                          id="captchaInput">
+                        <span class="text-danger"
+                          *ngIf="(complainForm.get('captchaInput')?.touched || submitted) && complainForm.get('captchaInput')?.errors?.['required']">
+                          Captcha is required
+                        </span>
+
+                      </div>
+                      <div class="form-group col-md-6 pt-3">
+                        <label class="invisible" class="text-primary">Captcha</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <!-- <span class="input-group-text bg-light text-dark fw-bold" id="captchaText" style="user-select: none;">captcha </span> -->
+                            <span class="input-group-text  text-dark fw-bold bg-light" id="captchaText"
+                              style="user-select: none;">{{ captcha }}</span>
+                          </div>
+                          <button type="button" class="btn btn-link" (click)="generateCaptcha()">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- <button type="submit" class="btn btn-primary" >Submit</button> "[disabled]="complainForm.invalid"-->
+                    <button type="submit" class="btn btn-primary" >Submit</button>
+                  </form>
+
+
+
+
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
