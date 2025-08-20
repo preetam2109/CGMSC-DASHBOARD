@@ -1620,8 +1620,8 @@ loadDataQCStages(): void {
       this.qCPendingPlace=data;
       const seriesData: number[] = [];
       const labelsData: string[] = [
-        "Pending in WH",
-        "Pending in Courier fom WH",
+        "Pending in Warehouse",
+        "Pending in Courier fom Warehouse",
         "Pending in HO for Lab Issue",
         "Pending in Courier for Lab",
         "Pending in Lab",
@@ -2295,7 +2295,7 @@ loadUQC(): void {
 
       }
       QCPendingParticularAreaPieChart(){
-        
+        debugger
         this.api.QCPendingParticularArea(this.area,0).subscribe((res:any[])=>{
           if (res && res.length > 0) {
            this.spinner.show();
@@ -2710,6 +2710,7 @@ exportToPDFqCPendingParticularArea() {
     { title: 'S.No', dataKey: 'sno' },
     { title: 'Code', dataKey: 'itemcode' },
     { title: 'Type', dataKey: 'itemtypename' },
+    { title: 'Itemname', dataKey: 'itemname' },
     { title: 'Strength', dataKey: 'strength1' },
     { title: 'Batch No', dataKey: 'batchno' },
     { title: 'Nos WH', dataKey: 'noswh' },
@@ -2730,6 +2731,7 @@ exportToPDFqCPendingParticularArea() {
     sno: row.sno,
     itemcode: row.itemcode,
     itemtypename: row.itemtypename,
+    itemname: row.itemname,
     strength1: row.strength1,
     batchno: row.batchno,
     noswh: row.noswh,

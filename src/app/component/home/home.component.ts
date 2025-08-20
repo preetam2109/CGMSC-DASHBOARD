@@ -90,7 +90,7 @@ export class HomeComponent {
   PartItemRClist: any;
 
   totalNoTenders: number = 0;
-  totalRC1: any;
+  totalRC1: any[]=[];
   totalRC1details: any;
 
   @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
@@ -369,7 +369,7 @@ export class HomeComponent {
     'Work Order': 'assets/dash-icon/clipboard.png',
     'Running Works': 'assets/dash-icon/under-construction.png',
     'cgmsc-supplies': 'assets/dash-icon/drugs.png',
-    Evaluation: 'assets/dash-icon/norm.png',
+    ' Evaluation': 'assets/dash-icon/norm.png',
     'Progress Abstract': 'assets/dash-icon/hospital.png',
     'Analysis': 'assets/dash-icon/analysis_12139646.png',
     'Tender Evaluation': 'assets/dash-icon/check-list.png',
@@ -384,7 +384,9 @@ export class HomeComponent {
     'Technical Sanction': 'assets/dash-icon/deadline.png',
     'Monitoring with Geographic Coordinate': 'assets/dash-icon/planning.png',
     'District-wise Progress': 'assets/dash-icon/online-report.png',
+    'Progress on Scheme': 'assets/dash-icon/online-report.png',
     'Engineer Work Tracker': 'assets/dash-icon/person.png',
+    'Engineer-Works': 'assets/dash-icon/person.png',
     'Payment Time Taken': 'assets/dash-icon/saving.png',
     'Finance Dashboard': 'assets/dash-icon/dashboard.png',
     Dashboard: 'assets/dash-icon/dashboard.png',
@@ -397,6 +399,7 @@ export class HomeComponent {
     'QC-Lab Issues': 'assets/dash-icon/biochemist.png',
     'Finance': 'assets/dash-icon/budget.png',
     'Supplier Pending Payments': 'assets/dash-icon/payment.png',
+    'Payment': 'assets/dash-icon/payment.png',
     'DHS Dashboard': 'assets/dash-icon/online-report.png',
     'CME Dashboard': 'assets/dash-icon/online-report.png',
     'Med. Coll/Hospital Indent vs Issuance/NOC': 'assets/dash-icon/hscov.png',

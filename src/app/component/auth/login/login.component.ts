@@ -583,6 +583,9 @@ async handleCgmsclLogin() {
         
         if (this.rolename === 'SSO' || this.rolename === 'Logi Cell') {
           this.router.navigate(['/welcome']);
+        }else if(this.rolename==='QC'){
+          this.router.navigate(['/qc-dashboard']);
+
         } else {
           this.router.navigate(['/home']);
         }
@@ -612,7 +615,7 @@ verifyOTPOther(): Promise<boolean> {
       next: (res: any) => {
         Swal.fire({
           title: 'OTP Verified!',
-          text: 'You may now proceed to login.',
+          text: 'Successfully login!.',
           icon: 'success',
           confirmButtonText: 'OK',
         });

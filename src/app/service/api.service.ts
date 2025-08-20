@@ -1194,6 +1194,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   QCPendingParticularArea(area:any,itemid:any) {
+    debugger
     return this.http.get<QCPendingParticularArea[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}&itemid=${itemid}`);
   }
 
@@ -1534,11 +1535,13 @@ RCValidSatus(yearId:any,mcId:any,hoType:any){
 }
 
 ABCanalysisSummary(yearid:any,mcid:any,isEDL:any){
+  debugger
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisWithRCvalid?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}`);
   // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABCanalysisWithRCvalid?yearid=545&mcid=1&isEDL=Y
 }
 
 ABCanalysisSummaryDetail(yearid:any,mcid:any,isedl:any,detail:any,isRCvalid:any){
+  debugger
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummaryDetail?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}&detail=${detail}&isRCvalid=${isRCvalid}`);
 }
 
