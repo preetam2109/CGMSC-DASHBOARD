@@ -131,36 +131,97 @@
           <div class="table-responsive">
             <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
     
-<!-- S.No Column (Optional if not in data) -->
+<!-- S.No Column -->
 <ng-container matColumnDef="sno">
     <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
     <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+    <td mat-footer-cell *matFooterCellDef> - </td>
   </ng-container>
-
-   <!-- No. of Indents -->
-   <ng-container matColumnDef="abC_CATEGORY">
+  
+  <!-- ABC Category -->
+  <ng-container matColumnDef="abC_CATEGORY">
     <th mat-header-cell *matHeaderCellDef style="width: 120px;">ABC CATEGORY</th>
     <td mat-cell *matCellDef="let element"> {{ element.abC_CATEGORY }} </td>
+        <td mat-footer-cell *matFooterCellDef> Total </td>
+
+  </ng-container>
+  
+  <!-- No Of Items -->
+  <ng-container matColumnDef="noOfItems">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items</th>
+    <td mat-cell *matCellDef="let element" (click)="noitemslick(element.rcValid,element.abC_CATEGORY)" class="text-center link-hoverr">
+      {{ element.noOfItems }}
+    </td>
+    <td mat-footer-cell *matFooterCellDef> {{ totalItems }} </td>
+  </ng-container>
+  
+  <!-- Order Value -->
+  <ng-container matColumnDef="ordeR_VALUE">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">Order Value in(Cr)</th>
+    <td mat-cell *matCellDef="let element"> {{ element.ordeR_VALUE }} </td>
+    <td mat-footer-cell *matFooterCellDef> {{totalordeR_value}} </td>
+  </ng-container>
+  
+  <!-- RC Valid -->
+  <ng-container matColumnDef="rcValid">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">RC Valid</th>
+    <td mat-cell *matCellDef="let element" (click)="noitemslick('Y',element.abC_CATEGORY)" class="text-center link-hoverr">
+      {{ element.rcValid }}
+    </td>
+    <td mat-footer-cell *matFooterCellDef> - </td>
+  </ng-container>
+  
+  <!-- RC Not Valid -->
+  <ng-container matColumnDef="rcNotValid">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">RC Not Valid</th>
+    <td mat-cell *matCellDef="let element" (click)="noitemslick('N',element.abC_CATEGORY)" class="text-center link-hoverr" >
+      {{ element.rcNotValid }}
+    </td>
+    <td mat-footer-cell *matFooterCellDef> - </td>
+  </ng-container>
+  
+  <!-- Items % -->
+  <ng-container matColumnDef="itemsPercent">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">Cumulative Items %</th>
+    <td mat-cell *matCellDef="let element"> {{ element.itemsPercent }} % </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
   </ng-container>
 
-    <!-- No. of Indents -->
-    <ng-container matColumnDef="noOfItems">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items</th>
-        <td mat-cell *matCellDef="let element"  (click)="noitemslick(element.rcValid,element.abC_CATEGORY)"  style="cursor: pointer;"  > {{ element.noOfItems }} </td>
-      </ng-container>
-    <ng-container matColumnDef="ordeR_VALUE">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;">Order Value in(Cr)</th>
-        <td mat-cell *matCellDef="let element"> {{ element.ordeR_VALUE }} </td>
-      </ng-container>
-    <ng-container matColumnDef="rcValid">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;"    >RC Valid</th>
-        <td mat-cell *matCellDef="let element" (click)="noitemslick('Y',element.abC_CATEGORY)" style="cursor: pointer;" > {{ element.rcValid }} </td>
-      </ng-container>
-    <ng-container matColumnDef="rcNotValid">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;">RC Not Valid</th>
-        <td mat-cell *matCellDef="let element" (click)="noitemslick('N',element.abC_CATEGORY)" style="cursor: pointer;"> {{ element.rcNotValid }} </td>
-      </ng-container>
-  
+  <!-- ordeR_value % -->
+  <ng-container matColumnDef="totalordeR_value_Percent">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">Cumulative Order Value %</th>
+    <td mat-cell *matCellDef="let element"  > {{ element.totalordeR_value_Percent }} % </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="pricecnt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Opened Against RC Not Valid</th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="onClick()"  > {{ element.pricecnt }} </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+    
+  </ng-container>
+
+  <ng-container matColumnDef="evalutioncnt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Under Evaluation Against RC Not Valid</th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="onClick()" > {{ element.evalutioncnt }} </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+
+  </ng-container>
+
+  <ng-container matColumnDef="liveCnt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>   Live In Against RC Not Valid </th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="onClick()" > {{ element.liveCnt }} </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+
+  </ng-container>
+
+  <ng-container matColumnDef="rentendercn">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> To Be Tender Against RC Not Valid</th>
+    <td mat-cell *matCellDef="let element" class="text-center link-hoverr" (click)="onClick()" > {{ element.rentendercn }} </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+
+  </ng-container>
   
   
   <!-- Header Row -->
@@ -168,10 +229,15 @@
     'sno',
     'abC_CATEGORY',
     'noOfItems',
+    'itemsPercent',
     'ordeR_VALUE',
+    'totalordeR_value_Percent',
     'rcValid',
-    'rcNotValid'
-    
+    'rcNotValid',
+    'pricecnt',
+    'evalutioncnt',
+    'liveCnt',
+    'rentendercn'
   ]"></tr>
   
   <!-- Data Row -->
@@ -179,11 +245,40 @@
     'sno',
     'abC_CATEGORY',
     'noOfItems',
+    'itemsPercent',
     'ordeR_VALUE',
+    'totalordeR_value_Percent',    
     'rcValid',
-    'rcNotValid'
-  
+    'rcNotValid',
+    'pricecnt',
+    'evalutioncnt',
+    'liveCnt',
+    'rentendercn'
   ]"></tr>
+  
+<!-- Footer Row -->
+<tr mat-footer-row 
+    *matFooterRowDef="[
+      'sno',
+      'abC_CATEGORY',
+      'noOfItems',
+      'itemsPercent',
+      'ordeR_VALUE',
+      'totalordeR_value_Percent',
+      'rcValid',
+      'rcNotValid',
+      'pricecnt',
+      'evalutioncnt',
+      'liveCnt',
+      'rentendercn'
+    ]" 
+    [hidden]="!showFooter">
+</tr>
+
+  
+
+  
+
        
             </table>
           </div>      
@@ -191,7 +286,18 @@
         </div>
       </div>
 
-
+      <div id="chart" *ngIf="chartOptions">
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [xaxis]="chartOptions.xaxis"
+          [dataLabels]="chartOptions.dataLabels"
+          [stroke]="chartOptions.stroke"
+          [title]="chartOptions.title"
+          [yaxis]="chartOptions.yaxis">
+        </apx-chart>
+      </div>
+      
 
     </div>
 
@@ -211,7 +317,7 @@
           </div>
         </div>
         <div class="" mat-dialog-content>
-          <div class="row card shadow card-body ">
+          <!-- <div class="row card shadow card-body "> -->
                 <div class="card shadow" >
                     <div class="card-body">
                         <div class="row border mb-1">
@@ -231,7 +337,7 @@
       
                               
                               <div class="filter-field flex-grow-1">
-                                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFiltertotal($event)">
+                                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterabc($event)">
                               </div>
                               <div class="export-menu-container">
                                 <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
@@ -258,13 +364,10 @@
       </td>
       </ng-container>
       
-      <ng-container matColumnDef="itemcode">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
-        <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
-      </ng-container>
+
       
       <ng-container matColumnDef="druG_NAME">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Drug Name </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
         <td mat-cell *matCellDef="let element"> {{ element.druG_NAME }} </td>
       </ng-container>
       
@@ -352,12 +455,32 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> ABC Category </th>
         <td mat-cell *matCellDef="let element"> {{ element.abC_CATEGORY }} </td>
       </ng-container>
+
+      <ng-container matColumnDef="pricecnt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Opened</th>
+        <td mat-cell *matCellDef="let element"> {{ element.pricecnt }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="evalutioncnt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Under Evaluation </th>
+        <td mat-cell *matCellDef="let element"> {{ element.evalutioncnt }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="liveCnt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>   Live In </th>
+        <td mat-cell *matCellDef="let element"> {{ element.liveCnt }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rentendercn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> To Be Tender </th>
+        <td mat-cell *matCellDef="let element"> {{ element.rentendercn }} </td>
+      </ng-container>
       
       
       <!-- Header Row -->
       <tr mat-header-row *matHeaderRowDef="[
         'sno',
-        'itemcode',
+        
         'druG_NAME',
         'strengtH1',
         'unit',
@@ -375,13 +498,17 @@
         'ordeR_VALUE',
         'cumulativE_VALUE',
         'cumulativE_PERCENT',
-        'abC_CATEGORY'
+        'abC_CATEGORY',
+        'pricecnt',
+        'evalutioncnt',
+        'liveCnt',
+        'rentendercn'
       ]"></tr>
       
       <!-- Data Row -->
       <tr mat-row *matRowDef="let row; columns: [
         'sno',
-        'itemcode',
+        
         'druG_NAME',
         'strengtH1',
         'unit',
@@ -399,7 +526,11 @@
         'ordeR_VALUE',
         'cumulativE_VALUE',
         'cumulativE_PERCENT',
-        'abC_CATEGORY'
+        'abC_CATEGORY',
+        'pricecnt',
+        'evalutioncnt',
+        'liveCnt',
+        'rentendercn'
       ];"></tr>
          
       
@@ -426,7 +557,117 @@
       
       
       
+          <!-- </div> -->
+      
+      
+        
+        <div class="d-grid gap-2 col-12 mx-auto  m-2">
+          <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+            <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+              aria-hidden="true">
+              exit_to_app
+            </mat-icon>
+          </button>
+        </div>
+      </ng-template>
+
+    <ng-template class=" " #abcdetailsModal let-modal  >
+        <div class="row align-items-center p-2 m-2 ">
+          <div class="col-lg-6 col-md-8">
+            <!-- <h1>AS Completed Details</h1> -->
+            <h1 class="text-info-emphasis">Report </h1>
           </div>
+          <div class="col-lg-6 col-md-4 text-end">
+            <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="" mat-dialog-content>
+          <!-- <div class="row card shadow card-body "> -->
+                <div class="card shadow" >
+                    <div class="card-body">
+                        <div class="row border mb-1">
+                            <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                                <strong></strong>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 table-container mb-4">
+      
+      
+                        
+                     
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+      
+      
+      
+                              
+                              <div class="filter-field flex-grow-1">
+                                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterabc($event)">
+                              </div>
+                              <div class="export-menu-container">
+                                <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                                <mat-menu #exportMenu="matMenu">
+                                  <button mat-menu-item
+                                    (click)="exporter.exportTable('xlsx', { fileName: 'abcanalysisdetails', sheet: 'abcanalysisdetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                                  
+                                  <button mat-button (click)="exportToPDFd()">PDF</button>
+                      
+                                </mat-menu>
+                              </div>
+                            </div>
+                      
+                            <div class="table-responsive">
+                              <table  mat-table matTableExporter [dataSource]="dataSource8" #exporter="matTableExporter" matSort #sort9="matSort">
+                            
+                                         <!-- S.No -->
+      <ng-container matColumnDef="sno">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <div class="center-header-cell">S.No</div>
+      </th>
+      <td mat-cell *matCellDef="let element">
+      <div class="center-cell">{{ element.sno }}</div>
+      </td>
+      </ng-container>
+      
+
+      
+      
+      
+      
+      <!-- Header Row -->
+      <tr mat-header-row *matHeaderRowDef="[
+
+      ]"></tr>
+      
+      <!-- Data Row -->
+      <tr mat-row *matRowDef="let row; columns: [
+        
+      ];"></tr>
+         
+      
+                            
+                              </table>
+                            </div>
+                             
+                            <mat-paginator #paginator9 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                          </div>
+                    </div>
+              
+                   
+                    
+                </div>
+                    
+                
+                  </div>  
+          
+           
+          
+              
+          
+          
+      
+      
+      
+          <!-- </div> -->
       
       
         

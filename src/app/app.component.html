@@ -72,15 +72,19 @@
       <mat-icon>menu</mat-icon>
     </button>
   
-    <!-- Title on the left -->
-    <span class="toolbar-title" style="margin-left: 1rem;">DASHBOARD</span>
+    <!-- Title -->
+    <a class="navbar-brand ms-2" href="#">DASHBOARD</a>
   
     <!-- Spacer pushes content to the right -->
     <span class="example-spacer" style="flex-grow: 1;"></span>
   
     <!-- Welcome message on the right -->
-    <h4 class="responsive-h4" style="margin: 0 1rem; white-space: nowrap;" *ngIf="roleName ==='Warehouse' || 'DHS' || 'SEC1' || 'Division' || 'SE' " >
+    <!-- <h4 class="responsive-h4" style="margin: 0 1rem; white-space: nowrap;" *ngIf="roleName ==='Warehouse' || 'DHS' || 'SEC1' || 'Division' || 'SE' " >
       Welcome:<strong> {{ firstname }}</strong>
+    </h4> -->
+    <!-- Welcome message -->
+    <h4 class="welcome-message my-0 me-3" *ngIf="roleName ==='Warehouse' || 'DHS' || 'SEC1' || 'Division' || 'SE' " >
+      Welcome: <strong>{{ firstname | titlecase }}</strong>
     </h4>
   
     <!-- Logout button on the far right -->
@@ -88,16 +92,15 @@
   <!-- Back Button -->
  <!-- Back Button -->
  <button mat-button (click)="goBack()" class="back-button" aria-label="Back">
-  <!-- <mat-icon>arrow_back</mat-icon> -->
   <span class="button-label">Back</span>
 </button>
 
 <span class="spacer"></span>
 
 <!-- Logout Button -->
-<button mat-button (click)="logout()" class="logout-button" aria-label="Logout">
+<!-- <button mat-button (click)="logout()" class="logout-button" aria-label="Logout">
   Logout
-</button>
+</button> -->
 
   </mat-toolbar>
   
@@ -256,7 +259,13 @@
               </button>
             </mat-list-item>
           </div>
+          
         </ng-container>
+        <mat-list-item>
+          <button  mat-button (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon> Log Out
+          </button>
+        </mat-list-item>
   
         <ng-container *ngIf="menuItems.length === 0">
           <mat-list-item>
@@ -266,6 +275,8 @@
           </mat-list-item>
         </ng-container>
       </mat-nav-list>
+      
+      
     </mat-drawer>
   
     <mat-drawer-content>
