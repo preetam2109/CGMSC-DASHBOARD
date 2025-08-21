@@ -33,6 +33,7 @@ import { IWHPiplineDetails } from 'src/app/Model/IWHPiplineDetails';
 import { LabIssuePendingDetails } from 'src/app/Model/LabIssuePendingDetails';
 import { HODYearWiseIssuanceSummary } from 'src/app/Model/HODYearWiseIssuanceSummary';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -52,7 +53,7 @@ export type ChartOptions = {
 @Component({
   selector: 'app-distribution',
   standalone:true,
-  imports:[FormsModule,NgApexchartsModule],
+  imports:[FormsModule,NgApexchartsModule,CommonModule],
   templateUrl: './distribution.component.html',
   styleUrls: ['./distribution.component.css']
 })
@@ -64,7 +65,7 @@ export class DistributionComponent {
   mcid=1
   hodid = 0;
   districtid:any=0
-
+  role=sessionStorage.getItem('roleName');
   selectedCategory: string = 'Drugs'; 
   OnChangeTitle:string= 'Growth in Disribution Category:' 
   selectedCategoryTitle: string = '';

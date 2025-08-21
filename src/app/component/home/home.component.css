@@ -281,6 +281,17 @@ border-radius: 0;
 }
   
 
+::ng-deep .mat-sort-header-container {
+  justify-content: center !important;
+  text-align: center; 
+  margin-left: 0 !important;
+}
+
+
+::ng-deep .mat-cell{
+  justify-content: center;
+}
+
 
 
 

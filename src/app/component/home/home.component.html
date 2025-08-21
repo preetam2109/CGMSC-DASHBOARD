@@ -34,7 +34,7 @@
 
 
 <div class="container-fluid row p-4 pr-0 " *ngIf="['SEC1', 'DHS', 'Collector','DM PO','CME','SSO','Logi Cell'].includes(roleName) && selectedCategory!='Infrastructure' " >
-  <div class="col-12 col-md-8">
+  <div class="col-12 col-md-7">
     <div class="" style="padding-right: 0px;  padding-left: 20px; padding-top: 10px; ">
     <div class="row card shadow card-body ">
       <div *ngIf="loadingSectionA; else sectionAContent" class="spinner-container">
@@ -66,19 +66,19 @@
           [dataSource]="StockStatusdata" #exporter="matTableExporter" matSort  #sort10="matSort">
          <ng-container matColumnDef="sno">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</th>
-            <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
+            <td mat-cell *matCellDef="let element" class="text-center"> {{ element.sno}} </td>
           </ng-container>
           <ng-container matColumnDef="parameterNew">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock Parameter</th>
             
-            <td mat-cell *matCellDef="let element"> {{ element.parameterNew }} 
+            <td mat-cell *matCellDef="let element" class="text-center" > {{ element.parameterNew }} 
            
             </td>
           </ng-container>
          
           <ng-container matColumnDef="cntItems">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Total<br> Drugs</th>
-            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('',0,element.parameterNew,'Drugs')" style="cursor: pointer;" > {{ element.cntItems }} 
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('',0,element.parameterNew,'Drugs')" style="cursor: pointer;" class="text-center" > {{ element.cntItems }} 
             <!-- <td mat-cell *matCellDef="let element" (click)="StockOutDetails(0)"> {{ element.cntItems }}  -->
               <!-- <a class="btn btn-xs btn-outline-light align-items-center border-0 rounded  p-1 m-0 bg-transparent "
               mat-button (click)="StockOutDetails(0)"></a> -->
@@ -86,21 +86,21 @@
           </ng-container>
           <ng-container matColumnDef="pricecnt">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Price<br> Opned</th>
-            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('PRICE',0,element.parameterNew,'Price Opned')" style="cursor: pointer;"> {{ element.pricecnt }} </td>
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('PRICE',0,element.parameterNew,'Price Opned')" style="cursor: pointer;" class="text-center" > {{ element.pricecnt }} </td>
           </ng-container>
           <ng-container matColumnDef="evalutioncnt">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Under<br> Evaluation</th>
-            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('EVAL',0,element.parameterNew,'Under Evaluation')"style="cursor: pointer;"> {{ element.evalutioncnt }} </td>
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('EVAL',0,element.parameterNew,'Under Evaluation')"style="cursor: pointer;" class="text-center" > {{ element.evalutioncnt }} </td>
           </ng-container>
           <ng-container matColumnDef="livecnt">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Live In<br>
               Tender</th>
-            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('LIVE',0,element.parameterNew,'Live In')"style="cursor: pointer;"> {{ element.livecnt }} </td>
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('LIVE',0,element.parameterNew,'Live In')"style="cursor: pointer;" class="text-center" > {{ element.livecnt }} </td>
           </ng-container>
           <ng-container matColumnDef="rentendercn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>To be Tender<br>
               Retender</th>
-            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('TOBETENDER',0,element.parameterNew,'To be Tender')" style="cursor: pointer;"> {{ element.rentendercn }} </td>
+            <td mat-cell *matCellDef="let element" (click)="allvaluecilick('TOBETENDER',0,element.parameterNew,'To be Tender')" style="cursor: pointer;" class="text-center" > {{ element.rentendercn }} </td>
           </ng-container>
           
           <ng-container  matColumnDef="action">
@@ -127,7 +127,7 @@
     </div>
   </div>
   </div>
-  <div class="col-12 col-md-4">
+  <div class="col-12 col-md-5">
     <div class="" style="padding-right: 0px;  padding-left: 20px; padding-top: 10px;">
     <div class="row card shadow card-body ">
       <div *ngIf="loadingSectionB; else sectionBContent" class="spinner-container">
@@ -159,25 +159,25 @@
           [dataSource]="whstockoutindata" #exporter="matTableExporter" matSort #sort11="matSort">
          <ng-container matColumnDef="sno">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:50px ;">S.NO</th>
-            <td mat-cell *matCellDef="let element"> {{ element.sno}} </td>
+            <td mat-cell *matCellDef="let element" class="text-center" > {{ element.sno}} </td>
           </ng-container>
          
           <ng-container matColumnDef="warehousename">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:100px ;" >Warehouse</th>
-            <td mat-cell *matCellDef="let element"> {{ element.warehousename }} </td>
+            <td mat-cell *matCellDef="let element" class="text-center" > {{ element.warehousename }} </td>
           </ng-container>
          
           <ng-container matColumnDef="noofitems">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header  > Total RC Valid Items</th>
-            <td mat-cell *matCellDef="let element"> {{ element.noofitems }} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header  style="width:100px ;"  > Total RC <br> Valid Items</th>
+            <td mat-cell *matCellDef="let element" class="text-center" > {{ element.noofitems }} </td>
           </ng-container>
           <ng-container matColumnDef="stockout" style="justify-content: center;">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:100px ;" >Stock-Out</th>
-            <td mat-cell *matCellDef="let element" (click)="getWhStockOutInDetail(element.warehouseid )" style="cursor: pointer; color: red; " > {{ element.stockout }} </td>
+            <td mat-cell *matCellDef="let element" (click)="getWhStockOutInDetail(element.warehouseid )" style="cursor: pointer; color: red; "  class="text-center" > {{ element.stockout }} </td>
           </ng-container>
           <ng-container matColumnDef="stockin">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width:100px ;" >Stock-In</th>
-            <td mat-cell *matCellDef="let element" style="cursor: pointer; color: green; "> {{ element.stockin }} </td>
+            <td mat-cell *matCellDef="let element" style="cursor: pointer; color: green; " class="text-center" > {{ element.stockin }} </td>
           </ng-container>
           <ng-container  matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Suggestive Action</th>

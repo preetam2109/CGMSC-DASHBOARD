@@ -331,6 +331,7 @@ public chartOptions: Partial<ChartOptions> | any;
       }
   
       this.spinner.show();
+  debugger
   
       this.api.ABCanalysisSummaryDetail(
         this.selectedYearId,
@@ -379,7 +380,9 @@ public chartOptions: Partial<ChartOptions> | any;
   
   onClick(): void {
     try {
-  
+
+      this.openDialogData()
+
     } catch (err) {
       console.error('Unexpected error during logout:', err);
     }

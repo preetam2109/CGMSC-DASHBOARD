@@ -20,7 +20,17 @@
               "zone.js"
             ],
             "allowedCommonJsDependencies": ["lodash"
-          ,"apexcharts","xlsx/dist/xlsx.mini.min"],
+          ,"apexcharts",
+          "xlsx/dist/xlsx.mini.min",
+          "html2canvas",
+          "jspdf-autotable",
+          "sweetalert2",
+          "canvg",
+          "raf",
+          "rgbcolor",
+          "core-js"
+
+        ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",

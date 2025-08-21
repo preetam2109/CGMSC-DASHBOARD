@@ -580,9 +580,13 @@ async handleCgmsclLogin() {
         // Fixed role check (was always truthy)
         
         this.rolename = res.userInfo.rolename;
+        this.InsertUserLoginLog();
         
         if (this.rolename === 'SSO' || this.rolename === 'Logi Cell') {
           this.router.navigate(['/welcome']);
+        }else if(this.rolename==='QC'){
+          this.router.navigate(['/qc-dashboard']);
+
         } else {
           this.router.navigate(['/home']);
         }
@@ -612,7 +616,7 @@ verifyOTPOther(): Promise<boolean> {
       next: (res: any) => {
         Swal.fire({
           title: 'OTP Verified!',
-          text: 'You may now proceed to login.',
+          text: 'Successfully login!.',
           icon: 'success',
           confirmButtonText: 'OK',
         });
@@ -652,6 +656,8 @@ handleWarehouseLogin() {
   if (res.message === "Successfully Login"){
     //Redirect to Welcome Page
     this.invalidLogin = false
+    this.InsertUserLoginLog();
+
     this.toastr.success('Logged in Successfully');
     console.log('login details',res)
     this.router.navigate(['/welcome']); // Redirect to category selector after login
@@ -702,6 +708,7 @@ handleInfrastructureLogin() {
                 //Redirect to Welcome Page
                 
                 this.invalidLogin = false
+                this.InsertUserLoginLog();
                 this.router.navigate(['welcome']); // Redirect to category selector after login
                 this.toastr.success('Logged in Successfully');
                 console.log('login details',res)

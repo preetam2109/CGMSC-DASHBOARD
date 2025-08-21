@@ -90,7 +90,7 @@ export class HomeComponent {
   PartItemRClist: any;
 
   totalNoTenders: number = 0;
-  totalRC1: any;
+  totalRC1: any[]=[];
   totalRC1details: any;
 
   @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
@@ -369,9 +369,12 @@ export class HomeComponent {
     'Work Order': 'assets/dash-icon/clipboard.png',
     'Running Works': 'assets/dash-icon/under-construction.png',
     'cgmsc-supplies': 'assets/dash-icon/drugs.png',
-    Evaluation: 'assets/dash-icon/norm.png',
+    ' Evaluation': 'assets/dash-icon/norm.png',
+    'Evaluation': 'assets/dash-icon/norm.png',
     'Progress Abstract': 'assets/dash-icon/hospital.png',
+    'Analysis': 'assets/dash-icon/analysis_12139646.png',
     'Tender Evaluation': 'assets/dash-icon/check-list.png',
+    'Consumption Pattern': 'assets/dash-icon/consumptiondash.png',
     'Live Tender': 'assets/dash-icon/auction.png',
     'To be Tender': 'assets/dash-icon/tender.png',
     'Payment Tracker': 'assets/dash-icon/payment.png',
@@ -382,11 +385,32 @@ export class HomeComponent {
     'Technical Sanction': 'assets/dash-icon/deadline.png',
     'Monitoring with Geographic Coordinate': 'assets/dash-icon/planning.png',
     'District-wise Progress': 'assets/dash-icon/online-report.png',
+    'Progress on Scheme': 'assets/dash-icon/online-report.png',
     'Engineer Work Tracker': 'assets/dash-icon/person.png',
+    'Engineer-Works': 'assets/dash-icon/person.png',
     'Payment Time Taken': 'assets/dash-icon/saving.png',
     'Finance Dashboard': 'assets/dash-icon/dashboard.png',
     Dashboard: 'assets/dash-icon/dashboard.png',
     'Handover Insights': 'assets/dash-icon/hand-over.png',
+    'Attendance': 'assets/dash-icon/deadline.png',
+    'Conversation Hod ': 'assets/dash-icon/cooperation.png',
+    'Tender Status': 'assets/dash-icon/dashboard.png',
+    'QC Insights ': 'assets/dash-icon/biochemist.png',
+    'QC Courier': 'assets/dash-icon/biochemist.png',
+    'QC-Lab Issues': 'assets/dash-icon/biochemist.png',
+    'Finance': 'assets/dash-icon/budget.png',
+    'Supplier Pending Payments': 'assets/dash-icon/payment.png',
+    'Payment': 'assets/dash-icon/payment.png',
+    'DHS Dashboard': 'assets/dash-icon/online-report.png',
+    'CME Dashboard': 'assets/dash-icon/online-report.png',
+    'Med. Coll/Hospital Indent vs Issuance/NOC': 'assets/dash-icon/hscov.png',
+    'Field Stock': 'assets/dash-icon/SDrug.png',
+    'Warehouse Indent Pending': 'assets/dash-icon/drugs.png',
+    'Quality Control Track': 'assets/dash-icon/biochemist.png',
+    'WH Wise Stock Out': 'assets/dash-icon/out-of-stock.png',
+    'Time Taken By Supplier': 'assets/dash-icon/project.png',
+    'Door Delivery App Uses': 'assets/dash-icon/fast-delivery.png',
+    'QC Time Taken': 'assets/dash-icon/biochemist.png',
   };
   constructor(
     public toastr: ToastrService,
