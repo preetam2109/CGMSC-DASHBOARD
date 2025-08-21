@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule,Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort,MatSortModule } from '@angular/material/sort';
@@ -10,10 +10,11 @@ import { MaterialModule } from 'src/app/material-module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import {  ToastrService } from 'ngx-toastr';
-import { ComplaintReportmodel,ComplainTypesmodel,Complainmodel } from 'src/app/Model/DashLoginDDL';
+import { ComplaintReportmodel,ComplainTypesmodel,Complainmodel,InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+
 @Component({
   selector: 'app-complains-report',
   standalone: true,
@@ -23,7 +24,7 @@ import autoTable from 'jspdf-autotable';
   styleUrl: './complains-report.component.css'
 })
 export class ComplainsReportComponent {
-
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
   dataSource!: MatTableDataSource<ComplaintReportmodel>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -71,15 +72,20 @@ export class ComplainsReportComponent {
   complainName:any;
   complainTypeid: any;
   complainid: any;
+  pageName: string = '';
+  fullUrl: string = '';
   constructor(public api: ApiService, private cdr: ChangeDetectorRef, private router: Router
-    , private spinner: NgxSpinnerService,private toastr: ToastrService) {
+    , private spinner: NgxSpinnerService,private toastr: ToastrService,private location: Location) {
     this.dataSource = new MatTableDataSource<ComplaintReportmodel>([]);
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
   }
 
   ngOnInit(): void {
     this.GetComplainTypes();
     // this.GetCategory();
     this.GetComplaintReportmodel(0,0,0);
+    this.InsertUserPageViewLog();
   }
   GetComplainTypes() {
     try {
@@ -169,6 +175,7 @@ export class ComplainsReportComponent {
       console.log(err);
       // throw err;
     }
+  
   }
  
 
@@ -330,22 +337,47 @@ export class ComplainsReportComponent {
         '⚠️ Alert: Attachment File Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.'
       );
     }
-  //   if(fileName=="Apply Online"){
-  //     // const cleanedUrl = 'https://cgmsc.gov.in/cgmscl/' + URL.replace(/^~\//, '');
-  //     // console.log('Opening:', cleanedUrl);
-  //     window.open(URL, '_blank');
-  //   }
-  //  else if (fileName && URL) {
-  //     // Remove '~' from the start of the URL
-  //     const cleanedUrl = 'https://cgmsc.gov.in/cgmscl/' + URL.replace(/^~\//, '');
-  //     // console.log('Opening:', cleanedUrl);
-  //     window.open(cleanedUrl, '_blank');
-  //   } else {
-  //     alert(
-  //       '⚠️ Alert: Attachment File Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.'
-  //     );
-  //   }
 
       }
 
+
+    
+      InsertUserPageViewLog() {
+        try {
+          // debugger
+          const roleIdName = localStorage.getItem('roleName') || '';
+          const userId = Number(sessionStorage.getItem('userid') || 0);
+          const roleId = Number(sessionStorage.getItem('roleId') || 0);
+          // const userName = sessionStorage.getItem('firstname') || '';
+          const ipAddress = sessionStorage.getItem('ipAddress') || '';
+          const userAgent = navigator.userAgent; 
+          this.InsertUserPageViewLogdata.logId = 0; 
+          this.InsertUserPageViewLogdata.userId = userId;
+          this.InsertUserPageViewLogdata.roleId = roleId;
+          this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+          this.InsertUserPageViewLogdata.pageName = this.pageName;
+          this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+          this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+          this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+          this.InsertUserPageViewLogdata.userAgent = userAgent;
+          // console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+      // if(localStorage.getItem('Log Saved')|| ''!){
+    
+      // }
+          // API call
+          this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+            next: (res: any) => {
+              console.log('Page View Log Saved:',res);
+              // const LogSaved='Log Saved'
+              // localStorage.setItem('Log Saved', LogSaved);
+            },
+            error: (err: any) => {
+              console.error('Backend Error:', JSON.stringify(err.message));
+            }
+          });
+      
+        } catch (err: any) {
+          console.error('Error:', err.message);
+        }
+      }
 }

@@ -27,6 +27,20 @@ export class InsertUserLoginLogmodal {
   userAgent!: string
 
    }
+export class InsertUserPageViewLogmodal {
+
+
+  logId!: number
+  userId: number | undefined
+  roleId!: number
+  roleIdName!: string
+  pageUrl!: string
+  pageName!: string
+  viewTime!: string
+  ipAddress!: string
+  userAgent!: string
+
+   }
 
 
 export class StockStatusModel {

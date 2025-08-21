@@ -1,4 +1,5 @@
-import { CommonModule, NgFor, NgStyle } from '@angular/common';
+import { CommonModule, NgFor, NgStyle,Location } from '@angular/common';
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';

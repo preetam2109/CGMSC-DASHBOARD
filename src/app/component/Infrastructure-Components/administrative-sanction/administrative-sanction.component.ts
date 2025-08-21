@@ -1,4 +1,4 @@
-import { NgFor, CommonModule, NgStyle, DatePipe } from '@angular/common';
+import { NgFor, CommonModule, NgStyle, DatePipe ,Location} from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormBuilder } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -20,6 +20,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
 import { ASCompletedDetails, ASEnteredDetails, ASFile, ASPendingDetails, DivisionWiseASPendingDetails } from 'src/app/Model/DashProgressCount';
 // import { MatButtonModule } from '@angular/material/button';
 @Component({
@@ -85,14 +86,20 @@ export class AdministrativeSanctionComponent {
       titleDivision:any;
       titleScheme:any;
       titleDist:any;
+      InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+
+      pageName: string = '';
+      fullUrl: string = '';
  constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     public datePipe: DatePipe,
-    private fb: FormBuilder
+    private fb: FormBuilder,private location: Location,
   ) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<ASPendingDetails>([]);
     this.dataSource1 = new MatTableDataSource<ASEnteredDetails>([]);
     this.dataSource2 = new MatTableDataSource<ASCompletedDetails>([]);
@@ -103,6 +110,7 @@ export class AdministrativeSanctionComponent {
     this.getASPendingDetails();
     this.getDivisionWiseASPendingDetails();
 
+    this.InsertUserPageViewLog();
   }
   }
 
@@ -500,4 +508,42 @@ export class AdministrativeSanctionComponent {
       //   console.log('Button clicked for element:', ASID);
       // }
       
+     InsertUserPageViewLog() {
+      try {
+        // debugger
+        const roleIdName = localStorage.getItem('roleName') || '';
+        const userId = Number(sessionStorage.getItem('userid') || 0);
+        const roleId = Number(sessionStorage.getItem('roleId') || 0);
+        // const userName = sessionStorage.getItem('firstname') || '';
+        const ipAddress = sessionStorage.getItem('ipAddress') || '';
+        const userAgent = navigator.userAgent; 
+        this.InsertUserPageViewLogdata.logId = 0; 
+        this.InsertUserPageViewLogdata.userId = userId;
+        this.InsertUserPageViewLogdata.roleId = roleId;
+        this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+        this.InsertUserPageViewLogdata.pageName = this.pageName;
+        this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+        this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+        this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+        this.InsertUserPageViewLogdata.userAgent = userAgent;
+        console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+    // if(localStorage.getItem('Log Saved')|| ''!){
+  
+    // }
+        // API call
+        this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+          next: (res: any) => {
+            console.log('Page View Log Saved:',res);
+            // const LogSaved='Log Saved'
+            // localStorage.setItem('Log Saved', LogSaved);
+          },
+          error: (err: any) => {
+            console.error('Backend Error:', JSON.stringify(err.message));
+          }
+        });
+    
+      } catch (err: any) {
+        console.error('Error:', err.message);
+      }
+    }
 }
