@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule ,Location} from '@angular/common';
 import { Component } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { ApiService } from 'src/app/service/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import{ComplainTypesmodel,Complainmodel,InsertComplainmodel} from 'src/app/Model/DashLoginDDL';
+import{ComplainTypesmodel,Complainmodel,InsertComplainmodel,InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { WorkFill} from 'src/app/Model/DashProgressCount';
 @Component({
@@ -19,6 +19,7 @@ export class ComplaintTHospitalBuConstructionComponent {
   captcha = '7G5K2';
   fileError: string = '';
   selectedFile: File | null = null;
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
   ComplainTypes: ComplainTypesmodel[] = [];
   Complain: Complainmodel[] = [];
     workfill: WorkFill[] = [];
@@ -38,9 +39,13 @@ export class ComplaintTHospitalBuConstructionComponent {
   himisDistrictid: any;
   divisionid: any;
   roleName:any;
-  constructor(public api: ApiService, public spinner: NgxSpinnerService, private formBuilder: FormBuilder,
+  pageName: string = '';
+  fullUrl: string = '';
+  constructor(public api: ApiService, public spinner: NgxSpinnerService, private formBuilder: FormBuilder, private location: Location,
     private toastr: ToastrService,
   ) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.complainForm = this.formBuilder.group({
       feedbackID: [0],  
       createdDate: [new Date().toISOString()],
@@ -65,6 +70,7 @@ export class ComplaintTHospitalBuConstructionComponent {
   ngOnInit(): void {
     this.GetComplainTypes();
    this.getworkfill();
+   this.InsertUserPageViewLog();
   }
 
   
@@ -191,6 +197,7 @@ export class ComplaintTHospitalBuConstructionComponent {
   }
   OnSubmit() {
     try {
+// debugger;
       this.submitted = true;
       this.complainForm.patchValue({ Divisionid: this.divisionid });
       if (
@@ -203,7 +210,7 @@ export class ComplaintTHospitalBuConstructionComponent {
         return;
       }
   
-      // if (this.complainForm.valid) {
+      if (this.complainForm.valid) {
         const formData = new FormData();
   
         formData.append('feedbackID', this.complainForm.value.feedbackID ?? 0);
@@ -211,7 +218,6 @@ export class ComplaintTHospitalBuConstructionComponent {
         formData.append('lastName', this.complainForm.value.lastName ?? '');
         formData.append('email', this.complainForm.value.email ?? '');
         formData.append('mobileNumber', (this.complainForm.value.mobileNumber ?? '').toString());
-
         formData.append('address', this.complainForm.value.address ?? '');
         formData.append('city', this.complainForm.value.city ?? '');
         formData.append('subject', this.complainForm.value.subject ?? '');
@@ -250,11 +256,11 @@ export class ComplaintTHospitalBuConstructionComponent {
             });
           }
         );
-      // } else {
-      //   this.toastr.error('Something went wrong, please try again!', 'Error!', {
-      //     positionClass: 'toast-center'
-      //   });
-      // }
+      } else {
+        this.toastr.error('Something went wrong, please try again!', 'Error!', {
+          positionClass: 'toast-center'
+        });
+      }
     } catch (err: any) {
       console.log('error:=', err.message);
     }
@@ -304,5 +310,43 @@ export class ComplaintTHospitalBuConstructionComponent {
     );
     this.spinner.show();
  
+  }
+  InsertUserPageViewLog() {
+    try {
+      // debugger
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      // const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserPageViewLogdata.logId = 0; 
+      this.InsertUserPageViewLogdata.userId = userId;
+      this.InsertUserPageViewLogdata.roleId = roleId;
+      this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+      this.InsertUserPageViewLogdata.pageName = this.pageName;
+      this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+      this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+      this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+      this.InsertUserPageViewLogdata.userAgent = userAgent;
+      // console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+        next: (res: any) => {
+          console.log('Page View Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
+    }
   }
 }

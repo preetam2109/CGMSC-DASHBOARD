@@ -1,4 +1,4 @@
-import { CommonModule, NgFor, NgStyle } from '@angular/common';
+import { CommonModule, NgFor, NgStyle, Location } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -21,6 +21,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ASFile, DashProgressDistCount, WOpendingScheme, WOpendingTotal, WorkOrderPendingDetailsNew } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import { WorkOrderGeneratedComponent } from '../work-order-generated/work-order-generated.component';
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
 // import {MatDialog, MatDialogConfig} from "@angular/material";
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -91,9 +92,13 @@ export class WorkOrderComponent {
   //   'class', 'englishAddress', 'mobNo', 'asPath', 'asLetter', 'groupName', 'lProgress',
   //   'pdate', 'pRemarks', 'remarks', 'tenderReference'
   // ];
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
 
-  constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private dialog: MatDialog){
-  
+  pageName: string = '';
+  fullUrl: string = '';
+  constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef,private dialog: MatDialog,private location: Location,){
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<WorkOrderPendingDetailsNew>([]);
   }
  
@@ -103,6 +108,7 @@ export class WorkOrderComponent {
     this.GetWOPendingDistrict();
     this.GetWOPendingScheme();
     this.GetWOPendingContractor();
+    this.InsertUserPageViewLog();
   }
   initializeChartOptions() {
     this.chartOptions = {
@@ -1089,5 +1095,46 @@ onButtonClick2(ASID: any, workid: any): void {
       alert(`Error fetching data: ${error.message}`);
     }
   );
+}
+
+
+
+InsertUserPageViewLog() {
+  try {
+    // debugger
+    const roleIdName = localStorage.getItem('roleName') || '';
+    const userId = Number(sessionStorage.getItem('userid') || 0);
+    const roleId = Number(sessionStorage.getItem('roleId') || 0);
+    // const userName = sessionStorage.getItem('firstname') || '';
+    const ipAddress = sessionStorage.getItem('ipAddress') || '';
+    const userAgent = navigator.userAgent; 
+    this.InsertUserPageViewLogdata.logId = 0; 
+    this.InsertUserPageViewLogdata.userId = userId;
+    this.InsertUserPageViewLogdata.roleId = roleId;
+    this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+    this.InsertUserPageViewLogdata.pageName = this.pageName;
+    this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+    this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+    this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+    this.InsertUserPageViewLogdata.userAgent = userAgent;
+    console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+// if(localStorage.getItem('Log Saved')|| ''!){
+
+// }
+    // API call
+    this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+      next: (res: any) => {
+        console.log('Page View Log Saved:',res);
+        // const LogSaved='Log Saved'
+        // localStorage.setItem('Log Saved', LogSaved);
+      },
+      error: (err: any) => {
+        console.error('Backend Error:', JSON.stringify(err.message));
+      }
+    });
+
+  } catch (err: any) {
+    console.error('Error:', err.message);
+  }
 }
 }

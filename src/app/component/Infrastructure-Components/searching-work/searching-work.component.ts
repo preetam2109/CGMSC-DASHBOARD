@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe, NgFor, NgStyle } from '@angular/common';
+import { CommonModule, DatePipe, NgFor, Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -21,6 +21,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatMenuModule } from '@angular/material/menu';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import {InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -57,6 +58,8 @@ export type ChartOptions = {
 })
 export class SearchingWorkComponent {
   base64Data!: string ;
+    InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+  
   workdetails: WorkDetails[] = [];
   workfill: WorkFill[] = [];
   ProjectTimelinedata: ProjectTimeline[] = [];
@@ -83,17 +86,24 @@ export class SearchingWorkComponent {
   diff: any;
   //#endregion
   seriesData: any;
+  pageName: string = '';
+  fullUrl: string = '';
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
-    public DatePipe: DatePipe,private cdr: ChangeDetectorRef
+    public DatePipe: DatePipe,private cdr: ChangeDetectorRef,private location: Location,
     
-  ) {this.dataSource = new MatTableDataSource<WorkBillStatus>([]);}
+  ) { this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
+    this.dataSource = new MatTableDataSource<WorkBillStatus>([]);
+
+  }
 
   ngOnInit(): void {
     this.roleName = localStorage.getItem('roleName');
     this.getworkfill(); // Fetch data on initialization
     this.initializeChartOptions();
+    this.InsertUserPageViewLog();
     // this.GetProjectTimeline(0);
     // this.GetProjectTimelineNEW();
     // this.GetWorkBillStatus(0);
@@ -253,62 +263,10 @@ export class SearchingWorkComponent {
                 color: '#6e0d25'
               },
       },
-      // xaxis: {
-      //   categories: [], // Already set based on `res.map(item => item.pdate)`
-      //   // labels: {
-      //   //   style: {
-      //   //     fontSize: "12px",
-      //   //     colors: ["#000"], // ✅ Use a string instead of an array if all labels should be black
-      //   //   }
-      //   // },   
-      //   // opposite: true // ✅ Ensures larger values appear at the top
-      // },
       xaxis: {
         categories: [],
       },
       legend: { show: false },
-      // tooltip: {
-      //       custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
-      //         const dataPoint = w.config.series[seriesIndex].data[dataPointIndex]; 
-      //         // const d=dataPoint.reverse();
-      //         // console.log("dataPoint:", dataPoint);
-      //         // console.log("seriesIndex:", seriesIndex);
-      //         // console.log("dataPointIndex:", dataPointIndex);
-      //         return`<div style="border-bottom: 1px solid rgba(8, 8, 8, 0.3); border-radius: 6px;  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);  " class="tooltip-box ">
-      //         <div style="background-color:rgb(114, 113, 113); font-size: 16px; color:#ffff">${dataPoint.x}</div>
-      //         <div style="background-color:#ffff; font-size: 15px;">
-      //           <div><strong>Progress Date:</strong> ${dataPoint.dateProgress}</div>
-      //           </div>
-      //           </div>`;
-                
-      //       }
-      //     },
-      // tooltip: {
-      //   custom: function ({ dataPointIndex, w }: any) {
-      //     ;
-      //     // Ensure the correct series data is accessed
-      //     const seriesData = w.config.series[0].data;
-      
-      //     // Prevent errors if index is out of range
-      //     if (!seriesData || dataPointIndex < 0 || dataPointIndex >= seriesData.length) {
-      //       return `<div class="tooltip-box">No data available</div>`;
-      //     }
-      
-      //     const dataPoint = seriesData[dataPointIndex];
-      
-      //     return `<div style="border: 1px solid rgba(8, 8, 8, 0.3); 
-      //                   border-radius: 6px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); 
-      //                   background-color: white; padding: 8px;">
-      //               <div style="background-color:rgb(114, 113, 113); 
-      //                           font-size: 16px; color:#ffff; padding: 5px;">
-      //                 ${dataPoint.x}
-      //               </div>
-      //               <div style="font-size: 15px; color: black; padding: 5px;">
-      //                 <strong>Progress Date:</strong> ${dataPoint.dateProgress}
-      //               </div>
-      //             </div>`;
-      //   }
-      // }
       
       tooltip: {
         custom: function ({ dataPointIndex, w }: any) {
@@ -761,6 +719,46 @@ export class SearchingWorkComponent {
           }
         );
      }
+
+     
+     InsertUserPageViewLog() {
+      try {
+        // debugger
+        const roleIdName = localStorage.getItem('roleName') || '';
+        const userId = Number(sessionStorage.getItem('userid') || 0);
+        const roleId = Number(sessionStorage.getItem('roleId') || 0);
+        // const userName = sessionStorage.getItem('firstname') || '';
+        const ipAddress = sessionStorage.getItem('ipAddress') || '';
+        const userAgent = navigator.userAgent; 
+        this.InsertUserPageViewLogdata.logId = 0; 
+        this.InsertUserPageViewLogdata.userId = userId;
+        this.InsertUserPageViewLogdata.roleId = roleId;
+        this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+        this.InsertUserPageViewLogdata.pageName = this.pageName;
+        this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+        this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+        this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+        this.InsertUserPageViewLogdata.userAgent = userAgent;
+        // console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+    // if(localStorage.getItem('Log Saved')|| ''!){
+  
+    // }
+        // API call
+        this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+          next: (res: any) => {
+            console.log('Page View Log Saved:',res);
+            // const LogSaved='Log Saved'
+            // localStorage.setItem('Log Saved', LogSaved);
+          },
+          error: (err: any) => {
+            console.error('Backend Error:', JSON.stringify(err.message));
+          }
+        });
+    
+      } catch (err: any) {
+        console.error('Error:', err.message);
+      }
+    }
 }
 
 

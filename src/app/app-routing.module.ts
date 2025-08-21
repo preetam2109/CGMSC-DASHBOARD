@@ -124,12 +124,12 @@ import { WHWiseStockOutComponent } from './component/wh-wise-stock-out/wh-wise-s
 
 import { RcValidStatusComponent } from './rcdetail-report/rc-valid-status/rc-valid-status/rc-valid-status.component';
 import { AnalysisTabComponent } from './component/analysis-tab/analysis-tab.component';
-<<<<<<< HEAD
+
 import { ComplaintTHospitalBuConstructionComponent } from './component/Infrastructure-Components/complaint-t-hospital-bu-construction/complaint-t-hospital-bu-construction.component';
 import { ComplainsReportComponent } from './component/Infrastructure-Components/complains-report/complains-report.component';
-=======
+
 import { AnalysisGraphComponent } from './component/analysis-graph/analysis-graph/analysis-graph.component';
->>>>>>> 05ea9c9dfccf625dc659301da332ebeff3f26e4a
+
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';

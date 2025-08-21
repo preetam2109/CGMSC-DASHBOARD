@@ -1,4 +1,4 @@
-import { NgFor, CommonModule, DatePipe, NgStyle } from '@angular/common';
+import { NgFor, CommonModule, DatePipe, NgStyle,Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -19,6 +19,7 @@ import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
 import { ASFile, PriceEvaluation, PriceEvaluationDetails, TenderEvaluation, TenderEvaluationDetails } from 'src/app/Model/DashProgressCount';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -62,6 +63,7 @@ export type ChartOptions = {
 })
 export class TenderEvaluationComponent {
  //#region chart
+
  @ViewChild('chart') chart: ChartComponent | undefined;
  @ViewChild('itemDetailsModal') itemDetailsModal: any;
  @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
@@ -105,13 +107,19 @@ selectedTabIndex: number=0;
  name:any;
  Selectedname:any;
  nosWorks:any;
+ InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+
+ pageName: string = '';
+ fullUrl: string = '';
 constructor(
  public api: ApiService,
  public spinner: NgxSpinnerService,
  private cdr: ChangeDetectorRef,
  private dialog: MatDialog,
- public datePipe: DatePipe
+ public datePipe: DatePipe,private location: Location,
 ) {
+  this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
  this.dataSource = new MatTableDataSource<TenderEvaluationDetails>([]);
  this.dataSource1 = new MatTableDataSource<PriceEvaluationDetails>([]);
 }
@@ -126,7 +134,7 @@ if(this.selectedTabIndex == 0){
    this.GETTenderEvaluationDivision();
    this.GETTenderEvaluationScheme();
    this.GETTenderEvaluationDistrict();
-
+   this.InsertUserPageViewLog();
 }
 }
 
@@ -2367,4 +2375,43 @@ onButtonClick2(ASID:any,workid:any): void {
       );
    }
 
+   
+   InsertUserPageViewLog() {
+    try {
+      // debugger
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      // const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserPageViewLogdata.logId = 0; 
+      this.InsertUserPageViewLogdata.userId = userId;
+      this.InsertUserPageViewLogdata.roleId = roleId;
+      this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+      this.InsertUserPageViewLogdata.pageName = this.pageName;
+      this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+      this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+      this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+      this.InsertUserPageViewLogdata.userAgent = userAgent;
+      console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+        next: (res: any) => {
+          console.log('Page View Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
+    }
+  }
 }

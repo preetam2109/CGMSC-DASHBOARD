@@ -833,7 +833,7 @@ export class MenuServiceService {
 
         { label: 'Engineer Work Tracker', route: '/EngineerWorks' },
         { label: 'Payment Tracker', route: '/PriceEvaluation' },
-
+        { label: 'Complains Report', route: '/ComplainsReport' },
         // // { label: 'Verticals', route: 'home' },
         // // { label: 'Home', route: 'InfrastructureHome' },
         // // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },

@@ -1,4 +1,4 @@
-import { CommonModule, NgFor, NgStyle } from '@angular/common';
+import { CommonModule, NgFor, NgStyle,Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -21,6 +21,8 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatMenuModule } from '@angular/material/menu';
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -152,6 +154,7 @@ export class InfrastructureHomeComponent {
           dispatchData4: TotalWorksAbstract[] = [];
           // ASFileData: ASFile[] = [];
           ASFileData: ASFile[] = [];
+          InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
  //#endregion
   // ChartOptions
   @ViewChild('chart') chart: ChartComponent | undefined;
@@ -168,8 +171,12 @@ export class InfrastructureHomeComponent {
   dashname:any;
   nosworks:any;
   ASAmount=1;
-  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,private dialog: MatDialog,) {
-  this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
+  pageName: string = '';
+  fullUrl: string = '';
+  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,private dialog: MatDialog,private location: Location,) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
+    this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
   this.dataSourceCom_Han = new MatTableDataSource<WORunningHandDetails>([]);
   this.dataSourceRun_Work = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSource1 = new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
@@ -202,6 +209,7 @@ export class InfrastructureHomeComponent {
     this.GetDistricts();
     this.getDistrictNameDME();
     this.getmain_scheme();
+    this.InsertUserPageViewLog();
   }
 //#region 
   loadInitialData() {
@@ -2495,6 +2503,45 @@ expor_PDFRturntoD() {
 // alert(selectedName);
   } else {
     alert('Selected districT_ID not found in the list.');
+  }
+}
+
+InsertUserPageViewLog() {
+  try {
+    // debugger
+    const roleIdName = localStorage.getItem('roleName') || '';
+    const userId = Number(sessionStorage.getItem('userid') || 0);
+    const roleId = Number(sessionStorage.getItem('roleId') || 0);
+    // const userName = sessionStorage.getItem('firstname') || '';
+    const ipAddress = sessionStorage.getItem('ipAddress') || '';
+    const userAgent = navigator.userAgent; 
+    this.InsertUserPageViewLogdata.logId = 0; 
+    this.InsertUserPageViewLogdata.userId = userId;
+    this.InsertUserPageViewLogdata.roleId = roleId;
+    this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+    this.InsertUserPageViewLogdata.pageName = this.pageName;
+    this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+    this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+    this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+    this.InsertUserPageViewLogdata.userAgent = userAgent;
+    // console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+// if(localStorage.getItem('Log Saved')|| ''!){
+
+// }
+    // API call
+    this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+      next: (res: any) => {
+        console.log('Page View Log Saved:',res);
+        // const LogSaved='Log Saved'
+        // localStorage.setItem('Log Saved', LogSaved);
+      },
+      error: (err: any) => {
+        console.error('Backend Error:', JSON.stringify(err.message));
+      }
+    });
+
+  } catch (err: any) {
+    console.error('Error:', err.message);
   }
 }
 }

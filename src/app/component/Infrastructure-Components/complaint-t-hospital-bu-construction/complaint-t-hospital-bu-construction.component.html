@@ -65,7 +65,7 @@
                     <div class="row pb-3">
                       <div class="form-group col-md-6 pt-3">
                         <label for="inputEmail4" class="text-primary">Email </label>
-                        <input type="email" class="form-control" >
+                        <input type="email" class="form-control" formControlName="email" placeholder="name@example.com" id="inputEmail4">
                         <!-- <span class="text-danger"<span class="text-danger">*</span>
                           *ngIf="(complainForm.get('email')?.touched || submitted) && complainForm.get('email')?.errors?.['required']">
                           Email is required
@@ -76,7 +76,7 @@
                         </span> [ngClass]="{
                                           'is-invalid': (complainForm.get('email')?.touched || submitted) && complainForm.get('email')?.invalid,
                                           'is-valid': complainForm.get('email')?.valid && (complainForm.get('email')?.touched || submitted)
-                                        }" formControlName="email" placeholder="name@example.com" id="inputEmail4"-->
+                                        }-->
 
                       </div>
                       <div class="form-group col-md-6 pt-3">
@@ -243,8 +243,8 @@
                       </div>
                     </div>
 
-                    <!-- <button type="submit" class="btn btn-primary" >Submit</button> "[disabled]="complainForm.invalid"-->
-                    <button type="submit" class="btn btn-primary" >Submit</button>
+                    <!-- <button type="submit" class="btn btn-primary" >Submit</button> -->
+                    <button type="submit" class="btn btn-primary" [disabled]="complainForm.invalid" >Submit</button>
                   </form>
 
 

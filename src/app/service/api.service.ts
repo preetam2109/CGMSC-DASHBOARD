@@ -1518,19 +1518,6 @@ InsertComplainsPOST(data: any): Observable<any> {
 
 
 // https://dpdmis.in/CGMSCHO_API2/api/LogAudit/InsertUserLoginLog
-
-// {
-//   "logId": 0,
-//   "userId": 123,
-//   "roleId": 5,
-//   "roleIdName": "Admin",
-//   "userName": "johnDoe",
-//   "ipAddress": "192.168.1.100",
-//   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
-// }
-
-
-
 InsertUserLoginLogPOST(values: any) {
   return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values, {
     responseType: 'text' 
@@ -1542,6 +1529,11 @@ InsertUserLoginLogPOST(values: any) {
 
 // https://localhost:7247/api/LogAudit/InsertUserPageViewLog
 
+InsertUserPageViewLogPOST(values: any) {
+  return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserPageViewLog`, values, {
+    responseType: 'text' 
+  });
+}
 // {
 //   "logId": 0,
 //   "userId": 678,

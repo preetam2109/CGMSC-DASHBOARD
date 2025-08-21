@@ -6,8 +6,41 @@
 <div class="container-fluid p-0 m-0">
     <div class="" style="padding-right:  0px;  padding-left: 24px; padding-top: 10px; padding-bottom: 50px;">
         <div class="container-fluid card row shadow ">
-            <div class="d-flex justify-content-between align-items-center m-2">
+            <div class="row m-2">
+                <!-- First Dropdown -->
+                <div class="col-12 col-md-6 mb-2">
+                  <ng-select class="form-control"
+                    [items]="ComplainTypes"
+                    bindLabel="typeName"
+                    bindValue="complainTypeID"
+                    [(ngModel)]="typeName"
+                    [placeholder]="!typeName ? 'Select Complaint Types : ' : ''"
+                    [searchable]="true"
+                    [clearable]="true"
+                    [appendTo]="'body'"
+                    (change)="onselectGetComplainTypes($event)">
+                  </ng-select>
+                </div>
+              
+                <!-- Second Dropdown -->
+                <div class="col-12 col-md-6 mb-2">
+                  <ng-select class="form-control"
+                    [items]="Complain"
+                    bindLabel="complainName"
+                    bindValue="complainID"
+                    [(ngModel)]="complainName"
+                    [placeholder]="!complainName ? 'Select Complaint : ' : ''"
+                    [searchable]="true"
+                    [clearable]="true"
+                    [appendTo]="'body'"
+                    (change)="onselectGetcomplain($event)">
+                  </ng-select>
+                </div>
+              </div>
+              
+            <!-- <div class="d-flex justify-content-between align-items-center m-2">
 
+                <div class="filter-field flex-grow-1">
                 <div class="filter-field flex-grow-1">
                     <ng-select class="form-control" [items]="ComplainTypes" bindLabel="typeName"
                         bindValue="complainTypeID" [(ngModel)]="typeName"
@@ -15,25 +48,23 @@
                         [clearable]="true" [appendTo]="'body'" #emailidField="ngModel"
                         (change)="onselectGetComplainTypes($event)">
                     </ng-select>
-                    <!-- <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)"> -->
                 </div>
 
-                <div class="filter-field flex-grow-1">
+                <div class="filter-field flex-grow-1 ">
                     <ng-select class="form-control" [items]="Complain" bindLabel="complainName" bindValue="complainID"
                         [(ngModel)]="complainName" [placeholder]="!complainName ? 'Select Complaint : ' : ''"
                         [searchable]="true" [clearable]="true" [appendTo]="'body'" #emailidField="ngModel"
                         (change)="onselectGetcomplain($event)">
                     </ng-select>
-                    <!-- <ng-select class="form-control" [items]="categoryData" bindLabel="contentCategoryName"
+                    <ng-select class="form-control" [items]="categoryData" bindLabel="contentCategoryName"
                                     bindValue="contentCategoryCode" [(ngModel)]="coreCategory" name="coreCategory"
                                     (change)="onselectCategory($event)" #emailidField="ngModel"
                                     [placeholder]="'Select Category'" [searchable]="true" [clearable]="true"
                                     [appendTo]="'body'" required>
-                                </ng-select> -->
-                    <!-- <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)"> -->
+                                </ng-select>
                 </div>
 
-            </div>
+            </div> -->
 
             <div class="d-flex justify-content-between align-items-center m-2">
                 <div class="filter-field flex-grow-1">
