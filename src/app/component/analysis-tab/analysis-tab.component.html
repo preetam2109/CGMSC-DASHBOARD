@@ -11,24 +11,35 @@
         [(selectedIndex)]="selectedTabIndex"
         (selectedTabChange)="selectedTabValue($event)"
       >
-        <mat-tab
-          label="ABC Analysis"
+      <mat-tab
+          label="Analysis"
           [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
         >
           <ng-template matTabContent>
-            <app-abc-analysis *ngIf="selectedTabIndex === 0"></app-abc-analysis>
+            <app-analysis-graph
+              *ngIf="selectedTabIndex === 0"
+            ></app-analysis-graph>
+          </ng-template>
+        </mat-tab>
+        <mat-tab
+          label="ABC Analysis"
+          [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+        >
+          <ng-template matTabContent>
+            <app-abc-analysis *ngIf="selectedTabIndex === 1"></app-abc-analysis>
           </ng-template>
         </mat-tab>
         <mat-tab
           label="VED Analysis"
-          [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+          [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
         >
           <ng-template matTabContent>
             <app-ved-analysis
-              *ngIf="selectedTabIndex === 1"
+              *ngIf="selectedTabIndex === 2"
             ></app-ved-analysis>
           </ng-template>
         </mat-tab>
+        
         <!-- <mat-tab
           label="District-wise Distribution Current Financial Year"
           [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"

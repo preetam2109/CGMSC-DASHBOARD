@@ -370,6 +370,7 @@ export class HomeComponent {
     'Running Works': 'assets/dash-icon/under-construction.png',
     'cgmsc-supplies': 'assets/dash-icon/drugs.png',
     ' Evaluation': 'assets/dash-icon/norm.png',
+    'Evaluation': 'assets/dash-icon/norm.png',
     'Progress Abstract': 'assets/dash-icon/hospital.png',
     'Analysis': 'assets/dash-icon/analysis_12139646.png',
     'Tender Evaluation': 'assets/dash-icon/check-list.png',

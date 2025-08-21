@@ -71,11 +71,20 @@
           </option>
         </select>
       </div>
+      <div class="mb-3">
+        <label for="catType" class="form-label">Category Type</label>
+        <select class="form-select" id="catType" [(ngModel)]="selectedCatType">
+          <option *ngFor="let cat of catTypes" [value]="cat.value">
+            {{ cat.label }}
+          </option>
+        </select>
+      </div>
+      
       
 
 
     <div class="row mb-3 text-center">
-      <div class="col-md-3" *ngIf="role!='CME' && role!='DME1'" >
+      <div class="col-md-3"  >
         <button 
         class="btn btn-secondary w-100"
         
@@ -84,16 +93,7 @@
          >Show
         </button>
       </div>
-      <!-- <div class="col-md-3" *ngIf="role !== 'CME' && role !== 'DME1'">
-        <button class="btn btn-secondary w-100"  [ngClass]="{'Active': HOD === 'DHS'}"  (click)="loadData(546,mcid,'DHS')"   >DHS</button>
-      </div> -->
-      <!-- <div class="col-md-3">
-        
-        <button class="btn btn-secondary w-100" [ngClass]="{'Active': HOD === 'DME'}"    (click)="loadData(546,mcid,'DME')">DME</button>
-      </div> -->
-      <!-- <div class="col-md-3">
-        <button class="btn btn-secondary w-100"  [ngClass]="{'Active': HOD === 'AYUSH'}"   (click)="loadData(546,mcid,'AYUSH')">AYUSH</button>
-      </div> -->
+      
     </div>
 
 
@@ -103,7 +103,7 @@
 
 
 
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-lg-12 col-md-12 table-container mb-4">
           <div class="text d-flex mt-3">
             
@@ -114,7 +114,7 @@
               <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
               <mat-menu #exportMenu="matMenu">
                 <button mat-menu-item
-                  (click)="exporter.exportTable('xlsx', { fileName: 'rcindent', sheet: 'rcindent', Props: { Author: 'cgmsc' }})">Excel</button>
+                  (click)="exporter.exportTable('xlsx', { fileName: 'analysis', sheet: 'analysis', Props: { Author: 'cgmsc' }})">Excel</button>
                 
     
               </mat-menu>
@@ -125,63 +125,163 @@
             <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
     
 
-<ng-container matColumnDef="sno">
-    <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
-    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
-  </ng-container>
 
    
-   <ng-container matColumnDef="abC_CATEGORY">
-    <th mat-header-cell *matHeaderCellDef style="width: 120px;">ABC CATEGORY</th>
-    <td mat-cell *matCellDef="let element"> {{ element.abC_CATEGORY }} </td>
+   <!-- S.No -->
+<ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef style="width: 80px;">S.No</th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" >Total</td>
+
   </ng-container>
+  
+  <!-- Category -->
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">Category</th>
+    <td mat-cell *matCellDef="let element"   > {{ element.category }} </td>
+    <td mat-footer-cell *matFooterCellDef>-</td>
+    
+  </ng-container>
+  
+  <!-- Count of Items -->
+  <ng-container matColumnDef="cntItems">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items</th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,0)"  class="text-center link-hoverr" > {{ element.cntItems }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" >{{totalItems}}</td>
 
-    <ng-container matColumnDef="noOfItems">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items</th>
-        <td mat-cell *matCellDef="let element"  (click)="noitemslick(element.rcValid,element.abC_CATEGORY)"  style="cursor: pointer;"  > {{ element.noOfItems }} </td>
-      </ng-container>
-    <ng-container matColumnDef="ordeR_VALUE">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;">Order Value in(Cr)</th>
-        <td mat-cell *matCellDef="let element"> {{ element.ordeR_VALUE }} </td>
-      </ng-container>
-    <ng-container matColumnDef="rcValid">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;"    >RC Valid</th>
-        <td mat-cell *matCellDef="let element" (click)="noitemslick('Y',element.abC_CATEGORY)" style="cursor: pointer;" > {{ element.rcValid }} </td>
-      </ng-container>
-    <ng-container matColumnDef="rcNotValid">
-        <th mat-header-cell *matHeaderCellDef style="width: 120px;">RC Not Valid</th>
-        <td mat-cell *matCellDef="let element" (click)="noitemslick('N',element.abC_CATEGORY)" style="cursor: pointer;"> {{ element.rcNotValid }} </td>
-      </ng-container>
+  </ng-container>
   
-  
-  
+  <!-- Stock Out -->
+  <ng-container matColumnDef="stockout">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items in Stock Out</th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,'STOCKOUT')" class="text-center link-hoverr" > {{ element.stockout }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" >{{totalstockout}}</td>
 
+  </ng-container>
+  
+  <!-- Stock In -->
+  <ng-container matColumnDef="stockin">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items in Stock In</th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,'STOCKIN')" class="text-center link-hoverr" > {{ element.stockin }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" >{{totalstockin}}</td>
+
+  </ng-container>
+  
+  <!-- Stock Out PO Pipe -->
+  <ng-container matColumnDef="stockoutpopipe">
+    <th mat-header-cell *matHeaderCellDef style="width: 150px;">No Of Items in Supplier Pipe Line</th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,'STOCKOUTPOPIPE')" class="text-center link-hoverr" > {{ element.stockoutpopipe }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" >{{totalstockoutpopipe}}</td>
+
+  </ng-container>
+  
+  <!-- RC Valid -->
+  <ng-container matColumnDef="rcvalid">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items in RC Valid</th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,'RCVALID')" class="text-center link-hoverr" > {{ element.rcvalid }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" >{{totalrcvalid}}</td>
+
+  </ng-container>
+  
+  <!-- RC Not Valid -->
+  <ng-container matColumnDef="rcnotvalid">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items in RC Not Valid</th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,'RCNOTVALID')" class="text-center link-hoverr" > {{ element.rcnotvalid }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" >{{totalrcnotvalid}}</td>
+
+  </ng-container>
+  
+  <!-- Price Count -->
+  <ng-container matColumnDef="pricecnt">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items in  Price Opened</th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,'PRICECNT')" class="text-center link-hoverr" > {{ element.pricecnt }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" >{{totalpricecnt}}</td>
+
+  </ng-container>
+  
+  <!-- Evaluation Count -->
+  <ng-container matColumnDef="evalutioncnt">
+    <th mat-header-cell *matHeaderCellDef style="width: 150px;"> No Of Items in Under Evaluation</th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,'EVALUTIONCNT')" class="text-center link-hoverr" > {{ element.evalutioncnt }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;" >{{totalevalutioncnt}}</td>
+
+  </ng-container>
+  
+  <!-- Live Count -->
+  <ng-container matColumnDef="livecnt">
+    <th mat-header-cell *matHeaderCellDef style="width: 120px;">No Of Items in Live Tender </th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,'LIVECNT')" class="text-center link-hoverr" > {{ element.livecnt }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;">{{totallivecnt}}</td>
+
+  </ng-container>
+  
+  <!-- Re-Tender Count -->
+  <ng-container matColumnDef="rentendercn">
+    <th mat-header-cell *matHeaderCellDef style="width: 150px;">No Of Items in To Be Tender </th>
+    <td mat-cell *matCellDef="let element" (click)="ABC_VED_SDE_matrixWithStockOutDetail(element.category,'RENTENDERCN')" class="text-center link-hoverr" > {{ element.rentendercn }} </td>
+    <td mat-footer-cell *matFooterCellDef style="font-weight: bold;">{{totalrentendercn}}</td>
+
+  </ng-container>
+  
+  <!-- Header Row -->
   <tr mat-header-row *matHeaderRowDef="[
     'sno',
-    'abC_CATEGORY',
-    'noOfItems',
-    'ordeR_VALUE',
-    'rcValid',
-    'rcNotValid'
-    
+    'category',
+    'cntItems',
+    'stockout',
+    'stockin',
+    'stockoutpopipe',
+    'rcvalid',
+    'rcnotvalid',
+    'pricecnt',
+    'evalutioncnt',
+    'livecnt',
+    'rentendercn'
   ]"></tr>
   
- 
+  <!-- Data Row -->
   <tr mat-row *matRowDef="let row; columns: [
     'sno',
-    'abC_CATEGORY',
-    'noOfItems',
-    'ordeR_VALUE',
-    'rcValid',
-    'rcNotValid'
-  
+    'category',
+    'cntItems',
+    'stockout',
+    'stockin',
+    'stockoutpopipe',
+    'rcvalid',
+    'rcnotvalid',
+    'pricecnt',
+    'evalutioncnt',
+    'livecnt',
+    'rentendercn'
   ]"></tr>
+
+
+<!-- Footer Row -->
+<tr mat-footer-row 
+    *matFooterRowDef="[
+      'sno',
+    'category',
+    'cntItems',
+    'stockout',
+    'stockin',
+    'stockoutpopipe',
+    'rcvalid',
+    'rcnotvalid',
+    'pricecnt',
+    'evalutioncnt',
+    'livecnt',
+    'rentendercn'
+    
+    ]" 
+    [hidden]="!showFooter">
+</tr>
+  
        
             </table>
           </div>      
           <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
         </div>
-      </div> -->
+      </div>
 
 
 
@@ -192,7 +292,7 @@
 
 
 
-    <!-- <ng-template class=" " #StatusDetailsModal let-modal  >
+     <ng-template class=" " #StatusDetailsModal let-modal  >
         <div class="row align-items-center p-2 m-2 ">
           <div class="col-lg-6 col-md-8">
             
@@ -204,11 +304,11 @@
         </div>
         <div class="" mat-dialog-content>
           <div class="row card shadow card-body ">
-                <div class="card shadow" >
+                <!-- <div class="card shadow" > -->
                     <div class="card-body">
                         <div class="row border mb-1">
                             <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
-                                <strong>ABC Analysis Details : Category {{category}}, {{rc}}
+                                <strong>{{selectedCatType}} Analysis Details : Category {{category}}, {{rc}}
                                                                                          </strong>
                             </div>
                         </div>
@@ -241,158 +341,215 @@
                               <table  mat-table matTableExporter [dataSource]="dataSource8" #exporter="matTableExporter" matSort #sort8="matSort">
                             
                                         
-      <ng-container matColumnDef="sno">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-      <div class="center-header-cell">S.No</div>
-      </th>
-      <td mat-cell *matCellDef="let element">
-      <div class="center-cell">{{ element.sno }}</div>
-      </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="itemcode">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
-        <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="druG_NAME">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Drug Name </th>
-        <td mat-cell *matCellDef="let element"> {{ element.druG_NAME }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="strengtH1">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Strength </th>
-        <td mat-cell *matCellDef="let element"> {{ element.strengtH1 }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="unit">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
-        <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="itemtypename">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Type </th>
-        <td mat-cell *matCellDef="let element"> {{ element.itemtypename }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="edlcat">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> EDL Category </th>
-        <td mat-cell *matCellDef="let element"> {{ element.edlcat }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="rcStatus">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> RC Status </th>
-        <td mat-cell *matCellDef="let element"> {{ element.rcStatus }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="rcendDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> RC End Date </th>
-        <td mat-cell *matCellDef="let element"> {{ element.rcendDate }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="rcremainingdays">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> RC Remaining Days </th>
-        <td mat-cell *matCellDef="let element"> {{ element.rcremainingdays }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="cntsup">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Suppliers Count </th>
-        <td mat-cell *matCellDef="let element"> {{ element.cntsup }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="tenderstatus">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tender Status </th>
-        <td mat-cell *matCellDef="let element"> {{ element.tenderstatus }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="readyforissue">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ready for Issue </th>
-        <td mat-cell *matCellDef="let element"> {{ element.readyforissue }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="pending">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Pending </th>
-        <td mat-cell *matCellDef="let element"> {{ element.pending }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="iwhPipeline">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> IWH Pipeline </th>
-        <td mat-cell *matCellDef="let element"> {{ element.iwhPipeline }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="supplierPipeline">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier Pipeline </th>
-        <td mat-cell *matCellDef="let element"> {{ element.supplierPipeline }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="ordeR_VALUE">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Value </th>
-        <td mat-cell *matCellDef="let element"> {{ element.ordeR_VALUE }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="cumulativE_VALUE">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cumulative Value </th>
-        <td mat-cell *matCellDef="let element"> {{ element.cumulativE_VALUE }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="cumulativE_PERCENT">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cumulative % </th>
-        <td mat-cell *matCellDef="let element"> {{ element.cumulativE_PERCENT }} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="abC_CATEGORY">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ABC Category </th>
-        <td mat-cell *matCellDef="let element"> {{ element.abC_CATEGORY }} </td>
-      </ng-container>
-      
-      
-     
-      <tr mat-header-row *matHeaderRowDef="[
-        'sno',
-        'itemcode',
-        'druG_NAME',
-        'strengtH1',
-        'unit',
-        'itemtypename',
-        'edlcat',
-        'rcStatus',
-        'rcendDate',
-        'rcremainingdays',
-        'cntsup',
-        'tenderstatus',
-        'readyforissue',
-        'pending',
-        'iwhPipeline',
-        'supplierPipeline',
-        'ordeR_VALUE',
-        'cumulativE_VALUE',
-        'cumulativE_PERCENT',
-        'abC_CATEGORY'
-      ]"></tr>
-      
-      
-      <tr mat-row *matRowDef="let row; columns: [
-        'sno',
-        'itemcode',
-        'druG_NAME',
-        'strengtH1',
-        'unit',
-        'itemtypename',
-        'edlcat',
-        'rcStatus',
-        'rcendDate',
-        'rcremainingdays',
-        'cntsup',
-        'tenderstatus',
-        'readyforissue',
-        'pending',
-        'iwhPipeline',
-        'supplierPipeline',
-        'ordeR_VALUE',
-        'cumulativE_VALUE',
-        'cumulativE_PERCENT',
-        'abC_CATEGORY'
-      ];"></tr>
+                                <ng-container matColumnDef="sno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                      <div class="center-header-cell">S.No</div>
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                      <div class="center-cell">{{ element.sno }}</div>
+                                    </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="itemcode">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="druG_NAME">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.druG_NAME }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="strengtH1">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Strength </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.strengtH1 }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="unit">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="itemtypename">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Type </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.itemtypename }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="edltype">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> EDL Type </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.edltype }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="edlcat">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> EDL Category </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.edlcat }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="mcategory">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.mcategory }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="ordeR_VALUE">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Order Value </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.ordeR_VALUE }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="readywtock">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ready Stock </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.readywtock }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="uqcstock">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> UQC Stock </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.uqcstock }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="supplierpipeline">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier Pipeline </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.supplierpipeline }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="transferQTY">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Transfer Qty </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.transferQTY }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="stockOut">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Out </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.stockOut }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="stockIn">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock In </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.stockIn }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="stockOutPoPipe">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> StockOut PO Pipeline </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.stockOutPoPipe }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="stockOutPoQty">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> StockOut PO Qty </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.stockOutPoQty }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="rcValid">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> RC Valid </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.rcValid }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="rcNotValid">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> RC Not Valid </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.rcNotValid }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="pricecnt">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Opened </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.pricecnt }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="evalutioncnt">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Under Evaluation </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.evalutioncnt }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="liveCnt">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Live In </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.liveCnt }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="rentendercn">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> To Be Tender  </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.rentendercn }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="abc_category">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ABC Category </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.abc_category }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="vedcat">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> VED Category </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.vedcat }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="sde_class">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> SDE Class </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.sde_class }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="abC_VED_SDE_CATEGORY">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ABC-VED-SDE Category </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.abC_VED_SDE_CATEGORY }} </td>
+                                  </ng-container>
+                                  
+                                  
+                                  <!-- Table Header -->
+                                  <tr mat-header-row *matHeaderRowDef="[
+                                    'sno',
+                                    'druG_NAME',
+                                    'itemcode',
+                                    'strengtH1',
+                                    'unit',
+                                    'itemtypename',
+                                    'edltype',
+                                    'edlcat',
+                                    'mcategory',
+                                    'ordeR_VALUE',
+                                    'readywtock',
+                                    'uqcstock',
+                                    'supplierpipeline',
+                                    
+                                    'stockOut',
+                                    'stockIn',
+                                    'stockOutPoPipe',
+                                    'stockOutPoQty',
+                                    'rcValid',
+                                    'rcNotValid',
+                                    'pricecnt',
+                                    'evalutioncnt',
+                                    'liveCnt',
+                                    'rentendercn',
+                                    'abc_category',
+                                    'vedcat',
+                                    'sde_class',
+                                    'abC_VED_SDE_CATEGORY'
+                                  ]"></tr>
+                                  
+                                  <!-- Table Rows -->
+                                  <tr mat-row *matRowDef="let row; columns: [
+                                    'sno',
+                                    'druG_NAME',
+                                    'itemcode',
+                                    'strengtH1',
+                                    'unit',
+                                    'itemtypename',
+                                    'edltype',
+                                    'edlcat',
+                                    'mcategory',
+                                    'ordeR_VALUE',
+                                    'readywtock',
+                                    'uqcstock',
+                                    'supplierpipeline',
+                                    
+                                    'stockOut',
+                                    'stockIn',
+                                    'stockOutPoPipe',
+                                    'stockOutPoQty',
+                                    'rcValid',
+                                    'rcNotValid',
+                                    'pricecnt',
+                                    'evalutioncnt',
+                                    'liveCnt',
+                                    'rentendercn',
+                                    'abc_category',
+                                    'vedcat',
+                                    'sde_class',
+                                    'abC_VED_SDE_CATEGORY'
+                                  ];"></tr>
+                                  
          
       
                             
@@ -418,16 +575,16 @@
       
       
       
-          </div>
+          <!-- </div> -->
       
       
         
         <div class="d-grid gap-2 col-12 mx-auto  m-2">
-          <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+          <button  mat-dialog-close type="button" class="btn btn-info btn-lg">
             <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
               aria-hidden="true">
               exit_to_app
             </mat-icon>
           </button>
         </div>
-      </ng-template> -->
+      </ng-template>

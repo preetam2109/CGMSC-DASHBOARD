@@ -42,7 +42,7 @@ export class AnalysisGraphComponent {
       yearid = 0;
        HOD:any='All'
        role:any
-       ABCanalysisSummary:any
+       aBC_VED_SDE_matrixWithStockOut:any
       dataSource!: MatTableDataSource<any[]>;
       dataSource8 = new MatTableDataSource<any>();
       selectedEdlType: string = 'Y'; // default
@@ -52,6 +52,20 @@ export class AnalysisGraphComponent {
       selectedLabele:any;
       edl:any
       selectedYearId: number | null = null;
+    showFooter: boolean = false;
+
+
+    totalItems:any;
+    totalstockout:any;
+    totalstockin:any
+    totalstockoutpopipe:any
+    totalrcvalid:any
+  totalrcnotvalid:any
+    totalpricecnt:any
+    totalevalutioncnt:any
+    totallivecnt:any
+    totalrentendercn:any
+
       
       @ViewChild('paginator8') paginator8!: MatPaginator;
       @ViewChild('sort8') sort8!: MatSort;  
@@ -83,6 +97,17 @@ export class AnalysisGraphComponent {
           { value: 'Y', label: 'EDL' },
           { value: 'N', label: 'Non-EDL' }
         ];
+
+        // For Category dropdown
+catTypes = [
+  { value: 'MATRIX', label: 'MATRIX' },
+  { value: 'ABC', label: 'ABC' },
+  { value: 'SDE', label: 'SDE' },
+  { value: 'VED', label: 'VED' }
+];
+
+selectedCatType: string = this.catTypes[0].value; // default
+
       
      
       
@@ -124,54 +149,75 @@ export class AnalysisGraphComponent {
     
       showData(){
         // this.loadData(this.selectedYearId,this.mcid,)
+        this.showFooter = true;
         console.log('Selected Type:', this.selectedEdlType);
         console.log('Selected Type:', this.selectedCategory);
         console.log('Selected Year ID:', this.selectedYearId);
-        this.loadData(this.selectedYearId,this.mcid,this.selectedEdlType)
+        this.loadData(this.selectedYearId,this.mcid,this.selectedEdlType,this.selectedCatType)
     
       }
       
     
     
     
-    
-      loadData(yearid:any,mcid:any,isedl:any): void {
-    
-        this.spinner.show();
-       
-      debugger
-        this.api.ABCanalysisSummary(yearid,mcid,isedl).subscribe(
-          (res) => {
-            console.log('Raw API response:', res);
+      loadData(yearid: any, mcid: any, isedl: any, catType: any): void {
+        try {
+          this.spinner.show();
       
-            this.ABCanalysisSummary = res.map((item: any, index: number) => ({
-              ...item,
-              sno: index + 1
-            }));
+          this.api.ABC_VED_SDE_matrixWithStockOut(yearid, mcid, isedl, catType).subscribe({
+            next: (res) => {
+              try {
+                console.log('Raw API response:', res);
       
-            console.log('With S.No:', this.ABCanalysisSummary);
+                this.aBC_VED_SDE_matrixWithStockOut = res.map(
+                  (item: any, index: number) => ({
+                    ...item,
+                    sno: index + 1
+                  })
+                );
+
+                debugger
+                this.totalItems=res.reduce((sum:any,item:any)=>sum+(item.cntItems || 0),0);
+                this.totalstockout=res.reduce((sum:any,item:any)=>sum+(item.stockout || 0),0);
+                this.totalstockin=res.reduce((sum:any,item:any)=>sum+(item.stockin || 0),0);
+                this.totalstockoutpopipe=res.reduce((sum:any,item:any)=>sum+(item.stockoutpopipe || 0),0);
+                this.totalrcvalid=res.reduce((sum:any,item:any)=>sum+(item.rcvalid || 0),0);
+                this.totalrcnotvalid=res.reduce((sum:any,item:any)=>sum+(item.rcnotvalid || 0),0);
+                this.totalpricecnt=res.reduce((sum:any,item:any)=>sum+(item.pricecnt || 0),0);
+                this.totalevalutioncnt=res.reduce((sum:any,item:any)=>sum+(item.evalutioncnt || 0),0);
+                this.totallivecnt=res.reduce((sum:any,item:any)=>sum+(item.livecnt || 0),0);
+                this.totalrentendercn=res.reduce((sum:any,item:any)=>sum+(item.rentendercn || 0),0);
       
-            this.dataSource.data = this.ABCanalysisSummary;
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+                console.log('With S.No:', this.aBC_VED_SDE_matrixWithStockOut);
       
-            this.spinner.hide();
-            this.cdr.detectChanges();
-          },
-          (error) => {
-            console.error('API error:', error);
-            this.spinner.hide();
-          }
-        );
-        
+                this.dataSource.data = this.aBC_VED_SDE_matrixWithStockOut;
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+      
+                this.cdr.detectChanges();
+              } catch (mapError) {
+                console.error('Error processing API response:', mapError);
+              } finally {
+                this.spinner.hide();
+              }
+            },
+            error: (apiError) => {
+              console.error('API error:', apiError);
+              this.spinner.hide();
+            }
+          });
+        } catch (outerError) {
+          console.error('Unexpected error in loadData():', outerError);
+          this.spinner.hide();
+        }
       }
-    
+      
      
     
-    
-      noitemslick(rcvalide:any,abc:any) {
+
+      ABC_VED_SDE_matrixWithStockOutDetail(icategory:any,columnFlag:any) {
         debugger
-        this.category=abc
+        this.category=icategory
     
         if(this.selectedEdlType==='Y'){
           this.edl='EDL';
@@ -180,23 +226,25 @@ export class AnalysisGraphComponent {
     
         }
     
-        if(rcvalide==='Y'){
+        if(columnFlag==='Y'){
           this.rc='RC Valid';
-        }else if(rcvalide==='N'){
+        }else if(columnFlag==='N'){
           this.rc='RC Not Valid';
     
         }else{
           this.rc='';
         }
         this.spinner.show();
-    
-        this.api.ABCanalysisSummaryDetail(this.selectedYearId,this.mcid,this.selectedEdlType,abc,rcvalide).subscribe({
+    debugger
+        this.api.ABC_VED_SDE_matrixWithStockOutDetail(this.selectedYearId,this.mcid,this.selectedEdlType,this.selectedCatType,this.category,columnFlag).subscribe({
           next: (res: any[]) => {
             if (res && res.length > 0) {
               this.ABCanalysisSummaryDetail = res.map((item: any, index: number) => ({
                 ...item,
                 sno: index + 1,
               }));
+
+             
     
               this.dataSource8.data = this.ABCanalysisSummaryDetail;
               this.dataSource8.paginator = this.paginator8;
@@ -235,7 +283,7 @@ export class AnalysisGraphComponent {
         ];
       
         // Prepare rows from your API data
-        const rows = this.ABCanalysisSummary.map((row: any, index: number) => ({
+        const rows = this.aBC_VED_SDE_matrixWithStockOut.map((row: any, index: number) => ({
           sno: index + 1,
           edltype: row.edltype,
           nosIndent: row.nosIndent,
@@ -378,14 +426,14 @@ export class AnalysisGraphComponent {
     }
     
     exportToPDFd() {
-      const doc = new jsPDF('l', 'mm', 'a3'); // Landscape A3 (bigger page)
+      const doc = new jsPDF('l', 'mm', 'a3'); // Landscape A3
     
-    
+      // ===== Header Section =====
       const now = new Date();
       const dateString = now.toLocaleDateString();
       const timeString = now.toLocaleTimeString();
     
-      const title = 'Analysis';
+      const title = 'Analysis Report';
       doc.setFontSize(18);
       const pageWidth = doc.internal.pageSize.getWidth();
       const textWidth = doc.getTextWidth(title);
@@ -395,70 +443,102 @@ export class AnalysisGraphComponent {
       doc.setFontSize(10);
       doc.text(`Date: ${dateString}   Time: ${timeString}`, 14, 28);
     
+      // ===== Define Columns =====
       const columns = [
         { header: 'S.No', dataKey: 'sno' },
-        { header: 'Item Code', dataKey: 'itemcode' },
-        { header: 'Drug Name', dataKey: 'drug_name' },
-        { header: 'Strength', dataKey: 'strength' },
+        { header: 'Item', dataKey: 'druG_NAME' },
+        { header: 'Code', dataKey: 'itemcode' },
+        { header: 'Strength', dataKey: 'strengtH1' },
         { header: 'Unit', dataKey: 'unit' },
         { header: 'Item Type', dataKey: 'itemtypename' },
+        { header: 'EDL Type', dataKey: 'edltype' },
         { header: 'EDL Category', dataKey: 'edlcat' },
-        { header: 'RC Status', dataKey: 'rcStatus' },
-        { header: 'RC End Date', dataKey: 'rcendDate' },
-        { header: 'RC Remaining Days', dataKey: 'rcremainingdays' },
-        { header: 'Supplier Count', dataKey: 'cntsup' },
-        { header: 'Tender Status', dataKey: 'tenderstatus' },
-        { header: 'Ready For Issue', dataKey: 'readyforissue' },
-        { header: 'Pending', dataKey: 'pending' },
-        { header: 'IWH Pipeline', dataKey: 'iwhPipeline' },
-        { header: 'Supplier Pipeline', dataKey: 'supplierPipeline' },
-        { header: 'Order Value', dataKey: 'order_value' },
-        { header: 'Cumulative Value', dataKey: 'cumulative_value' },
-        { header: 'Cumulative %', dataKey: 'cumulative_percent' },
-        { header: 'ABC Category', dataKey: 'abc_category' }
+        { header: 'Main Category', dataKey: 'mcategory' },
+        { header: 'Order Value', dataKey: 'ordeR_VALUE' },
+        { header: 'Ready Stock', dataKey: 'readywtock' },
+        { header: 'UQC Stock', dataKey: 'uqcstock' },
+        { header: 'Supplier Pipeline', dataKey: 'supplierpipeline' },
+        { header: 'Stock Out', dataKey: 'stockOut' },
+        { header: 'Stock In', dataKey: 'stockIn' },
+        { header: 'StockOut PoPipe', dataKey: 'stockOutPoPipe' },
+        { header: 'StockOut PoQty', dataKey: 'stockOutPoQty' },
+        { header: 'RC Valid', dataKey: 'rcValid' },
+        { header: 'RC Not Valid', dataKey: 'rcNotValid' },
+        { header: 'Price Count', dataKey: 'pricecnt' },
+        { header: 'Evaluation Count', dataKey: 'evalutioncnt' },
+        { header: 'Live Count', dataKey: 'liveCnt' },
+        { header: 'Re-Tender Count', dataKey: 'rentendercn' },
+        { header: 'ABC Category', dataKey: 'abc_category' },
+        { header: 'VED Category', dataKey: 'vedcat' },
+        { header: 'SDE Class', dataKey: 'sde_class' },
+        { header: 'ABC_VED_SDE Category', dataKey: 'abC_VED_SDE_CATEGORY' },
       ];
     
+      // ===== Prepare Rows =====
       const rows = this.ABCanalysisSummaryDetail.map((item: any, index: number) => ({
         sno: index + 1,
+        druG_NAME: item.druG_NAME,
         itemcode: item.itemcode,
-        drug_name: item.druG_NAME,              // fixed consistent key names
-        strength: item.strengtH1,
+        strengtH1: item.strengtH1,
         unit: item.unit,
         itemtypename: item.itemtypename,
+        edltype: item.edltype,
         edlcat: item.edlcat,
-        rcStatus: item.rcStatus,
-        rcendDate: item.rcendDate,
-        rcremainingdays: item.rcremainingdays,
-        cntsup: item.cntsup,
-        tenderstatus: item.tenderstatus,
-        readyforissue: item.readyforissue,
-        pending: item.pending,
-        iwhPipeline: item.iwhPipeline,
-        supplierPipeline: item.supplierPipeline,
-        order_value: item.ordeR_VALUE,
-        cumulative_value: item.cumulativE_VALUE,
-        cumulative_percent: item.cumulativE_PERCENT,
-        abc_category: item.abC_CATEGORY
+        mcategory: item.mcategory,
+        ordeR_VALUE: item.ordeR_VALUE,
+        readywtock: item.readywtock,
+        uqcstock: item.uqcstock,
+        supplierpipeline: item.supplierpipeline,
+        stockOut: item.stockOut,
+        stockIn: item.stockIn,
+        stockOutPoPipe: item.stockOutPoPipe,
+        stockOutPoQty: item.stockOutPoQty,
+        rcValid: item.rcValid,
+        rcNotValid: item.rcNotValid,
+        pricecnt: item.pricecnt,
+        evalutioncnt: item.evalutioncnt,
+        liveCnt: item.liveCnt,
+        rentendercn: item.rentendercn,
+        abc_category: item.abc_category,
+        vedcat: item.vedcat,
+        sde_class: item.sde_class,
+        abC_VED_SDE_CATEGORY: item.abC_VED_SDE_CATEGORY
       }));
     
-      autoTable(doc, {
-        head: [columns.slice(0, 10).map(c => c.header)],
-        body: rows.map((r: any) => columns.slice(0, 10).map(c => r[c.dataKey])),
-        startY: 35,
-      });
-      
-      doc.addPage();
-      
-      autoTable(doc, {
-        head: [columns.slice(10).map(c => c.header)],
-        body: rows.map((r: any) => columns.slice(10).map(c => r[c.dataKey])),
-        startY: 35,
-      });
-      
-      
+      // ===== AutoTable Handling (Fit in screen with smaller text) =====
+      const chunkSize = 12; // columns per page
+      for (let i = 0; i < columns.length; i += chunkSize) {
+        const chunk = columns.slice(i, i + chunkSize);
     
-      doc.save('ABCanalysisDetail.pdf');
+        autoTable(doc, {
+          head: [chunk.map(c => c.header)],
+          body: rows.map((r: any) => chunk.map(c => r[c.dataKey])),
+          startY: (i === 0 ? 35 : 20),
+          styles: {
+            fontSize: 7,        // smaller font
+            cellPadding: 2,     // tighter padding
+            overflow: 'linebreak'
+          },
+          headStyles: {
+            fontSize: 8,
+            halign: 'center',
+            fillColor: [220, 220, 220]
+          },
+          columnStyles: {
+            0: { cellWidth: 15 }, // narrower "S.No"
+            
+          }
+        });
+    
+        if (i + chunkSize < columns.length) {
+          doc.addPage();
+        }
+      }
+    
+      // ===== Save PDF =====
+      doc.save('analysisDetail.pdf');
     }
+    
     
     
     

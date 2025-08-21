@@ -580,6 +580,7 @@ async handleCgmsclLogin() {
         // Fixed role check (was always truthy)
         
         this.rolename = res.userInfo.rolename;
+        this.InsertUserLoginLog();
         
         if (this.rolename === 'SSO' || this.rolename === 'Logi Cell') {
           this.router.navigate(['/welcome']);
@@ -655,6 +656,8 @@ handleWarehouseLogin() {
   if (res.message === "Successfully Login"){
     //Redirect to Welcome Page
     this.invalidLogin = false
+    this.InsertUserLoginLog();
+
     this.toastr.success('Logged in Successfully');
     console.log('login details',res)
     this.router.navigate(['/welcome']); // Redirect to category selector after login
@@ -705,6 +708,7 @@ handleInfrastructureLogin() {
                 //Redirect to Welcome Page
                 
                 this.invalidLogin = false
+                this.InsertUserLoginLog();
                 this.router.navigate(['welcome']); // Redirect to category selector after login
                 this.toastr.success('Logged in Successfully');
                 console.log('login details',res)

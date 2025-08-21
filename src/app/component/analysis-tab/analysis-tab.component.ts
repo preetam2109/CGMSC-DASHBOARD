@@ -9,11 +9,12 @@ import { DistributionComponent } from '../distribution/distribution.component';
 import { ConversationHodCgmscComponent } from '../tender-status/conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 import { AbcAnalysisComponent } from "../abc-analysis/abc-analysis.component";
 import { VedAnalysisComponent } from "../ved-analysis/ved-analysis.component";
+import { AnalysisGraphComponent } from "../analysis-graph/analysis-graph/analysis-graph.component";
 
 @Component({
   selector: 'app-analysis-tab',
   standalone: true,
-  imports: [CommonModule, MatTabsModule, DistributionComponent, MonthwiseIssuanceComponent, DiswiseIssuanceComponent, ConversationHodCgmscComponent, ConsumptionPatternTabComponent, AbcAnalysisComponent, VedAnalysisComponent],
+  imports: [CommonModule, MatTabsModule, DistributionComponent, MonthwiseIssuanceComponent, DiswiseIssuanceComponent, ConversationHodCgmscComponent, ConsumptionPatternTabComponent, AbcAnalysisComponent, VedAnalysisComponent, AnalysisGraphComponent],
   templateUrl: './analysis-tab.component.html',
   styleUrl: './analysis-tab.component.css'
 })

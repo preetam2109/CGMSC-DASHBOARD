@@ -1593,6 +1593,20 @@ NearExpiryBatchWise(month:any){
 }
 
 
+ABC_VED_SDE_matrixWithStockOut(yearid:any,mcid:any,isEDL:any,catType:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}`);
+  //https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=545&mcid=1&isEDL=Y&catType=ABC
+}
+ABC_VED_SDE_matrixWithStockOutDetail(yearid:any,mcid:any,isEDL:any,catType:any,iCateogry:any,columnFlag:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}&iCateogry=${iCateogry}&columnFlag=${columnFlag}`);
+  // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=545&mcid=1&isEDL=Y&catType=ABC&iCateogry=A&columnFlag=STOCKOUT
+}
+
+
+
+
+
+
 
 
 
