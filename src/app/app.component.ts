@@ -14,8 +14,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 export class AppComponent implements OnInit, DoCheck {
-  ipAddress: string = '';
-  browserInfo: any;
+ 
   deferredPrompt: any;
   showButton = false;
   title!: 'CGMSC DASHBOARD'
@@ -98,10 +97,7 @@ export class AppComponent implements OnInit, DoCheck {
 
 
   ngOnInit(): void {
-    this.getIPAddress();
-    this.browserInfo= this.getBrowserInfo();
-    // console.log('userAgent1=',this.browserInfo.userAgent ); 
-    sessionStorage.setItem('userAgent',this.browserInfo.userAgent );
+  
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.isLoginPage = (event.urlAfterRedirects === '/login' || event.urlAfterRedirects === '/otp' || event.urlAfterRedirects === '/collector-login' || event.urlAfterRedirects === '/public-view' || event.urlAfterRedirects === '/GrowthInProcurmentTabPublic' || event.urlAfterRedirects === '/distributionPublic' || event.urlAfterRedirects === '/IndentPendingWHdashPublic'    );
@@ -112,28 +108,6 @@ export class AppComponent implements OnInit, DoCheck {
     });
   }
 
-  getIPAddress() {
-    this.http.get<any>('https://api.ipify.org?format=json')
-      .subscribe(
-        (res) => {
-          this.ipAddress = res.ip;
-          sessionStorage.setItem('ipAddress', this.ipAddress);
-          // console.log('this.ipAddress=',this.ipAddress);
-        },
-        (err) => {
-          console.error('Error fetching IP:', err);
-        }
-      );
-  }
-  getBrowserInfo() {
-    return {
-      appName: navigator.appName,
-      appVersion: navigator.appVersion,
-      userAgent: navigator.userAgent,
-      platform: navigator.platform,
-      language: navigator.language
-    };
-  }
   ngDoCheck(): void {
     // 
 

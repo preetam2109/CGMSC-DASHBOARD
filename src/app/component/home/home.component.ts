@@ -18,7 +18,8 @@ import { WOpendingTotal } from 'src/app/Model/DashProgressCount';
 import autoTable from 'jspdf-autotable';
 import { ToastrService } from 'ngx-toastr';
 import jsPDF from 'jspdf';
-
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 import { StockStatusModel, whstockoutin,StockOutDetailsmodel,IssuePerDetailModel,WhStockOutInDetailModel} from 'src/app/Model/DashLoginDDL';
 @Component({
   selector: 'app-home',
@@ -126,7 +127,10 @@ export class HomeComponent {
 
   dispatch_WhStockOutInDetail: WhStockOutInDetailModel[] = [];
   WhStockOutInDetail = new MatTableDataSource<WhStockOutInDetailModel>();
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
 
+  pageName: string = '';
+  fullUrl: string = '';
   dispatch_IssueperDetails: IssuePerDetailModel[] = [];
   dispatch_StockOutDetails: StockOutDetailsmodel[] = [];
   dispatch_whstockoutin: whstockoutin[] = [];
@@ -420,8 +424,10 @@ export class HomeComponent {
     private menuService: MenuServiceService,
     private authService: HardcodedAuthenticationService,
     public basicAuthentication: BasicAuthenticationService,
-    public router: Router
+    public router: Router,private location: Location,
   ) {
+    this.pageName = this.location.path();
+this.fullUrl = window.location.href;
     this.StockStatusdata = new MatTableDataSource<StockStatusModel>([]);
     this.whstockoutindata = new MatTableDataSource<whstockoutin>([]);
     this.StockoutDetailsdata = new MatTableDataSource<StockOutDetailsmodel>([]);
@@ -979,6 +985,8 @@ export class HomeComponent {
       .subscribe({
         error: () => this.toastr.error('Some data failed to load'),
       });
+
+      this.InsertUserPageViewLog();
     // Collect all API observables
     //   const apiCalls = [
     //     this.CGMSCIndentPending(),
@@ -3980,6 +3988,44 @@ export class HomeComponent {
     });
   }
 
+  InsertUserPageViewLog() {
+    try {
+      // debugger
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      // const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserPageViewLogdata.logId = 0; 
+      this.InsertUserPageViewLogdata.userId = userId;
+      this.InsertUserPageViewLogdata.roleId = roleId;
+      this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+      this.InsertUserPageViewLogdata.pageName = this.pageName;
+      this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+      this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+      this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+      this.InsertUserPageViewLogdata.userAgent = userAgent;
+      //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+        next: (res: any) => {
+          console.log('Page View Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
+    }
+  }
   //#endregion
 }
 
