@@ -19,6 +19,8 @@ import { config } from 'rxjs';
 import { TenderDetails } from 'src/app/Model/DashProgressCount';
 import { Fund_Libilities, FundReivedBudgetDetails, FundReivedBudgetID, GetSanctionPrepDetails, GrossPaidDateWiseDetails, LibDetailsbasedOnYearID, PaidYearwise_Budget, PODetailsAgainstIndentYr } from 'src/app/Model/FinanceDash';
 import { ApiService } from 'src/app/service/api.service';
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -98,8 +100,13 @@ throw new Error('Method not implemented.');
 @ViewChild('grossPaidDateWiseDetailsModal') grossPaidDateWiseDetailsModal: any;
 
 @ViewChild('LibDetailsModal') LibDetailsModal: any;
+InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
 
-constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner: NgxSpinnerService,private dialog: MatDialog){
+pageName: string = '';
+fullUrl: string = '';
+constructor(private cdr: ChangeDetectorRef,public api:ApiService,private spinner: NgxSpinnerService,private dialog: MatDialog,private location: Location,){
+  this.pageName = this.location.path();
+  this.fullUrl = window.location.href;
   this.dataSource = new MatTableDataSource<any>([]);
   this.dataSource2 = new MatTableDataSource<any>([]);
   this.dataSource3 = new MatTableDataSource<any>([]);
@@ -768,6 +775,7 @@ this.budgetid=2
   this.GetPipeline_Libilities();
   this.getSanc_Cheque();
   this.getChequePrep();
+  this.InsertUserPageViewLog();
 }
 
 getSanc_Cheque(){
@@ -1706,4 +1714,43 @@ GetFundsDDL(){
       this.openDialogGrossPaidDateWiseDetails();
     }
 
+    
+    InsertUserPageViewLog() {
+      try {
+        // debugger
+        const roleIdName = localStorage.getItem('roleName') || '';
+        const userId = Number(sessionStorage.getItem('userid') || 0);
+        const roleId = Number(sessionStorage.getItem('roleId') || 0);
+        // const userName = sessionStorage.getItem('firstname') || '';
+        const ipAddress = sessionStorage.getItem('ipAddress') || '';
+        const userAgent = navigator.userAgent; 
+        this.InsertUserPageViewLogdata.logId = 0; 
+        this.InsertUserPageViewLogdata.userId = userId;
+        this.InsertUserPageViewLogdata.roleId = roleId;
+        this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+        this.InsertUserPageViewLogdata.pageName = this.pageName;
+        this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+        this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+        this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+        this.InsertUserPageViewLogdata.userAgent = userAgent;
+        //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+    // if(localStorage.getItem('Log Saved')|| ''!){
+  
+    // }
+        // API call
+        this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+          next: (res: any) => {
+            console.log('Page View Log Saved:',res);
+            // const LogSaved='Log Saved'
+            // localStorage.setItem('Log Saved', LogSaved);
+          },
+          error: (err: any) => {
+            console.error('Backend Error:', JSON.stringify(err.message));
+          }
+        });
+    
+      } catch (err: any) {
+        console.error('Error:', err.message);
+      }
+    }
 }

@@ -37,7 +37,8 @@ import { color } from 'html2canvas/dist/types/css/types/color';
 import { nsqDrugDetails } from 'src/app/Model/QCTimeTakenYearwise';
 import { ToastrService } from 'ngx-toastr';
 
-
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-qc-dashboard',
   standalone: true,
@@ -394,8 +395,15 @@ colors = [];
     'Finance Dashboard':'assets/dash-icon/dashboard.png',
 
   };
-  constructor(public toastr: ToastrService,private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
-    
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+
+  pageName: string = '';
+  fullUrl: string = '';
+  constructor(public toastr: ToastrService,private spinner: NgxSpinnerService, 
+    private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,
+    private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router,private location: Location,) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
    
     this.chartOptions = {
       series: [], // Your data values
@@ -981,6 +989,7 @@ colors = [];
     this.QCNSQ_Dash()
     this.loadUQCDashCard()
     this.QCTimeTakenYear();
+    this.InsertUserPageViewLog();
   }
 
   applyTextFilternsqDrugDetails(event: Event) {
@@ -2955,6 +2964,44 @@ exportToBeTenderDetails() {
 
 
 
+InsertUserPageViewLog() {
+  try {
+    // debugger
+    const roleIdName = localStorage.getItem('roleName') || '';
+    const userId = Number(sessionStorage.getItem('userid') || 0);
+    const roleId = Number(sessionStorage.getItem('roleId') || 0);
+    // const userName = sessionStorage.getItem('firstname') || '';
+    const ipAddress = sessionStorage.getItem('ipAddress') || '';
+    const userAgent = navigator.userAgent; 
+    this.InsertUserPageViewLogdata.logId = 0; 
+    this.InsertUserPageViewLogdata.userId = userId;
+    this.InsertUserPageViewLogdata.roleId = roleId;
+    this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+    this.InsertUserPageViewLogdata.pageName = this.pageName;
+    this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+    this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+    this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+    this.InsertUserPageViewLogdata.userAgent = userAgent;
+    //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+// if(localStorage.getItem('Log Saved')|| ''!){
+
+// }
+    // API call
+    this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+      next: (res: any) => {
+        console.log('Page View Log Saved:',res);
+        // const LogSaved='Log Saved'
+        // localStorage.setItem('Log Saved', LogSaved);
+      },
+      error: (err: any) => {
+        console.error('Backend Error:', JSON.stringify(err.message));
+      }
+    });
+
+  } catch (err: any) {
+    console.error('Error:', err.message);
+  }
+}
         
     
   }

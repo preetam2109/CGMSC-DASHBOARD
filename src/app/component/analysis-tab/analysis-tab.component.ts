@@ -10,7 +10,9 @@ import { ConversationHodCgmscComponent } from '../tender-status/conversation-hod
 import { AbcAnalysisComponent } from "../abc-analysis/abc-analysis.component";
 import { VedAnalysisComponent } from "../ved-analysis/ved-analysis.component";
 import { AnalysisGraphComponent } from "../analysis-graph/analysis-graph/analysis-graph.component";
-
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
+import { ApiService } from 'src/app/service/api.service';
 @Component({
   selector: 'app-analysis-tab',
   standalone: true,
@@ -20,10 +22,17 @@ import { AnalysisGraphComponent } from "../analysis-graph/analysis-graph/analysi
 })
 export class AnalysisTabComponent {
   selectedTabIndex: number = 0;
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
 
-  constructor(private router:Router){
-
+  pageName: string = '';
+  fullUrl: string = '';
+  constructor(private router:Router,private location: Location,private api:ApiService){
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
   }
+   ngOnInit() {
+          this.InsertUserPageViewLog();
+        }
   selectedTabValue(event: any): void {
     
     this.selectedTabIndex = event.index;
@@ -41,6 +50,46 @@ export class AnalysisTabComponent {
     }else{
 
       this.router.navigate(['welcome'])
+    }
+  }
+  
+
+  InsertUserPageViewLog() {
+    try {
+      // debugger
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      // const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserPageViewLogdata.logId = 0; 
+      this.InsertUserPageViewLogdata.userId = userId;
+      this.InsertUserPageViewLogdata.roleId = roleId;
+      this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+      this.InsertUserPageViewLogdata.pageName = this.pageName;
+      this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+      this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+      this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+      this.InsertUserPageViewLogdata.userAgent = userAgent;
+      //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+        next: (res: any) => {
+          console.log('Page View Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
     }
   }
 }
