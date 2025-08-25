@@ -23,7 +23,8 @@ import autoTable from 'jspdf-autotable';
 import { ASCompletedDetails, ASEnteredDetails, ASFile, ASPendingDetails, DivisionWiseASPendingDetails } from 'src/app/Model/DashProgressCount';
 import { WarehoueWiseStockOutmodel ,WarehoueWiseStockOutDetailmodel} from 'src/app/Model/DashLoginDDL';
 // import { MatButtonModule } from '@angular/material/button';
-
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-wh-wise-stock-out',
   standalone: true,
@@ -68,7 +69,9 @@ export class WHWiseStockOutComponent {
         dispatchData2: WarehoueWiseStockOutDetailmodel[] = [];
         value='Active';
         //#endregion
-
+        InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+        pageName: string = '';
+        fullUrl: string = '';
       edlType:any;
       edlType1:any;
  constructor(
@@ -77,15 +80,17 @@ export class WHWiseStockOutComponent {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     public datePipe: DatePipe,
-    private fb: FormBuilder
+    private fb: FormBuilder,private location: Location,
   ) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<WarehoueWiseStockOutmodel>([]);
     this.dataSource2 = new MatTableDataSource<WarehoueWiseStockOutDetailmodel>([]);
   }
   ngOnInit() {
   if(this.selectedTabIndex == 0){
     this.GETWarehoueWiseStockOut('EDL');
-
+    this.InsertUserPageViewLog();
   }
   }
 
@@ -430,6 +435,47 @@ export class WHWiseStockOutComponent {
       });
       }
 
+    
+
+      InsertUserPageViewLog() {
+        try {
+          // debugger
+          const roleIdName = localStorage.getItem('roleName') || '';
+          const userId = Number(sessionStorage.getItem('userid') || 0);
+          const roleId = Number(sessionStorage.getItem('roleId') || 0);
+          // const userName = sessionStorage.getItem('firstname') || '';
+          const ipAddress = sessionStorage.getItem('ipAddress') || '';
+          const userAgent = navigator.userAgent; 
+          this.InsertUserPageViewLogdata.logId = 0; 
+          this.InsertUserPageViewLogdata.userId = userId;
+          this.InsertUserPageViewLogdata.roleId = roleId;
+          this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+          this.InsertUserPageViewLogdata.pageName = this.pageName;
+          this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+          this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+          this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+          this.InsertUserPageViewLogdata.userAgent = userAgent;
+          //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+      // if(localStorage.getItem('Log Saved')|| ''!){
+    
+      // }
+          // API call
+          this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+            next: (res: any) => {
+              console.log('Page View Log Saved:',res);
+              // const LogSaved='Log Saved'
+              // localStorage.setItem('Log Saved', LogSaved);
+            },
+            error: (err: any) => {
+              console.error('Backend Error:', JSON.stringify(err.message));
+            }
+          });
+      
+        } catch (err: any) {
+          console.error('Error:', err.message);
+        }
+      }
+    
      
 
 }

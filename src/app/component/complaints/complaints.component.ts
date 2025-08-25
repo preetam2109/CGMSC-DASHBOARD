@@ -23,7 +23,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/service/api.service';
-
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -76,14 +77,18 @@ export class ComplaintsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+  pageName: string = '';
+  fullUrl: string = '';
   constructor(
     public spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
     private breakpointObserver: BreakpointObserver,
     private route: Router,
-    private rcapi: ApiService
+    private rcapi: ApiService,private location: Location,
   ) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.chartOptions = {
       series: [],
       chart: {
@@ -184,6 +189,7 @@ export class ComplaintsComponent implements OnInit {
     this.spinner.show();
     this.getAllComplaints();
     setTimeout(() => this.loadData(), 1000);
+    this.InsertUserPageViewLog();
   }
 
   getAllComplaints() {
@@ -329,4 +335,44 @@ export class ComplaintsComponent implements OnInit {
     }
   }
   
+  InsertUserPageViewLog() {
+    try {
+      // debugger
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      // const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserPageViewLogdata.logId = 0; 
+      this.InsertUserPageViewLogdata.userId = userId;
+      this.InsertUserPageViewLogdata.roleId = roleId;
+      this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+      this.InsertUserPageViewLogdata.pageName = this.pageName;
+      this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+      this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+      this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+      this.InsertUserPageViewLogdata.userAgent = userAgent;
+      //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.rcapi.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+        next: (res: any) => {
+          console.log('Page View Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
+    }
+  }
+
+
 }

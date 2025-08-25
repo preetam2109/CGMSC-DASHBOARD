@@ -13,6 +13,8 @@ import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/service/api.service';
 import { VehicleInfo } from 'src/app/Model/VehicleInfo';
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-vehicle-tracking',
   templateUrl: './vehicle-tracking.component.html',
@@ -32,7 +34,9 @@ export class VehicleTrackingComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+  pageName: string = '';
+  fullUrl: string = '';
   constructor(
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -42,8 +46,10 @@ export class VehicleTrackingComponent {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    public datePipe: DatePipe
+    public datePipe: DatePipe,private location: Location,
   ) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<VehicleInfo>([]);
 
     // Initialize dateRange with today and tomorrow
@@ -66,6 +72,7 @@ export class VehicleTrackingComponent {
   ngOnInit() {
     this.spinner.show();
     this.getVehicleInfoReportS();
+    this.InsertUserPageViewLog();
   }
 
   // getVehicleInfoReportS() {
@@ -246,6 +253,47 @@ const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy
   
   
   
+
+
+  InsertUserPageViewLog() {
+    try {
+      // debugger
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      // const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserPageViewLogdata.logId = 0; 
+      this.InsertUserPageViewLogdata.userId = userId;
+      this.InsertUserPageViewLogdata.roleId = roleId;
+      this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+      this.InsertUserPageViewLogdata.pageName = this.pageName;
+      this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+      this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+      this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+      this.InsertUserPageViewLogdata.userAgent = userAgent;
+      //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+        next: (res: any) => {
+          console.log('Page View Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
+    }
+  }
+
 
   
   

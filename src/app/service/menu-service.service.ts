@@ -4,11 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class MenuServiceService {
- 
-
-
-
- 
   private selectedCategory:
     | 'DrugsConsumables'
     | 'EquipmentReagent'
