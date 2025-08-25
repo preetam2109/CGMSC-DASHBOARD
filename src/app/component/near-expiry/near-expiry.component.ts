@@ -32,6 +32,8 @@ import { Router } from '@angular/router';
 import { Observable, catchError, finalize, forkJoin, map, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 
 
 export type ChartOptions = {
@@ -69,7 +71,9 @@ export class NearExpiryComponent {
   selectedTabIndex: number = 0;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+  pageName: string = '';
+  fullUrl: string = '';
   constructor(
     public toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -77,8 +81,10 @@ export class NearExpiryComponent {
     private http: HttpClient,
     private breakpointObserver: BreakpointObserver,
     private cdr: ChangeDetectorRef,
-    private router:Router
+    private router:Router,private location: Location,
   ) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.chartOptions = {
       series: [],
       chart: {
@@ -170,7 +176,7 @@ export class NearExpiryComponent {
     ).subscribe({
       error: () => this.toastr.error('Some data failed to load')
     });
-
+    this.InsertUserPageViewLog();
 
   }
   getAllDispatchPending(): Observable<any[]> {
@@ -383,6 +389,47 @@ export class NearExpiryComponent {
         this.spinner.hide(); // Hide the spinner even if an error occurs
       }
     );
+  }
+
+
+
+  InsertUserPageViewLog() {
+    try {
+      // debugger
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      // const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserPageViewLogdata.logId = 0; 
+      this.InsertUserPageViewLogdata.userId = userId;
+      this.InsertUserPageViewLogdata.roleId = roleId;
+      this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+      this.InsertUserPageViewLogdata.pageName = this.pageName;
+      this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+      this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+      this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+      this.InsertUserPageViewLogdata.userAgent = userAgent;
+      //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+        next: (res: any) => {
+          console.log('Page View Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
+    }
   }
 
 
