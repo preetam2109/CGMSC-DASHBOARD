@@ -206,6 +206,14 @@ browserInfo: any;
     if (selectedUser) {
       this.siMobile = selectedUser.siMobile || null;
       this.userid = selectedUser.userid || null;
+      this.roleid = selectedUser.roleid || null;
+      this.rolename = selectedUser.rolename || null;
+
+      this.setRole(this.rolename);
+
+      sessionStorage.setItem('roleId', this.roleid);
+      sessionStorage.setItem('userid', this.userid);
+
  
     } else {
       console.error('Selected user not found in the list.');
@@ -223,6 +231,12 @@ browserInfo: any;
     if (selectedUser) {
       this.siMobile = selectedUser.siMobile || null;
       this.userid = selectedUser.userid || null;
+      this.roleid = selectedUser.roleid || null;
+      this.rolename = selectedUser.rolename || null;
+
+      this.setRole(this.rolename);
+      sessionStorage.setItem('roleId', this.roleid);
+      sessionStorage.setItem('userid', this.userid);
  
     } else {
       console.error('Selected user not found in the list.');

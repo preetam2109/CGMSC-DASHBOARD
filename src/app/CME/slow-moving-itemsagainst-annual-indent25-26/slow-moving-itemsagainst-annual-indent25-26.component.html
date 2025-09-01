@@ -1,0 +1,75 @@
+<div class="container-fluid    ">
+    <!-- Left Table -->
+    <div class="row">
+        <div class="col-12 col-md-6 card">
+
+
+            <table mat-table [dataSource]="toBeTenderBifurcationDetail" class="mat-elevation-z8 half-table">
+
+                <ng-container matColumnDef="facility">
+                    <th mat-header-cell *matHeaderCellDef> Facility </th>
+                    <td mat-cell *matCellDef="let element">{{ element.facility }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="itemcode">
+                    <th mat-header-cell *matHeaderCellDef> Code </th>
+                    <td mat-cell *matCellDef="let element">{{ element.itemcode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="itemname">
+                    <th mat-header-cell *matHeaderCellDef> Item  </th>
+                    <td mat-cell *matCellDef="let element">{{ element.division }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="district">
+                    <th mat-header-cell *matHeaderCellDef> District </th>
+                    <td mat-cell *matCellDef="let element">{{ element.district }}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['head','divisionID','division','district']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['head','divisionID','division','district']"></tr>
+            </table>
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+
+        </div>
+        <div class="col-12 col-md-6 card">
+            <!-- Right Table -->
+            <table mat-table [dataSource]="toBeTenderBifurcationDetail" class="mat-elevation-z8 half-table">
+
+                <ng-container matColumnDef="facility">
+                    <th mat-header-cell *matHeaderCellDef> Facility </th>
+                    <td mat-cell *matCellDef="let element">{{ element.facility }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="itemcode">
+                    <th mat-header-cell *matHeaderCellDef> itemcode </th>
+                    <td mat-cell *matCellDef="let element">{{ element.itemcode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="itemname">
+                    <th mat-header-cell *matHeaderCellDef> Item </th>
+                    <td mat-cell *matCellDef="let element">{{ element.itemname }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="strengtH1">
+                    <th mat-header-cell *matHeaderCellDef>Strength </th>
+                    <td mat-cell *matCellDef="let element">{{ element.strengtH1 }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="unit">
+                    <th mat-header-cell *matHeaderCellDef>Unit</th>
+                    <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+                </ng-container>
+                <ng-container matColumnDef="unit">
+                    <th mat-header-cell *matHeaderCellDef>Unit</th>
+                    <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['work_id','workname','asAmt','tsAmount']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['work_id','workname','asAmt','tsAmount']"></tr>
+            </table>
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+
+        </div>
+    </div>
+</div>
