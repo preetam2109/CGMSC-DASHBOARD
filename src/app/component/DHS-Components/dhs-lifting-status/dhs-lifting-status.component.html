@@ -1,0 +1,35 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
+      <strong style="text-align: center;">CME Lifting Status  </strong>
+    </h1>
+    </div>
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label="Slow Moving Items against Annual Indent 25-26">
+      <ng-template matTabContent>
+        <!-- <app-cgmscstock-details-drugs *ngIf="selectedTabIndex === 0"></app-cgmscstock-details-drugs> -->
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Excess Lifted Items against Annual Indent 25-26">
+      <ng-template matTabContent>
+        <!-- <app-cgmscstock-details-consumables *ngIf="selectedTabIndex === 1"></app-cgmscstock-details-consumables> -->
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Lifted Items without Annual Indent 25-26">
+      <ng-template matTabContent>
+        <!-- <app-cgmscstock-details-reagent *ngIf="selectedTabIndex === 2"></app-cgmscstock-details-reagent> -->
+      </ng-template>
+    </mat-tab>
+    <!-- <mat-tab label="CME Without Ai ">
+      <ng-template matTabContent>
+        <app-cgmscstock-details-ayush *ngIf="selectedTabIndex === 3"></app-cgmscstock-details-ayush>
+      </ng-template>
+    </mat-tab> -->
+   
+    
+  </mat-tab-group>
+  
+  </div>
+  

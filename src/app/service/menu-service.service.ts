@@ -45,6 +45,7 @@ export class MenuServiceService {
           { label: 'Supplier Pending Payments', route: '/supplier-pending' },
           { label: 'DHS Dashboard', route: '/dhsdash' },
           { label: 'CME Dashboard', route: '/cmedash' },
+          { label: 'CME Lifting Status', route: '/cme-lifting-dash' },
           { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
           
           // {
