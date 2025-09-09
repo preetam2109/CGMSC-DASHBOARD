@@ -2295,7 +2295,7 @@ loadUQC(): void {
 
       }
       QCPendingParticularAreaPieChart(){
-        debugger
+        
         this.api.QCPendingParticularArea(this.area,0).subscribe((res:any[])=>{
           if (res && res.length > 0) {
            this.spinner.show();
@@ -2950,7 +2950,7 @@ exportToBeTenderDetails() {
     headStyles: { fillColor: [22, 160, 133] }
   });
 
-  doc.save('nsqdetailsrugsDetails.pdf');
+  doc.save('NsqDetails.pdf');
 }
 
 

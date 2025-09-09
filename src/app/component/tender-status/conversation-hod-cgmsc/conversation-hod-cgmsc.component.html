@@ -20,10 +20,10 @@
         <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
         <mat-menu #exportMenu="matMenu">
           <button mat-menu-item
-            (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
-          <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-          <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-          <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+            (click)="exporter.exportTable('xlsx', { fileName: 'HodConversationDetails', sheet: 'HodConversationDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+          <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+          <!-- <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button> -->
+          <!-- <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
           <button mat-button (click)="exportToPDF()">PDF</button>
 
         </mat-menu>

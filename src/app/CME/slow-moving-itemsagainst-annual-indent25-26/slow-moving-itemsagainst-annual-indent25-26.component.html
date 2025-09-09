@@ -1,74 +1,307 @@
-<div class="container-fluid    ">
+
+<div class="container-fluid">
+
+    <div class="row mb-3 mt-4">
+        <div class="col-md-6 d-flex flex-wrap">
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" [(ngModel)]="selectedCategory"
+              value="Drugs" (change)="updateSelectedHodid()"  />
+            <label class="form-check-label" for="drugs">Drugs</label>
+          </div>
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" [(ngModel)]="selectedCategory"
+              value="Consumables" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="consumables">Consumables</label>
+          </div>
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" [(ngModel)]="selectedCategory"
+              value="Reagent" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="reagent">Reagent</label>
+          </div>
+          <div class="form-check me-3">
+            <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategory"
+              value="AYUSH" (change)="updateSelectedHodid()" />
+            <label class="form-check-label" for="ayush">AYUSH</label>
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group mb-2">
+        <label for="yearSelect">Procurement Year</label>
+        <select id="yearSelect" class="form-control" (change)="onYearChange($event)">
+          <option value="">-- Select Year --</option>
+          <option *ngFor="let year of years" [value]="year.id">
+            {{ year.label }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group mb-2">
+        <label for="percentSelect">Select Percentage Range</label>
+        <select id="percentSelect" class="form-control" (change)="onPercentChange($event)">
+          <option value="">-- Select Range --</option>
+          <option *ngFor="let range of percentageRanges" [value]="range.id">
+            {{ range.label }}
+          </option>
+        </select>
+      </div>
+
+    <div class="row mb-3 text-center">
+        <div class="col-md-3">
+          <button 
+          class="btn btn-primary w-100"
+          (click)="showData()"
+           >Show
+          </button>
+        </div>
+      
+      </div>
+      
+
     <!-- Left Table -->
     <div class="row">
+        
         <div class="col-12 col-md-6 card">
 
 
-            <table mat-table [dataSource]="toBeTenderBifurcationDetail" class="mat-elevation-z8 half-table">
+            
+            <!-- Filter + Export Bar -->
+  <div class="d-flex justify-content-between align-items-center mb-3 mt-2 ">
+      <div class="filter-field flex-grow-1">
+        <input type="text" class="form-control" placeholder="Filter"
+          (keyup)="applyTextFilterLeft($event)">
+      </div>
+      <div class="export-menu-container">
+        <button mat-button [matMenuTriggerFor]="exportMenuLeft">Export</button>
+        <mat-menu #exportMenuLeft="matMenu">
+          <button mat-menu-item
+            (click)="exporter.exportTable('xlsx', { fileName: 'CMESlowMovingSummary', sheet: 'leftsheet', Props: { Author: 'cgmsc' }})">
+            Excel
+          </button>
+          <button mat-menu-item (click)="exportToPDFLeft()">PDF</button>
+        </mat-menu>
+      </div>
+    </div>
+            <div class="table-responsive" style="overflow-x: auto;">
+                
+                
+                
+                <table mat-table [dataSource]="dataSource" #exporter="matTableExporter" matTableExporter class="mat-elevation-z8 half-table">
 
-                <ng-container matColumnDef="facility">
-                    <th mat-header-cell *matHeaderCellDef> Facility </th>
-                    <td mat-cell *matCellDef="let element">{{ element.facility }}</td>
+                    <!-- S.No Column -->
+<ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+    <td mat-footer-cell *matFooterCellDef> - </td>
+  </ng-container>
+
+                <!-- Facility ID -->
+                <ng-container matColumnDef="facilityid">
+                  <th mat-header-cell *matHeaderCellDef> Facility ID </th>
+                  <td mat-cell *matCellDef="let element">{{ element.facilityid }}</td>
                 </ng-container>
-
-                <ng-container matColumnDef="itemcode">
-                    <th mat-header-cell *matHeaderCellDef> Code </th>
-                    <td mat-cell *matCellDef="let element">{{ element.itemcode }}</td>
+              
+                <!-- MCID -->
+                <ng-container matColumnDef="mcid">
+                  <th mat-header-cell *matHeaderCellDef> MCID </th>
+                  <td mat-cell *matCellDef="let element">{{ element.mcid }}</td>
                 </ng-container>
-
-                <ng-container matColumnDef="itemname">
-                    <th mat-header-cell *matHeaderCellDef> Item  </th>
-                    <td mat-cell *matCellDef="let element">{{ element.division }}</td>
+              
+                <!-- No. of Items -->
+                <ng-container matColumnDef="nositems">
+                  <th mat-header-cell *matHeaderCellDef> No. of Items </th>
+                  <td mat-cell *matCellDef="let element">{{ element.nositems }}</td>
                 </ng-container>
-
-                <ng-container matColumnDef="district">
-                    <th mat-header-cell *matHeaderCellDef> District </th>
-                    <td mat-cell *matCellDef="let element">{{ element.district }}</td>
+              
+                <!-- Facility Name -->
+                <ng-container matColumnDef="facilityname">
+                  <th mat-header-cell *matHeaderCellDef> Facility</th>
+                  <td mat-cell *matCellDef="let element" (click)="GetCMESlowMovingDetails(mcid,selectedYearId,selectedPercentId,element.facilityid)" style="cursor: pointer;"   >{{ element.facilityname }}</td>
                 </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="['head','divisionID','division','district']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['head','divisionID','division','district']"></tr>
-            </table>
+              
+                <!-- Material Category -->
+                <ng-container matColumnDef="mcategory">
+                  <th mat-header-cell *matHeaderCellDef> Category </th>
+                  <td mat-cell *matCellDef="let element">{{ element.mcategory }}</td>
+                </ng-container>
+              
+                <!-- Stock Parameter -->
+                <ng-container matColumnDef="stockparameter">
+                  <th mat-header-cell *matHeaderCellDef> Stock Parameter </th>
+                  <td mat-cell *matCellDef="let element">{{ element.stockparameter }}</td>
+                </ng-container>
+              
+                <!-- Color Para -->
+                <ng-container matColumnDef="colorpara">
+                  <th mat-header-cell *matHeaderCellDef> Color Para </th>
+                  <td mat-cell *matCellDef="let element">{{ element.colorpara }}</td>
+                </ng-container>
+              
+                <!-- Header & Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="['sno',
+                  'nositems', 'facilityname',
+                  'mcategory', 'stockparameter', 'colorpara'
+                ]"></tr>
+              
+                <tr mat-row *matRowDef="let row; columns: ['sno',
+                  'nositems','facilityname',
+                  'mcategory','stockparameter','colorpara'
+                  ];" [ngStyle]="{
+      'background-color': row.colorpara === '1.Pink' ? '#ff8fab' :
+                          row.colorpara === '2.Yellow' ? '#ffc300' :
+                          row.colorpara === '3.Orange' ? '#fe7f2d' : 
+                          row.colorpara === '4.Blue' ? '#4361ee' : ''
+    }">"></tr>
+              
+              </table>
+             </div> 
           <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
 
         </div>
+
         <div class="col-12 col-md-6 card">
+            <div class="table-responsive" style="overflow-x: auto;">
+                   <!-- Filter + Export Bar -->
+    <div class="d-flex justify-content-between align-items-center mb-3 mt-2">
+        <div class="filter-field flex-grow-1">
+          <input type="text" class="form-control" placeholder="Filter"
+            (keyup)="applyTextFilterRight($event)">
+        </div>
+        <div class="export-menu-container">
+          <button mat-button [matMenuTriggerFor]="exportMenuRight">Export</button>
+          <mat-menu #exportMenuRight="matMenu">
+            <button mat-menu-item
+              (click)="exporterRight.exportTable('xlsx', { fileName: 'CMESlowMovingDetails', sheet: 'rightsheet', Props: { Author: 'cgmsc' }})">
+              Excel
+            </button>
+            <button mat-menu-item (click)="exportToPDFRight()">PDF</button>
+          </mat-menu>
+        </div>
+      </div>
             <!-- Right Table -->
-            <table mat-table [dataSource]="toBeTenderBifurcationDetail" class="mat-elevation-z8 half-table">
+            <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8 full-width"  #exporterRight="matTableExporter" matTableExporter matSort #sort2="matSort" >
 
-                <ng-container matColumnDef="facility">
-                    <th mat-header-cell *matHeaderCellDef> Facility </th>
-                    <td mat-cell *matCellDef="let element">{{ element.facility }}</td>
+                                    <!-- S.No Column -->
+<ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+    <td mat-footer-cell *matFooterCellDef> - </td>
+  </ng-container>
+                <!-- Facility Name -->
+                <ng-container matColumnDef="facilityname">
+                  <th mat-header-cell *matHeaderCellDef> Facility  </th>
+                  <td mat-cell *matCellDef="let element">{{ element.facilityname }}</td>
                 </ng-container>
-
+              
+                <!-- Material Category -->
+                <ng-container matColumnDef="mcategory">
+                  <th mat-header-cell *matHeaderCellDef> Category </th>
+                  <td mat-cell *matCellDef="let element">{{ element.mcategory }}</td>
+                </ng-container>
+              
+                <!-- Item Code -->
                 <ng-container matColumnDef="itemcode">
-                    <th mat-header-cell *matHeaderCellDef> itemcode </th>
-                    <td mat-cell *matCellDef="let element">{{ element.itemcode }}</td>
+                  <th mat-header-cell *matHeaderCellDef>  Code </th>
+                  <td mat-cell *matCellDef="let element">{{ element.itemcode }}</td>
                 </ng-container>
-
+              
+                <!-- Item Name -->
                 <ng-container matColumnDef="itemname">
-                    <th mat-header-cell *matHeaderCellDef> Item </th>
-                    <td mat-cell *matCellDef="let element">{{ element.itemname }}</td>
+                  <th mat-header-cell *matHeaderCellDef> Item  </th>
+                  <td mat-cell *matCellDef="let element">{{ element.itemname }}</td>
                 </ng-container>
-
-                <ng-container matColumnDef="strengtH1">
-                    <th mat-header-cell *matHeaderCellDef>Strength </th>
-                    <td mat-cell *matCellDef="let element">{{ element.strengtH1 }}</td>
+              
+                <!-- Strength -->
+                <ng-container matColumnDef="strength1">
+                  <th mat-header-cell *matHeaderCellDef> Strength </th>
+                  <td mat-cell *matCellDef="let element">{{ element.strength1 }}</td>
                 </ng-container>
-
+              
+                <!-- Unit -->
                 <ng-container matColumnDef="unit">
-                    <th mat-header-cell *matHeaderCellDef>Unit</th>
-                    <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+                  <th mat-header-cell *matHeaderCellDef> Unit </th>
+                  <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
                 </ng-container>
-                <ng-container matColumnDef="unit">
-                    <th mat-header-cell *matHeaderCellDef>Unit</th>
-                    <td mat-cell *matCellDef="let element">{{ element.unit }}</td>
+              
+                <!-- Annual Indent (AI) -->
+                <ng-container matColumnDef="ai">
+                  <th mat-header-cell *matHeaderCellDef> AI </th>
+                  <td mat-cell *matCellDef="let element">{{ element.ai }}</td>
                 </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="['work_id','workname','asAmt','tsAmount']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['work_id','workname','asAmt','tsAmount']"></tr>
-            </table>
-          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+              
+                <!-- Issued Qty -->
+                <ng-container matColumnDef="issueqty">
+                  <th mat-header-cell *matHeaderCellDef> Issued Qty </th>
+                  <td mat-cell *matCellDef="let element">{{ element.issueqty }}</td>
+                </ng-container>
+              
+                <!-- Issue % -->
+                <ng-container matColumnDef="issuePer">
+                  <th mat-header-cell *matHeaderCellDef> Issued % </th>
+                  <td mat-cell *matCellDef="let element">{{ element.issuePer }}</td>
+                </ng-container>
+              
+                <!-- Balance Annual Indent Qty -->
+                <ng-container matColumnDef="balanceAnnualIndentQTY">
+                  <th mat-header-cell *matHeaderCellDef> Balance Indent Qty </th>
+                  <td mat-cell *matCellDef="let element">{{ element.balanceAnnualIndentQTY }}</td>
+                </ng-container>
+              
+                <!-- Warehouse Ready Stock -->
+                <ng-container matColumnDef="warehouseReadystock">
+                  <th mat-header-cell *matHeaderCellDef> Warehouse Ready Stock </th>
+                  <td mat-cell *matCellDef="let element">{{ element.warehouseReadystock }}</td>
+                </ng-container>
+              
+                <!-- WH Ready % Against Balance Indent -->
+                <ng-container matColumnDef="whrEadyPerAgainstBalindent">
+                  <th mat-header-cell *matHeaderCellDef> Warehouse Ready % </th>
+                  <td mat-cell *matCellDef="let element">{{ element.whrEadyPerAgainstBalindent }}</td>
+                </ng-container>
+              
+                <!-- Facility ID -->
+                <ng-container matColumnDef="facilityid">
+                  <th mat-header-cell *matHeaderCellDef> Facility ID </th>
+                  <td mat-cell *matCellDef="let element">{{ element.facilityid }}</td>
+                </ng-container>
+              
+                <!-- Item ID -->
+                <ng-container matColumnDef="itemid">
+                  <th mat-header-cell *matHeaderCellDef> Item ID </th>
+                  <td mat-cell *matCellDef="let element">{{ element.itemid }}</td>
+                </ng-container>
+              
+                <!-- Stock Parameter -->
+                <ng-container matColumnDef="stockparameter">
+                  <th mat-header-cell *matHeaderCellDef> Stock Parameter </th>
+                  <td mat-cell *matCellDef="let element">{{ element.stockparameter }}</td>
+                </ng-container>
+              
+                <!-- Warehouse ID -->
+                <ng-container matColumnDef="warehouseid">
+                  <th mat-header-cell *matHeaderCellDef> Warehouse ID </th>
+                  <td mat-cell *matCellDef="let element">{{ element.warehouseid }}</td>
+                </ng-container>
+              
+                <!-- Header Row -->
+                <tr mat-header-row *matHeaderRowDef="['sno',
+                  'facilityname','mcategory','itemname','itemcode','strength1','unit',
+                  'ai','issueqty','issuePer','balanceAnnualIndentQTY',
+                  'warehouseReadystock','whrEadyPerAgainstBalindent',
+                  'facilityid','itemid','stockparameter','warehouseid'
+                ]"></tr>
+              
+                <!-- Data Row -->
+                <tr mat-row *matRowDef="let row; columns: ['sno',
+                  'facilityname','mcategory','itemname','itemcode','strength1','unit',
+                  'ai','issueqty','issuePer','balanceAnnualIndentQTY',
+                  'warehouseReadystock','whrEadyPerAgainstBalindent',
+                  'facilityid','itemid','stockparameter','warehouseid'
+                ];"></tr>
+              
+              </table>
+              
+        </div>
+        <mat-paginator  #paginator2 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
 
         </div>
     </div>

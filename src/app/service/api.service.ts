@@ -1194,7 +1194,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   QCPendingParticularArea(area:any,itemid:any) {
-    debugger
+    
     return this.http.get<QCPendingParticularArea[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}&itemid=${itemid}`);
   }
 
@@ -1560,18 +1560,18 @@ SupplierPendingPayments(budgetId:any){
 
 
 RCValidSatus(yearId:any,mcId:any,hoType:any){
-  debugger
+  
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`);
 }
 
 ABCanalysisSummary(yearid:any,mcid:any,isEDL:any){
-  debugger
+  
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisWithRCvalid?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}`);
   // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABCanalysisWithRCvalid?yearid=545&mcid=1&isEDL=Y
 }
 
 ABCanalysisSummaryDetail(yearid:any,mcid:any,isedl:any,detail:any,isRCvalid:any){
-  debugger
+  
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummaryDetail?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}&detail=${detail}&isRCvalid=${isRCvalid}`);
 }
 
@@ -1589,61 +1589,88 @@ ABC_VED_SDE_matrixWithStockOut(yearid:any,mcid:any,isEDL:any,catType:any){
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}`);
   //https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=545&mcid=1&isEDL=Y&catType=ABC
 }
+
 ABC_VED_SDE_matrixWithStockOutDetail(yearid:any,mcid:any,isEDL:any,catType:any,iCateogry:any,columnFlag:any){
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}&iCateogry=${iCateogry}&columnFlag=${columnFlag}`);
   // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=545&mcid=1&isEDL=Y&catType=ABC&iCateogry=A&columnFlag=STOCKOUT
 }
 
 
+CMESlowMovingSummary(mcid:any,yearId:any,percent:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMESlowMovingSummary?mcid=${mcid}&yearId=${yearId}&percent=${percent}`);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+CMESlowMovingDetails(mcid:any,yearId:any,percent:any,facid:any){
   
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMESlowMovingDetails?mcid=${mcid}&yearId=${yearId}&percent=${percent}&facid=${facid}`);
+}
+
+
+CMEexcessLiftSummary(yearId:any){
+  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEexcessLiftSummary?yearId=545
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEexcessLiftSummary?yearId=${yearId}`);
+}
+
+CMEExcessLiftDetail(yearId:any,facid:any){
   
+  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEExcessLiftDetail?yearId=545&facid=0
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEExcessLiftDetail?yearId=${yearId}&facid=${facid}`);
+}
+
+CMEwithoutAISummary(yearId:any){
+  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAISummary?yearId=546
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEwithoutAISummary?yearId=${yearId}`);
+}
+
+
+CMEwithoutAIDetail(yearId:any,facid:any){
   
+  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAIDetail?yearId=546&facid=0
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEwithoutAIDetail?yearId=${yearId}&facid=${facid}`);
+}
+
+
+pipelineSlippage(){
   
+  //https://dpdmis.in/CGMSCHO_API2/api/Analysis/pipelineSlippage
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippage`);
+}
+
+pipelineSlippageItemDetail(flag:any){
   
+  //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippageItemDetail?flag=${flag}`);
+}
+PipelineSlippagePOItemDetailDTO(flag:any){
+  
+  //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/PipelineSlippagePOItemDetailDTO?flag=${flag}`);
+}
 
 
+MasitemsPO(itemid:any,yrid:any,mcid:any,edl:any,groupid:any,itemtypeid:any,edlcat:any,schemeid:any,supplierid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
+  
+  //https://dpdmis.in/CGMSCHO_API2/api/Master/MasitemsPO?itemid=o&yrid=546&mcid=1&edl=0&groupid=0&itemtypeid=0&edlcat=0&schemeid=0&supplierid=0&ABC=0&VED=0&SDE=0&MatCAT=0
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasitemsPO?itemid=${itemid}&yrid=${yrid}&mcid=${mcid}&edl=${edl}&groupid=${groupid}&itemtypeid=${itemtypeid}&edlcat=${edlcat}&schemeid=${schemeid}&supplierid=${supplierid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
+}
 
- 
-
-
-
-
-
-
-
-
-
+MasSupplierPO(yrid:any,itemid:any,mcid:any,schemeid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasSupplierPO?yrid=${yrid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
+}
 
 
+MasSchemePO(yrid:any,supplierid:any,itemid:any,mcid:any,schemeid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasSchemePO?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
+}
 
+MasPOSummary(yrid:any,supplierid:any,itemid:any,mcid:any,schemeid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
+  
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasPOSummary?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
+}
 
-
-
-
-
-
-
-
-
-
+HoldBatchHistory(mcid:any,fromDate:any,ToDate:any,itemId:any,nsqholdflag:any){
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/HoldBatchHistory?mcid=${mcid}&fromDate=${fromDate}&ToDate=${ToDate}&itemId=${itemId}&nsqholdflag=${nsqholdflag}}`);
+}
 
 
 

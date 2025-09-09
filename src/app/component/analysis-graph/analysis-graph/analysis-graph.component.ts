@@ -176,7 +176,7 @@ selectedCatType: string = this.catTypes[0].value; // default
                   })
                 );
 
-                debugger
+                
                 this.totalItems=res.reduce((sum:any,item:any)=>sum+(item.cntItems || 0),0);
                 this.totalstockout=res.reduce((sum:any,item:any)=>sum+(item.stockout || 0),0);
                 this.totalstockin=res.reduce((sum:any,item:any)=>sum+(item.stockin || 0),0);
@@ -216,7 +216,7 @@ selectedCatType: string = this.catTypes[0].value; // default
     
 
       ABC_VED_SDE_matrixWithStockOutDetail(icategory:any,columnFlag:any) {
-        debugger
+        
         this.category=icategory
     
         if(this.selectedEdlType==='Y'){
@@ -235,7 +235,7 @@ selectedCatType: string = this.catTypes[0].value; // default
           this.rc='';
         }
         this.spinner.show();
-    debugger
+    
         this.api.ABC_VED_SDE_matrixWithStockOutDetail(this.selectedYearId,this.mcid,this.selectedEdlType,this.selectedCatType,this.category,columnFlag).subscribe({
           next: (res: any[]) => {
             if (res && res.length > 0) {

@@ -1010,7 +1010,7 @@ toggleText() {
   
   InsertUserLoginLog() {
     try {
-      debugger
+      
       // console.log("save data");
       // return;
       const roleIdName = localStorage.getItem('roleName') || '';

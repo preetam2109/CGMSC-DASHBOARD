@@ -83,7 +83,7 @@ export class ComplaintTHospitalBuConstructionComponent {
     ).join('');
   }
   onFileSelected(event: any) {
-    // debugger;
+    // ;
     const file = event.target.files[0];
     if (file) {
       if (file.type !== 'application/pdf') {
@@ -197,7 +197,7 @@ export class ComplaintTHospitalBuConstructionComponent {
   }
   OnSubmit() {
     try {
-// debugger;
+// ;
       this.submitted = true;
       this.complainForm.patchValue({ Divisionid: this.divisionid });
       if (
@@ -313,7 +313,7 @@ export class ComplaintTHospitalBuConstructionComponent {
   }
   InsertUserPageViewLog() {
     try {
-      // debugger
+      // 
       const roleIdName = localStorage.getItem('roleName') || '';
       const userId = Number(sessionStorage.getItem('userid') || 0);
       const roleId = Number(sessionStorage.getItem('roleId') || 0);
