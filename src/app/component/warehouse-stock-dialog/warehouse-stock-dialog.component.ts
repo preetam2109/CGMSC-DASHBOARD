@@ -14,6 +14,7 @@ export class WarehouseStockDialogComponent {
   displayedColumns: string[] = [
     
     'warehousename',
+    'supplierpipeline',
     'readyforissue',
     'iwhpipeline',
     'pending',
