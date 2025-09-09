@@ -374,9 +374,9 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
       passwordField.type = this.isPasswordVisible ? 'text' : 'password'; // Toggle input type
     }
   }
-  getdata(){
-alert("hi")
-  }
+//   getdata(){
+// alert("hi")
+//   }
   verifyOTP() {
     
     if (this.otp.length === 5) {
