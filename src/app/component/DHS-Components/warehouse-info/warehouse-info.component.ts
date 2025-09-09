@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-warehouse-info',
   standalone: true,
@@ -35,12 +37,16 @@ export class WarehouseInfoComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
-
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+  pageName: string = '';
+  fullUrl: string = '';
   constructor(
     private spinner: NgxSpinnerService,
     private api: ApiService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,private location: Location,
   ) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<WarehouseInfo>([]);
   }
 
@@ -48,6 +54,8 @@ export class WarehouseInfoComponent implements OnInit {
     this.spinner.show();
     this.GetWarehouseInfo();
     this.fetchWarehouseInfo();
+          this.InsertUserPageViewLog();
+
   }
   onMarkerClick(warehouse: any, marker: MapMarker) {
     this.selectedWarehouse = warehouse; // Update the selected warehouse details
@@ -175,4 +183,45 @@ export class WarehouseInfoComponent implements OnInit {
 
     doc.save('WarehouseInfo.pdf');
   }
+  
+  InsertUserPageViewLog() {
+    try {
+      // debugger
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      // const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserPageViewLogdata.logId = 0; 
+      this.InsertUserPageViewLogdata.userId = userId;
+      this.InsertUserPageViewLogdata.roleId = roleId;
+      this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+      this.InsertUserPageViewLogdata.pageName = this.pageName;
+      this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+      this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+      this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+      this.InsertUserPageViewLogdata.userAgent = userAgent;
+      //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+        next: (res: any) => {
+          console.log('Page View Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
+    }
+  }
+
+
 }

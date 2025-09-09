@@ -34,7 +34,8 @@ import { ApiService } from 'src/app/service/api.service';
 import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
 import { HardcodedAuthenticationService } from 'src/app/service/authentication/hardcoded-authentication.service';
 import { MenuServiceService } from 'src/app/service/menu-service.service';
-
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-admin-dash',
   standalone: true,
@@ -359,9 +360,16 @@ export class AdminDashComponent {
         'Finance Dashboard':'assets/dash-icon/dashboard.png',
     
       };
-      constructor(public toastr: ToastrService,private spinner: NgxSpinnerService, private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,private authService: HardcodedAuthenticationService,public basicAuthentication: BasicAuthenticationService,public router:Router) {
+      InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+      pageName: string = '';
+      fullUrl: string = '';
+      constructor(public toastr: ToastrService,private spinner: NgxSpinnerService,
+         private dialog: MatDialog,private api: ApiService,private menuService: MenuServiceService,
+         private authService: HardcodedAuthenticationService,private location: Location,
+         public basicAuthentication: BasicAuthenticationService,public router:Router) {
         
-       
+          this.pageName = this.location.path();
+          this.fullUrl = window.location.href;
         this.chartOptions = {
           series: [], // Your data values
           chart: {
@@ -968,10 +976,53 @@ export class AdminDashComponent {
         });
               // this.QCPendingMonthwiseRecDetails()
         // this.spinner.hide();
-
+        this.InsertUserPageViewLog();
 
       }
       
+
+      
+
+     InsertUserPageViewLog() {
+      try {
+        // debugger
+        const roleIdName = localStorage.getItem('roleName') || '';
+        const userId = Number(sessionStorage.getItem('userid') || 0);
+        const roleId = Number(sessionStorage.getItem('roleId') || 0);
+        // const userName = sessionStorage.getItem('firstname') || '';
+        const ipAddress = sessionStorage.getItem('ipAddress') || '';
+        const userAgent = navigator.userAgent; 
+        this.InsertUserPageViewLogdata.logId = 0; 
+        this.InsertUserPageViewLogdata.userId = userId;
+        this.InsertUserPageViewLogdata.roleId = roleId;
+        this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+        this.InsertUserPageViewLogdata.pageName = this.pageName;
+        this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+        this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+        this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+        this.InsertUserPageViewLogdata.userAgent = userAgent;
+        //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+    // if(localStorage.getItem('Log Saved')|| ''!){
+  
+    // }
+        // API call
+        this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+          next: (res: any) => {
+            console.log('Page View Log Saved:',res);
+            // const LogSaved='Log Saved'
+            // localStorage.setItem('Log Saved', LogSaved);
+          },
+          error: (err: any) => {
+            console.error('Backend Error:', JSON.stringify(err.message));
+          }
+        });
+    
+      } catch (err: any) {
+        console.error('Error:', err.message);
+      }
+    }
+	
+	
       checkIfLiveStatusExists(data: any) {
         const hasLive = data.some((item: any) => item.status === 'Live');
         if (hasLive) {

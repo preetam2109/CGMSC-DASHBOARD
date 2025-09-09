@@ -12,7 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { InsertUserLoginLogmodal } from 'src/app/Model/DashLoginDDL';
-
+import { Location } from '@angular/common';
 
 declare var google: any;
 @Component({
@@ -43,7 +43,8 @@ captcha: string = '';
 isPasswordVisible: boolean = false;
 // captchaInput:any;
 InsertUserLoginLogData: InsertUserLoginLogmodal = new InsertUserLoginLogmodal();
-
+ipAddress: string = '';
+browserInfo: any;
   otp: any = '';
   username:any;
   emailid: any;
@@ -87,7 +88,7 @@ InsertUserLoginLogData: InsertUserLoginLogmodal = new InsertUserLoginLogmodal();
   
   constructor(public loginService:BasicAuthenticationService,public http:HttpClient,private dialog: MatDialog,
     private api: ApiService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,private location: Location
     ,private toastr: ToastrService,private router:Router,public  hardcodedAuthenticationService:HardcodedAuthenticationService){
 
       this.generateCaptcha();
@@ -116,7 +117,10 @@ InsertUserLoginLogData: InsertUserLoginLogmodal = new InsertUserLoginLogmodal();
   }
   days:any=0
   ngOnInit() {
-
+  this.getIPAddress();
+    this.browserInfo= this.getBrowserInfo();
+    // console.log('userAgent1=',this.browserInfo.userAgent ); 
+    sessionStorage.setItem('userAgent',this.browserInfo.userAgent );
     this.selectedColor = sessionStorage.getItem('selectedColor');
     if(this.selectedColor != 'linear-gradient(1deg, rgb(18, 166, 210) 15%, rgb(49, 65, 252) 100%)'){
       document.documentElement.style.setProperty('--theme-gradient', this.selectedColor );
@@ -1010,7 +1014,7 @@ toggleText() {
   
   InsertUserLoginLog() {
     try {
-      
+
       // console.log("save data");
       // return;
       const roleIdName = localStorage.getItem('roleName') || '';
@@ -1026,7 +1030,7 @@ toggleText() {
       this.InsertUserLoginLogData.userName = userName;
       this.InsertUserLoginLogData.ipAddress = ipAddress;
       this.InsertUserLoginLogData.userAgent = userAgent;
-      console.log('InsertUserLoginLogData=',this.InsertUserLoginLogData);
+      // console.log('InsertUserLoginLogData=',this.InsertUserLoginLogData);
   // if(localStorage.getItem('Log Saved')|| ''!){
 
   // }
@@ -1047,4 +1051,27 @@ toggleText() {
     }
   }
   
+  
+  getIPAddress() {
+    this.http.get<any>('https://api.ipify.org?format=json')
+      .subscribe(
+        (res) => {
+          this.ipAddress = res.ip;
+          sessionStorage.setItem('ipAddress', this.ipAddress);
+          // console.log('this.ipAddress=',this.ipAddress);
+        },
+        (err) => {
+          console.error('Error fetching IP:', err);
+        }
+      );
+  }
+  getBrowserInfo() {
+    return {
+      appName: navigator.appName,
+      appVersion: navigator.appVersion,
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      language: navigator.language
+    };
+  }
 }

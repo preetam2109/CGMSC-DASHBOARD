@@ -36,6 +36,8 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
 import { WarehouseStockDialogComponent } from 'src/app/component/warehouse-stock-dialog/warehouse-stock-dialog.component';
 import { AIvsIssuance } from 'src/app/Model/masInfoUser';
+import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-cgmsc-institute-wise-issuance',
   standalone: true,
@@ -114,7 +116,9 @@ Year:any
   dataSource8 = new MatTableDataSource<any>();
   @ViewChild('paginator8') paginator8!: MatPaginator;
   @ViewChild('sort8') sort8!: MatSort;
-
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+  pageName: string = '';
+  fullUrl: string = '';
   constructor(
     public loginService:BasicAuthenticationService,
     private spinner: NgxSpinnerService,
@@ -122,8 +126,10 @@ Year:any
     private http: HttpClient,
     private breakpointObserver: BreakpointObserver,
     private cdr: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,private location: Location,
   ) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<any>([]);
 
 
@@ -134,6 +140,7 @@ Year:any
     // this.getAllDispatchPending();
     this.GetFundsDDL()
     this.GetYear()
+    this.InsertUserPageViewLog();
   }
 
   GetFundsDDL(){
@@ -518,6 +525,44 @@ onItemNameClick(itemid:number,edlcat:string,groupname:string,itemcode:string,ite
   // );
 }
 
+InsertUserPageViewLog() {
+  try {
+    // debugger
+    const roleIdName = localStorage.getItem('roleName') || '';
+    const userId = Number(sessionStorage.getItem('userid') || 0);
+    const roleId = Number(sessionStorage.getItem('roleId') || 0);
+    // const userName = sessionStorage.getItem('firstname') || '';
+    const ipAddress = sessionStorage.getItem('ipAddress') || '';
+    const userAgent = navigator.userAgent; 
+    this.InsertUserPageViewLogdata.logId = 0; 
+    this.InsertUserPageViewLogdata.userId = userId;
+    this.InsertUserPageViewLogdata.roleId = roleId;
+    this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+    this.InsertUserPageViewLogdata.pageName = this.pageName;
+    this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+    this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+    this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+    this.InsertUserPageViewLogdata.userAgent = userAgent;
+    //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+// if(localStorage.getItem('Log Saved')|| ''!){
+
+// }
+    // API call
+    this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+      next: (res: any) => {
+        console.log('Page View Log Saved:',res);
+        // const LogSaved='Log Saved'
+        // localStorage.setItem('Log Saved', LogSaved);
+      },
+      error: (err: any) => {
+        console.error('Backend Error:', JSON.stringify(err.message));
+      }
+    });
+
+  } catch (err: any) {
+    console.error('Error:', err.message);
+  }
+}
 
 }
 
