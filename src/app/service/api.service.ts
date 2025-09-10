@@ -1672,6 +1672,17 @@ HoldBatchHistory(mcid:any,fromDate:any,ToDate:any,itemId:any,nsqholdflag:any){
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/HoldBatchHistory?mcid=${mcid}&fromDate=${fromDate}&ToDate=${ToDate}&itemId=${itemId}&nsqholdflag=${nsqholdflag}}`);
 }
 
+NonSupplySummary(fromDate:any,ToDate:any){
+  debugger
+return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummary?fromDate=${fromDate}&ToDate=${ToDate}`);
+}
+
+NonSupplySummaryDetail(fromDate:any,ToDate:any,supplierId:any,itemCode:any,schemeId:any,ponoId:any){
+return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummaryDetail?fromDate=${fromDate}&ToDate=${ToDate}&supplierId=${supplierId}&itemCode=${itemCode}&schemeId=${schemeId}&ponoId=${ponoId}`);
+}
+
+
+
 
 
 

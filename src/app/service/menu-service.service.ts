@@ -43,6 +43,7 @@ export class MenuServiceService {
           { label: 'CME Dashboard', route: '/cmedash' },
           { label: 'CME Lifting Status', route: '/cme-lifting-dash' },
           { label: 'Warehouse Wise', route: '/w-wise' },
+          { label: 'Non Supply', route: '/nonsupply' },
           { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
           
           // {
