@@ -25,6 +25,7 @@ export class InsertUserLoginLogmodal {
   userName!: string
   ipAddress!: string
   userAgent!: string
+  // new Date().toISOString();
 
    }
 export class InsertUserPageViewLogmodal {
