@@ -1673,7 +1673,7 @@ HoldBatchHistory(mcid:any,fromDate:any,ToDate:any,itemId:any,nsqholdflag:any){
 }
 
 NonSupplySummary(fromDate:any,ToDate:any){
-  debugger
+  
 return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummary?fromDate=${fromDate}&ToDate=${ToDate}`);
 }
 

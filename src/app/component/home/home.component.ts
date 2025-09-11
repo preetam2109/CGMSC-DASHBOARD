@@ -2495,14 +2495,12 @@ if(po>14){
     const columns = [
       { header: 'S.No', dataKey: 'sno' },
       { header: 'Time Duration', dataKey: 'timduration' },
-      { header: 'Item ID', dataKey: 'itemid' },
       { header: 'Item Code', dataKey: 'itemcode' },
       { header: 'Item Name', dataKey: 'itemname' },
       { header: 'Abs Qty', dataKey: 'absqty_sum' },
       { header: 'Receipt Qty', dataKey: 'receiptabsqty_sum' },
       { header: 'Pipeline Qty', dataKey: 'pipelineqty_sum' },
-      { header: 'Min %', dataKey: 'min_per' },
-      { header: 'Worst D', dataKey: 'worst_d' },
+      { header: 'Received %', dataKey: 'min_per' },
       { header: 'No. of POs', dataKey: 'nospo' },
     ];
   
@@ -2510,14 +2508,12 @@ if(po>14){
     const rows = this.pipelineSlippageItemDetail.map((item: any, index: number) => ({
       sno: index + 1,
       timduration: item.timduration,
-      itemid: item.itemid,
       itemcode: item.itemcode,
       itemname: item.itemname,
       absqty_sum: item.absqty_sum,
       receiptabsqty_sum: item.receiptabsqty_sum,
       pipelineqty_sum: item.pipelineqty_sum,
       min_per: item.min_per,
-      worst_d: item.worst_d,
       nospo: item.nospo,
     }));
   

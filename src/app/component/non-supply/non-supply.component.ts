@@ -107,7 +107,7 @@ startDateValidator(control: AbstractControl) {
   // Only format dates if both start and end dates are selected
   const formattedStartDate = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
   const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    debugger
+    
     return this.api.NonSupplySummary(formattedStartDate,formattedEndDate).pipe(
       map((res: any[]) => {
         if (res && res.length > 0) {
@@ -132,7 +132,7 @@ startDateValidator(control: AbstractControl) {
   }
  
   onISelectChange(event: Event): void {
-    debugger
+    
     const selectedUser = this.nonsupplyDropDownList.find(
       (user: { supplierId: string }) => user.supplierId === this.supplierId
     );

@@ -92,13 +92,13 @@
   
   <!-- Item Code -->
   <ng-container matColumnDef="itemCode">
-    <th mat-header-cell *matHeaderCellDef> Item Code </th>
+    <th mat-header-cell *matHeaderCellDef>  Code </th>
     <td mat-cell *matCellDef="let element"> {{ element.itemCode }} </td>
   </ng-container>
   
   <!-- Item Name -->
   <ng-container matColumnDef="itemName">
-    <th mat-header-cell *matHeaderCellDef> Item Name </th>
+    <th mat-header-cell *matHeaderCellDef> Item  </th>
     <td mat-cell *matCellDef="let element"> {{ element.itemName }} </td>
   </ng-container>
   
@@ -201,7 +201,6 @@
   <!-- Header Row -->
   <tr mat-header-row *matHeaderRowDef="[
     'sno',
-    
     'tenderNo',
     'tenderName',
     'itemCode',
@@ -225,7 +224,6 @@
   <!-- Data Row -->
   <tr mat-row *matRowDef="let row; columns: [
     'sno',
-   
     'tenderNo',
     'tenderName',
     'itemCode',
