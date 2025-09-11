@@ -129,6 +129,7 @@ import { ComplaintTHospitalBuConstructionComponent } from './component/Infrastru
 import { ComplainsReportComponent } from './component/Infrastructure-Components/complains-report/complains-report.component';
 
 import { AnalysisGraphComponent } from './component/analysis-graph/analysis-graph/analysis-graph.component';
+import { CmeLiftingStatusComponent } from './CME/cme-lifting-status/cme-lifting-status.component';
 
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
@@ -275,6 +276,7 @@ const routes: Routes = [
 {path:'admin-dash',component:AdminDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
 {path:'consumption-pattern',component:ConsumptionPatternTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
 {path:'supplier-pending',component:SupplierPendingPaymentsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'cme-lifting-dash',component:CmeLiftingStatusComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 
 {path:'WHWiseStockOut',component:WHWiseStockOutComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 
