@@ -130,6 +130,8 @@ import { ComplainsReportComponent } from './component/Infrastructure-Components/
 
 import { AnalysisGraphComponent } from './component/analysis-graph/analysis-graph/analysis-graph.component';
 import { CmeLiftingStatusComponent } from './CME/cme-lifting-status/cme-lifting-status.component';
+import { WarehouseWiseTabsComponent } from './component/warehouse-wise-tabs/warehouse-wise-tabs.component';
+import { HoldBatchHistoryComponent } from './component/QC/hold-batch-history/hold-batch-history.component';
 
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
@@ -284,6 +286,8 @@ const routes: Routes = [
 {path:'analysis',component:AnalysisTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 
 {path:'analysis-graph',component:AnalysisGraphComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'w-wise',component:WarehouseWiseTabsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'holdbatchhistory',component:HoldBatchHistoryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 
 
 

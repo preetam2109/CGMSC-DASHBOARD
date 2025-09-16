@@ -36,11 +36,13 @@ export class MenuServiceService {
           { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
           { label: 'Tender Status', route: '/tender-status' },
           { label: 'QC Insights ', route: '/qc-dashboard' },
+          { label: 'Hold Batch History', route: '/holdbatchhistory' },
           { label: 'Finance', route: '/finance-dash' },
           { label: 'Supplier Pending Payments', route: '/supplier-pending' },
           { label: 'DHS Dashboard', route: '/dhsdash' },
           { label: 'CME Dashboard', route: '/cmedash' },
           { label: 'CME Lifting Status', route: '/cme-lifting-dash' },
+          { label: 'Warehouse Wise', route: '/w-wise' },
           { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
           
           // {
@@ -630,6 +632,7 @@ export class MenuServiceService {
       items: [
         { label: 'Home', route: '/home' },
         { label: 'QC Insights ', route: '/qc-dashboard' },
+        { label: 'Hold Batch History', route: '/holdbatchhistory' },
 
         { label: 'Stock Details', route: '/stockDetails' },
         { label: 'QC Courier', route: '/QcPendings' },
@@ -640,6 +643,7 @@ export class MenuServiceService {
       items: [
         { label: 'Home', route: '/home' },
         { label: 'QC Insights ', route: '/qc-dashboard' },
+        { label: 'Hold Batch History', route: '/holdbatchhistory' },
 
         { label: 'Stock Details', route: '/stockDetails' },
         { label: 'QC Courier', route: '/QcPendings' },

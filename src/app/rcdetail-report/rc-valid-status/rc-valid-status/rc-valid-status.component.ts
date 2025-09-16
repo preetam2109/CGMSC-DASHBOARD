@@ -80,7 +80,7 @@ export class RcValidStatusComponent {
     // initial set
   }
   updateDisplayedColumns(drillType:any) {
-    debugger;
+    ;
     // copy base
     this.displayedColumns = [...this.baseDisplayedColumns];
   
@@ -222,7 +222,7 @@ GETRCValidDrillDown(yearId:any,mcid:any,drillType:any,edlType:any){
   this.drillType=drillType;
   this.edlType=edlType;
   this.hoType
-  // debugger;
+  // ;
   // RCValidDrillDown(yearId:any,mcid:any,hoType:any,drillType:any,edlType:any){
     // https://dpdmis.in/CGMSCHO_API2/api/DashboardHome/RCValidDrillDown?yearId=546&mcId=1&hoType=0&drillType=nosIndent&edlType=NON%20EDL
     // this.hoType;

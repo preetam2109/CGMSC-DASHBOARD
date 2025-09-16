@@ -236,6 +236,30 @@
         </div>
       </div>
     </div>
+    <div class="col-12 col-md-4 mb-3">
+      <div class="card shadow" 
+           style="background: linear-gradient(to right, #dee052, #39aff9); color: white;">
+        <div class="card-body text-center">
+          <h6 class="card-title mb-4" style="font-size: large;">Pipeline Slippage</h6>
+          <div class="row">
+            <div class="col-6" *ngFor="let slip of pipelineSlippage">
+              <div class="p-2 border rounded" style="background: rgba(255,255,255,0.15); height: 100%;">
+                <h5 class="mb-2"><strong>Time Durations: </strong>{{ slip.timduration }}</h5>
+                <p class="mb-1" (click)="GetpipelineSlippageItemDetail(slip.nos)" style="cursor: pointer;"><strong>Nos:</strong> {{ slip.nos }}</p>
+                <p class="mb-0" (click)="GetPipelineSlippagePOItemDetailDTO(slip.nosPO)" style="cursor: pointer;" ><strong>POs:</strong> {{ slip.nosPO }}</p>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    
+    
+    
+
+    
+
     <div class="col-12 col-md-4 mb-3"  >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #b481f6, #50f0c8); color: rgb(247, 149, 229);">
         <div class="card-body" routerLink="/WHWiseStockOut" >
@@ -269,7 +293,7 @@
      <!-- Card 1 -->
 
        <!-- Card 2 -->
-    <!-- <div class="col-12 col-md-4 mb-3"  >
+    <div class="col-12 col-md-4 mb-3"  >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
         <div class="card-body" routerLink="/GrowthInProcurmentTab" >
           <h6 class="card-title" style="font-size: large;">No of {{selectedCategoryRadio}} Purchase Ordered in Current Financial Year.</h6>
@@ -277,7 +301,8 @@
           <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
         </div>
       </div>
-    </div> -->
+    </div>
+
     <div class="col-12 col-md-4 mb-3"  >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
         <div class="card-body" routerLink="/rc-valid-status" >
@@ -1626,6 +1651,390 @@
                       </div>
                        
                       <mat-paginator #paginator8 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                    </div>
+              </div>
+        
+             
+              
+          </div>
+              
+          
+            </div>  
+    
+     
+    
+        
+    
+    
+
+
+
+    </div>
+
+
+  
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+      <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+        aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template class=" " #pipelineSlippageItemDetailModal let-modal  >
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <!-- <h1>AS Completed Details</h1> -->
+      <h1 class="text-info-emphasis">Details</h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+          <div class="card shadow" >
+              <div class="card-body">
+                  <div class="row border mb-1">
+                      <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                          <strong>Reports : Pipeline Slippage Item Details </strong>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 table-container mb-4">
+
+
+                  
+               
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+
+
+
+                        
+                        <div class="filter-field flex-grow-1">
+                          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterpipelineSlippage($event)">
+                        </div>
+                        <div class="export-menu-container">
+                          <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                          <mat-menu #exportMenu="matMenu">
+                            <button mat-menu-item
+                              (click)="exporter.exportTable('xlsx', { fileName: 'pipelineSlippageItemDetail', sheet: 'pipelineSlippageItemDetail', Props: { Author: 'cgmsc' }})">Excel</button>
+                            <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+                            
+                            <button mat-button (click)="exportToPDFpipelineSlippageItemDetail()">PDF</button>
+                
+                          </mat-menu>
+                        </div>
+                      </div>
+                
+                      <div class="table-responsive">
+                        <table  mat-table matTableExporter [dataSource]="dataSource10" #exporter="matTableExporter" matSort #sort15="matSort">
+                      
+<!-- S.No -->
+<ng-container matColumnDef="sno">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+    <div class="center-header-cell">S.No</div>
+  </th>
+  <td mat-cell *matCellDef="let element; let i = index">
+    <div class="center-cell">{{ i + 1 }}</div>
+  </td>
+</ng-container>
+
+<!-- Timduration -->
+<ng-container matColumnDef="timduration">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Time Duration </th>
+  <td mat-cell *matCellDef="let element"> {{ element.timduration }} </td>
+</ng-container>
+
+<!-- Item ID -->
+<ng-container matColumnDef="itemid">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item ID </th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemid }} </td>
+</ng-container>
+
+<!-- Item Code -->
+<ng-container matColumnDef="itemcode">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+</ng-container>
+
+<!-- Item Name -->
+<ng-container matColumnDef="itemname">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+</ng-container>
+
+<!-- Abs Qty -->
+<ng-container matColumnDef="absqty_sum">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Abs Qty </th>
+  <td mat-cell *matCellDef="let element"> {{ element.absqty_sum }} </td>
+</ng-container>
+
+<!-- Receipt Abs Qty -->
+<ng-container matColumnDef="receiptabsqty_sum">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Receipt Qty </th>
+  <td mat-cell *matCellDef="let element"> {{ element.receiptabsqty_sum }} </td>
+</ng-container>
+
+<!-- Pipeline Qty -->
+<ng-container matColumnDef="pipelineqty_sum">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Pipeline Qty </th>
+  <td mat-cell *matCellDef="let element"> {{ element.pipelineqty_sum }} </td>
+</ng-container>
+
+<!-- Min % -->
+<ng-container matColumnDef="min_per">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Min % </th>
+  <td mat-cell *matCellDef="let element"> {{ element.min_per }} </td>
+</ng-container>
+
+<!-- Worst D -->
+<ng-container matColumnDef="worst_d">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Worst D </th>
+  <td mat-cell *matCellDef="let element"> {{ element.worst_d }} </td>
+</ng-container>
+
+<!-- No. of POs -->
+<ng-container matColumnDef="nospo">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> No. of POs </th>
+  <td mat-cell *matCellDef="let element"> {{ element.nospo }} </td>
+</ng-container>
+
+<!-- Header Row -->
+<tr mat-header-row *matHeaderRowDef="[
+  'sno',
+  'timduration',
+  'itemid',
+  'itemcode',
+  'itemname',
+  'absqty_sum',
+  'receiptabsqty_sum',
+  'pipelineqty_sum',
+  'min_per',
+  'worst_d',
+  'nospo'
+]"></tr>
+
+<!-- Data Row -->
+<tr mat-row *matRowDef="let row; columns: [
+  'sno',
+  'timduration',
+  'itemid',
+  'itemcode',
+  'itemname',
+  'absqty_sum',
+  'receiptabsqty_sum',
+  'pipelineqty_sum',
+  'min_per',
+  'worst_d',
+  'nospo'
+];"></tr>
+
+
+
+                      
+                        </table>
+                      </div>
+                       
+                      <mat-paginator #paginator15 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+                    </div>
+              </div>
+        
+             
+              
+          </div>
+              
+          
+            </div>  
+    
+     
+    
+        
+    
+    
+
+
+
+    </div>
+
+
+  
+  <div class="d-grid gap-2 col-12 mx-auto  m-2">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info btn-lg">
+      <mat-icon role="img" mat-card-avatar class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
+        aria-hidden="true">
+        exit_to_app
+      </mat-icon>
+    </button>
+  </div>
+</ng-template>
+<ng-template class=" " #pipelineSlippagePOItemDetailDTOModal let-modal  >
+  <div class="row align-items-center p-2 m-2 ">
+    <div class="col-lg-6 col-md-8">
+      <!-- <h1>AS Completed Details</h1> -->
+      <h1 class="text-info-emphasis">Details</h1>
+    </div>
+    <div class="col-lg-6 col-md-4 text-end">
+      <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+    </div>
+  </div>
+  <div class="" mat-dialog-content>
+    <div class="row card shadow card-body ">
+          <div class="card shadow" >
+              <div class="card-body">
+                  <div class="row border mb-1">
+                      <div class="col-12 text-center font-weight-bold py-1 text-white" style="background-color:#007f5f;">
+                          <strong>Reports : Pipeline Slippage PO Item Details </strong>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 table-container mb-4">
+
+
+                  
+               
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+
+
+
+                        
+                        <div class="filter-field flex-grow-1">
+                          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilterpipelineSlippagePOItemDetailDTOModal($event)">
+                        </div>
+                        <div class="export-menu-container">
+                          <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+                          <mat-menu #exportMenu="matMenu">
+                            <button mat-menu-item
+                              (click)="exporter.exportTable('xlsx', { fileName: 'applyTextFilterpipelineSlippagePOItemDetail', sheet: 'applyTextFilterpipelineSlippagePOItemDetail', Props: { Author: 'cgmsc' }})">Excel</button>
+                            <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button> -->
+                            
+                            <button mat-button (click)="exportToPDFpipelineSlippagePOItemDetailDTOModal()">PDF</button>
+                
+                          </mat-menu>
+                        </div>
+                      </div>
+                
+                      <div class="table-responsive">
+                        <table  mat-table matTableExporter [dataSource]="dataSource11" #exporter="matTableExporter" matSort #sort16="matSort">
+                      
+<!-- S.No -->
+<ng-container matColumnDef="sno">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+    <div class="center-header-cell">S.No</div>
+  </th>
+  <td mat-cell *matCellDef="let element; let i = index">
+    <div class="center-cell">{{ i + 1 }}</div>
+  </td>
+</ng-container>
+
+<!-- Item Code -->
+<ng-container matColumnDef="itemcode">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+</ng-container>
+
+<!-- Item Name -->
+<ng-container matColumnDef="itemname">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+  <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+</ng-container>
+
+<!-- Strength -->
+<ng-container matColumnDef="strength1">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Strength </th>
+  <td mat-cell *matCellDef="let element"> {{ element.strength1 }} </td>
+</ng-container>
+
+<!-- Unit -->
+<ng-container matColumnDef="unit">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Unit </th>
+  <td mat-cell *matCellDef="let element"> {{ element.unit }} </td>
+</ng-container>
+
+<!-- Supplier -->
+<ng-container matColumnDef="suppliername">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Supplier </th>
+  <td mat-cell *matCellDef="let element"> {{ element.suppliername }} </td>
+</ng-container>
+
+<!-- PO No -->
+<ng-container matColumnDef="pono">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> PO No </th>
+  <td mat-cell *matCellDef="let element"> {{ element.pono }} </td>
+</ng-container>
+
+<!-- SO Issue Date -->
+<ng-container matColumnDef="soissuedate">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> SO Issue Date </th>
+  <td mat-cell *matCellDef="let element">
+    {{ element.soissuedate | date:'dd-MMM-yyyy' }}
+  </td>
+</ng-container>
+
+<!-- Extended Date -->
+<ng-container matColumnDef="extendeddate">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Extended Date </th>
+  <td mat-cell *matCellDef="let element">
+    {{ element.extendeddate ? (element.extendeddate | date:'dd-MMM-yyyy') : '-' }}
+  </td>
+</ng-container>
+
+<!-- PO Qty -->
+<ng-container matColumnDef="poqty">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> PO Qty </th>
+  <td mat-cell *matCellDef="let element"> {{ element.poqty }} </td>
+</ng-container>
+
+<!-- Received Qty -->
+<ng-container matColumnDef="receivedQTY">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Received Qty </th>
+  <td mat-cell *matCellDef="let element"> {{ element.receivedQTY }} </td>
+</ng-container>
+
+<!-- Time Duration -->
+<ng-container matColumnDef="timduration">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Time Duration </th>
+  <td mat-cell *matCellDef="let element"> {{ element.timduration }} </td>
+</ng-container>
+
+<!-- Header Row -->
+<tr mat-header-row *matHeaderRowDef="[
+  'sno',
+  'itemcode',
+  'itemname',
+  'strength1',
+  'unit',
+  'suppliername',
+  'pono',
+  'soissuedate',
+  'extendeddate',
+  'poqty',
+  'receivedQTY',
+  'timduration'
+]"></tr>
+
+<!-- Data Row -->
+<tr mat-row *matRowDef="let row; columns: [
+  'sno',
+  'itemcode',
+  'itemname',
+  'strength1',
+  'unit',
+  'suppliername',
+  'pono',
+  'soissuedate',
+  'extendeddate',
+  'poqty',
+  'receivedQTY',
+  'timduration'
+];"></tr>
+
+
+                      
+                        </table>
+                      </div>
+                       
+                      <mat-paginator #paginator16 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
                     </div>
               </div>
         

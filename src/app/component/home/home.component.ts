@@ -65,11 +65,14 @@ export class HomeComponent {
   LIPendingTotal: any;
   RunningWork: any;
   handoverAbstractl: any;
+  pipelineSlippage: any;
   paidSummary: any;
   RCstatusDetails: any[] = [];
+  pipelineSlippageItemDetail: any[] = [];
+  pipelineSlippagePOItemDetailDTO: any[] = [];
   parameterNew: any;
   title1: any;
-
+  flag:any
   totalpoitems: any;
   totalrecvalue: any;
   dropindentid: any;
@@ -95,6 +98,8 @@ export class HomeComponent {
   totalRC1details: any;
 
   @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
+  @ViewChild('pipelineSlippageItemDetailModal') pipelineSlippageItemDetailModal: any;
+  @ViewChild('pipelineSlippagePOItemDetailDTOModal') pipelineSlippagePOItemDetailDTOModal: any;
   @ViewChild('RCDetailsModal') RCDetailsModal: any;
 
   dataSource = new MatTableDataSource<any>();
@@ -103,10 +108,16 @@ export class HomeComponent {
   dataSource4 = new MatTableDataSource<any>();
   dataSource8 = new MatTableDataSource<any>();
   dataSource9 = new MatTableDataSource<any>();
+  dataSource10 = new MatTableDataSource<any>();
+  dataSource11 = new MatTableDataSource<any>();
   @ViewChild('paginator8') paginator8!: MatPaginator;
   @ViewChild('sort8') sort8!: MatSort;
   @ViewChild('paginator9') paginator9!: MatPaginator;
   @ViewChild('sort9') sort9!: MatSort;
+  @ViewChild('paginator15') paginator15!: MatPaginator;
+  @ViewChild('sort15') sort15!: MatSort;
+  @ViewChild('paginator16') paginator16!: MatPaginator;
+  @ViewChild('sort16') sort16!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
@@ -938,6 +949,22 @@ this.fullUrl = window.location.href;
       this.dataSource8.paginator.firstPage();
     }
   }
+  applyTextFilterpipelineSlippage(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource10.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource10.paginator) {
+      this.dataSource10.paginator.firstPage();
+    }
+  }
+  applyTextFilterpipelineSlippagePOItemDetailDTOModal(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource11.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource11.paginator) {
+      this.dataSource11.paginator.firstPage();
+    }
+  }
   applyTextFiltertotalRC(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource9.filter = filterValue.trim().toLowerCase();
@@ -980,6 +1007,7 @@ this.fullUrl = window.location.href;
       this.gETRunningWorkSummary().pipe(catchError(() => of(null))),
       this.handoverAbstract().pipe(catchError(() => of(null))),
       this.gETPaidSummary().pipe(catchError(() => of(null))),
+      this.GetpipelineSlippage().pipe(catchError(() => of(null))),
     ])
       .pipe(finalize(() => this.spinner.hide()))
       .subscribe({
@@ -1055,6 +1083,21 @@ this.fullUrl = window.location.href;
             (sum, item) => sum + Number(item.totalWorks || 0),
             0
           );
+        })
+      );
+  }
+  GetpipelineSlippage(): Observable<any> {
+    return this.api
+      .pipelineSlippage()
+      .pipe(
+        catchError((error) => {
+          console.error('Failed to load pipelineSlippage abstract:', error);
+          this.toastr.error('Error loading pipelineSlippage data');
+          this.pipelineSlippage = 0;
+          return of([]); // return safe fallback
+        }),
+        tap((res: any[]) => {
+          this.pipelineSlippage = res
         })
       );
   }
@@ -1927,6 +1970,78 @@ this.fullUrl = window.location.href;
 
     this.openDialogHOD();
   }
+  GetpipelineSlippageItemDetail(nos:any) {
+    this.spinner.show();
+if(nos>14){
+  this.flag=1;
+}else{
+  this.flag=2;
+}
+
+    this.api.pipelineSlippageItemDetail(this.flag).subscribe({
+      next: (res: any[]) => {
+        if (res && res.length > 0) {
+          this.pipelineSlippageItemDetail = res.map((item: any, index: number) => ({
+            ...item,
+            sno: index + 1,
+          }));
+
+          this.dataSource10.data = this.pipelineSlippageItemDetail;
+          this.dataSource10.paginator = this.paginator15;
+          this.dataSource10.sort = this.sort15;
+        } else {
+          this.toastr.error('No data found');
+          this.dataSource10.data=[];
+        }
+      },
+      error: (err) => {
+        console.error('API error:', err);
+        this.toastr.error('Failed to load data');
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
+
+    this.openDialogpipelineSlippageItemDetail();
+  }
+
+  GetPipelineSlippagePOItemDetailDTO(po:any) {
+    this.spinner.show();
+if(po>14){
+  this.flag=1;
+}else{
+  this.flag=2;
+}
+
+    this.api.PipelineSlippagePOItemDetailDTO(this.flag).subscribe({
+      next: (res: any[]) => {
+        if (res && res.length > 0) {
+          this.pipelineSlippagePOItemDetailDTO = res.map((item: any, index: number) => ({
+            ...item,
+            sno: index + 1,
+          }));
+
+          this.dataSource11.data = this.pipelineSlippagePOItemDetailDTO;
+          this.dataSource11.paginator = this.paginator16;
+          this.dataSource11.sort = this.sort16;
+        } else {
+          this.toastr.error('No data found');
+          this.dataSource11.data=[];
+        }
+      },
+      error: (err) => {
+        console.error('API error:', err);
+        this.toastr.error('Failed to load data');
+      },
+      complete: () => {
+        this.spinner.hide();
+      },
+    });
+
+    this.openDialogpipelineSlippagePOItemDetailDTO();
+  }
+  
   Rcdetails(value: any) {
     this.spinner.show();
 
@@ -1960,6 +2075,48 @@ this.fullUrl = window.location.href;
     // this.getTotalTenderValue()
 
     const dialogRef = this.dialog.open(this.StatusDetailsModal, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+  openDialogpipelineSlippageItemDetail() {
+    // this.getTotalTenderValue()
+
+    const dialogRef = this.dialog.open(this.pipelineSlippageItemDetailModal, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      panelClass: 'full-screen-dialog', // Optional for additional styling
+      data: {
+        /* pass any data here */
+      },
+      // width: '100%',
+      // maxWidth: '100%', // Override default maxWidth
+      // maxHeight: '100%', // Override default maxHeight
+      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
+      // height: 'auto',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed');
+    });
+  }
+  openDialogpipelineSlippagePOItemDetailDTO() {
+    // this.getTotalTenderValue()
+
+    const dialogRef = this.dialog.open(this.pipelineSlippagePOItemDetailDTOModal, {
       width: '100%',
       height: '100%',
       maxWidth: '100%',
@@ -2317,6 +2474,153 @@ this.fullUrl = window.location.href;
 
     doc.save('RC_Details.pdf');
   }
+  exportToPDFpipelineSlippageItemDetail() {
+    const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
+  
+    const now = new Date();
+    const dateString = now.toLocaleDateString();
+    const timeString = now.toLocaleTimeString();
+  
+    const title = 'Pipeline Slippage Item Details';
+    doc.setFontSize(18);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const textWidth = doc.getTextWidth(title);
+    const xOffset = (pageWidth - textWidth) / 2;
+    doc.text(title, xOffset, 20);
+  
+    doc.setFontSize(10);
+    doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 28);
+  
+    // ✅ Define new columns
+    const columns = [
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Time Duration', dataKey: 'timduration' },
+      { header: 'Item ID', dataKey: 'itemid' },
+      { header: 'Item Code', dataKey: 'itemcode' },
+      { header: 'Item Name', dataKey: 'itemname' },
+      { header: 'Abs Qty', dataKey: 'absqty_sum' },
+      { header: 'Receipt Qty', dataKey: 'receiptabsqty_sum' },
+      { header: 'Pipeline Qty', dataKey: 'pipelineqty_sum' },
+      { header: 'Min %', dataKey: 'min_per' },
+      { header: 'Worst D', dataKey: 'worst_d' },
+      { header: 'No. of POs', dataKey: 'nospo' },
+    ];
+  
+    // ✅ Prepare rows
+    const rows = this.pipelineSlippageItemDetail.map((item: any, index: number) => ({
+      sno: index + 1,
+      timduration: item.timduration,
+      itemid: item.itemid,
+      itemcode: item.itemcode,
+      itemname: item.itemname,
+      absqty_sum: item.absqty_sum,
+      receiptabsqty_sum: item.receiptabsqty_sum,
+      pipelineqty_sum: item.pipelineqty_sum,
+      min_per: item.min_per,
+      worst_d: item.worst_d,
+      nospo: item.nospo,
+    }));
+  
+    // ✅ Generate table
+    autoTable(doc, {
+      head: [columns.map((col) => col.header)],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] ?? '')
+      ),
+      startY: 35,
+      theme: 'striped',
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { fillColor: [22, 160, 133], textColor: 255, halign: 'center' },
+      columnStyles: {
+        0: { cellWidth: 12 }, // S.No small
+        1: { cellWidth: 25 }, // Time Duration
+        4: { cellWidth: 45 }, // Item Name wider
+      },
+    });
+  
+    doc.save('PipelineSlippageItemDetails.pdf');
+  }
+  exportToPDFpipelineSlippagePOItemDetailDTOModal() {
+    const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
+  
+    const now = new Date();
+    const dateString = now.toLocaleDateString();
+    const timeString = now.toLocaleTimeString();
+  
+    const title = 'Pipeline Slippage PO Item Details';
+    doc.setFontSize(18);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const textWidth = doc.getTextWidth(title);
+    const xOffset = (pageWidth - textWidth) / 2;
+    doc.text(title, xOffset, 20);
+  
+    doc.setFontSize(10);
+    doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 28);
+  
+    // ✅ Define new columns
+    const columns = [
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Item Code', dataKey: 'itemcode' },
+      { header: 'Item Name', dataKey: 'itemname' },
+      { header: 'Strength', dataKey: 'strength1' },
+      { header: 'Unit', dataKey: 'unit' },
+      { header: 'Supplier', dataKey: 'suppliername' },
+      { header: 'PO No', dataKey: 'pono' },
+      { header: 'SO Issue Date', dataKey: 'soissuedate' },
+      { header: 'Extended Date', dataKey: 'extendeddate' },
+      { header: 'PO Qty', dataKey: 'poqty' },
+      { header: 'Received Qty', dataKey: 'receivedQTY' },
+      { header: 'Time Duration', dataKey: 'timduration' },
+    ];
+  
+    // ✅ Prepare rows
+    const rows = this.pipelineSlippagePOItemDetailDTO.map(
+      (item: any, index: number) => ({
+        sno: index + 1,
+        itemcode: item.itemcode,
+        itemname: item.itemname,
+        strength1: item.strength1,
+        unit: item.unit,
+        suppliername: item.suppliername,
+        pono: item.pono,
+        soissuedate: item.soissuedate
+          ? new Date(item.soissuedate).toLocaleDateString()
+          : '-',
+        extendeddate: item.extendeddate
+          ? new Date(item.extendeddate).toLocaleDateString()
+          : '-',
+        poqty: item.poqty,
+        receivedQTY: item.receivedQTY,
+        timduration: item.timduration,
+      })
+    );
+  
+    // ✅ Generate table
+    autoTable(doc, {
+      head: [columns.map((col) => col.header)],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] ?? '')
+      ),
+      startY: 35,
+      theme: 'striped',
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        halign: 'center',
+      },
+      columnStyles: {
+        0: { cellWidth: 12 }, // S.No
+        1: { cellWidth: 20 }, // Item Code
+        2: { cellWidth: 50 }, // Item Name wider
+        6: { cellWidth: 45 }, // PO No
+      },
+    });
+  
+    doc.save('pipelineSlippagePOItemDetailDTO.pdf');
+  }
+  
+  
   exportToPDFRCDDetails() {
     const doc = new jsPDF('l', 'mm', 'a4'); // landscape
 

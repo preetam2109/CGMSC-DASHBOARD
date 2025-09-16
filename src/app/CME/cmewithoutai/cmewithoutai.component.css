@@ -1,0 +1,11 @@
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
+  }
+  
+  .full-width {
+    min-width: 1000px; /* ensure scroll activates if too many columns */
+  }
+  
+

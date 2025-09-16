@@ -162,7 +162,7 @@ public chartOptions: Partial<ChartOptions> | any;
 
   //   this.spinner.show();
    
-  // debugger
+  // 
   //   this.api.ABCanalysisSummary(yearid,mcid,isedl).subscribe(
   //     (res) => {
   //       console.log('Raw API response:', res);
@@ -315,7 +315,7 @@ public chartOptions: Partial<ChartOptions> | any;
 
   noitemslick(rcvalide: any, abc: any) {
     try {
-      debugger;
+      ;
       this.category = abc;
   
       // Set EDL type
@@ -331,8 +331,8 @@ public chartOptions: Partial<ChartOptions> | any;
       }
   
       this.spinner.show();
-  debugger
   
+
       this.api.ABCanalysisSummaryDetail(
         this.selectedYearId,
         this.mcid,

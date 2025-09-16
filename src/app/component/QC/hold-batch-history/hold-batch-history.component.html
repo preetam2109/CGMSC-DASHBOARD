@@ -1,0 +1,303 @@
+<div class="container-fluid">
+    <div class="container" style="text-align: center; max-width: 100%; overflow-x: auto;">
+        <h1 style="color: rgb(50, 50, 164);"><strong>HOLD/NSQ  STOCK DETAILS</strong></h1>
+      </div>
+    <!-- First Group -->
+<div class="row mb-3 mt-4">
+    <div class="col-md-6 d-flex flex-wrap">
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="drugs" 
+               [(ngModel)]="selectedCategory" value="Drugs" (change)="updateSelectedCat()" />
+        <label class="form-check-label" for="drugs">Drugs</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="consumables" 
+               [(ngModel)]="selectedCategory" value="Consumables" (change)="updateSelectedCat()" />
+        <label class="form-check-label" for="consumables">Consumables</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="reagent" 
+               [(ngModel)]="selectedCategory" value="Reagent" (change)="updateSelectedCat()" />
+        <label class="form-check-label" for="reagent">Reagent</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" 
+               [(ngModel)]="selectedCategory" value="AYUSH" (change)="updateSelectedCat()" />
+        <label class="form-check-label" for="ayush">AYUSH</label>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Second Group -->
+  <div class="row mb-3 mt-4">
+    <div class="col-md-6 d-flex flex-wrap">
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup2" id="HOLD" 
+               [(ngModel)]="selectedCategory2" value="HOLD" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="HOLD">HOLD</label>
+      </div>
+      <div class="form-check me-3">
+        <input class="form-check-input" type="radio" name="categoryGroup2" id="NSQ" 
+               [(ngModel)]="selectedCategory2" value="NSQ" (change)="updateSelectedHodid()" />
+        <label class="form-check-label" for="NSQ">NSQ</label>
+      </div>
+    </div>
+  </div>
+  
+
+    <div class="me-2 w-100" >
+        <!-- <label class="form-label d-block w-100"><strong>Choose Item</strong>:</label> -->
+        <ng-select
+          [items]="MasIndentitemslist"
+          bindLabel="nameText"
+          bindValue="itemid"
+          [(ngModel)]="itemid"
+          name="itemid"
+          (change)="onISelectChange($event)"
+          #emailidField="ngModel"
+          [placeholder]="!itemid ? 'Search Item' : ''"
+          [searchable]="true"
+          [clearable]="true"
+          [appendTo]="'body'"
+          required
+          class="form-control "
+        >
+        </ng-select>
+      </div>
+
+      
+
+
+      <div class="row">
+        <div class="custom-datepicker-container mt-4">
+            <mat-form-field class="filter-field w-100" appearance="fill">
+                <mat-label>Date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                    <input matStartDate placeholder="Start date" formControlName="start">
+                    <input matEndDate placeholder="End date" formControlName="end">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </div>
+        <div class="col-12 text-center mb-2 mt-2">
+            <button class="btn btn-primary  w-md-auto" (click)="getHoldBatchHistory()">Show Details</button>
+          </div>
+        <div class="col-lg-12 col-md-12 table-container mb-4">
+          <div class="text d-flex mt-3">
+            <!-- <p class="text-warning">
+              EMD Data is taken in DPDMIS from Year 2022-23 onwards
+            </p> -->
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div class="export-menu-container">
+              <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'holdBatchHistory', sheet: 'holdBatchHistory', Props: { Author: 'cgmsc' }})">Excel</button>
+                <!-- <button mat-button (click)="exportToPDF()">PDF</button> -->
+              </mat-menu>
+            </div>
+          </div>
+    
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+    
+                <!-- S.No Column -->
+<ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef style="width: 50px;"> S.No </th>
+    <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+  </ng-container>
+  
+  <!-- Warehouse -->
+  <ng-container matColumnDef="warehousename">
+    <th mat-header-cell *matHeaderCellDef> WAREHOUSE </th>
+    <td mat-cell *matCellDef="let element"> {{ element.warehousename }} </td>
+  </ng-container>
+  
+  <!-- Category -->
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef> CATEGORY </th>
+    <td mat-cell *matCellDef="let element"> {{ element.category }} </td>
+  </ng-container>
+  
+  <!-- Item Code -->
+  <ng-container matColumnDef="itemcode">
+    <th mat-header-cell *matHeaderCellDef> ITEMCODE </th>
+    <td mat-cell *matCellDef="let element"> {{ element.itemcode }} </td>
+  </ng-container>
+  
+  <!-- Item Name -->
+  <ng-container matColumnDef="itemname">
+    <th mat-header-cell *matHeaderCellDef> ITEMNAME </th>
+    <td mat-cell *matCellDef="let element"> {{ element.itemname }} </td>
+  </ng-container>
+  
+  <!-- Strength -->
+  <ng-container matColumnDef="strength">
+    <th mat-header-cell *matHeaderCellDef> STRENGTH </th>
+    <td mat-cell *matCellDef="let element"> {{ element.strength }} </td>
+  </ng-container>
+  
+  <!-- SKU -->
+  <ng-container matColumnDef="sku">
+    <th mat-header-cell *matHeaderCellDef> SKU </th>
+    <td mat-cell *matCellDef="let element"> {{ element.sku }} </td>
+  </ng-container>
+  
+  <!-- PONO -->
+  <ng-container matColumnDef="pono">
+    <th mat-header-cell *matHeaderCellDef> PONO </th>
+    <td mat-cell *matCellDef="let element"> {{ element.pono }} </td>
+  </ng-container>
+  
+  <!-- PO Date -->
+  <ng-container matColumnDef="podate">
+    <th mat-header-cell *matHeaderCellDef> PODATE </th>
+    <td mat-cell *matCellDef="let element"> {{ element.podate | date:'dd-MM-yyyy' }} </td>
+  </ng-container>
+  
+  <!-- Supplier Name -->
+  <ng-container matColumnDef="suppliername">
+    <th mat-header-cell *matHeaderCellDef> SUPPLIERNAME </th>
+    <td mat-cell *matCellDef="let element"> {{ element.suppliername }} </td>
+  </ng-container>
+  
+  <!-- Batch No -->
+  <ng-container matColumnDef="batchno">
+    <th mat-header-cell *matHeaderCellDef> BATCH NO </th>
+    <td mat-cell *matCellDef="let element"> {{ element.batchno }} </td>
+  </ng-container>
+  
+  <!-- MFG Date -->
+  <ng-container matColumnDef="mfgdate">
+    <th mat-header-cell *matHeaderCellDef> MFG DATE </th>
+    <td mat-cell *matCellDef="let element"> {{ element.mfgdate | date:'dd-MM-yyyy' }} </td>
+  </ng-container>
+  
+  <!-- EXP Date -->
+  <ng-container matColumnDef="expdate">
+    <th mat-header-cell *matHeaderCellDef> EXP DATE </th>
+    <td mat-cell *matCellDef="let element"> {{ element.expdate | date:'dd-MM-yyyy' }} </td>
+  </ng-container>
+  
+  <!-- Hold Stock -->
+  <ng-container matColumnDef="holdStock">
+    <th mat-header-cell *matHeaderCellDef> {{selectedCategory2}} STOCK </th>
+    <td mat-cell *matCellDef="let element"> {{ element.holdStock }} </td>
+  </ng-container>
+  
+  <!-- Hold Date -->
+  <ng-container matColumnDef="holddate">
+    <th mat-header-cell *matHeaderCellDef> {{selectedCategory2}} DATE </th>
+    <td mat-cell *matCellDef="let element"> {{ element.holddate }} </td>
+  </ng-container>
+  
+  <!-- Hold Reason -->
+  <ng-container matColumnDef="holdreason">
+    <th mat-header-cell *matHeaderCellDef> {{selectedCategory2}}REASON </th>
+    <td mat-cell *matCellDef="let element"> {{ element.holdreason }} </td>
+  </ng-container>
+  
+  <!-- Receipt From Supplier -->
+  <ng-container matColumnDef="supplierReceipt">
+    <th mat-header-cell *matHeaderCellDef> RECEIPT FROM SUPPLIER </th>
+    <td mat-cell *matCellDef="let element"> {{ element.supplierReceipt }} </td>
+  </ng-container>
+  
+  <!-- Receipt From Inter Warehouse -->
+  <ng-container matColumnDef="iwhReceiptQTy">
+    <th mat-header-cell *matHeaderCellDef> RECEIPT FROM INTER WAREHOUSE TRANSFER </th>
+    <td mat-cell *matCellDef="let element"> {{ element.iwhReceiptQTy }} </td>
+  </ng-container>
+  
+  <!-- Facility Issue -->
+  <ng-container matColumnDef="fac_iss_qty">
+    <th mat-header-cell *matHeaderCellDef> FACILITY ISSUE </th>
+    <td mat-cell *matCellDef="let element"> {{ element.fac_iss_qty }} </td>
+  </ng-container>
+  
+  <!-- Return From Facility -->
+  <ng-container matColumnDef="rF_Qty">
+    <th mat-header-cell *matHeaderCellDef> RETURN FROM FACILITY </th>
+    <td mat-cell *matCellDef="let element"> {{ element.rF_Qty }} </td>
+  </ng-container>
+  
+  <!-- Return To Supplier -->
+  <ng-container matColumnDef="rsqty">
+    <th mat-header-cell *matHeaderCellDef> RETURN TO SUPPLIER </th>
+    <td mat-cell *matCellDef="let element"> {{ element.rsqty }} </td>
+  </ng-container>
+  
+  <!-- Replaced Qty -->
+  <ng-container matColumnDef="rpqty">
+    <th mat-header-cell *matHeaderCellDef> REPLACED QTY BY SUPPLIER </th>
+    <td mat-cell *matCellDef="let element"> {{ element.rpqty }} </td>
+  </ng-container>
+  
+
+
+<!-- Header Row -->
+<tr mat-header-row *matHeaderRowDef="[
+  'sno',
+  'warehousename',
+  'category',
+  'itemcode',
+  'itemname',
+  'strength',
+  'sku',
+  'pono',
+  'podate',
+  'suppliername',
+  'batchno',
+  'mfgdate',
+  'expdate',
+  'holdStock',
+  'holddate',
+  'holdreason',
+  'supplierReceipt',
+  'iwhReceiptQTy',
+  'fac_iss_qty',
+  'rF_Qty',
+  'rsqty',
+  'rpqty'
+]"></tr>
+
+<!-- Data Row -->
+<tr mat-row *matRowDef="let row; columns: [
+  'sno',
+  'warehousename',
+  'category',
+  'itemcode',
+  'itemname',
+  'strength',
+  'sku',
+  'pono',
+  'podate',
+  'suppliername',
+  'batchno',
+  'mfgdate',
+  'expdate',
+  'holdStock',
+  'holddate',
+  'holdreason',
+  'supplierReceipt',
+  'iwhReceiptQTy',
+  'fac_iss_qty',
+  'rF_Qty',
+  'rsqty',
+  'rpqty'
+];"></tr>
+
+    
+            </table>
+          </div>      
+          <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+
+
+    </div>

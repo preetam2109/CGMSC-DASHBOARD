@@ -1,0 +1,35 @@
+<div class="w-100 " style="background-color: #e2e3e5">
+    <h1 class="text-center mt-2" style="color: rgb(50, 50, 164); display: flex; justify-content: center; align-items: center; position: relative;">
+      <!-- <strong style="text-align: center;">CME Lifting Status  </strong> -->
+    </h1>
+    </div>
+   
+  <div class="container-fluid">
+    
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label="Batch Wise PO Detail">
+      <ng-template matTabContent>
+        <app-batch-wise-po-detail *ngIf="selectedTabIndex === 0"></app-batch-wise-po-detail>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Item Wise PO Detail">
+      <ng-template matTabContent>
+        <app-item-wise-po-detail *ngIf="selectedTabIndex === 1"></app-item-wise-po-detail>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Tab 3">
+      <ng-template matTabContent>
+        <!-- <app-cmewithoutai *ngIf="selectedTabIndex === 2"></app-cmewithoutai> -->
+      </ng-template>
+    </mat-tab>
+    <!-- <mat-tab label="CME Without Ai ">
+      <ng-template matTabContent>
+        <app-cgmscstock-details-ayush *ngIf="selectedTabIndex === 3"></app-cgmscstock-details-ayush>
+      </ng-template>
+    </mat-tab> -->
+   
+    
+  </mat-tab-group>
+  
+  </div>
+  
