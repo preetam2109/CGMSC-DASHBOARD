@@ -1088,7 +1088,7 @@ this.fullUrl = window.location.href;
   }
   GetpipelineSlippage(): Observable<any> {
     return this.api
-      .pipelineSlippage()
+      .pipelineSlippage(this.mcid,0)
       .pipe(
         catchError((error) => {
           console.error('Failed to load pipelineSlippage abstract:', error);
@@ -1970,7 +1970,11 @@ this.fullUrl = window.location.href;
 
     this.openDialogHOD();
   }
-  GetpipelineSlippageItemDetail(nos:any) {
+  GetpipelineSlippageItemDetail(nos:any,timeline:any) {
+
+     if(timeline==='Timeline'){
+      return
+     }
     this.spinner.show();
 if(nos>14){
   this.flag=1;
@@ -1978,7 +1982,7 @@ if(nos>14){
   this.flag=2;
 }
 
-    this.api.pipelineSlippageItemDetail(this.flag).subscribe({
+    this.api.pipelineSlippageItemDetail(this.flag,this.mcid,0).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {
           this.pipelineSlippageItemDetail = res.map((item: any, index: number) => ({
@@ -2006,7 +2010,10 @@ if(nos>14){
     this.openDialogpipelineSlippageItemDetail();
   }
 
-  GetPipelineSlippagePOItemDetailDTO(po:any) {
+  GetPipelineSlippagePOItemDetailDTO(po:any,timeline:any) {
+    if(timeline==='Timeline'){
+      return
+     }
     this.spinner.show();
 if(po>14){
   this.flag=1;
@@ -2014,7 +2021,7 @@ if(po>14){
   this.flag=2;
 }
 
-    this.api.PipelineSlippagePOItemDetailDTO(this.flag).subscribe({
+    this.api.PipelineSlippagePOItemDetailDTO(this.flag,this.mcid,0).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {
           this.pipelineSlippagePOItemDetailDTO = res.map((item: any, index: number) => ({
@@ -2495,14 +2502,12 @@ if(po>14){
     const columns = [
       { header: 'S.No', dataKey: 'sno' },
       { header: 'Time Duration', dataKey: 'timduration' },
-      { header: 'Item ID', dataKey: 'itemid' },
       { header: 'Item Code', dataKey: 'itemcode' },
       { header: 'Item Name', dataKey: 'itemname' },
       { header: 'Abs Qty', dataKey: 'absqty_sum' },
       { header: 'Receipt Qty', dataKey: 'receiptabsqty_sum' },
       { header: 'Pipeline Qty', dataKey: 'pipelineqty_sum' },
-      { header: 'Min %', dataKey: 'min_per' },
-      { header: 'Worst D', dataKey: 'worst_d' },
+      { header: 'Received %', dataKey: 'min_per' },
       { header: 'No. of POs', dataKey: 'nospo' },
     ];
   
@@ -2510,14 +2515,12 @@ if(po>14){
     const rows = this.pipelineSlippageItemDetail.map((item: any, index: number) => ({
       sno: index + 1,
       timduration: item.timduration,
-      itemid: item.itemid,
       itemcode: item.itemcode,
       itemname: item.itemname,
       absqty_sum: item.absqty_sum,
       receiptabsqty_sum: item.receiptabsqty_sum,
       pipelineqty_sum: item.pipelineqty_sum,
       min_per: item.min_per,
-      worst_d: item.worst_d,
       nospo: item.nospo,
     }));
   

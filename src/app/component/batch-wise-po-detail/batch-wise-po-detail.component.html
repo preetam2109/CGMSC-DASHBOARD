@@ -24,122 +24,130 @@
     </div>
 </div>
 
-<div class="form-group mb-2">
-    <label for="yearSelect">Procurement Year</label>
-    <select id="yearSelect" class="form-control" (change)="onYearChange($event)">
-      <option value="">-- Select Year --</option>
-      <option *ngFor="let year of years" [value]="year.id">
-        {{ year.label }}
-    </option>
-    </select>
-  </div>
+<div class="row row-cols-2">   
 
-  <div class="form-group mb-2">
-    <label for="yearSelect">Items </label>
-    <ng-select 
-    [items]="MasIndentitemslist"
-    bindLabel="itemname" 
-    bindValue="itemid" 
-    [(ngModel)]="itemid" 
-    name="itemid"   
-    (change)="onISelectChange($event)" 
-    #emailidField="ngModel" 
-    [placeholder]="!itemid ? 'Search Item' : ''"
-    [searchable]="true" 
-    [clearable]="true" 
-    [appendTo]="'body'" 
-    required class="form-control ">
-    </ng-select>
+
+
+    <div class="form-group mb-2">
+        <label for="yearSelect">Procurement Year</label>
+        <select id="yearSelect" class="form-control" (change)="onYearChange($event)">
+          <option value="">-- Select Year --</option>
+          <option *ngFor="let year of years" [value]="year.id">
+            {{ year.label }}
+        </option>
+        </select>
+      </div>
+    
+      <div class="form-group mb-2">
+        <label for="yearSelect">Items </label>
+        <ng-select 
+        [items]="MasIndentitemslist"
+        bindLabel="itemname" 
+        bindValue="itemid" 
+        [(ngModel)]="itemid" 
+        name="itemid"   
+        (change)="onISelectChange($event)" 
+        #emailidField="ngModel" 
+        [placeholder]="!itemid ? 'Search Item' : ''"
+        [searchable]="true" 
+        [clearable]="true" 
+        [appendTo]="'body'" 
+        required class="form-control ">
+        </ng-select>
+    </div>
+    
+      <div class="form-group mb-2">
+        <label for="supplierSelect">Supplier Name</label>
+        <ng-select
+          [items]="MasSupplierPO"
+          bindLabel="suppliername"
+          bindValue="supplierid"
+          [(ngModel)]="suplierId"
+          name="suplierId"
+          (change)="onSupplierNameChange($event)"
+          [placeholder]="!suplierId ? 'Search Supplier' : ''"
+          [searchable]="true"
+          [clearable]="true"
+          [appendTo]="'body'"
+          required
+          class="form-control">
+        </ng-select>
+      </div>
+      
+      <div class="form-group mb-2">
+        <label for="analysisSelect">Select Analysis Type</label>
+        <select id="analysisSelect" class="form-control" (change)="onAnalysisChange($event)">
+          <option value="" disabled selected>-- Select Analysis Type --</option>
+          <optgroup label="Matrix Category">
+            <option value="I">I-Matrix</option>
+            <option value="II">II-Matrix</option>
+            <option value="III">III-Matrix</option>
+          </optgroup>
+          <optgroup label="ABC Analysis">
+            <option value="A">A-ABC</option>
+            <option value="B">B-ABC</option>
+            <option value="C">C-ABC</option>
+          </optgroup>
+          <optgroup label="VED Analysis">
+            <option value="V">V-VED</option>
+            <option value="E">E-VED</option>
+            <option value="D">D-VED</option>
+          </optgroup>
+          <optgroup label="SDE Analysis">
+            <option value="S">S-SDE</option>
+            <option value="D">D-SDE</option>
+            <option value="E">D-SDE</option>
+          </optgroup>
+        </select>
+      </div>
+    
+    
+    <div class="form-group mb-2">
+        <label for="yearSelect">Tender Reference</label>
+        
+            <ng-select
+            [items]="MasSchemePO"
+            bindLabel="schemename"
+            bindValue="schemeid"
+            [(ngModel)]="schemeid"
+            name="schemeid"
+            (change)="onTenderNoChange($event)"
+            [placeholder]="!schemeid ? 'Search Scheme' : ''"
+            [searchable]="true"
+            [clearable]="true"
+            [appendTo]="'body'"
+            required
+            class="form-control">
+          </ng-select>
+         
+        
+      </div>
+    
+    <div class="form-group mb-2">
+        <label for="yearSelect">PO No</label>
+        
+            <ng-select
+            [items]="MasPOSummary"
+            bindLabel="name"
+            bindValue="ponoid"
+            [(ngModel)]="ponoid"
+            name="ponoid"
+            (change)="onPoNoChange($event)"
+            [placeholder]="!ponoid ? 'Search PO No' : ''"
+            [searchable]="true"
+            [clearable]="true"
+            [appendTo]="'body'"
+            required
+            class="form-control">
+          </ng-select>
+         
+        
+      </div>
+    
+      
+
 </div>
 
-  <div class="form-group mb-2">
-    <label for="supplierSelect">Supplier Name</label>
-    <ng-select
-      [items]="MasSupplierPO"
-      bindLabel="suppliername"
-      bindValue="supplierid"
-      [(ngModel)]="suplierId"
-      name="suplierId"
-      (change)="onSupplierNameChange($event)"
-      [placeholder]="!suplierId ? 'Search Supplier' : ''"
-      [searchable]="true"
-      [clearable]="true"
-      [appendTo]="'body'"
-      required
-      class="form-control">
-    </ng-select>
-  </div>
-  
-  <div class="form-group mb-2">
-    <label for="analysisSelect">Select Analysis Type</label>
-    <select id="analysisSelect" class="form-control" (change)="onAnalysisChange($event)">
-      <option value="" disabled selected>-- Select Analysis Type --</option>
-      <optgroup label="Matrix Category">
-        <option value="I">I-Matrix</option>
-        <option value="II">II-Matrix</option>
-        <option value="III">III-Matrix</option>
-      </optgroup>
-      <optgroup label="ABC Analysis">
-        <option value="A">A-ABC</option>
-        <option value="B">B-ABC</option>
-        <option value="C">C-ABC</option>
-      </optgroup>
-      <optgroup label="VED Analysis">
-        <option value="V">V-VED</option>
-        <option value="E">E-VED</option>
-        <option value="D">D-VED</option>
-      </optgroup>
-      <optgroup label="SDE Analysis">
-        <option value="S">S-SDE</option>
-        <option value="D">D-SDE</option>
-        <option value="E">D-SDE</option>
-      </optgroup>
-    </select>
-  </div>
-
-
-<div class="form-group mb-2">
-    <label for="yearSelect">Tender Reference</label>
-    
-        <ng-select
-        [items]="MasSchemePO"
-        bindLabel="schemename"
-        bindValue="schemeid"
-        [(ngModel)]="schemeid"
-        name="schemeid"
-        (change)="onTenderNoChange($event)"
-        [placeholder]="!schemeid ? 'Search Scheme' : ''"
-        [searchable]="true"
-        [clearable]="true"
-        [appendTo]="'body'"
-        required
-        class="form-control">
-      </ng-select>
-     
-    
-  </div>
-
-<div class="form-group mb-2">
-    <label for="yearSelect">PO No</label>
-    
-        <ng-select
-        [items]="MasPOSummary"
-        bindLabel="name"
-        bindValue="ponoid"
-        [(ngModel)]="ponoid"
-        name="ponoid"
-        (change)="onPoNoChange($event)"
-        [placeholder]="!ponoid ? 'Search PO No' : ''"
-        [searchable]="true"
-        [clearable]="true"
-        [appendTo]="'body'"
-        required
-        class="form-control">
-      </ng-select>
-     
-    
-  </div>
- 
 
   
 

@@ -36,7 +36,7 @@ export class HoldBatchHistoryComponent {
   
   mcid=1
   selectedCategory: string = 'Drugs';
-  selectedCategory2: string = '';
+  selectedCategory2: string = 'HOLD';
   MasIndentitemslist: any;
   itemid: any;
   dataSource!: MatTableDataSource<any[]>;

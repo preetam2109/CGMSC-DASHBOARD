@@ -2992,7 +2992,7 @@ this.status=': To Be Tender';
                 margin: { top: 20, left: 10, right: 10 },
               });
             
-              doc.save('TenderItemDetails.pdf');
+              doc.save('QCPendingMonthwiseRecDetails.pdf');
             }
             
 
