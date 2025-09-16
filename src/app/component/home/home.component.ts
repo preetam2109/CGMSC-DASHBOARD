@@ -1088,7 +1088,7 @@ this.fullUrl = window.location.href;
   }
   GetpipelineSlippage(): Observable<any> {
     return this.api
-      .pipelineSlippage()
+      .pipelineSlippage(this.mcid,0)
       .pipe(
         catchError((error) => {
           console.error('Failed to load pipelineSlippage abstract:', error);
@@ -1970,7 +1970,11 @@ this.fullUrl = window.location.href;
 
     this.openDialogHOD();
   }
-  GetpipelineSlippageItemDetail(nos:any) {
+  GetpipelineSlippageItemDetail(nos:any,timeline:any) {
+
+     if(timeline==='Timeline'){
+      return
+     }
     this.spinner.show();
 if(nos>14){
   this.flag=1;
@@ -1978,7 +1982,7 @@ if(nos>14){
   this.flag=2;
 }
 
-    this.api.pipelineSlippageItemDetail(this.flag).subscribe({
+    this.api.pipelineSlippageItemDetail(this.flag,this.mcid,0).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {
           this.pipelineSlippageItemDetail = res.map((item: any, index: number) => ({
@@ -2006,7 +2010,10 @@ if(nos>14){
     this.openDialogpipelineSlippageItemDetail();
   }
 
-  GetPipelineSlippagePOItemDetailDTO(po:any) {
+  GetPipelineSlippagePOItemDetailDTO(po:any,timeline:any) {
+    if(timeline==='Timeline'){
+      return
+     }
     this.spinner.show();
 if(po>14){
   this.flag=1;
@@ -2014,7 +2021,7 @@ if(po>14){
   this.flag=2;
 }
 
-    this.api.PipelineSlippagePOItemDetailDTO(this.flag).subscribe({
+    this.api.PipelineSlippagePOItemDetailDTO(this.flag,this.mcid,0).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {
           this.pipelineSlippagePOItemDetailDTO = res.map((item: any, index: number) => ({

@@ -1,25 +1,21 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, OnInit, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { dispatchPending } from 'src/app/Model/dispatchPending';
-import { DistrictService } from 'src/app/service/district.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/service/api.service';
-import { EmdStatusDetail } from 'src/app/Model/EmdStatusDetail';
-import { DPDMISSupemdSummary } from 'src/app/Model/DPDMISSupemdSummary';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'; 
 import { CGMSCStockDetails } from 'src/app/Model/CGMSCStockDetails';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {  MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { WarehouseWiseStock } from 'src/app/Model/WarehouseWiseStock';
 import { PipelineDetails } from 'src/app/Model/PipelineDetails';
 import { ItemDetailsPopup } from 'src/app/Model/ItemDetailsPopup';
 import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
-import { NgFor, CommonModule, NgStyle } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NgFor,CommonModule, NgStyle, DatePipe } from '@angular/common';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -38,6 +34,7 @@ import { WarehouseStockDialogComponent } from 'src/app/component/warehouse-stock
 import { AIvsIssuance } from 'src/app/Model/masInfoUser';
 import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
 import { Location } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 @Component({
   selector: 'app-cgmsc-institute-wise-issuance',
   standalone: true,
@@ -64,7 +61,7 @@ import { Location } from '@angular/common';
     SelectDropDownModule,
     DropdownModule,
     NgStyle,
-
+    ReactiveFormsModule,
     MatSelectModule,
     FormsModule,
     NgSelectModule,
@@ -75,7 +72,8 @@ import { Location } from '@angular/common';
      MatTableExporterModule,
      MatPaginatorModule,
       MatTableModule,
-      SelectDropDownModule,DropdownModule
+      SelectDropDownModule,DropdownModule,
+      MatDatepickerModule
   ],
   templateUrl: './cgmsc-institute-wise-issuance.component.html',
   styleUrl: './cgmsc-institute-wise-issuance.component.css'
@@ -98,6 +96,8 @@ throw new Error('Method not implemented.');
   roleName = localStorage.getItem('roleName')
   selectedCategory: string = 'Drugs'; 
 mcid=1;
+dateRange!: FormGroup;
+
 
 FundsDDL:any
 MasfacilityInfoUser:any
@@ -127,13 +127,38 @@ Year:any
     private breakpointObserver: BreakpointObserver,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,private location: Location,
+    
+    public datePipe: DatePipe,
+    private fb: FormBuilder
   ) {
     this.pageName = this.location.path();
     this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<any>([]);
 
+    const today = new Date();
+    const firstDayOfMonth = new Date(2023, 3, 1); 
+    this.dateRange = this.fb.group({
+      start: [firstDayOfMonth, [Validators.required, this.startDateValidator.bind(this)]],
+      end: [today, Validators.required]
+    });
+  
+    this.dateRange.valueChanges.subscribe(val => {
+      console.log('Date Range Changed:', val);
+      // this.getNonSupplySummary();
+    });
+
 
   }
+
+    // ✅ Validator: start date should not be greater than today
+startDateValidator(control: AbstractControl) {
+  const selectedDate = new Date(control.value);
+  const today = new Date();
+  if (selectedDate > today) {
+    return { invalidStart: true }; // ❌ start date greater than today
+  }
+  return null;
+}
 
   ngOnInit() {
     // this.spinner.show();
@@ -237,7 +262,17 @@ Year:any
   // }
 
   getAllDispatchPending() {
+
+
+
     
+    const startDate = this.dateRange.value.start;
+    const endDate = this.dateRange.value.end;
+  // Only format dates if both start and end dates are selected
+  const formattedStartDate = startDate ? this.datePipe.transform(startDate, 'dd-MMM-yyyy') : '';
+  const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
+
+
     this.spinner.show();
     console.log('Fetching with:', this.mcid, this.facilityid, this.accyrsetid);
     if(this.accyrsetid===undefined || this.accyrsetid===null){
@@ -256,7 +291,6 @@ Year:any
         }));
   
         console.log('With S.No:', this.dispatchPendings);
-  
         this.dataSource.data = this.dispatchPendings;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

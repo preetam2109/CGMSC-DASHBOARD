@@ -300,7 +300,7 @@
                           <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                           <mat-menu #exportMenu="matMenu">
                             <button mat-menu-item
-                              (click)="exporter.exportTable('xlsx', { fileName: 'Annualindent', sheet: 'Annualindent', Props: { Author: 'cgmsc' }})">Excel</button>
+                              (click)="exporter.exportTable('xlsx', { fileName: 'bidderDetails', sheet: 'bidderDetails', Props: { Author: 'cgmsc' }})">Excel</button>
                             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                           
                             <button mat-button (click)="exportToPDF()">PDF</button>
@@ -1395,7 +1395,7 @@
                               <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                               <mat-menu #exportMenu="matMenu">
                                 <button mat-menu-item
-                                  (click)="exporter.exportTable('xlsx', { fileName: 'StatusDetails', sheet: 'StatusDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                                  (click)="exporter.exportTable('xlsx', { fileName: 'ToBeTender', sheet: 'ToBeTender', Props: { Author: 'cgmsc' }})">Excel</button>
                                 <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                                 
                                 <button mat-button (click)="exportToBeTenderDetails()">PDF</button>

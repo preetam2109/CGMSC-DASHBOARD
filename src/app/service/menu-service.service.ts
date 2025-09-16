@@ -30,6 +30,23 @@ export class MenuServiceService {
       categories: {
         DrugsConsumables: [
           { label: 'Home', route: '/home' },
+
+          {
+            label: 'Power Bi Dashboard',
+            route: '',   // 👈 empty string or '/welcome' as placeholder
+            submenu: [
+              { label: 'Tender-RC Status', route: '/tender-status-pbi' }
+            ]
+          }
+          
+,
+
+        
+
+        
+
+
+
           { label: 'Dashboard', route: '/welcome' },
           { label: 'Analysis', route: '/analysis' },
           { label: 'Attendance', route: '/attendance-dash' },
@@ -45,6 +62,7 @@ export class MenuServiceService {
           { label: 'Warehouse Wise', route: '/w-wise' },
           { label: 'Non Supply', route: '/nonsupply' },
           { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
+          { label: 'Noc', route: '/dmefacnoc' },
           
           // {
           //   label: 'Health Facilities Coverage',
@@ -80,6 +98,23 @@ export class MenuServiceService {
             ],
             route: '/welcome',
           },
+
+
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           { label: 'IWH Pendings', route: '/iwhPending' },
           { label: 'NOC', route: '/noc' },
@@ -1069,6 +1104,11 @@ export class MenuServiceService {
         { label: 'QC Courier', route: '/QcPendings' },
         { label: 'QC-Lab Issues', route: '/qc-dash' },
       ],
+
+      'Power Bi Dashboard': [
+        { label: 'Tender-RC Status', route: '/tender-status-pbi' },
+      ],
+
     };
     return submenus[label];
   }

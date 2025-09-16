@@ -10,9 +10,16 @@
       <!-- <h1 *ngIf="roleName==='Warehouse'">Warehouse Stock Details</h1> -->
 
     </div>
+
+
+
+
     <div class="col-12 col-md-6 mb-3">
         <!-- <label class="form-label"><strong>Select Fund Head</strong>:</label> -->
+        <!-- Add Select All option -->
+        <!-- <ng-option [value]="'all'">Select All</ng-option> -->
         <ng-select
+        
           [items]="MasfacilityInfoUser"
           bindLabel="facilityname"
           bindValue="facilityid"
@@ -27,8 +34,21 @@
           required
           class="form-control"
         >
+    
         </ng-select>
         </div>
+
+        <div class="custom-datepicker-container mt-4">
+          <mat-form-field class="filter-field w-100" appearance="fill">
+              <mat-label>Date range</mat-label>
+              <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                  <input matStartDate placeholder="Start date" formControlName="start">
+                  <input matEndDate placeholder="End date" formControlName="end">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+      </div>
 
     <div class="col-12 col-md-6 mb-3">
         <!-- <label class="form-label"><strong>Select Fund Head</strong>:</label> -->
@@ -93,10 +113,10 @@
               <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
               <mat-menu #exportMenu="matMenu">
                 <button mat-menu-item
-                  (click)="exporter.exportTable('xlsx', { fileName: 'supplierWise', sheet: 'supplierWise', Props: { Author: 'cgmsc' }})">Excel</button>
-                <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                  (click)="exporter.exportTable('xlsx', { fileName: 'cgmscinstitutewiseissuance', sheet: 'cgmscinstitutewiseissuance', Props: { Author: 'cgmsc' }})">Excel</button>
+                <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                 <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
                 <button mat-button (click)="exportToPDF()">PDF</button>
     
               </mat-menu>
@@ -212,6 +232,7 @@
               'issuePEr',
               'nocqty',
               'nocqtyinNos',
+
               ]"></tr>
     
               <!-- Data Rows -->
@@ -230,11 +251,11 @@
               'nocqty',
               'nocqtyinNos',
               ];"
-             [ngStyle]="{
-                'background-color': row.color === 'Red' ? '#f8d7da' :
-                                    row.color === 'White' ? '#fff3cd' :
-                                    row.color === 'Yellow' ? '#d6d8d9' : ''
-              }">
+            [ngClass]="{
+              'row-yellow': row.color?.trim().toLowerCase() === 'yellow',
+              'row-red': row.color?.trim().toLowerCase() === 'red',
+              'row-white': row.color?.trim().toLowerCase() === 'white'
+            }">>
               </tr>
     
             </table>

@@ -246,9 +246,9 @@
               <div class="p-2 border rounded" style="background: rgba(255,255,255,0.15); height: 100%;">
                  <!-- Apply red or blue to all text in this slip -->
             <div [ngStyle]="{ 'color': i % 2 === 0 ? 'red' : 'green' }">
-                <h5 class="mb-2"><strong>Time Durations: </strong>{{ slip.timduration }}</h5>
-                <p class="mb-1" (click)="GetpipelineSlippageItemDetail(slip.nos)" style="cursor: pointer;"><strong>Nos:</strong> {{ slip.nos }}</p>
-                <p class="mb-0" (click)="GetPipelineSlippagePOItemDetailDTO(slip.nosPO)" style="cursor: pointer;" ><strong>POs:</strong> {{ slip.nosPO }}</p>
+                <h5 class="mb-2"  ><strong>Time Durations: </strong>{{ slip.timduration }}</h5>
+                <p class="mb-1" (click)="GetpipelineSlippageItemDetail(slip.nos,slip.timduration)" style="cursor: pointer;"><strong>Nos:</strong> {{ slip.nos }}</p>
+                <p class="mb-0" (click)="GetPipelineSlippagePOItemDetailDTO(slip.nosPO,slip.timduration)" style="cursor: pointer;" ><strong>POs:</strong> {{ slip.nosPO }}</p>
               </div>
             </div>
             </div>
