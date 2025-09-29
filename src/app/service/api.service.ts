@@ -1406,8 +1406,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   AIvsIssuance(mcid:any,yrid:any,facid:any){
-    
-    
+    debugger
     return this.http.get<AIvsIssuance[]>(`${this.CGMSCHO_API2}/HO/AIvsIssuance?mcid=${mcid}&facid=${facid}&yrid=${yrid}`);
 
   }
@@ -1630,21 +1629,21 @@ CMEwithoutAIDetail(yearId:any,facid:any){
 }
 
 
-pipelineSlippage(){
+pipelineSlippage(mcid:any,isEDL:any){
   
   //https://dpdmis.in/CGMSCHO_API2/api/Analysis/pipelineSlippage
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippage`);
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippage?mcid=${mcid}&isEDL=${isEDL}`);
 }
 
-pipelineSlippageItemDetail(flag:any){
+pipelineSlippageItemDetail(flag:any,mcid:any,isEDL:any){
   
   //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippageItemDetail?flag=${flag}`);
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippageItemDetail?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`);
 }
-PipelineSlippagePOItemDetailDTO(flag:any){
+PipelineSlippagePOItemDetailDTO(flag:any,mcid:any,isEDL:any){
   
   //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/PipelineSlippagePOItemDetailDTO?flag=${flag}`);
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/PipelineSlippagePOItemDetailDTO?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`);
 }
 
 
@@ -1672,7 +1671,26 @@ HoldBatchHistory(mcid:any,fromDate:any,ToDate:any,itemId:any,nsqholdflag:any){
   return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/HoldBatchHistory?mcid=${mcid}&fromDate=${fromDate}&ToDate=${ToDate}&itemId=${itemId}&nsqholdflag=${nsqholdflag}}`);
 }
 
+NonSupplySummary(fromDate:any,ToDate:any){
+  
+return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummary?fromDate=${fromDate}&ToDate=${ToDate}`);
+}
 
+NonSupplySummaryDetail(fromDate:any,ToDate:any,supplierId:any,itemCode:any,schemeId:any,ponoId:any){
+return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummaryDetail?fromDate=${fromDate}&ToDate=${ToDate}&supplierId=${supplierId}&itemCode=${itemCode}&schemeId=${schemeId}&ponoId=${ponoId}`);
+}
+
+
+
+
+DmeFacNocSummary(fromDate: any, ToDate: any, mcid: any, yearId: any) {
+  // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocSummary?fromDate=31-03-2024&ToDate=01-04-2025&mcid=1&yearId=546
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocSummary?fromDate=${fromDate}&ToDate=${ToDate}&mcid=${mcid}&yearId=${yearId}`);
+}
+DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:any) {
+  // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocDetail?fromDate=31-03-2023&toDate=01-04-2025&mcid=1&yearId=546&facilityId=23666
+  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocDetail?fromDate=${fromDate}&toDate=${toDate}&mcid=${mcid}&yearId=${yearId}&facilityId=${facilityId}`);
+}
 
 
 
