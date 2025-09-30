@@ -367,6 +367,7 @@ export class HomeComponent {
   labelToIconMap: { [key: string]: string } = {
     Home: 'assets/dash-icon/house.png',
     'Seasonal Drugs': 'assets/dash-icon/season.png',
+    'Oracle Dashboard': 'assets/dash-icon/data-warehouse_13097508.png',
     'Health Facilities Coverage': 'assets/dash-icon/hscov.png',
     'Warehouse Information': 'assets/dash-icon/data-warehouse.png',
     'Warehouse Stock Abstract': 'assets/dash-icon/packages.png',
@@ -426,6 +427,14 @@ export class HomeComponent {
     'Time Taken By Supplier': 'assets/dash-icon/project.png',
     'Door Delivery App Uses': 'assets/dash-icon/fast-delivery.png',
     'QC Time Taken': 'assets/dash-icon/biochemist.png',
+    'Power Bi Dashboard': 'assets/dash-icon/statistics_4762703.png',
+    'Tender-RC Status': 'assets/dash-icon/statistics_4762703.png',
+    'PO Planning': 'assets/dash-icon/statistics_4762703.png',
+    'Hold Batch History': 'assets/dash-icon/statistics_4762703.png',
+    'CME Lifting Status': 'assets/dash-icon/statistics_4762703.png',
+    'Noc': 'assets/dash-icon/statistics_4762703.png',
+    'Warehouse Wise': 'assets/dash-icon/statistics_4762703.png',
+    'Non Supply': 'assets/dash-icon/statistics_4762703.png',
   };
   constructor(
     public toastr: ToastrService,
@@ -2441,7 +2450,7 @@ if(po>14){
 
     const columns = [
       { header: 'S.No', dataKey: 'sno' },
-      { header: 'Item ID', dataKey: 'itemid' },
+      // { header: 'Item ID', dataKey: 'itemid' },
       { header: 'Item Code', dataKey: 'itemcode' },
       { header: 'Item Name', dataKey: 'itemname' },
       { header: 'Strength', dataKey: 'strength1' },
@@ -2449,13 +2458,13 @@ if(po>14){
       { header: 'Basic Rate', dataKey: 'basicrate' },
       { header: 'GST (%)', dataKey: 'gst' },
       { header: 'Final Rate (incl. GST)', dataKey: 'finalrategst' },
-      { header: 'RC Start', dataKey: 'rcStart' },
+      { header: 'RC Start Date', dataKey: 'rcStart' },
       { header: 'RC End', dataKey: 'rcEndDT' },
     ];
 
     const rows = this.RCstatusDetails.map((item: any, index: number) => ({
       sno: index + 1,
-      itemid: item.itemid,
+      // itemid: item.itemid,
       itemcode: item.itemcode,
       itemname: item.itemname,
       strength1: item.strength1,
@@ -2502,8 +2511,8 @@ if(po>14){
     const columns = [
       { header: 'S.No', dataKey: 'sno' },
       { header: 'Time Duration', dataKey: 'timduration' },
-      { header: 'Item Code', dataKey: 'itemcode' },
       { header: 'Item Name', dataKey: 'itemname' },
+      { header: 'Item Code', dataKey: 'itemcode' },
       { header: 'Abs Qty', dataKey: 'absqty_sum' },
       { header: 'Receipt Qty', dataKey: 'receiptabsqty_sum' },
       { header: 'Pipeline Qty', dataKey: 'pipelineqty_sum' },
@@ -2515,8 +2524,8 @@ if(po>14){
     const rows = this.pipelineSlippageItemDetail.map((item: any, index: number) => ({
       sno: index + 1,
       timduration: item.timduration,
-      itemcode: item.itemcode,
       itemname: item.itemname,
+      itemcode: item.itemcode,
       absqty_sum: item.absqty_sum,
       receiptabsqty_sum: item.receiptabsqty_sum,
       pipelineqty_sum: item.pipelineqty_sum,

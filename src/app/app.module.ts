@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppRoutingModule } from './app-routing.module';
@@ -101,6 +101,7 @@ import { NearExpiryItemwiseComponent } from "./component/near-expiry-itemwise/ne
         MenubarComponent,
         HomeComponent,
         CardComponent,
+        
         // SliderComponent,
         // TableComponent,
         FormdesignComponent,
@@ -163,7 +164,9 @@ import { NearExpiryItemwiseComponent } from "./component/near-expiry-itemwise/ne
         VehicleTrackingComponent,
         InTransitIssuesComponent,
     ],
-    bootstrap: [AppComponent], imports: [
+    bootstrap: [AppComponent], 
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [
     NgSelectModule,
     // FormsModule,
     CommonModule,

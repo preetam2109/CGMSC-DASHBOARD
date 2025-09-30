@@ -70,7 +70,8 @@
                     <td mat-cell *matCellDef="let element">
                       <span >
                         <!-- (click)="onItemNameClick(element.itemid,element.edlcat,element.groupname,element.itemcode,element.itemname,element.strengtH1,element.sku,element.edltype)" -->
-                        <a (click)="openWikipediaModal(element.itemname)">{{ element.itemname }}</a>
+                        <a >{{ element.itemname }}</a>
+                        <!-- (click)="openWikipediaModal(element.itemname)" -->
                       </span>
                     </td>
                   </ng-container>
