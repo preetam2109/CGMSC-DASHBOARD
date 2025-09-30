@@ -1545,7 +1545,7 @@
                           <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                           <mat-menu #exportMenu="matMenu">
                             <button mat-menu-item
-                              (click)="exporter.exportTable('xlsx', { fileName: 'InfraTenderDetails', sheet: 'InfraStatusDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                              (click)="exporter.exportTable('xlsx', { fileName: 'RC_Details', sheet: 'RC_Details', Props: { Author: 'cgmsc' }})">Excel</button>
                             <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                             
                             <button mat-button (click)="exportToPDFHODDetails()">PDF</button>
@@ -1808,8 +1808,8 @@
 <tr mat-header-row *matHeaderRowDef="[
   'sno',
   'timduration',
-  'itemcode',
   'itemname',
+  'itemcode',
   'absqty_sum',
   'receiptabsqty_sum',
   'pipelineqty_sum',
@@ -1821,8 +1821,8 @@
 <tr mat-row *matRowDef="let row; columns: [
   'sno',
   'timduration',
-  'itemcode',
   'itemname',
+  'itemcode',
   'absqty_sum',
   'receiptabsqty_sum',
   'pipelineqty_sum',

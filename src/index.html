@@ -13,6 +13,18 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
   <meta name="theme-color" content="#1976d2">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5hW2eQFDDSAYfngDFdtVp4TFa47SKwjM"></script>
+
+  <script src="/public/dv/v1/embedding/standalone/embedding.js" type="application/javascript"></script>
+
+
+  <script>
+    requirejs(['knockout', 'ojs/ojcore', 'ojs/ojknockout', 'ojs/ojcomposite', 'jet-composites/oracle-dv/loader'],
+      function (ko) {
+        ko.applyBindings();
+      });
+  </script>
+  
+
 </head>
 <body class="mat-typography">
   <app-root></app-root>

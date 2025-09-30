@@ -35,7 +35,16 @@ export class MenuServiceService {
             label: 'Power Bi Dashboard',
             route: '',   // 👈 empty string or '/welcome' as placeholder
             submenu: [
-              { label: 'Tender-RC Status', route: '/tender-status-pbi' }
+              { label: 'Tender-RC Status', route: '/tender-status-pbi' },
+              { label: 'PO Planning', route: '/po-planning-pbi' }
+            ]
+          },
+          {
+            label: 'Oracle Dashboard',
+            route: '',   // 👈 empty string or '/welcome' as placeholder
+            submenu: [
+              { label: 'Tender Status', route: '/oracle-dashboard' },
+              { label: 'PO Planning', route: '/po-planning-oracle' },
             ]
           }
           
@@ -799,16 +808,16 @@ export class MenuServiceService {
      Public: {
       items: [
         { label: 'Dashboard', route: '/public-view1' }, // Internal route (keeps routerLink)
-        { label: 'CGMSC Warehouse Wise Stock', route: 'http://140.238.246.250/DPDMISStock/GernalReport/warehouse.aspx'  },
-        // { label: 'CGMSC Warehouse Wise Stock', route: 'href:http://140.238.246.250/DPDMISStock/GernalReport/warehouse.aspx' },
+        { label: 'CGMSC Warehouse Wise Stock', route: 'https://dpdmis.in/DPDMISStock/GernalReport/warehouse.aspx'  },
+        // { label: 'CGMSC Warehouse Wise Stock', route: 'href:https://dpdmis.in/DPDMISStock/GernalReport/warehouse.aspx' },
         // { label: 'Delivery Acknowledgement', route: '/DevliveryPublic' },
         { label: 'Health Facilities Coverage', route: '/FacCoveragePublic' },
         { label: 'Transport Vehicle Monitoring', route: 'https://dpdmis.in/gmapnew.aspx' },
-        { label: 'CGMSC Total Stock', route: 'http://140.238.246.250/DPDMISStock/StockIssue/TotalStock1CGMSCL.aspx' },
-        { label: 'CGMSC Warehouse Stock', route: 'http://140.238.246.250/DPDMISStock/Reports/RptWarehouseStockCGMSCL.aspx' },
-        { label: 'CGMSC Item Wise Stock', route: 'http://140.238.246.250/DPDMISStock/Reports/DrugWisewarehousesrptCGMSCL.aspx' },
-        { label: 'Item Wise Issuance', route: 'http://140.238.246.250/DPDMISStock/FacilityIssue/Cgmsc_Facility_Issue_Summary.aspx' },
-        { label: 'Rate Contract Info', route: 'http://140.238.246.250/DPDMISStock/GernalReport/RC_reprot.aspx' },
+        { label: 'CGMSC Total Stock', route: 'https://dpdmis.in/DPDMISStock/StockIssue/TotalStock1CGMSCL.aspx' },
+        { label: 'CGMSC Warehouse Stock', route: 'https://dpdmis.in/DPDMISStock/Reports/RptWarehouseStockCGMSCL.aspx' },
+        { label: 'CGMSC Item Wise Stock', route: 'https://dpdmis.in/DPDMISStock/Reports/DrugWisewarehousesrptCGMSCL.aspx' },
+        { label: 'Item Wise Issuance', route: 'https://dpdmis.in/DPDMISStock/FacilityIssue/Cgmsc_Facility_Issue_Summary.aspx' },
+        { label: 'Rate Contract Info', route: 'https://dpdmis.in/DPDMISStock/GernalReport/RC_reprot.aspx' },
         { label: 'Warehouse Information', route: '/WarehouseInfoPublic' },
         // { label: 'Search Works', route: '/SearchingWork' },
         // { label: 'Works Abstract', route: '/InfrastructureHome' },
@@ -1107,8 +1116,14 @@ export class MenuServiceService {
 
       'Power Bi Dashboard': [
         { label: 'Tender-RC Status', route: '/tender-status-pbi' },
-      ],
+        { label: 'PO Planning', route: '/po-planning-pbi' }
 
+      ],
+      'Oracle Dashboard':[
+        { label: 'Tender Status', route: '/oracle-dashboard' },
+        { label: 'PO Planning', route: '/po-planning-oracle' }
+
+      ],
     };
     return submenus[label];
   }
