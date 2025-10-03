@@ -119,7 +119,7 @@ import { HOTender, NoOfBidders, StatusDetail, StatusItemDetail, TenderStagesTota
 import { CoverStatus, CoverStatusDetail, CoverStatusTenderDetail, EqptobeTender, EqToBeTenderDetail, GetConsTenderStatusDetail, GetToBeTender, SchemeReceived, SchemeTenderStatus, TenderDetail, TenderInfraDetails, TenderInfraDetailsZonal, ToBeTenderBifurcation, ToBeTenderBifurcationDetail, TobetenderDetails, TotalTendersByStatus, ZonalTenderStatusDetail } from '../Model/Equipment';
 import { AIvsIssuance, MasfacilityInfoUser, Year } from '../Model/masInfoUser';
 
-
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -127,6 +127,7 @@ import { AIvsIssuance, MasfacilityInfoUser, Year } from '../Model/masInfoUser';
 export class ApiService {
   private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
   private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
+  // private CGMSCHO_API2 = 'http://141.148.193.157/CGMSCHO_API2/api';
   private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
  
   // private CGMSCHO_API2 = 'https://dpdmis.in//CGMSCHO_API_TEST/api';
@@ -134,6 +135,7 @@ export class ApiService {
   // https://dpdmis.in//CGMSCHO_API_TEST/api
   private EMIS_API = 'https://cgmsc.gov.in/EMIS_API';
 
+  private tokenSubject = new BehaviorSubject<string | null>(null);
 
   constructor(private http: HttpClient) { }
 
@@ -1693,7 +1695,84 @@ DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:an
 }
 
 
+// oac code test 
+
+private token: string = '';
+
+// async initToken(): Promise<void> {
+//   // debugger;
+//   if (this.token) {
+//     // Agar token already hai to dobara fetch nahi karna
+//     return;
+//   }
+
+//   try {
+//     const response = await fetch('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token'); // 👈 apna API URL
+//     if (!response.ok) {
+//       throw new Error('HTTP error! status:' + response.status);
+//     }
+
+//     const data = await response.json();
+//     this.token = data.access_token;
+//     console.log('App Token Initialized:', this.token);
+//   } catch (error) {
+//     console.error('Error fetching token:', error);
+//   }
+// }
+
+
+// async initToken(): Promise<void> {
+//   try {
+//     const res: any = await this.http
+//       .get('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token')   // 👈 yaha aapka token API
+//       .toPromise();
+
+//     this.token = res.access_token;
+//     console.log('Token initialized:', this.token);
+//   } catch (error) {
+//     console.error('Error fetching token', error);
+//   }
+// }
+
+// getToken$() {
+//   return this.tokenSubject.asObservable(); // subscribe karne ke liye
+// }
+
+// getTokenSync(): string | null {
+//   return this.tokenSubject.value; // agar abhi tak aa gaya hai to direct
+// }
+// getToken(): string {
+
+//   console.log('get token:', this.token);
+//   return this.token;
+// }
+
+// getToken(): string | null {
+//   return this.token;
+// }
 
 
 
+
+
+async initToken(): Promise<void> {
+  try {
+    const res: any = await this.http
+      .get('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token')   // 👈 API endpoint sahi hai?
+      .toPromise();
+
+    const token = res?.access_token;
+    console.log('🔑 Token fetched:', token);
+
+    if (token) {
+      this.tokenSubject.next(token);  // 👈 yahan se update hoga
+    }
+  } catch (error) {
+    console.error('❌ Error fetching token', error);
+  }
+}
+
+getToken$() {
+  return this.tokenSubject.asObservable();
+}
 }

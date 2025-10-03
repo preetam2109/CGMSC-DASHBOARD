@@ -1,0 +1,13 @@
+.oracle-dv-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  oracle-dv {
+    width: 100%;
+    min-height: 600px; /* adjust as needed */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  

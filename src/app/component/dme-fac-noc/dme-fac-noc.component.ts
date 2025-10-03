@@ -21,6 +21,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Observable, map, catchError, of, finalize, forkJoin } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-dme-fac-noc',
@@ -28,12 +29,11 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
   imports: [MatTableModule,ReactiveFormsModule,
     MatTableExporterModule, MatIconModule, NgSelectModule, SelectDropDownModule, DropdownModule, MatSelectModule, FormsModule, NgSelectModule,
     FormsModule, CommonModule, MatButtonModule, MatMenuModule, MatPaginatorModule, MatSortModule, MatDialogModule,
-    NgApexchartsModule, MatDatepickerModule],
+    NgApexchartsModule,MatTabsModule, MatDatepickerModule],
   templateUrl: './dme-fac-noc.component.html',
   styleUrl: './dme-fac-noc.component.css'
 })
 export class DmeFacNocComponent {
-
   mcid=1
   selectedCategory: string = 'Drugs';
   DmeFacNocSummary: any;
@@ -43,6 +43,14 @@ export class DmeFacNocComponent {
   dateRange!: FormGroup;
   selectedYearId: number | null = null;
   selectedLabele:any;
+
+  electedTabIndex: number = 0;
+  selectedTabIndex: number = 0;
+ 
+    selectedTabValue(event: any): void {
+      
+      this.selectedTabIndex = event.index;
+    }
 
   
 
@@ -58,8 +66,9 @@ export class DmeFacNocComponent {
     this.dataSource = new MatTableDataSource<any>([]);
 
     const today = new Date();
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  
+    // const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const firstDayOfMonth = new Date(2025, 3, 1); // month is 0-based → 3 = April
+
     this.dateRange = this.fb.group({
       start: [firstDayOfMonth, [Validators.required, this.startDateValidator.bind(this)]],
       end: [today, Validators.required]
@@ -109,6 +118,8 @@ startDateValidator(control: AbstractControl) {
   const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MM-yyyy') : '';
   debugger
     this.spinner.show();
+
+    
     
     return this.api.DmeFacNocSummary(formattedStartDate, formattedEndDate,this.mcid,this.selectedYearId).pipe(
       map((res: any[]) => {
@@ -200,52 +211,124 @@ debugger
 
  
 
-  getDmeFacNocDetail() {
+  // getDmeFacNocDetail() {
     
-    const startDate = this.dateRange.value.start;
-    const endDate = this.dateRange.value.end;
-  // Only format dates if both start and end dates are selected
-  const formattedStartDate = startDate ? this.datePipe.transform(startDate, 'dd-MM-yyyy') : '';
-  const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MM-yyyy') : '';
-    this.spinner.show();
+  //   const startDate = this.dateRange.value.start;
+  //   const endDate = this.dateRange.value.end;
+
+
+  
+  // if (!startDate || !endDate || !this.mcid || !this.selectedYearId || !this.facilityid) {
+  //   this.toastr.warning('Please select all filters before searching.');
+  //   return;
+  // }
+
+  // const formattedStartDate = startDate ? this.datePipe.transform(startDate, 'dd-MM-yyyy') : '';
+  // const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MM-yyyy') : '';
+  //   this.spinner.show();
 
     
    
   
-    this.api.DmeFacNocDetail(formattedStartDate,formattedEndDate,this.mcid,this.selectedYearId,this.facilityid).subscribe(
-      (res) => {
+  //   this.api.DmeFacNocDetail(formattedStartDate,formattedEndDate,this.mcid,this.selectedYearId,this.facilityid).subscribe(
+  //     (res) => {
         
-        if (res && res.length > 0) {
+  //       if (res && res.length > 0) {
 
-          console.log('Raw API response:', res);
+  //         console.log('Raw API response:', res);
   
-          this.dmeFacNocDetail = res.map((item: any, index: number) => ({
-            ...item,
-            sno: index + 1
-          }));
+  //         this.dmeFacNocDetail = res.map((item: any, index: number) => ({
+  //           ...item,
+  //           sno: index + 1
+  //         }));
     
-          console.log('With S.No:', this.dmeFacNocDetail);
+  //         console.log('With S.No:', this.dmeFacNocDetail);
     
-          this.dataSource.data = this.dmeFacNocDetail;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+  //         this.dataSource.data = this.dmeFacNocDetail;
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
     
-          this.spinner.hide();
-          this.cdr.detectChanges();
+  //         this.spinner.hide();
+  //         this.cdr.detectChanges();
 
-        }else {
-          console.error('No data found:', res);
-          this.dmeFacNocDetail = [];
-        }
+  //       }else {
+  //         console.error('No data found:', res);
+  //         this.dmeFacNocDetail = [];
+  //       }
      
-      },
-      (error) => {
-        console.error('Error fetching details:', error);
-        this.toastr.error('Failed to load data');
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching details:', error);
+  //       this.toastr.error('Failed to load data');
+  //       this.spinner.hide();
+  //     }
+  //   );
+  // }
+  selectedEdlType: string = 'All';   // Default selection
+originalData: any[] = [];          // Keep unfiltered data
+
+getDmeFacNocDetail() {
+  const startDate = this.dateRange.value.start;
+  const endDate = this.dateRange.value.end;
+
+  if (!startDate || !endDate || !this.mcid || !this.selectedYearId || !this.facilityid) {
+    this.toastr.warning('Please select all filters before searching.');
+    return;
+  }
+
+  const formattedStartDate = startDate ? this.datePipe.transform(startDate, 'dd-MM-yyyy') : '';
+  const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MM-yyyy') : '';
+
+  this.spinner.show();
+
+  this.api.DmeFacNocDetail(formattedStartDate, formattedEndDate, this.mcid, this.selectedYearId, this.facilityid).subscribe(
+    (res) => {
+      if (res && res.length > 0) {
+        this.originalData = res.map((item: any, index: number) => ({
+          ...item,
+          sno: index + 1
+        }));
+
+        this.dataSource.data = this.originalData;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+        this.spinner.hide();
+        this.cdr.detectChanges();
+      } else {
+        this.dmeFacNocDetail = [];
+        this.dataSource.data = [];
         this.spinner.hide();
       }
+    },
+    (error) => {
+      this.toastr.error('Failed to load data');
+      this.spinner.hide();
+    }
+  );
+}
+
+applyEdlFilter() {
+  let filteredData: any[] = [];
+
+  if (this.selectedEdlType === 'All') {
+    filteredData = this.originalData;
+  } else {
+    filteredData = this.originalData.filter(
+      item => item.eDlType === this.selectedEdlType
     );
   }
+
+  // 🔹 Reassign S.No after filtering
+  filteredData = filteredData.map((item, index) => ({
+    ...item,
+    sno: index + 1
+  }));
+
+  this.dataSource.data = filteredData;
+}
+
+
 
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4

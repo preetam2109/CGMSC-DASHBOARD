@@ -1,0 +1,60 @@
+<iframe
+    class="oac_embedding_iframe"
+    style="height:800px; width:100%;" 
+    srcdoc='
+    <!DOCTYPE html>
+    <html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OAC TEST</title>
+        <script src="https://cgmscanalytics-cgmscee-bo.analytics.ocp.oraclecloud.com/public/dv/v1/embedding/standalone/embedding.js" type="application/javascript"></script>
+        <script>
+  var token = "";
+
+  function fetchAndSetToken() {
+    fetch("https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP error! status:"+response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        token = data.access_token;
+        console.log("New token fetched:", token);
+
+        // update security config dynamically
+        requirejs(["jquery", "knockout", "obitech-application/application","ojs/ojcore", "ojs/ojknockout", "ojs/ojcomposite", "jet-composites/oracle-dv/loader"], 
+        function($, ko, application) {
+          application.setSecurityConfig("token", {
+            tokenAuthFunction: function() {
+              return token;
+            }
+          });
+          ko.applyBindings();
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching token:", error);
+      });
+  }
+
+  // Initial fetch + setup
+  fetchAndSetToken();
+
+  // Refresh every 45 minutes
+  setInterval(fetchAndSetToken, 45 * 60 * 1000);
+</script>
+    </head>
+    <body>
+        <div style="width: 100%; height: 700px;">
+            <oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/NEAR_EXPIRY" active-page="insight" active-tab-id="snapshot!canvas!1">
+            </oracle-dv>
+        </div>
+    </body>
+    </html>
+    '>
+</iframe>
+<!-- <oracle-dv project-path="/@Catalog/shared/Tender Status /TenderStatus" active-page="insight" active-tab-id="snapshot!canvas!6">
+</oracle-dv> -->
