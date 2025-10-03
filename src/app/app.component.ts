@@ -6,6 +6,9 @@ import { MenuServiceService } from './service/menu-service.service';
 import { BasicAuthenticationService } from './service/authentication/basic-authentication.service';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+
+// import { TokenService } from './services/token.service';
+import { ApiService } from './service/api.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -67,8 +70,11 @@ export class AppComponent implements OnInit, DoCheck {
 
   constructor(private location: Location,private cdr: ChangeDetectorRef, private menuService: MenuServiceService,
      private toastr: ToastrService, private router: Router,
-      public basicAuthentication: BasicAuthenticationService,
+      public basicAuthentication: BasicAuthenticationService, private Service:ApiService,
       private http: HttpClient) { }
+
+     
+
 
 
   logout() {
@@ -106,7 +112,36 @@ export class AppComponent implements OnInit, DoCheck {
         this.updateMenu();
       }
     });
+
+
+    //  this.Service.initToken();
+
   }
+
+  // async ngOnInit(): Promise<void> {
+  //   this.router.events.subscribe(event => {
+  //     if (event instanceof NavigationEnd) {
+  //       this.isLoginPage =
+  //         event.urlAfterRedirects === '/login' ||
+  //         event.urlAfterRedirects === '/otp' ||
+  //         event.urlAfterRedirects === '/collector-login' ||
+  //         event.urlAfterRedirects === '/public-view' ||
+  //         event.urlAfterRedirects === '/GrowthInProcurmentTabPublic' ||
+  //         event.urlAfterRedirects === '/distributionPublic' ||
+  //         event.urlAfterRedirects === '/IndentPendingWHdashPublic';
+  
+  //       this.role = this.basicAuthentication.getRole().roleName;
+  //       this.updateMenu();
+  //     }
+  //   });
+  
+  //   // 👇 token ek hi baar fetch hoga jab app load hoga
+  //   // await this.Service.initToken();
+  //   // console.log('🌍 App starting, fetching token...');
+  //   // await this.Service.initToken();
+  // }
+  
+
 
   ngDoCheck(): void {
     // 

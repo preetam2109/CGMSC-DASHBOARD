@@ -45,6 +45,7 @@ export class MenuServiceService {
             submenu: [
               { label: 'Tender Status', route: '/oracle-dashboard' },
               { label: 'PO Planning', route: '/po-planning-oracle' },
+              { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
             ]
           }
           
@@ -1121,7 +1122,8 @@ export class MenuServiceService {
       ],
       'Oracle Dashboard':[
         { label: 'Tender Status', route: '/oracle-dashboard' },
-        { label: 'PO Planning', route: '/po-planning-oracle' }
+        { label: 'PO Planning', route: '/po-planning-oracle' },
+        { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
 
       ],
     };
