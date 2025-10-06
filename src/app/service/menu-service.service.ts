@@ -37,7 +37,7 @@ export class MenuServiceService {
             submenu: [
               { label: 'Tender Status', route: '/oracle-dashboard' },
               { label: 'PO Planning', route: '/po-planning-oracle' },
-            ]4
+            ]
           },
           {
             label: 'Power Bi Dashboard',
