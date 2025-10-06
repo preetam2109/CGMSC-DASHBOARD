@@ -2147,6 +2147,7 @@ const contractid=0;
 
 fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seriesName: string): void {
   // ;
+  // debugger;
   this.selectedParameter=delayTime;
   // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   var roleName = localStorage.getItem('roleName');
@@ -2175,6 +2176,7 @@ fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seri
         ...item,
         sno: index + 1
       }));
+      console.log('dispatchData11:',this.dispatchData);
       this.dataSource.data = this.dispatchData;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
