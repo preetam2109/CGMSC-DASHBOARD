@@ -141,6 +141,7 @@ import { DmeFacNocDashComponent } from './component/dme-fac-noc-dash/dme-fac-noc
 import { TenderStatusOracleComponent } from './component/tender-status-oracle/tender-status-oracle.component';
 import { PoPlanningComponent } from './component/ORACLE-DASHBOARD/po-planning/po-planning.component';
 import{NearExpiryOracleComponent} from './component/near-expiry-oracle/near-expiry-oracle.component';
+import { PipelineSuppliesOracleComponent } from './component/pipeline-supplies-oracle/pipeline-supplies-oracle.component';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -284,6 +285,7 @@ const routes: Routes = [
 {path:'po-planning-oracle',component:PoPlanningComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'oracle-dashboard',component:TenderStatusOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'Near-Expiry-Oracle',component:NearExpiryOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'PipelineSuppliesOracle',component:PipelineSuppliesOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'powerbidash',component:PowerbidashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'tender-status-cme',component:TenderStatusDashCmeComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'conversationHodCgmsc',component:ConversationHodCgmscComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2']} },

@@ -46,6 +46,7 @@ export class MenuServiceService {
               { label: 'Tender Status', route: '/oracle-dashboard' },
               { label: 'PO Planning', route: '/po-planning-oracle' },
               { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
+              { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
             ]
           }
           
@@ -1124,6 +1125,7 @@ export class MenuServiceService {
         { label: 'Tender Status', route: '/oracle-dashboard' },
         { label: 'PO Planning', route: '/po-planning-oracle' },
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
+        { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
 
       ],
     };
