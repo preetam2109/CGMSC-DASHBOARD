@@ -32,24 +32,25 @@ export class MenuServiceService {
           { label: 'Home', route: '/home' },
 
           {
-            label: 'Power Bi Dashboard',
+            label: 'Oracle Analytics',
             route: '',   // 👈 empty string or '/welcome' as placeholder
             submenu: [
-              { label: 'Tender-RC Status', route: '/tender-status-pbi' },
-              { label: 'PO Planning', route: '/po-planning-pbi' }
-            ]
+              { label: 'Tender Status', route: '/oracle-dashboard' },
+              { label: 'PO Planning', route: '/po-planning-oracle' },
+            ]4
           },
           {
-            label: 'Oracle Dashboard',
+            label: 'Power Bi Dashboard',
             route: '',   // 👈 empty string or '/welcome' as placeholder
             submenu: [
               { label: 'Tender Status', route: '/oracle-dashboard' },
               { label: 'PO Planning', route: '/po-planning-oracle' },
               { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
             ]
-          }
+          },
+         
           
-,
+
 
         
 
@@ -1120,7 +1121,7 @@ export class MenuServiceService {
         { label: 'PO Planning', route: '/po-planning-pbi' }
 
       ],
-      'Oracle Dashboard':[
+      'Oracle Analytics':[
         { label: 'Tender Status', route: '/oracle-dashboard' },
         { label: 'PO Planning', route: '/po-planning-oracle' },
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
