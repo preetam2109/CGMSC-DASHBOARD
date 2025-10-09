@@ -47,6 +47,8 @@ export class MenuServiceService {
               { label: 'PO Planning', route: '/po-planning-oracle' },
               { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
               { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
+              { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
+              { label: 'QC Analysis', route: '/QCAnalysisOracle'},
             ]
           },
          
@@ -1127,6 +1129,8 @@ export class MenuServiceService {
         { label: 'PO Planning', route: '/po-planning-oracle' },
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
         { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
+        { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
+        { label: 'QC Analysis', route: '/QCAnalysisOracle'},
 
       ],
     };
