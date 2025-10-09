@@ -37,6 +37,7 @@ export class MenuServiceService {
             submenu: [
               { label: 'Tender Status', route: '/oracle-dashboard' },
               { label: 'PO Planning', route: '/po-planning-oracle' },
+              { label: 'Current Stock', route: '/CurrentStockOracle' },
             ]
           },
           {
@@ -384,7 +385,7 @@ export class MenuServiceService {
           { label: 'DdlItemWiseInHandQty', route: '/DdlItemWiseInHandQty' },
           { label: 'Indent Delivery Entry', route: '/Devlivery' },
 
-          { label: 'HODYearWiseIssuance', route: '/HODYearWiseIssuance' },
+          { label: 'Growth in Distribution', route: '/HODYearWiseIssuance' },
           { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
           { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
         ],
@@ -1129,6 +1130,8 @@ export class MenuServiceService {
         { label: 'PO Planning', route: '/po-planning-oracle' },
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
         { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
+        { label: 'Current Stock', route: '/CurrentStockOracle' },
+
         { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
         { label: 'QC Analysis', route: '/QCAnalysisOracle'},
 
