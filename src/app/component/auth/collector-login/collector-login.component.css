@@ -66,9 +66,10 @@ margin-right: 20px; /* Add space between items */
 }
 
 .marquee-item img {
-width: 100px; /* Adjust image width as needed */
-height: auto;
-}
+  width: 100px; /* Adjust image width as needed */
+  height: 94px;
+  /* height: auto; */
+  }
 
 .marquee-item strong {
 margin-top: 10px; /* Add space between image and text */

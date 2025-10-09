@@ -257,12 +257,12 @@ export class HODYearWiseIssuanceComponent {
 
            
           { 
-            name: 'issuevalue', 
+            name: 'Issued Value', 
             data: issuevalue,
             color:'#800000' 
           },
           { 
-            name: 'noofitems',
+            name: 'No of Items',
             data: noofitems ,
             color:'#00008B'
 
