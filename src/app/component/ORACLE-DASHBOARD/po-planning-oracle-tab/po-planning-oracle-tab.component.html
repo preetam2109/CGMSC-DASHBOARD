@@ -1,0 +1,28 @@
+  
+    <div class="container-fluid">
+      <mat-tab-group
+        [(selectedIndex)]="selectedTabIndex"
+        (selectedTabChange)="selectedTabValue($event)"
+      >
+      <mat-tab
+          label="PO Planning"
+          [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
+        >
+          <ng-template matTabContent>
+            <app-po-planning
+              *ngIf="selectedTabIndex === 0"
+            ></app-po-planning>
+          </ng-template>
+        </mat-tab>
+        <mat-tab
+          label="PO Planning Month Wise"
+          [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+        >
+          <ng-template matTabContent>
+            <app-po-planning-monthwise-oracle *ngIf="selectedTabIndex === 1"></app-po-planning-monthwise-oracle>
+          </ng-template>
+        </mat-tab>
+       
+      </mat-tab-group>
+    </div>
+    

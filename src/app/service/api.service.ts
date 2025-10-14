@@ -620,10 +620,15 @@ export class ApiService {
 
     return this.http.get(`${this.CGMSCHO_API2}/Login/VerifyOTPLogin?otp=${otp}&userid=${userid}`, { responseType: 'text' });
   }
-  getOTPSaved(userid: any) {
+  // getOTPSaved(userid: any) {
 
-    return this.http.post(`${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}`, { responseType: 'text' });
+  //   return this.http.post(`${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}`, { responseType: 'text' });
+  // }
+  getOTPSaved(userid: any, macAddress: any, ipAddress: any) {
+    const url = `${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}&macAddress=${encodeURIComponent(macAddress)}&ipAddress=${encodeURIComponent(ipAddress)}`;
+    return this.http.post(url, null, { responseType: 'text' });
   }
+  
 
   getDashLoginDDL() {
 

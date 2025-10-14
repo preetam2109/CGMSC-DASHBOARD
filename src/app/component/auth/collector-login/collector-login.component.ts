@@ -17,6 +17,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
+import { InsertUserLoginLogmodal } from 'src/app/Model/DashLoginDDL';
+import { HttpClient } from '@angular/common/http';
 
 declare var google: any;
 @Component({
@@ -42,6 +44,10 @@ export class CollectorLoginComponent implements OnInit,AfterViewInit {
   invalidLogin=false;
   // googleMap: GoogleMap = new GoogleMap;  // Access Google Map instance
   warehouseid: any;
+  macAddress:any='00:00:00:00:00:00'; // Placeholder
+
+  ipAddress: string = '';
+
 warehousePwd: any;
 cgmsclUserId: any;
 cgmsclPwd: any;
@@ -50,6 +56,8 @@ cgmsclDropdownList:any=[];
 InfraStructureDropdownList:any=[];
 wHDropdownList:any=[];
 captcha: string = '';
+InsertUserLoginLogData: InsertUserLoginLogmodal = new InsertUserLoginLogmodal();
+
 isPasswordVisible: boolean = false;
 // captchaInput:any;
   otp: string = '';
@@ -84,7 +92,7 @@ isPasswordVisible: boolean = false;
      @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
 
 
-  constructor(public api:ApiService,public loginService:BasicAuthenticationService,private toastr: ToastrService,private router:Router){
+  constructor(public api:ApiService,public loginService:BasicAuthenticationService,private toastr: ToastrService,private router:Router,public http:HttpClient){
     this.generateCaptcha();
   }
   ngOnInit(): void {
@@ -307,7 +315,7 @@ setRole( approle: string) {
     
       // Call API to send OTP
       
-      this.api.getOTPSaved(this.userid).subscribe(
+      this.api.getOTPSaved(this.userid,this.macAddress,this.ipAddress).subscribe(
         (res: any) => {
           // Close the loading indicator
           Swal.close();
@@ -383,5 +391,70 @@ setRole( approle: string) {
         characters.charAt(Math.floor(Math.random() * characters.length))
       ).join('');
     }
+
+
+    getIPAddress() {
+      this.http.get<any>('https://api.ipify.org?format=json')
+        .subscribe(
+          (res) => {
+            this.ipAddress = res.ip;
+            sessionStorage.setItem('ipAddress', this.ipAddress);
+            // console.log('this.ipAddress=',this.ipAddress);
+          },
+          (err) => {
+            console.error('Error fetching IP:', err);
+          }
+        );
+    }
+    getBrowserInfo() {
+      return {
+        appName: navigator.appName,
+        appVersion: navigator.appVersion,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language
+      };
+    }
+  
+    InsertUserLoginLog() {
+      try {
+  
+        // console.log("save data");
+        // return;
+        const roleIdName = localStorage.getItem('roleName') || '';
+        const userId = Number(sessionStorage.getItem('userid') || 0);
+        const roleId = Number(sessionStorage.getItem('roleId') || 0);
+        const userName = sessionStorage.getItem('firstname') || '';
+        const ipAddress = sessionStorage.getItem('ipAddress') || '';
+        const userAgent = navigator.userAgent; 
+        this.InsertUserLoginLogData.logId = 0; 
+        this.InsertUserLoginLogData.userId = userId;
+        this.InsertUserLoginLogData.roleId = roleId;
+        this.InsertUserLoginLogData.roleIdName = roleIdName;
+        this.InsertUserLoginLogData.userName = userName;
+        this.InsertUserLoginLogData.ipAddress = ipAddress;
+        this.InsertUserLoginLogData.userAgent = userAgent;
+        // console.log('InsertUserLoginLogData=',this.InsertUserLoginLogData);
+    // if(localStorage.getItem('Log Saved')|| ''!){
+  
+    // }
+        // API call
+        this.api.InsertUserLoginLogPOST(this.InsertUserLoginLogData).subscribe({
+          next: (res: any) => {
+            console.log('Log Saved:',res);
+            // const LogSaved='Log Saved'
+            // localStorage.setItem('Log Saved', LogSaved);
+          },
+          error: (err: any) => {
+            console.error('Backend Error:', JSON.stringify(err.message));
+          }
+        });
+    
+      } catch (err: any) {
+        console.error('Error:', err.message);
+      }
+    }
+
+
 }
 

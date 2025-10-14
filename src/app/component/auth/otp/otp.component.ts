@@ -1,6 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { InsertUserLoginLogmodal } from 'src/app/Model/DashLoginDDL';
 import { ApiService } from 'src/app/service/api.service';
 import { BasicAuthenticationService } from 'src/app/service/authentication/basic-authentication.service';
 import Swal from 'sweetalert2';
@@ -16,13 +18,24 @@ export class OtpComponent {
   otp: string = '';
   userid:any
   message: string = '';
-  constructor(public loginService: BasicAuthenticationService,private router: Router, private api: ApiService) {}
+  constructor(public loginService: BasicAuthenticationService,private router: Router, private api: ApiService,public http:HttpClient) {}
   emailid: any;
   pwd: any;
   phonE1:any
+  macAddress:any='00:00:00:00:00:00'; // Placeholder
+
+  ipAddress: string = '';
+
+InsertUserLoginLogData: InsertUserLoginLogmodal = new InsertUserLoginLogmodal();
+    
+   mac:any 
+   ip:any;
+  
+   
 
   ngOnInit(): void {
-   
+    
+    this.InsertUserLoginLog()
   
   }
 
@@ -90,7 +103,7 @@ export class OtpComponent {
     });
   
     // Call API to send OTP
-    this.api.getOTPSaved(this.userid).subscribe(
+    this.api.getOTPSaved(this.userid,this.macAddress,this.ipAddress).subscribe(
       (res: any) => {
         // Close the loading indicator
         Swal.close();
@@ -103,6 +116,7 @@ export class OtpComponent {
           confirmButtonText: 'OK',
         }).then(() => {
           // Navigate to the OTP page after confirmation
+          
           this.router.navigate(['/otp']); // Replace with your route
         });
       },
@@ -116,6 +130,68 @@ export class OtpComponent {
         });
       }
     );
+  }
+
+  getIPAddress() {
+    this.http.get<any>('https://api.ipify.org?format=json')
+      .subscribe(
+        (res) => {
+          this.ipAddress = res.ip;
+          sessionStorage.setItem('ipAddress', this.ipAddress);
+          // console.log('this.ipAddress=',this.ipAddress);
+        },
+        (err) => {
+          console.error('Error fetching IP:', err);
+        }
+      );
+  }
+  getBrowserInfo() {
+    return {
+      appName: navigator.appName,
+      appVersion: navigator.appVersion,
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      language: navigator.language
+    };
+  }
+
+  InsertUserLoginLog() {
+    try {
+
+      // console.log("save data");
+      // return;
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent; 
+      this.InsertUserLoginLogData.logId = 0; 
+      this.InsertUserLoginLogData.userId = userId;
+      this.InsertUserLoginLogData.roleId = roleId;
+      this.InsertUserLoginLogData.roleIdName = roleIdName;
+      this.InsertUserLoginLogData.userName = userName;
+      this.InsertUserLoginLogData.ipAddress = ipAddress;
+      this.InsertUserLoginLogData.userAgent = userAgent;
+      // console.log('InsertUserLoginLogData=',this.InsertUserLoginLogData);
+  // if(localStorage.getItem('Log Saved')|| ''!){
+
+  // }
+      // API call
+      this.api.InsertUserLoginLogPOST(this.InsertUserLoginLogData).subscribe({
+        next: (res: any) => {
+          console.log('Log Saved:',res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+  
+    } catch (err: any) {
+      console.error('Error:', err.message);
+    }
   }
   
 }
