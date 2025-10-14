@@ -38,20 +38,26 @@ export class MenuServiceService {
               { label: 'Tender Status', route: '/oracle-dashboard' },
               { label: 'PO Planning', route: '/po-planning-oracle' },
               { label: 'Current Stock', route: '/CurrentStockOracle' },
-            ]
-          },
-          {
-            label: 'Power Bi Dashboard',
-            route: '',   // 👈 empty string or '/welcome' as placeholder
-            submenu: [
-              { label: 'Tender Status', route: '/oracle-dashboard' },
-              { label: 'PO Planning', route: '/po-planning-oracle' },
               { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
               { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
               { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
               { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+              { label: 'Facility Information', route: '/FacilityInformationOracle'},
             ]
           },
+          // {
+          //   label: 'Power Bi Dashboard',
+          //   route: '',   // 👈 empty string or '/welcome' as placeholder
+          //   submenu: [
+          //     { label: 'Tender Status', route: '/oracle-dashboard' },
+          //     { label: 'PO Planning', route: '/po-planning-oracle' },
+          //     { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
+          //     { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
+          //     { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
+          //     { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+          //     { label: 'Facility Information', route: '/FacilityInformationOracle'},
+          //   ]
+          // },
          
           
 
@@ -1120,20 +1126,20 @@ export class MenuServiceService {
         { label: 'QC-Lab Issues', route: '/qc-dash' },
       ],
 
-      'Power Bi Dashboard': [
-        { label: 'Tender-RC Status', route: '/tender-status-pbi' },
-        { label: 'PO Planning', route: '/po-planning-pbi' }
+      // 'Power Bi Dashboard': [
+      //   { label: 'Tender-RC Status', route: '/tender-status-pbi' },
+      //   { label: 'PO Planning', route: '/po-planning-pbi' }
 
-      ],
+      // ],
       'Oracle Analytics':[
         { label: 'Tender Status', route: '/oracle-dashboard' },
         { label: 'PO Planning', route: '/po-planning-oracle' },
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
         { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
         { label: 'Current Stock', route: '/CurrentStockOracle' },
-
         { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
         { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+        { label: 'Facility Information', route: '/FacilityInformationOracle'},
 
       ],
     };
