@@ -77,7 +77,7 @@ export class WarehouseStockDialogComponent {
   // }
   exportToPDF(): void {
     const doc = new jsPDF('l', 'mm', 'a4');
-    
+
     // Get current date and time
     const now = new Date();
     const dateString = now.toLocaleDateString();
@@ -88,22 +88,31 @@ export class WarehouseStockDialogComponent {
   
     // Calculate the position to center the title
     const pageWidth = doc.internal.pageSize.getWidth();
-    const title = 'Warehouse Wise Current Stock ';
+    const title = 'Warehouse Wise Current Stock';
     const textWidth = doc.getTextWidth(title);
     const xOffset = (pageWidth - textWidth) / 2;
   
-    // Add centered title with some space above the table
+    // Add centered title
     doc.text(title, xOffset, 20); // Centered title at position Y=20
   
-    // Set font size for the date and time
+    // Set font size for the date, time, and additional fields
     doc.setFontSize(10);
   
     // Add the date and time to the top-left corner
     doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
     
-
+    // Add itemcode, itemname, strength1, and sku as separate lines, left and right aligned
+    doc.text(`Item Code: ${this.itemcode || ''}`, 30, 30); // Left-aligned at position X=30, Y=30
+    doc.text(`Item Name: ${this.itemname || ''}`, pageWidth - 100, 30); // Right-aligned at position X=pageWidth - 100, Y=30
+    doc.text(`Strength: ${this.strengtH1 || ''}`, 30, 40); // Left-aligned at position X=30, Y=40
+    doc.text(`SKU: ${this.sku || ''}`, pageWidth - 100, 40); // Right-aligned at position X=pageWidth - 100, Y=40
+    
     const columns = [
       { title: "S.No", dataKey: "sno" },
+      { title: "Item Code", dataKey: "itemcode" },
+      { title: "Item Name", dataKey: "itemname" },
+      { title: "Strength", dataKey: "strengtH1" },
+      { title: "SKU", dataKey: "sku" },
       { title: "Warehouse", dataKey: "warehousename" },
       { title: "Ready", dataKey: "readyforissue" },
       { title: "Under QC", dataKey: "pending" },
@@ -114,18 +123,22 @@ export class WarehouseStockDialogComponent {
 
     const rows = this.dataSource.data.map((row, index) => ({
       sno: index + 1,
+      itemcode: this.itemcode,
+      itemname: this.itemname,
+      strengtH1: this.strengtH1,
+      sku: this.sku,
       warehousename: row.warehousename,
       readyforissue: row.readyforissue,
       pending: row.pending,
       supplierpipeline: row.supplierpipeline,
       iwhpipeline: row.iwhpipeline,
-      issuedfy:row.issuedfy
+      issuedfy: row.issuedfy
     }));
 
     autoTable(doc, {
       columns: columns,
       body: rows,
-      startY: 30, // Adjusted to make space for the date and time
+      startY: 50, // Adjusted to make space for the date and time
       theme: 'striped',
       headStyles: { fillColor: [22, 160, 133] }
     });

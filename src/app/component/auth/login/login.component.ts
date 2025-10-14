@@ -29,6 +29,7 @@ throw new Error('Method not implemented.');
   @ViewChild('captchaInput') captchaInput: ElementRef | undefined;  // Reference to CAPTCHA input
   @ViewChild(GoogleMap)
 
+   macAddress:any='00:00:00:00:00:00'; // Placeholder
 
   googleMap: GoogleMap = new GoogleMap;  // Access Google Map instance
   warehouseid: any;
@@ -116,7 +117,10 @@ browserInfo: any;
     ).join('');
   }
   days:any=0
+
+  
   ngOnInit() {
+    
   this.getIPAddress();
     this.browserInfo= this.getBrowserInfo();
     // console.log('userAgent1=',this.browserInfo.userAgent ); 
@@ -862,7 +866,7 @@ toggleText() {
       });
     
       // Call API to send OTP
-      this.api.getOTPSaved(this.userid).subscribe(
+      this.api.getOTPSaved(this.userid,this.macAddress,this.ipAddress).subscribe(
         (res: any) => {
           // Close the loading indicator
           Swal.close();
@@ -908,7 +912,7 @@ toggleText() {
       });
     
       // Call API to send OTP
-      this.api.getOTPSaved(2926).subscribe(
+      this.api.getOTPSaved(2926,this.macAddress,this.ipAddress).subscribe(
         (res: any) => {
           // Close the loading indicator
           Swal.close();
@@ -1074,4 +1078,11 @@ toggleText() {
       language: navigator.language
     };
   }
+  
+
+
+ 
+
+  
+
 }
