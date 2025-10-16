@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 
 // import { TokenService } from './services/token.service';
 import { ApiService } from './service/api.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -55,23 +56,11 @@ export class AppComponent implements OnInit, DoCheck {
     // Toggle the clicked submenu
     this.expandedMenus[menuLabel] = !this.expandedMenus[menuLabel];
   }
-
-
   role: any = ''; // Dynamic role
-
-
-
-
-
-
-
-
-
-
   constructor(private location: Location,private cdr: ChangeDetectorRef, private menuService: MenuServiceService,
      private toastr: ToastrService, private router: Router,
       public basicAuthentication: BasicAuthenticationService, private Service:ApiService,
-      private http: HttpClient) { }
+      private https: HttpClient) { }
 
      
 
@@ -113,8 +102,6 @@ export class AppComponent implements OnInit, DoCheck {
       }
     });
 
-
-    //  this.Service.initToken();
 
   }
 
