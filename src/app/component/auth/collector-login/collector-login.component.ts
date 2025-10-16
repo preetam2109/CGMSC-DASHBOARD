@@ -315,7 +315,7 @@ setRole( approle: string) {
     
       // Call API to send OTP
       
-      this.api.getOTPSaved(this.userid,this.macAddress,this.ipAddress).subscribe(
+      this.api.getOTPSaved(this.userid,this.ipAddress).subscribe(
         (res: any) => {
           // Close the loading indicator
           Swal.close();
