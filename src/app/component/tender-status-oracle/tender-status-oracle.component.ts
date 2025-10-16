@@ -96,9 +96,11 @@ export class TenderStatusOracleComponent {
     //     );
     //   });
     // }
-    
+ 
+ 
+    // ip = this.require('ip');
+
     ngOnInit(): void {
-    
   //     this.Service.getToken$().subscribe(currentToken => {
   //       if (!currentToken) return;
     
