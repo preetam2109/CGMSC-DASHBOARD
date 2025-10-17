@@ -435,6 +435,12 @@ export class HomeComponent {
     'Noc': 'assets/dash-icon/statistics_4762703.png',
     'Warehouse Wise': 'assets/dash-icon/statistics_4762703.png',
     'Non Supply': 'assets/dash-icon/statistics_4762703.png',
+    'Pipeline Supplies ': 'assets/dash-icon/data-analysis_12176877.png',
+    'Current Stock': 'assets/dash-icon/stock_4965731.png',
+    'ABCVEDSDE Analysis': 'assets/dash-icon/statistics_4762703.png',
+    'QC Analysis': 'assets/dash-icon/biochemist.png',
+    'Facility Information': 'assets/dash-icon/blogger.png',
+    'Oracle Analytics': 'assets/dash-icon/statistic_12488647.png',
   };
   constructor(
     public toastr: ToastrService,
