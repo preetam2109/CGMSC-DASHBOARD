@@ -38,6 +38,7 @@ export class MenuServiceService {
               { label: 'Tender Status', route: '/oracle-dashboard' },
               { label: 'PO Planning', route: '/po-planning-oracle' },
               { label: 'Current Stock', route: '/CurrentStockOracle' },
+              { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
               { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
               { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
               { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
@@ -1134,6 +1135,7 @@ export class MenuServiceService {
       'Oracle Analytics':[
         { label: 'Tender Status', route: '/oracle-dashboard' },
         { label: 'PO Planning', route: '/po-planning-oracle' },
+        { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
         { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
         { label: 'Current Stock', route: '/CurrentStockOracle' },
