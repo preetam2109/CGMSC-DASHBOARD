@@ -1266,7 +1266,6 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   GetAttendenceRecord(startDate:any,endDate:any,DepartmentFName:any,locationid:any) {
-    
     return this.http.get<AttendenceRecord[]>(`${this.CGMSCHO_API2}/Attendence/AttendenceRecord?startDate=${startDate}&endDate=${endDate}&DepartmentFName=${DepartmentFName}&locationid=${locationid}`);
   }
 

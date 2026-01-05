@@ -149,6 +149,7 @@ import { FacilityInformationOracleComponent } from './component/facility-informa
 import { PoPlanningOracleTabComponent } from './component/ORACLE-DASHBOARD/po-planning-oracle-tab/po-planning-oracle-tab.component';
 import { CurrentStockOracleTabComponent } from './component/ORACLE-DASHBOARD/current-stock-oracle-tab/current-stock-oracle-tab.component';
 import { TenderStatusOracleTabComponent } from './component/ORACLE-DASHBOARD/tender-status-oracle-tab/tender-status-oracle-tab.component';
+import { PaymentStatusDashboard } from './component/ORACLE-DASHBOARD/payment-status-dashboard/payment-status-dashboard';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -297,6 +298,7 @@ const routes: Routes = [
 {path:'FacilityInformationOracle',component:FacilityInformationOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'PipelineSuppliesOracle',component:PipelineSuppliesOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 // {path:'CurrentStockOracle',component:CurrentStockOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'PaymentStatusDashboard',component:PaymentStatusDashboard,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'CurrentStockOracle',component:CurrentStockOracleTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'ABCVEDSDEAnalysisOracle',component:ABCVEDSDEAnalysisOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'QCAnalysisOracle',component:QCAnalysisOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
