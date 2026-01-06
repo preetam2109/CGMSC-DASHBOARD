@@ -5,22 +5,32 @@
           (selectedTabChange)="selectedTabValue($event)"
         >
         <mat-tab
-            label="Drug Tender Status"
+            label="Tender Status Dashboard"
             [ngClass]="{ 'active-tab': selectedTabIndex === 0 }"
           >
             <ng-template matTabContent>
-              <app-drug-tender-status
+              <app-tender-dashboard
                 *ngIf="selectedTabIndex === 0"
+              ></app-tender-dashboard>
+            </ng-template>
+          </mat-tab>
+        <mat-tab
+            label="Drug Tender Status"
+            [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+          >
+            <ng-template matTabContent>
+              <app-drug-tender-status
+                *ngIf="selectedTabIndex === 1"
               ></app-drug-tender-status>
             </ng-template>
           </mat-tab>
         <mat-tab
             label="Item-Type Wise Tender Status"
-            [ngClass]="{ 'active-tab': selectedTabIndex === 1 }"
+            [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
           >
             <ng-template matTabContent>
               <app-item-type-wise-tender-status
-                *ngIf="selectedTabIndex === 1"
+                *ngIf="selectedTabIndex === 2"
               ></app-item-type-wise-tender-status>
             </ng-template>
           </mat-tab>
@@ -34,10 +44,10 @@
           </mat-tab> -->
           <mat-tab
             label="Item Wise Tender Status"
-            [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
+            [ngClass]="{ 'active-tab': selectedTabIndex === 3 }"
           >
             <ng-template matTabContent>
-              <app-item-wise-tender-status *ngIf="selectedTabIndex === 2"></app-item-wise-tender-status>
+              <app-item-wise-tender-status *ngIf="selectedTabIndex === 3"></app-item-wise-tender-status>
             </ng-template>
           </mat-tab>
          
