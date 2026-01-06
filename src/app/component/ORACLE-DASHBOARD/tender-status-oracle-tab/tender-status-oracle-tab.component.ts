@@ -14,13 +14,14 @@ import { TenderStatusOracleComponent } from "../../tender-status-oracle/tender-s
 import { ItemTypeWiseTenderStatusComponent } from "../item-type-wise-tender-status/item-type-wise-tender-status.component";
 import { DrugTenderStatusComponent } from "../drug-tender-status/drug-tender-status.component";
 import { ItemWiseTenderStatusComponent } from "../item-wise-tender-status/item-wise-tender-status.component";
+import { TenderDashboardComponent } from "../tender-dashboard/tender-dashboard.component";
 
 
 
 @Component({
   selector: 'app-tender-status-oracle-tab',
   standalone: true,
-  imports: [CommonModule, MatTabsModule, TenderStatusOracleComponent, ItemTypeWiseTenderStatusComponent, DrugTenderStatusComponent, ItemWiseTenderStatusComponent],
+  imports: [CommonModule, MatTabsModule, TenderStatusOracleComponent, ItemTypeWiseTenderStatusComponent, DrugTenderStatusComponent, ItemWiseTenderStatusComponent, TenderDashboardComponent],
   templateUrl: './tender-status-oracle-tab.component.html',
   styleUrl: './tender-status-oracle-tab.component.css'
 })

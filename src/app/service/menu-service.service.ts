@@ -36,6 +36,8 @@ export class MenuServiceService {
             route: '',   // 👈 empty string or '/welcome' as placeholder
             submenu: [
               { label: 'Tender Status', route: '/oracle-dashboard' },
+              { label: 'Tender Management', route: '/tender-management' },
+              { label: 'Inventory Management', route: '/inventory-management' },
               { label: 'PO Planning', route: '/po-planning-oracle' },
               { label: 'Current Stock', route: '/CurrentStockOracle' },
               { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
@@ -1134,6 +1136,8 @@ export class MenuServiceService {
       // ],
       'Oracle Analytics':[
         { label: 'Tender Status', route: '/oracle-dashboard' },
+        { label: 'Tender Management', route: '/tender-management' },
+        { label: 'Inventory Management', route: '/inventory-management' },
         { label: 'PO Planning', route: '/po-planning-oracle' },
         { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
