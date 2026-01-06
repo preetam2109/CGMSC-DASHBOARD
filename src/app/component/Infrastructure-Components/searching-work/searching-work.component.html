@@ -1,5 +1,7 @@
 
-<div class="container-fluid p-2"  [style.min-height]="!workdetails || workdetails.length === 0 ? '100vh' : null">
+
+<div class="container-fluid p-2"  [style.min-height]="!workdetails || workdetails.length === 0 ? '100vh' : null"  >
+
     <div class="row justify-content-center">
         <!-- <label for="items" class="form-label">Select Distric</label> -->
         <ngx-select-dropdown class="leftside" id="worK_ID" [(ngModel)]="items" #itemsModel="ngModel" [config]="config"
