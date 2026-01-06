@@ -151,6 +151,7 @@ import { CurrentStockOracleTabComponent } from './component/ORACLE-DASHBOARD/cur
 import { TenderStatusOracleTabComponent } from './component/ORACLE-DASHBOARD/tender-status-oracle-tab/tender-status-oracle-tab.component';
 import { InventoryManagementComponent } from './component/ORACLE-DASHBOARD/inventory-management/inventory-management.component';
 import { TenderManagementComponent } from './component/ORACLE-DASHBOARD/tender-management/tender-management.component';
+import { PaymentStatusDashboard } from './component/ORACLE-DASHBOARD/payment-status-dashboard/payment-status-dashboard';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -257,6 +258,7 @@ const routes: Routes = [
 {path:'DropAppWarehousePerformance',component:DropAppWarehousePerformanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['SEC1','CME','DME1','Collector']} },
 // {path:'cgmsc-supplies',component:CgmscSuppliesComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Collector']} },
 {path:'cgmsc-supplies',component:CgmscSuppliesDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['Collector']} },
+
 {path:'InfrastructureHome',component:InfrastructureHomeComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','DHS STORE','SEC1','CME','DME1','SE','HO_Infra','Division','Collector']} },
 {path:'DashProgressIstCount',component:DashProgressIstCountComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','DHS STORE','SEC1','CME','DME1','SE','HO_Infra','Division','Collector']} },
 {path:'SearchingWork',component:SearchingWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','DHS STORE','SEC1','CME','DME1','SE','HO_Infra','Division','Collector']} },
@@ -325,6 +327,75 @@ const routes: Routes = [
 {path:'nonsupply',component:NonSupplyComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','DHS STORE','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 // {path:'dmefacnoc',component:DmeFacNocComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','DHS STORE','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 {path:'dmefacnoc',component:DmeFacNocDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','DHS STORE','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+
+{path:'InfrastructureHome',component:InfrastructureHomeComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','SE','HO_Infra','Division','Collector']} },
+{path:'DashProgressIstCount',component:DashProgressIstCountComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','SE','HO_Infra','Division','Collector']} },
+{path:'SearchingWork',component:SearchingWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','SE','HO_Infra','Division','Collector']} },
+{path:'DistrictProgress',component:DistrictProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','SE','HO_Infra','Division','Collector']} },
+{path:'DivisionProgress',component:DivisionProgressComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','SE','HO_Infra','Division','Collector']} },
+{path:'WorkOrder',component:WorkOrderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','SE','HO_Infra','Division','Collector']} },
+{path:'FacilityWiseStock',component:FacilityWiseStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector']} },
+
+{path:'Handover',component:HandoverComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'LandIssue',component:LandIssueComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'EngineerWorks',component:EngineerWorksComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'TechnicalSanction',component:TechnicalSanctionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'LiveTender',component:LiveTenderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'TenderEvaluation',component:TenderEvaluationComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'PriceEvaluation',component:PriceEvaluationComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division','GM Finance','DMFin']}},
+{path:'ToBeTender',component:ToBeTenderComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'AdministrativeSanction',component:AdministrativeSanctionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'RunningWork',component:RunningWorkComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'SchemeWiseDetails',component:SchemeWiseDetailsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division']} },
+{path:'institute-wise-issuance',component:CgmscInstituteWiseIssuanceComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division','SSO','Logi Cell']} },
+{path:'Complaint-Types-Hospital-Building-Con',component:ComplaintTHospitalBuConstructionComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division','SSO','Logi Cell']} },
+{path:'ComplainsReport',component:ComplainsReportComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','SE','HO_Infra','Division','SSO','Logi Cell']} },
+
+
+{path:'DistDHSStock',component:DistDHSStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector']} },
+{path:'Devlivery',component:DeliveryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','Warehouse']} },
+{path:'field-stock',component:CgmscFieldStockComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','Warehouse','SSO','Logi Cell']} },
+{path:'home-search',component:HomeSearchComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','Warehouse']} },
+{path:'finance-dash',component:FinanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Collector','Warehouse','GM Finance','DMFin','DM PO']} },
+{path:'qc-dashboard',component:QcDashboardComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2']} },
+{path:'attendance-dash',component:AttendanceDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
+{path:'tender-status',component:TenderStatusDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'tender-status-pbi',component:TenderStatusPbiComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'po-planning-pbi',component:PbiPoPlanningComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+// {path:'po-planning-oracle',component:PoPlanningComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'po-planning-oracle',component:PoPlanningOracleTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+// {path:'oracle-dashboard',component:TenderStatusOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'oracle-dashboard',component:TenderStatusOracleTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'Near-Expiry-Oracle',component:NearExpiryOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'FacilityInformationOracle',component:FacilityInformationOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'PipelineSuppliesOracle',component:PipelineSuppliesOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+// {path:'CurrentStockOracle',component:CurrentStockOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'PaymentStatusDashboard',component:PaymentStatusDashboard,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'CurrentStockOracle',component:CurrentStockOracleTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'ABCVEDSDEAnalysisOracle',component:ABCVEDSDEAnalysisOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'QCAnalysisOracle',component:QCAnalysisOracleComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'powerbidash',component:PowerbidashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'tender-status-cme',component:TenderStatusDashCmeComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
+{path:'conversationHodCgmsc',component:ConversationHodCgmscComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2']} },
+{path:'eqp-dash',component:EqpDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','CME','DME1','Warehouse','DM PO','QC','QC2','MDGMT','TPOBME','Tenders','Division']} },
+{path:'infra-dash',component:InfraDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','Division']} },
+{path:'admin-dash',component:AdminDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','Collector','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
+{path:'consumption-pattern',component:ConsumptionPatternTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']} },
+{path:'supplier-pending',component:SupplierPendingPaymentsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'cme-lifting-dash',component:CmeLiftingStatusComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+
+{path:'WHWiseStockOut',component:WHWiseStockOutComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+
+{path:'rc-valid-status',component:RcValidStatusComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'analysis',component:AnalysisTabComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+
+{path:'analysis-graph',component:AnalysisGraphComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'w-wise',component:WarehouseWiseTabsComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'holdbatchhistory',component:HoldBatchHistoryComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'nonsupply',component:NonSupplyComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+// {path:'dmefacnoc',component:DmeFacNocComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'dmefacnoc',component:DmeFacNocDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+
 
 
 
