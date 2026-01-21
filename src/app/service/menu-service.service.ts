@@ -61,17 +61,8 @@ export class MenuServiceService {
           //     { label: 'Facility Information', route: '/FacilityInformationOracle'},
           //   ]
           // },
-         
-          
-
-
-        
-
-        
-
-
-
           { label: 'Dashboard', route: '/welcome' },
+          { label: 'Payments Pending', route: '/FitUnFit' },
           { label: 'Analysis', route: '/analysis' },
           { label: 'Attendance', route: '/attendance-dash' },
           { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
@@ -87,6 +78,7 @@ export class MenuServiceService {
           { label: 'Non Supply', route: '/nonsupply' },
           { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
           { label: 'Noc', route: '/dmefacnoc' },
+         
           
           // {
           //   label: 'Health Facilities Coverage',
@@ -110,7 +102,7 @@ export class MenuServiceService {
           { label: 'Consumption Pattern', route: '/consumption-pattern' },
           { label: 'Near Expiry', route: '/nearExpiry' },
           { label: 'Devlivery', route: '/Devlivery' },
-
+        
           // { label: 'QC Courier', route:  '/QcPendings' },
           // { label: 'QC-Lab Issues', route:  '/qc-dash' },
           { label: 'Quality Control', route: '/qc-dashboard' },
@@ -183,7 +175,7 @@ export class MenuServiceService {
         Infrastructure: [
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/infra-dash' },
-
+        
           // { label: 'Home', route: 'InfrastructureHome' },
           // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
           // { label: 'SearchingWork', route: 'SearchingWork' },
@@ -869,7 +861,7 @@ export class MenuServiceService {
         // { label: 'District Progress', route: 'District Progress' },
         // { label: 'DivisionProgress', route: 'DivisionProgress' },
         { label: 'Dashboard', route: '/welcome' },
-
+        { label: 'Payments Pending', route: '/FitUnFit' },
         { label: 'Search Work', route: '/SearchingWork' },
         { label: 'Work Abstract', route: '/InfrastructureHome' },
         { label: 'Administrative Sanction', route: '/AdministrativeSanction' },

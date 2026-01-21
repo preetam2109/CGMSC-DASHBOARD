@@ -1755,7 +1755,26 @@ private token: string = '';
 //   return this.token;
 // }
 
-
+  //#region fitunfit/FitUnfitSummary
+  getfitunfit(valutype:any){
+    // https://dpdmis.in/CGMSCHO_API2/api/DashboardFinance/getFitUnfit?fitunfit=fit
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/getFitUnfit?fitunfit=${valutype}`);
+    }
+    getFitUnfitSummary(valutype:any){
+    // https://dpdmis.in/CGMSCHO_API2/api/DashboardFinance/getFitUnfitSummary?fitunfit=fit
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/getFitUnfitSummary?fitunfit=${valutype}`);
+    }
+   
+   
+    getPendigBillSummary(){
+       // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBillSummary
+      return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBillSummary`);
+      }
+      getPendigBill(mainSchemeId:any,officeOrder:any){
+      // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBill?mainSchemeId=101&officeOrder=1
+      return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBill?mainSchemeId=${mainSchemeId}&officeOrder=${officeOrder}`);
+      }
+  //#endregion
 
 
 

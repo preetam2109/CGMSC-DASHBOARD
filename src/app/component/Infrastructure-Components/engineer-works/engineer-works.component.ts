@@ -308,7 +308,7 @@ this.fullUrl = window.location.href;
 
 getSBUENEngAllotedWorks(): void {
 
-  // ;
+
   var roleName = localStorage.getItem('roleName');
   if (roleName == 'Division') {
     this.chartOptionsLine.chart.height = '600px';

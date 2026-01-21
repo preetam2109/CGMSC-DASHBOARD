@@ -355,3 +355,29 @@ footer p {
     -webkit-text-fill-color: transparent;
     font-family:--awb-fusion-font-family-typography;
   } */
+
+
+
+  /* eye ka  */
+.toggle-eye {
+  /* position: absolute;
+  right: 12px;         
+  top: 50%;            
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 16px; */
+
+
+  position: absolute;
+  right: 10px;
+  top: 71%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 17px;
+}
+
+.toggle-eye:hover {
+  color: #000;
+}

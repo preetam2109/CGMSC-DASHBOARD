@@ -1,0 +1,475 @@
+<div class="card shadow bg-light">
+<div class=" card container-fluid text-center" style="background-color: aliceblue;">
+    <h3 class="mb-1 Heading-font-family pt-1">Fit/UnFit DETAILS</h3>
+</div>
+
+<!-- SE -->
+<mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+    <mat-tab label=" Drugs & Consumables (Drugs)" *ngIf="roleName !== 'SE'">
+        <ng-template matTabContent>
+           
+                <mat-tab-group (selectedTabChange)="selectedTabValue1($event)">
+                    <mat-tab label="Fit/UnFit Summary">
+                        <ng-template matTabContent>
+                          <div class="mt-2">
+                            
+                              <div class="card col-12 col-md-12 mt-2">
+                                  <div class="p-2"> 
+                                      <div class="card container-fluid text-center mb-1" style="background-color: rgb(254, 240, 255);">
+                                          <h3 class="mb-1 Heading-font-family pt-1">Fit/UnFit Files Payment Pending at Section</h3>
+                                      </div>
+                                      <div class="card border rounded py-2 px-2">
+                                          <div class="d-flex justify-content-between align-items-center mb-0">
+                                              <div class="filter-field d-flex gap-4 align-items-center">
+                
+                                                  <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="Fit"
+                                                    [(ngModel)]="selectedStatus1" (change)="onStatusChange1()">
+                                                    <label class="form-check-label" for="exampleRadios1">
+                                                      Fit
+                                                    </label>
+                                                  </div>
+                                                
+                                                  <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="Not Fit"
+                                                    [(ngModel)]="selectedStatus1" (change)="onStatusChange1()">
+                                                    <label class="form-check-label" for="exampleRadios2">
+                                                      UnFit
+                                                    </label>
+                                                  </div>
+                                                
+                                                  <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="0"
+                                                    [(ngModel)]="selectedStatus1" (change)="onStatusChange1()">
+                                                    <label class="form-check-label" for="exampleRadios3">
+                                                      All
+                                                    </label>
+                                                  </div>
+                                                
+                                                </div>
+                                              <div class="filter-field flex-grow-1">
+                                                  <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                                              </div>
+                                              <div class="export-menu-container">
+                                                  <button class="btn  btn-outline-secondary" mat-button
+                                                      [matMenuTriggerFor]="exportMenu">Export</button>
+                                                  <mat-menu #exportMenu="matMenu">
+                                                      <button mat-menu-item
+                                                          (click)="exporter.exportTable('xlsx', { fileName: 'FitunfirFilesSummaryDetails', sheet: 'FitunfirFilesSummaryDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                                                      <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                                      <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                                      <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                                                      <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                                                  </mat-menu>
+                                              </div>
+                                          </div>
+                                          <div class="table-responsive ">
+                                              <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+                                                  [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+                                                  <ng-container matColumnDef="sno">
+                                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                                      <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                                                  </ng-container>
+                                                  <ng-container matColumnDef="sectionname">
+                                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Section</th>
+                                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.sectionname }} </td>
+                                                  </ng-container>
+                                                  <ng-container matColumnDef="presentfile">
+                                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>presentfile </th>
+                                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.presentfile }} </td>
+                                                  </ng-container>
+                                                  <ng-container matColumnDef="fundhead">
+                                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fund Name</th>
+                                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.fundhead }} </td>
+                                                  </ng-container>
+                                                  <ng-container matColumnDef="recvaluelacs">
+                                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>To be paid Value in Lacs </th>
+                                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.recvaluelacs }} </td>
+                                                  </ng-container>
+                                                  <ng-container matColumnDef="nospo">
+                                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>No of POs </th>
+                                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.nospo }}
+                                                      </td>
+                                                  </ng-container>
+                              
+                                                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                              
+                                              </table>
+                              
+                                              <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </ng-template>
+                      </mat-tab>
+                    <mat-tab label="Fit/UnFit DETAILS">
+                      <ng-template matTabContent>
+                         <div class="mt-2">
+                            <div class="card col-12 col-md-12">
+                                <div class="p-2"> 
+                                    <div class="card container-fluid text-center mb-1" style="background-color: rgb(254, 240, 255);">
+                                        <h3 class="mb-1 Heading-font-family pt-1">Fit/UnFit Files at Finance & Technical Section in DPDMIS (Drugs,Consumables)</h3>
+                                    </div>
+                                    <div class="card border rounded py-2 px-2">
+                                        <div class="d-flex justify-content-between align-items-center mb-0">
+                                            <div class="filter-field d-flex gap-4 align-items-center">
+              
+                                                <div class="form-check">
+                                                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="Fit"
+                                                  [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+                                                  <label class="form-check-label" for="exampleRadios1">
+                                                    Fit
+                                                  </label>
+                                                </div>
+                                              
+                                                <div class="form-check">
+                                                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="Not Fit"
+                                                  [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+                                                  <label class="form-check-label" for="exampleRadios2">
+                                                    UnFit
+                                                  </label>
+                                                </div>
+                                              
+                                                <div class="form-check">
+                                                  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="0"
+                                                  [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+                                                  <label class="form-check-label" for="exampleRadios3">
+                                                    All
+                                                  </label>
+                                                </div>
+                                              
+                                              </div>
+                                              
+                                            <div class="filter-field flex-grow-1">
+                                                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)">
+                                            </div>
+                                            <div class="export-menu-container">
+                                                <button class="btn  btn-outline-secondary" mat-button
+                                                    [matMenuTriggerFor]="exportMenu">Export</button>
+                                                <mat-menu #exportMenu="matMenu">
+                                                    <button mat-menu-item
+                                                        (click)="exporter.exportTable('xlsx', { fileName: 'FitunfirFilesDETAILS', sheet: 'FitunfirFilesDETAILS', Props: { Author: 'cgmsc' }})">Excel</button>
+                                                    <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                                    <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                                    <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                                                    <button mat-menu-item (click)="exportToPDF1()">PDF</button>
+                                                </mat-menu>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive ">
+                                            <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+                                                [dataSource]="dataSource1" #exporter="matTableExporter" matSort #sort1="matSort">
+                                                <ng-container matColumnDef="sno">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="sectionname">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Section</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.sectionname }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="presentfile">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Present file</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.presentfile }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="fundHead">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fund Head</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.fundHead }} </td>
+                                                </ng-container>
+                            
+                            
+                                                <ng-container matColumnDef="suppliername">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.suppliername }} </td>
+                                                </ng-container>
+                            
+                            
+                                                <!-- <ng-container matColumnDef="tvcValuecr">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Contract Value (in cr) </th>
+                                                    <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.tvcValuecr }}
+                                                    </td>
+                                                </ng-container> -->
+                            
+                            
+                                                <ng-container matColumnDef="poYear">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PO Year</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.poYear }} </td>
+                                                </ng-container>
+                            
+                            
+                                                <ng-container matColumnDef="pono">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PO NO</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.pono }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="podate">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PO Date</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.podate }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="mcategory">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>MCATEGORY</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.mcategory }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="itemcode">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ITEMCODE</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.itemcode }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="itemname">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ITEMNAME</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.itemname }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="strengtH1">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>STRENGTH1</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.strengtH1 }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="poqty">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>POQTY</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.poqty }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="totalpovalue">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTALPOVALUE</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.totalpovalue }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="receiptqty">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>RECEIPTQTY</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.receiptqty }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="receiptvalue">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Received Value </th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.receiptvalue }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="mrcdate">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>MRCDATE</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.mrcdate }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="sddate">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>SDDATE</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.sddate }} </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="validity">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>VALIDITY</th>
+                                                    <td mat-cell *matCellDef="let element" class="text-center"> {{ element.validity }} </td>
+                                                </ng-container>
+                            
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                            
+                                            </table>
+                            
+                                            <mat-paginator #paginator1 [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+              
+                      </ng-template>
+                    </mat-tab>
+                   
+                  </mat-tab-group>
+
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Infrastructure">
+        <ng-template matTabContent>
+            <app-fit-un-fit-infrastructure></app-fit-un-fit-infrastructure>
+           
+        </ng-template>
+    </mat-tab>
+    <!-- <mat-tab label="Equipment">
+        <ng-template matTabContent>
+            <div class="mt-2">
+
+
+            </div>
+        </ng-template>
+    </mat-tab> -->
+</mat-tab-group>
+
+
+     
+</div>
+
+<!-- <div class="card col-12 col-md-12">
+    <div class="p-2"> 
+        <div class="card container-fluid text-center mb-1" style="background-color: rgb(254, 240, 255);">
+            <h3 class="mb-1 Heading-font-family pt-1">FIT Files at Finance & Technical Section in DPDMIS (Drugs,Consumables)</h3>
+        </div>
+        <div class="card border rounded py-2 px-2">
+            <div class="d-flex justify-content-between align-items-center mb-0">
+                <div class="filter-field flex-grow-1">
+                    <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+                </div>
+                <div class="export-menu-container">
+                    <button class="btn  btn-outline-secondary" mat-button
+                        [matMenuTriggerFor]="exportMenu">Export</button>
+                    <mat-menu #exportMenu="matMenu">
+                        <button mat-menu-item
+                            (click)="exporter.exportTable('xlsx', { fileName: 'FitunfirFilesDETAILS', sheet: 'FitunfirFilesDETAILS', Props: { Author: 'cgmsc' }})">Excel</button>
+                       <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                        <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                        <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> 
+                        <button mat-menu-item (click)="exportToPDF()">PDF</button>
+                    </mat-menu>
+                </div>
+            </div>
+            <div class="table-responsive ">
+                <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+                    [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+                    <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sectionname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Section</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.sectionname }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="presentfile">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Present file</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.presentfile }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fundHead">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fund Head</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.fundHead }} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="suppliername">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.suppliername }} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="poYear">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>PO Year</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.poYear }} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="pono">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>PO NO</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.pono }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="podate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>PO Date</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.podate }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="mcategory">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>MCATEGORY</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.mcategory }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="itemcode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ITEMCODE</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.itemcode }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="itemname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ITEMNAME</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.itemname }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="strengtH1">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>STRENGTH1</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.strengtH1 }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="poqty">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>POQTY</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.poqty }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="totalpovalue">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTALPOVALUE</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.totalpovalue }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="receiptqty">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>RECEIPTQTY</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.receiptqty }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="receiptvalue">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Received Value </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.receiptvalue }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="mrcdate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>MRCDATE</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.mrcdate }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sddate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>SDDATE</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.sddate }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="validity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>VALIDITY</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.validity }} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                </table>
+
+                <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="card col-12 col-md-12 mt-2">
+    <div class="p-2"> 
+        <div class="card container-fluid text-center mb-1" style="background-color: rgb(254, 240, 255);">
+            <h3 class="mb-1 Heading-font-family pt-1">Fit Files Payment Pending at Section</h3>
+        </div>
+        <div class="card border rounded py-2 px-2">
+            <div class="d-flex justify-content-between align-items-center mb-0">
+                <div class="filter-field flex-grow-1">
+                    <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)">
+                </div>
+                <div class="export-menu-container">
+                    <button class="btn  btn-outline-secondary" mat-button
+                        [matMenuTriggerFor]="exportMenu">Export</button>
+                    <mat-menu #exportMenu="matMenu">
+                        <button mat-menu-item
+                            (click)="exporter.exportTable('xlsx', { fileName: 'FitunfirFilesSummaryDetails', sheet: 'FitunfirFilesSummaryDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+                      <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                        <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                        <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>
+                        <button mat-menu-item (click)="exportToPDF1()">PDF</button>
+                    </mat-menu>
+                </div>
+            </div>
+            <div class="table-responsive ">
+                <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+                    [dataSource]="dataSource1" #exporter="matTableExporter" matSort #sort1="matSort">
+                    <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sectionname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Section</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.sectionname }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="presentfile">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>presentfile </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.presentfile }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fundhead">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fund Name</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.fundhead }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="recvaluelacs">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>To be paid Value in Lacs </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{ element.recvaluelacs }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nospo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>No of POs </th>
+                        <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.nospo }}
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+
+                </table>
+
+                <mat-paginator #paginator1 [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div> -->
