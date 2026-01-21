@@ -152,6 +152,7 @@ import { TenderStatusOracleTabComponent } from './component/ORACLE-DASHBOARD/ten
 import { InventoryManagementComponent } from './component/ORACLE-DASHBOARD/inventory-management/inventory-management.component';
 import { TenderManagementComponent } from './component/ORACLE-DASHBOARD/tender-management/tender-management.component';
 import { PaymentStatusDashboard } from './component/ORACLE-DASHBOARD/payment-status-dashboard/payment-status-dashboard';
+import { FitUnFit } from './component/fit-un-fit/fit-un-fit';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -395,6 +396,7 @@ const routes: Routes = [
 {path:'nonsupply',component:NonSupplyComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 // {path:'dmefacnoc',component:DmeFacNocComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 {path:'dmefacnoc',component:DmeFacNocDashComponent,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
+{path:'FitUnFit',component:FitUnFit,canActivate:[RouteGuardService],data: { allowedRoles: ['DHS','SEC1','SE','HO_Infra','CME','DME1','Warehouse','DM PO','QC','QC2','HR']}},
 
 
 

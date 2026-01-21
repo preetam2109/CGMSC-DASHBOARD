@@ -1,0 +1,302 @@
+<mat-tab-group (selectedTabChange)="selectedTabValue2($event)">
+    <mat-tab label="Pending Bill Summary">
+        <ng-template matTabContent>
+
+          <div class="mt-2">
+            
+              <div class="card col-12 col-md-12 mt-2">
+                  <div class="p-2"> 
+                      <div class="card container-fluid text-center mb-1" style="background-color: rgb(254, 240, 255);">
+                          <!-- <h3 class="mb-1 Heading-font-family pt-1">Fit/UnFit Files Payment Pending at Section</h3> -->
+                          <h3 class="mb-1 Heading-font-family pt-1">Pending Bills (Unpaid) Under Process at Various Level
+                        </h3>
+                      </div>
+                      <div class="card border rounded py-2 px-2">
+                          <div class="d-flex justify-content-between align-items-center mb-0">
+                              <!-- <div class="filter-field d-flex gap-4 align-items-center">
+
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="Fit"
+                                    [(ngModel)]="selectedStatus1" (change)="onStatusChange1()">
+                                    <label class="form-check-label" for="exampleRadios1">
+                                      Fit
+                                    </label>
+                                  </div>
+                                
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="Not Fit"
+                                    [(ngModel)]="selectedStatus1" (change)="onStatusChange1()">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                      UnFit
+                                    </label>
+                                  </div>
+                                
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="0"
+                                    [(ngModel)]="selectedStatus1" (change)="onStatusChange1()">
+                                    <label class="form-check-label" for="exampleRadios3">
+                                      All
+                                    </label>
+                                  </div>
+                                
+                                </div> -->
+                              <div class="filter-field flex-grow-1">
+                                  <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter2($event)">
+                              </div>
+                              <div class="export-menu-container">
+                                  <button class="btn  btn-outline-secondary" mat-button
+                                      [matMenuTriggerFor]="exportMenu">Export</button>
+                                  <mat-menu #exportMenu="matMenu">
+                                      <button mat-menu-item
+                                          (click)="exporter.exportTable('xlsx', { fileName: 'Summary_Construction_Bills_FundWise_Unpaid', sheet: 'Summary_Construction_Bills_FundWise_Unpaid', Props: { Author: 'cgmsc' }})">Excel</button>
+                                      <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                      <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                      <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                                      <button mat-menu-item (click)="exportToPDF2()">PDF</button>
+                                  </mat-menu>
+                              </div>
+                          </div>
+                          <div class="table-responsive ">
+                              <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
+                                  [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+                                  <ng-container matColumnDef="sno">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                      <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                                  </ng-container>
+                                  
+                                  <ng-container matColumnDef="fund">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fund</th>
+                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.fund }} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="billdiv">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Division</th>
+                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.billdiv }} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="divgrossamt">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Division Gross Amount in (In Lacs)
+                                    </th>
+                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.divgrossamt }} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="billse">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Section</th>
+                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.billse }} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="segrossamt">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Section Gross Amount (In Lacs)</th>
+                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.segrossamt }}
+                                      </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="billfin">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Finance</th>
+                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.billfin }}
+                                      </td> 
+                                  </ng-container>
+                              
+                                  <ng-container matColumnDef="fingrossamt">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Finance Gross Amount(In Lacs)</th>
+                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.fingrossamt }}
+                                      </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="totalgross">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Gross (In Lacs)</th>
+                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.totalgross }}
+                                      </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="mainschemeid">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Main Scheme</th>
+                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.mainschemeid }}
+                                      </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="officeorder">
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Office Order</th>
+                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.officeorder }}
+                                      </td>
+                                  </ng-container>
+              
+                                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              
+                              </table>
+              
+                              <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+    <mat-tab label="Bill Status Under Process (Not Paid) Bill Details">
+      <ng-template matTabContent>
+         <div class="mt-2">
+            <div class="card col-12 col-md-12">
+                <div class="p-2"> 
+                    <div class="card container-fluid text-center mb-1" style="background-color: rgb(254, 240, 255);">
+                        <!-- <h3 class="mb-1 Heading-font-family pt-1">Fit/UnFit Files at Finance & Technical Section in DPDMIS (Drugs,Consumables)</h3> -->
+                        <h3 class="mb-1 Heading-font-family pt-1"> Bill Status Under Process (Not Paid) at Various Section Details</h3>
+                    </div>
+                    <div class="card border rounded py-2 px-2">
+                        <div class="d-flex justify-content-between align-items-center mb-0">
+                            <div class="filter-field flex-grow-1" *ngIf="mainscheme.length > 0">
+                                <ng-select class="form-control" [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID"
+                                    [(ngModel)]="mainSchemeID" name="mainSchemeID" (change)="onselect_mainscheme_data($event)" #emailidField="ngModel"
+                                    [placeholder]="mainSchemeID ? '' : 'Select Scheme'" [searchable]="true" [clearable]="true"
+                                    [appendTo]="'body'" required class="form-control">
+                                </ng-select>
+                            </div>
+                            <div class="filter-field flex-grow-1" *ngIf="officeorder.length > 0">
+                                <ng-select class="form-control" [items]="officeorder" bindLabel="pedingsection" bindValue="officeorderid"
+                                    [(ngModel)]="officeorderid" name="officeorderid" (change)="onselect_mainscheme_data1($event)" #emailidField="ngModel"
+                                    [placeholder]="officeorderid ? '' : 'Select Office Order'" [searchable]="true" [clearable]="true"
+                                    [appendTo]="'body'" required class="form-control">
+                                </ng-select>
+                            </div>
+                               
+                             <!-- <div class="filter-field flex-grow-1" *ngIf="mainscheme.length > 0">
+                                    <ng-select
+                                    [items]="mainscheme"
+                                    bindLabel="name"
+                                    bindValue="mainSchemeID"
+                                    [(ngModel)]="mainSchemeID"
+                                    name="mainSchemeID"
+                                    (change)="onselect_mainscheme_data($event)"
+                                    [placeholder]="'Select Scheme'"
+                                    [searchable]="true"
+                                    [clearable]="true"
+                                    [appendTo]="'body'"
+                                    required>
+                                  </ng-select>
+                              </div> -->
+                              
+                            <div class="filter-field flex-grow-1">
+                                <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter3($event)">
+                            </div>
+                            <div class="export-menu-container">
+                                <button class="btn  btn-outline-secondary" mat-button
+                                    [matMenuTriggerFor]="exportMenu">Export</button>
+                                <mat-menu #exportMenu="matMenu">
+                                    <button mat-menu-item
+                                        (click)="exporter.exportTable('xlsx', { fileName: 'NHM_Fund_Construction_Bills_Under_Process', sheet: 'NHM_Fund_Construction_Bills_Under_Process', Props: { Author: 'cgmsc' }})">Excel</button>
+                                    <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
+                                    <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                                    <button mat-menu-item (click)="exportToPDF3()">PDF</button>
+                                </mat-menu>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped border rounded" mat-table matTableExporter 
+                            [dataSource]="dataSource1"
+                                #exporter="matTableExporter" matSort #sort1="matSort">
+                                <!-- S.No -->
+                                <ng-container matColumnDef="sno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                                </ng-container>
+                            
+                                <!-- Fund -->
+                                <ng-container matColumnDef="fund">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fund </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.fund }} </td>
+                                </ng-container>
+                            
+                                <!-- Pending Section -->
+                                <ng-container matColumnDef="pedingsection">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Pending Section </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.pedingsection }} </td>
+                                </ng-container>
+                            
+                                <!-- Division Name -->
+                                <ng-container matColumnDef="divisionname">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Division </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.divisionname }} </td>
+                                </ng-container>
+                            
+                                <!-- District -->
+                                <ng-container matColumnDef="district">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> District </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.district }} </td>
+                                </ng-container>
+                            
+                                <!-- Work Name -->
+                                <ng-container matColumnDef="worK_ID">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>work_id </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.worK_ID }} </td>
+                                </ng-container>
+                                <!-- Work Name -->
+                                <ng-container matColumnDef="workname">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Work  </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.workname }} </td>
+                                </ng-container>
+                            
+                                <!-- Contractor -->
+                                <ng-container matColumnDef="contractor">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Contractor  </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.contractor }} </td>
+                                </ng-container>
+                            
+                                <!-- Agreement Bill Status -->
+                                <ng-container matColumnDef="agrbillstatus">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Agreement Bill Status </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.agrbillstatus }} </td>
+                                </ng-container>
+                            
+                                <!-- Bill No -->
+                                <ng-container matColumnDef="billno">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> BillNo</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.billno }} </td>
+                                </ng-container>
+                            
+                                <!-- Bill Date -->
+                                <ng-container matColumnDef="billdate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Bill Date </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.billdate }} </td>
+                                </ng-container>
+                            
+                                <!-- Measurement Date -->
+                                <ng-container matColumnDef="measurementdate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Measurement Date </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.measurementdate  }} </td>
+                                </ng-container>
+                            
+                                <!-- Gross Amount -->
+                                <ng-container matColumnDef="grossamount">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Gross Amount</th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.grossamount | number:'1.2-2' }} </td>
+                                </ng-container>
+                            
+                                <!-- File On Desk -->
+                                <ng-container matColumnDef="fileondesk">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> FileonDesk </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.fileondesk }} </td>
+                                </ng-container>
+                            
+                                <!-- Days Since File -->
+                                <ng-container matColumnDef="dayssincefile">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Days Since File Received </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.dayssincefile }} </td>
+                                </ng-container>
+                            
+                                <!-- Office Order -->
+                                <ng-container matColumnDef="officeorder">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Office Order Status </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.officeorder }} </td>
+                                </ng-container>
+                            
+                            
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+                            
+                            </table>
+            
+                            <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 15, 30]" showFirstLastButtons></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+      </ng-template>
+    </mat-tab>
+   
+</mat-tab-group>

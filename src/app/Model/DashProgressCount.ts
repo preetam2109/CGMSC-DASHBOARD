@@ -1205,3 +1205,76 @@ export class  RunningDelayWorksDetails {
 }
 
 //#endregion
+//#region FitUnfit FitUnfitSummary
+export interface FitUnfit {
+  sno:number
+  sectionname: string
+  presentfile: string
+  fundHead: string
+  suppliername: string
+  poYear: string
+  pono: string
+  podate: string
+  fmrcode: any
+  program: string
+  mcategory: string
+  itemcode: string
+  itemname: string
+  unit: string
+  strengtH1: string
+  poqty: number
+  totalpovalue: number
+  receiptqty: number
+  receiptvalue: number
+  mrcdate: string
+  qcpasseddt: any
+  sddate: string
+  fitunfit: string
+  validity: string
+  nsqstock: number
+  holdstock: number
+  suppenindsd: string
+  ponoid: number
+  itemid: number
+  supplierid: number
+}
+export interface FitUnfitSummary {
+  sno:number
+  sectionname: string
+  fundhead: string
+  nospo: number
+  recvaluelacs: number
+}
+export interface himis_PendigBillSummary {
+  sno:number
+  fund: string
+  billdiv: number
+  divgrossamt: number
+  billse: number
+  segrossamt: number
+  billfin: number
+  fingrossamt: number
+  totalgross: number
+  mainschemeid: number
+  officeorder: number
+}
+export interface himis_PendigBill {
+  sno:number
+  fund: string
+  pedingsection: string
+  divisionname: string
+  district: string
+  worK_ID: string
+  workname: string
+  contractor: string
+  agrbillstatus: string
+  billno: number
+  billdate: string
+  measurementdate: string
+  grossamount: number
+  fileondesk: string
+  dayssincefile: number
+  officeorder: number
+  mainschemeid: number
+}
+//#endregion
