@@ -47,79 +47,111 @@
                                   <button class="btn  btn-outline-secondary" mat-button
                                       [matMenuTriggerFor]="exportMenu">Export</button>
                                   <mat-menu #exportMenu="matMenu">
-                                      <button mat-menu-item
-                                          (click)="exporter.exportTable('xlsx', { fileName: 'Summary_Construction_Bills_FundWise_Unpaid', sheet: 'Summary_Construction_Bills_FundWise_Unpaid', Props: { Author: 'cgmsc' }})">Excel</button>
+                                    <!-- <button mat-menu-item
+                                          (click)="exporter.exportTable('xlsx', { fileName: 'Summary_Construction_Bills_FundWise_Unpaid', sheet: 'Summary_Construction_Bills_FundWise_Unpaid', Props: { Author: 'cgmsc' }})">Excel</button>  -->
                                       <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                                       <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-                                      <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+                                      <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button>  -->
                                       <button mat-menu-item (click)="exportToPDF2()">PDF</button>
                                   </mat-menu>
                               </div>
                           </div>
-                          <div class="table-responsive ">
-                              <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
-                                  [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
-                                  <ng-container matColumnDef="sno">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
-                                      <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
-                                  </ng-container>
-                                  
-                                  <ng-container matColumnDef="fund">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fund</th>
-                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.fund }} </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="billdiv">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Division</th>
-                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.billdiv }} </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="divgrossamt">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Division Gross Amount in (In Lacs)
-                                    </th>
-                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.divgrossamt }} </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="billse">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Section</th>
-                                      <td mat-cell *matCellDef="let element" class="text-center"> {{ element.billse }} </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="segrossamt">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Section Gross Amount (In Lacs)</th>
-                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.segrossamt }}
-                                      </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="billfin">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Finance</th>
-                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.billfin }}
-                                      </td> 
-                                  </ng-container>
-                              
-                                  <ng-container matColumnDef="fingrossamt">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Finance Gross Amount(In Lacs)</th>
-                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.fingrossamt }}
-                                      </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="totalgross">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Gross (In Lacs)</th>
-                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.totalgross }}
-                                      </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="mainschemeid">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Main Scheme</th>
-                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.mainschemeid }}
-                                      </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="officeorder">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Office Order</th>
-                                      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{ element.officeorder }}
-                                      </td>
-                                  </ng-container>
-              
-                                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-              
-                              </table>
-              
-                              <mat-paginator #paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+                          <div class="table-responsive" >
+
+                            <!-- CUSTOM HEADER TABLE (FOR IMAGE-WISE HEADER) -->
+                            <table class="table table-bordered text-center mb-0 header-table3">
+                            
+                          
+                              <!-- <tr class="bg-warning fw-bold text-center">
+                                <th colspan="11">
+                                  Pending Bills (Unpaid) Under Process at Various Level <br>
+                                  <small>Source HIMIS : 19-01-25 11 am</small>
+                                </th>
+                              </tr> -->
+                              <tr class="bg-warning fw-bold text-center">
+                                <th colspan="11" class="text-center">
+                                  Pending Bills (Unpaid) Under Process at Various Level
+                                  &nbsp; | &nbsp;
+                                  Date: {{ getCurrentDateTime() }}
+                                </th>
+                              </tr>
+                          
+                              <tr class="bg-info fw-bold">
+                                <!-- <th rowspan="2">S.No</th> -->
+                                <th rowspan="2">Fund</th>
+                          
+                                <th colspan="2">Division Level</th>
+                                <th colspan="2">SE Office</th>
+                                <th colspan="2">Finance-HO</th>
+                          
+                                <th rowspan="2">Total Gross<br>(In Lacs)</th>
+                                <!-- <th rowspan="2">Office Order</th> -->
+                              </tr>
+                          
+                              <tr class="bg-light fw-bold">
+                                <th>No of Bills</th>
+                                <th>Gross (In Lacs)</th>
+                          
+                                <th>No of Bills</th>
+                                <th>Gross (In Lacs)</th>
+                          
+                                <th>No of Bills</th>
+                                <th>Gross (In Lacs)</th>
+                              </tr>
+                            </table>
+                          
+                            <!-- MATERIAL TABLE (ONLY DATA ROWS) -->
+                            <table mat-table [dataSource]="dataSource" class="table table-bordered data-table"
+                            matTableExporter #exporter="matTableExporter" matSort #sort="matSort">
+                          
+                              <!-- <ng-container matColumnDef="sno">
+                                <td mat-cell *matCellDef="let e">{{e.sno}}</td>
+                              </ng-container> -->
+                          
+                              <ng-container matColumnDef="fund">
+                                <td mat-cell *matCellDef="let e">{{e.fund}}</td>
+                              </ng-container>
+                          
+                              <ng-container matColumnDef="billdiv">
+                                <td mat-cell *matCellDef="let e">{{e.billdiv}}</td>
+                              </ng-container>
+                          
+                              <ng-container matColumnDef="divgrossamt">
+                                <td mat-cell *matCellDef="let e">{{e.divgrossamt}}</td>
+                              </ng-container>
+                          
+                              <ng-container matColumnDef="billse">
+                                <td mat-cell *matCellDef="let e">{{e.billse}}</td>
+                              </ng-container>
+                          
+                              <ng-container matColumnDef="segrossamt">
+                                <td mat-cell *matCellDef="let e">{{e.segrossamt}}</td>
+                              </ng-container>
+                          
+                              <ng-container matColumnDef="billfin">
+                                <td mat-cell *matCellDef="let e">{{e.billfin}}</td>
+                              </ng-container>
+                          
+                              <ng-container matColumnDef="fingrossamt">
+                                <td mat-cell *matCellDef="let e">{{e.fingrossamt}}</td>
+                              </ng-container>
+                          
+                              <ng-container matColumnDef="totalgross">
+                                <td mat-cell *matCellDef="let e">{{e.totalgross}}</td>
+                              </ng-container>
+                          
+                              <!-- <ng-container matColumnDef="officeorder">
+                                <td mat-cell *matCellDef="let e">{{e.officeorder}}</td>
+                              </ng-container> -->
+                          
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                          
+                            </table>
+                          
+                            <mat-paginator #paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
                           </div>
+                          
+                         
                       </div>
                   </div>
               </div>
@@ -278,10 +310,10 @@
                                 </ng-container>
                             
                                 <!-- Office Order -->
-                                <ng-container matColumnDef="officeorder">
+                                <!-- <ng-container matColumnDef="officeorder">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Office Order Status </th>
                                     <td mat-cell *matCellDef="let element"> {{ element.officeorder }} </td>
-                                </ng-container>
+                                </ng-container> -->
                             
                             
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
