@@ -204,3 +204,57 @@ button[aria-expanded="true"] .bi-chevron-down {
 .ng-select {
   width: 100%;
 }
+
+
+
+/* heder table*/
+/* .header-table th:nth-child(1) { width: 60px; }  
+.header-table th:nth-child(2) { width: 150px; }  
+
+.header-table th:nth-child(3),
+.header-table th:nth-child(4) { width: 120px; }  
+
+.header-table th:nth-child(5),
+.header-table th:nth-child(6) { width: 120px; } 
+
+.header-table th:nth-child(7),
+.header-table th:nth-child(8) { width: 120px; }  
+
+.header-table th:nth-child(9) { width: 140px; }  
+.header-table th:nth-child(10){ width: 140px; }  */
+/* mat table  */
+.data-table td:nth-child(1) { width: 60px; }
+.data-table td:nth-child(2) { width: 150px; }
+
+.data-table td:nth-child(3),
+.data-table td:nth-child(4) { width: 120px; }
+
+.data-table td:nth-child(5),
+.data-table td:nth-child(6) { width: 120px; }
+
+.data-table td:nth-child(7),
+.data-table td:nth-child(8) { width: 120px; }
+
+.data-table td:nth-child(9) { width: 140px; }
+.data-table td:nth-child(10){ width: 140px; }
+
+
+/*  */
+/* .header-table,
+.data-table {
+  table-layout: fixed;
+  width: 100%;
+} */
+
+.header-table {
+  border-bottom: 0;
+}
+
+.data-table {
+  border-top: 0;
+}
+
+
+
+
+

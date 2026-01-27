@@ -211,6 +211,232 @@ export class FitUnFit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  getCurrentDateTime(): string {
+    const now = new Date();
+  
+    const date = now.toLocaleDateString('en-GB'); 
+    // 22/01/2025
+  
+    const time = now.toLocaleTimeString('en-IN', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+    // 11:05 AM
+
+    return `${date} ${time}`;
+  }
+  exportToPDF11() {
+    const currentDateTime = this.getCurrentDateTime();
+  
+    // ✅ A3 landscape (VERY IMPORTANT)
+    const doc = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: 'a3'
+    });
+  
+    // autoTable(doc, {
+    //   startY: 10,
+    //   theme: 'grid',
+  
+    //   // ✅ MUST for many columns
+    //   tableWidth: 'auto',
+    //   horizontalPageBreak: true,
+    //   showHead: 'everyPage',
+  
+    //   head: [
+    //     [
+    //       {
+    //         content:
+    //           'Fit/UnFit Files at Finance & Technical Section in DPDMIS (Drugs, Consumables)',
+    //         colSpan: 19,
+    //         styles: {
+    //           halign: 'center',
+    //           fontStyle: 'bold',
+    //           fontSize: 12
+    //         }
+    //       }
+    //     ],
+    //     [
+    //       {
+    //         content: `Date : ${currentDateTime}`,
+    //         colSpan: 19,
+    //         styles: {
+    //           halign: 'right',
+    //           fontSize: 9
+    //         }
+    //       }
+    //     ],
+    //     [
+    //       'S.No','Section Name','Present File','Fund Head','Supplier Name',
+    //       'PO Year','PO No','PO Date','M Category','Item Code','Item Name',
+    //       'Strength','PO Qty','Total PO Value','Receipt Qty','Receipt Value',
+    //       'MRC Date','SD Date','Validity'
+    //     ]
+    //   ],
+  
+    //   body: this.FitUnfit.map(r => ([
+    //     r.sno,
+    //     r.sectionname,
+    //     r.presentfile,
+    //     r.fundHead,
+    //     r.suppliername,
+    //     r.poYear,
+    //     r.pono,
+    //     r.podate,
+    //     r.mcategory,
+    //     r.itemcode,
+    //     r.itemname,
+    //     r.strengtH1,
+    //     r.poqty,
+    //     r.totalpovalue,
+    //     r.receiptqty,
+    //     r.receiptvalue,
+    //     r.mrcdate,
+    //     r.sddate,
+    //     r.validity
+    //   ])),
+  
+    //   // ✅ TEXT WRAP + SHRINK
+    //   styles: {
+    //     fontSize: 7,
+    //     cellPadding: 2,
+    //     overflow: 'linebreak',
+    //     cellWidth: 'wrap',
+    //     valign: 'middle'
+    //   },
+  
+    //   // ✅ COLUMN WIDTH CONTROL (IMPORTANT)
+    //   columnStyles: {
+    //     0: { cellWidth: 12 },  // S.No
+    //     1: { cellWidth: 25 },  // Section
+    //     2: { cellWidth: 22 },  // Present File
+    //     4: { cellWidth: 40 },  // Supplier Name
+    //     10:{ cellWidth: 45 },  // Item Name
+    //     18:{ cellWidth: 18 }   // Validity
+    //   }
+    // });
+    autoTable(doc, {
+      startY: 10,
+      theme: 'grid',
+      tableWidth: 'auto',
+    
+      horizontalPageBreak: true,
+      horizontalPageBreakRepeat: 0,
+      pageBreak: 'auto',
+      showHead: 'everyPage',
+    
+      head: [
+        [
+          {
+            content:
+              'Fit/UnFit Files at Finance & Technical Section in DPDMIS (Drugs, Consumables)',
+            colSpan: 19,
+            styles: { halign: 'center', fontStyle: 'bold', fontSize: 12 }
+          }
+        ],
+        [
+          {
+            content: `Date : ${currentDateTime}`,
+            colSpan: 19,
+            styles: { halign: 'right', fontSize: 9 }
+          }
+        ],
+        [
+          'S.No','Section Name','Present File','Fund Head','Supplier Name',
+          'PO Year','PO No','PO Date','M Category','Item Code','Item Name',
+          'Strength','PO Qty','Total PO Value','Receipt Qty','Receipt Value',
+          'MRC Date','SD Date','Validity'
+        ]
+      ],
+    
+      body: this.FitUnfit.map(r => ([
+        r.sno,
+        r.sectionname,
+        r.presentfile,
+        r.fundHead,
+        r.suppliername,
+        r.poYear,
+        r.pono,
+        r.podate,
+        r.mcategory,
+        r.itemcode,
+        r.itemname,
+        r.strengtH1,
+        r.poqty,
+        r.totalpovalue,
+        r.receiptqty,
+        r.receiptvalue,
+        r.mrcdate,
+        r.sddate,
+        r.validity
+      ])),
+    
+      styles: {
+        fontSize: 6.5,
+        cellPadding: 1.5,
+        overflow: 'linebreak',
+        valign: 'middle'
+      }
+    });
+    
+    
+    doc.save('FitUnfitFiles_DETAILS.pdf');
+  }
+  
+   exportToPDF12() {
+      const currentDateTime = this.getCurrentDateTime();
+      const doc = new jsPDF('l', 'mm', 'a4');
+      autoTable(doc, {
+        startY: 10,
+        theme: 'grid',
+        tableWidth: 'auto',
+        horizontalPageBreak: true,
+      
+        head: [
+          [
+            {
+              content:
+                'Fit/UnFit Files at Finance & Technical Section in DPDMIS (Drugs, Consumables)',
+              colSpan: 19,
+              styles: { halign: 'center', fontStyle: 'bold', fontSize: 11 }
+            }
+          ],
+          [
+            {
+              content: `Date : ${currentDateTime}`,
+              colSpan: 19,
+              styles: { halign: 'right', fontSize: 9 }
+            }
+          ],
+          [
+            'S.No','Section Name','Present File','Fund Head','Supplier Name',
+            'PO Year','PO No','PO Date','M Category','Item Code','Item Name',
+            'Strength','PO Qty','Total PO Value','Receipt Qty','Receipt Value',
+            'MRC Date','SD Date','Validity'
+          ]
+        ],
+      
+        body: this.FitUnfit.map(r => ([
+          r.sno, r.sectionname, r.presentfile, r.fundHead, r.suppliername,
+          r.poYear, r.pono, r.podate, r.mcategory, r.itemcode, r.itemname,
+          r.strengtH1, r.poqty, r.totalpovalue, r.receiptqty, r.receiptvalue,
+          r.mrcdate, r.sddate, r.validity
+        ])),
+      
+        styles: {
+          fontSize: 7,
+          cellPadding: 2,
+          overflow: 'linebreak',
+          cellWidth: 'wrap'
+        }
+      });
+      
+    
+      doc.save('FitUnfitFiles_DETAILS.pdf');
+    }
   exportToPDF1() {
     const doc = new jsPDF('l', 'mm', 'a4');
   
@@ -258,24 +484,84 @@ export class FitUnFit {
       row.validity
     ]);
   
+    // autoTable(doc, {
+    //   head: head,
+    //   body: body,
+    //   startY: 25,
+    //   theme: 'striped',
+    //   headStyles: {
+    //     fillColor: [22, 160, 133],
+    //     textColor: 255,
+    //     halign: 'center',
+    //     fontSize: 8
+    //   },
+    //   styles: {
+    //     fontSize: 7,
+    //     cellPadding: 2
+    //   },
+    //   tableWidth: 'auto'
+    // });
     autoTable(doc, {
-      head: head,
-      body: body,
-      startY: 25,
-      theme: 'striped',
+      startY: 20,
+      theme: 'grid',
+      tableWidth: 'auto',
+      showHead: 'everyPage',
+    
+      head: [[
+        'S.No','Section Name','Present File','Fund Head','Supplier Name',
+        'PO Year','PO No','PO Date','M Category','Item Code','Item Name',
+        'Strength','PO Qty','Total PO Value','Receipt Qty','Receipt Value',
+        'MRC Date','SD Date','Validity'
+      ]],
+    
+      body: this.FitUnfit.map(r => ([
+        r.sno,
+        r.sectionname,
+        r.presentfile,
+        r.fundHead,
+        r.suppliername,
+        r.poYear,
+        r.pono,
+        r.podate,
+        r.mcategory,
+        r.itemcode,
+        r.itemname,
+        r.strengtH1,
+        r.poqty,
+        r.totalpovalue,
+        r.receiptqty,
+        r.receiptvalue,
+        r.mrcdate,
+        r.sddate,
+        r.validity
+      ])),
+    
+      styles: {
+        fontSize: 7,
+        cellPadding: 2,
+        overflow: 'linebreak',
+        valign: 'middle'
+      },
+    
       headStyles: {
-        fillColor: [22, 160, 133],
+        fillColor: [41, 128, 185],
         textColor: 255,
         halign: 'center',
         fontSize: 8
       },
-      styles: {
-        fontSize: 7,
-        cellPadding: 2
-      },
-      tableWidth: 'auto'
+    
+      columnStyles: {
+        0: { cellWidth: 10 },   // S.No
+        1: { cellWidth: 24 },   // Section Name
+        2: { cellWidth: 22 },   // Present File
+        3: { cellWidth: 20 },   // Fund Head
+        4: { cellWidth: 40 },   // Supplier Name
+        9: { cellWidth: 22 },   // Item Code
+        10:{ cellWidth: 45 },   // Item Name
+        18:{ cellWidth: 18 }    // Validity
+      }
     });
-  
+    
     doc.save('FitUnfitFiles_DETAILS.pdf');
   }
   exportToPDF() {
