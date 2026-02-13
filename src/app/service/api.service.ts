@@ -154,7 +154,7 @@ export class ApiService {
 
   totalNoRc(): Observable<TotalNoRc> {
     return this.http.get<TotalNoRc>(`${this.EMIS_API}/getTotalNoRC`);
-  }
+  } 
 
   overAllComplaints() {
     return this.http.get<Complaints[]>(`${this.EMIS_API}/getAllComplaints`)
@@ -1553,6 +1553,7 @@ InsertUserPageViewLogPOST(values: any) {
 // }
 
 //#endregion
+
 
 
 

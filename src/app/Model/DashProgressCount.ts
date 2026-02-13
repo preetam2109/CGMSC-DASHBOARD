@@ -11,19 +11,19 @@ export class GetDistrict {
   diV_ID: number | undefined;
 }
 export class DMEProgressSummary {
-  hc_id!: string; // Unique identifier for the health center
-  nAme_eng!: string; // Name of the health center in English
-  district_ID!: string; // ID of the district
-  districtname!: string; // Name of the district
-  toBeTender1001!: number; // Count of items to be tendered
-  tenderProcess2001!: number; // Count of items in the tender process
-  accWorkOrder3001!: number; // Count of accepted work orders
-  completed4001!: number; // Count of completed projects
-  running5001!: number; // Count of running projects
-  landIssue6001!: number; // Count of land issues
-  retunDept8001!: number; // Count of items returned to the department
-  total!: number; // Total count of projects/issues
-  divisionID!: string; // ID of the division
+  hc_id!: string; 
+  nAme_eng!: string; 
+  district_ID!: string; 
+  districtname!: string; 
+  toBeTender1001!: number; 
+  tenderProcess2001!: number; 
+  accWorkOrder3001!: number; 
+  completed4001!: number; 
+  running5001!: number;
+  landIssue6001!: number; 
+  retunDept8001!: number; 
+  total!: number; 
+  divisionID!: string; 
 }
 export class DashProgressDistCount {
 
@@ -134,17 +134,6 @@ export class WorkBillStatus {
   billStatus!: string;
   billmbno!: string;
   mbno!: string;
-  // "billno": 1,
-  // "work_id": "W6700101",
-  // "agrbillstatus": "Running",
-  // "mesurementDT": "12-07-2023",
-  // "billdate": "20-07-2023",
-  // "grossPaid": 7.81,
-  // "chequeNo": "042263",
-  // "daysSinceMeasurement": 27,
-  // "billStatus": "Paid",
-  // "billmbno": "5880",
-  // "mbno": "10721"
 }
 export class ProjectTimeline {
   ppId!: number;
@@ -157,13 +146,6 @@ export class ProjectTimelineNew {
   ppId!: number;
   level!: string;
   dateProgress!: string;
-  // sinceAS!: number;
-  // sinceLastProg!: number;
-  // {
-  //   "ppId": 27,
-  //   "level": "Lintel level (FF)",
-  //   "dateProgress": "12-12-2024"
-  // },
 }
 export class MainScheme {
   mainSchemeID!: number;
@@ -1048,21 +1030,21 @@ export class TenderInProcess{
   aadt!: string;
   lProgress!: string;
   progressDT!: string;
-  remarks!: string | null; // Remarks can be null
+  remarks!: string | null;  
   groupName!: string;
   dashName!: string;
   asPath!: string;
   asLetter!: string;
-  asid!: string | null; // asid can be null
+  asid!: string | null; 
   descri!: string;
-  fmrcode!: string | null; // fmrcode can be null
-  startdt!: string | null; // startdt can be null
-  enddt!: string | null; // enddt can be null
+  fmrcode!: string | null;
+  startdt!: string | null; 
+  enddt!: string | null; 
   noofcalls!: number;
-  tenderno!: string | null; // tenderno can be null
-  eprocno!: string | null; // eprocno can be null
-  covOpenedDT!: string | null; // covOpenedDT can be null
-  topnedpricedt!: string | null; // topnedpricedt can be null
+  tenderno!: string | null;
+  eprocno!: string | null;
+  covOpenedDT!: string | null; 
+  topnedpricedt!: string | null; 
   grantNo!:any;
   totalpaid!:any;
   totalunpaid!:any;

@@ -273,7 +273,7 @@ browserInfo: any;
       this.router.navigate(['public-view1'])
 
     }else if(name =='Equipment_Reagent_Public'){
-alert('Public View Features of Equipment & Reagent is coming soon!')
+    alert('Public View Features of Equipment & Reagent is coming soon!')
     }else{
       // return;
       this.rolename = 'Infrastructure_Public'; 
@@ -402,7 +402,7 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
 
       
       if(this.userid===2926 && this.otp==='11111'){
-// this.getdata();
+        // this.getdata();
         this.InsertUserLoginLog();
         this.router.navigate(['/home']);
         this.toastr.success('Login Successful!');
@@ -583,7 +583,6 @@ alert('Public View Features of Equipment & Reagent is coming soon!')
 
 
 async handleCgmsclLogin() {
-  ;
   // Clear storage
   sessionStorage.clear();
   localStorage.clear();
@@ -1032,6 +1031,7 @@ toggleText() {
       this.InsertUserLoginLogData.roleId = roleId;
       this.InsertUserLoginLogData.roleIdName = roleIdName;
       this.InsertUserLoginLogData.userName = userName;
+      this.InsertUserLoginLogData.loginTime = new Date().toISOString();
       this.InsertUserLoginLogData.ipAddress = ipAddress;
       this.InsertUserLoginLogData.userAgent = userAgent;
       // console.log('InsertUserLoginLogData=',this.InsertUserLoginLogData);

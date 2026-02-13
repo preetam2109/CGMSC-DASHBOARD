@@ -23,6 +23,7 @@ export class InsertUserLoginLogmodal {
   roleId!: number
   roleIdName!: string
   userName!: string
+  loginTime!:string
   ipAddress!: string
   userAgent!: string
   // new Date().toISOString();
