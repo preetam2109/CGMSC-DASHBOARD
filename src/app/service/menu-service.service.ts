@@ -64,7 +64,7 @@ export class MenuServiceService {
           { label: 'Dashboard', route: '/welcome' },
           { label: 'Payments Pending', route: '/FitUnFit' },
           { label: 'Analysis', route: '/analysis' },
-          { label: 'Attendance', route: '/attendance-dash' },
+          // { label: 'Attendance', route: '/attendance-dash' },
           { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
           { label: 'Tender Status', route: '/tender-status' },
           { label: 'QC Insights ', route: '/qc-dashboard' },
@@ -215,7 +215,7 @@ export class MenuServiceService {
         Admin:[
           { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/admin-dash' },
-          { label: 'Attendance', route: '/attendance-dash' },
+          // { label: 'Attendance', route: '/attendance-dash' },
 
 
         ],
@@ -675,7 +675,7 @@ export class MenuServiceService {
       items:[
         { label: 'Home', route: '/home' },
         { label: 'Dashboard', route: '/admin-dash' },
-        { label: 'Attendance', route: '/attendance-dash' },
+        // { label: 'Attendance', route: '/attendance-dash' },
   
       ]
     },

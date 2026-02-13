@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe, NgFor } from '@angular/common';
+import { CommonModule, DatePipe, NgFor,Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,7 +19,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FitUnFitInfrastructure } from '../fit-un-fit-infrastructure/fit-un-fit-infrastructure';
-
+import { InsertUserPageViewLogmodal } from 'src/app/Model/DashLoginDDL';
 @Component({
   selector: 'app-fit-un-fit',
   standalone: true,
@@ -92,14 +92,19 @@ export class FitUnFit {
     // 'supplierid',
   ];
   roleName:any;
+      InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+        pageName: string = '';
+    fullUrl: string = '';
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
     public datePipe: DatePipe,
     private dialog: MatDialog,
-    private toastr: ToastrService
-  ) {
+    private toastr: ToastrService,
+    private location: Location) {
+    this.pageName = this.location.path();
+    this.fullUrl = window.location.href;
     this.dataSource1 = new MatTableDataSource<FitUnfit>([]);
     this.dataSource = new MatTableDataSource<FitUnfitSummary>([]);
   }
@@ -108,8 +113,47 @@ export class FitUnFit {
 
     this.getFitUnfitSummary();
     this.getFitUnfit();
+     this.InsertUserPageViewLog();
   }
 
+  InsertUserPageViewLog() {
+  try {
+    // 
+    const roleIdName = localStorage.getItem('roleName') || '';
+    const userId = Number(sessionStorage.getItem('userid') || 0);
+    const roleId = Number(sessionStorage.getItem('roleId') || 0);
+    // const userName = sessionStorage.getItem('firstname') || '';
+    const ipAddress = sessionStorage.getItem('ipAddress') || '';
+    const userAgent = navigator.userAgent; 
+    this.InsertUserPageViewLogdata.logId = 0; 
+    this.InsertUserPageViewLogdata.userId = userId;
+    this.InsertUserPageViewLogdata.roleId = roleId;
+    this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+    this.InsertUserPageViewLogdata.pageName = this.pageName;
+    this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+    this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+    this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+    this.InsertUserPageViewLogdata.userAgent = userAgent;
+    // console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+// if(localStorage.getItem('Log Saved')|| ''!){
+
+// }
+    // API call
+    this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+      next: (res: any) => {
+        console.log('Page View Log Saved:',res);
+        // const LogSaved='Log Saved'
+        // localStorage.setItem('Log Saved', LogSaved);
+      },
+      error: (err: any) => {
+        console.error('Backend Error:', JSON.stringify(err.message));
+      }
+    });
+
+  } catch (err: any) {
+    console.error('Error:', err.message);
+  }
+}
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
     if (this.selectedTabIndex == 0) {
@@ -384,8 +428,7 @@ export class FitUnFit {
     
     
     doc.save('FitUnfitFiles_DETAILS.pdf');
-  }
-  
+  } 
    exportToPDF12() {
       const currentDateTime = this.getCurrentDateTime();
       const doc = new jsPDF('l', 'mm', 'a4');
@@ -449,7 +492,7 @@ export class FitUnFit {
       'PO Year',
       'PO No',
       'PO Date',
-      'M Category',
+      // 'M Category',
       'Item Code',
       'Item Name',
       'Strength',
@@ -457,8 +500,8 @@ export class FitUnFit {
       'Total PO Value',
       'Receipt Qty',
       'Receipt Value',
-      'MRC Date',
-      'SD Date',
+      // 'MRC Date',
+      // 'SD Date',
       'Validity'
     ]];
   
@@ -471,7 +514,7 @@ export class FitUnFit {
       row.poYear,
       row.pono,
       row.podate,
-      row.mcategory,
+      // row.mcategory,
       row.itemcode,
       row.itemname,
       row.strengtH1,
@@ -479,39 +522,24 @@ export class FitUnFit {
       row.totalpovalue,
       row.receiptqty,
       row.receiptvalue,
-      row.mrcdate,
-      row.sddate,
+      // row.mrcdate,
+      // row.sddate,
       row.validity
     ]);
   
-    // autoTable(doc, {
-    //   head: head,
-    //   body: body,
-    //   startY: 25,
-    //   theme: 'striped',
-    //   headStyles: {
-    //     fillColor: [22, 160, 133],
-    //     textColor: 255,
-    //     halign: 'center',
-    //     fontSize: 8
-    //   },
-    //   styles: {
-    //     fontSize: 7,
-    //     cellPadding: 2
-    //   },
-    //   tableWidth: 'auto'
-    // });
+  
     autoTable(doc, {
       startY: 20,
       theme: 'grid',
       tableWidth: 'auto',
       showHead: 'everyPage',
-    
+    // 'MRC Date','SD Date',
+    // 'M Category',
       head: [[
         'S.No','Section Name','Present File','Fund Head','Supplier Name',
-        'PO Year','PO No','PO Date','M Category','Item Code','Item Name',
+        'PO Year','PO No','PO Date','Item Code','Item Name',
         'Strength','PO Qty','Total PO Value','Receipt Qty','Receipt Value',
-        'MRC Date','SD Date','Validity'
+        'Validity'
       ]],
     
       body: this.FitUnfit.map(r => ([
@@ -523,7 +551,7 @@ export class FitUnFit {
         r.poYear,
         r.pono,
         r.podate,
-        r.mcategory,
+        // r.mcategory,
         r.itemcode,
         r.itemname,
         r.strengtH1,
@@ -531,8 +559,8 @@ export class FitUnFit {
         r.totalpovalue,
         r.receiptqty,
         r.receiptvalue,
-        r.mrcdate,
-        r.sddate,
+        // r.mrcdate,
+        // r.sddate,
         r.validity
       ])),
     
@@ -564,14 +592,15 @@ export class FitUnFit {
     
     doc.save('FitUnfitFiles_DETAILS.pdf');
   }
-  exportToPDF() {
+  exportToPDF123() {
+ 
     const doc = new jsPDF('l', 'mm', 'a4');
   
     const head = [[
       'S.No',
       'Section Name',
       'Fund Head',
-      'No. of SPO',
+      'No. of PO',
       'Receipt Value (Lacs)'
     ]];
   
@@ -600,5 +629,123 @@ export class FitUnFit {
   
     doc.save('Section_FundHead_Summary.pdf');
   }
- 
+    exportToPDF() {
+      const currentDateTime = this.getCurrentDateTime();
+      const total = this.getTotals();
+      const doc = new jsPDF('l', 'mm', 'a4');
+   
+    if(this.selectedStatus1 == '0'){
+       this.selectedStatus1= 'All';
+    }
+   
+      autoTable(doc, {
+        startY: 10,
+        theme: 'grid',
+
+        head: [
+          [
+            {
+              content: `Fit/UnFit Files Payment Pending at Section (${this.selectedStatus1})`,
+              colSpan: 4,
+              styles: {
+                halign: 'center',
+                fontStyle: 'bold',
+                fontSize: 11,
+                fillColor: [254, 240, 255],
+                textColor: [0, 0, 0],
+                lineWidth: 0.8,
+                lineColor: [0, 0, 0],
+              },
+            },
+            {
+              content: `Date : ${currentDateTime}`,
+              colSpan: 1,
+              styles: {
+                halign: 'right',
+                fontSize: 9,
+                fillColor: [254, 240, 255],
+                textColor: [0, 0, 0],
+                lineWidth: 0.8,
+                lineColor: [0, 0, 0],
+              },
+            },
+          ],
+          // [
+          //   'S.No',
+          //   'Section Name',
+          //   'Pending Fund Name',
+          //   'No. of PO',
+          //   'Receipt Value (Lacs)',
+          // ],
+          [
+  { content: 'S.No', styles: { halign: 'center' } },
+  { content: 'Section Name', styles: { halign: 'center' } },
+  { content: 'Pending Fund Name', styles: { halign: 'center' } },
+  { content: 'No. of POs', styles: { halign: 'center' } },
+  { content: 'Receipt Value (Lacs)', styles: { halign: 'center' } },
+],
+
+        ],
+
+        body: [
+          ...this.FitUnfitSummary.map((row) => [
+            row.sno,
+            row.sectionname,
+            row.fundhead,
+            row.nospo,
+            row.recvaluelacs,
+          ]),
+          [
+            { content: 'Total', styles: { fontStyle: 'bold' } },
+            { content: '-', styles: { fontStyle: 'bold' } },
+            { content: '-', styles: { fontStyle: 'bold' } },
+            { content: total.nospo.toFixed(2), styles: { fontStyle: 'bold' } },
+            {
+              content: total.recvaluelacs.toFixed(2), 
+              styles: { fontStyle: 'bold' },
+            },
+          ],
+        ],
+        styles: {
+          fontSize: 8,
+          lineWidth: 0.6,
+          lineColor: [0, 0, 0],
+          valign: 'middle',
+        },
+        columnStyles: {
+          0: { halign: 'left' },
+          1: { halign: 'center' },
+          2: { halign: 'center' },
+          3: { halign: 'right', fontStyle: 'bold'  },
+          4: { halign: 'right', fontStyle: 'bold' },
+        },
+        didParseCell: function (data) {
+          if (data.row.index === data.table.body.length - 1) {
+            data.cell.styles.fillColor = [254, 240, 255];
+            data.cell.styles.textColor = [0, 0, 0];
+            data.cell.styles.lineWidth = 0.8;
+          }
+          if (data.section === 'head') {
+            data.cell.styles.lineWidth = 0.8;
+            data.cell.styles.lineColor = [0, 0, 0];
+            data.cell.styles.fontStyle = 'bold';
+          }
+        },
+      });
+    
+      doc.save('Section_FundHead_Summary.pdf');
+    }
+    getTotals() {
+  return this.FitUnfitSummary.reduce(
+    (acc, r) => {
+      acc.nospo += Number(r.nospo) || 0;
+      acc.recvaluelacs += Number(r.recvaluelacs) || 0;
+      return acc;
+    },
+    {
+      nospo: 0,
+      recvaluelacs: 0
+    }
+  );
+}
 }

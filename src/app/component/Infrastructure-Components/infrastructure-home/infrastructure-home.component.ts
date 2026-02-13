@@ -198,7 +198,6 @@ export class InfrastructureHomeComponent {
       this.showDistrict = false;
       this.showDivision = false;
       this.loadInitialData();
-    
 
     } else {
       this.himisDistrictid = 0;

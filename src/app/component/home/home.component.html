@@ -33,7 +33,7 @@
 </div>
 
 
-<div class="container-fluid row p-4 pr-0 " *ngIf="['SEC1', 'DHS', 'Collector','DM PO','CME','SSO','Logi Cell'].includes(roleName) && selectedCategory!='Infrastructure' " >
+<!-- <div class="container-fluid row p-4 pr-0 " *ngIf="['SEC1', 'DHS', 'Collector','DM PO','CME','SSO','Logi Cell'].includes(roleName) && selectedCategory!='Infrastructure' " >
   <div class="col-12 col-md-7">
     <div class="" style="padding-right: 0px;  padding-left: 20px; padding-top: 10px; ">
     <div class="row card shadow card-body ">
@@ -45,16 +45,14 @@
         <div class="filter-field flex-grow-1">
           <h2 class="text-primary-emphasis">RC Not Valid Stock vs Tender Status (EDL Drugs) 
           </h2>
-          <!-- <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)"> -->
+          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)">
         </div>
         <div class="export-menu-container">
           <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
               (click)="exporter.exportTable('xlsx', { fileName: 'StockStatus', sheet: 'StockStatus', Props: { Author: 'cgmsc' }})">Excel</button>
-            <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+        
             <button mat-menu-item (click)="exportToPDFRCNotValidStock()">PDF</button>
           </mat-menu>
         </div>
@@ -79,9 +77,9 @@
           <ng-container matColumnDef="cntItems">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Total<br> Drugs</th>
             <td mat-cell *matCellDef="let element" (click)="allvaluecilick('',0,element.parameterNew,'Drugs')" style="cursor: pointer;" class="text-center" > {{ element.cntItems }} 
-            <!-- <td mat-cell *matCellDef="let element" (click)="StockOutDetails(0)"> {{ element.cntItems }}  -->
-              <!-- <a class="btn btn-xs btn-outline-light align-items-center border-0 rounded  p-1 m-0 bg-transparent "
-              mat-button (click)="StockOutDetails(0)"></a> -->
+            <td mat-cell *matCellDef="let element" (click)="StockOutDetails(0)"> {{ element.cntItems }} 
+              <a class="btn btn-xs btn-outline-light align-items-center border-0 rounded  p-1 m-0 bg-transparent "
+              mat-button (click)="StockOutDetails(0)"></a>
             </td>
           </ng-container>
           <ng-container matColumnDef="pricecnt">
@@ -121,7 +119,7 @@
 
        
         </table>
-        <!-- <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
+        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
       </div>
       </ng-template>
     </div>
@@ -138,16 +136,14 @@
         <div class="filter-field flex-grow-1">
           <h2 class="text-primary-emphasis">RC Valid Stock Status(EDL Drugs)
           </h2>
-          <!-- <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)"> -->
+          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)">
         </div>
         <div class="export-menu-container">
           <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
               (click)="exporter.exportTable('xlsx', { fileName: 'StockStatus', sheet: 'StockStatus', Props: { Author: 'cgmsc' }})">Excel</button>
-            <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
-            <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
-            <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
+            
             <button mat-menu-item (click)="exportToPDFRCValidStock()">PDF</button>
           </mat-menu>
         </div>
@@ -193,7 +189,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
         </table>
-        <!-- <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator> -->
+        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
       </div>
     </ng-template>
     </div>
@@ -202,7 +198,7 @@
     
    
  
-</div>
+</div> -->
 
 
 
