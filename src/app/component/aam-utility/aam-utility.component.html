@@ -1,0 +1,189 @@
+<div class="container-fluid py-4">
+
+    <div class="container" style="text-align: center; max-width: 100%; overflow-x: auto;">
+      <h1 style="color: rgb(50, 50, 164);" > <strong> District Wise AAM Health Facilities Details</strong></h1>
+    </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 table-container mb-4">
+          <!-- <div class="text d-flex mt-3 mb-2">
+            <button class="btn btn-outline-primary btn-sm" (click)="getAllDispatchPending()" >Drugs</button>
+            <button class="btn btn-outline-primary btn-sm" style="margin-left: 3px;" (click)="getAllDispatchPending()">Consumables</button>
+          </div> -->
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="filter-field flex-grow-1">
+              <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter($event)">
+            </div>
+            <div class="export-menu-container">
+              <button mat-button [matMenuTriggerFor]="exportMenu">Export</button>
+              <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item
+                  (click)="exporter.exportTable('xlsx', { fileName: 'AAM', sheet: 'AAM', Props: { Author: 'cgmsc' }})">Excel</button>
+                
+                <button mat-button (click)="exportToPDF()">PDF</button>
+    
+              </mat-menu>
+            </div>
+          </div>
+    
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped" mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" matSort>
+    
+              <!-- Serial Number Column -->
+<ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
+    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+  </ng-container>
+  
+  <!-- District Name Column -->
+  <ng-container matColumnDef="districtname">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> District </th>
+    <td mat-cell *matCellDef="let element"> {{ element.districtname }} </td>
+  </ng-container>
+  
+  <!-- Block Name Column -->
+  <ng-container matColumnDef="blockname">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Block </th>
+    <td mat-cell *matCellDef="let element"> {{ element.blockname }} </td>
+  </ng-container>
+  
+  <!-- Facility Name Column -->
+  <ng-container matColumnDef="facilityname">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Facility Name </th>
+    <td mat-cell *matCellDef="let element"> {{ element.facilityname }} </td>
+  </ng-container>
+  
+  <!-- Email ID Column -->
+  <ng-container matColumnDef="emailid">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Email ID </th>
+    <td mat-cell *matCellDef="let element"> {{ element.emailid }} </td>
+  </ng-container>
+  
+  <!-- Phone Column -->
+  <ng-container matColumnDef="phonE1">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+    <td mat-cell *matCellDef="let element"> {{ element.phonE1 }} </td>
+  </ng-container>
+  
+  <!-- Contact Person Name Column -->
+  <ng-container matColumnDef="contactpersonname">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact Person </th>
+    <td mat-cell *matCellDef="let element"> {{ element.contactpersonname }} </td>
+  </ng-container>
+  
+  <!-- Parent Facility Column -->
+  <ng-container matColumnDef="parentfacility">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Parent Facility </th>
+    <td mat-cell *matCellDef="let element"> {{ element.parentfacility }} </td>
+  </ng-container>
+  
+  <!-- Warehouse Name Column -->
+  <ng-container matColumnDef="warehousename">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Warehouse </th>
+    <td mat-cell *matCellDef="let element"> {{ element.warehousename }} </td>
+  </ng-container>
+  
+  <!-- No. of Drugs in Opening Stock Column -->
+  <ng-container matColumnDef="nosdrugsopstock">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> No. of Drugs in Opening Stock </th>
+    <td mat-cell *matCellDef="let element"> {{ element.nosdrugsopstock }} </td>
+  </ng-container>
+  
+  <!-- No. of Indent Column -->
+  <ng-container matColumnDef="nosindent">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Indent </th>
+    <td mat-cell *matCellDef="let element"> {{ element.nosindent }} </td>
+  </ng-container>
+  
+  <!-- No. of Items Indented Column -->
+  <ng-container matColumnDef="nositemsindented">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Items Indented </th>
+    <td mat-cell *matCellDef="let element"> {{ element.nositemsindented }} </td>
+  </ng-container>
+  
+  <!-- No. of Receipt Column -->
+  <ng-container matColumnDef="nosreceipt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>  Receipt </th>
+    <td mat-cell *matCellDef="let element"> {{ element.nosreceipt }} </td>
+  </ng-container>
+  
+  <!-- No. of Items in Receipts Column -->
+  <ng-container matColumnDef="nositemsreceipts">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Items  Received </th>
+    <td mat-cell *matCellDef="let element"> {{ element.nositemsreceipts }} </td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+      <!-- <span class="d-flex  flex-row-reverse p-2 "> -->
+        <button
+          class="btn btn-sm text-light align-items-center border rounded  btn-outline-info-subtle  bg-info-subtle"
+          mat-button (click)="openmarqModal(element.phonE1,element.contactpersonname,element.facilityid)">
+          <i class="bi bi-pencil-square text-primary"></i>
+          <!-- <i class="bi bi-folder2-open me-0 gradient-heading"></i>style="background-color: rgb(124, 24, 255);" -->
+        </button>
+      <!-- </span> -->
+    </td>
+  </ng-container>
+  
+  <!-- Header Row -->
+  <tr mat-header-row *matHeaderRowDef="['sno', 'districtname', 'blockname', 'facilityname', 'emailid', 'phonE1', 'contactpersonname', 'parentfacility', 'warehousename', 'nosdrugsopstock', 'nosindent', 'nositemsindented', 'nosreceipt', 'nositemsreceipts','action']"></tr>
+  
+  <!-- Data Rows -->
+  <tr mat-row *matRowDef="let row; columns: ['sno', 'districtname', 'blockname', 'facilityname', 'emailid', 'phonE1', 'contactpersonname', 'parentfacility', 'warehousename', 'nosdrugsopstock', 'nosindent', 'nositemsindented', 'nosreceipt', 'nositemsreceipts','action'];"></tr>
+    
+            </table>
+          </div>      
+          <mat-paginator [pageSizeOptions]="[5,10, 15, 30]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+    </div>
+    
+
+
+    <!-- Modal -->
+  <div class="modal fade custom-transparent-modal" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+      <div class="modal-content border-0 shadow-none">
+        <div class="modal-header bg-warningg text-dark  py-2 px-3" style="background-color:  #D4A136;">
+          <h3 class="modal-title text-center" id="pdfModalLabel">Number Update </h3>
+          <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0">
+          <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
+
+            <div class="card container-fluid p-3 bg-light">
+          
+              <!-- Phone Number -->
+              <div class="form-group mb-3">
+                <label>Phone Number</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="phone"
+                  [(ngModel)]="phone"
+                  required>
+              </div>
+          
+              <!-- Contact Person -->
+              <div class="form-group mb-3">
+                <label>Contact Person</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="contactPersonName"
+                  [(ngModel)]="contactPersonName"
+                  required>
+              </div>
+          
+              <button type="submit" class="btn btn-primary" [disabled]="contactForm.invalid">
+                Save
+              </button>
+          
+            </div>
+          
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>

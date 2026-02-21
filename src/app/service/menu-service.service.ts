@@ -65,7 +65,7 @@ export class MenuServiceService {
           { label: 'Payments Pending', route: '/FitUnFit' },
           { label: 'Analysis', route: '/analysis' },
           // { label: 'Attendance', route: '/attendance-dash' },
-          { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
+          // { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
           { label: 'Tender Status', route: '/tender-status' },
           { label: 'QC Insights ', route: '/qc-dashboard' },
           { label: 'Hold Batch History', route: '/holdbatchhistory' },

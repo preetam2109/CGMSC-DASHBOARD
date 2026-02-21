@@ -116,7 +116,7 @@ startDateValidator(control: AbstractControl) {
   // Only format dates if both start and end dates are selected
   const formattedStartDate = startDate ? this.datePipe.transform(startDate, 'dd-MM-yyyy') : '';
   const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MM-yyyy') : '';
-  debugger
+  
     this.spinner.show();
 
     
@@ -165,7 +165,7 @@ startDateValidator(control: AbstractControl) {
   
     console.log('Selected Year ID:', this.selectedYearId);
     console.log('Selected Year Label:', selectedLabel);
-debugger
+
 
     forkJoin([
        

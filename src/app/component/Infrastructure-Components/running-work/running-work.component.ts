@@ -2147,7 +2147,7 @@ const contractid=0;
 
 fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seriesName: string): void {
   // ;
-  // debugger;
+  // ;
   this.selectedParameter=delayTime;
   // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   var roleName = localStorage.getItem('roleName');

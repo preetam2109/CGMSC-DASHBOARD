@@ -219,7 +219,7 @@ startDateValidator(control: AbstractControl) {
  
   
   onISelectChangeYear(event: Event): void {
-    debugger
+    
     // const selectedUser = this.FundsDDL.find((user: { budgetid: string }) => user.budgetid === this.budgetid); 
     const selectedUser = this.Year.find((user: { accyrsetid: string }) => user.accyrsetid === this.accyrsetid); 
   
@@ -561,7 +561,7 @@ onItemNameClick(itemid:number,edlcat:string,groupname:string,itemcode:string,ite
 
 InsertUserPageViewLog() {
   try {
-    // debugger
+    // 
     const roleIdName = localStorage.getItem('roleName') || '';
     const userId = Number(sessionStorage.getItem('userid') || 0);
     const roleId = Number(sessionStorage.getItem('roleId') || 0);
