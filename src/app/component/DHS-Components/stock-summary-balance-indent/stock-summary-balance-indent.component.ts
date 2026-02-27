@@ -342,19 +342,19 @@ export class StockSummaryBalanceIndentComponent {
     doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
     
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Code", dataKey: "itemcode" },
-      { title: "Item", dataKey: "itemname" },
-      { title: "Strength", dataKey: "strengtH1" },
-      { title: "Unit", dataKey: "unit" },
-      { title: "Rc Status", dataKey: "rcstatus" },
-      { title: "AI", dataKey: "ai" },
-      { title: "Issued", dataKey: "issued" },
-      { title: "Balance Indent", dataKey: "balanceindent" },
-      { title: "Issup", dataKey: "issup" },
-      { title: "Stock %", dataKey: "stockper" },
-      { title: "Ready Stock", dataKey: "readystk" },
-      { title: "Total pipeline", dataKey: "totlpipeline" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "Code", dataKey: "itemcode" },
+      { header: "Item", dataKey: "itemname" },
+      { header: "Strength", dataKey: "strengtH1" },
+      { header: "Unit", dataKey: "unit" },
+      { header: "Rc Status", dataKey: "rcstatus" },
+      { header: "AI", dataKey: "ai" },
+      { header: "Issued", dataKey: "issued" },
+      { header: "Balance Indent", dataKey: "balanceindent" },
+      { header: "Issup", dataKey: "issup" },
+      { header: "Stock %", dataKey: "stockper" },
+      { header: "Ready Stock", dataKey: "readystk" },
+      { header: "Total pipeline", dataKey: "totlpipeline" }
 
      
     ];

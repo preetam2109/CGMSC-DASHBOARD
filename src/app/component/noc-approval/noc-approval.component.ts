@@ -34,11 +34,11 @@ export class NocApprovalComponent {
   
     // Define columns for the PDF table
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "District Name", dataKey: "districtname" },
-      { title: "Facility Name", dataKey: "facilityname" },
-      { title: "Approved", dataKey: "approved" },
-      { title: "Rejected", dataKey: "rejected" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "District Name", dataKey: "districtname" },
+      { header: "Facility Name", dataKey: "facilityname" },
+      { header: "Approved", dataKey: "approved" },
+      { header: "Rejected", dataKey: "rejected" }
     ];
   
     // Map the rows
@@ -78,13 +78,13 @@ export class NocApprovalComponent {
   
     // Define columns for the PDF table
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Facility Name", dataKey: "facilityname" },
-      { title: "Item Code", dataKey: "itemcode" },
-      { title: "Item Name", dataKey: "itemname" },
-      { title: "Strength", dataKey: "strengtH1" },
-      { title: "Unit", dataKey: "unit" },
-      { title: "NOC Date", dataKey: "nocdate" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "Facility Name", dataKey: "facilityname" },
+      { header: "Item Code", dataKey: "itemcode" },
+      { header: "Item Name", dataKey: "itemname" },
+      { header: "Strength", dataKey: "strengtH1" },
+      { header: "Unit", dataKey: "unit" },
+      { header: "NOC Date", dataKey: "nocdate" }
     ];
   
     // Map the rows

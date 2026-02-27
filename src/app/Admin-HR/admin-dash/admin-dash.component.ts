@@ -2934,10 +2934,10 @@ this.status=': To Be Tender';
             exportToPDFQCLabPendingTracke() {
               const doc = new jsPDF('l', 'mm', 'a4');
               const columns = [
-                { title: 'S.No', dataKey: 'sno' },
-                { title: 'Lab Name', dataKey: 'labname' },
-                { title: 'With Batches', dataKey: 'withBatches' },
-                { title: 'Out Batches', dataKey: 'outBatches' },
+                { header: 'S.No', dataKey: 'sno' },
+                { header: 'Lab Name', dataKey: 'labname' },
+                { header: 'With Batches', dataKey: 'withBatches' },
+                { header: 'Out Batches', dataKey: 'outBatches' },
               ];
             
               const rows = this.qCResultPendingLabWise.map((row) => ({
@@ -2963,13 +2963,13 @@ this.status=': To Be Tender';
               const doc = new jsPDF('l', 'mm', 'a4');
             
               const columns = [
-                { title: 'S.No', dataKey: 'sno' },
-                { title: 'Item Code', dataKey: 'item_code' },
-                { title: 'Item Name', dataKey: 'item_Name' },
-                { title: 'Category', dataKey: 'categoryName' },
-                { title: 'Quantity', dataKey: 'tender_quantity' },
-                { title: 'Estimated Cost', dataKey: 'estimated_cost' },
-                { title: 'Tender Value', dataKey: 'tenderValue' }
+                { header: 'S.No', dataKey: 'sno' },
+                { header: 'Item Code', dataKey: 'item_code' },
+                { header: 'Item Name', dataKey: 'item_Name' },
+                { header: 'Category', dataKey: 'categoryName' },
+                { header: 'Quantity', dataKey: 'tender_quantity' },
+                { header: 'Estimated Cost', dataKey: 'estimated_cost' },
+                { header: 'Tender Value', dataKey: 'tenderValue' }
               ];
             
               const rows = this.statusItemDetails.map((row: any, index: number) => ({
@@ -3023,11 +3023,11 @@ this.status=': To Be Tender';
             
               // Columns updated
               const columns = [
-                { title: 'S.No', dataKey: 'sno' },
-                { title: 'Scheme ', dataKey: 'schemename' },
-                { title: 'Tender ', dataKey: 'tenderstatus' },
-                { title: 'Tender ', dataKey: 'tenderremark' },
-                { title: 'Entry ', dataKey: 'entrydate' }
+                { header: 'S.No', dataKey: 'sno' },
+                { header: 'Scheme ', dataKey: 'schemename' },
+                { header: 'Tender ', dataKey: 'tenderstatus' },
+                { header: 'Tender ', dataKey: 'tenderremark' },
+                { header: 'Entry ', dataKey: 'entrydate' }
               ];
             
               const rows = this.schemeTenderStatus.map((row, index) => ({
@@ -3097,16 +3097,16 @@ this.status=': To Be Tender';
   doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
 
   const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Category', dataKey: 'categoryName' },
-    { title: 'Scheme', dataKey: 'schemeName' },
-    { title: 'Start Date', dataKey: 'startDt' },
-    { title: 'End Date', dataKey: 'endDate' },
-    { title: 'No. of Items', dataKey: 'noOfItems' },
-    { title: 'No. of Bids (A)', dataKey: 'noOf_Bid_A' },
-    { title: 'Tender Status', dataKey: 'tenderStatus' },
-    { title: 'Remark', dataKey: 'tenderRemark' },
-    { title: 'Status Entry Date', dataKey: 'statusEntryDate' },
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Category', dataKey: 'categoryName' },
+    { header: 'Scheme', dataKey: 'schemeName' },
+    { header: 'Start Date', dataKey: 'startDt' },
+    { header: 'End Date', dataKey: 'endDate' },
+    { header: 'No. of Items', dataKey: 'noOfItems' },
+    { header: 'No. of Bids (A)', dataKey: 'noOf_Bid_A' },
+    { header: 'Tender Status', dataKey: 'tenderStatus' },
+    { header: 'Remark', dataKey: 'tenderRemark' },
+    { header: 'Status Entry Date', dataKey: 'statusEntryDate' },
   ];
 
   const rows = this.totaltenderList.map((row, index) => ({
@@ -3149,21 +3149,21 @@ exportToPDFHODDetails() {
   doc.setFont('NotoSansDevanagari');
 
   const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Tender ID', dataKey: 'tender_id' },
-    { title: 'GEM Tender', dataKey: 'isGemTender' },
-    { title: 'Tender No', dataKey: 'tender_no' },
-    { title: 'Description', dataKey: 'tender_description' },
-    { title: 'Tender Date', dataKey: 'tender_date' },
-    { title: 'End Date', dataKey: 'endDate' },
-    { title: 'Cover A', dataKey: 'cover_a' },
-    { title: 'Cover B', dataKey: 'cover_b' },
-    { title: 'Status', dataKey: 'cStatus' },
-    { title: 'No. of Items', dataKey: 'cntItems' },
-    { title: 'Tender Value', dataKey: 'tenderValue' },
-    { title: 'Tender Status', dataKey: 'tenderstatus' },
-    { title: 'Tender Remark', dataKey: 'tenderremark' },
-    { title: 'Entry Date', dataKey: 'entrydate' }
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Tender ID', dataKey: 'tender_id' },
+    { header: 'GEM Tender', dataKey: 'isGemTender' },
+    { header: 'Tender No', dataKey: 'tender_no' },
+    { header: 'Description', dataKey: 'tender_description' },
+    { header: 'Tender Date', dataKey: 'tender_date' },
+    { header: 'End Date', dataKey: 'endDate' },
+    { header: 'Cover A', dataKey: 'cover_a' },
+    { header: 'Cover B', dataKey: 'cover_b' },
+    { header: 'Status', dataKey: 'cStatus' },
+    { header: 'No. of Items', dataKey: 'cntItems' },
+    { header: 'Tender Value', dataKey: 'tenderValue' },
+    { header: 'Tender Status', dataKey: 'tenderstatus' },
+    { header: 'Tender Remark', dataKey: 'tenderremark' },
+    { header: 'Entry Date', dataKey: 'entrydate' }
   ];
 
   const rows = this.statusDetails.map((row, index) => ({
@@ -3258,21 +3258,21 @@ exportToBeTenderDetails() {
 
   // Updated columns
   const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Item Name', dataKey: 'itemname' },
-    { title: 'Item Code', dataKey: 'itemcode' },
-    { title: 'Strength', dataKey: 'strength' },
-    { title: 'Unit', dataKey: 'unit' },
-    { title: 'EDL', dataKey: 'edl' },
-    { title: 'DHS Indent Qty', dataKey: 'dhsIndnetQty' },
-    { title: 'DHS AI Value', dataKey: 'dhsaiValue' },
-    { title: 'DME Indent Qty', dataKey: 'dmeIndentQty' },
-    { title: 'DME AI Value', dataKey: 'dmeaiValue' },
-    { title: 'Total Indent Qty', dataKey: 'totalIndentQty' },
-    { title: 'Total AI Value', dataKey: 'totalAIValue' },
-    { title: 'Scheme Code', dataKey: 'schemecode' },
-    { title: 'Scheme Name', dataKey: 'schemename' },
-    { title: 'Tender Ref', dataKey: 'tenderref' }
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Strength', dataKey: 'strength' },
+    { header: 'Unit', dataKey: 'unit' },
+    { header: 'EDL', dataKey: 'edl' },
+    { header: 'DHS Indent Qty', dataKey: 'dhsIndnetQty' },
+    { header: 'DHS AI Value', dataKey: 'dhsaiValue' },
+    { header: 'DME Indent Qty', dataKey: 'dmeIndentQty' },
+    { header: 'DME AI Value', dataKey: 'dmeaiValue' },
+    { header: 'Total Indent Qty', dataKey: 'totalIndentQty' },
+    { header: 'Total AI Value', dataKey: 'totalAIValue' },
+    { header: 'Scheme Code', dataKey: 'schemecode' },
+    { header: 'Scheme Name', dataKey: 'schemename' },
+    { header: 'Tender Ref', dataKey: 'tenderref' }
   ];
 
   const rows = this.toBeTenderDetails.map((row, index) => ({
@@ -3317,23 +3317,23 @@ exportToBeTenderDetails() {
       const doc = new jsPDF('l', 'mm', 'a4');
     
       const columns = [
-        { title: 'S.No', dataKey: 'sno' },
-        { title: 'Item Code', dataKey: 'itemcode' },
-        { title: 'Item Type Name', dataKey: 'itemtypename' },
-        { title: 'Strength', dataKey: 'strength1' },
-        { title: 'Batch No', dataKey: 'batchno' },
-        { title: 'Nos WH', dataKey: 'noswh' },
-        { title: 'UQC Qty', dataKey: 'uqcqty' },
-        { title: 'Stock Value', dataKey: 'stockvalue' },
-        { title: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
-        { title: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
-        { title: 'Courier Pick DT', dataKey: 'courierPickDT' },
-        { title: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
-        { title: 'Lab Issue Date', dataKey: 'labissuedate' },
-        { title: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
-        { title: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
-        { title: 'Lab Result', dataKey: 'labresult' },
-        { title: 'Analysis Days', dataKey: 'analysisDays' },
+        { header: 'S.No', dataKey: 'sno' },
+        { header: 'Item Code', dataKey: 'itemcode' },
+        { header: 'Item Type Name', dataKey: 'itemtypename' },
+        { header: 'Strength', dataKey: 'strength1' },
+        { header: 'Batch No', dataKey: 'batchno' },
+        { header: 'Nos WH', dataKey: 'noswh' },
+        { header: 'UQC Qty', dataKey: 'uqcqty' },
+        { header: 'Stock Value', dataKey: 'stockvalue' },
+        { header: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
+        { header: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
+        { header: 'Courier Pick DT', dataKey: 'courierPickDT' },
+        { header: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
+        { header: 'Lab Issue Date', dataKey: 'labissuedate' },
+        { header: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
+        { header: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
+        { header: 'Lab Result', dataKey: 'labresult' },
+        { header: 'Analysis Days', dataKey: 'analysisDays' },
       ];
     
       const rows = this.qCPendingParticularArea.map((row) => ({
@@ -3357,7 +3357,7 @@ exportToBeTenderDetails() {
       }));
     
       autoTable(doc, {
-        head: [columns.map(col => col.title)], // Table headers
+        head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)], // Table headers
         body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
         startY: 20,
         theme: 'grid',
@@ -3392,17 +3392,17 @@ exportToBeTenderDetails() {
       const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
     
       const columns = [
-        { title: 'S.No', dataKey: 'sno' },
-        { title: 'Scheme Code', dataKey: 'schemeCode' },
-        { title: 'Scheme Name', dataKey: 'schemeName' },
-        { title: 'Supplier ID', dataKey: 'supplierId' },
-        { title: 'Supplier Name', dataKey: 'supplierName' },
-        { title: 'Contact Person', dataKey: 'contactPerson' },
-        { title: 'Address', dataKey: 'address' },
-        { title: 'Phone 1', dataKey: 'phone1' },
-        { title: 'Phone 2', dataKey: 'phone2' },
-        { title: 'Email', dataKey: 'email' },
-        { title: 'No. of Items', dataKey: 'noOfItems' },
+        { header: 'S.No', dataKey: 'sno' },
+        { header: 'Scheme Code', dataKey: 'schemeCode' },
+        { header: 'Scheme Name', dataKey: 'schemeName' },
+        { header: 'Supplier ID', dataKey: 'supplierId' },
+        { header: 'Supplier Name', dataKey: 'supplierName' },
+        { header: 'Contact Person', dataKey: 'contactPerson' },
+        { header: 'Address', dataKey: 'address' },
+        { header: 'Phone 1', dataKey: 'phone1' },
+        { header: 'Phone 2', dataKey: 'phone2' },
+        { header: 'Email', dataKey: 'email' },
+        { header: 'No. of Items', dataKey: 'noOfItems' },
       ];
     
       // Replace `this.data` with your actual data source
@@ -3421,7 +3421,7 @@ exportToBeTenderDetails() {
       }));
     
       autoTable(doc, {
-        head: [columns.map(col => col.title)],
+        head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
         body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
         startY: 20,
         theme: 'grid',

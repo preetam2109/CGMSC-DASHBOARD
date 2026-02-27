@@ -634,7 +634,6 @@ export class ApiService {
     return this.http.get(`${this.CGMSCHO_API2}/Login/VerifyOTPLogin?otp=${otp}&userid=${userid}`, { responseType: 'text' });
   }
   // getOTPSaved(userid: any) {
-
   //   return this.http.post(`${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}`, { responseType: 'text' });
   // }
   getOTPSaved(userid: any,ipAddress: any) {

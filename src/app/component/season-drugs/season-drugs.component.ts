@@ -146,16 +146,16 @@ this.orderdp=params['orderdp']
   
     // Add table data
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Code', dataKey: 'itemcode' },
-      { title: 'Type', dataKey: 'itemtypename' },
-      { title: 'Item', dataKey: 'itemname' },
-      { title: 'Strength', dataKey: 'strengtH1' },
-      { title: `${this.season} Supplied`, dataKey: 'seasonissuedlacs' },
-      { title: 'DHS CFY Supplied', dataKey: 'thisyrissuedlacs' },
-      { title: 'DHS CFY Annual Indent', dataKey: 'dhsaiLacs' },
-      { title: 'CGMSC Stock', dataKey: 'stklacs' },
-      { title: 'Season', dataKey: 'season' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Code', dataKey: 'itemcode' },
+      { header: 'Type', dataKey: 'itemtypename' },
+      { header: 'Item', dataKey: 'itemname' },
+      { header: 'Strength', dataKey: 'strengtH1' },
+      { header: `${this.season} Supplied`, dataKey: 'seasonissuedlacs' },
+      { header: 'DHS CFY Supplied', dataKey: 'thisyrissuedlacs' },
+      { header: 'DHS CFY Annual Indent', dataKey: 'dhsaiLacs' },
+      { header: 'CGMSC Stock', dataKey: 'stklacs' },
+      { header: 'Season', dataKey: 'season' },
     ];
   
     const rows = this.seasonDrugs.map(row => ({

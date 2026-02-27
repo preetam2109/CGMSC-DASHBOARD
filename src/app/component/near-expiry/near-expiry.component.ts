@@ -318,14 +318,14 @@ export class NearExpiryComponent {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "itemcode", dataKey: "itemcode" },
-      { title: "itemname", dataKey: "itemname" },
-      { title: "wh", dataKey: "wh" },
-      { title: "batchno", dataKey: "batchno" },
-      { title: "expdate", dataKey: "expdate" },
-      { title: "nearexpvalue", dataKey: "nearexpvalue" },
-      { title: "qty", dataKey: "qty" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "itemcode", dataKey: "itemcode" },
+      { header: "itemname", dataKey: "itemname" },
+      { header: "wh", dataKey: "wh" },
+      { header: "batchno", dataKey: "batchno" },
+      { header: "expdate", dataKey: "expdate" },
+      { header: "nearexpvalue", dataKey: "nearexpvalue" },
+      { header: "qty", dataKey: "qty" }
     ];
     const rows = this.dispatchPendings.map(row => ({
       sno: row.sno,

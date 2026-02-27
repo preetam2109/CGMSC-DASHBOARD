@@ -647,17 +647,17 @@ export class SearchingWorkComponent {
   // ,'daysSinceMeasurement','billStatus','billmbno','mbno']">
 
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Bill No.', dataKey: 'billno' },
-      { title: 'AGR Bill status', dataKey: 'agrbillstatus' },
-      { title: 'Measurement DT', dataKey: 'mesurementDT' },
-      { title: 'Bill Date', dataKey: 'billdate' },
-      { title: 'Gross Paid', dataKey: 'grossPaid' },
-      { title: 'Cheque No', dataKey: 'chequeNo' },
-      { title: 'Days Since Measurement', dataKey: 'daysSinceMeasurement' },
-      { title: 'Bill Status', dataKey: 'billStatus' },
-      { title: 'Bill MB No', dataKey: 'billmbno' },
-      { title: 'MB No', dataKey: 'mbno' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Bill No.', dataKey: 'billno' },
+      { header: 'AGR Bill status', dataKey: 'agrbillstatus' },
+      { header: 'Measurement DT', dataKey: 'mesurementDT' },
+      { header: 'Bill Date', dataKey: 'billdate' },
+      { header: 'Gross Paid', dataKey: 'grossPaid' },
+      { header: 'Cheque No', dataKey: 'chequeNo' },
+      { header: 'Days Since Measurement', dataKey: 'daysSinceMeasurement' },
+      { header: 'Bill Status', dataKey: 'billStatus' },
+      { header: 'Bill MB No', dataKey: 'billmbno' },
+      { header: 'MB No', dataKey: 'mbno' },
     ];
     const rows = this.dispatchData.map((row) => ({
       sno: row.sno,

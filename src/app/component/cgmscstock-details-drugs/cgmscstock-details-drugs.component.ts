@@ -13,7 +13,7 @@ import { DPDMISSupemdSummary } from 'src/app/Model/DPDMISSupemdSummary';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'; 
 import { CGMSCStockDetails } from 'src/app/Model/CGMSCStockDetails';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {  MatDialog } from '@angular/material/dialog';
 import { WarehouseWiseStock } from 'src/app/Model/WarehouseWiseStock';
 import { WarehouseStockDialogComponent } from '../warehouse-stock-dialog/warehouse-stock-dialog.component';
 import { TotalPipeLineDialogComponent } from '../total-pipe-line-dialog/total-pipe-line-dialog.component';
@@ -213,70 +213,83 @@ console.log(JSON.stringify(res))
   selectedTabValue(event: any): void {
     this.selectedTabIndex = event.index;
   }
-  exportToPDF() {
-    const doc = new jsPDF('l', 'mm', 'a4');
-    
-    // Get current date and time
-    const now = new Date();
-    const dateString = now.toLocaleDateString();
-    const timeString = now.toLocaleTimeString();
-  
-    // Set font size for the title
-    doc.setFontSize(18);
-  
-    // Calculate the position to center the title
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const title = 'Stock Details Drugs';
-    const textWidth = doc.getTextWidth(title);
-    const xOffset = (pageWidth - textWidth) / 2;
-  
-    // Add centered title with some space above the table
-    doc.text(title, xOffset, 20); // Centered title at position Y=20
-  
-    // Set font size for the date and time
-    doc.setFontSize(10);
-  
-    // Add the date and time to the top-left corner
-    doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
-    
-    const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "itemid", dataKey: "itemid" },
-      { title: "itemcode", dataKey: "itemcode" },
-      { title: "itemname", dataKey: "itemname" },
-      { title: "strengtH1", dataKey: "strengtH1" },
-      { title: "edlcat", dataKey: "edlcat" },
-      { title: "readyforissue", dataKey: "readyforissue" },
-      { title: "totlpipeline", dataKey: "totlpipeline" },
-      { title: "edltype", dataKey: "edltype" },
-      { title: "groupname", dataKey: "groupname" },
-      { title: "itemtypename", dataKey: "itemtypename" },
-    ];
-    
-    const rows = this.dispatchPendings.map(row => ({
-      sno: row.sno,
-      itemid: row.itemid,
-      itemcode: row.itemcode,
-      itemname: row.itemname,
-      strengtH1: row.strengtH1,
-      edlcat: row.edlcat,
-      readyforissue: row.readyforissue,
-      totlpipeline: row.totlpipeline,
-      edltype: row.edltype,
-      groupname: row.groupname,
-      itemtypename: row.itemtypename
-    }));
-  
-    autoTable(doc, {
-      columns: columns,
-      body: rows,
-      startY: 40, // Start table a little further down to account for the title and date/time
-      theme: 'striped',
-      headStyles: { fillColor: [22, 160, 133] }
-    });
-  
-    doc.save('Stock_Details_Drugs.pdf');
-  }
+exportToPDF() {
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+
+  const now = new Date();
+  const dateString = now.toLocaleDateString();
+  const timeString = now.toLocaleTimeString();
+
+  const title = 'Stock Details Drugs';
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margin = 10;
+
+  const columns = [
+    { header: 'S.No', dataKey: 'sno'},
+    { header: 'Item ID', dataKey: 'itemid'},
+    { header: 'Item Code', dataKey: 'itemcode'},
+    { header: 'Item Name', dataKey: 'itemname'},
+    {header: 'Strength', dataKey: 'strengtH1'},
+    { header: 'EDL Cat', dataKey: 'edlcat' },
+    { header: 'Ready For Issue', dataKey: 'readyforissue'},
+    { header: 'Total Pipeline', dataKey: 'totlpipeline'},
+    { header: 'EDL Type', dataKey: 'edltype'},
+    { header: 'Group Name', dataKey: 'groupname'},
+    { header: 'Item Type', dataKey: 'itemtypename'}
+  ];
+
+  const rows = this.dispatchPendings.map((row: any) => ({
+    sno: row.sno,
+    itemid: row.itemid,
+    itemcode: row.itemcode,
+    itemname: row.itemname,
+    strengtH1: row.strengtH1,
+    edlcat: row.edlcat,
+    readyforissue: row.readyforissue,
+    totlpipeline: row.totlpipeline,
+    edltype: row.edltype,
+    groupname: row.groupname,
+    itemtypename: row.itemtypename
+  }));
+
+  autoTable(doc, {
+    columns,
+    body: rows,
+
+    // leave space for header
+    startY: 35,
+
+    margin: { top: 30, left: margin, right: margin, bottom: 15 },
+
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133], textColor: 255 },
+    styles: { fontSize: 9, cellPadding: 3 },
+
+    didDrawPage: (data) => {
+
+      // ===== HEADER =====
+      doc.setFontSize(14);
+      doc.setTextColor(40);
+
+      const titleWidth = doc.getTextWidth(title);
+      doc.text(title, (pageWidth - titleWidth) / 2, 12);
+
+      doc.setFontSize(9);
+      doc.text(`Date: ${dateString}  Time: ${timeString}`, margin, 18);
+
+      // ===== FOOTER =====
+      const footerText = `Page ${data.pageNumber}`;
+      doc.text(
+        footerText,
+        pageWidth - margin - doc.getTextWidth(footerText),
+        pageHeight - 8
+      );
+    }
+  });
+
+  doc.save('Stock_Details_Drugs.pdf');
+}
   
   
 

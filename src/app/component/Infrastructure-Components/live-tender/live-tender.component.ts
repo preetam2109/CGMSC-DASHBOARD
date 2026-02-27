@@ -1215,19 +1215,19 @@ GETLiveTenderDistrict(): void {
 exportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'AS Letter No', dataKey: 'letterno' },
-    { title: 'Head', dataKey: 'head' },
-    { title: 'AS Date', dataKey: 'aA_RAA_Date' },
-    { title: 'AS Amount', dataKey: 'asAmt' },
-    { title: 'District', dataKey: 'district' },
-    { title: 'Work ID', dataKey: 'work_id' },
-    { title: 'Work Name', dataKey: 'workname' },
-    { title: 'Start Dt', dataKey: 'startdt' },
-    { title: 'End Dt', dataKey: 'enddt' },
-    { title: 'NO of Calls', dataKey: 'noofcalls' },
-    { title: 'e-Procno', dataKey: 'eprocno' },
-    { title: 'NIT NO', dataKey: 'tenderno' },
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'AS Letter No', dataKey: 'letterno' },
+    { header: 'Head', dataKey: 'head' },
+    { header: 'AS Date', dataKey: 'aA_RAA_Date' },
+    { header: 'AS Amount', dataKey: 'asAmt' },
+    { header: 'District', dataKey: 'district' },
+    { header: 'Work ID', dataKey: 'work_id' },
+    { header: 'Work Name', dataKey: 'workname' },
+    { header: 'Start Dt', dataKey: 'startdt' },
+    { header: 'End Dt', dataKey: 'enddt' },
+    { header: 'NO of Calls', dataKey: 'noofcalls' },
+    { header: 'e-Procno', dataKey: 'eprocno' },
+    { header: 'NIT NO', dataKey: 'tenderno' },
   ];
   const rows = this.dispatchData.map((row) => ({
     sno: row.sno,

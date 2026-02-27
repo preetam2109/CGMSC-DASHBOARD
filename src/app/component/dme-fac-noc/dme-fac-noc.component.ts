@@ -342,25 +342,25 @@ applyEdlFilter() {
   
     // ✅ Define columns
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Category', dataKey: 'mcategory' },
-      { title: 'EDL Type', dataKey: 'eDlType' },
-      { title: 'Facility', dataKey: 'facilityname' },
-      { title: 'District', dataKey: 'districtname' },
-      { title: 'Item ', dataKey: 'itemname' },
-      { title: 'Code', dataKey: 'itemcode' },
-      { title: 'Strength', dataKey: 'strength1' },
-      { title: 'Unit', dataKey: 'unit' },
-      { title: 'Unit C', dataKey: 'unitc' },
-      { title: 'Facility AI Qty', dataKey: 'facAIQty' },
-      { title: 'CGMSC Issue Qty', dataKey: 'cgmsCissueqty' },
-      { title: 'Count NOC', dataKey: 'cntNoc' },
-      { title: 'NOC Qty', dataKey: 'nocQty' },
-      { title: 'NOC Value', dataKey: 'nocValue' },
-      { title: 'PO SKU', dataKey: 'posku' },
-      { title: 'PO Value', dataKey: 'povalue' },
-      { title: 'Receipt Qty SKU', dataKey: 'receiptqtySKU' },
-      { title: 'Received Value', dataKey: 'recvalue' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Category', dataKey: 'mcategory' },
+      { header: 'EDL Type', dataKey: 'eDlType' },
+      { header: 'Facility', dataKey: 'facilityname' },
+      { header: 'District', dataKey: 'districtname' },
+      { header: 'Item ', dataKey: 'itemname' },
+      { header: 'Code', dataKey: 'itemcode' },
+      { header: 'Strength', dataKey: 'strength1' },
+      { header: 'Unit', dataKey: 'unit' },
+      { header: 'Unit C', dataKey: 'unitc' },
+      { header: 'Facility AI Qty', dataKey: 'facAIQty' },
+      { header: 'CGMSC Issue Qty', dataKey: 'cgmsCissueqty' },
+      { header: 'Count NOC', dataKey: 'cntNoc' },
+      { header: 'NOC Qty', dataKey: 'nocQty' },
+      { header: 'NOC Value', dataKey: 'nocValue' },
+      { header: 'PO SKU', dataKey: 'posku' },
+      { header: 'PO Value', dataKey: 'povalue' },
+      { header: 'Receipt Qty SKU', dataKey: 'receiptqtySKU' },
+      { header: 'Received Value', dataKey: 'recvalue' },
     ];
   
     // ✅ Map data rows
@@ -388,7 +388,7 @@ applyEdlFilter() {
   
     // ✅ Generate PDF table
     autoTable(doc, {
-      head: [columns.map(col => col.title)],
+      head: [columns.map(col => col.header)],
       body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
       startY: 25,
       theme: 'grid',

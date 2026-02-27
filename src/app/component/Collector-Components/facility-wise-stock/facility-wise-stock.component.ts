@@ -160,19 +160,19 @@ export class FacilityWiseStockComponent{
   
     // Define columns based on your given structure
     const columns = [
-      { title: "Facility Name", dataKey: "facilityname" },
-      { title: "No. of Items", dataKey: "nositems" },
-      { title: "Stock Out Nos", dataKey: "stockoutnos" },
-      { title: "Facility Stock Count", dataKey: "facstkcnt" },
-      { title: "Stock Out %", dataKey: "stockoutp" },
-      { title: "Pending at Facility", dataKey: "recpendingatfacilily" },
-      { title: "Warehouse Stock Count", dataKey: "whstkcnt" },
-      { title: "Warehouse UQC Stock Count", dataKey: "whuqcstkcnt" },
-      { title: "Indent to Warehouse Pending", dataKey: "indenT_TOWH_PENDING" },
-      { title: "WH Issue Rec Pending (Last 180 Days)", dataKey: "whissuE_REC_PENDING_L180CNT" },
-      { title: "Balance Lifted (Last 6 Months)", dataKey: "balifT6MONTH" },
-      { title: "Pipeline Stock (Last 180 Days)", dataKey: "lP_PIPELINE180CNT" },
-      { title: "No Taken (No LPO)", dataKey: "noctakeN_NO_LPO" },
+      { header: "Facility Name", dataKey: "facilityname" },
+      { header: "No. of Items", dataKey: "nositems" },
+      { header: "Stock Out Nos", dataKey: "stockoutnos" },
+      { header: "Facility Stock Count", dataKey: "facstkcnt" },
+      { header: "Stock Out %", dataKey: "stockoutp" },
+      { header: "Pending at Facility", dataKey: "recpendingatfacilily" },
+      { header: "Warehouse Stock Count", dataKey: "whstkcnt" },
+      { header: "Warehouse UQC Stock Count", dataKey: "whuqcstkcnt" },
+      { header: "Indent to Warehouse Pending", dataKey: "indenT_TOWH_PENDING" },
+      { header: "WH Issue Rec Pending (Last 180 Days)", dataKey: "whissuE_REC_PENDING_L180CNT" },
+      { header: "Balance Lifted (Last 6 Months)", dataKey: "balifT6MONTH" },
+      { header: "Pipeline Stock (Last 180 Days)", dataKey: "lP_PIPELINE180CNT" },
+      { header: "No Taken (No LPO)", dataKey: "noctakeN_NO_LPO" },
     ];
   
     // Map your data to match the columns

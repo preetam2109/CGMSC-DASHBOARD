@@ -35,16 +35,19 @@ export class MenuServiceService {
             label: 'Oracle Analytics',
             route: '',   // 👈 empty string or '/welcome' as placeholder
             submenu: [
+
+               { label: 'Tender/RC Position', route: '/rcpoplanning' },
+        { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
               { label: 'Tender Status', route: '/oracle-dashboard' },
-              { label: 'Tender Management', route: '/tender-management' },
-              { label: 'Inventory Management', route: '/inventory-management' },
-              { label: 'PO Planning', route: '/po-planning-oracle' },
+              // { label: 'Tender Management', route: '/tender-management' },
+              // { label: 'Inventory Management', route: '/inventory-management' },
+              // { label: 'PO Planning', route: '/po-planning-oracle' },
               { label: 'Current Stock', route: '/CurrentStockOracle' },
-              { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
+              // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
               { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
               { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
-              { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
-              { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+              // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
+              // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
               { label: 'Facility Information', route: '/FacilityInformationOracle'},
             ]
           },
@@ -234,8 +237,28 @@ export class MenuServiceService {
       items: [
         
         
-        { label: 'Home', route: '/home' },
+        // { label: 'Home', route: '/home' },
         { label: 'Dashboard', route: '/welcome' },
+        {
+            label: 'Oracle Analytics',
+            route: '',   // 👈 empty string or '/welcome' as placeholder
+            submenu: [
+
+               { label: 'Tender/RC Position', route: '/rcpoplanning' },
+        { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
+              { label: 'Tender Status', route: '/oracle-dashboard' },
+              // { label: 'Tender Management', route: '/tender-management' },
+              // { label: 'Inventory Management', route: '/inventory-management' },
+              // { label: 'PO Planning', route: '/po-planning-oracle' },
+              { label: 'Current Stock', route: '/CurrentStockOracle' },
+              // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
+              { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
+              { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
+              // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
+              // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+              { label: 'Facility Information', route: '/FacilityInformationOracle'},
+            ]
+          },
         
         { label: 'DHS Dashboard', route: '/dhsdash' },
         { label: 'CME Dashboard', route: '/cmedash' },
@@ -1127,16 +1150,19 @@ export class MenuServiceService {
 
       // ],
       'Oracle Analytics':[
+               { label: 'Tender/RC Position', route: '/rcpoplanning' },
+        { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
+        // { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
         { label: 'Tender Status', route: '/oracle-dashboard' },
-        { label: 'Tender Management', route: '/tender-management' },
-        { label: 'Inventory Management', route: '/inventory-management' },
-        { label: 'PO Planning', route: '/po-planning-oracle' },
-        { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
+        // { label: 'Tender Management', route: '/tender-management' },
+        // { label: 'Inventory Management', route: '/inventory-management' },
+        // { label: 'PO Planning', route: '/po-planning-oracle' },
+        // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
         { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
         { label: 'Current Stock', route: '/CurrentStockOracle' },
-        { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
-        { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+        // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
+        // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
         { label: 'Facility Information', route: '/FacilityInformationOracle'},
 
       ],

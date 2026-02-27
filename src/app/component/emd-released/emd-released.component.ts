@@ -155,12 +155,12 @@ export class EmdReleasedComponent {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Supplier", dataKey: "suppliername" },
-      { title: "No_of_Tender", dataKey: "nostender" },
-      { title: " EMD Deposited ", dataKey: "totalEMD" },
-      { title: "EMD Released ", dataKey: "releasedEMDAmt" },
-      { title: " EMD Pending", dataKey: "pendingEMD" },
+      { header: "S.No", dataKey: "sno" },
+      { header: "Supplier", dataKey: "suppliername" },
+      { header: "No_of_Tender", dataKey: "nostender" },
+      { header: " EMD Deposited ", dataKey: "totalEMD" },
+      { header: "EMD Released ", dataKey: "releasedEMDAmt" },
+      { header: " EMD Pending", dataKey: "pendingEMD" },
     ];
     const rows = this.dispatchPendings.map(row => ({
       sno: row.sno,

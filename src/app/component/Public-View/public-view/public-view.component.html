@@ -182,7 +182,7 @@
         <div class="card-body">
           <apx-chart  class="border rounded" style="background-color: #E0E0E0;"
           [series]="chartIndent.series" [chart]="chartIndent.chart" [dataLabels]="chartIndent.dataLabels"
-          [labels]="chartIndent.labels"
+          [labels]="chartIndent.labels ?? []"
           [plotOptions]="chartIndent.plotOptions" [xaxis]="chartIndent.xaxis" [stroke]="chartIndent.stroke"
           [fill]="chartIndent.fill" [yaxis]="chartIndent.yaxis" [title]="chartIndent.title"
           [tooltip]="chartIndent.tooltip" [legend]="chartIndent.legend">
@@ -211,7 +211,7 @@
           >
             <apx-chart  class="border rounded" style="background-color: #5fad56;"
             [series]="chartOptions4.series" [chart]="chartOptions4.chart" [dataLabels]="chartOptions4.dataLabels"
-            [labels]="chartOptions4.labels"
+            [labels]="chartOptions4.labels ?? []"
             [plotOptions]="chartOptions4.plotOptions" [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
             [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis" [title]="chartOptions4.title"
             [tooltip]="chartOptions4.tooltip" [legend]="chartOptions4.legend">
@@ -313,7 +313,7 @@
           <div class="card-body">
             <apx-chart  class="border rounded" style="background-color: #e0aaff;"
             [series]="chartOptions3.series" [chart]="chartOptions3.chart" [dataLabels]="chartOptions3.dataLabels"
-            [labels]="chartOptions3.labels"
+            [labels]="chartOptions3.labels ?? []"
             [plotOptions]="chartOptions3.plotOptions" [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
             [fill]="chartOptions3.fill" [yaxis]="chartOptions3.yaxis" [title]="chartOptions3.title"
             [tooltip]="chartOptions3.tooltip" [legend]="chartOptions3.legend">
@@ -342,7 +342,7 @@
          <div class="card-body">
            <apx-chart  class="border rounded" style="background-color: #99d98c;"
            [series]="chartUQC.series" [chart]="chartUQC.chart" [dataLabels]="chartUQC.dataLabels"
-           [labels]="chartUQC.labels"
+            [labels]="chartUQC.labels ?? []"
            [plotOptions]="chartUQC.plotOptions" [xaxis]="chartUQC.xaxis" [stroke]="chartUQC.stroke"
            [fill]="chartUQC.fill" [yaxis]="chartUQC.yaxis" [title]="chartUQC.title"
            [tooltip]="chartUQC.tooltip" [legend]="chartUQC.legend">

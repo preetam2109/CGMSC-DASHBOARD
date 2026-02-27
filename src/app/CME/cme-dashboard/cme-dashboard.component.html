@@ -345,7 +345,7 @@
         <div class="card-body" (click)="getstatusDetails()">
           <apx-chart  class="border rounded" style="background-color: #e0aaff;"
           [series]="chartOptions3.series" [chart]="chartOptions3.chart" [dataLabels]="chartOptions3.dataLabels"
-          [labels]="chartOptions3.labels"
+          [labels]="chartOptions3.labels || []"
           [plotOptions]="chartOptions3.plotOptions" [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
           [fill]="chartOptions3.fill" [yaxis]="chartOptions3.yaxis" [title]="chartOptions3.title"
           [tooltip]="chartOptions3.tooltip" [legend]="chartOptions3.legend">

@@ -50,14 +50,14 @@ export class TotalPipeLineDialogComponent {
     doc.text(`Date: ${dateString} Time: ${timeString}`, 14, 15);
 
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "pono", dataKey: "pono" },
-      { title: "soissuedate", dataKey: "soissuedate" },
-      { title: "absqty", dataKey: "absqty" },
-      { title: "disqty", dataKey: "disqty" },
-      { title: "receiptabsqty", dataKey: "receiptabsqty" },
-      { title: "pipelineqty", dataKey: "pipelineqty" },
-      { title: "expecteddeliverydate", dataKey: "expecteddeliverydate" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "pono", dataKey: "pono" },
+      { header: "soissuedate", dataKey: "soissuedate" },
+      { header: "absqty", dataKey: "absqty" },
+      { header: "disqty", dataKey: "disqty" },
+      { header: "receiptabsqty", dataKey: "receiptabsqty" },
+      { header: "pipelineqty", dataKey: "pipelineqty" },
+      { header: "expecteddeliverydate", dataKey: "expecteddeliverydate" }
     ];
 
     const rows = this.dataSource.data.map((row, index) => ({

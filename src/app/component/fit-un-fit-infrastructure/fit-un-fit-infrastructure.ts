@@ -238,7 +238,7 @@ export class FitUnFitInfrastructure {
   }
 
   getPendigBillSummary() {
-    // debugger;
+    // ;
     // return;
     this.spinner.show();
     this.api.getPendigBillSummary().subscribe(
@@ -263,7 +263,7 @@ export class FitUnFitInfrastructure {
     );
   }
   getPendigBill() {
-    // debugger;
+    // ;
     // return;
     this.spinner.show();
     this.api.getPendigBill(this.mainSchemeID, this.officeorderid).subscribe(

@@ -303,12 +303,12 @@ export class EdlNonEdlIssuePercentSummaryComponent {
   //   doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
     
   //   const columns = [
-  //     { title: "S.No", dataKey: "sno" },
-  //     { title: "edltype", dataKey: "edltype" },
-  //     { title: "mcategory", dataKey: "mcategory" },
-  //     { title: "ai", dataKey: "ai" },
-  //     { title: "nosissue", dataKey: "nosissue" },
-  //     { title: "per", dataKey: "per" },
+  //     { header: "S.No", dataKey: "sno" },
+  //     { header: "edltype", dataKey: "edltype" },
+  //     { header: "mcategory", dataKey: "mcategory" },
+  //     { header: "ai", dataKey: "ai" },
+  //     { header: "nosissue", dataKey: "nosissue" },
+  //     { header: "per", dataKey: "per" },
      
   //   ];
     

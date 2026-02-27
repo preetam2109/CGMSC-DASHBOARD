@@ -200,13 +200,13 @@ export class EmdPendingComponent implements OnInit {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Category", dataKey: "categoryname" },
-      { title: "Supplier", dataKey: "suppliername" },
-      { title: "Tender", dataKey: "schemename" },
-      { title: "Status", dataKey: "statusdata" },
-      { title: "EMD Deposited", dataKey: "emd" },
-      { title: "Released", dataKey: "realseamount" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "Category", dataKey: "categoryname" },
+      { header: "Supplier", dataKey: "suppliername" },
+      { header: "Tender", dataKey: "schemename" },
+      { header: "Status", dataKey: "statusdata" },
+      { header: "EMD Deposited", dataKey: "emd" },
+      { header: "Released", dataKey: "realseamount" }
     ];
     const rows = this.dispatchPendings.map(row => ({
       sno: row.sno,

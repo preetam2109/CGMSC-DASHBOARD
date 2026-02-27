@@ -158,15 +158,15 @@ export class RcValidStatusComponent {
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape mode
   
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'EDL Type', dataKey: 'edltype' },
-      { title: 'No. of Items Annual Indent Received', dataKey: 'nosIndent' },
-      { title: 'RC Valid', dataKey: 'rcValidcnt' },
-      { title: 'RC Not Valid', dataKey: 'rcNotValidcnt' },
-      { title: 'Price Opened on RC Not Valid', dataKey: 'pricecnt' },
-      { title: 'Evaluation on RC Not Valid', dataKey: 'evalutioncnt' },
-      { title: 'Tender Live on RC Not Valid', dataKey: 'liveCnt' },
-      { title: 'To be Tender against RC Not Valid', dataKey: 'rentendercn' }
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'EDL Type', dataKey: 'edltype' },
+      { header: 'No. of Items Annual Indent Received', dataKey: 'nosIndent' },
+      { header: 'RC Valid', dataKey: 'rcValidcnt' },
+      { header: 'RC Not Valid', dataKey: 'rcNotValidcnt' },
+      { header: 'Price Opened on RC Not Valid', dataKey: 'pricecnt' },
+      { header: 'Evaluation on RC Not Valid', dataKey: 'evalutioncnt' },
+      { header: 'Tender Live on RC Not Valid', dataKey: 'liveCnt' },
+      { header: 'To be Tender against RC Not Valid', dataKey: 'rentendercn' }
     ];
   
     // Prepare rows from your API data
@@ -183,7 +183,7 @@ export class RcValidStatusComponent {
     }));
   
     autoTable(doc, {
-      head: [columns.map(col => col.title)],
+      head: [columns.map(col => col.header)],
       body: rows,
       startY: 20,
       theme: 'grid',

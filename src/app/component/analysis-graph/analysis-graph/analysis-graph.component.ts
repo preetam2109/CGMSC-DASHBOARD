@@ -271,15 +271,15 @@ selectedCatType: string = this.catTypes[0].value; // default
         const doc = new jsPDF('l', 'mm', 'a4'); // Landscape mode
       
         const columns = [
-          { title: 'S.No', dataKey: 'sno' },
-          { title: 'EDL Type', dataKey: 'edltype' },
-          { title: 'No. of Indents', dataKey: 'nosIndent' },
-          { title: 'RC Valid Count', dataKey: 'rcValidcnt' },
-          { title: 'RC Not Valid Count', dataKey: 'rcNotValidcnt' },
-          { title: 'Price Count', dataKey: 'pricecnt' },
-          { title: 'Evaluation Count', dataKey: 'evalutioncnt' },
-          { title: 'Live Count', dataKey: 'liveCnt' },
-          { title: 'To Be Tender Count', dataKey: 'rentendercn' }
+          { header: 'S.No', dataKey: 'sno' },
+          { header: 'EDL Type', dataKey: 'edltype' },
+          { header: 'No. of Indents', dataKey: 'nosIndent' },
+          { header: 'RC Valid Count', dataKey: 'rcValidcnt' },
+          { header: 'RC Not Valid Count', dataKey: 'rcNotValidcnt' },
+          { header: 'Price Count', dataKey: 'pricecnt' },
+          { header: 'Evaluation Count', dataKey: 'evalutioncnt' },
+          { header: 'Live Count', dataKey: 'liveCnt' },
+          { header: 'To Be Tender Count', dataKey: 'rentendercn' }
         ];
       
         // Prepare rows from your API data
@@ -296,7 +296,7 @@ selectedCatType: string = this.catTypes[0].value; // default
         }));
       
         autoTable(doc, {
-          head: [columns.map(col => col.title)],
+          head: [columns.map(col => col.header)],
           body: rows,
           startY: 20,
           theme: 'grid',
@@ -356,26 +356,26 @@ selectedCatType: string = this.catTypes[0].value; // default
       const doc = new jsPDF('l', 'mm', 'a4'); // Landscape mode
     
       const columns = [
-        { title: 'S.No', dataKey: 'sno' },
-        { title: 'Item Code', dataKey: 'itemcode' },
-        { title: 'Drug Name', dataKey: 'druG_NAME' },
-        { title: 'Strength', dataKey: 'strengtH1' },
-        { title: 'Unit', dataKey: 'unit' },
-        { title: 'Item Type', dataKey: 'itemtypename' },
-        { title: 'EDL Category', dataKey: 'edlcat' },
-        { title: 'RC Status', dataKey: 'rcStatus' },
-        { title: 'RC End Date', dataKey: 'rcendDate' },
-        { title: 'RC Remaining Days', dataKey: 'rcremainingdays' },
-        { title: 'Supplier Count', dataKey: 'cntsup' },
-        { title: 'Tender Status', dataKey: 'tenderstatus' },
-        { title: 'Ready For Issue', dataKey: 'readyforissue' },
-        { title: 'Pending', dataKey: 'pending' },
-        { title: 'IWH Pipeline', dataKey: 'iwhPipeline' },
-        { title: 'Supplier Pipeline', dataKey: 'supplierPipeline' },
-        { title: 'Order Value', dataKey: 'ordeR_VALUE' },
-        { title: 'Cumulative Value', dataKey: 'cumulativE_VALUE' },
-        { title: 'Cumulative %', dataKey: 'cumulativE_PERCENT' },
-        { title: 'ABC Category', dataKey: 'abC_CATEGORY' }
+        { header: 'S.No', dataKey: 'sno' },
+        { header: 'Item Code', dataKey: 'itemcode' },
+        { header: 'Drug Name', dataKey: 'druG_NAME' },
+        { header: 'Strength', dataKey: 'strengtH1' },
+        { header: 'Unit', dataKey: 'unit' },
+        { header: 'Item Type', dataKey: 'itemtypename' },
+        { header: 'EDL Category', dataKey: 'edlcat' },
+        { header: 'RC Status', dataKey: 'rcStatus' },
+        { header: 'RC End Date', dataKey: 'rcendDate' },
+        { header: 'RC Remaining Days', dataKey: 'rcremainingdays' },
+        { header: 'Supplier Count', dataKey: 'cntsup' },
+        { header: 'Tender Status', dataKey: 'tenderstatus' },
+        { header: 'Ready For Issue', dataKey: 'readyforissue' },
+        { header: 'Pending', dataKey: 'pending' },
+        { header: 'IWH Pipeline', dataKey: 'iwhPipeline' },
+        { header: 'Supplier Pipeline', dataKey: 'supplierPipeline' },
+        { header: 'Order Value', dataKey: 'ordeR_VALUE' },
+        { header: 'Cumulative Value', dataKey: 'cumulativE_VALUE' },
+        { header: 'Cumulative %', dataKey: 'cumulativE_PERCENT' },
+        { header: 'ABC Category', dataKey: 'abC_CATEGORY' }
       ];
     
       // ✅ Prepare rows
@@ -403,7 +403,7 @@ selectedCatType: string = this.catTypes[0].value; // default
       }));
     
       // autoTable(doc, {
-      //   head: [columns.map(col => col.title)],
+      //   head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
       //   body: rows,
       //   startY: 20,
       //   theme: 'grid',

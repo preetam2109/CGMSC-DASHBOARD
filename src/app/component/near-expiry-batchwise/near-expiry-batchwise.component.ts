@@ -103,16 +103,16 @@ onMonthChange(value: number) {
         const doc = new jsPDF('l', 'mm', 'a4'); // Landscape
       
         const columns = [
-          { title: 'S.No', dataKey: 'sno' },
-          { title: 'Warehouse', dataKey: 'warehouseName' },
-          { title: 'Equipment', dataKey: 'eqpName' },
-          { title: 'Code', dataKey: 'itemCode' },
-          { title: 'Item', dataKey: 'itemName' },
-          { title: 'Batch No', dataKey: 'batchNo' },
-          { title: 'Exp Date', dataKey: 'expDate' },
-          { title: 'Exp Qty', dataKey: 'expQty' },
-          { title: 'Exp Value', dataKey: 'exValue' },
-          { title: 'Category', dataKey: 'categoryName' },
+          { header: 'S.No', dataKey: 'sno' },
+          { header: 'Warehouse', dataKey: 'warehouseName' },
+          { header: 'Equipment', dataKey: 'eqpName' },
+          { header: 'Code', dataKey: 'itemCode' },
+          { header: 'Item', dataKey: 'itemName' },
+          { header: 'Batch No', dataKey: 'batchNo' },
+          { header: 'Exp Date', dataKey: 'expDate' },
+          { header: 'Exp Qty', dataKey: 'expQty' },
+          { header: 'Exp Value', dataKey: 'exValue' },
+          { header: 'Category', dataKey: 'categoryName' },
           
         ];
       
@@ -131,7 +131,7 @@ onMonthChange(value: number) {
         }));
       
         autoTable(doc, {
-          head: [columns.map(col => col.title)],
+          head: [columns.map(col => col.header)],
           body: rows,
           startY: 20,
           theme: 'grid',

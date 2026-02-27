@@ -348,18 +348,18 @@ export class ReagentIssueComponent {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "warehousename", dataKey: "warehousename" },
-      { title: "districtname", dataKey: "districtname" },
-      { title: "facilityname", dataKey: "facilityname" },
-      { title: "eqpname", dataKey: "eqpname" },
-      { title: "make", dataKey: "make" },
-      { title: "model", dataKey: "model" },
-      { title: "indentdt", dataKey: "indentdt" },
-      { title: "whissuedate", dataKey: "whissuedate" },
-      { title: "nositems", dataKey: "nositems" },
-      { title: "inddt", dataKey: "inddt" },
-      { title: "pendingday", dataKey: "pendingday" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "warehousename", dataKey: "warehousename" },
+      { header: "districtname", dataKey: "districtname" },
+      { header: "facilityname", dataKey: "facilityname" },
+      { header: "eqpname", dataKey: "eqpname" },
+      { header: "make", dataKey: "make" },
+      { header: "model", dataKey: "model" },
+      { header: "indentdt", dataKey: "indentdt" },
+      { header: "whissuedate", dataKey: "whissuedate" },
+      { header: "nositems", dataKey: "nositems" },
+      { header: "inddt", dataKey: "inddt" },
+      { header: "pendingday", dataKey: "pendingday" }
     ];
     const rows = this.dispatchPendings.map(row => ({
       sno: row.sno,

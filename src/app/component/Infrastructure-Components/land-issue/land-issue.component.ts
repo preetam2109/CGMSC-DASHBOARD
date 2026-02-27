@@ -882,15 +882,15 @@ export class LandIssueComponent {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "letterNo", dataKey: "letterNo" },
-      { title: "head", dataKey: "head" },
-      { title: "acceptLetterDT", dataKey: "acceptLetterDT" },
-      { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
-      { title: "district", dataKey: "district" },
-      { title: "work", dataKey: "work" },
-      { title: "contractorNAme", dataKey: "contractorNAme" },
-      { title: "work_id", dataKey: "work_id" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "letterNo", dataKey: "letterNo" },
+      { header: "head", dataKey: "head" },
+      { header: "acceptLetterDT", dataKey: "acceptLetterDT" },
+      { header: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
+      { header: "district", dataKey: "district" },
+      { header: "work", dataKey: "work" },
+      { header: "contractorNAme", dataKey: "contractorNAme" },
+      { header: "work_id", dataKey: "work_id" }
     ];
     const rows = this.dispatchPendings.map(row => ({
       sno: row.sno,

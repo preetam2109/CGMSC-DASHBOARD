@@ -316,17 +316,17 @@ export class AdministrativeSanctionComponent {
     const columns = [
       // 'sno','login_name','head','letterno','asDate','totalWorks','enteredWorks','balanceWork','divisionID','division','id','asid'
 
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Head', dataKey: 'head' },
-      { title: 'AS Letter No', dataKey: 'letterno' },
-      { title: 'AS Date', dataKey: 'asDate' },
-      { title: 'Total Works', dataKey: 'totalWorks' },
-      { title: 'Entered Works', dataKey: 'enteredWorks' },
-      { title: 'Balance Work', dataKey: 'balanceWork' },
-      { title: 'Division ID', dataKey: 'divisionID' },
-      { title: 'Division', dataKey: 'division' },
-      { title: 'ID', dataKey: 'id' },
-      { title: 'AS ID', dataKey: 'asid' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Head', dataKey: 'head' },
+      { header: 'AS Letter No', dataKey: 'letterno' },
+      { header: 'AS Date', dataKey: 'asDate' },
+      { header: 'Total Works', dataKey: 'totalWorks' },
+      { header: 'Entered Works', dataKey: 'enteredWorks' },
+      { header: 'Balance Work', dataKey: 'balanceWork' },
+      { header: 'Division ID', dataKey: 'divisionID' },
+      { header: 'Division', dataKey: 'division' },
+      { header: 'ID', dataKey: 'id' },
+      { header: 'AS ID', dataKey: 'asid' },
     ];
     const rows = this.dispatchDataDivision.map((row) => ({
 
@@ -357,20 +357,20 @@ export class AdministrativeSanctionComponent {
   exportToPDFENT() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Head', dataKey: 'head' },
-      { title: 'AS Letter No', dataKey: 'letterno' },
-      { title: 'AS Date', dataKey: 'asDate' },
-      { title: 'Division', dataKey: 'division' },
-      { title: 'District', dataKey: 'district' },
-      { title: 'Block', dataKey: 'block_Name_En' },
-      // { title: 'Entered Works', dataKey: 'enteredWorks' },
-      { title: 'Name', dataKey: 'login_name' },
-      { title: 'Work', dataKey: 'workname' },
-      { title: 'AS Amount', dataKey: 'asAmt' },
-      { title: 'Entered Total AS', dataKey: 'enteredTotalAS' },
-      { title: 'Work ID', dataKey: 'work_id' },
-      { title: 'AS ID', dataKey: 'asid' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Head', dataKey: 'head' },
+      { header: 'AS Letter No', dataKey: 'letterno' },
+      { header: 'AS Date', dataKey: 'asDate' },
+      { header: 'Division', dataKey: 'division' },
+      { header: 'District', dataKey: 'district' },
+      { header: 'Block', dataKey: 'block_Name_En' },
+      // { header: 'Entered Works', dataKey: 'enteredWorks' },
+      { header: 'Name', dataKey: 'login_name' },
+      { header: 'Work', dataKey: 'workname' },
+      { header: 'AS Amount', dataKey: 'asAmt' },
+      { header: 'Entered Total AS', dataKey: 'enteredTotalAS' },
+      { header: 'Work ID', dataKey: 'work_id' },
+      { header: 'AS ID', dataKey: 'asid' },
     ];
     const rows = this.dispatchData1.map((row) => ({
       sno: row.sno,//
@@ -404,17 +404,17 @@ export class AdministrativeSanctionComponent {
       // ['sno','login_name','head','letterno','asDate','totalWorks','enteredWorks','baltobeEnter'
       // ,'totalASAmt','enteredTotalAS','balanceASAmount','asid','action']">
 
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Head', dataKey: 'head' },
-      { title: 'AS Letter No', dataKey: 'letterno' },
-      { title: 'AS Date', dataKey: 'asDate' },
-      { title: 'Total Works', dataKey: 'totalWorks' },
-      { title: 'Entered Works', dataKey: 'enteredWorks' },
-      { title: 'Baltobe Enter', dataKey: 'baltobeEnter' },
-      { title: 'Total AS Amount', dataKey: 'totalASAmt' },
-      { title: 'Entered Total AS', dataKey: 'enteredTotalAS' },
-      { title: 'Balance AS Amount', dataKey: 'balanceASAmount' },
-      { title: 'AS ID', dataKey: 'asid' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Head', dataKey: 'head' },
+      { header: 'AS Letter No', dataKey: 'letterno' },
+      { header: 'AS Date', dataKey: 'asDate' },
+      { header: 'Total Works', dataKey: 'totalWorks' },
+      { header: 'Entered Works', dataKey: 'enteredWorks' },
+      { header: 'Baltobe Enter', dataKey: 'baltobeEnter' },
+      { header: 'Total AS Amount', dataKey: 'totalASAmt' },
+      { header: 'Entered Total AS', dataKey: 'enteredTotalAS' },
+      { header: 'Balance AS Amount', dataKey: 'balanceASAmount' },
+      { header: 'AS ID', dataKey: 'asid' },
     ];
     const rows = this.dispatchData2.map((row) => ({
       sno: row.sno,
@@ -444,17 +444,17 @@ export class AdministrativeSanctionComponent {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Head', dataKey: 'head' },
-      { title: 'AS Letter No', dataKey: 'letterno' },
-      { title: 'AS Date', dataKey: 'asDate' },
-      { title: 'Total Works', dataKey: 'totalWorks' },
-      { title: 'Entered Works', dataKey: 'enteredWorks' },
-      { title: 'Baltobe Enter', dataKey: 'baltobeEnter' },
-      { title: 'Total AS Amount', dataKey: 'totalASAmt' },
-      { title: 'Entered Total AS', dataKey: 'enteredTotalAS' },
-      { title: 'Balance AS Amount', dataKey: 'balanceASAmount' },
-      { title: 'AS ID', dataKey: 'asid' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Head', dataKey: 'head' },
+      { header: 'AS Letter No', dataKey: 'letterno' },
+      { header: 'AS Date', dataKey: 'asDate' },
+      { header: 'Total Works', dataKey: 'totalWorks' },
+      { header: 'Entered Works', dataKey: 'enteredWorks' },
+      { header: 'Baltobe Enter', dataKey: 'baltobeEnter' },
+      { header: 'Total AS Amount', dataKey: 'totalASAmt' },
+      { header: 'Entered Total AS', dataKey: 'enteredTotalAS' },
+      { header: 'Balance AS Amount', dataKey: 'balanceASAmount' },
+      { header: 'AS ID', dataKey: 'asid' },
     ];
     const rows = this.dispatchData.map((row) => ({
       sno: row.sno,

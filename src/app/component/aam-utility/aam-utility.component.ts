@@ -144,20 +144,20 @@ export class AAMUtilityComponent {
     doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 30); // Adjusted Y position to avoid overlap
         
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "District", dataKey: "districtname" },
-      { title: "Block", dataKey: "blockname" },
-      { title: "Facility Name", dataKey: "facilityname" },
-      { title: "Email ID", dataKey: "emailid" },
-      { title: "Phone", dataKey: "phone1" },
-      { title: "Contact Person", dataKey: "contactpersonname" },
-      { title: "Parent Facility", dataKey: "parentfacility" },
-      { title: "Warehouse", dataKey: "warehousename" },
-      { title: "No. of Drugs in Opening Stock", dataKey: "nosdrugsopstock" },
-      { title: "No. of Indent", dataKey: "nosindent" },
-      { title: "No. of Items Indented", dataKey: "nositemsindented" },
-      { title: "No. of Receipt", dataKey: "nosreceipt" },
-      { title: "No. of Items in Receipts", dataKey: "nositemsreceipts" },
+      { header: "S.No", dataKey: "sno" },
+      { header: "District", dataKey: "districtname" },
+      { header: "Block", dataKey: "blockname" },
+      { header: "Facility Name", dataKey: "facilityname" },
+      { header: "Email ID", dataKey: "emailid" },
+      { header: "Phone", dataKey: "phone1" },
+      { header: "Contact Person", dataKey: "contactpersonname" },
+      { header: "Parent Facility", dataKey: "parentfacility" },
+      { header: "Warehouse", dataKey: "warehousename" },
+      { header: "No. of Drugs in Opening Stock", dataKey: "nosdrugsopstock" },
+      { header: "No. of Indent", dataKey: "nosindent" },
+      { header: "No. of Items Indented", dataKey: "nositemsindented" },
+      { header: "No. of Receipt", dataKey: "nosreceipt" },
+      { header: "No. of Items in Receipts", dataKey: "nositemsreceipts" },
     ];
     
     const rows = this.kPIdistWise.map(row => ({

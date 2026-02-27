@@ -807,17 +807,17 @@ this.fullUrl = window.location.href;
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
       // 'sno','letterno', 'head','detailS_ENG','asAmt','aA_RAA_Date','workname','district','division','block_Name_En','work_id',
-      { title: 'sno', dataKey: 'sno' },
-      { title: 'letterNo', dataKey: 'letterno' },
-      { title: 'head', dataKey: 'head' },
-      { title: 'aA_RAA_Date', dataKey: 'aA_RAA_Date' },
-      { title: 'asAmt', dataKey: 'asAmt' },
-      { title: 'district', dataKey: 'district' },
-      { title: 'division', dataKey: 'division' },
-      { title: 'workname', dataKey: 'workname' },
-      { title: 'block_Name_En', dataKey: 'block_Name_En' },
-      { title: 'detailS_ENG', dataKey: 'detailS_ENG' },
-      { title: 'work_id', dataKey: 'work_id' },
+      { header: 'sno', dataKey: 'sno' },
+      { header: 'letterNo', dataKey: 'letterno' },
+      { header: 'head', dataKey: 'head' },
+      { header: 'aA_RAA_Date', dataKey: 'aA_RAA_Date' },
+      { header: 'asAmt', dataKey: 'asAmt' },
+      { header: 'district', dataKey: 'district' },
+      { header: 'division', dataKey: 'division' },
+      { header: 'workname', dataKey: 'workname' },
+      { header: 'block_Name_En', dataKey: 'block_Name_En' },
+      { header: 'detailS_ENG', dataKey: 'detailS_ENG' },
+      { header: 'work_id', dataKey: 'work_id' },
     ];
     const rows = this.TSDetailallData.map((row) => ({
       sno: row.sno,

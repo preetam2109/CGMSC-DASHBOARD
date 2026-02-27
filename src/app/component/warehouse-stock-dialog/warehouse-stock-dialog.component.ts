@@ -46,12 +46,12 @@ export class WarehouseStockDialogComponent {
   //  exportToPDF(): void {
   //   const doc = new jsPDF('l', 'mm', 'a4');
   //   const columns = [
-  //     { title: "S.No", dataKey: "sno" },
-  //     { title: "Warehouse", dataKey: "warehousename" },
-  //     { title: "Ready", dataKey: "readyforissue" },
-  //     { title: "UC QC", dataKey: "pending" },
-  //     { title: "supplierpipeline", dataKey: "supplierpipeline" },
-  //     { title: "iwhpipeline", dataKey: "iwhpipeline" },
+  //     { header: "S.No", dataKey: "sno" },
+  //     { header: "Warehouse", dataKey: "warehousename" },
+  //     { header: "Ready", dataKey: "readyforissue" },
+  //     { header: "UC QC", dataKey: "pending" },
+  //     { header: "supplierpipeline", dataKey: "supplierpipeline" },
+  //     { header: "iwhpipeline", dataKey: "iwhpipeline" },
       
   //   ];
 
@@ -108,17 +108,17 @@ export class WarehouseStockDialogComponent {
     doc.text(`SKU: ${this.sku || ''}`, pageWidth - 100, 40); // Right-aligned at position X=pageWidth - 100, Y=40
     
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Item Code", dataKey: "itemcode" },
-      { title: "Item Name", dataKey: "itemname" },
-      { title: "Strength", dataKey: "strengtH1" },
-      { title: "SKU", dataKey: "sku" },
-      { title: "Warehouse", dataKey: "warehousename" },
-      { title: "Ready", dataKey: "readyforissue" },
-      { title: "Under QC", dataKey: "pending" },
-      { title: "Supplier Pipeline", dataKey: "supplierpipeline" },
-      { title: "IWH Pipeline", dataKey: "iwhpipeline" },
-      { title: "CFY Issued Quantity", dataKey: "issuedfy" },
+      { header: "S.No", dataKey: "sno" },
+      { header: "Item Code", dataKey: "itemcode" },
+      { header: "Item Name", dataKey: "itemname" },
+      { header: "Strength", dataKey: "strengtH1" },
+      { header: "SKU", dataKey: "sku" },
+      { header: "Warehouse", dataKey: "warehousename" },
+      { header: "Ready", dataKey: "readyforissue" },
+      { header: "Under QC", dataKey: "pending" },
+      { header: "Supplier Pipeline", dataKey: "supplierpipeline" },
+      { header: "IWH Pipeline", dataKey: "iwhpipeline" },
+      { header: "CFY Issued Quantity", dataKey: "issuedfy" },
     ];
 
     const rows = this.dataSource.data.map((row, index) => ({

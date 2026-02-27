@@ -112,15 +112,15 @@ export class VedAnalysisComponent {
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape mode
   
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'EDL Type', dataKey: 'edltype' },
-      { title: 'No. of Indents', dataKey: 'nosIndent' },
-      { title: 'RC Valid Count', dataKey: 'rcValidcnt' },
-      { title: 'RC Not Valid Count', dataKey: 'rcNotValidcnt' },
-      { title: 'Price Count', dataKey: 'pricecnt' },
-      { title: 'Evaluation Count', dataKey: 'evalutioncnt' },
-      { title: 'Live Count', dataKey: 'liveCnt' },
-      { title: 'To Be Tender Count', dataKey: 'rentendercn' }
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'EDL Type', dataKey: 'edltype' },
+      { header: 'No. of Indents', dataKey: 'nosIndent' },
+      { header: 'RC Valid Count', dataKey: 'rcValidcnt' },
+      { header: 'RC Not Valid Count', dataKey: 'rcNotValidcnt' },
+      { header: 'Price Count', dataKey: 'pricecnt' },
+      { header: 'Evaluation Count', dataKey: 'evalutioncnt' },
+      { header: 'Live Count', dataKey: 'liveCnt' },
+      { header: 'To Be Tender Count', dataKey: 'rentendercn' }
     ];
   
     // Prepare rows from your API data
@@ -137,7 +137,7 @@ export class VedAnalysisComponent {
     }));
   
     autoTable(doc, {
-      head: [columns.map(col => col.title)],
+      head: [columns.map(col => col.header)],
       body: rows,
       startY: 20,
       theme: 'grid',

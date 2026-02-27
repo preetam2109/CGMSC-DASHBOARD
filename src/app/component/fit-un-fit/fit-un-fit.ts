@@ -193,7 +193,7 @@ export class FitUnFit {
     }
   }
   getFitUnfit() {
-    // debugger;
+    // ;
     // return;
     this.spinner.show();
     this.api.getfitunfit(this.selectedStatus).subscribe(
@@ -216,7 +216,7 @@ export class FitUnFit {
     );
   }
   getFitUnfitSummary() {
-    // debugger;
+    // ;
     // return;
     this.spinner.show();
     this.api.getFitUnfitSummary(this.selectedStatus1).subscribe(

@@ -2064,10 +2064,10 @@ export class InfraDashComponent {
   exportToPDFQCLabPendingTracke() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Lab Name', dataKey: 'labname' },
-      { title: 'With Batches', dataKey: 'withBatches' },
-      { title: 'Out Batches', dataKey: 'outBatches' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Lab Name', dataKey: 'labname' },
+      { header: 'With Batches', dataKey: 'withBatches' },
+      { header: 'Out Batches', dataKey: 'outBatches' },
     ];
 
     const rows = this.qCResultPendingLabWise.map((row) => ({
@@ -2092,16 +2092,16 @@ export class InfraDashComponent {
     const doc = new jsPDF('l', 'mm', 'a4');
 
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Item Code', dataKey: 'itemCode' },
-      { title: 'Item Name', dataKey: 'itemName' },
-      { title: 'Strength', dataKey: 'strength' },
-      { title: 'Unit', dataKey: 'unit' },
-      { title: 'EDL 2021', dataKey: 'isEdl2021' },
-      { title: 'Price Flag', dataKey: 'priceFlag' },
-      { title: 'No. of Participants', dataKey: 'toNoOfParticipant' },
-      { title: 'L1 Basic', dataKey: 'l1Basic' },
-      { title: 'Ind Value', dataKey: 'indValue' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Item Code', dataKey: 'itemCode' },
+      { header: 'Item Name', dataKey: 'itemName' },
+      { header: 'Strength', dataKey: 'strength' },
+      { header: 'Unit', dataKey: 'unit' },
+      { header: 'EDL 2021', dataKey: 'isEdl2021' },
+      { header: 'Price Flag', dataKey: 'priceFlag' },
+      { header: 'No. of Participants', dataKey: 'toNoOfParticipant' },
+      { header: 'L1 Basic', dataKey: 'l1Basic' },
+      { header: 'Ind Value', dataKey: 'indValue' },
     ];
 
     const rows = this.statusItemDetails.map((row, index) => ({
@@ -2153,17 +2153,17 @@ export class InfraDashComponent {
     doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 10);
 
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Head', dataKey: 'head' },
-      { title: 'Division', dataKey: 'division' },
-      { title: 'District', dataKey: 'district' },
-      { title: 'Work Name', dataKey: 'workname' },
-      { title: 'AS Letter No', dataKey: 'asLetterNO' },
-      { title: 'AS Date', dataKey: 'asDate' },
-      { title: 'AS Amount', dataKey: 'asAmt' },
-      { title: 'TS Amount', dataKey: 'tsAmount' },
-      { title: 'Value of Works', dataKey: 'valueWorks' },
-      { title: 'Work Status', dataKey: 'workStatus' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Head', dataKey: 'head' },
+      { header: 'Division', dataKey: 'division' },
+      { header: 'District', dataKey: 'district' },
+      { header: 'Work Name', dataKey: 'workname' },
+      { header: 'AS Letter No', dataKey: 'asLetterNO' },
+      { header: 'AS Date', dataKey: 'asDate' },
+      { header: 'AS Amount', dataKey: 'asAmt' },
+      { header: 'TS Amount', dataKey: 'tsAmount' },
+      { header: 'Value of Works', dataKey: 'valueWorks' },
+      { header: 'Work Status', dataKey: 'workStatus' },
     ];
 
     const rows = this.totBetenderList.map((row, index) => ({
@@ -2181,7 +2181,7 @@ export class InfraDashComponent {
     }));
 
     autoTable(doc, {
-      head: [columns.map((col) => col.title)],
+      head: [columns.map((col) => col.header)],
       body: rows.map((row) =>
         columns.map((col) => row[col.dataKey as keyof typeof row] || '')
       ), // Table rows
@@ -2220,21 +2220,21 @@ export class InfraDashComponent {
     const doc = new jsPDF('l', 'mm', 'a4');
 
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Work Code', dataKey: 'work_id' },
-      { title: 'Work Name', dataKey: 'workName' },
-      { title: 'Head', dataKey: 'head' },
-      { title: 'AS Amount (Cr)', dataKey: 'asAmt' },
-      { title: 'TS Amount (Cr)', dataKey: 'tsAmount' },
-      { title: 'NIT No', dataKey: 'tenderNo' },
-      { title: 'e-proc No', dataKey: 'eprocNo' },
-      { title: 'Start Date', dataKey: 'startDt' },
-      { title: 'End Date', dataKey: 'endDate' },
-      { title: 'No. of Calls', dataKey: 'noOfCalls' },
-      { title: 'Cover A Date', dataKey: 'coverADT' },
-      { title: 'Cover B Date', dataKey: 'coverBDT' },
-      { title: 'Cover C Date', dataKey: 'coverCDT' },
-      { title: 'Status', dataKey: 'tstatus' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Work Code', dataKey: 'work_id' },
+      { header: 'Work Name', dataKey: 'workName' },
+      { header: 'Head', dataKey: 'head' },
+      { header: 'AS Amount (Cr)', dataKey: 'asAmt' },
+      { header: 'TS Amount (Cr)', dataKey: 'tsAmount' },
+      { header: 'NIT No', dataKey: 'tenderNo' },
+      { header: 'e-proc No', dataKey: 'eprocNo' },
+      { header: 'Start Date', dataKey: 'startDt' },
+      { header: 'End Date', dataKey: 'endDate' },
+      { header: 'No. of Calls', dataKey: 'noOfCalls' },
+      { header: 'Cover A Date', dataKey: 'coverADT' },
+      { header: 'Cover B Date', dataKey: 'coverBDT' },
+      { header: 'Cover C Date', dataKey: 'coverCDT' },
+      { header: 'Status', dataKey: 'tstatus' },
     ];
 
     const rows = this.statusDetails.map((row, index) => ({
@@ -2302,23 +2302,23 @@ export class InfraDashComponent {
     const doc = new jsPDF('l', 'mm', 'a4');
 
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Item Code', dataKey: 'itemcode' },
-      { title: 'Item Type Name', dataKey: 'itemtypename' },
-      { title: 'Strength', dataKey: 'strength1' },
-      { title: 'Batch No', dataKey: 'batchno' },
-      { title: 'Nos WH', dataKey: 'noswh' },
-      { title: 'UQC Qty', dataKey: 'uqcqty' },
-      { title: 'Stock Value', dataKey: 'stockvalue' },
-      { title: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
-      { title: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
-      { title: 'Courier Pick DT', dataKey: 'courierPickDT' },
-      { title: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
-      { title: 'Lab Issue Date', dataKey: 'labissuedate' },
-      { title: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
-      { title: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
-      { title: 'Lab Result', dataKey: 'labresult' },
-      { title: 'Analysis Days', dataKey: 'analysisDays' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Item Code', dataKey: 'itemcode' },
+      { header: 'Item Type Name', dataKey: 'itemtypename' },
+      { header: 'Strength', dataKey: 'strength1' },
+      { header: 'Batch No', dataKey: 'batchno' },
+      { header: 'Nos WH', dataKey: 'noswh' },
+      { header: 'UQC Qty', dataKey: 'uqcqty' },
+      { header: 'Stock Value', dataKey: 'stockvalue' },
+      { header: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
+      { header: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
+      { header: 'Courier Pick DT', dataKey: 'courierPickDT' },
+      { header: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
+      { header: 'Lab Issue Date', dataKey: 'labissuedate' },
+      { header: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
+      { header: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
+      { header: 'Lab Result', dataKey: 'labresult' },
+      { header: 'Analysis Days', dataKey: 'analysisDays' },
     ];
 
     const rows = this.qCPendingParticularArea.map((row) => ({
@@ -2342,7 +2342,7 @@ export class InfraDashComponent {
     }));
 
     autoTable(doc, {
-      head: [columns.map((col) => col.title)], // Table headers
+      head: [columns.map((col) => col.header)], // Table headers
       body: rows.map((row) =>
         columns.map((col) => row[col.dataKey as keyof typeof row] || '')
       ), // Table rows
@@ -2420,22 +2420,22 @@ export class InfraDashComponent {
     doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
 
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Description', dataKey: 'discription' },
-      { title: 'Ref. No', dataKey: 'tenderNo' },
-      { title: 'eProc No', dataKey: 'eProcNo' },
-      { title: 'Entry Date', dataKey: 'entrydate' },
-      { title: 'Start Date', dataKey: 'startDT' },
-      { title: 'End Date', dataKey: 'endDT' },
-      { title: 'Calls', dataKey: 'calls' },
-      { title: 'Cover A', dataKey: 'coverA' },
-      { title: 'Cover C', dataKey: 'coverC' },
-      { title: 'Capacity', dataKey: 'capacity' },
-      { title: 'Zonal Type', dataKey: 'zonalType' },
-      { title: 'District', dataKey: 'district' },
-      { title: 'Block', dataKey: 'block' },
-      { title: 'Nagar Nigam', dataKey: 'nagarNigam' },
-      { title: 'Status', dataKey: 'tenderstatus' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Description', dataKey: 'discription' },
+      { header: 'Ref. No', dataKey: 'tenderNo' },
+      { header: 'eProc No', dataKey: 'eProcNo' },
+      { header: 'Entry Date', dataKey: 'entrydate' },
+      { header: 'Start Date', dataKey: 'startDT' },
+      { header: 'End Date', dataKey: 'endDT' },
+      { header: 'Calls', dataKey: 'calls' },
+      { header: 'Cover A', dataKey: 'coverA' },
+      { header: 'Cover C', dataKey: 'coverC' },
+      { header: 'Capacity', dataKey: 'capacity' },
+      { header: 'Zonal Type', dataKey: 'zonalType' },
+      { header: 'District', dataKey: 'district' },
+      { header: 'Block', dataKey: 'block' },
+      { header: 'Nagar Nigam', dataKey: 'nagarNigam' },
+      { header: 'Status', dataKey: 'tenderstatus' },
     ];
 
     const rows = this.tenderStatusDetailsZonal.map(
@@ -2460,7 +2460,7 @@ export class InfraDashComponent {
     );
 
     autoTable(doc, {
-      head: [columns.map((col) => col.title)],
+      head: [columns.map((col) => col.header)],
       body: rows.map((row) =>
         columns.map((col) => row[col.dataKey as keyof typeof row] || '')
       ),
@@ -2514,23 +2514,23 @@ export class InfraDashComponent {
 
     // Define columns
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Head', dataKey: 'head' },
-      { title: 'Division ID', dataKey: 'divisionID' },
-      { title: 'Division', dataKey: 'division' },
-      { title: 'District', dataKey: 'district' },
-      { title: 'Work ID', dataKey: 'work_id' },
-      { title: 'Work Name', dataKey: 'workname' },
-      { title: 'AS Letter No', dataKey: 'asLetterNO' },
-      { title: 'AS Date', dataKey: 'asDate' },
-      { title: 'AS Amount', dataKey: 'asAmt' },
-      { title: 'TS Amount', dataKey: 'tsAmount' },
-      { title: 'Value of Works', dataKey: 'valueWorks' },
-      { title: 'Status', dataKey: 'workStatus' },
-      { title: 'Remark ID', dataKey: 'tremarkID' },
-      { title: 'Remarks', dataKey: 'tRemarks' },
-      { title: 'Remark Date', dataKey: 'remarkDT' },
-      { title: 'Other Remarks', dataKey: 'remarks' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Head', dataKey: 'head' },
+      { header: 'Division ID', dataKey: 'divisionID' },
+      { header: 'Division', dataKey: 'division' },
+      { header: 'District', dataKey: 'district' },
+      { header: 'Work ID', dataKey: 'work_id' },
+      { header: 'Work Name', dataKey: 'workname' },
+      { header: 'AS Letter No', dataKey: 'asLetterNO' },
+      { header: 'AS Date', dataKey: 'asDate' },
+      { header: 'AS Amount', dataKey: 'asAmt' },
+      { header: 'TS Amount', dataKey: 'tsAmount' },
+      { header: 'Value of Works', dataKey: 'valueWorks' },
+      { header: 'Status', dataKey: 'workStatus' },
+      { header: 'Remark ID', dataKey: 'tremarkID' },
+      { header: 'Remarks', dataKey: 'tRemarks' },
+      { header: 'Remark Date', dataKey: 'remarkDT' },
+      { header: 'Other Remarks', dataKey: 'remarks' },
     ];
 
     // Format data
@@ -2557,7 +2557,7 @@ export class InfraDashComponent {
     );
 
     autoTable(doc, {
-      head: [columns.map((col) => col.title)],
+      head: [columns.map((col) => col.header)],
       body: rows.map((row) =>
         columns.map((col) => row[col.dataKey as keyof typeof row] || '')
       ),

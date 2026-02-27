@@ -71,13 +71,13 @@ export class EmdPendingTenderwiseComponent implements OnInit {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Tender", dataKey: "schemename" },
-      { title: "Status", dataKey: "statusdata" },
-      { title: "No_of_Supplier", dataKey: "nossupplier" },
-      { title: "EMD Deposited", dataKey: "totalEMD" },
-      { title: "EMD Released", dataKey: "releasedEMDAmt" },
-      { title: "EMD Pending", dataKey: "pendingEMD" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "Tender", dataKey: "schemename" },
+      { header: "Status", dataKey: "statusdata" },
+      { header: "No_of_Supplier", dataKey: "nossupplier" },
+      { header: "EMD Deposited", dataKey: "totalEMD" },
+      { header: "EMD Released", dataKey: "releasedEMDAmt" },
+      { header: "EMD Pending", dataKey: "pendingEMD" }
     ];
     const rows = this.dispatchPendings.map(row => ({
       sno: row.sno,

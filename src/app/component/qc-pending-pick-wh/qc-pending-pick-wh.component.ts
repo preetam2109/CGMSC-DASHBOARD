@@ -29,11 +29,11 @@ export class QcPendingPickWhComponent {
   doc.setFontSize(10);
   doc.text(`Date: ${dateString} Time: ${timeString}`, 14, 15);
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "warehousename", dataKey: "warehousename" },
-      { title: "qdocketno", dataKey: "qdocketno" },
-      { title: "indentdate", dataKey: "indentdate" },
-      { title: "nousitems", dataKey: "nousitems" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "warehousename", dataKey: "warehousename" },
+      { header: "qdocketno", dataKey: "qdocketno" },
+      { header: "indentdate", dataKey: "indentdate" },
+      { header: "nousitems", dataKey: "nousitems" }
     ];
     const rows = this.dispatchPendings.map(row => ({
       sno: row.sno ?? '', // Handle undefined values
@@ -67,12 +67,12 @@ exportToPDF2() {
   doc.text(`Date: ${dateString} Time: ${timeString}`, 14, 15);
 
   const columns = [
-    { title: "S.No", dataKey: "sno" },
-    { title: "warehousename", dataKey: "warehousename" },
-    { title: "itemname", dataKey: "itemname" },
-    { title: "batchno", dataKey: "batchno" },
-    { title: "pendingdays", dataKey: "pendingdays" },
-    { title: "qdocketno", dataKey: "qdocketno" },
+    { header: "S.No", dataKey: "sno" },
+    { header: "warehousename", dataKey: "warehousename" },
+    { header: "itemname", dataKey: "itemname" },
+    { header: "batchno", dataKey: "batchno" },
+    { header: "pendingdays", dataKey: "pendingdays" },
+    { header: "qdocketno", dataKey: "qdocketno" },
   ];
   const rows = this.dispatchPendings1.map(row => ({
 
