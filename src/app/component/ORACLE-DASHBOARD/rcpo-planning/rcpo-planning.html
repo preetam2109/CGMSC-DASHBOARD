@@ -1,9 +1,14 @@
+<div class="rcpo-planning-wrapper">
+  <div *ngIf="loading" class="rcpo-planning-spinner-overlay">
+    <div class="rcpo-planning-spinner"></div>
+    <div class="rcpo-planning-spinner-text">Please wait while we load data...</div>
+  </div>
 
-<iframe
+  <iframe
     class="oac_embedding_iframe"
-    style="height: 100vh; width:100%;" 
-    srcdoc='
-    <!DOCTYPE html>
+    style="height: 100vh; width:100%;"
+    (load)="onIframeLoad()"
+    srcdoc='    <!DOCTYPE html>
     <html lang="en" dir="ltr">
     <head>
         <meta charset="UTF-8">
@@ -50,7 +55,6 @@
     </head>
     <body>
         <div style="width: 100%; height: 100vh;">
- 
 
 
 <oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/Consumption_Based_Planning" active-page="insight" active-tab-id="snapshot!canvas!1">
@@ -58,45 +62,6 @@
            
         </div>
     </body>
-    </html>
-'>
-</iframe>
-<!-- <oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/Consumption Based PO Planning " active-page="insight" active-tab-id="snapshot!canvas!2">
-</oracle-dv> -->
-<!-- <oracle-dv project-path="/@Catalog/shared/Tender Status /TenderStatus" active-page="insight" active-tab-id="snapshot!canvas!6">
-</oracle-dv> -->
-
-
-
-
-
-
-
-<!-- <oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/MV_TENDER_PO_PLANNING_Final" active-page="insight" active-tab-id="snapshot!canvas!1">
-</oracle-dv>
-
-
-<oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/MV_TENDER_PO_PLANNING_Final" active-page="insight" active-tab-id="snapshot!canvas!2">
-</oracle-dv>
-
-
-<oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/MV_TENDER_PO_PLANNING_Final" active-page="insight" active-tab-id="snapshot!canvas!10">
-</oracle-dv>
-
-
-<oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/MV_TENDER_PO_PLANNING_Final" active-page="insight" active-tab-id="snapshot!canvas!6">
-</oracle-dv>
-
-
-<oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/MV_TENDER_PO_PLANNING_Final" active-page="insight" active-tab-id="snapshot!canvas!7">
-</oracle-dv>
-
-
-<oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/MV_TENDER_PO_PLANNING_Final" active-page="insight" active-tab-id="snapshot!canvas!8">
-</oracle-dv>
-
-<oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/MV_TENDER_PO_PLANNING_Final" active-page="insight" active-tab-id="snapshot!canvas!12">
-</oracle-dv>
-
-<oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/MV_TENDER_PO_PLANNING_Final" active-page="insight" active-tab-id="snapshot!canvas!11">
-</oracle-dv> -->
+    </html>'
+  ></iframe>
+</div>

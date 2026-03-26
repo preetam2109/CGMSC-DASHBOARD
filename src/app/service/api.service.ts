@@ -1205,6 +1205,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   QCLabPendingTimeline(mcid:any,Timeline:any,labid:any) {
+    
     return this.http.get<QCLabPendingTimeline[]>(`${this.CGMSCHO_API2}/QC/QCLabPendingTimeline?Timeline=${Timeline}&mcid=${mcid}&labid=${labid}`);
   }
 
@@ -1213,6 +1214,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   QCPendingParticularArea(area:any,itemid:any) {
+    debugger
     
     return this.http.get<QCPendingParticularArea[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}&itemid=${itemid}`);
   }
@@ -1220,7 +1222,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
 
   QCResultPendingLabWise(mcid:any) {
-
+debugger
     return this.http.get<QCResultPendingLabWise[]>(`${this.CGMSCHO_API2}/QC/QCResultPendingLabWise?mcid=${mcid}`);
   }
 

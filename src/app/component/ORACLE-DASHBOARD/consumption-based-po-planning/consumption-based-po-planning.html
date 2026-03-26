@@ -1,8 +1,14 @@
 
-<!-- style="height:800px; width:100%;"  -->
-<iframe
+<div class="consumption-po-wrapper">
+  <div *ngIf="loading" class="consumption-po-spinner-overlay">
+    <div class="consumption-po-spinner"></div>
+    <div class="consumption-po-spinner-text">Please wait while we load the data....</div>
+  </div>
+
+  <iframe
     class="oac_embedding_iframe"
-    style="height: 100vh; width:100%;" 
+    style="height: 100vh; width:100%;"
+    (load)="onIframeLoad()"
     srcdoc='
     <!DOCTYPE html>
     <html lang="en" dir="ltr">
@@ -64,6 +70,7 @@
     </html>
 '>
 </iframe>
+</div>
 <!-- <oracle-dv project-path="/@Catalog/shared/Tender Status /TenderStatus" active-page="insight" active-tab-id="snapshot!canvas!6">
 </oracle-dv> -->
 

@@ -1,0 +1,67 @@
+<div class="inter-warehouse-wrapper">
+  
+  <!-- Spinner -->
+  <div *ngIf="loading" class="inter-warehouse-spinner-overlay">
+    <div class="inter-warehouse-spinner"></div>
+    <div class="inter-warehouse-spinner-text">
+      Please wait while we load the data...
+    </div>
+  </div>
+
+  <!-- Iframe -->
+  <iframe
+    class="oac_embedding_iframe"
+    style="height: 100vh; width:100%;"
+    (load)="onIframeLoad()"
+    srcdoc='
+    <!DOCTYPE html>
+    <html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OAC TEST</title>
+        <script src="https://cgmscanalytics-cgmscee-bo.analytics.ocp.oraclecloud.com/public/dv/v1/embedding/standalone/embedding.js" type="application/javascript"></script>
+        <script>
+          var token = "";
+
+          function fetchAndSetToken() {
+            fetch("https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token")
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error("HTTP error! status:"+response.status);
+                }
+                return response.json();
+              })
+              .then(data => {
+                token = data.access_token;
+
+                requirejs(["jquery", "knockout", "obitech-application/application","ojs/ojcore", "ojs/ojknockout", "ojs/ojcomposite", "jet-composites/oracle-dv/loader"], 
+                function($, ko, application) {
+                  application.setSecurityConfig("token", {
+                    tokenAuthFunction: function() {
+                      return token;
+                    }
+                  });
+                  ko.applyBindings();
+                });
+              })
+              .catch(error => {
+                console.error("Error fetching token:", error);
+              });
+          }
+
+          fetchAndSetToken();
+          setInterval(fetchAndSetToken, 45 * 60 * 1000);
+        </script>
+    </head>
+    <body>
+        <div style="width: 100%; height: 100vh;">
+          <oracle-dv project-path="/@Catalog/users/sm.cgmsc@gmail.com/Pipeline" active-page="insight" active-tab-id="snapshot!canvas!1">
+          </oracle-dv>
+        </div>
+    </body>
+    </html>
+'>
+  </iframe>
+
+</div>

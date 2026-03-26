@@ -1,0 +1,39 @@
+.inter-warehouse-wrapper {
+  position: relative;
+  min-height: 100vh;
+}
+
+.inter-warehouse-spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  z-index: 999;
+}
+
+.inter-warehouse-spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #e0e0e0;
+  border-top-color: #1976d2;
+  border-radius: 50%;
+  animation: inter-warehouse-spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes inter-warehouse-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.inter-warehouse-spinner-text {
+  font-size: 14px;
+  color: #333;
+}
