@@ -155,17 +155,17 @@ console.log(JSON.stringify(res))
     doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
     
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "itemid", dataKey: "itemid" },
-      { title: "itemcode", dataKey: "itemcode" },
-      { title: "itemname", dataKey: "itemname" },
-      { title: "strengtH1", dataKey: "strengtH1" },
-      { title: "edlcat", dataKey: "edlcat" },
-      { title: "readyforissue", dataKey: "readyforissue" },
-      { title: "totlpipeline", dataKey: "totlpipeline" },
-      { title: "edltype", dataKey: "edltype" },
-      { title: "groupname", dataKey: "groupname" },
-      { title: "itemtypename", dataKey: "itemtypename" },
+      { header: "S.No", dataKey: "sno" },
+      { header: "itemid", dataKey: "itemid" },
+      { header: "itemcode", dataKey: "itemcode" },
+      { header: "itemname", dataKey: "itemname" },
+      { header: "strengtH1", dataKey: "strengtH1" },
+      { header: "edlcat", dataKey: "edlcat" },
+      { header: "readyforissue", dataKey: "readyforissue" },
+      { header: "totlpipeline", dataKey: "totlpipeline" },
+      { header: "edltype", dataKey: "edltype" },
+      { header: "groupname", dataKey: "groupname" },
+      { header: "itemtypename", dataKey: "itemtypename" },
     ];
     
     const rows = this.dispatchPendings.map(row => ({

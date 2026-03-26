@@ -326,9 +326,9 @@ export class DistrictWiseStockComponent {
   //   doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
     
   //   const columns = [
-  //     { title: "S.No", dataKey: "sno" },
-  //     { title: "percentage", dataKey: "percentage" },
-  //     { title: "orderdp", dataKey: "orderdp" },
+  //     { header: "S.No", dataKey: "sno" },
+  //     { header: "percentage", dataKey: "percentage" },
+  //     { header: "orderdp", dataKey: "orderdp" },
 
      
   //   ];

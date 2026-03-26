@@ -126,6 +126,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ApiService {
   private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
+  private AAM_API_URL = 'https://dpdmis.in/AAMAPIMR/api';
   private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
   // private CGMSCHO_API2 = 'http://141.148.193.157/CGMSCHO_API2/api';
   private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
@@ -143,6 +144,18 @@ export class ApiService {
   //    
   //   return this.http.get<Districts[]>(`https://localhost:7288/api/District`)
   // }
+
+  KPIFacilityDetai(distId:any){
+    return this.http.get<any[]>(`${this.AAM_API_URL}/AAMAdmin/KPIFacilityDetai?distId=${distId}`);
+    
+  }
+  updateFacilityContact(facilityId: any,contactPersonName: any,phone1:any) {
+    // https://dpdmis.in/AAMAPIMR/api/AAMAdmin/updateFacilityContact?facilityId=27955&contactPersonName=Khushboo Sarva&phone1=9399805726
+
+    return this.http.put(`${this.AAM_API_URL}/AAMAdmin/updateFacilityContact?facilityId=${facilityId}&contactPersonName=${contactPersonName}&phone1=${phone1}`,{});
+
+  }
+
   retrieveAllRC() {
     return this.http.get<Districts[]>(`${this.EMIS_API}/getAllRCReport`)
   }
@@ -621,7 +634,6 @@ export class ApiService {
     return this.http.get(`${this.CGMSCHO_API2}/Login/VerifyOTPLogin?otp=${otp}&userid=${userid}`, { responseType: 'text' });
   }
   // getOTPSaved(userid: any) {
-
   //   return this.http.post(`${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}`, { responseType: 'text' });
   // }
   getOTPSaved(userid: any,ipAddress: any) {
@@ -679,7 +691,7 @@ export class ApiService {
   }
   GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TobeTenderAll?did=1001&divisionid=0&districtid=0&mainschemeid=0
+    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TobeTenderAll?did=1001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=0;
   }
   GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TenderInProcess?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
@@ -688,7 +700,7 @@ export class ApiService {
   GET_TotalWorksAbstract(divisionId: any,districtid:any,mainSchemeId: any, contractorid:any,ASAmount:any) {
     // ;
     return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}`);
-  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1
+  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1&ASAmount=0;
   }
 
   DashProgressCount(divisionId: any, mainSchemeId: number, distid: number,ASID:any,GrantID:any,ASAmount:any) {
@@ -1193,6 +1205,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   QCLabPendingTimeline(mcid:any,Timeline:any,labid:any) {
+    
     return this.http.get<QCLabPendingTimeline[]>(`${this.CGMSCHO_API2}/QC/QCLabPendingTimeline?Timeline=${Timeline}&mcid=${mcid}&labid=${labid}`);
   }
 
@@ -1201,6 +1214,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   QCPendingParticularArea(area:any,itemid:any) {
+    debugger
     
     return this.http.get<QCPendingParticularArea[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}&itemid=${itemid}`);
   }
@@ -1208,7 +1222,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
 
 
   QCResultPendingLabWise(mcid:any) {
-
+debugger
     return this.http.get<QCResultPendingLabWise[]>(`${this.CGMSCHO_API2}/QC/QCResultPendingLabWise?mcid=${mcid}`);
   }
 
@@ -1412,7 +1426,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   AIvsIssuance(mcid:any,yrid:any,facid:any){
-    debugger
+    
     return this.http.get<AIvsIssuance[]>(`${this.CGMSCHO_API2}/HO/AIvsIssuance?mcid=${mcid}&facid=${facid}&yrid=${yrid}`);
 
   }
@@ -1705,7 +1719,7 @@ DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:an
 private token: string = '';
 
 // async initToken(): Promise<void> {
-//   // debugger;
+//   // ;
 //   if (this.token) {
 //     // Agar token already hai to dobara fetch nahi karna
 //     return;

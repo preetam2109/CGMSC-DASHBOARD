@@ -198,28 +198,28 @@ startDateValidator(control: AbstractControl) {
   
     // ✅ Define columns
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Scheme ID', dataKey: 'schemeId' },
-      { title: 'Tender No', dataKey: 'tenderNo' },
-      { title: 'Tender Name', dataKey: 'tenderName' },
-      { title: 'Item Code', dataKey: 'itemCode' },
-      { title: 'Item Name', dataKey: 'itemName' },
-      { title: 'Strength', dataKey: 'strength1' },
-      { title: 'Unit', dataKey: 'unit' },
-      { title: 'Category', dataKey: 'mCategory' },
-      { title: 'EDL Type', dataKey: 'edlType' },
-      { title: 'PO No ID', dataKey: 'poNoId' },
-      { title: 'PO No', dataKey: 'poNo' },
-      { title: 'PO Date', dataKey: 'podate' },
-      { title: 'Extended Date', dataKey: 'extendedDate' },
-      { title: 'PO Qty', dataKey: 'poQty' },
-      { title: 'Receipt Qty', dataKey: 'receiptQty' },
-      { title: 'Pipeline Qty', dataKey: 'pipelineQty' },
-      { title: 'Supply %', dataKey: 'supplyPer' },
-      { title: 'Duration', dataKey: 'duration' },
-      { title: 'Supplier ID', dataKey: 'supplierId' },
-      { title: 'Supplier Name', dataKey: 'supplierName' },
-      { title: 'No. of Days', dataKey: 'noOfDays' }
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Scheme ID', dataKey: 'schemeId' },
+      { header: 'Tender No', dataKey: 'tenderNo' },
+      { header: 'Tender Name', dataKey: 'tenderName' },
+      { header: 'Item Code', dataKey: 'itemCode' },
+      { header: 'Item Name', dataKey: 'itemName' },
+      { header: 'Strength', dataKey: 'strength1' },
+      { header: 'Unit', dataKey: 'unit' },
+      { header: 'Category', dataKey: 'mCategory' },
+      { header: 'EDL Type', dataKey: 'edlType' },
+      { header: 'PO No ID', dataKey: 'poNoId' },
+      { header: 'PO No', dataKey: 'poNo' },
+      { header: 'PO Date', dataKey: 'podate' },
+      { header: 'Extended Date', dataKey: 'extendedDate' },
+      { header: 'PO Qty', dataKey: 'poQty' },
+      { header: 'Receipt Qty', dataKey: 'receiptQty' },
+      { header: 'Pipeline Qty', dataKey: 'pipelineQty' },
+      { header: 'Supply %', dataKey: 'supplyPer' },
+      { header: 'Duration', dataKey: 'duration' },
+      { header: 'Supplier ID', dataKey: 'supplierId' },
+      { header: 'Supplier Name', dataKey: 'supplierName' },
+      { header: 'No. of Days', dataKey: 'noOfDays' }
     ];
   
     // ✅ Map rows
@@ -250,7 +250,7 @@ startDateValidator(control: AbstractControl) {
   
     // ✅ Generate PDF Table
     autoTable(doc, {
-      head: [columns.map(col => col.title)],
+      head: [columns.map(col => col.header)],
       body: rows,
       startY: 25,
       theme: 'grid',

@@ -219,7 +219,7 @@ startDateValidator(control: AbstractControl) {
  
   
   onISelectChangeYear(event: Event): void {
-    debugger
+    
     // const selectedUser = this.FundsDDL.find((user: { budgetid: string }) => user.budgetid === this.budgetid); 
     const selectedUser = this.Year.find((user: { accyrsetid: string }) => user.accyrsetid === this.accyrsetid); 
   
@@ -368,21 +368,21 @@ startDateValidator(control: AbstractControl) {
   
     // Table columns
     const columns = [
-      { title: "S.No", dataKey: "sno" },
+      { header: "S.No", dataKey: "sno" },
       
-      { title: "Code", dataKey: "itemcode" },
-      { title: "Item", dataKey: "itemname" },
-      { title: "Strength", dataKey: "strength1" },
-      { title: "Unit", dataKey: "unit" },
-      { title: "Unit Count", dataKey: "unitcount" },
-      { title: "AI", dataKey: "ai" },
-      { title: "AI (Nos)", dataKey: "ainos" },
-      { title: "Issued Qty", dataKey: "issuedQTY" },
-      { title: "Issued Qty (Nos)", dataKey: "issueqtynos" },
-      { title: "Issue %", dataKey: "issuePEr" },
-      { title: "NOC Qty", dataKey: "nocqty" },
-      { title: "NOC Qty (Nos)", dataKey: "nocqtyinNos" },
-      { title: "Color", dataKey: "color" }
+      { header: "Code", dataKey: "itemcode" },
+      { header: "Item", dataKey: "itemname" },
+      { header: "Strength", dataKey: "strength1" },
+      { header: "Unit", dataKey: "unit" },
+      { header: "Unit Count", dataKey: "unitcount" },
+      { header: "AI", dataKey: "ai" },
+      { header: "AI (Nos)", dataKey: "ainos" },
+      { header: "Issued Qty", dataKey: "issuedQTY" },
+      { header: "Issued Qty (Nos)", dataKey: "issueqtynos" },
+      { header: "Issue %", dataKey: "issuePEr" },
+      { header: "NOC Qty", dataKey: "nocqty" },
+      { header: "NOC Qty (Nos)", dataKey: "nocqtyinNos" },
+      { header: "Color", dataKey: "color" }
     ];
   
     // Prepare rows from data
@@ -561,7 +561,7 @@ onItemNameClick(itemid:number,edlcat:string,groupname:string,itemcode:string,ite
 
 InsertUserPageViewLog() {
   try {
-    // debugger
+    // 
     const roleIdName = localStorage.getItem('roleName') || '';
     const userId = Number(sessionStorage.getItem('userid') || 0);
     const roleId = Number(sessionStorage.getItem('roleId') || 0);

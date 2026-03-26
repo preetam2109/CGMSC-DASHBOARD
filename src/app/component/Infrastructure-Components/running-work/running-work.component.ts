@@ -2147,7 +2147,7 @@ const contractid=0;
 
 fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seriesName: string): void {
   // ;
-  // debugger;
+  // ;
   this.selectedParameter=delayTime;
   // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
   var roleName = localStorage.getItem('roleName');
@@ -2368,42 +2368,42 @@ openDialog() {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      { title: 'Head', dataKey: 'head' },
-      { title: 'Division', dataKey: 'divName_En' },
-      { title: 'District', dataKey: 'district' },
-      { title: 'Block', dataKey: 'blockname' },
-      { title: 'AS Letter No', dataKey: 'letterNo' },
-      { title: 'Approver', dataKey: 'approver' },
-      { title: 'Work', dataKey: 'work' },
-      // { title: 'AS Date', dataKey: 'aadt' },
-      // { title: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
-      { title: 'TS Date', dataKey: 'tsDate' },
-      { title: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
-      { title: 'Tender Type', dataKey: 'tType' },
-      { title: 'NIT Reference', dataKey: 'tenderReference' },
-      { title: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
-      { title: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
-      { title: 'Accepted DT', dataKey: 'acceptLetterDT' },
-      // { title: 'Rate%', dataKey: 'sanctionRate' },
-      // { title: 'Sanction', dataKey: 'sanctionDetail' },
-      // { title: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
-      // { title: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
-      { title: 'Time Allowed', dataKey: 'timeAllowed' },
-      { title: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
-      { title: 'Delay/On Time Days', dataKey: 'delayDays' },
-      // { title: 'Work Order RefNo', dataKey: 'agreementRefNo' },
-      { title: 'Contractor ID/Class', dataKey: 'cid' },
-      { title: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
-      { title: 'Contractor Mobile No', dataKey: 'mobNo' },
-      { title: 'Last Progress', dataKey: 'lProgress' },
-      { title: 'Progress DT', dataKey: 'progressDT' },
-      { title: 'Exp.Comp DT', dataKey: 'expcompdt' },
-      { title: 'Delay Reason', dataKey: 'delayreason' },
-      { title: 'Sub Engineer', dataKey: 'subengname' },
-      { title: 'Asst.Eng', dataKey: 'aeName' },
-      { title: 'Work ID', dataKey: 'work_id' },
-      // { title: 'AS Letter', dataKey: 'asLetter' },
+      { header: 'S.No', dataKey: 'sno' },
+      { header: 'Head', dataKey: 'head' },
+      { header: 'Division', dataKey: 'divName_En' },
+      { header: 'District', dataKey: 'district' },
+      { header: 'Block', dataKey: 'blockname' },
+      { header: 'AS Letter No', dataKey: 'letterNo' },
+      { header: 'Approver', dataKey: 'approver' },
+      { header: 'Work', dataKey: 'work' },
+      // { header: 'AS Date', dataKey: 'aadt' },
+      // { header: 'AS Amount(in Lacs)', dataKey: 'asAmt' },
+      { header: 'TS Date', dataKey: 'tsDate' },
+      { header: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
+      { header: 'Tender Type', dataKey: 'tType' },
+      { header: 'NIT Reference', dataKey: 'tenderReference' },
+      { header: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+      { header: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
+      { header: 'Accepted DT', dataKey: 'acceptLetterDT' },
+      // { header: 'Rate%', dataKey: 'sanctionRate' },
+      // { header: 'Sanction', dataKey: 'sanctionDetail' },
+      // { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+      // { header: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+      { header: 'Time Allowed', dataKey: 'timeAllowed' },
+      { header: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
+      { header: 'Delay/On Time Days', dataKey: 'delayDays' },
+      // { header: 'Work Order RefNo', dataKey: 'agreementRefNo' },
+      { header: 'Contractor ID/Class', dataKey: 'cid' },
+      { header: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+      { header: 'Contractor Mobile No', dataKey: 'mobNo' },
+      { header: 'Last Progress', dataKey: 'lProgress' },
+      { header: 'Progress DT', dataKey: 'progressDT' },
+      { header: 'Exp.Comp DT', dataKey: 'expcompdt' },
+      { header: 'Delay Reason', dataKey: 'delayreason' },
+      { header: 'Sub Engineer', dataKey: 'subengname' },
+      { header: 'Asst.Eng', dataKey: 'aeName' },
+      { header: 'Work ID', dataKey: 'work_id' },
+      // { header: 'AS Letter', dataKey: 'asLetter' },
     ];
     const rows = this.dispatchData.map((row) => ({
       sno: row.sno,

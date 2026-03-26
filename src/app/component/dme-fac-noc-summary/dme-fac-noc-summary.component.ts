@@ -116,7 +116,7 @@ startDateValidator(control: AbstractControl) {
   // Only format dates if both start and end dates are selected
   const formattedStartDate = startDate ? this.datePipe.transform(startDate, 'dd-MM-yyyy') : '';
   const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MM-yyyy') : '';
-  debugger
+  
     this.spinner.show();
 
     
@@ -165,7 +165,7 @@ startDateValidator(control: AbstractControl) {
   
     console.log('Selected Year ID:', this.selectedYearId);
     console.log('Selected Year Label:', selectedLabel);
-debugger
+
 
     forkJoin([
        
@@ -358,17 +358,17 @@ applyEdlFilter() {
 
     // ✅ Define columns
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
+      { header: 'S.No', dataKey: 'sno' },
      
-      { title: 'Facility', dataKey: 'facilityname' },
-      { title: 'EDL Type', dataKey: 'eDlType' },
-      { title: 'Count NOC', dataKey: 'cntNoc' },
-      { title: 'NOC Qty', dataKey: 'nocQty' },
-      { title: 'NOC Value', dataKey: 'nocValue' },
-      { title: 'PO SKU', dataKey: 'posku' },
-      { title: 'PO Value', dataKey: 'povalue' },
-      { title: 'Receipt Qty SKU', dataKey: 'receiptqtySKU' },
-      { title: 'Received Value', dataKey: 'recvalue' },
+      { header: 'Facility', dataKey: 'facilityname' },
+      { header: 'EDL Type', dataKey: 'eDlType' },
+      { header: 'Count NOC', dataKey: 'cntNoc' },
+      { header: 'NOC Qty', dataKey: 'nocQty' },
+      { header: 'NOC Value', dataKey: 'nocValue' },
+      { header: 'PO SKU', dataKey: 'posku' },
+      { header: 'PO Value', dataKey: 'povalue' },
+      { header: 'Receipt Qty SKU', dataKey: 'receiptqtySKU' },
+      { header: 'Received Value', dataKey: 'recvalue' },
     ];
   
     // ✅ Map data rows
@@ -387,7 +387,7 @@ applyEdlFilter() {
   
     // ✅ Generate PDF table
     autoTable(doc, {
-      head: [columns.map(col => col.title)],
+      head: [columns.map(col => col.header)],
       body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
       startY: 25,
       theme: 'grid',

@@ -292,10 +292,10 @@ export class FacCoverageComponent {
   //   doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); 
     
   //   const columns = [
-  //     { title: "S.No", dataKey: "sno" },
-  //     { title: "facilitytypecode", dataKey: "facilitytypecode" },
-  //     { title: "nosfac", dataKey: "nosfac" },
-  //     { title: "facilitytypedesc", dataKey: "facilitytypedesc" },
+  //     { header: "S.No", dataKey: "sno" },
+  //     { header: "facilitytypecode", dataKey: "facilitytypecode" },
+  //     { header: "nosfac", dataKey: "nosfac" },
+  //     { header: "facilitytypedesc", dataKey: "facilitytypedesc" },
 
      
   //   ];
@@ -323,7 +323,7 @@ export class FacCoverageComponent {
 
   InsertUserPageViewLog() {
     try {
-      // debugger
+      // 
       const roleIdName = localStorage.getItem('roleName') || '';
       const userId = Number(sessionStorage.getItem('userid') || 0);
       const roleId = Number(sessionStorage.getItem('roleId') || 0);

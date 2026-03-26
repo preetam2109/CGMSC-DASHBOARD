@@ -157,12 +157,12 @@ export class DdlItemWiseInHandQtyComponent {
     doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
     
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Code", dataKey: "itemcode" },
-      { title: "strength", dataKey: "strengtH1" },
-      { title: "edlitemcode", dataKey: "edlitemcode" },
-      { title: "inhanD_QTY", dataKey: "inhanD_QTY" },
-      { title: "detail", dataKey: "detail" },
+      { header: "S.No", dataKey: "sno" },
+      { header: "Code", dataKey: "itemcode" },
+      { header: "strength", dataKey: "strengtH1" },
+      { header: "edlitemcode", dataKey: "edlitemcode" },
+      { header: "inhanD_QTY", dataKey: "inhanD_QTY" },
+      { header: "detail", dataKey: "detail" },
 
      
     ];

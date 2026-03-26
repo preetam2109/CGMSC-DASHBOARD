@@ -126,18 +126,18 @@ updateSelectedHodid(): void {
       
         // Define columns based on your new data fields
         const columns = [
-          { title: 'S.No', dataKey: 'sno' },
-          { title: 'Warehouse Name', dataKey: 'warehousename' },
-          { title: 'Main Category', dataKey: 'mcategory' },
-          { title: 'EDL Type', dataKey: 'edltype' },
-          { title: 'Equipment Name', dataKey: 'eqpname' },
-          { title: 'Item Code', dataKey: 'itemcode' },
-          { title: 'Strength', dataKey: 'strengtH1' },
-          { title: 'Item Name', dataKey: 'itemname' },
-          { title: 'Expiry Month', dataKey: 'expmonth' },
-          { title: 'Month No.', dataKey: 'mon' },
-          { title: 'Exp Qty', dataKey: 'expqty' },
-          { title: 'Exp Value', dataKey: 'exvalue' },
+          { header: 'S.No', dataKey: 'sno' },
+          { header: 'Warehouse Name', dataKey: 'warehousename' },
+          { header: 'Main Category', dataKey: 'mcategory' },
+          { header: 'EDL Type', dataKey: 'edltype' },
+          { header: 'Equipment Name', dataKey: 'eqpname' },
+          { header: 'Item Code', dataKey: 'itemcode' },
+          { header: 'Strength', dataKey: 'strengtH1' },
+          { header: 'Item Name', dataKey: 'itemname' },
+          { header: 'Expiry Month', dataKey: 'expmonth' },
+          { header: 'Month No.', dataKey: 'mon' },
+          { header: 'Exp Qty', dataKey: 'expqty' },
+          { header: 'Exp Value', dataKey: 'exvalue' },
         
         ];
       
@@ -159,7 +159,7 @@ updateSelectedHodid(): void {
         }));
       
         autoTable(doc, {
-          head: [columns.map(col => col.title)],
+          head: [columns.map(col => col.header)],
           body: rows,
           startY: 20,
           theme: 'grid',

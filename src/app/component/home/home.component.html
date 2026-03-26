@@ -45,14 +45,13 @@
         <div class="filter-field flex-grow-1">
           <h2 class="text-primary-emphasis">RC Not Valid Stock vs Tender Status (EDL Drugs) 
           </h2>
-          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)">
         </div>
         <div class="export-menu-container">
           <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
               (click)="exporter.exportTable('xlsx', { fileName: 'StockStatus', sheet: 'StockStatus', Props: { Author: 'cgmsc' }})">Excel</button>
-        
+            
             <button mat-menu-item (click)="exportToPDFRCNotValidStock()">PDF</button>
           </mat-menu>
         </div>
@@ -77,9 +76,7 @@
           <ng-container matColumnDef="cntItems">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Total<br> Drugs</th>
             <td mat-cell *matCellDef="let element" (click)="allvaluecilick('',0,element.parameterNew,'Drugs')" style="cursor: pointer;" class="text-center" > {{ element.cntItems }} 
-            <td mat-cell *matCellDef="let element" (click)="StockOutDetails(0)"> {{ element.cntItems }} 
-              <a class="btn btn-xs btn-outline-light align-items-center border-0 rounded  p-1 m-0 bg-transparent "
-              mat-button (click)="StockOutDetails(0)"></a>
+            
             </td>
           </ng-container>
           <ng-container matColumnDef="pricecnt">
@@ -119,7 +116,6 @@
 
        
         </table>
-        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
       </div>
       </ng-template>
     </div>
@@ -136,14 +132,13 @@
         <div class="filter-field flex-grow-1">
           <h2 class="text-primary-emphasis">RC Valid Stock Status(EDL Drugs)
           </h2>
-          <input type="text" class="form-control" placeholder="Filter" (keyup)="applyTextFilter1($event)">
         </div>
         <div class="export-menu-container">
           <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
               (click)="exporter.exportTable('xlsx', { fileName: 'StockStatus', sheet: 'StockStatus', Props: { Author: 'cgmsc' }})">Excel</button>
-            
+           
             <button mat-menu-item (click)="exportToPDFRCValidStock()">PDF</button>
           </mat-menu>
         </div>
@@ -189,7 +184,6 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons></mat-paginator>
       </div>
     </ng-template>
     </div>
@@ -761,7 +755,7 @@
       <div class="card-body">
         <apx-chart  class="border rounded" style="background-color: #E0E0E0;"
         [series]="chartIndent.series" [chart]="chartIndent.chart" [dataLabels]="chartIndent.dataLabels"
-        [labels]="chartIndent.labels"
+        [labels]="chartIndent.labels ?? []"
         [plotOptions]="chartIndent.plotOptions" [xaxis]="chartIndent.xaxis" [stroke]="chartIndent.stroke"
         [fill]="chartIndent.fill" [yaxis]="chartIndent.yaxis" [title]="chartIndent.title"
         [tooltip]="chartIndent.tooltip" [legend]="chartIndent.legend">
@@ -788,7 +782,7 @@
         <div class="card-body" routerLink="/stockDetails">
           <apx-chart  class="border rounded" style="background-color: #5fad56;"
           [series]="chartOptions4.series" [chart]="chartOptions4.chart" [dataLabels]="chartOptions4.dataLabels"
-          [labels]="chartOptions4.labels"
+          [labels]="chartOptions4.labels ?? []"
           [plotOptions]="chartOptions4.plotOptions" [xaxis]="chartOptions4.xaxis" [stroke]="chartOptions4.stroke"
           [fill]="chartOptions4.fill" [yaxis]="chartOptions4.yaxis" [title]="chartOptions4.title"
           [tooltip]="chartOptions4.tooltip" [legend]="chartOptions4.legend">
@@ -815,7 +809,7 @@
       <div class="card-body"  >
         <apx-chart  class="border rounded" style="background-color: #f7dad9;"
         [series]="chartStockoutdhs.series" [chart]="chartStockoutdhs.chart" [dataLabels]="chartStockoutdhs.dataLabels"
-        [labels]="chartStockoutdhs.labels"
+        [labels]="chartStockoutdhs.labels ?? []"
         [plotOptions]="chartStockoutdhs.plotOptions" [xaxis]="chartStockoutdhs.xaxis" [stroke]="chartStockoutdhs.stroke"
         [fill]="chartStockoutdhs.fill" [yaxis]="chartStockoutdhs.yaxis" [title]="chartStockoutdhs.title"
         [tooltip]="chartStockoutdhs.tooltip" [legend]="chartStockoutdhs.legend">
@@ -888,7 +882,7 @@
         <div class="card-body"(click)="getstatusDetails()">
           <apx-chart  class="border rounded" style="background-color: #e0aaff;"
           [series]="chartOptions3.series" [chart]="chartOptions3.chart" [dataLabels]="chartOptions3.dataLabels"
-          [labels]="chartOptions3.labels"
+          [labels]="chartOptions3.labels ?? []"
           [plotOptions]="chartOptions3.plotOptions" [xaxis]="chartOptions3.xaxis" [stroke]="chartOptions3.stroke"
           [fill]="chartOptions3.fill" [yaxis]="chartOptions3.yaxis" [title]="chartOptions3.title"
           [tooltip]="chartOptions3.tooltip" [legend]="chartOptions3.legend">
@@ -915,13 +909,13 @@
     <div class="col-12 col-sm-6 col-md-3 mb-3">
      <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
        <div class="card-body" routerLink="/qc-dashboard">
-         <apx-chart  class="border rounded" style="background-color: #99d98c;"
-         [series]="chartUQC.series" [chart]="chartUQC.chart" [dataLabels]="chartUQC.dataLabels"
-         [labels]="chartUQC.labels"
-         [plotOptions]="chartUQC.plotOptions" [xaxis]="chartUQC.xaxis" [stroke]="chartUQC.stroke"
-         [fill]="chartUQC.fill" [yaxis]="chartUQC.yaxis" [title]="chartUQC.title"
-         [tooltip]="chartUQC.tooltip" [legend]="chartUQC.legend">
-         </apx-chart>
+        <apx-chart  class="border rounded" style="background-color: #99d98c;"
+        [series]="chartUQC.series" [chart]="chartUQC.chart" [dataLabels]="chartUQC.dataLabels"
+        [labels]="chartUQC.labels ?? []"
+        [plotOptions]="chartUQC.plotOptions" [xaxis]="chartUQC.xaxis" [stroke]="chartUQC.stroke"
+        [fill]="chartUQC.fill" [yaxis]="chartUQC.yaxis" [title]="chartUQC.title"
+        [tooltip]="chartUQC.tooltip" [legend]="chartUQC.legend">
+        </apx-chart>
          <div class="d-flex align-items-center">
            <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
            <div>

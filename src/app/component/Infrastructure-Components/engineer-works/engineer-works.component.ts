@@ -621,17 +621,17 @@ exportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
 
-    { title: "S.No", dataKey: "sno" },
-    { title: "engName", dataKey: "engName" },
-    { title: "empid", dataKey: "empid" },
-    { title: "districtName", dataKey: "districtName" },
-    { title: "totalWorks", dataKey: "totalWorks" },
-    { title: "tvcValuecr", dataKey: "tvcValuecr" },
-    { title: "running", dataKey: "running" },
-    { title: "woIssue", dataKey: "woIssue" },
-    { title: "ladissue", dataKey: "ladissue" },
-    { title: "districtID", dataKey: "districtID" },
-    { title: "id", dataKey: "id" }
+    { header: "S.No", dataKey: "sno" },
+    { header: "engName", dataKey: "engName" },
+    { header: "empid", dataKey: "empid" },
+    { header: "districtName", dataKey: "districtName" },
+    { header: "totalWorks", dataKey: "totalWorks" },
+    { header: "tvcValuecr", dataKey: "tvcValuecr" },
+    { header: "running", dataKey: "running" },
+    { header: "woIssue", dataKey: "woIssue" },
+    { header: "ladissue", dataKey: "ladissue" },
+    { header: "districtID", dataKey: "districtID" },
+    { header: "id", dataKey: "id" }
   ];
   const rows = this.AEDistrictEngAllotedWorks.map(row => ({
     sno: row.sno,
@@ -661,17 +661,17 @@ SexportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
 
-    { title: "S.No", dataKey: "sno" },
-    { title: "engName", dataKey: "engName" },
-    { title: "empid", dataKey: "empid" },
-    { title: "districtName", dataKey: "districtName" },
-    { title: "totalWorks", dataKey: "totalWorks" },
-    { title: "tvcValuecr", dataKey: "tvcValuecr" },
-    { title: "running", dataKey: "running" },
-    { title: "woIssue", dataKey: "woIssue" },
-    { title: "ladissue", dataKey: "ladissue" },
-    { title: "districtID", dataKey: "districtID" },
-    { title: "id", dataKey: "id" }
+    { header: "S.No", dataKey: "sno" },
+    { header: "engName", dataKey: "engName" },
+    { header: "empid", dataKey: "empid" },
+    { header: "districtName", dataKey: "districtName" },
+    { header: "totalWorks", dataKey: "totalWorks" },
+    { header: "tvcValuecr", dataKey: "tvcValuecr" },
+    { header: "running", dataKey: "running" },
+    { header: "woIssue", dataKey: "woIssue" },
+    { header: "ladissue", dataKey: "ladissue" },
+    { header: "districtID", dataKey: "districtID" },
+    { header: "id", dataKey: "id" }
   ];
   const rows = this.sbuDistrictEngAllotedWorks.map(row => ({
     sno: row.sno,
@@ -701,17 +701,17 @@ subAEexportToPDF() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
     // 'sno','letterNo', 'head','aaDate','totalAmountOfContract','district','work','aaamt','tsamt','work_id',
-    { title: "S.No", dataKey: "sno" },
-    { title: "letterNo", dataKey: "letterNo" },
-    { title: "head", dataKey: "head" },
-    { title: "aaDate", dataKey: "aaDate" },
-    { title: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
-    { title: "district", dataKey: "district" },
-    { title: "work", dataKey: "work" },
-    { title: "aaamt", dataKey: "aaamt" },
-    { title: "tsamt", dataKey: "tsamt" },
-    { title: "work_id", dataKey: "work_id" },
-    // { title: "id", dataKey: "id" }
+    { header: "S.No", dataKey: "sno" },
+    { header: "letterNo", dataKey: "letterNo" },
+    { header: "head", dataKey: "head" },
+    { header: "aaDate", dataKey: "aaDate" },
+    { header: "totalAmountOfContract", dataKey: "totalAmountOfContract" },
+    { header: "district", dataKey: "district" },
+    { header: "work", dataKey: "work" },
+    { header: "aaamt", dataKey: "aaamt" },
+    { header: "tsamt", dataKey: "tsamt" },
+    { header: "work_id", dataKey: "work_id" },
+    // { header: "id", dataKey: "id" }
   ];
   const rows = this.dispatchPendings3.map(row => ({
     sno: row.sno,
@@ -824,7 +824,7 @@ onButtonClick2(ASID: any, workid: any): void {
 
 InsertUserPageViewLog() {
   try {
-    // debugger
+    // 
     const roleIdName = localStorage.getItem('roleName') || '';
     const userId = Number(sessionStorage.getItem('userid') || 0);
     const roleId = Number(sessionStorage.getItem('roleId') || 0);

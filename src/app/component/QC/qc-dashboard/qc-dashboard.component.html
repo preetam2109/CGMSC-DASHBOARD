@@ -160,7 +160,7 @@
           <div class="card-body w-100"  >
             <apx-chart  style="background-color: #e0aaff;" class="border rounded w-100"
             [series]="chartUQC.series" [chart]="chartUQC.chart" [dataLabels]="chartUQC.dataLabels"
-            [labels]="chartUQC.labels"
+            [labels]="chartUQC.labels ?? []"
             [plotOptions]="chartUQC.plotOptions" [xaxis]="chartUQC.xaxis" [stroke]="chartUQC.stroke"
             [fill]="chartUQC.fill" [yaxis]="chartUQC.yaxis" [title]="chartUQC.title"
             [tooltip]="chartUQC.tooltip" [legend]="chartUQC.legend">
@@ -255,7 +255,7 @@
           <div class="card-body w-100" routerLink="/stockDetails">
             <apx-chart  class="border rounded w-100" style="background-color: #e2eafc;"
             [series]="chartOptionsQCStages.series" [chart]="chartOptionsQCStages.chart" [dataLabels]="chartOptionsQCStages.dataLabels"
-            [labels]="chartOptionsQCStages.labels"
+            [labels]="chartOptionsQCStages.labels?? []"
             [plotOptions]="chartOptionsQCStages.plotOptions" [xaxis]="chartOptionsQCStages.xaxis" [stroke]="chartOptionsQCStages.stroke"
             [fill]="chartOptionsQCStages.fill" [yaxis]="chartOptionsQCStages.yaxis" [title]="chartOptionsQCStages.title"
             [tooltip]="chartOptionsQCStages.tooltip" [legend]="chartOptionsQCStages.legend">
@@ -282,7 +282,7 @@
         <div class="card-body w-100"  >
           <apx-chart  class="border rounded w-100" style="background-color: #f7dad9;"
           [series]="chartQCPendingAtLab.series" [chart]="chartQCPendingAtLab.chart" [dataLabels]="chartQCPendingAtLab.dataLabels"
-          [labels]="chartQCPendingAtLab.labels"
+          [labels]="chartQCPendingAtLab.labels?? []" 
           [plotOptions]="chartQCPendingAtLab.plotOptions" [xaxis]="chartQCPendingAtLab.xaxis" [stroke]="chartQCPendingAtLab.stroke"
           [fill]="chartQCPendingAtLab.fill" [yaxis]="chartQCPendingAtLab.yaxis" [title]="chartQCPendingAtLab.title"
           [tooltip]="chartQCPendingAtLab.tooltip" [legend]="chartQCPendingAtLab.legend">
@@ -421,7 +421,7 @@
         <div class="card-body w-100">
           <apx-chart  class="border rounded w-100" style="background-color: #8ab0f7;"
           [series]="chartOptionsQCHOFinalUpdate.series" [chart]="chartOptionsQCHOFinalUpdate.chart" [dataLabels]="chartOptionsQCHOFinalUpdate.dataLabels"
-          [labels]="chartOptionsQCHOFinalUpdate.labels"
+          [labels]="chartOptionsQCHOFinalUpdate.labels?? []"
           [plotOptions]="chartOptionsQCHOFinalUpdate.plotOptions" [xaxis]="chartOptionsQCHOFinalUpdate.xaxis" [stroke]="chartOptionsQCHOFinalUpdate.stroke"
           [fill]="chartOptionsQCHOFinalUpdate.fill" [yaxis]="chartOptionsQCHOFinalUpdate.yaxis" [title]="chartOptionsQCHOFinalUpdate.title"
           [tooltip]="chartOptionsQCHOFinalUpdate.tooltip" [legend]="chartOptionsQCHOFinalUpdate.legend">

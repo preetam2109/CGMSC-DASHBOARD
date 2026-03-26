@@ -137,7 +137,7 @@ export class RCDetailReportComponent implements OnInit {
 
   InsertUserPageViewLog() {
     try {
-      // debugger
+      // 
       const roleIdName = localStorage.getItem('roleName') || '';
       const userId = Number(sessionStorage.getItem('userid') || 0);
       const roleId = Number(sessionStorage.getItem('roleId') || 0);

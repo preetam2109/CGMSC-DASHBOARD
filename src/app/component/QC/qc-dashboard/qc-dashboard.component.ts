@@ -2651,10 +2651,10 @@ loadUQC(): void {
         exportToPDFQCLabPendingTracke() {
           const doc = new jsPDF('l', 'mm', 'a4');
           const columns = [
-            { title: 'S.No', dataKey: 'sno' },
-            { title: 'Lab Name', dataKey: 'labname' },
-            { title: 'With Batches', dataKey: 'withBatches' },
-            { title: 'Out Batches', dataKey: 'outBatches' },
+            { header: 'S.No', dataKey: 'sno' },
+            { header: 'Lab Name', dataKey: 'labname' },
+            { header: 'With Batches', dataKey: 'withBatches' },
+            { header: 'Out Batches', dataKey: 'outBatches' },
           ];
         
           const rows = this.qCResultPendingLabWise.map((row) => ({
@@ -2679,15 +2679,15 @@ loadUQC(): void {
        exportToPDFQCPendingMonthwiseRecDetails() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Item Name', dataKey: 'itemname' },
-    { title: 'Item Code', dataKey: 'itemcode' },
-    { title: 'Strength', dataKey: 'strength1' },
-    { title: 'Unit', dataKey: 'unit' },
-    { title: 'Month Name', dataKey: 'monthname' },
-    { title: 'Stock', dataKey: 'stk' },
-    { title: 'Stock Value', dataKey: 'stkvalue' },
-    { title: 'Category', dataKey: 'mcategory' },
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item Name', dataKey: 'itemname' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Strength', dataKey: 'strength1' },
+    { header: 'Unit', dataKey: 'unit' },
+    { header: 'Month Name', dataKey: 'monthname' },
+    { header: 'Stock', dataKey: 'stk' },
+    { header: 'Stock Value', dataKey: 'stkvalue' },
+    { header: 'Category', dataKey: 'mcategory' },
   ];
 
   const rows = this.qCPendingMonthwiseRecDetails.map((row) => ({
@@ -2716,24 +2716,24 @@ loadUQC(): void {
 exportToPDFqCPendingParticularArea() {
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Code', dataKey: 'itemcode' },
-    { title: 'Type', dataKey: 'itemtypename' },
-    { title: 'Itemname', dataKey: 'itemname' },
-    { title: 'Strength', dataKey: 'strength1' },
-    { title: 'Batch No', dataKey: 'batchno' },
-    { title: 'Nos WH', dataKey: 'noswh' },
-    { title: 'UQC Qty', dataKey: 'uqcqty' },
-    { title: 'Stock Value', dataKey: 'stockvalue' },
-    { title: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
-    { title: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
-    { title: 'Courier Pick DT', dataKey: 'courierPickDT' },
-    { title: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
-    { title: 'Lab Issue Date', dataKey: 'labissuedate' },
-    { title: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
-    { title: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
-    { title: 'Lab Result', dataKey: 'labresult' },
-    { title: 'Analysis Days', dataKey: 'analysisDays' },
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Code', dataKey: 'itemcode' },
+    { header: 'Type', dataKey: 'itemtypename' },
+    { header: 'Itemname', dataKey: 'itemname' },
+    { header: 'Strength', dataKey: 'strength1' },
+    { header: 'Batch No', dataKey: 'batchno' },
+    { header: 'Nos WH', dataKey: 'noswh' },
+    { header: 'UQC Qty', dataKey: 'uqcqty' },
+    { header: 'Stock Value', dataKey: 'stockvalue' },
+    { header: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
+    { header: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
+    { header: 'Courier Pick DT', dataKey: 'courierPickDT' },
+    { header: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
+    { header: 'Lab Issue Date', dataKey: 'labissuedate' },
+    { header: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
+    { header: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
+    { header: 'Lab Result', dataKey: 'labresult' },
+    { header: 'Analysis Days', dataKey: 'analysisDays' },
   ];
 
   const rows = this.qCPendingParticularArea.map((row) => ({
@@ -2773,23 +2773,23 @@ exportToPDFHODDetails() {
   
   const doc = new jsPDF('l', 'mm', 'a4');
   const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Item', dataKey: 'itemname' },
-    { title: 'Code', dataKey: 'itemcode' },
-    { title: 'Strength', dataKey: 'strength1' },
-    { title: 'Unit', dataKey: 'unit' },
-    { title: 'PO No', dataKey: 'pono' },
-    { title: 'SO Issue Date', dataKey: 'soissuedate' },
-    { title: 'Supplier', dataKey: 'suppliername' },
-    { title: 'Batch No', dataKey: 'batchno' },
-    { title: 'Final Rate (GST)', dataKey: 'finalrategst' },
-    { title: 'Stock Value (Lacs)', dataKey: 'stkvaluelacs' },
-    { title: 'RQty', dataKey: 'rqty' },
-    { title: 'Allot Qty', dataKey: 'allotqty' },
-    { title: 'Stock', dataKey: 'stk' },
-    { title: 'Category', dataKey: 'mcategory' },
-    { title: 'Hold Reason', dataKey: 'holdreason' },
-    { title: 'Hold Date', dataKey: 'holddate' },
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item', dataKey: 'itemname' },
+    { header: 'Code', dataKey: 'itemcode' },
+    { header: 'Strength', dataKey: 'strength1' },
+    { header: 'Unit', dataKey: 'unit' },
+    { header: 'PO No', dataKey: 'pono' },
+    { header: 'SO Issue Date', dataKey: 'soissuedate' },
+    { header: 'Supplier', dataKey: 'suppliername' },
+    { header: 'Batch No', dataKey: 'batchno' },
+    { header: 'Final Rate (GST)', dataKey: 'finalrategst' },
+    { header: 'Stock Value (Lacs)', dataKey: 'stkvaluelacs' },
+    { header: 'RQty', dataKey: 'rqty' },
+    { header: 'Allot Qty', dataKey: 'allotqty' },
+    { header: 'Stock', dataKey: 'stk' },
+    { header: 'Category', dataKey: 'mcategory' },
+    { header: 'Hold Reason', dataKey: 'holdreason' },
+    { header: 'Hold Date', dataKey: 'holddate' },
   ];
 
   const rows = this.holdItemDetails.map((row) => ({
@@ -2813,7 +2813,7 @@ exportToPDFHODDetails() {
   }));
 
   autoTable(doc, {
-    head: [columns.map(col => col.title)], // Table headers
+    head: [columns.map(col => col.header)], // Table headers
     body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
     startY: 20,
     theme: 'grid',
@@ -2850,23 +2850,23 @@ exportToPDFPendingTracker() {
   const doc = new jsPDF('l', 'mm', 'a4');
 
   const columns = [
-    { title: 'S.No', dataKey: 'sno' },
-    { title: 'Item Code', dataKey: 'itemcode' },
-    { title: 'Item Type Name', dataKey: 'itemtypename' },
-    { title: 'Strength', dataKey: 'strength1' },
-    { title: 'Batch No', dataKey: 'batchno' },
-    { title: 'Nos WH', dataKey: 'noswh' },
-    { title: 'UQC Qty', dataKey: 'uqcqty' },
-    { title: 'Stock Value', dataKey: 'stockvalue' },
-    { title: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
-    { title: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
-    { title: 'Courier Pick DT', dataKey: 'courierPickDT' },
-    { title: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
-    { title: 'Lab Issue Date', dataKey: 'labissuedate' },
-    { title: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
-    { title: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
-    { title: 'Lab Result', dataKey: 'labresult' },
-    { title: 'Analysis Days', dataKey: 'analysisDays' },
+    { header: 'S.No', dataKey: 'sno' },
+    { header: 'Item Code', dataKey: 'itemcode' },
+    { header: 'Item Type Name', dataKey: 'itemtypename' },
+    { header: 'Strength', dataKey: 'strength1' },
+    { header: 'Batch No', dataKey: 'batchno' },
+    { header: 'Nos WH', dataKey: 'noswh' },
+    { header: 'UQC Qty', dataKey: 'uqcqty' },
+    { header: 'Stock Value', dataKey: 'stockvalue' },
+    { header: 'Warehouse Rec DT', dataKey: 'warehouseRecDT' },
+    { header: 'WH QC Issue DT', dataKey: 'whqcIssueDT' },
+    { header: 'Courier Pick DT', dataKey: 'courierPickDT' },
+    { header: 'Sample Receipt In HO DT', dataKey: 'sampleReceiptInHODT' },
+    { header: 'Lab Issue Date', dataKey: 'labissuedate' },
+    { header: 'Lab Receipt DT', dataKey: 'lAbReceiptDT' },
+    { header: 'HO QC Report Rec DT', dataKey: 'hoqcReportRecDT' },
+    { header: 'Lab Result', dataKey: 'labresult' },
+    { header: 'Analysis Days', dataKey: 'analysisDays' },
   ];
 
   const rows = this.qCPendingParticularArea.map((row) => ({
@@ -2890,7 +2890,7 @@ exportToPDFPendingTracker() {
   }));
 
   autoTable(doc, {
-    head: [columns.map(col => col.title)], // Table headers
+    head: [columns.map(col => col.header)], // Table headers
     body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), // Table rows
     startY: 20,
     theme: 'grid',
@@ -2966,7 +2966,7 @@ exportToBeTenderDetails() {
 
 InsertUserPageViewLog() {
   try {
-    // debugger
+    // 
     const roleIdName = localStorage.getItem('roleName') || '';
     const userId = Number(sessionStorage.getItem('userid') || 0);
     const roleId = Number(sessionStorage.getItem('roleId') || 0);

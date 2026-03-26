@@ -304,16 +304,16 @@ export class ReagentIndentPendingWhComponent {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "warehousename", dataKey: "warehousename" },
-      { title: "districtname", dataKey: "districtname" },
-      { title: "facilityname", dataKey: "facilityname" },
-      { title: "eqpname", dataKey: "eqpname" },
-      { title: "make", dataKey: "make" },
-      { title: "model", dataKey: "model" },
-      { title: "indentvalue", dataKey: "indentvalue" },
-      { title: "indentdt", dataKey: "indentdt" },
-      { title: "nocnumber", dataKey: "nocnumber" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "warehousename", dataKey: "warehousename" },
+      { header: "districtname", dataKey: "districtname" },
+      { header: "facilityname", dataKey: "facilityname" },
+      { header: "eqpname", dataKey: "eqpname" },
+      { header: "make", dataKey: "make" },
+      { header: "model", dataKey: "model" },
+      { header: "indentvalue", dataKey: "indentvalue" },
+      { header: "indentdt", dataKey: "indentdt" },
+      { header: "nocnumber", dataKey: "nocnumber" }
     ];
     const rows = this.dispatchPendings.map(row => ({
       sno: row.sno,

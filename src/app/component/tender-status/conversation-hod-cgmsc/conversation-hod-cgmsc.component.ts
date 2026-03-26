@@ -141,20 +141,20 @@ this.InsertUserPageViewLog();
         const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
       
         const columns = [
-          { title: 'S.No', dataKey: 'sno' },
-          { title: 'Scheme Name', dataKey: 'schemeName' },
-          { title: 'HOD', dataKey: 'hod' },
-          { title: 'Letter No', dataKey: 'letterNo' },
-          { title: 'Letter Date', dataKey: 'letterDate' },
-          { title: 'Remarks', dataKey: 'remarks' },
-          { title: 'Send Date', dataKey: 'sendDate' },
-          { title: 'Entry Date', dataKey: 'entryDate' },
-          { title: 'File Path', dataKey: 'filePath' },
-          { title: 'Received Date', dataKey: 'recvDate' },
-          { title: 'Reply Letter No', dataKey: 'replyLetterNo' },
-          { title: 'Reply Letter Date', dataKey: 'replyLetterDT' },
-          { title: 'Reply Remarks', dataKey: 'replyRemarks' },
-          { title: 'Reply File Path', dataKey: 'replyFilePath' }
+          { header: 'S.No', dataKey: 'sno' },
+          { header: 'Scheme Name', dataKey: 'schemeName' },
+          { header: 'HOD', dataKey: 'hod' },
+          { header: 'Letter No', dataKey: 'letterNo' },
+          { header: 'Letter Date', dataKey: 'letterDate' },
+          { header: 'Remarks', dataKey: 'remarks' },
+          { header: 'Send Date', dataKey: 'sendDate' },
+          { header: 'Entry Date', dataKey: 'entryDate' },
+          { header: 'File Path', dataKey: 'filePath' },
+          { header: 'Received Date', dataKey: 'recvDate' },
+          { header: 'Reply Letter No', dataKey: 'replyLetterNo' },
+          { header: 'Reply Letter Date', dataKey: 'replyLetterDT' },
+          { header: 'Reply Remarks', dataKey: 'replyRemarks' },
+          { header: 'Reply File Path', dataKey: 'replyFilePath' }
         ];
       
         const rows = this.dataSource.data.map((row: any, index: number) => ({
@@ -218,7 +218,7 @@ this.InsertUserPageViewLog();
 
       InsertUserPageViewLog() {
         try {
-          // debugger
+          // 
           const roleIdName = localStorage.getItem('roleName') || '';
           const userId = Number(sessionStorage.getItem('userid') || 0);
           const roleId = Number(sessionStorage.getItem('roleId') || 0);

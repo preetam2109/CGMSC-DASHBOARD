@@ -421,13 +421,13 @@ export class  IndentPendingWHComponent {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "nocnumber", dataKey: "nocnumber" },
-      { title: "warehousename", dataKey: "warehousename" },
-      { title: "facilityname", dataKey: "facilityname" },
-      { title: "nositems", dataKey: "nositems" },
-      { title: "inddt", dataKey: "inddt" },
-      { title: "pendingday", dataKey: "pendingday" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "nocnumber", dataKey: "nocnumber" },
+      { header: "warehousename", dataKey: "warehousename" },
+      { header: "facilityname", dataKey: "facilityname" },
+      { header: "nositems", dataKey: "nositems" },
+      { header: "inddt", dataKey: "inddt" },
+      { header: "pendingday", dataKey: "pendingday" }
     ];
     const rows = this.dispatchPendings.map(row => ({
       sno: row.sno,

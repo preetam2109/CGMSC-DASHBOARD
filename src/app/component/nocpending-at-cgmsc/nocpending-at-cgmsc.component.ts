@@ -35,13 +35,13 @@ export class NOCPendingAtCGMSCComponent {
   
     // Define columns for the PDF table according to the new fields
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Facility ID", dataKey: "facilityid" },
-      { title: "No. of Items", dataKey: "nositems" },
-      { title: "NOC Number", dataKey: "nocnumber" },
-      { title: "CMHO Forward Date", dataKey: "cmhoforwarddt" },
-      { title: "Facility Name", dataKey: "facilityname" },
-      { title: "District Name", dataKey: "districtname" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "Facility ID", dataKey: "facilityid" },
+      { header: "No. of Items", dataKey: "nositems" },
+      { header: "NOC Number", dataKey: "nocnumber" },
+      { header: "CMHO Forward Date", dataKey: "cmhoforwarddt" },
+      { header: "Facility Name", dataKey: "facilityname" },
+      { header: "District Name", dataKey: "districtname" }
     ];
   
     // Map the rows
@@ -83,26 +83,26 @@ export class NOCPendingAtCGMSCComponent {
   
     // Define columns for the PDF table according to the new fields
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "SR", dataKey: "sr" },
-      { title: "Facility Name", dataKey: "facilityname" },
-      { title: "Item Code", dataKey: "itemcode" },
-      { title: "Item Name", dataKey: "itemname" },
-      { title: "Strength", dataKey: "strengtH1" },
-      { title: "Unit", dataKey: "unit" },
-      { title: "Applied Qty", dataKey: "appliedqty" },
-      { title: "CMHO Approved Qty", dataKey: "cmhoaprqty" },
-      { title: "CMHO Forward Date", dataKey: "cmhoForwardDT" },
-      { title: "Ready WH", dataKey: "readywh" },
-      { title: "UQC WH", dataKey: "uqcwh" },
-      { title: "Transfer Qty", dataKey: "transferqty" },
-      { title: "UQC Total", dataKey: "uqcTotal" },
-      { title: "Total Ready CGMSC", dataKey: "totalreadycgmsc" },
-      { title: "Transfer Date", dataKey: "tdate" },
-      { title: "District Name", dataKey: "districtname" },
-      { title: "NOC Number", dataKey: "nocnumber" },
-      { title: "NOC ID", dataKey: "nocid" },
-      { title: "Facility ID", dataKey: "facilityid" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "SR", dataKey: "sr" },
+      { header: "Facility Name", dataKey: "facilityname" },
+      { header: "Item Code", dataKey: "itemcode" },
+      { header: "Item Name", dataKey: "itemname" },
+      { header: "Strength", dataKey: "strengtH1" },
+      { header: "Unit", dataKey: "unit" },
+      { header: "Applied Qty", dataKey: "appliedqty" },
+      { header: "CMHO Approved Qty", dataKey: "cmhoaprqty" },
+      { header: "CMHO Forward Date", dataKey: "cmhoForwardDT" },
+      { header: "Ready WH", dataKey: "readywh" },
+      { header: "UQC WH", dataKey: "uqcwh" },
+      { header: "Transfer Qty", dataKey: "transferqty" },
+      { header: "UQC Total", dataKey: "uqcTotal" },
+      { header: "Total Ready CGMSC", dataKey: "totalreadycgmsc" },
+      { header: "Transfer Date", dataKey: "tdate" },
+      { header: "District Name", dataKey: "districtname" },
+      { header: "NOC Number", dataKey: "nocnumber" },
+      { header: "NOC ID", dataKey: "nocid" },
+      { header: "Facility ID", dataKey: "facilityid" }
     ];
   
     // Map the rows

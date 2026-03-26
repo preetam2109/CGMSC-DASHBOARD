@@ -35,16 +35,29 @@ export class MenuServiceService {
             label: 'Oracle Analytics',
             route: '',   // 👈 empty string or '/welcome' as placeholder
             submenu: [
+
+               { label: 'Tender/RC Position', route: '/rcpoplanning' },
+        { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
+        { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
               { label: 'Tender Status', route: '/oracle-dashboard' },
-              { label: 'Tender Management', route: '/tender-management' },
-              { label: 'Inventory Management', route: '/inventory-management' },
-              { label: 'PO Planning', route: '/po-planning-oracle' },
-              { label: 'Current Stock', route: '/CurrentStockOracle' },
-              { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
+        { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+
+              // { label: 'Tender Management', route: '/tender-management' },
+              // { label: 'Inventory Management', route: '/inventory-management' },
+              // { label: 'PO Planning', route: '/po-planning-oracle' },
+              // { label: 'Current Stock', route: '/CurrentStockOracle' },
+              // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
+              { label: 'Expired Items', route: '/Expired-Items-Oracle'},
               { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
-              { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
-              { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
-              { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+        { label: 'Pipeline Status', route: '/PipelineStatusOracle'},
+        { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle'},
+        
+        { label: 'Payment Status Insights', route: '/PayementStatusInsightsOracle'},
+
+
+              // { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
+              // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
+              // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
               { label: 'Facility Information', route: '/FacilityInformationOracle'},
             ]
           },
@@ -65,7 +78,7 @@ export class MenuServiceService {
           { label: 'Payments Pending', route: '/FitUnFit' },
           { label: 'Analysis', route: '/analysis' },
           // { label: 'Attendance', route: '/attendance-dash' },
-          { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
+          // { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
           { label: 'Tender Status', route: '/tender-status' },
           { label: 'QC Insights ', route: '/qc-dashboard' },
           { label: 'Hold Batch History', route: '/holdbatchhistory' },
@@ -234,8 +247,28 @@ export class MenuServiceService {
       items: [
         
         
-        { label: 'Home', route: '/home' },
+        // { label: 'Home', route: '/home' },
         { label: 'Dashboard', route: '/welcome' },
+        {
+            label: 'Oracle Analytics',
+            route: '',   // 👈 empty string or '/welcome' as placeholder
+            submenu: [
+
+               { label: 'Tender/RC Position', route: '/rcpoplanning' },
+        { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
+              { label: 'Tender Status', route: '/oracle-dashboard' },
+              // { label: 'Tender Management', route: '/tender-management' },
+              // { label: 'Inventory Management', route: '/inventory-management' },
+              // { label: 'PO Planning', route: '/po-planning-oracle' },
+              // { label: 'Current Stock', route: '/CurrentStockOracle' },
+              // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
+              { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
+              { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
+              // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
+              // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+              { label: 'Facility Information', route: '/FacilityInformationOracle'},
+            ]
+          },
         
         { label: 'DHS Dashboard', route: '/dhsdash' },
         { label: 'CME Dashboard', route: '/cmedash' },
@@ -1127,16 +1160,25 @@ export class MenuServiceService {
 
       // ],
       'Oracle Analytics':[
+               { label: 'Tender/RC Position', route: '/rcpoplanning' },
+        { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
+        // { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
         { label: 'Tender Status', route: '/oracle-dashboard' },
-        { label: 'Tender Management', route: '/tender-management' },
-        { label: 'Inventory Management', route: '/inventory-management' },
-        { label: 'PO Planning', route: '/po-planning-oracle' },
-        { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
+        { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+        { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
+        // { label: 'Tender Management', route: '/tender-management' },
+        // { label: 'Inventory Management', route: '/inventory-management' },
+        // { label: 'PO Planning', route: '/po-planning-oracle' },
+        // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
+        { label: 'Expired Items', route: '/Expired-Items-Oracle'},
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
-        { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
-        { label: 'Current Stock', route: '/CurrentStockOracle' },
-        { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
-        { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+        { label: 'Pipeline Status', route: '/PipelineStatusOracle'},
+        { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle'},
+        { label: 'Payment Status Insights', route: '/PayementStatusInsightsOracle'},
+        // { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
+        // { label: 'Current Stock', route: '/CurrentStockOracle' },
+        // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
+        // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
         { label: 'Facility Information', route: '/FacilityInformationOracle'},
 
       ],

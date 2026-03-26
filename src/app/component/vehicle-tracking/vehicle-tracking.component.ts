@@ -219,14 +219,14 @@ const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy
   // Add the date and time to the top-left corner
   doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Number PLate", dataKey: "vplateno" },
-      { title: "Direction", dataKey: "direction" },
-      { title: "Vehicle DT", dataKey: "vdate" },
-      { title: "Entry DT", dataKey: "entrydate" },
-      { title: "Camera ID", dataKey: "camid" },
-      { title: "WH Id", dataKey: "warehouseid" },
-      { title: "Warehouse", dataKey: "warehousename" },
+      { header: "S.No", dataKey: "sno" },
+      { header: "Number PLate", dataKey: "vplateno" },
+      { header: "Direction", dataKey: "direction" },
+      { header: "Vehicle DT", dataKey: "vdate" },
+      { header: "Entry DT", dataKey: "entrydate" },
+      { header: "Camera ID", dataKey: "camid" },
+      { header: "WH Id", dataKey: "warehouseid" },
+      { header: "Warehouse", dataKey: "warehousename" },
     ];
     
     const rows = this.vehicleInfo.map(row => ({
@@ -257,7 +257,7 @@ const formattedEndDate = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy
 
   InsertUserPageViewLog() {
     try {
-      // debugger
+      // 
       const roleIdName = localStorage.getItem('roleName') || '';
       const userId = Number(sessionStorage.getItem('userid') || 0);
       const roleId = Number(sessionStorage.getItem('roleId') || 0);

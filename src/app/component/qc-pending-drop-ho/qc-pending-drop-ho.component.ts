@@ -34,12 +34,12 @@ export class QcPendingDropHoComponent {
   
     // Define columns based on table header
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Warehouse Name", dataKey: "warehousename" },
-      { title: "Q Docket No", dataKey: "qdocketno" },
-      { title: "Pick Date", dataKey: "pickdate" },
-      { title: "Weight", dataKey: "weight" },
-      { title: "Days Since Pick Date", dataKey: "dayS_SINCE_PICKDATE" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "Warehouse Name", dataKey: "warehousename" },
+      { header: "Q Docket No", dataKey: "qdocketno" },
+      { header: "Pick Date", dataKey: "pickdate" },
+      { header: "Weight", dataKey: "weight" },
+      { header: "Days Since Pick Date", dataKey: "dayS_SINCE_PICKDATE" }
     ];
   
     // Map rows data for the PDF export
@@ -79,11 +79,11 @@ export class QcPendingDropHoComponent {
   
     // Define columns based on the table header
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Warehouse Name", dataKey: "warehousename" },
-      { title: "Item Name", dataKey: "itemname" },
-      { title: "Batch No", dataKey: "batchno" },
-      { title: "Q Docket No", dataKey: "qdocketno" },
+      { header: "S.No", dataKey: "sno" },
+      { header: "Warehouse Name", dataKey: "warehousename" },
+      { header: "Item Name", dataKey: "itemname" },
+      { header: "Batch No", dataKey: "batchno" },
+      { header: "Q Docket No", dataKey: "qdocketno" },
     ];
   
     // Map rows data for the PDF export

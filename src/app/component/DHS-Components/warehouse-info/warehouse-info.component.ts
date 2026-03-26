@@ -148,16 +148,16 @@ export class WarehouseInfoComponent implements OnInit {
 
     // Define table columns and rows
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Warehouse", dataKey: "warehousename" },
-      { title: "nosfac", dataKey: "nosfac" },
-      { title: "address", dataKey: "address" },
-      { title: "email", dataKey: "email" },
-      { title: "latitude", dataKey: "latitude" },
-      { title: "longitude", dataKey: "longitude" },
-      { title: "nosvehicle", dataKey: "nosvehicle" },
-      { title: "nosdist", dataKey: "nosdist" },
-      { title: "moB1", dataKey: "moB1" },
+      { header: "S.No", dataKey: "sno" },
+      { header: "Warehouse", dataKey: "warehousename" },
+      { header: "nosfac", dataKey: "nosfac" },
+      { header: "address", dataKey: "address" },
+      { header: "email", dataKey: "email" },
+      { header: "latitude", dataKey: "latitude" },
+      { header: "longitude", dataKey: "longitude" },
+      { header: "nosvehicle", dataKey: "nosvehicle" },
+      { header: "nosdist", dataKey: "nosdist" },
+      { header: "moB1", dataKey: "moB1" },
     ];
 
     const rows = this.warehouseInfo.map((row) => ({
@@ -186,7 +186,7 @@ export class WarehouseInfoComponent implements OnInit {
   
   InsertUserPageViewLog() {
     try {
-      // debugger
+      // 
       const roleIdName = localStorage.getItem('roleName') || '';
       const userId = Number(sessionStorage.getItem('userid') || 0);
       const roleId = Number(sessionStorage.getItem('roleId') || 0);

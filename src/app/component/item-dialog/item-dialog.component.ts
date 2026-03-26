@@ -128,22 +128,22 @@ export class ItemDialogComponent {
     doc.text(`Date: ${dateString} Time: ${timeString}`, 14, 15);
 
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "rcstatus", dataKey: "rcstatus" },
-      { title: "rcrate", dataKey: "rcrate" },
-      { title: "rcstartdt", dataKey: "rcstartdt" },
-      { title: "rcenddt", dataKey: "rcenddt" },
-      { title: "dhsai", dataKey: "dhsai" },
-      { title: "dhsissue", dataKey: "dhsissue" },
-      { title: "dhspoqty", dataKey: "dhspoqty" },
-      { title: "dhsrqty", dataKey: "dhsrqty" },
-      { title: "dmeai", dataKey: "dmeai" },
-      { title: "dmeissue", dataKey: "dmeissue" },
-      { title: "dmepoqty", dataKey: "dmepoqty" },
-      { title: "dmerqty", dataKey: "dmerqty" },
-      { title: "readystock", dataKey: "readystock" },
-      { title: "qcstoc", dataKey: "qcstoc" },
-      { title: "dhsissue", dataKey: "dhsissue" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "rcstatus", dataKey: "rcstatus" },
+      { header: "rcrate", dataKey: "rcrate" },
+      { header: "rcstartdt", dataKey: "rcstartdt" },
+      { header: "rcenddt", dataKey: "rcenddt" },
+      { header: "dhsai", dataKey: "dhsai" },
+      { header: "dhsissue", dataKey: "dhsissue" },
+      { header: "dhspoqty", dataKey: "dhspoqty" },
+      { header: "dhsrqty", dataKey: "dhsrqty" },
+      { header: "dmeai", dataKey: "dmeai" },
+      { header: "dmeissue", dataKey: "dmeissue" },
+      { header: "dmepoqty", dataKey: "dmepoqty" },
+      { header: "dmerqty", dataKey: "dmerqty" },
+      { header: "readystock", dataKey: "readystock" },
+      { header: "qcstoc", dataKey: "qcstoc" },
+      { header: "dhsissue", dataKey: "dhsissue" }
     ];
 
     const rows = this.dataSource.data.map((row, index) => ({

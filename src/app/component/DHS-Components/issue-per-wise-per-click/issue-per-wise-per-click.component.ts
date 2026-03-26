@@ -123,20 +123,20 @@ this.orderdp=params['orderdp']
     doc.text(`Date: ${dateString} Time: ${timeString}`, 10, 10); // Top-left at position X=10, Y=10
     
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Code", dataKey: "itemcode" },
-      { title: "Type", dataKey: "itemtypename" },
-      { title: "Item", dataKey: "itemname" },
-      { title: "Strength", dataKey: "strengtH1" },
-      { title: "Unit", dataKey: "unit" },
-      { title: "AI", dataKey: "ai" },
-      { title: "Issued", dataKey: "issued" },
-      { title: "issup", dataKey: "issup" },
-      { title: "percentage", dataKey: "percentage" },
-      { title: "orderdp", dataKey: "orderdp" },
-      { title: "readystk", dataKey: "readystk" },
-      { title: "uqcstk", dataKey: "uqcstk" },
-      { title: "totlpipeline", dataKey: "totlpipeline" },
+      { header: "S.No", dataKey: "sno" },
+      { header: "Code", dataKey: "itemcode" },
+      { header: "Type", dataKey: "itemtypename" },
+      { header: "Item", dataKey: "itemname" },
+      { header: "Strength", dataKey: "strengtH1" },
+      { header: "Unit", dataKey: "unit" },
+      { header: "AI", dataKey: "ai" },
+      { header: "Issued", dataKey: "issued" },
+      { header: "issup", dataKey: "issup" },
+      { header: "percentage", dataKey: "percentage" },
+      { header: "orderdp", dataKey: "orderdp" },
+      { header: "readystk", dataKey: "readystk" },
+      { header: "uqcstk", dataKey: "uqcstk" },
+      { header: "totlpipeline", dataKey: "totlpipeline" },
 
      
     ];

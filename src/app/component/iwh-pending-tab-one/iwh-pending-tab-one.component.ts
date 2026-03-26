@@ -461,16 +461,16 @@ export class IwhPendingTabOneComponent {
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape, A4 size
     const columns = [
-      { title: "S.No", dataKey: "sno" },
-      { title: "Item Code", dataKey: "itemcode" },
-      { title: "Item Name", dataKey: "itemname" },
-      { title: "Unit", dataKey: "unit" },
-      { title: "Transfer Qty", dataKey: "transferqty" },
-      { title: "From Warehouse", dataKey: "fromwarehousename" },
-      { title: "To Warehouse", dataKey: "towarehousename" },
-      { title: "Pending Since", dataKey: "pendingsince" },
-      { title: "Initiated Date", dataKey: "initiateddt" },
-      { title: "Transfer No", dataKey: "transferno" }
+      { header: "S.No", dataKey: "sno" },
+      { header: "Item Code", dataKey: "itemcode" },
+      { header: "Item Name", dataKey: "itemname" },
+      { header: "Unit", dataKey: "unit" },
+      { header: "Transfer Qty", dataKey: "transferqty" },
+      { header: "From Warehouse", dataKey: "fromwarehousename" },
+      { header: "To Warehouse", dataKey: "towarehousename" },
+      { header: "Pending Since", dataKey: "pendingsince" },
+      { header: "Initiated Date", dataKey: "initiateddt" },
+      { header: "Transfer No", dataKey: "transferno" }
     ];
   
     const rows = this.dispatchPendings.map((row, index) => ({

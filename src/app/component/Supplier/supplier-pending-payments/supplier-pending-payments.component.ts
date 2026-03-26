@@ -131,11 +131,11 @@ export class SupplierPendingPaymentsComponent {
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape
   
     const columns = [
-      { title: 'S.No', dataKey: 'sno' },
-      // { title: 'Supplier ID', dataKey: 'supplierid' },
-      { title: 'Supplier', dataKey: 'suppliername' },
-      { title: 'No. of POs', dataKey: 'nosPO' },
-      { title: 'Received/Liberated (Lacs)', dataKey: 'recLibLacs' }
+      { header: 'S.No', dataKey: 'sno' },
+      // { header: 'Supplier ID', dataKey: 'supplierid' },
+      { header: 'Supplier', dataKey: 'suppliername' },
+      { header: 'No. of POs', dataKey: 'nosPO' },
+      { header: 'Received/Liberated (Lacs)', dataKey: 'recLibLacs' }
     ];
   
     // Replace this with your actual API data
@@ -148,7 +148,7 @@ export class SupplierPendingPaymentsComponent {
     }));
   
     autoTable(doc, {
-      head: [columns.map(col => col.title)],
+      head: [columns.map(col => col.header)],
       body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
       startY: 20,
       theme: 'grid',
@@ -178,7 +178,7 @@ export class SupplierPendingPaymentsComponent {
 
   InsertUserPageViewLog() {
     try {
-      // debugger
+      // 
       const roleIdName = localStorage.getItem('roleName') || '';
       const userId = Number(sessionStorage.getItem('userid') || 0);
       const roleId = Number(sessionStorage.getItem('roleId') || 0);
