@@ -93,7 +93,7 @@ distid=0;
 constructor(public api: ApiService, public spinner: NgxSpinnerService,private cdr: ChangeDetectorRef, private fb: FormBuilder,private location: Location,
   public datePipe: DatePipe,private dialog: MatDialog, private toastr: ToastrService,){
     this.pageName = this.location.path();
-this.fullUrl = window.location.href;
+    this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<AEDistrictEngAllotedWorks>([]);
     this.dataSource1 = new MatTableDataSource<sbuDistrictEngAllotedWorks>([]);
     this.dataSource3 = new MatTableDataSource<WorkDetailsWithEng>([]);
