@@ -682,12 +682,12 @@ export class ApiService {
 
   GETWORunningHandDetails(did: any, divisionId: any, distId: number, mainSchemeId: any,contractorid:any,ASAmount:any) {
     return this.http.get<WORunningHandDetails[]>(`${this.apiUrl}/DetailProgress/WORunningHandDetails?did=${did}&divisionid=${divisionId}&districtid=${distId}&mainSchemeId=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/WORunningHandDetails?did=3001&divisionid=0&districtid=0&mainschemeid=0
+    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/WORunningHandDetails?did=3001&divisionid=0&districtid=0&mainschemeid=0&contractorid=0&ASAmount=1
     // WORunningHandDetails
   }
   GETLandIssueRetToDeptDetatails(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
     return this.http.get<LandIssue_RetToDeptDetatails[]>(`${this.apiUrl}/DetailProgress/LandIssue_RetToDeptDetatails?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/LandIssue_RetToDeptDetatails?did=6001&divisionid=0&districtid=0&mainschemeid=0
+    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/LandIssue_RetToDeptDetatails?did=6001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=1
   }
   GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
@@ -695,7 +695,7 @@ export class ApiService {
   }
   GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TenderInProcess?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TenderInProcess?did=2001&divisionid=0&districtid=0&mainschemeid=0
+    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TenderInProcess?did=2001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=1
   }
   GET_TotalWorksAbstract(divisionId: any,districtid:any,mainSchemeId: any, contractorid:any,ASAmount:any) {
     // ;
