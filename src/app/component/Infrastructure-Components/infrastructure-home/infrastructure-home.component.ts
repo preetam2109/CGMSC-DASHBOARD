@@ -120,6 +120,7 @@ export class InfrastructureHomeComponent {
   dataSource3!: MatTableDataSource<TenderInProcess>;
   dataSource4!: MatTableDataSource<TotalWorksAbstract>;
   // dataSourceDivision!: MatTableDataSource<DivisionWiseASPendingDetails>;
+  @ViewChild('openimages') openimages: any;
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
   @ViewChild('itemDetailsModal2') itemDetailsModal2: any;
@@ -1060,7 +1061,7 @@ this.openDialogTW();
             sno: index + 1,
           })
         );
-        // console.log('Run_Work=:', this.dispatchDataRun_Work);
+        console.log('Run_Work=:', this.dispatchDataRun_Work);
         this.dataSourceRun_Work.data = this.dispatchDataRun_Work;
         this.dataSourceRun_Work.paginator = this.paginatorRun_Work;
         this.dataSourceRun_Work.sort = this.sortRun_Work;
@@ -2352,12 +2353,13 @@ expor_PDFRturntoD() {
   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
       this.api.GetDistrict(false,this.divisionid).subscribe( (res: any) => {
         if (res && res.length > 0) {
-          this.GetDistrict  = res.map((item: { districT_ID: any; districtname: any;diV_ID:any }) => ({
-            districT_ID: item.districT_ID, // Adjust key names if needed
-            districtname : item.districtname,  
-            diV_ID : item.diV_ID,  
-          }));
-          // console.log('mainscheme :', this.mainscheme);
+          this.GetDistrict =res;
+          // this.GetDistrict  = res.map((item: { districT_ID: any; districtname: any;diV_ID:any }) => ({
+          //   districT_ID: item.districT_ID, 
+          //   districtname : item.districtname,  
+          //   diV_ID : item.diV_ID,  
+          // }));
+          // console.log('this.GetDistrict  :', this.GetDistrict );
           } else {
             console.error('No name found or incorrect structure:', res);
           }
@@ -2545,42 +2547,45 @@ InsertUserPageViewLog() {
 }
 
 
-// 1. Base URL ko folder level tak rakhein
-readonly imageBaseUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+selectedWork: any;
+imageUrls: string[] = [];
 
-onopenimges(wid: any, imagename: any) {
-  // debugger
-  // Agar imagename null ya empty hai toh alert dikhayein
-  if (!imagename || imagename === 'null' || imagename === 'NA') {
-    alert("Is Work ID (" + wid + ") image not available");
-    return;
+onopenimges(element: any) {
+  // debugger;
+  this.selectedWork = element; 
+  this.imageUrls = [];
+
+  const imageKeys = ['imagename', 'imagenamE2', 'imagenamE3', 'imagenamE4', 'imagenamE5'];
+  
+  imageKeys.forEach(key => {
+    const imgFile = element[key];
+    if (imgFile && imgFile !== 'NA' && imgFile !== 'null') {
+      this.imageUrls.push(this.baseImageUrl + imgFile);
+    }
+  });
+
+  if (this.imageUrls.length === 0) {
+    this.imageUrls.push('assets/no-image-placeholder.png'); 
   }
 
-  // 2. Full URL banayein
-  const fullPath = this.imageBaseUrl + imagename;
-
-  // 3. Naye tab/window mein open karein
-  // '_blank' ka matlab hai naya tab
-  window.open(fullPath, '_blank');
+  this.openimages1();
 }
 
-
-// imageName: string = 'W4400269_Image1_68.jpg'; // Ye API se aayega, example: 'W4400269_Image1_68.jpg'
-fullImageUrl: string = '';
-
-updateImagePath(imgName: string) {
-  // debugger
-    if (imgName && imgName !== 'NA') {
-        // this.imageName = imgName;
-        this.fullImageUrl = this.imageBaseUrl + imgName;
-    } else {
-        this.fullImageUrl = 'assets/no-image.png'; 
-    }
+openimages1() {
+  this.dialog.open(this.openimages, {
+    width: '80%', 
+    maxWidth: '100vw',
+    panelClass: 'custom-dialog-container'
+  });
 }
+
 
 onImageError(event: any) {
     event.target.src = 'https://via.placeholder.com/450x450?text=Image+Not+Found';
 }
+  
+
 }
 
  
