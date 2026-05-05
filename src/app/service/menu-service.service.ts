@@ -58,6 +58,8 @@ export class MenuServiceService {
         { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights'},
         { label: 'Inward Analytics & Insights', route: '/inward-analytics-and-insights'},
         { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights'},
+        { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
+
               
               // { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
               // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
@@ -1188,6 +1190,8 @@ export class MenuServiceService {
         { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights'},
         { label: 'Inward Analytics & Insights', route: '/inward-analytics-and-insights'},
         { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights'},
+        { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
+
 
         { label: 'Facility Information', route: '/FacilityInformationOracle'},
 

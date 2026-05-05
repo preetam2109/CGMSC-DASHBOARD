@@ -166,6 +166,7 @@ import { SecurityDepositReleasedMonitoring } from './component/ORACLE-DASHBOARD/
 import { EMdMonitoringAndInsights } from './component/ORACLE-DASHBOARD/emd-monitoring-and-insights/emd-monitoring-and-insights';
 import { InwardAnalyticsAndInsights } from './component/ORACLE-DASHBOARD/inward-analytics-and-insights/inward-analytics-and-insights';
 import { SDAcknowledgementInsights } from './component/ORACLE-DASHBOARD/sdacknowledgement-insights/sdacknowledgement-insights';
+import { ExecutiveSupplyChain } from './component/ORACLE-DASHBOARD/executive-supply-chain/executive-supply-chain';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -424,8 +425,7 @@ const routes: Routes = [
 {path:'EMDMonitoringAndInsights',component:EMdMonitoringAndInsights,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
 {path:'inward-analytics-and-insights',component:InwardAnalyticsAndInsights,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
 {path:'sdacknowledgement-insights',component:SDAcknowledgementInsights,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
-
-
+{path:'ExecutiveSupplyChain',component:ExecutiveSupplyChain,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
 
 //#region public view 
 
