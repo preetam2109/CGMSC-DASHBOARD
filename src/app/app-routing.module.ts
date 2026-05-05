@@ -161,6 +161,11 @@ import { ExpiredItems } from './component/ORACLE-DASHBOARD/expired-items/expired
 import { WarehouseStockOracle } from './component/ORACLE-DASHBOARD/warehouse-stock-oracle/warehouse-stock-oracle';
 import { PayementStatusInsights } from './component/ORACLE-DASHBOARD/payement-status-insights/payement-status-insights';
 import { SupplierPipelinevsStockPosition } from './component/ORACLE-DASHBOARD/supplier-pipelinevs-stock-position/supplier-pipelinevs-stock-position';
+import { SecurityDepositPendingMonitoring } from './component/ORACLE-DASHBOARD/security-deposit-pending-monitoring/security-deposit-pending-monitoring';
+import { SecurityDepositReleasedMonitoring } from './component/ORACLE-DASHBOARD/security-deposit-released-monitoring/security-deposit-released-monitoring';
+import { EMdMonitoringAndInsights } from './component/ORACLE-DASHBOARD/emd-monitoring-and-insights/emd-monitoring-and-insights';
+import { InwardAnalyticsAndInsights } from './component/ORACLE-DASHBOARD/inward-analytics-and-insights/inward-analytics-and-insights';
+import { SDAcknowledgementInsights } from './component/ORACLE-DASHBOARD/sdacknowledgement-insights/sdacknowledgement-insights';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -414,8 +419,11 @@ const routes: Routes = [
 {path:'interwarehousealertplanning',component:InterWarehouseAlertPlanning,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']} },
 {path:'PayementStatusInsightsOracle',component:PayementStatusInsights,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
 {path:'supplierpipelinevsstockposition-oracle',component:SupplierPipelinevsStockPosition,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
-
-
+{path:'securitydepositpendingmonitoring-oracle',component:SecurityDepositPendingMonitoring,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
+{path:'securitydepositreleasedmonitoring-oracle',component:SecurityDepositReleasedMonitoring,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
+{path:'EMDMonitoringAndInsights',component:EMdMonitoringAndInsights,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
+{path:'inward-analytics-and-insights',component:InwardAnalyticsAndInsights,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
+{path:'sdacknowledgement-insights',component:SDAcknowledgementInsights,canActivate:[RouteGuardService],data: { allowedRoles: ['SSO','DHS','DHS STORE','SEC1','CME','DME1','Warehouse','DM PO','QC','QC2','Tenders','Division']}},
 
 
 

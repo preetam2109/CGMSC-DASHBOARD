@@ -11,6 +11,15 @@ import { CommonModule } from '@angular/common';
 export class SupplierPipelinevsStockPosition {
   loading = true;
 
+  // Define dynamic properties to pass to Oracle Analytics
+  supplierId: any;
+  whId: any;
+
+  ngOnInit() {
+    this.supplierId = 0;
+    this.whId = 0;
+  }
+
   onIframeLoad() {
     this.loading = false;
   }
