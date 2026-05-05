@@ -166,7 +166,7 @@ import { SecurityDepositReleasedMonitoring } from './component/ORACLE-DASHBOARD/
 import { EMdMonitoringAndInsights } from './component/ORACLE-DASHBOARD/emd-monitoring-and-insights/emd-monitoring-and-insights';
 import { InwardAnalyticsAndInsights } from './component/ORACLE-DASHBOARD/inward-analytics-and-insights/inward-analytics-and-insights';
 import { SDAcknowledgementInsights } from './component/ORACLE-DASHBOARD/sdacknowledgement-insights/sdacknowledgement-insights';
-
+import { ExecutiveSupplyChain } from './component/ORACLE-DASHBOARD/executive-supply-chain/executive-supply-chain';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';

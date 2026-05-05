@@ -2547,45 +2547,42 @@ InsertUserPageViewLog() {
 }
 
 
-readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
-selectedWork: any;
-imageUrls: string[] = [];
+// 1. Base URL ko folder level tak rakhein
+readonly imageBaseUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
 
-onopenimges(element: any) {
-  // debugger;
-  this.selectedWork = element; 
-  this.imageUrls = [];
-
-  const imageKeys = ['imagename', 'imagenamE2', 'imagenamE3', 'imagenamE4', 'imagenamE5'];
-  
-  imageKeys.forEach(key => {
-    const imgFile = element[key];
-    if (imgFile && imgFile !== 'NA' && imgFile !== 'null') {
-      this.imageUrls.push(this.baseImageUrl + imgFile);
-    }
-  });
-
-  if (this.imageUrls.length === 0) {
-    this.imageUrls.push('assets/no-image-placeholder.png'); 
+onopenimges(wid: any, imagename: any) {
+  // debugger
+  // Agar imagename null ya empty hai toh alert dikhayein
+  if (!imagename || imagename === 'null' || imagename === 'NA') {
+    alert("Is Work ID (" + wid + ") image not available");
+    return;
   }
 
-  this.openimages1();
+  // 2. Full URL banayein
+  const fullPath = this.imageBaseUrl + imagename;
+
+  // 3. Naye tab/window mein open karein
+  // '_blank' ka matlab hai naya tab
+  window.open(fullPath, '_blank');
 }
 
-openimages1() {
-  this.dialog.open(this.openimages, {
-    width: '80%', 
-    maxWidth: '100vw',
-    panelClass: 'custom-dialog-container'
-  });
-}
 
+// imageName: string = 'W4400269_Image1_68.jpg'; // Ye API se aayega, example: 'W4400269_Image1_68.jpg'
+fullImageUrl: string = '';
+
+updateImagePath(imgName: string) {
+  // debugger
+    if (imgName && imgName !== 'NA') {
+        // this.imageName = imgName;
+        this.fullImageUrl = this.imageBaseUrl + imgName;
+    } else {
+        this.fullImageUrl = 'assets/no-image.png'; 
+    }
+}
 
 onImageError(event: any) {
     event.target.src = 'https://via.placeholder.com/450x450?text=Image+Not+Found';
 }
-  
-
 }
 
  
