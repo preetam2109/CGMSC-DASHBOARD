@@ -53,14 +53,8 @@ export class MenuServiceService {
         { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle'},
         
         { label: 'Payment Status Insights', route: '/PayementStatusInsightsOracle'},
-        { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle'},
-        { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle'},
-        { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights'},
-        { label: 'Inward Analytics & Insights', route: '/inward-analytics-and-insights'},
-        { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights'},
-        { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
 
-              
+
               // { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
               // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
               // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
@@ -1185,14 +1179,6 @@ export class MenuServiceService {
         // { label: 'Current Stock', route: '/CurrentStockOracle' },
         // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
         // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
-        { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle'},
-        { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle'},
-        { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights'},
-        { label: 'Inward Analytics & Insights', route: '/inward-analytics-and-insights'},
-        { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights'},
-        { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
-
-
         { label: 'Facility Information', route: '/FacilityInformationOracle'},
 
       ],
