@@ -338,7 +338,8 @@ export class SearchingWorkComponent {
             this.spinner.hide();
           },
           (error) => {
-            alert(`Error fetching data: ${JSON.stringify(error)}`);
+                console.log('error=',JSON.stringify(error));
+            // alert(`Error fetching data: ${JSON.stringify(error)}`);
           }
         );
     } catch (ex: any) {
@@ -366,6 +367,8 @@ export class SearchingWorkComponent {
 
   GetWorkDetails() {
     try {
+      // debugger;
+
       this.api.GetWorkDetails(this.workID).subscribe(
         (res) => {
           this.workdetails = res;
@@ -378,14 +381,18 @@ export class SearchingWorkComponent {
           var progressEntryTime = new Date(
             this.workdetails[0]?.progressEntryTime
           );
+          console.log("api: =",res);
           this.spinner.hide();
-          this.GetImageBinary();
-    this.GetProjectTimelineNEW(this.workID);
+        
+          this.GetProjectTimelineNEW(this.workID);
 
           this.GetWorkBillStatus(this.workID);
+this.updateImagePath( this.ImageName );
+            this.GetImageBinary();
         },
         (error) => {
-          alert(`Error fetching data: ${JSON.stringify(error)}`);
+              console.log('error=',JSON.stringify(error));
+          // alert(`Error fetching data: ${JSON.stringify(error)}`);
         }
       );
     } catch (ex: any) {
@@ -402,6 +409,8 @@ export class SearchingWorkComponent {
   // WorkBillStatus 
   GetWorkBillStatus(workID:any) {
     try {
+      // debugger;
+
       // alert(this.workID);
       // this.api.GETWorkBillStatus('W4100398').subscribe(
       this.api.GETWorkBillStatus(workID).subscribe(
@@ -490,12 +499,31 @@ export class SearchingWorkComponent {
       console.error("Element with ID 'workdetails' not found.");
     }
   }
+// W3900011
 
+readonly imageBaseUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+// imageName: string = 'W4400269_Image1_68.jpg'; // Ye API se aayega, example: 'W4400269_Image1_68.jpg'
+fullImageUrl: string = '';
+
+updateImagePath(imgName: string) {
+  // debugger
+    if (imgName && imgName !== 'NA') {
+        // this.imageName = imgName;
+        this.fullImageUrl = this.imageBaseUrl + imgName;
+    } else {
+        this.fullImageUrl = 'assets/no-image.png'; 
+    }
+}
+
+onImageError(event: any) {
+    event.target.src = 'https://via.placeholder.com/450x450?text=Image+Not+Found';
+}
   GetImageBinary() {
-    // ;
     try {
-      // ;
-      // const sr = 90691;
+      return
+      // debugger;
+      // https://cgmsc.gov.in/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}
+      // const sr = 90691;  
       // const img = 'CGMSC WORK.jpg';
       // console.log('this.ImageName: ', this.ImageName);
       // this.api.GetImageBinary(90691, 'CGMSC WORK.jpg').subscribe(
@@ -506,7 +534,8 @@ export class SearchingWorkComponent {
               this.base64Data = res;
           },
           (error) => {
-            alert(`Failed to load image. Please try again later. Error: ${JSON.stringify(error)}`);
+            console.log('error=',JSON.stringify(error));
+            // alert(`Failed to load image. Please try again later. Error: ${JSON.stringify(error)}`);
           }
         );
       // }
@@ -515,8 +544,8 @@ export class SearchingWorkComponent {
       // }
     
     } catch (ex: any) {
-      // console.error('Exception:', ex.message);
-      alert(`Error fetching data: ${ JSON.stringify(ex.message)}`);
+      console.error('Exception:', ex.message);
+      // alert(`Error fetching data: ${ JSON.stringify(ex.message)}`);
     }
   }
 
@@ -550,7 +579,8 @@ export class SearchingWorkComponent {
         this.spinner.hide();
       },
       (error) => {
-        alert(`Error fetching data: ${error.message || error}`);
+            console.log('error=',JSON.stringify(error));
+        // alert(`Error fetching data: ${error.message || error}`);
       }
     );
   }
@@ -615,8 +645,8 @@ export class SearchingWorkComponent {
         this.spinner.hide();
       },
       (error) => {
-        // console.error("API Error:", error);
-        alert(`Error fetching data: ${error.message || error}`);
+        console.error("API Error:", error);
+        // alert(`Error fetching data: ${error.message || error}`);
       }
     );
   }
