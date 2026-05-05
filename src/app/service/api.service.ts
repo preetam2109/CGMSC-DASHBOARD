@@ -741,7 +741,7 @@ export class ApiService {
     // https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
   }
   GetWorkDetails(workid: any): Observable<WorkDetails[]> {
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/WorkFill?searchtext=0&workid=0&divisionId=0&distid=0&mainSchemeId=0
+    // https://cgmsc.gov.in/HIMIS_APIN/api/Work/GetWorkInfo?workid=W4100398
     return this.http.get<WorkDetails[]>(`${this.apiUrl}/Work/GetWorkInfo?workid=${workid}`);
   }
   GETWorkBillStatus(workid: any): Observable<WorkBillStatus[]> {

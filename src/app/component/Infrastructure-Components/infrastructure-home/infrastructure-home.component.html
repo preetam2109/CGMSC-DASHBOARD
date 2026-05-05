@@ -1082,12 +1082,37 @@
               </span>
             </td>
           </ng-container>
+          <ng-container matColumnDef="imge">
+  <th mat-header-cell *matHeaderCellDef>Open Images</th>
+  <td mat-cell *matCellDef="let element">
+    <span class="d-flex flex-row-reverse p-2">
+      <!-- Button click par onopenimges call hoga -->
+      <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" 
+              mat-button
+              (click)="onopenimges(element.work_id, element.imagename)">
+        <!-- Image icon use karein kyunki ye PDF nahi image hai -->
+        <i class="bi bi-image me-1 text-primary"></i> Open
+      </button>
+    </span>
+  </td>
+</ng-container>
+          <!-- <ng-container matColumnDef="imge">
+            <th mat-header-cell *matHeaderCellDef>Open Images</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                  (click)="onopenimges(element.work_id,element.imagename)">
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container> -->
           <tr mat-header-row
-            *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+            *matHeaderRowDef="['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action','imge']">
             <!-- *matHeaderRowDef="['sno','head','divName_En','district','blockname','letterNo','approver','work','tsDate','tsamt','tType','aadt','asAmt','tenderReference','acceptanceLetterRefNo','acceptLetterDT','totalAmountOfContract','work_id','action']"> -->
           </tr>
           <tr mat-row
-            *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action']">
+            *matRowDef="let row; columns: ['sno','work_id','grantNo','head','district','blockname','work','wrokOrderDT','timeAllowed','dueDTTimePerAdded','lProgress','progressDT','expcompdt','delayreason','PRemarks','subengname','aeName','aadt','asAmt','tsDate','tsamt','tType','tenderReference','dateOfIssueNIT','acceptanceLetterRefNo','agreementRefNo','acceptLetterDT','sanctionRate','sanctionDetail','totalAmountOfContract','totalpaid','totalunpaid','contractorNAme','letterNo','approver','divName_En','cid','mobNo','action','imge']">
           </tr>
         
         </table>
