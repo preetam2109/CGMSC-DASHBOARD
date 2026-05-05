@@ -11,8 +11,7 @@
   <!-- Iframe -->
   <iframe
     class="oac_embedding_iframe"
-    style="height: 100vh; width:100%;"
-    (load)="onIframeLoad()"
+    style="height: 100vh; width:100%; border: none;"
     srcdoc='
     <!DOCTYPE html>
     <html lang="en" dir="ltr">
@@ -46,7 +45,7 @@
                   if (!window.bindingsApplied) {
                     function MyProject() {
                       var self = this;
-                      self.projectPath = ko.observable("/@Catalog/users/sm.cgmsc@gmail.com/Pipeline");
+                      self.projectPath = ko.observable("/@Catalog/users/sm.cgmsc@gmail.com/SD Acknowledge Status");
                       self.parameters = ko.observable({
                         "p1n": "PARAM_SUPPLIERID",
                         "p1v": "CIPLA"
@@ -54,6 +53,11 @@
                     }
                     ko.applyBindings(new MyProject());
                     window.bindingsApplied = true;
+                    
+                    // Send message to parent window (Angular component) that OAC is loaded
+                    setTimeout(function() {
+                      window.parent.postMessage("OAC_LOADED", "*");
+                    }, 3000);
                   }
                 });
               })
@@ -75,6 +79,7 @@
           parameters="[[parameters]]"
           project-options=&apos;{"bShowFilterBar":false}&apos;>
           </oracle-dv>
+
         </div>
     </body>
     </html>

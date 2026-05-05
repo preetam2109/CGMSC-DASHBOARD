@@ -46,10 +46,11 @@
                   if (!window.bindingsApplied) {
                     function MyProject() {
                       var self = this;
-                      self.projectPath = ko.observable("/@Catalog/users/sm.cgmsc@gmail.com/Pipeline");
+                      self.projectPath = ko.observable("/@Catalog/users/sm.cgmsc@gmail.com/Security Deposit Monitoring");
                       self.parameters = ko.observable({
                         "p1n": "PARAM_SUPPLIERID",
-                        "p1v": "CIPLA"
+                        "p1v": "CIPLA",
+                      
                       });
                     }
                     ko.applyBindings(new MyProject());
@@ -68,13 +69,16 @@
     </head>
     <body>
         <div style="width: 100%; height: 100vh;">
+
           <oracle-dv 
           project-path="[[projectPath]]" 
           active-page="insight" 
-          active-tab-id="snapshot!canvas!1"
+          active-tab-id="snapshot!canvas!3"
           parameters="[[parameters]]"
           project-options=&apos;{"bShowFilterBar":false}&apos;>
           </oracle-dv>
+
+
         </div>
     </body>
     </html>

@@ -1,10 +1,19 @@
-<div class="supplier-pipeline-wrapper">
-  <div *ngIf="loading" class="supplier-pipeline-spinner-overlay">
-    <div class="supplier-pipeline-spinner"></div>
-    <div class="supplier-pipeline-spinner-text">Please wait while we load the data....</div>
+<div class="inter-warehouse-wrapper">
+  
+  <!-- Spinner -->
+  <div *ngIf="loading" class="inter-warehouse-spinner-overlay">
+    <div class="inter-warehouse-spinner"></div>
+    <div class="inter-warehouse-spinner-text">
+      Please wait while we load the data...
+    </div>
   </div>
 
-  <iframe class="oac_embedding_iframe" style="height: 100vh; width:100%;" (load)="onIframeLoad()" srcdoc='
+  <!-- Iframe -->
+  <iframe
+    class="oac_embedding_iframe"
+    style="height: 100vh; width:100%;"
+    (load)="onIframeLoad()"
+    srcdoc='
     <!DOCTYPE html>
     <html lang="en" dir="ltr">
     <head>
@@ -25,9 +34,7 @@
       })
       .then(data => {
         token = data.access_token;
-        console.log("New token fetched:", token);
 
-        // update security config dynamically
         requirejs(["jquery", "knockout", "obitech-application/application","ojs/ojcore", "ojs/ojknockout", "ojs/ojcomposite", "jet-composites/oracle-dv/loader"], 
         function($, ko, application) {
           application.setSecurityConfig("token", {
@@ -36,17 +43,19 @@
             }
           });
 
+          // ✅ Add parameter binding (like your working example)
           if (!window.bindingsApplied) {
             function MyProject() {
               var self = this;
-              self.projectPath = ko.observable("/@Catalog/users/sm.cgmsc@gmail.com/Pipeline Supplier Dashboard");
+
+              self.projectPath = ko.observable("/@Catalog/users/sm.cgmsc@gmail.com/EMD Dashboard");
+
               self.parameters = ko.observable({
                 "p1n": "PARAM_SUPPLIERID",
-                "p1v": "CIPLA",
-                "p2n": "PARAM_WHID",
-                "p2v": "WH001"   // 👉 yahan apna WHID value daalo
+                "p1v": "CIPLA"   // 🔥 change dynamically later if needed
               });
             }
+
             ko.applyBindings(new MyProject());
             window.bindingsApplied = true;
           }
@@ -57,27 +66,23 @@
       });
   }
 
-  // Initial fetch + setup
   fetchAndSetToken();
-
-  // Refresh every 45 minutes
   setInterval(fetchAndSetToken, 45 * 60 * 1000);
 </script>
     </head>
     <body>
-          <div style="width: 100%; height: 100vh;">
-          <oracle-dv
-            project-path="[[projectPath]]"
-            active-page="insight"
-            active-tab-id="snapshot!canvas!1"
-            parameters="[[parameters]]"
-            project-options=&apos;{"bShowFilterBar":false}&apos;>
-          </oracle-dv>
+        <div style="width: 100%; height: 100vh;">
+<oracle-dv project-path="[[projectPath]]" 
+  active-page="insight" 
+  active-tab-id="snapshot!canvas!1"
+  parameters="[[parameters]]"
+  project-options=&apos;{"bShowFilterBar":false}&apos;>
+</oracle-dv>
+
         </div>
-
-
     </body>
     </html>
 '>
   </iframe>
-</div>  
+
+</div>
