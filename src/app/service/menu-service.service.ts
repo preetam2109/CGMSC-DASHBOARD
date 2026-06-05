@@ -16,13 +16,13 @@ export class MenuServiceService {
         [category: string]: {
           label: string;
           route: string;
-          submenu?: { label: string; route: string }[];
+          submenu?: any[];
         }[];
       };
       items?: {
         label: string;
         route: string;
-        submenu?: { label: string; route: string }[];
+        submenu?: any[];
       }[];
     };
   } = {
@@ -32,33 +32,70 @@ export class MenuServiceService {
             { label: 'Home', route: '/home' },
 
             {
-              label: 'Oracle Analytics',
+              label: 'Analytics Report',
               route: '',   // 👈 empty string or '/welcome' as placeholder
               submenu: [
 
+                {
+                  label: 'Logistics',
+                  route: '',
+                  submenu: [
+                    { label: 'Expired Items', route: '/Expired-Items-Oracle' },
+                    { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
+                    { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
+                    { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
+                    { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+                    { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle' },
+                    { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock' },
+                    { label: 'Stock Out & Stock Availability in Warehouse', route: '/stock-ou-and-stock-availability-in-warehouse' },
+                    { label: 'Item wise Stock', route: '/item-wise-stock' },
+                  ]
+                },
+                {
+                  label: 'Finance',
+                  route: '',
+                  submenu: [
+                    { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+                    { label: 'PO File Status Insights (Technical)', route: '/pofile-status-insights-technical' },
+                    { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle' },
+                    { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle' },
+                    { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights' },
+                    { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights' },
+                  ]
+                },
+                {
+                  label: 'QC',
+                  route: '',
+                  submenu: [
+                    { label: 'QC Lab', route: '/qclab' },
+                    // { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
+                    { label: 'Pendency Lab and Courier Monitoring', route: '/qcsample-status-lab-received-under-transit' },
+                    { label: 'Final Result Awaiting (HO- QC Pendency)', route: '/final-result-awaitingafter-empaneled-lab-result' },
+                    { label: 'Pendency within CGMSC (Not Send to Lab)', route: '/cgmsc-qc-pending-status' },
+                    { label: 'QC Performance (Final result upload)', route: '/qc-performance' },
+                    { label: 'QC Pendency Stage wise (Summary)', route: '/qcsample-stage-monitoring' },
+                  ]
+                },
+                { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
                 { label: 'Tender/RC Position', route: '/rcpoplanning' },
                 { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
-                { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
                 { label: 'Tender Status', route: '/oracle-dashboard' },
-                { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
 
                 // { label: 'Tender Management', route: '/tender-management' },
                 // { label: 'Inventory Management', route: '/inventory-management' },
                 // { label: 'PO Planning', route: '/po-planning-oracle' },
                 // { label: 'Current Stock', route: '/CurrentStockOracle' },
                 // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
-                { label: 'Expired Items', route: '/Expired-Items-Oracle' },
-                { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
-                { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
-                { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle' },
 
-                { label: 'Payment Status Insights', route: '/PayementStatusInsightsOracle' },
-                { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle' },
-                { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle' },
-                { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights' },
+
+
+
                 { label: 'Inward Analytics & Insights', route: '/inward-analytics-and-insights' },
-                { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights' },
-                { label: 'Executive Supply Chain', route: '/executivesupplychain-insights' },
+                { label: 'Warehouse Indent Pending Activity ', route: '/warehouse-indent-pending-activity-monitoring' },
+                { label: 'Warehouse Issuance Activity ', route: '/warehouse-issuance-activity-monitoring' },
+
+                { label: 'Supplier Compliance and Grievance', route: '/supplier-compliance-and-grievance' },
+
 
 
                 // { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
@@ -82,6 +119,8 @@ export class MenuServiceService {
             // },
             { label: 'Dashboard', route: '/welcome' },
             { label: 'Payments Pending', route: '/FitUnFit' },
+            { label: 'Payment Approvals', route: '/PayementApprovals' },
+
             { label: 'Analysis', route: '/analysis' },
             // { label: 'Attendance', route: '/attendance-dash' },
             // { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
@@ -256,7 +295,7 @@ export class MenuServiceService {
           // { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/welcome' },
           {
-            label: 'Oracle Analytics',
+            label: 'Analytics Report',
             route: '',   // 👈 empty string or '/welcome' as placeholder
             submenu: [
 
@@ -272,6 +311,13 @@ export class MenuServiceService {
               { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle' },
               // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
               // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
+              { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
+              { label: 'Supplier Compliance and Grievance', route: '/supplier-compliance-and-grievance' },
+
+              { label: 'QC Sample Status Lab Received Under Transit', route: '/qcsample-status-lab-received-under-transit' },
+              { label: 'Final Result Awaiting after Empaneled Lab Result', route: '/final-result-awaitingafter-empaneled-lab-result' },
+
+
               { label: 'Facility Information', route: '/FacilityInformationOracle' },
             ]
           },
@@ -482,22 +528,74 @@ export class MenuServiceService {
           DrugsConsumables: [
             { label: 'Home', route: '/home' },
             { label: 'Dashboard', route: '/dhsdash' },
+
+            {
+              label: 'Analytics Report',
+              route: '',   // 👈 empty string or '/welcome' as placeholder
+              submenu: [
+                // { label: 'DHS Stock Availability & Monitoring', route: '/dhs-stock-availability-monitoring' },
+                // { label: 'DHS Batch Stock Monitoring', route: '/dhs-batch-stock-monitoring' },
+                { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock' },
+                { label: 'Health Facility Batch wise Stock', route: '/facility-stock-status' },
+                { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+                // { label: 'Expired Items', route: '/Expired-Items-Oracle' },
+                // { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
+                // { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
+                // { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
+                // { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+                // { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle' },
+                // {
+                //   label: 'Finance',
+                //   route: '',
+                //   submenu: [
+                //     { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+                //     { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle' },
+                //     { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle' },
+                //     { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights' },
+                //     { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights' },
+                //   ]
+                // },
+                // {
+                //   label: 'QC',
+                //   route: '',
+                //   submenu: [
+                //     { label: 'QC Lab', route: '/qclab' },
+                //     { label: 'Pendency Lab and Courier Monitoring', route: '/qcsample-status-lab-received-under-transit' },
+                //     { label: 'Final Result Awaiting (HO- QC Pendency)', route: '/final-result-awaitingafter-empaneled-lab-result' },
+                //     { label: 'Pendency within CGMSC (Not Send to Lab)', route: '/cgmsc-qc-pending-status' },
+                //     { label: 'QC Performance (Final result upload)', route: '/qc-performance' },
+                //           {label: 'QC Pendency Stage wise (Summary)', route: '/qcsample-stage-monitoring' },
+                //   ]
+                // },
+                // { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
+                // { label: 'Tender/RC Position', route: '/rcpoplanning' },
+                // { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
+                // { label: 'Tender Status', route: '/oracle-dashboard' },
+                // { label: 'Inward Analytics & Insights', route: '/inward-analytics-and-insights' },
+                // { label: 'Warehouse Indent Pending Activity ', route: '/warehouse-indent-pending-activity-monitoring' },
+                // { label: 'Warehouse Issuance Activity ', route: '/warehouse-issuance-activity-monitoring' },
+                // { label: 'Supplier Compliance and Grievance', route: '/supplier-compliance-and-grievance' },
+                // { label: 'Facility Information', route: '/FacilityInformationOracle' },
+              ]
+            },
+
+
             { label: 'Finance', route: '/finance-dash' },
             { label: 'Health Facilities Coverage', route: '/FacCoverage' },
             { label: 'Warehouse Information', route: '/WarehouseInfo' },
-            { label: 'Stock Abstract', route: '/whStockAbstract' },
+            // { label: 'Stock Abstract', route: '/whStockAbstract' },
             { label: 'DHS Seasonal Drugs', route: '/SeasonDrugs' },
             { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
             { label: 'Growth in Distribution', route: '/distribution' },
             { label: 'Demand vs Supply', route: '/EdlNonEdlIssuePercentSummary' },
-            // { label: 'Issue Per Wise Per Click', route:  '/IssuePerWisePerClick' },
+
             { label: 'DHS Supplied %', route: '/IssuedPerWise' },
-            {
-              label: 'DHS Stock Availablity %',
-              route: '/StockSummaryBalanceIndent',
-            },
+            // {
+            //   label: 'DHS Stock Availablity %',
+            //   route: '/StockSummaryBalanceIndent',
+            // },
             { label: 'WH Indent Pending', route: '/IndentPendingWHdash' },
-            { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
+            // { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
 
             { label: 'Near Expiry', route: '/nearExpiry' },
             { label: 'NOC', route: '/noc' },
@@ -568,6 +666,132 @@ export class MenuServiceService {
             // { label: 'Handover', route: 'Handover' },
             // { label: 'Engineer-Works', route: 'EngineerWorks' },
             // { label: 'Technical Sanction', route: 'TechnicalSanction' },
+          ],
+        },
+      },
+      'DHS STORE': {
+        categories: {
+          DrugsConsumables: [
+            { label: 'Home', route: '/home' },
+            { label: 'Dashboard', route: '/dhsdash' },
+
+
+            {
+              label: 'Analytics Report',
+              route: '',   // 👈 empty string or '/welcome' as placeholder
+              submenu: [
+                // { label: 'Facility Stock Status', route: '/facility-stock-status' },
+                // { label: 'DHS Stock Availability & Monitoring', route: '/dhs-stock-availability-monitoring' },
+                // { label: 'DHS Batch Stock Monitoring', route: '/dhs-batch-stock-monitoring' },
+                { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock' },
+                { label: 'Health Facility Batch wise Stock', route: '/facility-stock-status' },
+                { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+                // { label: 'Expired Items', route: '/Expired-Items-Oracle' },
+
+                // { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
+                // { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
+                // { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
+                // { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+                // { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle' },
+                // {
+                //   label: 'Finance',
+                //   route: '',
+                //   submenu: [
+                //     { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+                //     { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle' },
+                //     { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle' },
+                //     { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights' },
+                //     { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights' },
+                //   ]
+                // },
+                // {
+                //   label: 'QC',
+                //   route: '',
+                //   submenu: [
+                //     { label: 'QC Lab', route: '/qclab' },
+                //     { label: 'Pendency Lab and Courier Monitoring', route: '/qcsample-status-lab-received-under-transit' },
+                //     { label: 'Final Result Awaiting (HO- QC Pendency)', route: '/final-result-awaitingafter-empaneled-lab-result' },
+                //     { label: 'Pendency within CGMSC (Not Send to Lab)', route: '/cgmsc-qc-pending-status' },
+                //     { label: 'QC Performance (Final result upload)', route: '/qc-performance' },
+                //           {label: 'QC Pendency Stage wise (Summary)', route: '/qcsample-stage-monitoring' },
+                //   ]
+                // },
+                // { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
+                // { label: 'Tender/RC Position', route: '/rcpoplanning' },
+                // { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
+                // { label: 'Tender Status', route: '/oracle-dashboard' },
+                // { label: 'Inward Analytics & Insights', route: '/inward-analytics-and-insights' },
+                // { label: 'Warehouse Indent Pending Activity ', route: '/warehouse-indent-pending-activity-monitoring' },
+                // { label: 'Warehouse Issuance Activity ', route: '/warehouse-issuance-activity-monitoring' },
+                // { label: 'Supplier Compliance and Grievance', route: '/supplier-compliance-and-grievance' },
+                // { label: 'Facility Information', route: '/FacilityInformationOracle' },
+              ]
+            },
+
+
+            { label: 'Finance', route: '/finance-dash' },
+            { label: 'Health Facilities Coverage', route: '/FacCoverage' },
+            { label: 'Warehouse Information', route: '/WarehouseInfo' },
+            // { label: 'Stock Abstract', route: '/whStockAbstract' },
+            { label: 'DHS Seasonal Drugs', route: '/SeasonDrugs' },
+            { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+            { label: 'Growth in Distribution', route: '/distribution' },
+            { label: 'Demand vs Supply', route: '/EdlNonEdlIssuePercentSummary' },
+            // { label: 'Issue Per Wise Per Click', route:  '/IssuePerWisePerClick' },
+            { label: 'DHS Supplied %', route: '/IssuedPerWise' },
+            // {
+            //   label: 'DHS Stock Availablity %',
+            //   route: '/StockSummaryBalanceIndent',
+            // },
+            { label: 'WH Indent Pending', route: '/IndentPendingWHdash' },
+            // { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
+
+            { label: 'Near Expiry', route: '/nearExpiry' },
+            { label: 'NOC', route: '/noc' },
+            { label: 'District EDL Counts', route: '/DistrictWiseStk' },
+            { label: 'DdlItemWiseInHandQty', route: '/DdlItemWiseInHandQty' },
+            { label: 'Stock Position', route: '/DistFACwiseStockPostionNew' },
+            {
+              label: 'Time-Based Analysis',
+
+              submenu: [
+                {
+                  label: 'Time Taken By Supplier',
+                  route: '/timetakenBySupplier',
+                },
+                { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
+                { label: 'QC Time Taken', route: '/QcTimeTaken' },
+                // { label: 'Facility Details', route:  '/facilityDetails' }
+              ],
+              route: '/',
+            },
+          ],
+          EquipmentReagent: [{ label: 'Home', route: '/home' }],
+          Infrastructure: [
+            { label: 'Verticals', route: '/home' },
+            { label: 'Search Work', route: '/SearchingWork' },
+
+            { label: 'Work Abstract', route: '/InfrastructureHome' },
+            { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
+
+
+            { label: 'Live Tender', route: '/LiveTender' },
+            { label: 'Evaluation', route: '/TenderEvaluation' },
+            { label: 'To be Tender', route: '/ToBeTender' },
+
+            { label: 'Work Order', route: '/WorkOrder' },
+            { label: 'Running Works', route: '/RunningWork' },
+
+            { label: 'Land Issues', route: '/LandIssue' },
+            { label: 'Technical Sanction', route: '/TechnicalSanction' },
+            // { label: 'Scheme-Wise Details', route: '/SchemeWiseDetails' },
+            // { label: 'District Progress Monitoring', route: 'DashProgressIstCount' },
+            { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
+            // { label: 'District Progress Monitoring', route: 'District Progress' },
+            { label: 'Handover', route: 'Handover' },
+
+            { label: 'Engineer-Works', route: '/EngineerWorks' },
+            { label: 'Payment', route: '/PriceEvaluation' },
           ],
         },
       },
@@ -728,6 +952,12 @@ export class MenuServiceService {
           { label: 'Stock Details', route: '/stockDetails' },
           { label: 'QC Courier', route: '/QcPendings' },
           { label: 'QC-Lab Issues', route: '/qc-dash' },
+          { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
+          { label: 'QC Lab', route: '/qclab' },
+          { label: 'QC Sample Status Lab Received Under Transit', route: '/qcsample-status-lab-received-under-transit' },
+          { label: 'Final Result Awaiting after Empaneled Lab Result', route: '/final-result-awaitingafter-empaneled-lab-result' },
+          { label: 'CGMSC QC Pending Status', route: '/cgmsc-qc-pending-status' },
+
         ],
       },
       QC2: {
@@ -739,6 +969,10 @@ export class MenuServiceService {
           { label: 'Stock Details', route: '/stockDetails' },
           { label: 'QC Courier', route: '/QcPendings' },
           { label: 'QC-Lab Issues', route: '/qc-dash' },
+          { label: 'QC Sample Status Lab Received Under Transit', route: '/qcsample-status-lab-received-under-transit' },
+          { label: 'Final Result Awaiting after Empaneled Lab Result', route: '/final-result-awaitingafter-empaneled-lab-result' },
+          { label: 'CGMSC QC Pending Status', route: '/cgmsc-qc-pending-status' },
+
         ],
       },
 
@@ -758,20 +992,32 @@ export class MenuServiceService {
       'GM Finance': {
         items: [
           { label: 'Home', route: '/home' },
+          { label: 'Payment Approvals', route: '/PayementApprovals' },
+
+          { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
+
           { label: 'Finance', route: '/finance-dash' },
           { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
           { label: 'Growth in Distribution', route: '/distribution' },
           { label: 'Payment', route: '/PriceEvaluation' },
+          { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+          { label: 'PO File Status Insights (Technical)', route: '/pofile-status-insights-technical' },
+          { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle' },
+          { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle' },
+          { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights' },
 
         ],
       },
       'DMFin': {
         items: [
           { label: 'Home', route: '/home' },
+          { label: 'Payment Approvals', route: '/PayementApprovals' },
           { label: 'Finance', route: '/finance-dash' },
           { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
           { label: 'Growth in Distribution', route: '/distribution' },
           { label: 'Payment', route: '/PriceEvaluation' },
+          { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+          { label: 'PO File Status Insights (Technical)', route: '/pofile-status-insights-technical' },
 
         ],
       },
@@ -1126,14 +1372,14 @@ export class MenuServiceService {
       return [];
     }
 
-    const rolesUsingCategories = ['Collector', 'SEC1', 'DHS', 'CME', 'DME1'];
+    const rolesUsingCategories = ['Collector', 'SEC1', 'DHS', 'DHS STORE', 'CME', 'DME1'];
 
     if (rolesUsingCategories.includes(role) && roleMenu.categories) {
       const selectedCategory = this.getSelectedCategory();
       if (selectedCategory && roleMenu.categories[selectedCategory]) {
         return roleMenu.categories[selectedCategory].map((item) => ({
           ...item,
-          submenu: this.getSubmenu(item.label), // Add submenu dynamically if needed
+          submenu: item.submenu || this.getSubmenu(item.label), // Add submenu dynamically if needed
         }));
       }
       return [];
@@ -1143,7 +1389,7 @@ export class MenuServiceService {
   }
 
   // Example submenu provider (optional)
-  getSubmenu(label: string): { label: string; route: string }[] | undefined {
+  getSubmenu(label: string): any[] | undefined {
     const submenus: any = {
       'Time-Based Analysis': [
         { label: 'Time Taken By Supplier', route: '/timetakenBySupplier' },
@@ -1158,6 +1404,9 @@ export class MenuServiceService {
       'Quality Control': [
         { label: 'QC Courier', route: '/QcPendings' },
         { label: 'QC-Lab Issues', route: '/qc-dash' },
+        { label: 'QC Sample Status Lab Received Under Transit', route: '/qcsample-status-lab-received-under-transit' },
+        { label: 'Final Result Awaiting after Empaneled Lab Result', route: '/final-result-awaitingafter-empaneled-lab-result' },
+
       ],
 
       // 'Power Bi Dashboard': [
@@ -1165,32 +1414,68 @@ export class MenuServiceService {
       //   { label: 'PO Planning', route: '/po-planning-pbi' }
 
       // ],
-      'Oracle Analytics': [
+      'Analytics Report': [
+
+        {
+          label: 'Logistics',
+          route: '',
+          submenu: [
+            { label: 'Facility Stock Status', route: '/facility-stock-status' },
+            { label: 'DHS Stock Availability & Monitoring', route: '/dhs-stock-availability-monitoring' },
+            { label: 'DHS Batch Stock Monitoring', route: '/dhs-batch-stock-monitoring' },
+            { label: 'DHS Facility Stock', route: '/dhsfacility-stock' },
+            { label: 'Expired Items', route: '/Expired-Items-Oracle' },
+            { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
+            { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
+            { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
+            { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+            { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle' },
+          ]
+        },
+        {
+          label: 'Finance',
+          route: '',
+          submenu: [
+            { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+            { label: 'PO File Status Insights (Technical)', route: '/pofile-status-insights-technical' },
+            { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle' },
+            { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle' },
+            { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights' },
+            { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights' },
+          ]
+        },
+        {
+          label: 'QC',
+          route: '',
+          submenu: [
+            { label: 'QC Lab', route: '/qclab' },
+            // { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
+            { label: 'Pendency Lab and Courier Monitoring', route: '/qcsample-status-lab-received-under-transit' },
+            { label: 'Final Result Awaiting (HO- QC Pendency)', route: '/final-result-awaitingafter-empaneled-lab-result' },
+            { label: 'Pendency within CGMSC (Not Send to Lab)', route: '/cgmsc-qc-pending-status' },
+            { label: 'QC Performance (Final result upload)', route: '/qc-performance' },
+            { label: 'QC Sample Stage Monitoring(Summary)', route: '/qcsample-stage-monitoring' },
+          ]
+        },
+        { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
         { label: 'Tender/RC Position', route: '/rcpoplanning' },
         { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
         // { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
         { label: 'Tender Status', route: '/oracle-dashboard' },
-        { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
-        { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
         // { label: 'Tender Management', route: '/tender-management' },
         // { label: 'Inventory Management', route: '/inventory-management' },
         // { label: 'PO Planning', route: '/po-planning-oracle' },
         // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
-        { label: 'Expired Items', route: '/Expired-Items-Oracle' },
-        { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
-        { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
-        { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle' },
-        { label: 'Payment Status Insights', route: '/PayementStatusInsightsOracle' },
+
         // { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
         // { label: 'Current Stock', route: '/CurrentStockOracle' },
         // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
         // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
-        { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle' },
-        { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle' },
-        { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights' },
         { label: 'Inward Analytics & Insights', route: '/inward-analytics-and-insights' },
-        { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights' },
-        { label: 'Executive Supply Chain', route: '/executivesupplychain-insights' },
+        { label: 'Warehouse Indent Pending Activity ', route: '/warehouse-indent-pending-activity-monitoring' },
+        { label: 'Warehouse Issuance Activity ', route: '/warehouse-issuance-activity-monitoring' },
+
+        { label: 'Supplier Compliance and Grievance', route: '/supplier-compliance-and-grievance' },
 
 
         { label: 'Facility Information', route: '/FacilityInformationOracle' },

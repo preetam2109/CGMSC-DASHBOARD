@@ -20,7 +20,6 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import * as XLSX from 'xlsx';
 // declare module 'file-saver';
-
 import * as FileSaver from 'file-saver';
 import { InsertUserPageViewLogmodal } from 'src/app/Model/DashLoginDDL';
 
@@ -329,51 +328,7 @@ export class FitUnFitInfrastructure {
     );
   }
 
-  // exportToPDF2() {
 
-  //   const doc = new jsPDF('l', 'mm', 'a4');
-
-  //   const head = [[
-  //     'S.No',
-  //     'Fund',
-  //     'Bill Division',
-  //     'Division Gross Amount (In Lacs)',
-  //     'Bill Section',
-  //     'Section Gross Amount (In Lacs)',
-  //     'Bill Finance',
-  //     'Finance Gross Amount (In Lacs)',
-  //     'Total Gross (In Lacs)',
-  //     'Office Order'
-  //   ]];
-
-  //   const body = this.himis_PendigBillSummary.map(row => [
-  //     row.sno,
-  //     row.fund,
-  //     row.billdiv,
-  //     row.divgrossamt,
-  //     row.billse,
-  //     row.segrossamt,
-  //     row.billfin,
-  //     row.fingrossamt,
-  //     row.totalgross,
-  //     row.officeorder
-  //   ]);
-
-  //   autoTable(doc, {
-  //     head: head,
-  //     body: body,
-  //     startY: 20,
-  //     theme: 'grid',
-  //     styles: {
-  //       fontSize: 8
-  //     },
-  //     headStyles: {
-  //       halign: 'center'
-  //     }
-  //   });
-
-  //   doc.save('Pending_Bill_Summary.pdf');
-  // }
   exportToPDF22() {
     const currentDateTime = this.getCurrentDateTime();
     const doc = new jsPDF('l', 'mm', 'a4');
@@ -548,16 +503,28 @@ export class FitUnFitInfrastructure {
 
       /* ================= BODY ================= */
       body: [
-        ...this.himis_PendigBillSummary.map((r) => [
-          r.fund,
-          r.billdiv,
-          r.divgrossamt,
-          r.billse,
-          r.segrossamt,
-          r.billfin,
-          r.fingrossamt,
-          r.totalgross,
-        ]),
+  ...this.himis_PendigBillSummary.map((r) => [
+    r.fund,
+    r.billdiv,
+    Number(r.divgrossamt).toFixed(2),
+    r.billse,
+    Number(r.segrossamt).toFixed(2),
+    r.billfin,
+    Number(r.fingrossamt).toFixed(2),
+    Number(r.totalgross).toFixed(2),
+  ]),
+
+      // body: [
+      //   ...this.himis_PendigBillSummary.map((r) => [
+      //     r.fund,
+      //     r.billdiv,
+      //     r.divgrossamt,
+      //     r.billse,
+      //     r.segrossamt,
+      //     r.billfin,
+      //     r.fingrossamt,
+      //     r.totalgross,
+      //   ]),
 
         /* ===== TOTAL ROW ===== */
         // [
@@ -588,9 +555,14 @@ export class FitUnFitInfrastructure {
             styles: { fontStyle: 'bold' },
           },
           {
-            content: total.totalgross.toFixed(2),
-            styles: { fontStyle: 'bold' },
-          },
+  content: Number(total.totalgross).toFixed(2),
+  styles: { fontStyle: 'bold' },
+}
+          // {
+            
+          //   content: total.totalgross.toFixed(2),
+          //   styles: { fontStyle: 'bold' },
+          // },
         ],
       ],
 
@@ -635,34 +607,106 @@ export class FitUnFitInfrastructure {
     doc.save('Construction_Pay_Pending_Fundwise.pdf');
   }
 
-  exportToPDF3() {
+  exportToPDF33() {
+        const currentDateTime = this.getCurrentDateTime();
+    const total = this.getTotals();
     const doc = new jsPDF('l', 'mm', 'a4');
-
-    const head = [
-      [
-        'S.No',
-        'Fund',
-        'Pending Section',
-        'Division Name',
-        'District',
-        'Work Name',
-        'Contractor',
-        'Agreement Bill Status',
-        // 'Bill No',
-        // 'Bill Date',
-        // 'Measurement Date',
-        'Gross Amount',
-        'File On Desk',
-        'Days Since File',
-        // 'Office Order'
-      ],
-    ];
+ const head = [
+  [
+    {
+      content: 'Pending payment Division wise',
+      colSpan: 9, // total columns cover karo
+      // styles: {
+      //   halign: 'center',
+      //   fontStyle: 'bold',
+      //   fontSize: 11,
+      //   fillColor: [254, 240, 255],
+      //   textColor: [0, 0, 0],
+      //   lineWidth: 0.8,
+      //   lineColor: [0, 0, 0],
+      // },
+    },
+    {
+      content: `Pt Date : ${currentDateTime}`,
+      colSpan: 2,
+      // styles: {
+      //   halign: 'right',
+      //   valign: 'top',
+      //   fontSize: 9,
+      //   fillColor: [254, 240, 255],
+      //   textColor: [0, 0, 0],
+      //   lineWidth: 0.8,
+      //   lineColor: [0, 0, 0],
+      // },
+    },
+  ],
+  [
+    'S.No',
+    'Fund Head',
+    'Section',
+    'Division',
+    'District',
+    'Work',
+    'Contractor',
+    'Agreement Bill Status',
+    'Gross Amount',
+    'File On Desk',
+    // 'Days Since File',
+  ]
+];
+    // const head = [
+    //   // [
+    //   //   'S.No',
+    //   //   'Fund Hed',
+    //   //   'Section',
+    //   //   // 'Pending Section',
+    //   //   'Division',
+    //   //   'District',
+    //   //   'Work',
+    //   //   'Contractor',
+    //   //   'Agreement Bill Status',
+    //   //   // 'Bill No',
+    //   //   // 'Bill Date',
+    //   //   // 'Measurement Date',
+    //   //   'Gross Amount',
+    //   //   'File On Desk',
+    //   //   'Days Since File',
+    //   //   // 'Office Order'
+    //   // ],
+    //          {
+    //         content: 'Pending payment Divesion wies',
+    //         colSpan: 6,
+    //         styles: {
+    //           halign: 'center',
+    //           fontStyle: 'bold',
+    //           fontSize: 11,
+    //           fillColor: [254, 240, 255],
+    //           textColor: [0, 0, 0],
+    //           lineWidth: 0.8,
+    //           lineColor: [0, 0, 0],
+    //         },
+    //       },
+    //       {
+    //         content: `Date : ${currentDateTime}`,
+    //         colSpan: 2,
+    //         styles: {
+    //           halign: 'right',
+    //           valign: 'top',
+    //           fontSize: 9,
+    //           fillColor: [254, 240, 255],
+    //           textColor: [0, 0, 0],
+    //           lineWidth: 0.8,
+    //           lineColor: [0, 0, 0],
+    //         },
+    //       },
+    // ];
 
     const body = this.himis_PendigBill.map((row) => [
       row.sno,
       row.fund,
       row.pedingsection,
-      row.divisionname,
+      // row.divisionname,
+      row.divisionname?.replace(/ division/i, ''),
       row.district,
       row.workname,
       row.contractor,
@@ -672,25 +716,90 @@ export class FitUnFitInfrastructure {
       // row.measurementdate,
       row.grossamount,
       row.fileondesk,
-      row.dayssincefile,
+      // row.dayssincefile,
       // row.officeorder
     ]);
 
+    // autoTable(doc, {
+    //   head: head,
+    //   body: body,
+    //   startY: 15,
+    //   theme: 'grid',
+    //   styles: {
+    //     fontSize: 7,
+    //   },
+    //   headStyles: {
+    //     halign: 'center',
+    //   },
+    // });
     autoTable(doc, {
-      head: head,
-      body: body,
-      startY: 15,
-      theme: 'grid',
-      styles: {
-        fontSize: 7,
-      },
-      headStyles: {
-        halign: 'center',
-      },
-    });
+  head: head,
+  body: body,
+  startY: 15,
+  theme: 'grid',
 
+  styles: {
+    fontSize: 7,
+    lineWidth: 0.5,
+    lineColor: [0, 0, 0],
+    valign: 'middle',
+    cellPadding: 2,
+  },
+
+  headStyles: {
+    halign: 'center',
+    fontStyle: 'bold',
+    fillColor: [230, 230, 230],
+    textColor: [0, 0, 0],
+    lineWidth: 0.8,
+    lineColor: [0, 0, 0],
+  },
+
+  bodyStyles: {
+    lineWidth: 0.4,
+    lineColor: [120, 120, 120],
+  },
+
+  didParseCell: function (data) {
+
+    // First Title Row Boxing
+    if (data.section === 'head' && data.row.index === 0) {
+      data.cell.styles.fillColor = [254, 240, 255];
+      data.cell.styles.fontSize = 10;
+      data.cell.styles.fontStyle = 'bold';
+      data.cell.styles.lineWidth = 1;
+      data.cell.styles.lineColor = [0, 0, 0];
+    }
+
+    // Column Header Row Boxing
+    if (data.section === 'head' && data.row.index === 1) {
+      data.cell.styles.fillColor = [240, 240, 240];
+      data.cell.styles.lineWidth = 0.8;
+      data.cell.styles.lineColor = [0, 0, 0];
+    }
+  }
+});
+// autoTable(doc, {
+//   head: head,
+//   body: body,
+//   startY: 15,
+//   theme: 'grid',
+//   styles: {
+//     fontSize: 7,
+//   },
+//   headStyles: {
+//     halign: 'center',
+//     fontStyle: 'bold'
+//   }
+// });
     doc.save('NHM_Fund_Construction_Bills_Under_Process.pdf');
   }
+
+
+
+
+
+
 
   exportToExcel(): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
@@ -711,6 +820,8 @@ export class FitUnFitInfrastructure {
 
     this.saveExcelFile(excelBuffer, 'Data_Table');
   }
+
+
   saveExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
@@ -722,5 +833,474 @@ export class FitUnFitInfrastructure {
     );
   }
 
+
+
+  exportToExcel1(): void {
+    // alert('lomesh');
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+      this.dataSource1.data,
+    );
+
+    const workbook: XLSX.WorkBook = {
+      Sheets: { Data: worksheet },
+      SheetNames: ['Data'],
+    };
+
+    XLSX.writeFile(workbook, 'report.xlsx');
+
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+
+    this.saveExcelFile1(excelBuffer, 'Data_Table');
+  }
+
+  
+  saveExcelFile1 (buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
+
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + '.xlsx',
+    );
+  }
+
+
+
+//  exportToPDF03() {
+//         const currentDateTime = this.getCurrentDateTime();
+//     const total = this.getTotals();
+//     const doc = new jsPDF('l', 'mm', 'a4');
+//  const head = [
+//   [
+//     {
+//       content: 'Pending payment Division wise',
+//       colSpan: 9, 
+  
+//     },
+//     {
+//       content: `Pt Date : ${currentDateTime}`,
+//       colSpan: 2,
+   
+//     },
+//   ],
+//   [
+//     'S.No',
+//     'Fund Head',
+//     'Section',
+//     'Division',
+//     'District',
+//     'Work',
+//     'Contractor',
+//     'Agreement Bill Status',
+//     'Gross Amount\n(In Lacs)',
+//     'File On Desk',
+//     // 'Days Since File',
+//   ]
+// ];
+
+//     // const body = this.himis_PendigBill.map((row) => [
+//     //   row.sno,
+//     //   row.fund,
+//     //   row.pedingsection,
+//     //   // row.divisionname,
+//     //   row.divisionname?.replace(/ division/i, ''),
+//     //   row.district,
+//     //   row.workname,
+//     //   row.contractor,
+//     //   row.agrbillstatus,
+//     //   // row.billno,
+//     //   // row.billdate,
+//     //   // row.measurementdate,
+//     //   row.grossamount,
+//     //   row.fileondesk,
+//     //   // row.dayssincefile,
+//     //   // row.officeorder
+//     // ]);
+// const body = finalData.map((row: any) => [
+//   row.sno,
+//   row.fund,
+//   row.pedingsection,
+//   row.divisionname,
+//   row.district,
+//   row.workname,
+//   row.contractor,
+//   row.agrbillstatus,
+//   Number(row.grossamount).toFixed(2),
+//   row.fileondesk,
+// ]);
+ 
+//     autoTable(doc, {
+//   head: head,
+//   body: body,
+//   startY: 15,
+//   theme: 'grid',
+
+//   styles: {
+//     fontSize: 7,
+//     lineWidth: 0.5,
+//     lineColor: [0, 0, 0],
+//     valign: 'middle',
+//     cellPadding: 2,
+//   },
+
+//   headStyles: {
+//     halign: 'center',
+//     fontStyle: 'bold',
+//     fillColor: [230, 230, 230],
+//     textColor: [0, 0, 0],
+//     lineWidth: 0.8,
+//     lineColor: [0, 0, 0],
+//   },
+
+//   bodyStyles: {
+//     lineWidth: 0.4,
+//     lineColor: [120, 120, 120],
+//   },
+
+//   didParseCell: function (data) {
+
+//     // First Title Row Boxing
+//     if (data.section === 'head' && data.row.index === 0) {
+//       data.cell.styles.fillColor = [254, 240, 255];
+//       data.cell.styles.fontSize = 10;
+//       data.cell.styles.fontStyle = 'bold';
+//       data.cell.styles.lineWidth = 1;
+//       data.cell.styles.lineColor = [0, 0, 0];
+//     }
+
+//     // Column Header Row Boxing
+//     if (data.section === 'head' && data.row.index === 1) {
+//       data.cell.styles.fillColor = [240, 240, 240];
+//       data.cell.styles.lineWidth = 0.8;
+//       data.cell.styles.lineColor = [0, 0, 0];
+//     }
+//   }
+// });
+
+//     doc.save('NHM_Fund_Construction_Bills_Under_Process.pdf');
+//   }
+// exportToPDF3() {
+
+//   const currentDateTime = this.getCurrentDateTime();
+//   const doc = new jsPDF('l', 'mm', 'a4');
+
+//   // Group data first
+//   const groupedData = this.himis_PendigBill.reduce((acc: any, row: any) => {
+
+//     const division = row.divisionname
+//       ?.replace(/division/gi, '')
+//       ?.trim();
+
+//     const key = `${row.fund}_${division}`;
+
+//     if (!acc[key]) {
+//       acc[key] = {
+//         sno: Object.keys(acc).length + 1,
+//         fund: row.fund,
+//         pedingsection: row.pedingsection,
+//         divisionname: division,
+//         district: row.district,
+//         workname: row.workname,
+//         contractor: row.contractor,
+//         agrbillstatus: row.agrbillstatus,
+//         grossamount: 0,
+//         fileondesk: row.fileondesk,
+//       };
+//     }
+
+//     acc[key].grossamount += Number(row.grossamount || 0);
+
+//     return acc;
+
+//   }, {});
+
+//   // Convert object → array
+//   const finalData: any[] = Object.values(groupedData);
+
+//   // Create body
+//   const body = finalData.map((row: any) => [
+//     row.sno,
+//     row.fund,
+//     row.pedingsection,
+//     row.divisionname,
+//     row.district,
+//     row.workname,
+//     row.contractor,
+//     row.agrbillstatus,
+//     Number(row.grossamount).toFixed(2),
+//     row.fileondesk
+//   ]);
+
+//   console.log(body);
+
+//   autoTable(doc, {
+//     head: head,
+//     body: body,
+//     startY: 15,
+//     theme: 'grid'
+//   });
+// //       autoTable(doc, {
+// //   head: head,
+// //   body: body,
+// //   startY: 15,
+// //   theme: 'grid',
+
+// //   styles: {
+// //     fontSize: 7,
+// //     lineWidth: 0.5,
+// //     lineColor: [0, 0, 0],
+// //     valign: 'middle',
+// //     cellPadding: 2,
+// //   },
+
+// //   headStyles: {
+// //     halign: 'center',
+// //     fontStyle: 'bold',
+// //     fillColor: [230, 230, 230],
+// //     textColor: [0, 0, 0],
+// //     lineWidth: 0.8,
+// //     lineColor: [0, 0, 0],
+// //   },
+
+// //   bodyStyles: {
+// //     lineWidth: 0.4,
+// //     lineColor: [120, 120, 120],
+// //   },
+
+// //   didParseCell: function (data) {
+
+// //     // First Title Row Boxing
+// //     if (data.section === 'head' && data.row.index === 0) {
+// //       data.cell.styles.fillColor = [254, 240, 255];
+// //       data.cell.styles.fontSize = 10;
+// //       data.cell.styles.fontStyle = 'bold';
+// //       data.cell.styles.lineWidth = 1;
+// //       data.cell.styles.lineColor = [0, 0, 0];
+// //     }
+
+// //     // Column Header Row Boxing
+// //     if (data.section === 'head' && data.row.index === 1) {
+// //       data.cell.styles.fillColor = [240, 240, 240];
+// //       data.cell.styles.lineWidth = 0.8;
+// //       data.cell.styles.lineColor = [0, 0, 0];
+// //     }
+// //   }
+// // });
+// }
+exportToPDFw3() {
+
+  const currentDateTime = this.getCurrentDateTime();
+  const doc = new jsPDF('l', 'mm', 'a4');
+
+  // Header
+  const head = [
+    [
+      {
+        content: 'Pending payment Division wise',
+        colSpan: 9,
+      },
+      {
+        content: `Pt Date : ${currentDateTime}`,
+        colSpan: 2,
+      },
+    ],
+    [
+      'S.No',
+      'Fund Head',
+      'Section',
+      'Division',
+      'District',
+      'Work',
+      'Contractor',
+      'Agreement Bill Status',
+      'Gross Amount\n(In Lacs)',
+      'File On Desk',
+    ]
+  ];
+
+  // Group data
+  const groupedData = this.himis_PendigBill.reduce((acc: any, row: any) => {
+
+    const division = row.divisionname
+      ?.replace(/division/gi, '')
+      ?.trim();
+
+    const key = `${row.fund}_${division}`;
+
+    if (!acc[key]) {
+      acc[key] = {
+        sno: Object.keys(acc).length + 1,
+        fund: row.fund,
+        pedingsection: row.pedingsection,
+        divisionname: division,
+        district: row.district,
+        workname: row.workname,
+        contractor: row.contractor,
+        agrbillstatus: row.agrbillstatus,
+        grossamount: 0,
+        fileondesk: row.fileondesk,
+      };
+    }
+
+    acc[key].grossamount += Number(row.grossamount || 0);
+
+    return acc;
+
+  }, {});
+
+  const finalData: any[] = Object.values(groupedData);
+
+  const body = finalData.map((row: any) => [
+    row.sno,
+    row.fund,
+    row.pedingsection,
+    row.divisionname,
+    row.district,
+    row.workname,
+    row.contractor,
+    row.agrbillstatus,
+    Number(row.grossamount).toFixed(2),
+    row.fileondesk,
+  ]);
+
+  autoTable(doc, {
+    head: head,
+    body: body,
+    startY: 15,
+    theme: 'grid'
+  });
+
+  doc.save('NHM_Fund_Construction_Bills_Under_Process.pdf');
+}
+exportToPDF3() {
+
+  const currentDateTime = this.getCurrentDateTime();
+  const doc = new jsPDF('l', 'mm', 'a4');
+
+  const head = [
+    [
+      {
+        content: 'Pending Payment Division Wise',
+        colSpan: 4,
+      },
+      {
+        content: `Pt Date : ${currentDateTime}`,
+        colSpan: 1,
+      },
+    ],
+    [
+      'S.No',
+      'Fund Head',
+      'Division',
+      'Gross Amount\n(In Lacs)',
+      'File On Desk'
+    ]
+  ];
+
+  // Group Fund + Division
+  const groupedData = this.himis_PendigBill.reduce((acc: any, row: any) => {
+
+    const division = row.divisionname
+      ?.replace(/division/gi, '')
+      ?.trim();
+
+    const key = `${row.fund}_${division}`;
+
+    if (!acc[key]) {
+      acc[key] = {
+        sno: Object.keys(acc).length + 1,
+        fund: row.fund,
+        divisionname: division,
+        grossamount: 0,
+        fileondesk: row.fileondesk
+      };
+    }
+
+    acc[key].grossamount += Number(row.grossamount || 0);
+
+    return acc;
+
+  }, {});
+
+  const finalData: any[] = Object.values(groupedData);
+
+  // Grand Total
+  const grandTotal = finalData.reduce(
+    (sum: number, row: any) => sum + Number(row.grossamount || 0),
+    0
+  );
+
+  const body = finalData.map((row: any) => [
+    row.sno,
+    row.fund,
+    row.divisionname,
+    Number(row.grossamount).toFixed(2),
+    row.fileondesk,
+  ]);
+
+  // Add total row
+  body.push([
+    '',
+    '',
+    'Grand Total',
+    grandTotal.toFixed(2),
+    ''
+  ]);
+
+  autoTable(doc, {
+    head,
+    body,
+    startY: 15,
+    theme: 'grid',
+
+    styles: {
+      fontSize: 8,
+      lineWidth: 0.5,
+      lineColor: [0, 0, 0],
+      cellPadding: 2,
+      valign: 'middle'
+    },
+
+    headStyles: {
+      fontStyle: 'bold',
+      halign: 'center',
+      fillColor: [230, 230, 230],
+      textColor: [0, 0, 0],
+      lineWidth: 0.8
+    },
+
+    bodyStyles: {
+      lineWidth: 0.4,
+      lineColor: [120, 120, 120]
+    },
+
+    didParseCell: function (data) {
+
+      // Title row styling
+      if (data.section === 'head' && data.row.index === 0) {
+        data.cell.styles.fillColor = [254, 240, 255];
+        data.cell.styles.fontStyle = 'bold';
+        data.cell.styles.fontSize = 10;
+        data.cell.styles.lineWidth = 1;
+      }
+
+      // Grand total row
+      if (
+        data.section === 'body' &&
+        data.row.index === body.length - 1
+      ) {
+        data.cell.styles.fillColor = [220, 220, 220];
+        data.cell.styles.fontStyle = 'bold';
+        data.cell.styles.lineWidth = 0.8;
+      }
+    }
+  });
+
+  doc.save('NHM_Fund_Construction_Bills_Under_Process.pdf');
+}
   //#endregion
 }

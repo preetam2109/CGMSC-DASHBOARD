@@ -13,7 +13,7 @@
           [(ngModel)]="selectedCategoryRadio" value="Consumables" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="consumables">Consumables</label>
       </div>
-      <div class="form-check me-3">
+      <!-- <div class="form-check me-3">
         <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategoryRadio"
           value="AYUSH" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="ayush">AYUSH</label>
@@ -22,7 +22,7 @@
         <input class="form-check-input" type="radio" name="categoryGroup" id="reagent"
           [(ngModel)]="selectedCategoryRadio" value="Reagent" (change)="updateSelectedHodid()" />
         <label class="form-check-label" for="reagent">Reagent</label>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
@@ -30,10 +30,10 @@
 
 
 
-<div class="container my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName) && selectedCategory!='Infrastructure'">
-  <div class="row">
+<!-- <div class="container my-4 mb-4"     *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName) && selectedCategory!='Infrastructure'">
+  <!-- <div class="row">
     <!-- Card 1 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3"  >
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3"  >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #1fd1f9, #a8c1f1); color: white;">
         <div class="card-body" routerLink="/GrowthInProcurmentTab" >
           <h6 class="card-title">No of {{selectedCategoryRadio}} Purchase Ordered in Current Financial Year.</h6>
@@ -41,10 +41,10 @@
           <p class="card-text">PO : {{ totalpovalue }} Cr., Received : {{ totalrecvalue }} Cr.</p>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Card 2 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #c346f1, #f8796b); color: white;">
         <div class="card-body" routerLink="/distribution">
           <h6 class="card-title">{{selectedCategoryRadio}} Distribution & Facility Issues in Current Financial Year.</h6>
@@ -53,10 +53,10 @@
 
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Card 3 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff9a44, #f25c59); color: white;">
         <div class="card-body" routerLink="/DropAppWarehousePerformance">
           <h6 class="card-title">Indent Processing & Fulfillment in Current Financial Year.</h6>
@@ -64,10 +64,10 @@
           <p class="card-text">Delivered: {{ indentIssued }} , Facility : {{ nooffacIndented }}</p>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Card 4 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3"   >
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3"   >
       <div class="card text-center p-3 shadow" style="background: linear-gradient(to right, #ff85a1,#ff477e); color: white;">
         <div class="card-body"   routerLink="/IndentPendingWHdash" >
           <h6 class="card-title">Pending Indents in Warehouse</h6>
@@ -75,12 +75,12 @@
           <p class="card-text"> No of Items: {{ nositems }} , Facility: {{ nosfac }}</p>
         </div>
       </div>
-    </div>
+    </div> 
 
   
     
-  </div>
-</div>
+  </div> 
+</div> -->
 
 
 
@@ -88,10 +88,10 @@
 
 
 
+<!-- Card 1 -->‌
 <div class="container my-4 mb-4" *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName)  && selectedCategory!='Infrastructure'"   >
   <div class="row">
-    <!-- Card 1 -->‌
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
           <apx-chart class="border rounded" style="background-color: #FF9800;"
@@ -102,17 +102,17 @@
           </apx-chart>‍‍‌
           <h5 class="card-title mt-3">Last 7 Days Distribution</h5>
           <p class="card-text text-success">
-            <!-- <i class="bi bi-arrow-up"></i> 55% increase in today's sales. -->
+            
           </p>
           <p class="card-text text-muted">
             <small>Value in Cr.</small>
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Card 2 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
           <apx-chart  class="border rounded" style="background-color: #95d5b2;"
@@ -122,14 +122,14 @@
           [tooltip]="chartOptions2.tooltip" [legend]="chartOptions2.legend" >
           </apx-chart>
           <h5 class="card-title mt-3">Last 7 Days Receipt</h5>
-          <!-- <p class="card-text">Last Campaign Performance</p> -->
+          
           <p class="card-text text-muted">
             <small>Value in Cr.</small>
 
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
 
   <!-- Card 3-->
   <!-- edl non edl indent  Card 3 -->
@@ -143,15 +143,15 @@
         [tooltip]="chartIndent.tooltip" [legend]="chartIndent.legend">
         </apx-chart>
         <div class="d-flex align-items-center">
-          <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+          
           <div>
             
             <h5 class="card-title ml-3">Annual Indent of {{selectedCategoryRadio}} Current Financial Year. </h5>
-            <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+            
           </div>
         </div>
         <p class="card-text text-muted">
-          <!-- <small>Campaign sent 2 days ago</small> -->
+          
         </p>
       </div>
     </div>
@@ -185,7 +185,7 @@
 
      <!-- Card 1 3rd line-->
   <!-- stock out DHS  Card 1 -->
-  <div class="col-12 col-sm-6 col-md-3 mb-3">
+  <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
     <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;" routerLink="/StockoutSummary" >
       <div class="card-body"  >
         <apx-chart  class="border rounded" style="background-color: #f7dad9;"
@@ -195,24 +195,24 @@
         [tooltip]="chartStockoutdhs.tooltip" [legend]="chartStockoutdhs.legend">
         </apx-chart>
         <div class="d-flex align-items-center">
-          <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+          
           <div>
             
             <h5 class="card-title ml-3">{{selectedCategoryRadio}} Stock out % against DHS Indent</h5>
-            <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+            
           </div>
         </div>
         <p class="card-text text-muted">
-          <!-- <small>Campaign sent 2 days ago</small> -->
+          
         </p>
       </div>
     </div>
-  </div>
+  </div> -->
 
   
 
    <!-- Cart Near Expiry in 6 month -->
-   <div class="col-12 col-sm-6 col-md-3 mb-3">
+   <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
     <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
       <div class="card-body" routerLink="/nearExpiry">
         <apx-chart  class="border rounded" style="background-color: #e78aae;"
@@ -222,18 +222,18 @@
         [tooltip]="chartNearexp.tooltip" [legend]="chartNearexp.legend" >
         </apx-chart>
         <h5 class="card-title mt-3">Near Expiry of {{selectedCategoryRadio}} in Next 6 Month </h5>
-        <!-- <p class="card-text">Last Campaign Performance</p> -->
+        
         <p class="card-text text-muted">
           <small>Value in Cr.</small>
 
         </p>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
     <!-- edl non rate Contract  Card 1 -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3">
+    <!-- <div class="col-12 col-sm-6 col-md-3 mb-3">
       <div class="card shadow p-0 m-0" style="height: 100%; width: 100%;">
         <div class="card-body">
           <apx-chart  class="border rounded" style="background-color: #e0aaff;"
@@ -243,19 +243,19 @@
           [tooltip]="chartOptions3.tooltip" [legend]="chartOptions3.legend">
           </apx-chart>
           <div class="d-flex align-items-center">
-            <!-- <img  routerLink="/DropAppWarehousePerformance"  style="width: 70px; height: 50px; margin-right: 20px; padding: 2px;" src="assets/dash-icon/delivery-service.png" alt="Delivery Icon"> -->
+            
             <div>
               
               <h5 class="card-title ml-3">Valid  Rate Contract of {{selectedCategoryRadio}} </h5>
-              <!-- <p class="card-text">{{currentMonth}} Month</p> -->
+              
             </div>
           </div>
           <p class="card-text text-muted">
-            <!-- <small>Campaign sent 2 days ago</small> -->
+            
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
 
 
 
@@ -296,15 +296,15 @@
 
 
 
-<div class="container my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName)  && selectedCategory!='Infrastructure'" >
+<!-- <div class="container my-4 mb-4" style="height: 20vh;" *ngIf="['SEC1', 'DHS', 'Collector','DM PO'].includes(roleName)  && selectedCategory!='Infrastructure'" >
   <div class="row justify-content-center" style="height: 20vh;">
     <div class="col-12">
       <div class="card shadow p-3 w-100" style="height: 80%;">
         <div class="card-body">
-          <!-- <h5 class="card-title text-center">Search Item</h5> -->
+          
           <div class="mb-3 w-100 d-flex align-items-center">
             <div class="me-2 w-100" >
-            <!-- <label class="form-label d-block w-100"><strong>Choose Item</strong>:</label> -->
+            
             <ng-select
               [items]="MasIndentitemslist"
               bindLabel="nameText"
@@ -328,7 +328,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
 
@@ -340,14 +340,14 @@
 
 
 
-<div class="container mt-4">
+<!-- <div class="container mt-4">
   <div class="row">
     <ng-container *ngFor="let item of menuItems; let i = index">
-      <!-- Main Menu Item -->
+      
       <div class="col-sm-12 col-md-6 col-lg-4">
         <div [style.background-color]="colors[i % colors.length]" class="card mb-4 shadow-sm" [routerLink]="item.route" style="cursor: pointer;">
           <div class="card-body d-flex flex-column align-items-center text-center">
-            <!-- Image Section -->
+            
             <div class="card-icon">
               <img 
                 *ngIf="labelToIconMap[item.label]" 
@@ -356,18 +356,18 @@
                 class="responsive-img"
               />
             </div>
-            <!-- Text Section -->
+            
             <h5 class="card-title mb-0 text-center">{{ item.label }}</h5>
           </div>
         </div>
       </div>
 
-      <!-- Submenu Items -->
+      
       <ng-container *ngIf="item.submenu">
         <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let sub of item.submenu">
           <div class="card mb-4 shadow-sm" [routerLink]="sub.route" style="cursor: pointer; background-color: #f8f9fa;">
             <div class="card-body d-flex flex-column align-items-center text-center">
-              <!-- Image Section -->
+              
               <div class="card-icon">
                 <img 
                   *ngIf="labelToIconMap[sub.label]" 
@@ -376,7 +376,7 @@
                   class="responsive-img"
                 />
               </div>
-              <!-- Text Section -->
+              
               <h6 class="card-title mb-0 text-center">{{ sub.label }}</h6>
             </div>
           </div>
@@ -384,7 +384,7 @@
       </ng-container>
     </ng-container>
   </div>
-</div>
+</div> -->
 
 
 <ng-template class=" " #itemDetailsModal let-modal>

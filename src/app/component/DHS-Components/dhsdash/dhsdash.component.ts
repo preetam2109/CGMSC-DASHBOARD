@@ -841,7 +841,7 @@ colors = [];
     
     // ;
     // Check if the role has categories or direct items
-    const hasCategories = ['SEC1', 'DHS', 'CME'].includes(this.role);
+    const hasCategories = ['SEC1', 'DHS', 'DHS STORE', 'CME', 'DME1', 'Collector'].includes(this.role);
     
     if (hasCategories) {
       const category = this.menuService.getSelectedCategory();

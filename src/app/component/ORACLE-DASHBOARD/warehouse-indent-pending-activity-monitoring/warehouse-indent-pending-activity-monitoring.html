@@ -1,0 +1,134 @@
+<div class="inter-warehouse-wrapper">
+
+  <!-- Spinner -->
+  <div *ngIf="loading" class="inter-warehouse-spinner-overlay">
+    <div class="inter-warehouse-spinner"></div>
+    <div class="inter-warehouse-spinner-text">
+      Please wait while we load the dashboard...
+    </div>
+  </div>
+
+  <!-- Oracle Analytics Dashboard -->
+  <iframe
+    class="oac_embedding_iframe"
+    style="height: 100vh; width: 100%; border: none;"
+    srcdoc='
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Daily Activity Dashboard</title>
+
+  <script
+    src="https://cgmscanalytics-cgmscee-bo.analytics.ocp.oraclecloud.com/public/dv/v1/embedding/standalone/embedding.js"
+    type="application/javascript">
+  </script>
+
+  <script>
+
+    var token = "";
+
+    function fetchAndSetToken() {
+
+      fetch("https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token")
+      .then(response => {
+
+        if (!response.ok) {
+          throw new Error("HTTP Error : " + response.status);
+        }
+
+        return response.json();
+      })
+      .then(data => {
+
+        token = data.access_token;
+
+        require([
+          "knockout",
+          "ojs/ojcore",
+          "ojs/ojknockout",
+          "ojs/ojcomposite",
+          "jet-composites/oracle-dv/loader",
+          "obitech-application/application"
+        ],
+
+        function(ko, oj, ok1, ok2, ok3, application) {
+
+          application.setSecurityConfig("token", {
+            tokenAuthFunction: function () {
+              return token;
+            }
+          });
+
+          if (!window.bindingsApplied) {
+
+            function MyProject() {
+
+              var self = this;
+
+              // Dashboard Path
+              self.projectPath = ko.observable(
+                "/@Catalog/users/sm.cgmsc@gmail.com/Daily Activity"
+              );
+
+              // Dashboard Parameters
+              self.parameters = ko.observable({
+                "p1n": "PARAM_WHID",
+                "p1v": "WH001"
+              });
+
+            }
+
+            ko.applyBindings(new MyProject());
+
+            window.bindingsApplied = true;
+
+            // Notify Angular Parent
+            setTimeout(function () {
+              window.parent.postMessage("OAC_LOADED", "*");
+            }, 3000);
+
+          }
+
+        });
+
+      })
+
+      .catch(error => {
+        console.error("Token Fetch Error :", error);
+      });
+
+    }
+
+    // Initial Load
+    fetchAndSetToken();
+
+    // Refresh Token Every 45 Min
+    setInterval(fetchAndSetToken, 45 * 60 * 1000);
+
+  </script>
+
+</head>
+
+<body style="margin:0; padding:0; overflow:hidden;">
+
+  <div style="width:100%; height:100vh;">
+
+    <oracle-dv
+      project-path="[[projectPath]]"
+      active-page="insight"
+      active-tab-id="snapshot!canvas!1"
+      parameters="[[parameters]]"
+      project-options=&apos;{"bShowFilterBar":false}&apos;>
+    </oracle-dv>
+
+  </div>
+
+</body>
+</html>
+'>
+  </iframe>
+
+</div>

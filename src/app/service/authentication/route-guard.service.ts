@@ -32,20 +32,20 @@ export class RouteGuardService implements CanActivate {
   constructor(
     private loginService: BasicAuthenticationService,
     private router: Router
-  ) {}
+  ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    
-    const isLoggedIn = this.loginService.isUserLogedIn() 
+
+    const isLoggedIn = this.loginService.isUserLogedIn()
     // || this.loginService.isAAMConsultantLoggedIn();
-    
+
     if (!isLoggedIn) {
       this.router.navigate(['login']);
       return false;
     }
 
     // Retrieve the user's role from the authentication service
-    
+
     const userRole = this.loginService.getRole().roleName;
 
     // Get the allowed roles from the route data
@@ -55,7 +55,7 @@ export class RouteGuardService implements CanActivate {
     console.log('Allowed Roles:', allowedRoles);
 
     // Allow access if the user's role is included in the allowed roles
-    
+
     if (!allowedRoles || allowedRoles.includes(userRole)) {
       return true;
     } else {

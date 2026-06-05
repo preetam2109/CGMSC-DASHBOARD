@@ -1,0 +1,164 @@
+.payment-approval-page {
+  background: #f4f7fc;
+  min-height: 100vh;
+}
+
+/* CARD */
+
+.custom-card {
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+/* SELECT */
+
+.custom-select {
+  height: 50px;
+  border-radius: 12px;
+  border: 1px solid #dfe5f1;
+  font-weight: 500;
+}
+
+/* TOGGLE BUTTON */
+
+.toggle-btn {
+  height: 55px;
+  border: 2px solid #5b5ff8;
+  background: white;
+  color: #5b5ff8;
+  border-radius: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+  transform: translateY(-2px);
+}
+
+.active-btn {
+  background: linear-gradient(
+    135deg,
+    #5b5ff8,
+    #7d5fff
+  );
+  color: white;
+  box-shadow: 0 6px 16px rgba(91,95,248,0.3);
+}
+
+/* SEARCH */
+
+.search-box input {
+  width: 260px;
+  border-radius: 12px;
+  height: 45px;
+}
+
+/* TABLE */
+
+.modern-table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.modern-table thead th {
+  border: none;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px;
+}
+
+.modern-table tbody tr {
+  background: white;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+  border-radius: 12px;
+}
+
+.modern-table tbody td {
+  padding: 18px 14px;
+  border: none;
+  vertical-align: middle;
+}
+
+/* STATUS */
+
+.status-badge {
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-send {
+  background: #fff4e5;
+  color: #ff9800;
+}
+
+.status-received {
+  background: #e8fff1;
+  color: #22a06b;
+}
+
+/* BUTTONS */
+
+.action-btn {
+  background: linear-gradient(
+    135deg,
+    #5b5ff8,
+    #7d5fff
+  );
+  color: white;
+  border-radius: 12px;
+  padding: 10px 28px;
+  border: none;
+  font-weight: 600;
+}
+
+.clear-btn {
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-weight: 600;
+}
+
+.clear-btn:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 768px) {
+
+  .search-box input {
+    width: 100%;
+  }
+
+}
+
+
+.pagination-btn {
+
+  border: 1px solid #5b5ff8;
+
+  color: #5b5ff8;
+
+  border-radius: 10px;
+
+  padding: 8px 18px;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+
+}
+
+.pagination-btn:hover {
+
+  background: #5b5ff8;
+
+  color: white;
+
+}

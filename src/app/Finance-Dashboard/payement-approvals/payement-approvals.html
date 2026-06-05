@@ -1,0 +1,303 @@
+<div class="container-fluid payment-approval-page py-4">
+
+  <!-- Header -->
+  <div class="page-header d-flex justify-content-center align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold mb-1">Payment Approvals</h3>
+    </div>
+  </div>
+
+ <!-- Fund Head Card -->
+<div class="card custom-card mb-4">
+
+  <div class="card-body">
+
+    <div class="row align-items-end g-4">
+
+      <!-- Category -->
+      <div class="col-md-4">
+
+        <label class="form-label fw-semibold">
+          Select Category
+        </label>
+
+        <select
+          class="form-select custom-select"
+          [(ngModel)]="selectedCategoryRadio"
+          (change)="selectCategory(selectedCategoryRadio)">
+
+          <option value="">
+            -- Select Category --
+          </option>
+
+          <option value="Drugs">
+            DRUGS
+          </option>
+
+          <option value="Consumables">
+            CONSUMABLES
+          </option>
+
+          <option value="AYUSH">
+            AYUSH
+          </option>
+
+          <option value="Reagent">
+            REAGENT
+          </option>
+
+        </select>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- Toggle Buttons -->
+  <div class="row mb-4">
+
+    <div class="col-md-6 mb-3 mb-md-0">
+
+      <button
+        class="toggle-btn w-100"
+        [ngClass]="{
+          'active-btn': activeTab === 'send'
+        }"
+        (click)="changeTab('send')">
+
+        <i class="bi bi-send me-2"></i>
+        To Be Sent To MD
+
+      </button>
+
+    </div>
+
+    <div class="col-md-6">
+
+      <button
+        class="toggle-btn w-100"
+        [ngClass]="{
+          'active-btn': activeTab === 'received'
+        }"
+        (click)="changeTab('received')">
+
+        <i class="bi bi-check-circle me-2"></i>
+        Received From MD
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Table Card -->
+  <div class="card custom-card">
+
+    <div class="card-body">
+
+      <!-- Top -->
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+
+        <div>
+          <h5 class="fw-bold mb-1">
+
+            {{
+              activeTab === 'send'
+                ? 'To Be Sent To MD'
+                : 'Received From MD'
+            }}
+
+          </h5>
+
+          <small class="text-muted">
+
+            {{
+              activeTab === 'send'
+                ? 'Select records and send to MD'
+                : 'Received records from MD'
+            }}
+
+          </small>
+        </div>
+
+        <!-- Search -->
+        <div class="search-box mt-3 mt-md-0">
+
+         <input
+  type="text"
+  class="form-control"
+  placeholder="Search..."
+  [(ngModel)]="searchText"
+  (input)="onSearchInput()">
+
+        </div>
+
+      </div>
+
+      <!-- Table -->
+      <div class="table-responsive">
+
+        <table class="table align-middle modern-table">
+
+          <thead>
+
+            <tr>
+
+              <th width="60">
+
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [(ngModel)]="selectAll"
+                  (change)="toggleAllSelection()">
+
+              </th>
+
+              <th>S.No</th>
+              <th>PONO</th>
+              <th>Sanction Value</th>
+              <th>Supplier</th>
+              <th>File No</th>
+              <!-- <th>Status</th> -->
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let item of paginatedList; let i = index">
+
+              <td>
+
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [(ngModel)]="item.selected">
+
+              </td>
+
+              <td>{{ i + 1 }}</td>
+
+              <td>{{ item.pono }}</td>
+
+              <td>{{ item.grossAmount }}</td>
+
+              <td>{{ item.supplierName }}</td>
+
+              <td>{{ item.fileNo }}</td>
+
+              
+
+              <!-- <td>
+
+                <span
+                  class="status-badge"
+                  [ngClass]="{
+                    'status-send': activeTab === 'send',
+                    'status-received': activeTab === 'received'
+                  }">
+
+                  {{
+                    activeTab === 'send'
+                      ? 'Pending'
+                      : 'Received'
+                  }}
+
+                </span>
+
+              </td> -->
+
+            </tr>
+
+          </tbody>
+
+        </table>
+        <!-- Pagination -->
+<div
+  class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
+
+  <div class="text-muted">
+
+    Page {{ currentPage }} of {{ totalPages }}
+
+  </div>
+
+  <div class="d-flex gap-2">
+
+    <button
+      class="btn pagination-btn"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1">
+
+      Previous
+
+    </button>
+
+    <button
+      class="btn pagination-btn"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages">
+
+      Next
+
+    </button>
+
+  </div>
+
+</div>
+
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="d-flex justify-content-end mt-4 gap-3 align-items-center">
+
+        <!-- Receiver Dropdown -->
+        <button
+          class="btn clear-btn"
+          (click)="clearSelection()">
+
+          Clear Selection
+
+        </button>
+        <select
+          class="form-select w-auto"
+          [(ngModel)]="selectedReceiver"
+          *ngIf="activeTab === 'received'">
+          <option value="">Select Receiver</option>
+          <option *ngFor="let receiver of fileReceivers" [value]="receiver.userId">
+            {{ receiver.displayName }}
+          </option>
+        </select>
+
+
+        <button
+          *ngIf="activeTab === 'received'"
+          class="btn btn-success text-white px-4 fw-medium"
+          (click)="forwardFile()">
+          Received and Sent to Other
+        </button>
+
+       <button
+  class="btn action-btn"
+  (click)="submitToMD()">
+
+  {{
+    activeTab === 'send'
+      ? 'Send To MD'
+      : 'Received From MD'
+  }}
+
+</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

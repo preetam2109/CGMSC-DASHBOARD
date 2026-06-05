@@ -36,6 +36,15 @@ export class CategorySelectionComponent implements OnInit {
    
 
     this.role = this.loginService.getRole().roleName;
+
+    if (this.role === 'DHS') {
+      this.selectedCategory = 'DrugsConsumables';
+      localStorage.setItem('selectedCategory', 'DrugsConsumables');
+      this.menuService.setSelectedCategory('DrugsConsumables');
+      this.router.navigate(['/dhsdash']);
+      return;
+    }
+
     // Retrieve the selected category from localStorage on page refresh
     const storedCategory = this.menuService.getSelectedCategory(); // No need to directly access localStorage here
     if (storedCategory) {

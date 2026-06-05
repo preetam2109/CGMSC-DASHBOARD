@@ -99,7 +99,7 @@ import {
   RunningWorkDelay,
   WorkBillStatus,
   ProjectTimelineNew,
-  RunningDelayWorksDetails,TotalWorksAbstract
+  RunningDelayWorksDetails, TotalWorksAbstract
 } from '../Model/DashProgressCount';
 
 import { DistDHSStock } from '../Model/DistDHSStock';
@@ -130,7 +130,7 @@ export class ApiService {
   private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
   // private CGMSCHO_API2 = 'http://141.148.193.157/CGMSCHO_API2/api';
   private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
- 
+
   // private CGMSCHO_API2 = 'https://dpdmis.in//CGMSCHO_API_TEST/api';
 
   // https://dpdmis.in//CGMSCHO_API_TEST/api
@@ -145,14 +145,14 @@ export class ApiService {
   //   return this.http.get<Districts[]>(`https://localhost:7288/api/District`)
   // }
 
-  KPIFacilityDetai(distId:any){
+  KPIFacilityDetai(distId: any) {
     return this.http.get<any[]>(`${this.AAM_API_URL}/AAMAdmin/KPIFacilityDetai?distId=${distId}`);
-    
+
   }
-  updateFacilityContact(facilityId: any,contactPersonName: any,phone1:any) {
+  updateFacilityContact(facilityId: any, contactPersonName: any, phone1: any) {
     // https://dpdmis.in/AAMAPIMR/api/AAMAdmin/updateFacilityContact?facilityId=27955&contactPersonName=Khushboo Sarva&phone1=9399805726
 
-    return this.http.put(`${this.AAM_API_URL}/AAMAdmin/updateFacilityContact?facilityId=${facilityId}&contactPersonName=${contactPersonName}&phone1=${phone1}`,{});
+    return this.http.put(`${this.AAM_API_URL}/AAMAdmin/updateFacilityContact?facilityId=${facilityId}&contactPersonName=${contactPersonName}&phone1=${phone1}`, {});
 
   }
 
@@ -167,7 +167,7 @@ export class ApiService {
 
   totalNoRc(): Observable<TotalNoRc> {
     return this.http.get<TotalNoRc>(`${this.EMIS_API}/getTotalNoRC`);
-  } 
+  }
 
   overAllComplaints() {
     return this.http.get<Complaints[]>(`${this.EMIS_API}/getAllComplaints`)
@@ -421,7 +421,7 @@ export class ApiService {
     return this.http.get<LabIssuePendingDetails[]>(`${this.CGMSCHO_API2}/QC/LabIssuePendingDetails?mcid=${mcid}&delaypara1=${delaypara1}`);
   }
   getHODYearWiseIssuanceSummary(mcatid: any, hodid: any) {
-    
+
     return this.http.get<HODYearWiseIssuanceSummary>(`${this.CGMSCHO_API2}/HO/HODYearWiseIssuanceSummary?mcatid=${mcatid}&hodid=${hodid}`);
   }
   getHODYearWiseIssuance(yearid: any, mcatid: any, hodid: any, itemid: any, disid: any) {
@@ -581,13 +581,13 @@ export class ApiService {
     return this.http.get<HODPOYear_AgAI[]>(`${this.CGMSCHO_API2}/HO/HODPOYear_AgAI?mcatid=${mcatid}&hodid=${hodid}&Isall=${Isall}&IsagainstAI=${IsagainstAI}`);
   }
 
-  DirectorateAIDetails(yearid: any, mcid: any, hodid: any, groupid: any, itemtypeid: any,pogiven:any): Observable<any> {
+  DirectorateAIDetails(yearid: any, mcid: any, hodid: any, groupid: any, itemtypeid: any, pogiven: any): Observable<any> {
 
     return this.http.get<DirectorateAIDetails[]>(`${this.CGMSCHO_API2}/HOD/DirectorateAIDetails?yearid=${yearid}&mcid=${mcid}&hodid=${hodid}&groupid=${groupid}&itemtypeid=${itemtypeid}&pogiven=${pogiven}`);
   }
 
   GroupWiseAI_PODetails(yearid: any, mcid: any, hodid: any): Observable<any> {
-    
+
 
     return this.http.get<GroupWiseAI_PODetails[]>(`${this.CGMSCHO_API2}/HOD/GroupWiseAI_PODetails?yearid=${yearid}&mcid=${mcid}&hodid=${hodid}`);
   }
@@ -636,11 +636,11 @@ export class ApiService {
   // getOTPSaved(userid: any) {
   //   return this.http.post(`${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}`, { responseType: 'text' });
   // }
-  getOTPSaved(userid: any,ipAddress: any) {
+  getOTPSaved(userid: any, ipAddress: any) {
     const url = `${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}&ipAddress=${encodeURIComponent(ipAddress)}`;
     return this.http.post(url, null, { responseType: 'text' });
   }
-  
+
 
   getDashLoginDDL() {
 
@@ -680,30 +680,30 @@ export class ApiService {
   //#region DetailProgress
 
 
-  GETWORunningHandDetails(did: any, divisionId: any, distId: number, mainSchemeId: any,contractorid:any,ASAmount:any) {
+  GETWORunningHandDetails(did: any, divisionId: any, distId: number, mainSchemeId: any, contractorid: any, ASAmount: any) {
     return this.http.get<WORunningHandDetails[]>(`${this.apiUrl}/DetailProgress/WORunningHandDetails?did=${did}&divisionid=${divisionId}&districtid=${distId}&mainSchemeId=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/WORunningHandDetails?did=3001&divisionid=0&districtid=0&mainschemeid=0&contractorid=0&ASAmount=1
     // WORunningHandDetails
   }
-  GETLandIssueRetToDeptDetatails(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
+  GETLandIssueRetToDeptDetatails(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any) {
     return this.http.get<LandIssue_RetToDeptDetatails[]>(`${this.apiUrl}/DetailProgress/LandIssue_RetToDeptDetatails?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/LandIssue_RetToDeptDetatails?did=6001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=1
   }
-  GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
+  GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any) {
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TobeTenderAll?did=1001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=0;
   }
-  GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
+  GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any) {
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TenderInProcess?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TenderInProcess?did=2001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=1
   }
-  GET_TotalWorksAbstract(divisionId: any,districtid:any,mainSchemeId: any, contractorid:any,ASAmount:any) {
+  GET_TotalWorksAbstract(divisionId: any, districtid: any, mainSchemeId: any, contractorid: any, ASAmount: any) {
     // ;
     return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}`);
-  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1&ASAmount=0;
+    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1&ASAmount=0;
   }
 
-  DashProgressCount(divisionId: any, mainSchemeId: number, distid: number,ASID:any,GrantID:any,ASAmount:any) {
+  DashProgressCount(divisionId: any, mainSchemeId: number, distid: number, ASID: any, GrantID: any, ASAmount: any) {
     // return this.http.get<DashProgressCount[]>(
     //   `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distId}`
     // );
@@ -772,7 +772,7 @@ export class ApiService {
 
   }
   //#region Work pending 
-  WOPendingTotal(RPType: any, divisionId: any, districtid: any,mainSchemeId:any) {
+  WOPendingTotal(RPType: any, divisionId: any, districtid: any, mainSchemeId: any) {
     return this.http.get<WOpendingTotal[]>(`${this.apiUrl}/WorkOrder/WOPendingTotal?RPType=${RPType}&divisionId=${divisionId}&districtid=${districtid}&mainSchemeId=${mainSchemeId}`);
 
     // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WOPendingTotal?RPType=Scheme&divisionid=0&districtid=0&mainSchemeId=145
@@ -782,7 +782,7 @@ export class ApiService {
 
   }
 
-  GETWorkOrderGenerated(RPType: any, divisionId: any, districtid: any, fromdt: any, todt: any,mainSchemeId:any) {
+  GETWorkOrderGenerated(RPType: any, divisionId: any, districtid: any, fromdt: any, todt: any, mainSchemeId: any) {
     return this.http.get<WorkOrderIssued[]>(`${this.apiUrl}/WorkOrder/WorkOrderGenerated?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&fromdt=${fromdt}&todt=${todt}&mainSchemeId=${mainSchemeId}`);
     //https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Scheme&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0&mainSchemeId=145
 
@@ -792,7 +792,7 @@ export class ApiService {
     //https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/getWorkGenDetails?divisionId=D1004&mainSchemeId=0&distid=0&work_id=0&fromdt=01-Apr-2023&todt=01-Jan-2025
 
   }
- 
+
   //#endregion
 
   //#region Handover
@@ -800,7 +800,7 @@ export class ApiService {
   //   return this.http.get<HandoverAbstractDateBY[]>(`${this.apiUrl}/Handover/HandoverAbstract?RPType=${Total}&dashid=${dashid}&divisionid=${divisionId}&districtid=${districtid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}`);
   //   // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=01-05-2023
   // }
-  HandoverAbstract(RPType: any, dashid: any, divisionId: any, districtid: any, SWId: any, fromdt: any, todt: any,mainSchemeId:any) {
+  HandoverAbstract(RPType: any, dashid: any, divisionId: any, districtid: any, SWId: any, fromdt: any, todt: any, mainSchemeId: any) {
     return this.http.get<HandoverAbstract[]>(`${this.apiUrl}/Handover/HandoverAbstract?RPType=${RPType}&dashid=${dashid}&divisionid=${divisionId}&districtid=${districtid}&SWId=${SWId}&fromdt=${fromdt}&todt=${todt}&mainSchemeId=${mainSchemeId}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=0
     // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=0&mainSchemeId=142
@@ -835,7 +835,7 @@ export class ApiService {
   }
   // #endregion
   //#region  LandIssue
-  GetLIPendingTotal(engtype: any,divisionId: any,districtid:any,mainSchemeId:any) {
+  GetLIPendingTotal(engtype: any, divisionId: any, districtid: any, mainSchemeId: any) {
     return this.http.get<LIPendingTotal[]>(`${this.apiUrl}/LandIssue/LIPendingTotal?RPType=${engtype}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainSchemeId}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/LandIssue/LIPendingTotal?RPType=Total&divisionid=0&districtid=0&mainSchemeId=145
   }
@@ -914,7 +914,7 @@ export class ApiService {
     return this.http.get<PaidDetails[]>(`${this.apiUrl}/Payment/PaidDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/PaidDetails?divisionId=0&mainSchemeId=0&distid=0&fromdt=0&todt=0
   }
-  GETUnPaidDetails(divisionId:any,mainSchemeId:any,distid: any,designame:any,OfficerID:any) {
+  GETUnPaidDetails(divisionId: any, mainSchemeId: any, distid: any, designame: any, OfficerID: any) {
     return this.http.get<UnPaidDetails[]>(`${this.apiUrl}/Payment/UnPaidDetails?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&designame=${designame}&OfficerID=${OfficerID}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/UnPaidDetails?divisionId=0&mainSchemeId=137&distid=0&designame=0&OfficerID=0
   }
@@ -958,7 +958,7 @@ export class ApiService {
   GETASCompleted() {
     return this.http.get<ASCompletedDetails[]>(`${this.apiUrl}/ASDetails/ASCompleted`);
 
-   //md :otp=11344
+    //md :otp=11344
     // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
   }
   GETASFile(ASID: any, workid: any) {
@@ -967,25 +967,25 @@ export class ApiService {
     //md :otp=11344
     // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
   }
-//#endregion
-//#region RunningWork
+  //#endregion
+  //#region RunningWork
 
-GETRunningWorkSummary(RPType:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
-  return this.http.get<RunningWork[]>(`${this.apiUrl}/RunningWork/RunningWorkSummary?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
-//https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummary?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
-}
-GETRunningWorkSummaryDelay(RPType:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
-  return this.http.get<RunningWorkDelay[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryDelay?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
-//https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummaryDelay?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
-}
-GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districtid:any,mainschemeid:any,contractid:any) {
-  return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}`);
-// https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
-// https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=OnTime&parameter=TimeValid&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
-}
+  GETRunningWorkSummary(RPType: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any) {
+    return this.http.get<RunningWork[]>(`${this.apiUrl}/RunningWork/RunningWorkSummary?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
+    //https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummary?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
+  }
+  GETRunningWorkSummaryDelay(RPType: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any) {
+    return this.http.get<RunningWorkDelay[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryDelay?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
+    //https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummaryDelay?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
+  }
+  GETRunningDelayWorksDetails(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any) {
+    return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}`);
+    // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
+    // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=OnTime&parameter=TimeValid&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
+  }
 
 
-//#endregion
+  //#endregion
   GETASEnteredDetails(ASID: any, divisionId: any, mainSchemeId: any) {
     return this.http.get<ASEnteredDetails[]>(`${this.apiUrl}/ASDetails/ASEnteredDetails?ASID=${ASID}&divisionId=${divisionId}&mainSchemeId=${mainSchemeId}`);
 
@@ -994,7 +994,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     //https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/ASEnteredDetails?ASID=22&divisionId=D1017&mainSchemeId=0
   }
 
- 
+
 
 
 
@@ -1030,7 +1030,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<MasSupplierPipeline[]>(`${this.CGMSCHO_API2}/Master/MasSupplierPipeline?wh=${wh}`);
   }
 
-  CGMSCIndentPending( mcid:any,hodid:any){
+  CGMSCIndentPending(mcid: any, hodid: any) {
     return this.http.get(`${this.CGMSCHO_API2}/DashboardHome/CGMSCIndentPending?mcid=${mcid}&hodid=${hodid}`);
   }
 
@@ -1038,16 +1038,16 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<DeliveryInMonthconst[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}`);
   }
 
-  Last7DaysIssue(days: any, mcid: any, yrid: any,hodid:any,ltflag:any) {
+  Last7DaysIssue(days: any, mcid: any, yrid: any, hodid: any, ltflag: any) {
     return this.http.get<Last7DaysIssue[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysIssue?days=${days}&mcid=${mcid}&yrid=${yrid}&hodid=${hodid}&ltflag=${ltflag}`);
   }
 
-  Last7DaysReceipt(days: any, mcid: any, yrid: any,hodid:any) {
+  Last7DaysReceipt(days: any, mcid: any, yrid: any, hodid: any) {
     return this.http.get<Last7DaysReceipt[]>(`${this.CGMSCHO_API2}/DashboardHome/Last7DaysReceipt?days=${days}&mcid=${mcid}&yrid=${yrid}&hodid=${hodid}`);
   }
 
   MasIndentitems(mcid: any, yearid: any, hodid: any, medclgid: any) {
-    
+
     return this.http.get<MasIndentitems[]>(`${this.CGMSCHO_API2}/DashboardHome/MasIndentitems?mcid=${mcid}&yearid=${yearid}&hodid=${hodid}&medclgid=${medclgid}`);
   }
   MasfacilityInfo(hod: any, disid: any, factypeid: any, whid: any, facid: any) {
@@ -1074,10 +1074,10 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   //   return this.http.get<facwiseSTockIssuanceCoonsumptionm[]>(`${this.CGMSCHO_API2}/DashboardHome/IssuedCFY?yrid=0&mcid=0`);
   // }
 
-  getPOCountCFY(yrid: any, mcid: any,hodid:any) {
+  getPOCountCFY(yrid: any, mcid: any, hodid: any) {
     return this.http.get<POCountCFY[]>(`${this.CGMSCHO_API2}/DashboardHome/POCountCFY?yrid=${yrid}&mcid=${mcid}&hodid=${hodid}`);
   }
-  getDeliveryInMonth(yrid:any,IndentfromDT: any, Indenttodt: any,hodid:any,mcid:any) {
+  getDeliveryInMonth(yrid: any, IndentfromDT: any, Indenttodt: any, hodid: any, mcid: any) {
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/DeliveryInMonth?yrid=${yrid}&IndentfromDT=${IndentfromDT}&Indenttodt=${Indenttodt}&hodid=${hodid}&mcid=${mcid}`);
   }
 
@@ -1112,13 +1112,13 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/PartItem_RCs?itemid=${itemid}`);
   }
 
-  getFundsDDL(RoleID:any) {
-    
+  getFundsDDL(RoleID: any) {
+
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/getFunds?RoleID=${RoleID}`);
   }
 
   getFundReivedBudgetID(bugetid: any, yrid: any) {
-    
+
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/FundReivedBudgetID?bugetid=${bugetid}&yrid=${yrid}`);
   }
 
@@ -1127,7 +1127,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   PODetailsAgainstIndentYr(bugetid: any, yrid: any, HOD: any) {
-    
+
     return this.http.get<PODetailsAgainstIndentYr[]>(`${this.CGMSCHO_API2}/DashboardFinance/PODetailsAgainstIndentYr?bugetid=${bugetid}&yrid=${yrid}&HOD=${HOD}`);
   }
 
@@ -1162,7 +1162,7 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
   }
 
   QCPendingHomeDash(mcid: any) {
-    
+
     return this.http.get<QCPendingHomeDash[]>(`${this.CGMSCHO_API2}/QC/QCPendingDashboard?mcid=${mcid}`);
   }
   QCPendingPlace(mcid: any) {
@@ -1173,287 +1173,286 @@ GETRunningDelayWorksDetails(delayTime:any,parameter:any,divisionId:any,districti
     return this.http.get<QCPendingAreaDetail[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}`);
   }
 
-  GrossPaidDateWiseDetails(bugetid: any, fromdt: any, todt: any, supplierid: any, yrid: any,Indentyrid:any) {
+  GrossPaidDateWiseDetails(bugetid: any, fromdt: any, todt: any, supplierid: any, yrid: any, Indentyrid: any) {
     return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}&Indentyrid=${Indentyrid}`);
   }
-  
-  Sanc_Cheque(rptype: any,bugetid: any) 
-  {
+
+  Sanc_Cheque(rptype: any, bugetid: any) {
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/Sanc_Cheque?rptype=${rptype}&bugetid=${bugetid}`);
   }
 
-  SanctionPrepDetails(bugetid: any,supplierid:any) {
+  SanctionPrepDetails(bugetid: any, supplierid: any) {
     return this.http.get<GetSanctionPrepDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/SanctionPrepDetails?bugetid=${bugetid}&supplierid=${supplierid}`);
   }
 
-  
+
   // Total Paid Click details
   // aifinyear
-  GrossPaidDateWiseDetails2(bugetid: any, fromdt: any, todt: any,supplierid:any,yrid:any,Indentyrid:any) {
+  GrossPaidDateWiseDetails2(bugetid: any, fromdt: any, todt: any, supplierid: any, yrid: any, Indentyrid: any) {
     return this.http.get<GrossPaidDateWiseDetails[]>(`${this.CGMSCHO_API2}/DashboardFinance/GrossPaidDateWiseDetails?bugetid=${bugetid}&fromdt=${fromdt}&todt=${todt}&supplierid=${supplierid}&yrid=${yrid}&Indentyrid=${Indentyrid}`);
   }
-  
 
-  GetLibDetails(rptype: any, yrid: any, budgetid: any,supplierid:any) {
-    
+
+  GetLibDetails(rptype: any, yrid: any, budgetid: any, supplierid: any) {
+
     return this.http.get<LibDetailsbasedOnYearID[]>(`${this.CGMSCHO_API2}/DashboardFinance/LibDetailsbasedOnYearID?rptype=${rptype}&yrid=${yrid}&budgetid=${budgetid}&supplierid=${supplierid}`);
   }
 
   GetQCFinalResultPending(mcid: any) {
-    
+
     return this.http.get<QCFinalResultPending[]>(`${this.CGMSCHO_API2}/QC/QCResultFinalUpdatePending?mcid=${mcid}`);
   }
 
-  QCLabPendingTimeline(mcid:any,Timeline:any,labid:any) {
-    
+  QCLabPendingTimeline(mcid: any, Timeline: any, labid: any) {
+
     return this.http.get<QCLabPendingTimeline[]>(`${this.CGMSCHO_API2}/QC/QCLabPendingTimeline?Timeline=${Timeline}&mcid=${mcid}&labid=${labid}`);
   }
 
-  QCPendingItems(mcid:any) {
+  QCPendingItems(mcid: any) {
     return this.http.get<QCPendingItems[]>(`${this.CGMSCHO_API2}/QC/QCPendingItems?mcid=${mcid}`);
   }
 
-  QCPendingParticularArea(area:any,itemid:any) {
-    debugger
-    
+  QCPendingParticularArea(area: any, itemid: any) {
+
+
     return this.http.get<QCPendingParticularArea[]>(`${this.CGMSCHO_API2}/QC/QCPendingParticularArea?area=${area}&itemid=${itemid}`);
   }
 
 
 
-  QCResultPendingLabWise(mcid:any) {
-debugger
+  QCResultPendingLabWise(mcid: any) {
+
     return this.http.get<QCResultPendingLabWise[]>(`${this.CGMSCHO_API2}/QC/QCResultPendingLabWise?mcid=${mcid}`);
   }
 
-  QCHold_NSQDash(mcid:any,nsqhold :any) {
+  QCHold_NSQDash(mcid: any, nsqhold: any) {
 
     return this.http.get<QCHold_NSQDash[]>(`${this.CGMSCHO_API2}/QC/QCHold_NSQDash?mcid=${mcid}&nsqhold=${nsqhold}`);
   }
 
-  QCTimeTakenYear(mcid:any,yearid:any,itemtypeid:any) {
+  QCTimeTakenYear(mcid: any, yearid: any, itemtypeid: any) {
 
     return this.http.get<QCTimeTakenYear[]>(`${this.CGMSCHO_API2}/TimeTaken/QCTimeTakenYear?mcid=${mcid}&yearid=${yearid}&itemtypeid=${itemtypeid}`);
   }
 
 
-  QCPendingMonthwiseRec(mcid:any) {
+  QCPendingMonthwiseRec(mcid: any) {
     return this.http.get<QCPendingMonthwiseRec[]>(`${this.CGMSCHO_API2}/QC/QCPendingMonthwiseRec?mcid=${mcid}`);
   }
 
-  QCPendingMonthwiseRecDetails(monthid:any,mcid:any,) {
-    
+  QCPendingMonthwiseRecDetails(monthid: any, mcid: any,) {
+
     return this.http.get<QCPendingMonthwiseRecDetails[]>(`${this.CGMSCHO_API2}/QC/QCPendingMonthwiseRecDetails?mcid=${mcid}&monthid=${monthid}`);
   }
-  
-  HoldItemDetails(mcid:any) {
-    
+
+  HoldItemDetails(mcid: any) {
+
     return this.http.get<HoldItemDetails[]>(`${this.CGMSCHO_API2}/QC/HoldItemDetails?mcid=${mcid}`);
   }
 
-  getDMEAIvsIssue(mcid:any,yearid:any) {
+  getDMEAIvsIssue(mcid: any, yearid: any) {
     return this.http.get<DMEAIvsIssue[]>(`${this.CGMSCHO_API2}/DashboardDME/DMEAIvsIssue?mcid=${mcid}&yearid=${yearid}`);
   }
-  getDMEIssueWihtoutAI(mcid:any,yearid:any) {
+  getDMEIssueWihtoutAI(mcid: any, yearid: any) {
     return this.http.get<DMEIssueWihtoutAI[]>(`${this.CGMSCHO_API2}/DashboardDME/DMEIssueWihtoutAI?mcid=${mcid}&yearid=${yearid}`);
   }
 
 
-  getCollegeHospital_AIvsIssue(mcid:any,yearid:any) {
-    
+  getCollegeHospital_AIvsIssue(mcid: any, yearid: any) {
+
     return this.http.get<CollegeHospital_AIvsIssue[]>(`${this.CGMSCHO_API2}/DashboardDME/CollegeHospital_AIvsIssue?mcid=${mcid}&yearid=${yearid}`);
   }
 
-  getClgHos_IssueWihtoutAI(mcid:any,whyearid:any) {
-    
+  getClgHos_IssueWihtoutAI(mcid: any, whyearid: any) {
+
     return this.http.get<ClgHos_IssueWihtoutAI[]>(`${this.CGMSCHO_API2}/DashboardDME/ClgHos_IssueWihtoutAI?mcid=${mcid}&whyearid=${whyearid}`);
   }
 
-  GetLocationDDL(iswh:any) {
-    
+  GetLocationDDL(iswh: any) {
+
     return this.http.get<GetLocation[]>(`${this.CGMSCHO_API2}/Attendence/GetLocation?iswh=${iswh}`);
   }
 
-  GetEmployeeDetail(locationId:any) {
-    
+  GetEmployeeDetail(locationId: any) {
+
     return this.http.get<EmployeeDetail[]>(`${this.CGMSCHO_API2}/Attendence/GetEmployeeDetail?locationId=${locationId}`);
   }
 
-  GetAttendenceRecord(startDate:any,endDate:any,DepartmentFName:any,locationid:any) {
+  GetAttendenceRecord(startDate: any, endDate: any, DepartmentFName: any, locationid: any) {
     return this.http.get<AttendenceRecord[]>(`${this.CGMSCHO_API2}/Attendence/AttendenceRecord?startDate=${startDate}&endDate=${endDate}&DepartmentFName=${DepartmentFName}&locationid=${locationid}`);
   }
 
   GetDesignation() {
     return this.http.get<Designation[]>(`${this.CGMSCHO_API2}/Attendence/GetDesignation`);
   }
- 
-  GetPresentAbsent(startDate:any,endDate:any,locationId:any,statusCode:any,desigId:any) {
+
+  GetPresentAbsent(startDate: any, endDate: any, locationId: any, statusCode: any, desigId: any) {
     return this.http.get<AttendenceRecord[]>(`${this.CGMSCHO_API2}/Attendence/PresentAbsent?startDate=${startDate}&endDate=${endDate}&locationId=${locationId}&statusCode=${statusCode}&desigId=${desigId}`);
   }
 
-  
-  GetTenderStagesTotal(mcatid:any) {
+
+  GetTenderStagesTotal(mcatid: any) {
     return this.http.get<TenderStagesTotal[]>(`${this.CGMSCHO_API2}/HOTender/TenderStagesTotal?mcatid=${mcatid}`);
   }
 
-  GetTotalRC1(mcatid:any,isEdl:any) {
+  GetTotalRC1(mcatid: any, isEdl: any) {
     return this.http.get<TotalRC1[]>(`${this.CGMSCHO_API2}/HOTender/TotalRC1?mcatid=${mcatid}&isEdl=${isEdl}`);
   }
-  GetTotalRC1Details(mcid:any,Isedl:any) {
+  GetTotalRC1Details(mcid: any, Isedl: any) {
     return this.http.get<TotalRC1Details[]>(`${this.CGMSCHO_API2}/HOTender/RcDetail1?mcid=${mcid}&Isedl=${Isedl}`);
   }
 
-  getStatusDetail(status:any,mcatid:any) {
-    
+  getStatusDetail(status: any, mcatid: any) {
+
     return this.http.get<StatusDetail[]>(`${this.CGMSCHO_API2}/HOTender/StatusDetail?status=${status}&mcatid=${mcatid}`);
   }
-  getStatusItemDetail(schemeId:any) {
+  getStatusItemDetail(schemeId: any) {
     return this.http.get<StatusItemDetail[]>(`${this.CGMSCHO_API2}/HOTender/StatusItemDetail?schemeId=${schemeId}`);
   }
-  getTotalTenderDetails(categoryId  :any) {
+  getTotalTenderDetails(categoryId: any) {
     return this.http.get<TotalTender[]>(`${this.CGMSCHO_API2}/HOTender/TotalTender?categoryId=${categoryId}`);
   }
 
-  getNoOfBidders(schemeId:any){
+  getNoOfBidders(schemeId: any) {
     return this.http.get<NoOfBidders[]>(`${this.CGMSCHO_API2}/HOTender/NoOfBidders?schemeId=${schemeId}`);
   }
-  getConversationHodCgmsc(){
+  getConversationHodCgmsc() {
     return this.http.get<HOTender[]>(`${this.CGMSCHO_API2}/HOTender/ConversationHodCgmsc`);
   }
-  GetEqpTotalTendersByStatus(){
+  GetEqpTotalTendersByStatus() {
     return this.http.get<TotalTendersByStatus[]>(`${this.himis_apin}/EMS/GetTotalTendersByStatus`);
   }
 
-  GetEqpTenderDetail(csid:any){
-    
+  GetEqpTenderDetail(csid: any) {
+
     return this.http.get<TenderDetail[]>(`${this.himis_apin}/EMS/GetTenderDetail?csid=${csid}`);
   }
 
-  GetConsTenderStatus(NormalZonal:any){
+  GetConsTenderStatus(NormalZonal: any) {
     return this.http.get<TenderInfraDetails[]>(`${this.himis_apin}/TenderStatus/GetTenderStatus?NormalZonal=${NormalZonal}`);
   }
 
-  GetConsTenderStatusDetail(pGroupId:any,ppid:any){
-    
+  GetConsTenderStatusDetail(pGroupId: any, ppid: any) {
+
     return this.http.get<GetConsTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/GetTenderStatusDetail?pGroupId=${pGroupId}&ppid=${ppid}`);
   }
 
 
-  GetConsTenderStatusZonal(){
+  GetConsTenderStatusZonal() {
     return this.http.get<TenderInfraDetailsZonal[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatus`);
   }
-  
-  ZonalTenderStatusDetail(tid:any){
-    
+
+  ZonalTenderStatusDetail(tid: any) {
+
     return this.http.get<ZonalTenderStatusDetail[]>(`${this.himis_apin}/TenderStatus/ZonalTenderStatusDetail?tid=${tid}`);
   }
 
-  GetToBeTenderNonZonal(){
-    
+  GetToBeTenderNonZonal() {
+
     return this.http.get<GetToBeTender[]>(`${this.himis_apin}/TenderStatus/GetToBeTender`);
   }
-  GetToBeTenderEqp(){
-    
+  GetToBeTenderEqp() {
+
     return this.http.get<EqptobeTender[]>(`${this.himis_apin}/EMS/EqToBeTender`);
   }
-  
-  GetToBeTenderDrugsSection(mcid:any){
-    
+
+  GetToBeTenderDrugsSection(mcid: any) {
+
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTender?mcid=${mcid}`);
   }
-  
-  GetToBeTenderDetail(mcid:any){
-    
+
+  GetToBeTenderDetail(mcid: any) {
+
     return this.http.get<TobetenderDetails[]>(`${this.CGMSCHO_API2}/HOTender/ToBeTenderDetail?mcid=${mcid}`);
   }
-  
-  
-  SchemeReceived(schemeid:any){
-    
+
+
+  SchemeReceived(schemeid: any) {
+
     return this.http.get<SchemeReceived[]>(`${this.CGMSCHO_API2}/HOTender/SchemeReceived?schemeid=${schemeid}`);
   }
-  
-  SchemeTenderStatus(schemeid:any){
-    
+
+  SchemeTenderStatus(schemeid: any) {
+
     return this.http.get<SchemeTenderStatus[]>(`${this.CGMSCHO_API2}/HOTender/SchemeTenderStatus?schemeid=${schemeid}`);
   }
-  
-  GetEqToBeTenderDetail(){
-    
+
+  GetEqToBeTenderDetail() {
+
     return this.http.get<EqToBeTenderDetail[]>(`${this.himis_apin}/EMS/EqToBeTenderDetail`);
   }
-  
 
-  CoverStatus(){
+
+  CoverStatus() {
     // card
     return this.http.get<CoverStatus[]>(`${this.himis_apin}/StockMgm/CoverStatus`);
 
   }
-  
-  CoverStatusDetail(csid:any){
+
+  CoverStatusDetail(csid: any) {
     // click
     return this.http.get<CoverStatusDetail[]>(`${this.himis_apin}/StockMgm/CoverStatusDetail?csid=${csid}`);
 
   }
-  CoverStatusTenderDetail(tenderId:any){
+  CoverStatusTenderDetail(tenderId: any) {
     // item click
     return this.http.get<CoverStatusTenderDetail[]>(`${this.himis_apin}/StockMgm/CoverStatusTenderDetail?tenderId=${tenderId}`);
 
   }
-  GetnsqDrugDetails(){
+  GetnsqDrugDetails() {
     // item click
     return this.http.get<nsqDrugDetails[]>(`${this.CGMSCHO_API2}/QC/nsqDrugDetails`);
 
   }
 
-  ToBeTenderBifurcation(){
+  ToBeTenderBifurcation() {
     // item click
     return this.http.get<ToBeTenderBifurcation[]>(`${this.himis_apin}/TenderStatus/ToBeTenderBifurcation`);
 
   }
 
-  ToBeTenderBifurcationDetail(tRemarkId:any,){
+  ToBeTenderBifurcationDetail(tRemarkId: any,) {
     // item click
-    
+
     return this.http.get<ToBeTenderBifurcationDetail[]>(`${this.himis_apin}/TenderStatus/ToBeTenderBifurcationDetail?tRemarkId=${tRemarkId}`);
 
   }
 
-  MasfacilityInfoUser(hod:any,disid:any,factypeid:any,whid:any,facid:any,userid:any,coll_cmho:any){
+  MasfacilityInfoUser(hod: any, disid: any, factypeid: any, whid: any, facid: any, userid: any, coll_cmho: any) {
     // item click
     return this.http.get<MasfacilityInfoUser[]>(`${this.CGMSCHO_API2}/Master/MasfacilityInfoUser?hod=${hod}&disid=${disid}&factypeid=${factypeid}&whid=${whid}&facid=${facid}&userid=${userid}&coll_cmho=${coll_cmho}`);
 
   }
 
-  AIvsIssuance(mcid:any,yrid:any,facid:any){
-    
+  AIvsIssuance(mcid: any, yrid: any, facid: any) {
+
     return this.http.get<AIvsIssuance[]>(`${this.CGMSCHO_API2}/HO/AIvsIssuance?mcid=${mcid}&facid=${facid}&yrid=${yrid}`);
 
   }
-  getYear(){
+  getYear() {
 
     return this.http.get<Year[]>(`${this.CGMSCHO_API2}/CGMSCStock/getYear`);
 
   }
 
-  NearExpRCDetails(mcid:any,mmpara:any){
+  NearExpRCDetails(mcid: any, mmpara: any) {
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/TimeTaken/NearExpRCDetails?mcid=${mcid}&mmpara=${mmpara}`);
   }
 
 
-  variousStatusAgainstCYAI(mcid:any,yearId:any){
+  variousStatusAgainstCYAI(mcid: any, yearId: any) {
     return this.http.get<any[]>(`${this.CGMSCHO_API2}/HOD/variousStatusAgainstCYAI?yearId=${yearId}&mcid=${mcid}`);
   }
 
 
 
-  MontlyItemDemography(itemId:any,mcid:any,yearId:any){
-    
+  MontlyItemDemography(itemId: any, mcid: any, yearId: any) {
+
     return this.http.get<MontlyItemDemography[]>(`${this.CGMSCHO_API2}/HO/MontlyItemDemography?itemId=${itemId}&mcid=${mcid}&yearId=${yearId}`);
     // https://dpdmis.in/CGMSCHO_API2/api/HO/MontlyItemDemography?itemId=9996&mcid=1
   }
-  YearWiseIssueReport(itemId:any,mcid:any){
-    
+  YearWiseIssueReport(itemId: any, mcid: any) {
+
     return this.http.get<YearWiseIssueReport[]>(`${this.CGMSCHO_API2}/HO/YearWiseIssueReport?itemId=${itemId}&mcid=${mcid}`);
     // https://dpdmis.in/CGMSCHO_API2/api/HO/YearWiseIssueReport?itemId=9996&mcid=1
   }
@@ -1461,356 +1460,414 @@ debugger
 
 
   //#region StockStatus
-// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
-// https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
-// https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
-// https://dpdmis.in/CGMSCHO_API2/api/HO/StockOutDetails?yearId=546&mcid=1&tendCondition=PRICE
-// https://dpdmis.in/CGMSCHO_API2/api/HO/whstockoutin?yearId=546&mcid=1&catid=52
-// https://localhost:7247/api/HO/whstockoutin?yearId=546&mcid=1
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/IssuePerDetail?yearId=546&mcid=1&perCondition=BELOW10&tendCondition=PRICE
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/StockOutDetails?yearId=546&mcid=1&tendCondition=PRICE
+  // https://dpdmis.in/CGMSCHO_API2/api/HO/whstockoutin?yearId=546&mcid=1&catid=52
+  // https://localhost:7247/api/HO/whstockoutin?yearId=546&mcid=1
+
+  StockStatus() {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL`);
+  }
+  IssuePerDetail(mcid: any, perCondition: any, tendCondition: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/IssuePerDetail?yearId=546&mcid=${mcid}&perCondition=${perCondition}&tendCondition=${tendCondition}`);
+  }
+  StockOutDetails(mcid: any, tendCondition: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockOutDetails?yearId=546&mcid=${mcid}&tendCondition=${tendCondition}`);
+  }
+  whstockoutin(mcid: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutIn?mcid=${mcid}`);
+  }
+
+  WhStockOutInDetail(whid: any, para: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/WhStockOutInDetail?whid=2615&para=STOCKOUT
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutInDetail?whid=${whid}&para=${para}`);
+  }
+  WarehoueWiseStockOut(mcid: any, edlType: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOut?mcid=1&edlType=NON%20EDL
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOut?mcid=${mcid}&edlType=${edlType}`);
+  }
+  WarehoueWiseStockOutDetail(mcid: any, edlType: any, whId: any, colFlag: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOutDetail?mcid=1&edlType=EDL&whId=2615&colFlag=POPIPELINE
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOutDetail?mcid=${mcid}&edlType=${edlType}&whId=${whId}&colFlag=${colFlag}`);
+  }
+  RCValidDrillDown(yearId: any, mcid: any, hoType: any, drillType: any, edlType: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/DashboardHome/RCValidDrillDown?yearId=546&mcId=1&hoType=0&drillType=nosIndent&edlType=NON%20EDL
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidDrillDown?yearId=${yearId}&mcId=${mcid}&hoType=${hoType}&drillType=${drillType}&edlType=${edlType}`);
+  }
+  ComplainTypes() {
+    //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplainTypes
+    return this.http.get<any[]>(`${this.himis_apin}/LandIssue/GetComplainTypes`);
+  }
+  Complains(complainTypeId: any) {
+    //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplains?complainTypeId=2
+    return this.http.get<any[]>(`${this.himis_apin}/LandIssue/GetComplains?complainTypeId=${complainTypeId}`);
+  }
+  ComplainsReport(complainTypeId: any, complainId: any, city: any) {
+    //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/FeedbackReport?complainTypeId=0&complainId=0&city=0
+    return this.http.get<any[]>(`${this.himis_apin}/LandIssue/FeedbackReport?complainTypeId=${complainTypeId}&complainId=${complainId}&city=${city}`);
+  }
+  // InsertComplainsPOST(values: any) {
+  //   return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, values, {
+  //     responseType: 'text' 
+  //   });
+  // }
+  InsertComplainsPOST(data: any): Observable<any> {
+    return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, data);
+  }
+
+  // POST
+  // https://www.cgmsc.gov.in/himis_apin/api/LandIssue/InsertFeedback
+
+  // {
+  //   "feedbackID": 0,
+  //   "firstName": "Sneha",
+  //   "lastName": "Sharma",
+  //   "email": "sneha.sharma@example.com",
+  //   "mobileNumber": "9123456780",
+  //   "address": "Flat 502, Green Residency, Sector 21",
+  //   "city": "Delhi",
+  //   "subject": "Frequent power outages in ICU",
+  //   "complainTypeID": 3,
+  //   "complainID": 9,
+  //   "comments": "The ICU is experiencing frequent power cuts even though backup generators are installed. This is a serious patient safety risk.",
+  //   "createdDate": "2025-07-19T15:45:00.000Z"
+  // }
+
+
+  // https://dpdmis.in/CGMSCHO_API2/api/LogAudit/InsertUserLoginLog
+  InsertUserLoginLogPOST(values: any) {
+    return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values, {
+      responseType: 'text'
+    });
+    // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`,values );
+    // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values);
+
+  }
+
+  // https://localhost:7247/api/LogAudit/InsertUserPageViewLog
+
+  InsertUserPageViewLogPOST(values: any) {
+    return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserPageViewLog`, values, {
+      responseType: 'text'
+    });
+  }
+  // {
+  //   "logId": 0,
+  //   "userId": 678,
+  //   "roleId": 5,
+  //   "roleIdName": "System Administrator",
+  //   "pageUrl": "/dashboard/overview",
+  //   "pageName": "Dashboard",
+  //   "viewTime": "2025-08-11T09:39:02.973Z",
+  //   "ipAddress": "192.168.1.100",
+  //   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
+  // }
 
-StockStatus(){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockStatus?yearId=546&mcid=1&edlStatus=EDL`);
-}
-IssuePerDetail(mcid:any,perCondition:any,tendCondition:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/IssuePerDetail?yearId=546&mcid=${mcid}&perCondition=${perCondition}&tendCondition=${tendCondition}`);
-}
-StockOutDetails(mcid:any,tendCondition:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/StockOutDetails?yearId=546&mcid=${mcid}&tendCondition=${tendCondition}`);
-}
-whstockoutin(mcid:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutIn?mcid=${mcid}`);
-}
-
-WhStockOutInDetail(whid:any,para:any){
-  // https://dpdmis.in/CGMSCHO_API2/api/HO/WhStockOutInDetail?whid=2615&para=STOCKOUT
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WhStockOutInDetail?whid=${whid}&para=${para}`);
-}
-WarehoueWiseStockOut(mcid:any,edlType:any){
-  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOut?mcid=1&edlType=NON%20EDL
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOut?mcid=${mcid}&edlType=${edlType}`);
-}
-WarehoueWiseStockOutDetail(mcid:any,edlType:any,whId:any,colFlag:any){
-  // https://dpdmis.in/CGMSCHO_API2/api/HO/WarehoueWiseStockOutDetail?mcid=1&edlType=EDL&whId=2615&colFlag=POPIPELINE
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/WarehoueWiseStockOutDetail?mcid=${mcid}&edlType=${edlType}&whId=${whId}&colFlag=${colFlag}`);
-}
-RCValidDrillDown(yearId:any,mcid:any,hoType:any,drillType:any,edlType:any){
-  // https://dpdmis.in/CGMSCHO_API2/api/DashboardHome/RCValidDrillDown?yearId=546&mcId=1&hoType=0&drillType=nosIndent&edlType=NON%20EDL
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidDrillDown?yearId=${yearId}&mcId=${mcid}&hoType=${hoType}&drillType=${drillType}&edlType=${edlType}`);
-}
-ComplainTypes(){
-  //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplainTypes
-  return this.http.get<any[]>(`${this.himis_apin}/LandIssue/GetComplainTypes`);
-}
-Complains(complainTypeId:any){
-  //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/GetComplains?complainTypeId=2
-  return this.http.get<any[]>(`${this.himis_apin}/LandIssue/GetComplains?complainTypeId=${complainTypeId}`);
-}
-ComplainsReport(complainTypeId:any,complainId:any,city:any){
-  //https://www.cgmsc.gov.in/himis_apin/api/LandIssue/FeedbackReport?complainTypeId=0&complainId=0&city=0
-  return this.http.get<any[]>(`${this.himis_apin}/LandIssue/FeedbackReport?complainTypeId=${complainTypeId}&complainId=${complainId}&city=${city}`);
-}
-// InsertComplainsPOST(values: any) {
-//   return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, values, {
-//     responseType: 'text' 
-//   });
-// }
-InsertComplainsPOST(data: any): Observable<any> {
-  return this.http.post(`${this.himis_apin}/LandIssue/InsertFeedback`, data);
-}
-
-// POST
-// https://www.cgmsc.gov.in/himis_apin/api/LandIssue/InsertFeedback
-
-// {
-//   "feedbackID": 0,
-//   "firstName": "Sneha",
-//   "lastName": "Sharma",
-//   "email": "sneha.sharma@example.com",
-//   "mobileNumber": "9123456780",
-//   "address": "Flat 502, Green Residency, Sector 21",
-//   "city": "Delhi",
-//   "subject": "Frequent power outages in ICU",
-//   "complainTypeID": 3,
-//   "complainID": 9,
-//   "comments": "The ICU is experiencing frequent power cuts even though backup generators are installed. This is a serious patient safety risk.",
-//   "createdDate": "2025-07-19T15:45:00.000Z"
-// }
-
-
-// https://dpdmis.in/CGMSCHO_API2/api/LogAudit/InsertUserLoginLog
-InsertUserLoginLogPOST(values: any) {
-  return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values, {
-    responseType: 'text' 
-  });
-  // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`,values );
-  // return this.http.post<any>(`${this.CGMSCHO_API2}/LogAudit/InsertUserLoginLog`, values);
-
-}
-
-// https://localhost:7247/api/LogAudit/InsertUserPageViewLog
-
-InsertUserPageViewLogPOST(values: any) {
-  return this.http.post(`${this.CGMSCHO_API2}/LogAudit/InsertUserPageViewLog`, values, {
-    responseType: 'text' 
-  });
-}
-// {
-//   "logId": 0,
-//   "userId": 678,
-//   "roleId": 5,
-//   "roleIdName": "System Administrator",
-//   "pageUrl": "/dashboard/overview",
-//   "pageName": "Dashboard",
-//   "viewTime": "2025-08-11T09:39:02.973Z",
-//   "ipAddress": "192.168.1.100",
-//   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
-// }
-
-//#endregion
-
-
-
-
-SupplierPendingPayments(budgetId:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/SupplierPendingPayments?budgetId=${budgetId}`);
-}
-
-
-
-
-RCValidSatus(yearId:any,mcId:any,hoType:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`);
-}
-
-ABCanalysisSummary(yearid:any,mcid:any,isEDL:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisWithRCvalid?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}`);
-  // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABCanalysisWithRCvalid?yearid=545&mcid=1&isEDL=Y
-}
-
-ABCanalysisSummaryDetail(yearid:any,mcid:any,isedl:any,detail:any,isRCvalid:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummaryDetail?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}&detail=${detail}&isRCvalid=${isRCvalid}`);
-}
-
-
-
-NearExpiryItemsWH(month:any,mcid:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryItemsWH?month=${month}&mcid=${mcid}`);
-}
-NearExpiryBatchWise(month:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryBatchWise?month=${month}`);
-}
-
-
-ABC_VED_SDE_matrixWithStockOut(yearid:any,mcid:any,isEDL:any,catType:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}`);
-  //https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=545&mcid=1&isEDL=Y&catType=ABC
-}
-
-ABC_VED_SDE_matrixWithStockOutDetail(yearid:any,mcid:any,isEDL:any,catType:any,iCateogry:any,columnFlag:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}&iCateogry=${iCateogry}&columnFlag=${columnFlag}`);
-  // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=545&mcid=1&isEDL=Y&catType=ABC&iCateogry=A&columnFlag=STOCKOUT
-}
-
-
-CMESlowMovingSummary(mcid:any,yearId:any,percent:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMESlowMovingSummary?mcid=${mcid}&yearId=${yearId}&percent=${percent}`);
-}
-
-CMESlowMovingDetails(mcid:any,yearId:any,percent:any,facid:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMESlowMovingDetails?mcid=${mcid}&yearId=${yearId}&percent=${percent}&facid=${facid}`);
-}
-
-
-CMEexcessLiftSummary(yearId:any){
-  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEexcessLiftSummary?yearId=545
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEexcessLiftSummary?yearId=${yearId}`);
-}
-
-CMEExcessLiftDetail(yearId:any,facid:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEExcessLiftDetail?yearId=545&facid=0
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEExcessLiftDetail?yearId=${yearId}&facid=${facid}`);
-}
-
-CMEwithoutAISummary(yearId:any){
-  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAISummary?yearId=546
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEwithoutAISummary?yearId=${yearId}`);
-}
-
-
-CMEwithoutAIDetail(yearId:any,facid:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAIDetail?yearId=546&facid=0
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEwithoutAIDetail?yearId=${yearId}&facid=${facid}`);
-}
-
-
-pipelineSlippage(mcid:any,isEDL:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/api/Analysis/pipelineSlippage
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippage?mcid=${mcid}&isEDL=${isEDL}`);
-}
-
-pipelineSlippageItemDetail(flag:any,mcid:any,isEDL:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippageItemDetail?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`);
-}
-PipelineSlippagePOItemDetailDTO(flag:any,mcid:any,isEDL:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/PipelineSlippagePOItemDetailDTO?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`);
-}
-
-
-MasitemsPO(itemid:any,yrid:any,mcid:any,edl:any,groupid:any,itemtypeid:any,edlcat:any,schemeid:any,supplierid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
-  
-  //https://dpdmis.in/CGMSCHO_API2/api/Master/MasitemsPO?itemid=o&yrid=546&mcid=1&edl=0&groupid=0&itemtypeid=0&edlcat=0&schemeid=0&supplierid=0&ABC=0&VED=0&SDE=0&MatCAT=0
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasitemsPO?itemid=${itemid}&yrid=${yrid}&mcid=${mcid}&edl=${edl}&groupid=${groupid}&itemtypeid=${itemtypeid}&edlcat=${edlcat}&schemeid=${schemeid}&supplierid=${supplierid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
-}
-
-MasSupplierPO(yrid:any,itemid:any,mcid:any,schemeid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasSupplierPO?yrid=${yrid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
-}
-
-
-MasSchemePO(yrid:any,supplierid:any,itemid:any,mcid:any,schemeid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasSchemePO?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
-}
-
-MasPOSummary(yrid:any,supplierid:any,itemid:any,mcid:any,schemeid:any,ABC:any,VED:any,SDE:any,MatCAT:any){
-  
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasPOSummary?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
-}
-
-HoldBatchHistory(mcid:any,fromDate:any,ToDate:any,itemId:any,nsqholdflag:any){
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/HoldBatchHistory?mcid=${mcid}&fromDate=${fromDate}&ToDate=${ToDate}&itemId=${itemId}&nsqholdflag=${nsqholdflag}}`);
-}
-
-NonSupplySummary(fromDate:any,ToDate:any){
-  
-return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummary?fromDate=${fromDate}&ToDate=${ToDate}`);
-}
-
-NonSupplySummaryDetail(fromDate:any,ToDate:any,supplierId:any,itemCode:any,schemeId:any,ponoId:any){
-return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummaryDetail?fromDate=${fromDate}&ToDate=${ToDate}&supplierId=${supplierId}&itemCode=${itemCode}&schemeId=${schemeId}&ponoId=${ponoId}`);
-}
-
-
-
-
-DmeFacNocSummary(fromDate: any, ToDate: any, mcid: any, yearId: any) {
-  // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocSummary?fromDate=31-03-2024&ToDate=01-04-2025&mcid=1&yearId=546
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocSummary?fromDate=${fromDate}&ToDate=${ToDate}&mcid=${mcid}&yearId=${yearId}`);
-}
-DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any,facilityId:any) {
-  // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocDetail?fromDate=31-03-2023&toDate=01-04-2025&mcid=1&yearId=546&facilityId=23666
-  return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocDetail?fromDate=${fromDate}&toDate=${toDate}&mcid=${mcid}&yearId=${yearId}&facilityId=${facilityId}`);
-}
-
-
-// oac code test 
-
-private token: string = '';
-
-// async initToken(): Promise<void> {
-//   // ;
-//   if (this.token) {
-//     // Agar token already hai to dobara fetch nahi karna
-//     return;
-//   }
-
-//   try {
-//     const response = await fetch('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token'); // 👈 apna API URL
-//     if (!response.ok) {
-//       throw new Error('HTTP error! status:' + response.status);
-//     }
-
-//     const data = await response.json();
-//     this.token = data.access_token;
-//     console.log('App Token Initialized:', this.token);
-//   } catch (error) {
-//     console.error('Error fetching token:', error);
-//   }
-// }
-
-
-// async initToken(): Promise<void> {
-//   try {
-//     const res: any = await this.http
-//       .get('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token')   // 👈 yaha aapka token API
-//       .toPromise();
-
-//     this.token = res.access_token;
-//     console.log('Token initialized:', this.token);
-//   } catch (error) {
-//     console.error('Error fetching token', error);
-//   }
-// }
-
-// getToken$() {
-//   return this.tokenSubject.asObservable(); // subscribe karne ke liye
-// }
-
-// getTokenSync(): string | null {
-//   return this.tokenSubject.value; // agar abhi tak aa gaya hai to direct
-// }
-// getToken(): string {
-
-//   console.log('get token:', this.token);
-//   return this.token;
-// }
-
-// getToken(): string | null {
-//   return this.token;
-// }
-
-  //#region fitunfit/FitUnfitSummary
-  getfitunfit(valutype:any){
-    // https://dpdmis.in/CGMSCHO_API2/api/DashboardFinance/getFitUnfit?fitunfit=fit
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/getFitUnfit?fitunfit=${valutype}`);
-    }
-    getFitUnfitSummary(valutype:any){
-    // https://dpdmis.in/CGMSCHO_API2/api/DashboardFinance/getFitUnfitSummary?fitunfit=fit
-    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/getFitUnfitSummary?fitunfit=${valutype}`);
-    }
-   
-   
-    getPendigBillSummary(){
-       // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBillSummary
-      return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBillSummary`);
-      }
-      getPendigBill(mainSchemeId:any,officeOrder:any){
-      // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBill?mainSchemeId=101&officeOrder=1
-      return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBill?mainSchemeId=${mainSchemeId}&officeOrder=${officeOrder}`);
-      }
   //#endregion
 
 
 
-async initToken(): Promise<void> {
-  try {
-    const res: any = await this.http
-      .get('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token')   // 👈 API endpoint sahi hai?
-      .toPromise();
 
-    const token = res?.access_token;
-    console.log('🔑 Token fetched:', token);
+  SupplierPendingPayments(budgetId: any) {
 
-    if (token) {
-      this.tokenSubject.next(token);  // 👈 yahan se update hoga
-    }
-  } catch (error) {
-    console.error('❌ Error fetching token', error);
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/SupplierPendingPayments?budgetId=${budgetId}`);
   }
-}
 
-getToken$() {
-  return this.tokenSubject.asObservable();
-}
+
+
+
+  RCValidSatus(yearId: any, mcId: any, hoType: any) {
+
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardHome/RCValidSatus?yearId=${yearId}&mcId=${mcId}&hoType=${hoType}`);
+  }
+
+  ABCanalysisSummary(yearid: any, mcid: any, isEDL: any) {
+
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisWithRCvalid?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}`);
+    // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABCanalysisWithRCvalid?yearid=545&mcid=1&isEDL=Y
+  }
+
+  ABCanalysisSummaryDetail(yearid: any, mcid: any, isedl: any, detail: any, isRCvalid: any) {
+
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABCanalysisSummaryDetail?yearid=${yearid}&mcid=${mcid}&isedl=${isedl}&detail=${detail}&isRCvalid=${isRCvalid}`);
+  }
+
+
+
+  NearExpiryItemsWH(month: any, mcid: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryItemsWH?month=${month}&mcid=${mcid}`);
+  }
+  NearExpiryBatchWise(month: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/NearExpiryBatchWise?month=${month}`);
+  }
+
+
+  ABC_VED_SDE_matrixWithStockOut(yearid: any, mcid: any, isEDL: any, catType: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}`);
+    //https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOut?yearid=545&mcid=1&isEDL=Y&catType=ABC
+  }
+
+  ABC_VED_SDE_matrixWithStockOutDetail(yearid: any, mcid: any, isEDL: any, catType: any, iCateogry: any, columnFlag: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=${yearid}&mcid=${mcid}&isEDL=${isEDL}&catType=${catType}&iCateogry=${iCateogry}&columnFlag=${columnFlag}`);
+    // https://dpdmis.in/CGMSCHO_API2/api/Analysis/ABC_VED_SDE_matrixWithStockOutDetail?yearid=545&mcid=1&isEDL=Y&catType=ABC&iCateogry=A&columnFlag=STOCKOUT
+  }
+
+
+  CMESlowMovingSummary(mcid: any, yearId: any, percent: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMESlowMovingSummary?mcid=${mcid}&yearId=${yearId}&percent=${percent}`);
+  }
+
+  CMESlowMovingDetails(mcid: any, yearId: any, percent: any, facid: any) {
+
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMESlowMovingDetails?mcid=${mcid}&yearId=${yearId}&percent=${percent}&facid=${facid}`);
+  }
+
+
+  CMEexcessLiftSummary(yearId: any) {
+    //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEexcessLiftSummary?yearId=545
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEexcessLiftSummary?yearId=${yearId}`);
+  }
+
+  CMEExcessLiftDetail(yearId: any, facid: any) {
+
+    //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEExcessLiftDetail?yearId=545&facid=0
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEExcessLiftDetail?yearId=${yearId}&facid=${facid}`);
+  }
+
+  CMEwithoutAISummary(yearId: any) {
+    //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAISummary?yearId=546
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEwithoutAISummary?yearId=${yearId}`);
+  }
+
+
+  CMEwithoutAIDetail(yearId: any, facid: any) {
+
+    //https://dpdmis.in/CGMSCHO_API2/api/HO/CMEwithoutAIDetail?yearId=546&facid=0
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/HO/CMEwithoutAIDetail?yearId=${yearId}&facid=${facid}`);
+  }
+
+
+  pipelineSlippage(mcid: any, isEDL: any) {
+
+    //https://dpdmis.in/CGMSCHO_API2/api/Analysis/pipelineSlippage
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippage?mcid=${mcid}&isEDL=${isEDL}`);
+  }
+
+  pipelineSlippageItemDetail(flag: any, mcid: any, isEDL: any) {
+
+    //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/pipelineSlippageItemDetail?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`);
+  }
+  PipelineSlippagePOItemDetailDTO(flag: any, mcid: any, isEDL: any) {
+
+    //https://dpdmis.in/CGMSCHO_API2/Analysis/pipelineSlippageItemDetail?flag=2
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Analysis/PipelineSlippagePOItemDetailDTO?flag=${flag}&mcid=${mcid}&isEDL=${isEDL}`);
+  }
+
+
+  MasitemsPO(itemid: any, yrid: any, mcid: any, edl: any, groupid: any, itemtypeid: any, edlcat: any, schemeid: any, supplierid: any, ABC: any, VED: any, SDE: any, MatCAT: any) {
+
+    //https://dpdmis.in/CGMSCHO_API2/api/Master/MasitemsPO?itemid=o&yrid=546&mcid=1&edl=0&groupid=0&itemtypeid=0&edlcat=0&schemeid=0&supplierid=0&ABC=0&VED=0&SDE=0&MatCAT=0
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasitemsPO?itemid=${itemid}&yrid=${yrid}&mcid=${mcid}&edl=${edl}&groupid=${groupid}&itemtypeid=${itemtypeid}&edlcat=${edlcat}&schemeid=${schemeid}&supplierid=${supplierid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
+  }
+
+  MasSupplierPO(yrid: any, itemid: any, mcid: any, schemeid: any, ABC: any, VED: any, SDE: any, MatCAT: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasSupplierPO?yrid=${yrid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
+  }
+
+
+  MasSchemePO(yrid: any, supplierid: any, itemid: any, mcid: any, schemeid: any, ABC: any, VED: any, SDE: any, MatCAT: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasSchemePO?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
+  }
+
+  MasPOSummary(yrid: any, supplierid: any, itemid: any, mcid: any, schemeid: any, ABC: any, VED: any, SDE: any, MatCAT: any) {
+
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Master/MasPOSummary?yrid=${yrid}&supplierid=${supplierid}&itemid=${itemid}&mcid=${mcid}&schemeid=${schemeid}&ABC=${ABC}&VED=${VED}&SDE=${SDE}&MatCAT=${MatCAT}`);
+  }
+
+  HoldBatchHistory(mcid: any, fromDate: any, ToDate: any, itemId: any, nsqholdflag: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/HoldBatchHistory?mcid=${mcid}&fromDate=${fromDate}&ToDate=${ToDate}&itemId=${itemId}&nsqholdflag=${nsqholdflag}}`);
+  }
+
+  NonSupplySummary(fromDate: any, ToDate: any) {
+
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummary?fromDate=${fromDate}&ToDate=${ToDate}`);
+  }
+
+  NonSupplySummaryDetail(fromDate: any, ToDate: any, supplierId: any, itemCode: any, schemeId: any, ponoId: any) {
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/NonSupplySummaryDetail?fromDate=${fromDate}&ToDate=${ToDate}&supplierId=${supplierId}&itemCode=${itemCode}&schemeId=${schemeId}&ponoId=${ponoId}`);
+  }
+
+
+
+
+  DmeFacNocSummary(fromDate: any, ToDate: any, mcid: any, yearId: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocSummary?fromDate=31-03-2024&ToDate=01-04-2025&mcid=1&yearId=546
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocSummary?fromDate=${fromDate}&ToDate=${ToDate}&mcid=${mcid}&yearId=${yearId}`);
+  }
+  DmeFacNocDetail(fromDate: any, toDate: any, mcid: any, yearId: any, facilityId: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/Transaction/DmeFacNocDetail?fromDate=31-03-2023&toDate=01-04-2025&mcid=1&yearId=546&facilityId=23666
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/Transaction/DmeFacNocDetail?fromDate=${fromDate}&toDate=${toDate}&mcid=${mcid}&yearId=${yearId}&facilityId=${facilityId}`);
+  }
+  getemdpolist(mcid: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/EMD/getemdpolist?mcid=1
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/EMD/getemdpolist?mcid=${mcid}`);
+  }
+
+  getemdpolistReturnFromMD(mcid: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/EMD/getemdpolistReturnFromMD?mcid=1
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/EMD/getemdpolistReturnFromMD?mcid=${mcid}`);
+  }
+
+  ForwardToMD(toDate: any, poNoId: any) {
+
+    return this.http.post(
+      `${this.CGMSCHO_API2}/EMD/ForwardToMD?toDate=${toDate}&poNoId=${poNoId}`,
+      {},
+      {
+        responseType: 'text'
+      }
+    );
+
+  }
+  ReceivedFromMD(toDate: any, poNoId: any) {
+
+    return this.http.post(
+      `${this.CGMSCHO_API2}/EMD/ReceivedFromMD?toDate=${toDate}&poNoId=${poNoId}`,
+      {},
+      {
+        responseType: 'text'
+      }
+    );
+
+  }
+
+
+  selectFileReceiver() {
+    // https://dpdmis.in/CGMSCHO_API2/api/EMD/selectFileReceiver
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/EMD/selectFileReceiver`);
+  }
+
+
+  fileForwarding(toDate: any, poNoId: any, toUserId: any, fromUserId: any) {
+
+    // https://dpdmis.in/CGMSCHO_API2/api/EMD/fileForwarding?toDate=2026-05-11&poNoId=61193&toUserId=2995&fromUserId=2994
+    return this.http.post(
+      `${this.CGMSCHO_API2}/EMD/fileForwarding?toDate=${toDate}&poNoId=${poNoId}&toUserId=${toUserId}&fromUserId=${fromUserId}`,
+      {},
+      {
+        responseType: 'text'
+      }
+    );
+
+  }
+
+
+
+
+
+
+
+
+  // oac code test 
+
+  private token: string = '';
+
+  // async initToken(): Promise<void> {
+  //   // ;
+  //   if (this.token) {
+  //     // Agar token already hai to dobara fetch nahi karna
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token'); // 👈 apna API URL
+  //     if (!response.ok) {
+  //       throw new Error('HTTP error! status:' + response.status);
+  //     }
+
+  //     const data = await response.json();
+  //     this.token = data.access_token;
+  //     console.log('App Token Initialized:', this.token);
+  //   } catch (error) {
+  //     console.error('Error fetching token:', error);
+  //   }
+  // }
+
+
+  // async initToken(): Promise<void> {
+  //   try {
+  //     const res: any = await this.http
+  //       .get('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token')   // 👈 yaha aapka token API
+  //       .toPromise();
+
+  //     this.token = res.access_token;
+  //     console.log('Token initialized:', this.token);
+  //   } catch (error) {
+  //     console.error('Error fetching token', error);
+  //   }
+  // }
+
+  // getToken$() {
+  //   return this.tokenSubject.asObservable(); // subscribe karne ke liye
+  // }
+
+  // getTokenSync(): string | null {
+  //   return this.tokenSubject.value; // agar abhi tak aa gaya hai to direct
+  // }
+  // getToken(): string {
+
+  //   console.log('get token:', this.token);
+  //   return this.token;
+  // }
+
+  // getToken(): string | null {
+  //   return this.token;
+  // }
+
+  //#region fitunfit/FitUnfitSummary
+  getfitunfit(valutype: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/DashboardFinance/getFitUnfit?fitunfit=fit
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/getFitUnfit?fitunfit=${valutype}`);
+  }
+  getFitUnfitSummary(valutype: any) {
+    // https://dpdmis.in/CGMSCHO_API2/api/DashboardFinance/getFitUnfitSummary?fitunfit=fit
+    return this.http.get<any[]>(`${this.CGMSCHO_API2}/DashboardFinance/getFitUnfitSummary?fitunfit=${valutype}`);
+  }
+
+
+  getPendigBillSummary() {
+    // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBillSummary
+    return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBillSummary`);
+  }
+  getPendigBill(mainSchemeId: any, officeOrder: any) {
+    // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBill?mainSchemeId=101&officeOrder=1
+    return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBill?mainSchemeId=${mainSchemeId}&officeOrder=${officeOrder}`);
+  }
+  //#endregion
+
+
+
+  async initToken(): Promise<void> {
+    try {
+      const res: any = await this.http
+        .get('https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token')   // 👈 API endpoint sahi hai?
+        .toPromise();
+
+      const token = res?.access_token;
+      console.log('🔑 Token fetched:', token);
+
+      if (token) {
+        this.tokenSubject.next(token);  // 👈 yahan se update hoga
+      }
+    } catch (error) {
+      console.error('❌ Error fetching token', error);
+    }
+  }
+
+  getToken$() {
+    return this.tokenSubject.asObservable();
+  }
 }

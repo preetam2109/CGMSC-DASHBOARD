@@ -989,7 +989,7 @@ this.fullUrl = window.location.href;
     }
   }
   ngOnInit() {
-    this.spinner.show();
+    // this.spinner.show();
     this.GETStockStatus(),
       this.whstockoutin(),
       (this.username = sessionStorage.getItem('authenticatedUser'));
@@ -1002,27 +1002,27 @@ this.fullUrl = window.location.href;
 
     forkJoin([
       this.CGMSCIndentPending().pipe(catchError(() => of(null))),
-      this.GetDeliveryInMonth().pipe(catchError(() => of(null))),
+      // this.GetDeliveryInMonth().pipe(catchError(() => of(null))),
       this.GetPOCountCFY().pipe(catchError(() => of(null))),
-      this.last7DaysIssue().pipe(catchError(() => of(null))),
+      // this.last7DaysIssue().pipe(catchError(() => of(null))),
       // this.loadData().pipe(catchError(() => of(null))),
-      this.loadData1().pipe(catchError(() => of(null))),
+      // this.loadData1().pipe(catchError(() => of(null))),
       this.loadData2().pipe(catchError(() => of(null))),
-      this.loadData3().pipe(catchError(() => of(null))),
-      this.loadStockoutDHS().pipe(catchError(() => of(null))),
-      this.loadIndent().pipe(catchError(() => of(null))),
-      this.Nearexp().pipe(catchError(() => of(null))),
-      this.loadUQC().pipe(catchError(() => of(null))),
-      this.loadData4().pipe(catchError(() => of(null))),
-      this.getItemNoDropDown().pipe(catchError(() => of(null))),
-      this.getTenderStatus().pipe(catchError(() => of(null))),
-      this.getTotalRC1().pipe(catchError(() => of(null))),
+      // this.loadData3().pipe(catchError(() => of(null))),
+      // this.loadStockoutDHS().pipe(catchError(() => of(null))),
+      // this.loadIndent().pipe(catchError(() => of(null))),
+      // this.Nearexp().pipe(catchError(() => of(null))),
+      // this.loadUQC().pipe(catchError(() => of(null))),
+      // this.loadData4().pipe(catchError(() => of(null))),
+      // this.getItemNoDropDown().pipe(catchError(() => of(null))),
+      // this.getTenderStatus().pipe(catchError(() => of(null))),
+      // this.getTotalRC1().pipe(catchError(() => of(null))),
       this.wOPendingTotal().pipe(catchError(() => of(null))),
       this.getLIPendingTotal().pipe(catchError(() => of(null))),
       this.gETRunningWorkSummary().pipe(catchError(() => of(null))),
       this.handoverAbstract().pipe(catchError(() => of(null))),
       this.gETPaidSummary().pipe(catchError(() => of(null))),
-      this.GetpipelineSlippage().pipe(catchError(() => of(null))),
+      // this.GetpipelineSlippage().pipe(catchError(() => of(null))),
     ])
       .pipe(finalize(() => this.spinner.hide()))
       .subscribe({
@@ -1109,7 +1109,7 @@ this.fullUrl = window.location.href;
           console.error('Failed to load pipelineSlippage abstract:', error);
           this.toastr.error('Error loading pipelineSlippage data');
           this.pipelineSlippage = 0;
-          return of([]); // return safe fallback
+          return of([]); 
         }),
         tap((res: any[]) => {
           this.pipelineSlippage = res
@@ -1343,7 +1343,7 @@ this.fullUrl = window.location.href;
 
     // ;
     // Check if the role has categories or direct items
-    const hasCategories = ['SEC1', 'DHS', 'CME'].includes(this.role);
+    const hasCategories = ['SEC1', 'DHS', 'DHS STORE', 'CME', 'DME1', 'Collector'].includes(this.role);
 
     if (hasCategories) {
       const category = this.menuService.getSelectedCategory();
@@ -1985,84 +1985,84 @@ this.fullUrl = window.location.href;
 
     this.openDialogHOD();
   }
-  GetpipelineSlippageItemDetail(nos:any,timeline:any) {
+//   GetpipelineSlippageItemDetail(nos:any,timeline:any) {
 
-     if(timeline==='Timeline'){
-      return
-     }
-    this.spinner.show();
-if(nos>14){
-  this.flag=1;
-}else{
-  this.flag=2;
-}
+//      if(timeline==='Timeline'){
+//       return
+//      }
+//     this.spinner.show();
+// if(nos>14){
+//   this.flag=1;
+// }else{
+//   this.flag=2;
+// }
 
-    this.api.pipelineSlippageItemDetail(this.flag,this.mcid,0).subscribe({
-      next: (res: any[]) => {
-        if (res && res.length > 0) {
-          this.pipelineSlippageItemDetail = res.map((item: any, index: number) => ({
-            ...item,
-            sno: index + 1,
-          }));
+//     this.api.pipelineSlippageItemDetail(this.flag,this.mcid,0).subscribe({
+//       next: (res: any[]) => {
+//         if (res && res.length > 0) {
+//           this.pipelineSlippageItemDetail = res.map((item: any, index: number) => ({
+//             ...item,
+//             sno: index + 1,
+//           }));
 
-          this.dataSource10.data = this.pipelineSlippageItemDetail;
-          this.dataSource10.paginator = this.paginator15;
-          this.dataSource10.sort = this.sort15;
-        } else {
-          this.toastr.error('No data found');
-          this.dataSource10.data=[];
-        }
-      },
-      error: (err) => {
-        console.error('API error:', err);
-        this.toastr.error('Failed to load data');
-      },
-      complete: () => {
-        this.spinner.hide();
-      },
-    });
+//           this.dataSource10.data = this.pipelineSlippageItemDetail;
+//           this.dataSource10.paginator = this.paginator15;
+//           this.dataSource10.sort = this.sort15;
+//         } else {
+//           this.toastr.error('No data found');
+//           this.dataSource10.data=[];
+//         }
+//       },
+//       error: (err) => {
+//         console.error('API error:', err);
+//         this.toastr.error('Failed to load data');
+//       },
+//       complete: () => {
+//         this.spinner.hide();
+//       },
+//     });
 
-    this.openDialogpipelineSlippageItemDetail();
-  }
+//     this.openDialogpipelineSlippageItemDetail();
+//   }
 
-  GetPipelineSlippagePOItemDetailDTO(po:any,timeline:any) {
-    if(timeline==='Timeline'){
-      return
-     }
-    this.spinner.show();
-if(po>14){
-  this.flag=1;
-}else{
-  this.flag=2;
-}
+//   GetPipelineSlippagePOItemDetailDTO(po:any,timeline:any) {
+//     if(timeline==='Timeline'){
+//       return
+//      }
+//     this.spinner.show();
+// if(po>14){
+//   this.flag=1;
+// }else{
+//   this.flag=2;
+// }
 
-    this.api.PipelineSlippagePOItemDetailDTO(this.flag,this.mcid,0).subscribe({
-      next: (res: any[]) => {
-        if (res && res.length > 0) {
-          this.pipelineSlippagePOItemDetailDTO = res.map((item: any, index: number) => ({
-            ...item,
-            sno: index + 1,
-          }));
+//     this.api.PipelineSlippagePOItemDetailDTO(this.flag,this.mcid,0).subscribe({
+//       next: (res: any[]) => {
+//         if (res && res.length > 0) {
+//           this.pipelineSlippagePOItemDetailDTO = res.map((item: any, index: number) => ({
+//             ...item,
+//             sno: index + 1,
+//           }));
 
-          this.dataSource11.data = this.pipelineSlippagePOItemDetailDTO;
-          this.dataSource11.paginator = this.paginator16;
-          this.dataSource11.sort = this.sort16;
-        } else {
-          this.toastr.error('No data found');
-          this.dataSource11.data=[];
-        }
-      },
-      error: (err) => {
-        console.error('API error:', err);
-        this.toastr.error('Failed to load data');
-      },
-      complete: () => {
-        this.spinner.hide();
-      },
-    });
+//           this.dataSource11.data = this.pipelineSlippagePOItemDetailDTO;
+//           this.dataSource11.paginator = this.paginator16;
+//           this.dataSource11.sort = this.sort16;
+//         } else {
+//           this.toastr.error('No data found');
+//           this.dataSource11.data=[];
+//         }
+//       },
+//       error: (err) => {
+//         console.error('API error:', err);
+//         this.toastr.error('Failed to load data');
+//       },
+//       complete: () => {
+//         this.spinner.hide();
+//       },
+//     });
 
-    this.openDialogpipelineSlippagePOItemDetailDTO();
-  }
+//     this.openDialogpipelineSlippagePOItemDetailDTO();
+//   }
   
   Rcdetails(value: any) {
     this.spinner.show();
@@ -2405,7 +2405,7 @@ if(po>14){
   }
 
   updateSelectedHodid(): void {
-    this.spinner.show();
+    // this.spinner.show();
 
     // Set category ID
     if (this.selectedCategoryRadio === 'Drugs') this.mcid = 1;
@@ -2415,21 +2415,21 @@ if(po>14){
 
     // Create API calls with individual error handling
     forkJoin([
-      this.GetPOCountCFY().pipe(catchError(() => of(null))),
-      this.last7DaysIssue().pipe(catchError(() => of(null))),
-      this.loadData1().pipe(catchError(() => of(null))),
+      // this.GetPOCountCFY().pipe(catchError(() => of(null))),
+      // this.last7DaysIssue().pipe(catchError(() => of(null))),
+      // this.loadData1().pipe(catchError(() => of(null))),
       this.loadData2().pipe(catchError(() => of(null))),
-      this.loadIndent().pipe(catchError(() => of(null))),
-      this.loadData4().pipe(catchError(() => of(null))),
-      this.Nearexp().pipe(catchError(() => of(null))),
-      this.loadData3().pipe(catchError(() => of(null))),
-      this.loadUQC().pipe(catchError(() => of(null))),
-      this.loadStockoutDHS().pipe(catchError(() => of(null))),
-      this.CGMSCIndentPending().pipe(catchError(() => of(null))),
-      this.getItemNoDropDown().pipe(catchError(() => of(null))),
+      // this.loadIndent().pipe(catchError(() => of(null))),
+      // this.loadData4().pipe(catchError(() => of(null))),
+      // this.Nearexp().pipe(catchError(() => of(null))),
+      // this.loadData3().pipe(catchError(() => of(null))),
+      // this.loadUQC().pipe(catchError(() => of(null))),
+      // this.loadStockoutDHS().pipe(catchError(() => of(null))),
+      // this.CGMSCIndentPending().pipe(catchError(() => of(null))),
+      // this.getItemNoDropDown().pipe(catchError(() => of(null))),
       this.GetDeliveryInMonth().pipe(catchError(() => of(null))),
-      this.getTenderStatus().pipe(catchError(() => of(null))),
-      this.getTotalRC1().pipe(catchError(() => of(null))),
+      // this.getTenderStatus().pipe(catchError(() => of(null))),
+      // this.getTotalRC1().pipe(catchError(() => of(null))),
     ])
       .pipe(finalize(() => this.spinner.hide()))
       .subscribe({

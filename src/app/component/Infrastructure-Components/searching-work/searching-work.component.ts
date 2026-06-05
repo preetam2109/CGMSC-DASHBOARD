@@ -10,7 +10,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { ConnectableObservable, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ProjectTimeline, ProjectTimelineNew, WorkBillStatus, WorkDetails, WorkFill,ASFile } from 'src/app/Model/DashProgressCount';
+import { ProjectTimeline, ProjectTimelineNew, WorkBillStatus, WorkDetails, WorkFill, ASFile } from 'src/app/Model/DashProgressCount';
 import { ApiService } from 'src/app/service/api.service';
 import html2canvas from 'html2canvas';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ApexYAxis, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexFill, ApexLegend, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
@@ -21,7 +21,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatMenuModule } from '@angular/material/menu';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import {InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { InsertUserPageViewLogmodal } from 'src/app/Model/DashLoginDDL';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -50,25 +50,25 @@ export type ChartOptions = {
     SelectDropDownModule,
     CommonModule,
     NgApexchartsModule,
-    DatePipe, MatSortModule, MatPaginatorModule,MatTableModule,
-            MatTableExporterModule,MatMenuModule
+    DatePipe, MatSortModule, MatPaginatorModule, MatTableModule,
+    MatTableExporterModule, MatMenuModule
   ],
   templateUrl: './searching-work.component.html',
   styleUrl: './searching-work.component.css',
 })
 export class SearchingWorkComponent {
-  base64Data!: string ;
-    InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
-  
+  base64Data!: string;
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+
   workdetails: WorkDetails[] = [];
   workfill: WorkFill[] = [];
   ProjectTimelinedata: ProjectTimeline[] = [];
   ProjectTimelinedata1: ProjectTimelineNew[] = [];
-    dataSource!: MatTableDataSource<WorkBillStatus>;
-     @ViewChild(MatPaginator) paginator!: MatPaginator;
-     @ViewChild(MatSort) sort!: MatSort;
-     dispatchData: WorkBillStatus[] = [];
-      ASFileData: ASFile[] = [];
+  dataSource!: MatTableDataSource<WorkBillStatus>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  dispatchData: WorkBillStatus[] = [];
+  ASFileData: ASFile[] = [];
   items = null;
   // searchTerm: string = '';
   // selectedItem: string | null = null;
@@ -78,7 +78,7 @@ export class SearchingWorkComponent {
   ImageName: any;
   himisDistrictid: any;
   divisionid: any;
-  roleName:any;
+  roleName: any;
   //#region chart
   // public chartOptions!: Partial<ChartOptions> | any;
   chartOptions: any = {};
@@ -91,9 +91,10 @@ export class SearchingWorkComponent {
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
-    public DatePipe: DatePipe,private cdr: ChangeDetectorRef,private location: Location,
-    
-  ) { this.pageName = this.location.path();
+    public DatePipe: DatePipe, private cdr: ChangeDetectorRef, private location: Location,
+
+  ) {
+    this.pageName = this.location.path();
     this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<WorkBillStatus>([]);
 
@@ -222,7 +223,7 @@ export class SearchingWorkComponent {
     //   },
     // };
 
-   
+
 
     this.chartOptions = {
       series: [],
@@ -236,11 +237,11 @@ export class SearchingWorkComponent {
           horizontal: true,
           distributed: true,
           barHeight: "80%",
-          isFunnel: true, 
+          isFunnel: true,
         },
       },
       colors: [
-        "#F44F5E", "#E55A89", "#D863B1", "#CA6CD8", 
+        "#F44F5E", "#E55A89", "#D863B1", "#CA6CD8",
         "#B57BED", "#8D95EB", "#62ACEA", "#4BC3E6"
       ],
       dataLabels: {
@@ -258,29 +259,29 @@ export class SearchingWorkComponent {
         text: "Progress Timeline Key Dates",
         align: "center",
         style: {
-                fontSize: '12px',
-                // color: '#000'
-                color: '#6e0d25'
-              },
+          fontSize: '12px',
+          // color: '#000'
+          color: '#6e0d25'
+        },
       },
       xaxis: {
         categories: [],
       },
       legend: { show: false },
-      
+
       tooltip: {
         custom: function ({ dataPointIndex, w }: any) {
-        // ;
+          // ;
 
           const seriesData = w.config.series[0].data;
           const correctIndex = seriesData.length - 1 - dataPointIndex; // ✅ उल्टा index लें
-      
+
           if (!seriesData || correctIndex < 0 || correctIndex >= seriesData.length) {
             return `<div class="tooltip-box">No data available</div>`;
           }
-      
+
           const dataPoint = seriesData[correctIndex]; // ✅ अब सही डेटा मिलेगा
-      
+
           return `<div style="border: 1px solid rgba(8, 8, 8, 0.3); 
                         border-radius: 6px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); 
                         background-color: white; padding: 8px;">
@@ -294,8 +295,8 @@ export class SearchingWorkComponent {
                   </div>`;
         }
       }
-      
-      
+
+
     };
   }
 
@@ -338,7 +339,7 @@ export class SearchingWorkComponent {
             this.spinner.hide();
           },
           (error) => {
-                console.log('error=',JSON.stringify(error));
+            console.log('error=', JSON.stringify(error));
             // alert(`Error fetching data: ${JSON.stringify(error)}`);
           }
         );
@@ -362,12 +363,12 @@ export class SearchingWorkComponent {
     // this.GetProjectTimeline(this.workID);
     // this.GetProjectTimelineNEW(this.workID);
     // this.GetWorkBillStatus(this.workID);
- 
+
   }
 
   GetWorkDetails() {
     try {
-      // debugger;
+      // ;
 
       this.api.GetWorkDetails(this.workID).subscribe(
         (res) => {
@@ -381,17 +382,17 @@ export class SearchingWorkComponent {
           var progressEntryTime = new Date(
             this.workdetails[0]?.progressEntryTime
           );
-          console.log("api: =",res);
+          console.log("api: =", res);
           this.spinner.hide();
-        
+
           this.GetProjectTimelineNEW(this.workID);
 
           this.GetWorkBillStatus(this.workID);
-this.updateImagePath( this.ImageName );
-            this.GetImageBinary();
+          this.updateImagePath(this.ImageName);
+          this.GetImageBinary();
         },
         (error) => {
-              console.log('error=',JSON.stringify(error));
+          console.log('error=', JSON.stringify(error));
           // alert(`Error fetching data: ${JSON.stringify(error)}`);
         }
       );
@@ -399,17 +400,17 @@ this.updateImagePath( this.ImageName );
       console.error('Exception:', ex.message);
     }
 
-   
+
   }
   ngAfterViewInit() {
-    
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
   // WorkBillStatus 
-  GetWorkBillStatus(workID:any) {
+  GetWorkBillStatus(workID: any) {
     try {
-      // debugger;
+      // ;
 
       // alert(this.workID);
       // this.api.GETWorkBillStatus('W4100398').subscribe(
@@ -422,8 +423,8 @@ this.updateImagePath( this.ImageName );
         //   );
         //   this.spinner.hide();
         // },
-         (res) => {
-          if(res.length>0){
+        (res) => {
+          if (res.length > 0) {
             this.dispatchData = res.map(
               (item: any, index: number) => ({
                 ...item,
@@ -441,8 +442,8 @@ this.updateImagePath( this.ImageName );
           } else {
             // alert("Work Bill Status data Not found.");
           }
-               
-              },
+
+        },
         (error) => {
           this.spinner.hide();
           console.error('Error fetching data:', error);
@@ -499,50 +500,50 @@ this.updateImagePath( this.ImageName );
       console.error("Element with ID 'workdetails' not found.");
     }
   }
-// W3900011
+  // W3900011
 
-readonly imageBaseUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
-// imageName: string = 'W4400269_Image1_68.jpg'; // Ye API se aayega, example: 'W4400269_Image1_68.jpg'
-fullImageUrl: string = '';
+  readonly imageBaseUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+  // imageName: string = 'W4400269_Image1_68.jpg'; // Ye API se aayega, example: 'W4400269_Image1_68.jpg'
+  fullImageUrl: string = '';
 
-updateImagePath(imgName: string) {
-  // debugger
+  updateImagePath(imgName: string) {
+    // 
     if (imgName && imgName !== 'NA') {
-        // this.imageName = imgName;
-        this.fullImageUrl = this.imageBaseUrl + imgName;
+      // this.imageName = imgName;
+      this.fullImageUrl = this.imageBaseUrl + imgName;
     } else {
-        this.fullImageUrl = 'assets/no-image.png'; 
+      this.fullImageUrl = 'assets/no-image.png';
     }
-}
+  }
 
-onImageError(event: any) {
+  onImageError(event: any) {
     event.target.src = 'https://via.placeholder.com/450x450?text=Image+Not+Found';
-}
+  }
   GetImageBinary() {
     try {
       return
-      // debugger;
+      // ;
       // https://cgmsc.gov.in/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}
       // const sr = 90691;  
       // const img = 'CGMSC WORK.jpg';
       // console.log('this.ImageName: ', this.ImageName);
       // this.api.GetImageBinary(90691, 'CGMSC WORK.jpg').subscribe(
       // if(this.ImageName != "NA"){
-        this.api.GetImageBinary(this.sr, this.ImageName).subscribe(
-          (res) => {
-            // console.log('Image data11: ', res);
-              this.base64Data = res;
-          },
-          (error) => {
-            console.log('error=',JSON.stringify(error));
-            // alert(`Failed to load image. Please try again later. Error: ${JSON.stringify(error)}`);
-          }
-        );
+      this.api.GetImageBinary(this.sr, this.ImageName).subscribe(
+        (res) => {
+          // console.log('Image data11: ', res);
+          this.base64Data = res;
+        },
+        (error) => {
+          console.log('error=', JSON.stringify(error));
+          // alert(`Failed to load image. Please try again later. Error: ${JSON.stringify(error)}`);
+        }
+      );
       // }
       // else{
       //   alert("No image available. Please upload an image to proceed.");
       // }
-    
+
     } catch (ex: any) {
       console.error('Exception:', ex.message);
       // alert(`Error fetching data: ${ JSON.stringify(ex.message)}`);
@@ -579,16 +580,16 @@ onImageError(event: any) {
         this.spinner.hide();
       },
       (error) => {
-            console.log('error=',JSON.stringify(error));
+        console.log('error=', JSON.stringify(error));
         // alert(`Error fetching data: ${error.message || error}`);
       }
     );
   }
 
-  GetProjectTimelineNEW(workID:any) {
+  GetProjectTimelineNEW(workID: any) {
     // 
-        this.api.GetProjectTimelineNew(workID).subscribe(
-    // this.api.GetProjectTimelineNew("W4100398").subscribe(
+    this.api.GetProjectTimelineNew(workID).subscribe(
+      // this.api.GetProjectTimelineNew("W4100398").subscribe(
       (res) => {
         // console.log("API Response:", res);
 
@@ -599,28 +600,28 @@ onImageError(event: any) {
         }
 
         const seriesData = res.map((item) => ({
-            x: item.level, 
-            y: item.ppId , 
-            dateProgress:item.dateProgress,
-            ppId:item.ppId,
-            level:item.level,
-            fillColor: this.getRandomColor(),
-            // ?? 1
-          })).reverse(); 
-          // console.log("seriesData:", seriesData);
+          x: item.level,
+          y: item.ppId,
+          dateProgress: item.dateProgress,
+          ppId: item.ppId,
+          level: item.level,
+          fillColor: this.getRandomColor(),
+          // ?? 1
+        })).reverse();
+        // console.log("seriesData:", seriesData);
 
-       
+
         this.chartOptions = {
-          ...this.chartOptions, 
+          ...this.chartOptions,
           series: [{ name: "Progress ID", data: seriesData }],
           xaxis: {
             // categories: res.map((item) => item.level).reverse(),
             categories: res.map((item) => item.level),
-           
+
             // categories: res.map((item) => item.level +' / '+ item.dateProgress).reverse(),
           },
         };
-       
+
 
         // this.chartOptions = {
         //   ...this.chartOptions, // ✅ Keep existing properties
@@ -636,12 +637,12 @@ onImageError(event: any) {
         //     opposite: true
         //   }
         // };
-        
+
         // // ✅ Force Angular to detect changes
         // setTimeout(() => {
         //   this.chartOptions = { ...this.chartOptions };
         // }, 100);
-        
+
         this.spinner.hide();
       },
       (error) => {
@@ -673,8 +674,8 @@ onImageError(event: any) {
   }
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
-  //  ['sno','billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeNo'
-  // ,'daysSinceMeasurement','billStatus','billmbno','mbno']">
+    //  ['sno','billno','agrbillstatus','mesurementDT','billdate','grossPaid','chequeNo'
+    // ,'daysSinceMeasurement','billStatus','billmbno','mbno']">
 
     const columns = [
       { header: 'S.No', dataKey: 'sno' },
@@ -692,7 +693,7 @@ onImageError(event: any) {
     const rows = this.dispatchData.map((row) => ({
       sno: row.sno,
       billno: row.billno,
-      agrbillstatus:row.agrbillstatus,
+      agrbillstatus: row.agrbillstatus,
       mesurementDT: row.mesurementDT,
       billdate: row.billdate,
       grossPaid: row.grossPaid,
@@ -702,7 +703,7 @@ onImageError(event: any) {
       billmbno: row.billmbno,
       mbno: row.mbno,
     }));
-  
+
     autoTable(doc, {
       columns: columns,
       body: rows,
@@ -710,85 +711,85 @@ onImageError(event: any) {
       theme: 'striped',
       headStyles: { fillColor: [22, 160, 133] },
     });
-  
+
     doc.save('BillStatus_Detail.pdf');
   }
 
-  onButtonClick2(ASID:any,workid:any): void {
+  onButtonClick2(ASID: any, workid: any): void {
     //  this.value='Active';
     // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
-      // alert(ASID);
-      // alert(this.value);
-      // return;
-      // asLetterName
-      // filename
-      this.spinner.show();
-      this.api.GETASFile(ASID,workid)
-        .subscribe(
-          (res) => {
-            // this.ASFileData=res;
-            const filename = res[0]?.filename; // Ensure `res[0]` exists
-            const URL = res[0]?.asLetterName;
-            
-            if (filename) {
-              window.open(URL, '_blank');
-            } else {
-              alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.");
-              // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
-            }
+    // alert(ASID);
+    // alert(this.value);
+    // return;
+    // asLetterName
+    // filename
+    this.spinner.show();
+    this.api.GETASFile(ASID, workid)
+      .subscribe(
+        (res) => {
+          // this.ASFileData=res;
+          const filename = res[0]?.filename; // Ensure `res[0]` exists
+          const URL = res[0]?.asLetterName;
+
+          if (filename) {
+            window.open(URL, '_blank');
+          } else {
+            alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.");
+            // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
+          }
           //  const URL =this.ASFileData[0].asLetterName;
           // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
-  
-            // console.log('res:', res);
-            // console.log('ASFileData:',this.ASFileData);
-            this.spinner.hide();
-          },
-          (error) => {
-            this.spinner.hide();
-            alert(`Error fetching data: ${error.message}`);
-          }
-        );
-     }
 
-     
-     InsertUserPageViewLog() {
-      try {
-        // 
-        const roleIdName = localStorage.getItem('roleName') || '';
-        const userId = Number(sessionStorage.getItem('userid') || 0);
-        const roleId = Number(sessionStorage.getItem('roleId') || 0);
-        // const userName = sessionStorage.getItem('firstname') || '';
-        const ipAddress = sessionStorage.getItem('ipAddress') || '';
-        const userAgent = navigator.userAgent; 
-        this.InsertUserPageViewLogdata.logId = 0; 
-        this.InsertUserPageViewLogdata.userId = userId;
-        this.InsertUserPageViewLogdata.roleId = roleId;
-        this.InsertUserPageViewLogdata.roleIdName = roleIdName;
-        this.InsertUserPageViewLogdata.pageName = this.pageName;
-        this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
-        this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
-        this.InsertUserPageViewLogdata.ipAddress = ipAddress;
-        this.InsertUserPageViewLogdata.userAgent = userAgent;
-        // console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
-    // if(localStorage.getItem('Log Saved')|| ''!){
-  
-    // }
-        // API call
-        this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
-          next: (res: any) => {
-            console.log('Page View Log Saved:',res);
-            // const LogSaved='Log Saved'
-            // localStorage.setItem('Log Saved', LogSaved);
-          },
-          error: (err: any) => {
-            console.error('Backend Error:', JSON.stringify(err.message));
-          }
-        });
-    
-      } catch (err: any) {
-        console.error('Error:', err.message);
-      }
+          // console.log('res:', res);
+          // console.log('ASFileData:',this.ASFileData);
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          alert(`Error fetching data: ${error.message}`);
+        }
+      );
+  }
+
+
+  InsertUserPageViewLog() {
+    try {
+      // 
+      const roleIdName = localStorage.getItem('roleName') || '';
+      const userId = Number(sessionStorage.getItem('userid') || 0);
+      const roleId = Number(sessionStorage.getItem('roleId') || 0);
+      // const userName = sessionStorage.getItem('firstname') || '';
+      const ipAddress = sessionStorage.getItem('ipAddress') || '';
+      const userAgent = navigator.userAgent;
+      this.InsertUserPageViewLogdata.logId = 0;
+      this.InsertUserPageViewLogdata.userId = userId;
+      this.InsertUserPageViewLogdata.roleId = roleId;
+      this.InsertUserPageViewLogdata.roleIdName = roleIdName;
+      this.InsertUserPageViewLogdata.pageName = this.pageName;
+      this.InsertUserPageViewLogdata.pageUrl = this.fullUrl;
+      this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
+      this.InsertUserPageViewLogdata.ipAddress = ipAddress;
+      this.InsertUserPageViewLogdata.userAgent = userAgent;
+      // console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
+      // if(localStorage.getItem('Log Saved')|| ''!){
+
+      // }
+      // API call
+      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
+        next: (res: any) => {
+          console.log('Page View Log Saved:', res);
+          // const LogSaved='Log Saved'
+          // localStorage.setItem('Log Saved', LogSaved);
+        },
+        error: (err: any) => {
+          console.error('Backend Error:', JSON.stringify(err.message));
+        }
+      });
+
+    } catch (err: any) {
+      console.error('Error:', err.message);
     }
+  }
 }
 
 

@@ -18,7 +18,7 @@ import { ApiService } from './service/api.service';
 
 
 export class AppComponent implements OnInit, DoCheck {
- 
+
   deferredPrompt: any;
   showButton = false;
   title!: 'CGMSC DASHBOARD'
@@ -43,12 +43,12 @@ export class AppComponent implements OnInit, DoCheck {
 
 
 
-  menuItems: { label: string; route: string; submenu?: { label: string; route: string }[] }[] = [];
+  menuItems: any[] = [];
   expandedMenus: { [key: string]: boolean } = {}; // Track expanded state for each menu item
 
-  toggleSubmenu(menuLabel: string): void {
+  toggleSubmenu(menuLabel: string, parentLabel?: string): void {
     for (const key in this.expandedMenus) {
-      if (key !== menuLabel) {
+      if (key !== menuLabel && key !== parentLabel) {
         this.expandedMenus[key] = false; // Collapse all other menus
       }
     }
@@ -57,18 +57,18 @@ export class AppComponent implements OnInit, DoCheck {
     this.expandedMenus[menuLabel] = !this.expandedMenus[menuLabel];
   }
   role: any = ''; // Dynamic role
-  constructor(private location: Location,private cdr: ChangeDetectorRef, private menuService: MenuServiceService,
-     private toastr: ToastrService, private router: Router,
-      public basicAuthentication: BasicAuthenticationService, private Service:ApiService,
-      private https: HttpClient) { }
+  constructor(private location: Location, private cdr: ChangeDetectorRef, private menuService: MenuServiceService,
+    private toastr: ToastrService, private router: Router,
+    public basicAuthentication: BasicAuthenticationService, private Service: ApiService,
+    private https: HttpClient) { }
 
-     
+
 
 
 
   logout() {
-// 
-  
+    // 
+
 
     if (sessionStorage.getItem('roleId') === '482') {
       sessionStorage.clear();
@@ -92,10 +92,10 @@ export class AppComponent implements OnInit, DoCheck {
 
 
   ngOnInit(): void {
-  
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.isLoginPage = (event.urlAfterRedirects === '/login' || event.urlAfterRedirects === '/otp' || event.urlAfterRedirects === '/collector-login' || event.urlAfterRedirects === '/public-view' || event.urlAfterRedirects === '/GrowthInProcurmentTabPublic' || event.urlAfterRedirects === '/distributionPublic' || event.urlAfterRedirects === '/IndentPendingWHdashPublic'    );
+        this.isLoginPage = (event.urlAfterRedirects === '/login' || event.urlAfterRedirects === '/otp' || event.urlAfterRedirects === '/collector-login' || event.urlAfterRedirects === '/public-view' || event.urlAfterRedirects === '/GrowthInProcurmentTabPublic' || event.urlAfterRedirects === '/distributionPublic' || event.urlAfterRedirects === '/IndentPendingWHdashPublic');
 
         this.role = this.basicAuthentication.getRole().roleName; // Fetch dynamic role from the authentication service
         this.updateMenu();
@@ -105,29 +105,8 @@ export class AppComponent implements OnInit, DoCheck {
 
   }
 
-  // async ngOnInit(): Promise<void> {
-  //   this.router.events.subscribe(event => {
-  //     if (event instanceof NavigationEnd) {
-  //       this.isLoginPage =
-  //         event.urlAfterRedirects === '/login' ||
-  //         event.urlAfterRedirects === '/otp' ||
-  //         event.urlAfterRedirects === '/collector-login' ||
-  //         event.urlAfterRedirects === '/public-view' ||
-  //         event.urlAfterRedirects === '/GrowthInProcurmentTabPublic' ||
-  //         event.urlAfterRedirects === '/distributionPublic' ||
-  //         event.urlAfterRedirects === '/IndentPendingWHdashPublic';
-  
-  //       this.role = this.basicAuthentication.getRole().roleName;
-  //       this.updateMenu();
-  //     }
-  //   });
-  
-  //   // 👇 token ek hi baar fetch hoga jab app load hoga
-  //   // await this.Service.initToken();
-  //   // console.log('🌍 App starting, fetching token...');
-  //   // await this.Service.initToken();
-  // }
-  
+
+
 
 
   ngDoCheck(): void {
@@ -138,8 +117,8 @@ export class AppComponent implements OnInit, DoCheck {
 
     this.roleName = role;
     this.firstname = sessionStorage.getItem('firstname');
-    if(this.firstname==='Public'){
-      this.firstname='Public View Of Drugs and Consumables'
+    if (this.firstname === 'Public') {
+      this.firstname = 'Public View Of Drugs and Consumables'
     }
     this.cdr.detectChanges();
 
@@ -147,8 +126,8 @@ export class AppComponent implements OnInit, DoCheck {
   private updateMenu() {
     // ;
     // Check if the role has categories or direct items
-    const hasCategories = ['SEC1', 'DHS', 'CME'].includes(this.role);
-    
+    const hasCategories = ['SEC1', 'DHS', 'DHS STORE', 'CME', 'DME1', 'Collector'].includes(this.role);
+
     if (hasCategories) {
       const category = this.menuService.getSelectedCategory();
       if (category) {
@@ -162,7 +141,7 @@ export class AppComponent implements OnInit, DoCheck {
       this.menuItems = this.menuService.getMenuItems(this.role);
     }
   }
-  
+
   addToHomeScreen() {
     // Hide the app provided install promotion
     this.showButton = false;

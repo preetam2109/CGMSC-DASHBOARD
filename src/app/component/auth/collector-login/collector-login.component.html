@@ -2,8 +2,7 @@
     <header class="header bs-body-bg text-white py-3" style="background-color:#006ADC; border: 2px solid;">
 
         <div class="container d-flex justify-content-between align-items-center">
-            <img src="https://www.cgmsc.gov.in/assets/images/cg-govt.png" alt="Left Logo"
-                class="header-logo">
+            <img src="https://www.cgmsc.gov.in/assets/images/cg-govt.png" alt="Left Logo" class="header-logo">
             <div class="header-title text-center">
                 <h1 class="cgmsctitle" style="font-size: x-large;"><strong style="color: #f5f8f5;">छत्तीसगढ़ औषधि
                         दर्पण</strong></h1>
@@ -112,7 +111,8 @@
                                         </li>
                                         <li>
                                             3. Essential Drug List for District Hospital 2021
-                                            <a href="https://dpdmis.in/DPDMISStock/pdf/EDL_2021_17122021.pdf" target="_blank">
+                                            <a href="https://dpdmis.in/DPDMISStock/pdf/EDL_2021_17122021.pdf"
+                                                target="_blank">
                                                 <i style="color: red;" class="bi bi-file-pdf"></i>
                                             </a>
                                         </li>
@@ -342,56 +342,43 @@
 
             <div class="col-lg-4 col-md-12 col-12 p-3">
                 <div class="card border-white shadow rounded-3">
-                  <div class="card-header bg-primary text-white rounded-top">
-                    <strong>Transportation of Medicine</strong>
-                    <button 
-                        class="btn btn-primary btn-sm" 
-                        [ngClass]="{'Active': days === 0}" 
-                        (click)="fetchActualDropInfo(0)">
-                        Today
-                      </button>
-                      <button 
-                        class="btn btn-primary btn-sm" 
-                        [ngClass]="{'Active': days === 1}" 
-                        (click)="fetchActualDropInfo(1)">
-                        Yesterday
-                      </button>
-                      <button 
-                        class="btn btn-primary btn-sm" 
-                        [ngClass]="{'Active': days === 7}" 
-                        (click)="fetchActualDropInfo(7)">
-                        Last 7 Days
-                      </button>
-                  </div>
-                  <div class="card-body">
-                  
-                    <google-map 
-                      height="500px" 
-                      width="100%" 
-                      [center]="{lat: 21.2785, lng: 81.866}">
-                      <!-- Center on Chhattisgarh -->
-                      <map-marker 
-                        *ngFor="let warehouse of dropInfo" 
-                        [position]="warehouse.position" 
-                        [title]="warehouse.facilityname" 
-                        [icon]="hospitalIcon" 
-                        #marker="mapMarker" 
-                        (mapClick)="onMarkerClick(warehouse, marker)">
-                      </map-marker>
-                      <map-info-window>
-                        <h3>{{ selectedWarehouse?.facilityname }}</h3>
-                        <p><strong>Indent Date:</strong> {{ selectedWarehouse?.indDT }}</p>
-                        <p><strong>Delivered On:</strong> {{ selectedWarehouse?.dropdate }}</p>
-                        <p><strong>Vehicle No:</strong> {{ selectedWarehouse?.vehicalno }}</p>
-                        <p data-bs-toggle="modal" data-bs-target="#itemDetailsModal" (click)="getItemDetails()">
-                          <strong>No of Items:</strong> {{ selectedWarehouse?.nositems }}
-                        </p>
-                      </map-info-window>
-                    </google-map>
-                  </div>
+                    <div class="card-header bg-primary text-white rounded-top">
+                        <strong>Transportation of Medicine</strong>
+                        <button class="btn btn-primary btn-sm" [ngClass]="{'Active': days === 0}"
+                            (click)="fetchActualDropInfo(0)">
+                            Today
+                        </button>
+                        <button class="btn btn-primary btn-sm" [ngClass]="{'Active': days === 1}"
+                            (click)="fetchActualDropInfo(1)">
+                            Yesterday
+                        </button>
+                        <button class="btn btn-primary btn-sm" [ngClass]="{'Active': days === 7}"
+                            (click)="fetchActualDropInfo(7)">
+                            Last 7 Days
+                        </button>
+                    </div>
+                    <div class="card-body">
+
+                        <google-map height="500px" width="100%" [center]="{lat: 21.2785, lng: 81.866}">
+                            <!-- Center on Chhattisgarh -->
+                            <map-marker *ngFor="let warehouse of dropInfo" [position]="warehouse.position"
+                                [title]="warehouse.facilityname" [icon]="hospitalIcon" #marker="mapMarker"
+                                (mapClick)="onMarkerClick(warehouse, marker)">
+                            </map-marker>
+                            <map-info-window>
+                                <h3>{{ selectedWarehouse?.facilityname }}</h3>
+                                <p><strong>Indent Date:</strong> {{ selectedWarehouse?.indDT }}</p>
+                                <p><strong>Delivered On:</strong> {{ selectedWarehouse?.dropdate }}</p>
+                                <p><strong>Vehicle No:</strong> {{ selectedWarehouse?.vehicalno }}</p>
+                                <p data-bs-toggle="modal" data-bs-target="#itemDetailsModal" (click)="getItemDetails()">
+                                    <strong>No of Items:</strong> {{ selectedWarehouse?.nositems }}
+                                </p>
+                            </map-info-window>
+                        </google-map>
+                    </div>
                 </div>
-              </div>
-              
+            </div>
+
 
 
 
@@ -544,69 +531,69 @@
                                 <div class="marquee-item">
 
                                     <img src="assets/images/CM.jpeg" alt="CM Image">
-                                  <strong>
-                                    <!-- माननीय श्री विष्णु देव साय
+                                    <strong>
+                                        <!-- माननीय श्री विष्णु देव साय
                                     मुख्यमंत्री छत्तीसगढ़ -->
-                                    Shri Vishnu Deo Sai
-                                    Hon'ble Chief Minister
-                                  </strong> 
-                                  </div>
-                                  <div class="marquee-item">
-                  
+                                        Shri Vishnu Deo Sai
+                                        Hon'ble Chief Minister
+                                    </strong>
+                                </div>
+                                <div class="marquee-item">
+
                                     <img src="assets/images/HM.jpeg" alt="HM Image">
-                                  <strong style="font-size: 11px;">
-                                    <!-- मान. श्री श्याम बिहारी जायसवाल
+                                    <strong style="font-size: 11px;">
+                                        <!-- मान. श्री श्याम बिहारी जायसवाल
                                     मंत्री, लो. स्वा. परि. कल्या. ,चिकि. शिक्षा   -->
-                                    Shri  Shyam Bihari Jaiswal
-                                    Hon'ble Minister Health & Family Welfare and
-                                    Med. Edu.
-                                  </strong>
-                                  </div>
-                                  <div class="marquee-item">
-                  
+                                        Shri Shyam Bihari Jaiswal
+                                        Hon'ble Minister Health & Family Welfare and
+                                        Med. Edu.
+                                    </strong>
+                                </div>
+                                <div class="marquee-item">
+
                                     <img src="assets/images/chairman.jpeg" alt="chairmen Image">
-                                  <strong>
-                                    Shri Deepak Mhaskey
-                                    Hon'ble Chairman, CGMSCL
-                                  </strong>
-                                  </div>
-                                  <div class="marquee-item">
-                  
+                                    <strong>
+                                        Shri Deepak Mhaskey
+                                        Hon'ble Chairman, CGMSCL
+                                    </strong>
+                                </div>
+                                <div class="marquee-item">
+
                                     <img src="assets/images/amit-kataria.jpg" alt="chairmen Image">
-                                  <strong>
-                                    Shri Amit Kataria (IAS)
-                                    Secretary, Health and Family Welfare 
-                                    and Medical Education
-                                  </strong>
-                                  </div>
-                                  <div class="marquee-item">
-                  
+                                    <strong>
+                                        Shri Amit Kataria (IAS)
+                                        Secretary, Health and Family Welfare
+                                        and Medical Education
+                                    </strong>
+                                </div>
+                                <div class="marquee-item">
+
                                     <img src="assets/images/NMD.jpeg" alt="MD Image">
-                                  <strong>
-                                    <!-- Smt. Padmini Bhoi Sahu (IAS)
+                                    <strong>
+                                        <!-- Smt. Padmini Bhoi Sahu (IAS)
                                     Managing Director CGMSCL -->
-                                    Shri Ritesh Kumar Aggarwal (IAS) 
-                                    Managing Director CGMSCL
-                                    <!-- श्री रितेश कुमार अग्रवाल (आईएएस) प्रबंध निदेशक सीजीएमएससीएल -->
-                                  </strong>
-                                  </div>
-                                  <div class="marquee-item">
-                  
+                                        Shri Ritesh Kumar Aggarwal (IAS)
+                                        Managing Director CGMSCL
+                                        <!-- श्री रितेश कुमार अग्रवाल (आईएएस) प्रबंध निदेशक सीजीएमएससीएल -->
+                                    </strong>
+                                </div>
+                                <div class="marquee-item">
+
                                     <img src="./assets/images/sikharajputtiwari.webp" alt="DHS  Image">
-                                  <strong>
-                                    Smt Shikha Rajput Tiwari (IAS)
-                                    Comm. Medical Education
-                                  </strong>
-                                  </div>
-                                  <div class="marquee-item">
-                  
+                                    <strong>
+                                        Smt Shikha Rajput Tiwari (IAS)
+                                        Comm. Medical Education
+                                    </strong>
+                                </div>
+                                <div class="marquee-item">
+
                                     <img src="assets/images/Dr.Priyanka_Sukla.jpeg" alt="DHS  Image">
-                                  <strong>
-                                    Dr. Priyanka Shukla (IAS)
-                                    Comm. cum-Director of 
-                                    Health Services
-                                  </strong>
-                                  </div>
+                                    <strong>
+                                        Dr. Priyanka Shukla (IAS)
+                                        Comm. cum-Director of
+                                        Health Services
+                                    </strong>
+                                </div>
 
                             </div>
                         </div>
