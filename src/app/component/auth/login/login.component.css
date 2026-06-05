@@ -1,9 +1,11 @@
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: 'Arial', sans-serif;
 }
+
 .district-login-header {
   /* position: fixed; */
   top: 50;
@@ -19,9 +21,12 @@ body, html {
 
 .marquee-container {
   position: relative;
-  height: 200px; /* Adjust the height of the card content */
-  width: 90%; /* Adjust the width of the marquee container (reduce the width) */
-  margin: 0 auto; /* Center the marquee container */
+  height: 200px;
+  /* Adjust the height of the card content */
+  width: 90%;
+  /* Adjust the width of the marquee container (reduce the width) */
+  margin: 0 auto;
+  /* Center the marquee container */
   overflow: hidden;
 }
 
@@ -41,6 +46,7 @@ body, html {
   0% {
     top: 100%;
   }
+
   100% {
     top: -100%;
   }
@@ -49,45 +55,59 @@ body, html {
 /* second mariquee */
 
 .marquee-container2 {
-position: relative;
-height: 200px; /* Adjust as needed */
-width: 90%; /* Adjust as needed */
-margin: 0 auto;
-overflow: hidden;
+  position: relative;
+  height: 240px;
+  /* Adjust as needed */
+  width: 90%;
+  /* Adjust as needed */
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 .marquee2 {
-display: flex; /* Arrange items in a row */
-position: absolute;
-animation: scrollLeftToRight 15s linear infinite; /* Continuous scrolling */
+  display: flex;
+  /* Arrange items in a row */
+  position: absolute;
+  animation: scrollLeftToRight 15s linear infinite;
+  /* Continuous scrolling */
 }
 
 .marquee-item {
-display: flex;
-flex-direction: column; /* Stack image and text vertically */
-align-items: center; /* Center align text below the image */
-margin-right: 20px; /* Add space between items */
+  display: flex;
+  flex-direction: column;
+  /* Stack image and text vertically */
+  align-items: center;
+  /* Center align text below the image */
+  margin-right: 20px;
+  /* Add space between items */
 }
 
 .marquee-item img {
-width: 100px; /* Adjust image width as needed */
-height: 94px;
-/* height: auto; */
+  width: 100px;
+  /* Adjust image width as needed */
+  height: 94px;
+  /* height: auto; */
 }
 
 .marquee-item strong {
-margin-top: 10px; /* Add space between image and text */
-text-align: center; /* Center align the text */
-font-size: 14px; /* Adjust font size as needed */
+  margin-top: 10px;
+  /* Add space between image and text */
+  text-align: center;
+  /* Center align the text */
+  font-size: 14px;
+  /* Adjust font size as needed */
 }
 
 @keyframes scrollLeftToRight {
-0% {
-transform: translateX(100%); /* Start off-screen to the left */
-}
-100% {
-transform: translateX(-100%); /* End off-screen to the right */
-}
+  0% {
+    transform: translateX(100%);
+    /* Start off-screen to the left */
+  }
+
+  100% {
+    transform: translateX(-100%);
+    /* End off-screen to the right */
+  }
 }
 
 
@@ -98,17 +118,19 @@ transform: translateX(-100%); /* End off-screen to the right */
 
 
 @keyframes scroll-vertical {
-0% {
+  0% {
     transform: translateY(100%);
-}
-100% {
+  }
+
+  100% {
     transform: translateY(-100%);
-}
+  }
 }
 
 .marquee-container:hover .marquee {
   animation-play-state: paused;
 }
+
 .marquee-container2:hover .marquee2 {
   animation-play-state: paused;
 }
@@ -122,6 +144,7 @@ header {
   align-items: center;
   background-color: #0056b3;
 }
+
 header .header-logo {
   height: auto !important;
   max-height: 100px !important;
@@ -217,139 +240,155 @@ footer p {
 }
 
 .Active {
-  background-color: #4f07f7; /* Example for active button */
+  background-color: #4f07f7;
+  /* Example for active button */
   color: white;
 }
 
 
 
-  /* modal css */
-  /* data table */
-  .modal-content {
-    border-radius: 0;
-  }
-  
-  .modal-body {
-    /* padding: 20px;  */
-    padding-left: 30px;
-    padding-right: 14px;
-  }
-  
-  .fullscreen-modal .modal-dialog {
+/* modal css */
+/* data table */
+.modal-content {
+  border-radius: 0;
+}
+
+.modal-body {
+  /* padding: 20px;  */
+  padding-left: 30px;
+  padding-right: 14px;
+}
+
+.fullscreen-modal .modal-dialog {
   max-width: 100%;
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  }
-  
-  .fullscreen-modal .modal-content {
+}
+
+.fullscreen-modal .modal-content {
   height: 100%;
   border: none;
   border-radius: 0;
-  }
-  
-  
-  /* .d-block {
+}
+
+
+/* .d-block {
     display: block !important;
   } */
-  .modal {
-    margin-top: 0px;
-    padding-top: 0px;
-    /* --bs-modal-margin: 0.1rem;
+.modal {
+  margin-top: 0px;
+  padding-top: 0px;
+  /* --bs-modal-margin: 0.1rem;
     --bs-modal-box-shadow: var(--bs-box-shadow); */
+}
+
+@media (min-width: 576px) {
+  .modal {
+    --bs-modal-margin: 1.75rem;
+    --bs-modal-box-shadow: var(--bs-box-shadow);
   }
-  @media (min-width: 576px) {
-    .modal {
-        --bs-modal-margin: 1.75rem;
-        --bs-modal-box-shadow: var(--bs-box-shadow);
-    }
+}
+
+.full-screen-dialog .mat-dialog-container {
+  height: 100vh;
+  /* Full viewport height */
+  width: 100vw;
+  /* Full viewport width */
+  margin: 0;
+  /* Remove any margin */
+  border-radius: 0;
+  /* Remove default dialog border radius */
+}
+
+.mat-dialog-content {
+  max-height: 300px;
+  /* Set a max height */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  padding: 16px;
+  /* Optional padding for content */
+}
+
+@media (max-width: 600px) {
+  .mat-dialog-container {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    max-height: 100vh !important;
   }
-  
-  .full-screen-dialog .mat-dialog-container {
-    height: 100vh; /* Full viewport height */
-    width: 100vw;  /* Full viewport width */
-    margin: 0;     /* Remove any margin */
-    border-radius: 0; /* Remove default dialog border radius */
-  }
-  .mat-dialog-content {
-    max-height: 300px; /* Set a max height */
-    overflow-y: auto;  /* Enable vertical scrolling */
-    padding: 16px;     /* Optional padding for content */
-  }
-  @media (max-width: 600px) {
-    .mat-dialog-container {
-      width: 100% !important;
-      height: auto !important;
-      margin: 0 !important;
-      max-height: 100vh !important;
-    }
-  }
-  
+}
+
+.custom-dialog-container {
+  height: 110vh;
+  /* Adjust height as needed */
+}
+
+.mat-dialog-content {
+  overflow-y: auto;
+}
+
+.mat-mdc-dialog-content {
+  /* max-height: 65vh; */
+  max-height: 75vh;
+  /* overflow: hidden; */
+}
+
+@media (max-width: 768px) {
   .custom-dialog-container {
-    height: 110vh; /* Adjust height as needed */
+    width: 100vw;
+    height: 100vh;
   }
-  
-  .mat-dialog-content {
-    overflow-y: auto;
-  }
-  .mat-mdc-dialog-content {
-    /* max-height: 65vh; */
-    max-height: 75vh;
-    /* overflow: hidden; */
-  }
-  @media (max-width: 768px) {
-    .custom-dialog-container {
-      width: 100vw;
-      height: 100vh;
-    }
-  }
-  
-
- 
+}
 
 
-  /* theme  */
 
 
-  :root {
-    /* --theme-gradient: linear-gradient(180deg, #FF6000 -4%, #FFA559 100%); */
-    --theme-gradient: linear-gradient(1deg, rgb(18, 166, 210) 15%, rgb(49, 65, 252) 100%);
-    
-  }
-  
-  /* Example: Body background */
-  body {
-    /* background: var(--theme-gradient); */
-    /* background-color: #ffdec2; */
-    padding: 0px;
-    margin: 0px;
-    /* max-width: 0px;
+
+/* theme  */
+
+
+:root {
+  /* --theme-gradient: linear-gradient(180deg, #FF6000 -4%, #FFA559 100%); */
+  --theme-gradient: linear-gradient(1deg, rgb(18, 166, 210) 15%, rgb(49, 65, 252) 100%);
+
+}
+
+/* Example: Body background */
+body {
+  /* background: var(--theme-gradient); */
+  /* background-color: #ffdec2; */
+  padding: 0px;
+  margin: 0px;
+  /* max-width: 0px;
     max-height: 0px;
     min-height: 0px;
     min-width: 0px; */
-  }
-  
-  /* Example: Button theme */
-  .theme-btn {
-    background: var(--theme-gradient);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-  }
-  .theme-navbar {
-    background: var(--theme-gradient);
-  }
-  
-  .gradient-heading {
-    background: var(--theme-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: bold;
-    font-family:--awb-fusion-font-family-typography;
-  }
-  /* h1, h2, h3, h4 {
+}
+
+/* Example: Button theme */
+.theme-btn {
+  background: var(--theme-gradient);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
+
+.theme-navbar {
+  background: var(--theme-gradient);
+}
+
+.gradient-heading {
+  background: var(--theme-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  font-family: --awb-fusion-font-family-typography;
+}
+
+/* h1, h2, h3, h4 {
     background: var(--theme-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -358,7 +397,7 @@ footer p {
 
 
 
-  /* eye ka  */
+/* eye ka  */
 .toggle-eye {
   /* position: absolute;
   right: 12px;         

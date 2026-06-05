@@ -1,4 +1,3 @@
-
 <div class="container-fluid vh-100 d-flex flex-column">
   <!-- new code -->
   <!-- Header style="border: 2px solid;" -->
@@ -6,32 +5,33 @@
     <header class="header text-white  py-3 p-0 m-0 bg-success border rounded ">
       <div class="container d-flex flex-wrap justify-content-between align-items-center">
         <!-- Left Logo -->
-         <div class="col-12 col-md-3">
+        <div class="col-12 col-md-3">
 
-           <div class="header-logo-container d-flex justify-content-center justify-content-md-start flex-shrink-0">
-             <img src="assets\images\cg-govt.png" alt="Left Logo" class="header-logo img-fluid" style="max-height: 60px;">
-           </div>
-         </div>
+          <div class="header-logo-container d-flex justify-content-center justify-content-md-start flex-shrink-0">
+            <img src="assets\images\cg-govt.png" alt="Left Logo" class="header-logo img-fluid"
+              style="max-height: 60px;">
+          </div>
+        </div>
 
         <!-- Title Section -->
         <div class="col-12 col-md-6">
-        <div class="header-title text-center flex-grow-1 mx-md-3 my-2 my-md-0">
-          <h1 class="cgmsctitle text-white fs-5 fw-bold mb-1">छत्तीसगढ़ औषधि दर्पण</h1>
-          <p class="collector-title text-white fs-6 fw-bold mb-1">
-            Integrated Dashboard for DPDMIS, Equipment & Infrastructure
-          </p>
-          <p class="sub-title text-white small m-0">
-            An Initiative to Monitor CGMSCL Services in Chhattisgarh
-          </p>
-        </div>
+          <div class="header-title text-center flex-grow-1 mx-md-3 my-2 my-md-0">
+            <h1 class="cgmsctitle text-white fs-5 fw-bold mb-1">छत्तीसगढ़ औषधि दर्पण</h1>
+            <p class="collector-title text-white fs-6 fw-bold mb-1">
+              Integrated Dashboard for DPDMIS, Equipment & Infrastructure
+            </p>
+            <p class="sub-title text-white small m-0">
+              An Initiative to Monitor CGMSCL Services in Chhattisgarh
+            </p>
+          </div>
         </div>
 
         <!-- Right Logo -->
         <div class="col-12 col-md-3">
-        <div class="header-logo-container d-flex justify-content-center justify-content-md-end flex-shrink-0">
-          <img src="assets/images/cgmsc-logo.png" alt="Right Logo" class="header-logo img-fluid"
-            style="max-height: 60px;">
-        </div>
+          <div class="header-logo-container d-flex justify-content-center justify-content-md-end flex-shrink-0">
+            <img src="assets/images/cgmsc-logo.png" alt="Right Logo" class="header-logo img-fluid"
+              style="max-height: 60px;">
+          </div>
         </div>
       </div>
     </header>
@@ -43,29 +43,29 @@
       <div class="col-lg-4 col-md-12 col-12 p-2">
         <div class="d-flex flex-column">
           <!-- Tabs Section -->
-           <!-- about section -->
-            <!-- public section start  -->
-            <div class="border rounded mb-2">
-              <ul class="nav nav-tabs" id="publicReportsTab" role="tablist">
-                <!-- <li class="nav-item" role="presentation">
+          <!-- about section -->
+          <!-- public section start  -->
+          <div class="border rounded mb-2">
+            <ul class="nav nav-tabs" id="publicReportsTab" role="tablist">
+              <!-- <li class="nav-item" role="presentation">
                   <button class="nav-link " id="infrastructure-tab2" data-bs-toggle="tab" data-bs-target="#infrastructure2"
                     type="button" role="tab" aria-controls="infrastructure2" aria-selected="true">
                     Public View 
                     of CGMSCL Infrastructure Reports
                   </button>
                 </li> -->
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="drugs-tab" data-bs-toggle="tab" data-bs-target="#drugs"
-                    type="button" role="tab" aria-controls="drugs" aria-selected="false">
-                    Public View 
-                    <!-- of CGMSCL Drugs and Consumables Reports -->
-                  </button>
-                </li>
-              </ul>
-            
-              <div class="tab-content mt-2" id="publicReportsTabContent">
-                <!-- Infrastructure Reports Tab -->
-                <!-- <div class="tab-pane fade show active" id="infrastructure2" role="tabpanel" aria-labelledby="infrastructure-tab2">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="drugs-tab" data-bs-toggle="tab" data-bs-target="#drugs"
+                  type="button" role="tab" aria-controls="drugs" aria-selected="false">
+                  Public View
+                  <!-- of CGMSCL Drugs and Consumables Reports -->
+                </button>
+              </li>
+            </ul>
+
+            <div class="tab-content mt-2" id="publicReportsTabContent">
+              <!-- Infrastructure Reports Tab -->
+              <!-- <div class="tab-pane fade show active" id="infrastructure2" role="tabpanel" aria-labelledby="infrastructure-tab2">
                   <div class="card">
                     <div class="card-header bg-success text-white">
                       <strong>Public View of CGMSCL Infrastructure Reports</strong>
@@ -82,47 +82,47 @@
                     </div>
                   </div>
                 </div> -->
-            
-                <!-- Drugs and Consumables Reports Tab -->
-                <div class="tab-pane fade show active" id="drugs" role="tabpanel"  aria-labelledby="drugs-tab">
-                  <div class="card">
-                    <div class="card-header bg-success text-white">
-                      <strong>
-                        Public View 
-                        <!-- of CGMSCL Drugs and Consumables Reports -->
-                      </strong>
-                    </div>
-                    <div class="card-body">
-                      <ul>
-                        <li style="color: blue;">
-                          <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Public')">
-                            Drugs and Consumables
-                            <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
-                          </a>
-                        </li>
-                        <li style="color: blue;">
-            
-                          <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Equipment_Reagent_Public')">
-                            Equipment & Reagent 
-                            <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
-                          </a>
-                        </li>
-                        <li style="color: blue;">
-            
-                          <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Infrastructure_Public')">
-                            Infrastructure
-                            <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+
+              <!-- Drugs and Consumables Reports Tab -->
+              <div class="tab-pane fade show active" id="drugs" role="tabpanel" aria-labelledby="drugs-tab">
+                <div class="card">
+                  <div class="card-header bg-success text-white">
+                    <strong>
+                      Public View
+                      <!-- of CGMSCL Drugs and Consumables Reports -->
+                    </strong>
+                  </div>
+                  <div class="card-body">
+                    <ul>
+                      <li style="color: blue;">
+                        <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Public')">
+                          Drugs and Consumables
+                          <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
+                        </a>
+                      </li>
+                      <li style="color: blue;">
+
+                        <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Equipment_Reagent_Public')">
+                          Equipment & Reagent
+                          <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
+                        </a>
+                      </li>
+                      <li style="color: blue;">
+
+                        <a style="cursor: pointer;" target="_blank" (click)="setRolePublic('Infrastructure_Public')">
+                          Infrastructure
+                          <i style="color:rgb(250, 22, 41)" class="bi bi-hand-index-thumb-fill"></i>
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
-             <!-- publuc section end  -->
-      
-           <!-- about section end  -->
+          </div>
+          <!-- publuc section end  -->
+
+          <!-- about section end  -->
 
 
           <!-- <div class="mt-3">
@@ -147,95 +147,97 @@
           </div> -->
 
 
-<!-- start tab public view  -->
+          <!-- start tab public view  -->
 
-<!-- about section start -->
-<div class="border rounded mb-2">
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab"
-      aria-controls="about" aria-selected="true">About</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <!-- <a class="nav-link" id="tutorials-tab" data-bs-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Circulars/User Manuals</a> -->
-    <a class="nav-link" id="manuals-tab" data-bs-toggle="tab" href="#manuals" role="tab"
-      aria-controls="manuals" aria-selected="false">Circulars/User Manuals</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    <a class="nav-link" id="tutorials-tab" data-bs-toggle="tab" href="#tutorials" role="tab"
-      aria-controls="tutorials" aria-selected="false">Download Mobile App</a>
-    <!-- <a class="nav-link" id="manuals-tab" data-bs-toggle="tab" href="#manuals" role="tab" aria-controls="manuals" aria-selected="false">Download Mobile App</a> -->
-  </li>
-</ul>
-<div class="tab-content mt-3">
+          <!-- about section start -->
+          <div class="border rounded mb-2">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="about-tab" data-bs-toggle="tab" href="#about" role="tab"
+                  aria-controls="about" aria-selected="true">About</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <!-- <a class="nav-link" id="tutorials-tab" data-bs-toggle="tab" href="#tutorials" role="tab" aria-controls="tutorials" aria-selected="false">Circulars/User Manuals</a> -->
+                <a class="nav-link" id="manuals-tab" data-bs-toggle="tab" href="#manuals" role="tab"
+                  aria-controls="manuals" aria-selected="false">Circulars/User Manuals</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="tutorials-tab" data-bs-toggle="tab" href="#tutorials" role="tab"
+                  aria-controls="tutorials" aria-selected="false">Download Mobile App</a>
+                <!-- <a class="nav-link" id="manuals-tab" data-bs-toggle="tab" href="#manuals" role="tab" aria-controls="manuals" aria-selected="false">Download Mobile App</a> -->
+              </li>
+            </ul>
+            <div class="tab-content mt-3">
 
-  <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
-    <div class="card">
-      <div class="card-header bg-success text-white">
-        <strong>About</strong>
-      </div>
-      <div class="card-body">
-        <p>
-          <!-- <p> -->
-          Drug Procurement & Distribution Management System (DPDMIS) के अंतर्गत दवाओं की तत्कालिक जानकारी
-          उँगलियों पर लाने हेतु “औषधि दर्पण” App बनाया गया है जो कि Platform Independent है जिसे Computer
-          /Tablet/Mobile एवं IOS सभी Device पर आसानी से Monitor किया जा सकता है |
-          <!-- </p> -->
-          <!-- <p> -->
-          इसके माध्यम से राज्य में दवाओं के स्टॉक ,आपूर्ति ,मांग एवं वितरण की निगरानी की जा सकती है एवं Drug
-          Supply Chain को Historical Data एवं Present Data के अनुसार Stock Management को बेहतर बनाया जा सकता
-          है ताकि स्टॉक की कमी (Less Stock)/ समाप्ति (Stock-out) एवं अत्यधिक स्टॉक (Over Stocking) तीनो को
-          रोका जा सके |
-          <!-- </p> -->
+              <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+                <div class="card">
+                  <div class="card-header bg-success text-white">
+                    <strong>About</strong>
+                  </div>
+                  <div class="card-body">
+                    <p>
+                      <!-- <p> -->
+                      Drug Procurement & Distribution Management System (DPDMIS) के अंतर्गत दवाओं की तत्कालिक जानकारी
+                      उँगलियों पर लाने हेतु “औषधि दर्पण” App बनाया गया है जो कि Platform Independent है जिसे Computer
+                      /Tablet/Mobile एवं IOS सभी Device पर आसानी से Monitor किया जा सकता है |
+                      <!-- </p> -->
+                      <!-- <p> -->
+                      इसके माध्यम से राज्य में दवाओं के स्टॉक ,आपूर्ति ,मांग एवं वितरण की निगरानी की जा सकती है एवं Drug
+                      Supply Chain को Historical Data एवं Present Data के अनुसार Stock Management को बेहतर बनाया जा सकता
+                      है ताकि स्टॉक की कमी (Less Stock)/ समाप्ति (Stock-out) एवं अत्यधिक स्टॉक (Over Stocking) तीनो को
+                      रोका जा सके |
+                      <!-- </p> -->
 
-          <span *ngIf="!showFullText">... <a href="javascript:void(0)" (click)="toggleText()">Read
-              More</a></span>
-          <span style="text-decoration: solid;" *ngIf="showFullText">
-            Drug Warehouse के मध्य मांग के आधार पर समुचित स्टॉक का प्रबंधन,Quality Control, Rack & FEFO
-            Management, Inter Warehouse Transfer, Transport Vehicle Monitoring and ensuring door delivery to
-            the hospital, reducing stock-out and expiry are the key features.
-            राज्य स्तर पर Tender alert ,Rate Contract, Order Planning , Supplier Dispatch एवं Payment System
-            का उपयोग करते हुए Directorate एवं कर्मचारियों के बीच समन्वय बनाने में मदद करता है , अतः यह प्रणाली
-            Logistic Management Information System की योजना को बेहतर बनाने में और जनसाधारण के लिए बेहतर
-            स्वास्थ्य सुविधा देने में महत्वपूर्ण है |
+                      <span *ngIf="!showFullText">... <a href="javascript:void(0)" (click)="toggleText()">Read
+                          More</a></span>
+                      <span style="text-decoration: solid;" *ngIf="showFullText">
+                        Drug Warehouse के मध्य मांग के आधार पर समुचित स्टॉक का प्रबंधन,Quality Control, Rack & FEFO
+                        Management, Inter Warehouse Transfer, Transport Vehicle Monitoring and ensuring door delivery to
+                        the hospital, reducing stock-out and expiry are the key features.
+                        राज्य स्तर पर Tender alert ,Rate Contract, Order Planning , Supplier Dispatch एवं Payment System
+                        का उपयोग करते हुए Directorate एवं कर्मचारियों के बीच समन्वय बनाने में मदद करता है , अतः यह
+                        प्रणाली
+                        Logistic Management Information System की योजना को बेहतर बनाने में और जनसाधारण के लिए बेहतर
+                        स्वास्थ्य सुविधा देने में महत्वपूर्ण है |
 
-            <a href="javascript:void(0)" (click)="toggleText()">Read Less</a>
-          </span>
-        </p>
+                        <a href="javascript:void(0)" (click)="toggleText()">Read Less</a>
+                      </span>
+                    </p>
 
-      </div>
-    </div>
-  </div>
+                  </div>
+                </div>
+              </div>
 
-  <div class="tab-pane fade" id="manuals" role="tabpanel" aria-labelledby="manuals-tab">
-    <div class="card">
-      <div class="card-header bg-success text-white "><strong>PDF Manual Downloads</strong></div>
-      <div class="card-body">
-        <ul class="list-unstyled">
-          <li>1. वेयरहाउस को इंडेंट एवं दवा प्राप्ति हेतु महत्वपूर्ण निर्देश (Important Instruction for Indent
-            to Warehouse/Receipts)
-            <a href="assets\docs\Important_Instruction.pdf" target="_blank">
-              <i style="color: red;" class="bi bi-file-pdf"></i>
-            </a>
-          </li>
-          <li>
-            2. एम.आई.एस. उपयोग करने हेतु एप्लीकेशन गाइड Detailed Documentation of Application
-            <a href="assets\docs\AAM_Manual.pdf" target="_blank">
-              <i style="color: red;" class="bi bi-file-pdf"></i>
-            </a>
-          </li>
-          <li>
-            3. Essential Drug List for District Hospital 2021
-            <a href="https://dpdmis.in/DPDMISStock/pdf/EDL_2021_17122021.pdf" target="_blank">
-                <i style="color: red;" class="bi bi-file-pdf"></i>
-            </a>
-        </li>
+              <div class="tab-pane fade" id="manuals" role="tabpanel" aria-labelledby="manuals-tab">
+                <div class="card">
+                  <div class="card-header bg-success text-white "><strong>PDF Manual Downloads</strong></div>
+                  <div class="card-body">
+                    <ul class="list-unstyled">
+                      <li>1. वेयरहाउस को इंडेंट एवं दवा प्राप्ति हेतु महत्वपूर्ण निर्देश (Important Instruction for
+                        Indent
+                        to Warehouse/Receipts)
+                        <a href="assets\docs\Important_Instruction.pdf" target="_blank">
+                          <i style="color: red;" class="bi bi-file-pdf"></i>
+                        </a>
+                      </li>
+                      <li>
+                        2. एम.आई.एस. उपयोग करने हेतु एप्लीकेशन गाइड Detailed Documentation of Application
+                        <a href="assets\docs\AAM_Manual.pdf" target="_blank">
+                          <i style="color: red;" class="bi bi-file-pdf"></i>
+                        </a>
+                      </li>
+                      <li>
+                        3. Essential Drug List for District Hospital 2021
+                        <a href="https://dpdmis.in/DPDMISStock/pdf/EDL_2021_17122021.pdf" target="_blank">
+                          <i style="color: red;" class="bi bi-file-pdf"></i>
+                        </a>
+                      </li>
 
-        </ul>
-      </div>
-    </div>
+                    </ul>
+                  </div>
+                </div>
 
-    <!-- <div class="card mt-2">
+                <!-- <div class="card mt-2">
         <div class="card-header bg-success text-white "><strong>Video Tuotorial Downloads</strong></div>
         <div class="card-body">
           <ul class="list-unstyled">
@@ -310,54 +312,54 @@
         </div>
       </div> -->
 
-  </div>
+              </div>
 
-  <!-- Video Tutorials Tab -->
-  <div class="tab-pane fade " id="tutorials" role="tabpanel" aria-labelledby="tutorials-tab">
-    <div class="card ">
-      <div class="card-header bg-success text-white"><strong>Download APK</strong></div>
-      <div class="card-body">
-        <ul class="list-unstyled">
-          <li>
-            1. Download “औषधि दर्पण” Android Mobile App.
+              <!-- Video Tutorials Tab -->
+              <div class="tab-pane fade " id="tutorials" role="tabpanel" aria-labelledby="tutorials-tab">
+                <div class="card ">
+                  <div class="card-header bg-success text-white"><strong>Download APK</strong></div>
+                  <div class="card-body">
+                    <ul class="list-unstyled">
+                      <li>
+                        1. Download “औषधि दर्पण” Android Mobile App.
 
-            <a href="assets\apk\Dpdmis.apk" target="_blank">
-              <i style="color: green;" class="bi bi-android2"></i>
-            </a>
-          </li>
-          <li>
-            2. Download “Door Delivery Transport” Android Mobile App.
+                        <a href="assets\apk\Dpdmis.apk" target="_blank">
+                          <i style="color: green;" class="bi bi-android2"></i>
+                        </a>
+                      </li>
+                      <li>
+                        2. Download “Door Delivery Transport” Android Mobile App.
 
-            <a href="assets\apk\DoorDeliveryTransport.apk" target="_blank">
-              <i style="color: green;" class="bi bi-android2"></i>
-            </a>
-          </li>
-          <li>
-            3. Download “Courier Transport” Android Mobile App.
-            <a href="assets\apk\CourierParcelTracking.apk" target="_blank">
-              <i style="color: green;" class="bi bi-android2"></i>
-            </a>
-          </li>
-          <li>
-            4. Download “Nirman Darpan Progress” Android Mobile App
-            <a href="assets\apk\Nirman-darpan-progress.apk" target="_blank">
-              <i style="color: green;" class="bi bi-android2"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+                        <a href="assets\apk\DoorDeliveryTransport.apk" target="_blank">
+                          <i style="color: green;" class="bi bi-android2"></i>
+                        </a>
+                      </li>
+                      <li>
+                        3. Download “Courier Transport” Android Mobile App.
+                        <a href="assets\apk\CourierParcelTracking.apk" target="_blank">
+                          <i style="color: green;" class="bi bi-android2"></i>
+                        </a>
+                      </li>
+                      <li>
+                        4. Download “Nirman Darpan Progress” Android Mobile App
+                        <a href="assets\apk\Nirman-darpan-progress.apk" target="_blank">
+                          <i style="color: green;" class="bi bi-android2"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
-</div>
-</div>
-<!-- about section end -->
-
-
+            </div>
+          </div>
+          <!-- about section end -->
 
 
 
- <!-- end tab public view-->
+
+
+          <!-- end tab public view-->
 
 
 
@@ -394,8 +396,7 @@
                     </li><br>
                     <li style="color: blue;">
                       CGMSC Item Wise Current Stock.
-                      <a href="https://dpdmis.in/DPDMISStock/Reports/DrugWisewarehousesrptCGMSCL.aspx"
-                        target="_blank">
+                      <a href="https://dpdmis.in/DPDMISStock/Reports/DrugWisewarehousesrptCGMSCL.aspx" target="_blank">
                         <i style="color: red;" class="bi bi-hand-index-thumb-fill"></i>
                       </a>
                     </li><br>
@@ -407,8 +408,7 @@
                     </li><br>
                     <li style="color: blue;">
                       Health Facility-wise Issuance from Warehouse
-                      <a href="https://dpdmis.in/DPDMISStock/FacilityIssue/Facility_Issue_Summary.aspx"
-                        target="_blank">
+                      <a href="https://dpdmis.in/DPDMISStock/FacilityIssue/Facility_Issue_Summary.aspx" target="_blank">
                         <i style="color: rgb(9, 243, 17);" class="bi bi-hand-index-thumb-fill"></i>
                       </a>
                     </li><br>
@@ -774,7 +774,7 @@
           </div>
         </div>
 
-        <div class="card mt-2" style="width: 100%; height: auto;">
+        <div class="card mt-2" style="width: 100%;  height: auto;">
           <!-- <div class="card-header bg-success text-white">
           <strong>Public View Reports</strong>
         </div> -->
@@ -784,71 +784,71 @@
                 <div class="marquee-item">
 
                   <img src="assets/images/CM.jpeg" alt="CM Image">
-                <strong>
-                  <!-- माननीय श्री विष्णु देव साय
+                  <strong>
+                    <!-- माननीय श्री विष्णु देव साय
                   मुख्यमंत्री छत्तीसगढ़ -->
-                  Shri Vishnu Deo Sai
-                  Hon'ble Chief Minister
-                </strong> 
+                    Shri Vishnu Deo Sai
+                    Hon'ble Chief Minister
+                  </strong>
                 </div>
                 <div class="marquee-item">
 
                   <img src="assets/images/HM.jpeg" alt="HM Image">
-                <strong style="font-size: 11px;">
-                  <!-- मान. श्री श्याम बिहारी जायसवाल
+                  <strong style="font-size: 11px;">
+                    <!-- मान. श्री श्याम बिहारी जायसवाल
                   मंत्री, लो. स्वा. परि. कल्या. ,चिकि. शिक्षा   -->
-                  Shri  Shyam Bihari Jaiswal
-                  Hon'ble Minister Health & Family Welfare and
-                  Med. Edu.
-                </strong>
+                    Shri Shyam Bihari Jaiswal
+                    Hon'ble Minister Health & Family Welfare and
+                    Med. Edu.
+                  </strong>
                 </div>
                 <div class="marquee-item">
 
                   <img src="assets/images/chairman.jpeg" alt="chairmen Image">
-                <strong>
-                  Shri Deepak Mhaskey
-                  Hon'ble Chairman, CGMSCL
-                </strong>
+                  <strong>
+                    Shri Deepak Mhaskey
+                    Hon'ble Chairman, CGMSCL
+                  </strong>
                 </div>
                 <div class="marquee-item">
 
                   <img src="assets/images/amit-kataria.jpg" alt="chairmen Image">
-                <strong>
-                  Shri Amit Kataria (IAS)
-                  Secretary, Health and Family Welfare 
-                  and Medical Education
-                </strong>
+                  <strong>
+                    Shri Amit Kataria (IAS)
+                    Secretary, Health and Family Welfare
+                    and Medical Education
+                  </strong>
                 </div>
                 <div class="marquee-item">
 
                   <img src="assets/images/NMD.jpeg" alt="MD Image">
-                <strong>
-                  <!-- Smt. Padmini Bhoi Sahu (IAS)
+                  <strong>
+                    <!-- Smt. Padmini Bhoi Sahu (IAS)
                   Managing Director CGMSCL -->
-                  Shri Ritesh Kumar Aggarwal (IAS) 
-                  Managing Director CGMSCL
-                  <!-- श्री रितेश कुमार अग्रवाल (आईएएस) प्रबंध निदेशक सीजीएमएससीएल -->
-                </strong>
+                    Shri Ritesh Kumar Aggarwal (IAS)
+                    Managing Director CGMSCL
+                    <!-- श्री रितेश कुमार अग्रवाल (आईएएस) प्रबंध निदेशक सीजीएमएससीएल -->
+                  </strong>
                 </div>
                 <div class="marquee-item">
 
-                  <img src="./assets/images/sikharajputtiwari.webp" alt="DHS  Image">
-                <strong>
-                  Smt Shikha Rajput Tiwari (IAS)
-                  Comm. Medical Education
-                </strong>
+                  <img src="./assets/images/NMD.jpeg" alt="DHS  Image">
+                  <strong>
+                    Shri Ritesh Kumar Aggarwal (IAS)
+                    Comm. Medical Education
+                  </strong>
                 </div>
                 <div class="marquee-item">
 
-                  <img src="assets/images/Dr.Priyanka_Sukla.jpeg" alt="DHS  Image">
-                <strong>
-                  Dr. Priyanka Shukla (IAS)
-                  Comm. cum-Director of 
-                  Health Services
-                </strong>
+                  <img src="assets/images/1185250-sanjeev-kumar.jpg" alt="DHS  Image">
+                  <strong>
+                    Shri Sanjeev Kumar Jha (IAS)
+                    Comm. cum-Director of
+                    Health Services
+                  </strong>
                 </div>
-                
-                
+
+
 
               </div>
             </div>
@@ -896,19 +896,21 @@
   <div class="mb-2" mat-dialog-content>
     <div class="card shadow card-body">
       <div class="d-flex justify-content-between align-items-center mb-0">
-        <div class="export-menu-container w-100"> 
+        <div class="export-menu-container w-100">
           <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
             <form #adminLoginForm="ngForm" (ngSubmit)="adminLoginForm.valid && handleLogin_SMIT()" class="w-100">
               <div class="mb-3">
-                <div *ngIf="emailidField.invalid && (emailidField.dirty || emailidField.touched)" class="text-danger mt-1">
+                <div *ngIf="emailidField.invalid && (emailidField.dirty || emailidField.touched)"
+                  class="text-danger mt-1">
                   Please select a user.
                 </div>
               </div>
 
               <div class="mb-3">
-                <button type="button" class="btn btn-success btn-sm w-100" (click)="sendOTP_PUblicView_For_SMIT()">Generate OTP</button>
-                <input type="text" id="otpInput" class="form-control w-100 mt-2" maxlength="6" [(ngModel)]="otp" name="otp"
-                  placeholder="Enter OTP" required>
+                <button type="button" class="btn btn-success btn-sm w-100"
+                  (click)="sendOTP_PUblicView_For_SMIT()">Generate OTP</button>
+                <input type="text" id="otpInput" class="form-control w-100 mt-2" maxlength="6" [(ngModel)]="otp"
+                  name="otp" placeholder="Enter OTP" required>
               </div>
 
               <div class="mb-3">
@@ -917,14 +919,15 @@
                   <span class="captcha-box flex-grow-1 text-center">{{ captcha }}</span>
                   <button type="button" class="btn btn-link" (click)="generateCaptcha()">Refresh</button>
                 </div>
-                <input type="text" class="form-control w-100 mt-2" id="captcha" #captchaInput placeholder="Enter CAPTCHA"
-                  required>
+                <input type="text" class="form-control w-100 mt-2" id="captcha" #captchaInput
+                  placeholder="Enter CAPTCHA" required>
                 <div *ngIf="otpField.invalid && (otpField.dirty || otpField.touched)" class="text-danger">
                   OTP is required.
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-success w-100" [disabled]="adminLoginForm.invalid">Login through OTP</button>
+              <button type="submit" class="btn btn-success w-100" [disabled]="adminLoginForm.invalid">Login through
+                OTP</button>
             </form>
           </div>
         </div>

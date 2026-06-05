@@ -1,105 +1,245 @@
-.submenu {
-  margin-left: 20px;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-}
-
-.submenu mat-list-item {
-  padding-left: 16px; /* Add extra padding for submenu items */
-}
-
-.submenu[hidden] {
-  max-height: 0;
+/* ================= ULTRA MODERN SIDEBAR STYLE (LAYOUT & ANIMATIONS) ================= */
+mat-nav-list {
   padding: 0;
+}
+
+.nav-item {
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Strict Flex Override */
+::ng-deep .menu-btn .mdc-button__label,
+::ng-deep .submenu-btn .mdc-button__label {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.menu-btn {
+  width: 100%;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.menu-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.left-icon {
+  width: 24px;
+  min-width: 24px;
+  text-align: center;
+  margin-right: 16px;
+  transition: all 0.3s ease;
+}
+
+.menu-text {
+  flex: 1;
+  text-align: left;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s;
+}
+
+.right-icon {
+  margin-left: auto;
+  width: 24px;
+  text-align: center;
+  transition: transform 0.4s ease-in-out;
+}
+
+.rotate {
+  transform: rotate(90deg);
+}
+
+/* Hover Effects */
+mat-list-item:hover .menu-btn {
+  transform: translateX(4px);
+}
+
+mat-list-item:hover .left-icon {
+  transform: scale(1.15) rotate(-5deg);
+}
+
+/* Active Menu Main */
+.active-menu {
+  font-weight: 600;
+}
+
+.active-text {
+  font-weight: 600;
+}
+
+/* ================= STAGGERED SUBMENU ================= */
+.submenu {
+  display: none;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.4s ease;
+  margin-left: 20px;
+}
+
+.submenu.open {
+  display: block;
+  max-height: 500px;
+  opacity: 1;
+  padding: 8px 0;
+}
+
+
+.sub-nav-item {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.submenu.open .sub-nav-item {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.submenu-btn {
+  padding-left: 30px !important;
+  transition: all 0.3s;
+}
+
+.sub-icon {
+  width: 16px;
+  min-width: 16px;
+  margin-right: 12px;
+}
+
+/* Submenu Hover */
+.submenu-btn:hover {
+  background: transparent;
+  transform: translateX(6px);
+}
+
+/* SUBMENU ACTIVE */
+.active-submenu {
+  background: transparent !important;
+  font-weight: 600;
+}
+
+/* ================= DIVIDER & LOGOUT ================= */
+.divider {
+  height: 1px;
+  background: rgba(128, 128, 128, 0.2);
+  margin: 15px 20px;
 }
 
 
 .mat-toolbar.mat-dark {
-    background: #000;
-    color: #fff;
+  background: #000;
+  color: #fff;
 }
+
 .mat-toolbar {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
+
 .toolbar-title {
-    flex: 1;
-    text-align: left;
-    margin-left: 16px; /* Adjust the margin as needed */
+  flex: 1;
+  text-align: left;
+  margin-left: 16px;
+  /* Adjust the margin as needed */
 }
+
 .example-spacer {
-    flex: 1;
+  flex: 1;
 }
+
 .logout-button {
-    margin-right: 10px; /* Adjust the margin as needed */
+  margin-right: 10px;
+  /* Adjust the margin as needed */
 }
 
 /* pwa */
 .add-to-home-screen {
-    width: 300px;
-    position: fixed;
-    bottom: -100px; /* Start off-screen */
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fff;
-    padding: 10px 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    transition: transform 0.5s ease-in-out, bottom 0.5s ease-in-out;
+  width: 300px;
+  position: fixed;
+  bottom: -100px;
+  /* Start off-screen */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  transition: transform 0.5s ease-in-out, bottom 0.5s ease-in-out;
 
-  }
-  
-  .add-to-home-screen.show {
-    bottom: 20px; /* Final position */
-    transform: translateX(-50%) translateY(0);
-  }
-  
-  .add-to-home-screen img {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-  }
-  
-  .add-to-home-screen button {
-    background: #6200ea;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .add-to-home-screen button:hover {
-    background: #3700b3;
-  }
-  
-  .add-to-home-screen .close-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    margin-left: auto;
-    cursor: pointer;
-  }
+}
 
+.add-to-home-screen.show {
+  bottom: 20px;
+  /* Final position */
+  transform: translateX(-50%) translateY(0);
+}
 
-  
-  .welcome-message {
-    font-size: 1rem;
-    color: #ffffff;
-    white-space: nowrap;
-  }
- 
-  .navbar-brand {
-    font-size: 1.25rem;
-    font-weight: 500;
-  }
-  
-  /* pwa close */
-  
+.add-to-home-screen img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.add-to-home-screen button {
+  background: #6200ea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-to-home-screen button:hover {
+  background: #3700b3;
+}
+
+.add-to-home-screen .close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin-left: auto;
+  cursor: pointer;
+}
 
 
 
-  
+.welcome-message {
+  font-size: 1rem;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+/* pwa close */
+
+.app-layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+mat-drawer-container {
+  flex: 1;
+  width: 100%;
+}

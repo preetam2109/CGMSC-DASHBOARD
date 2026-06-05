@@ -32,6 +32,9 @@ import { InstallationPendingComponent } from './component/installation-pending/i
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { DHSFacilityStock } from './component/DHS-Components/dhsfacility-stock/dhsfacility-stock';
+import { StockOuAndStockAvailabilityInWarehouse } from './component/ORACLE-DASHBOARD/stock-ou-and-stock-availability-in-warehouse/stock-ou-and-stock-availability-in-warehouse';
+import { ItemWiseStock } from './component/ORACLE-DASHBOARD/item-wise-stock/item-wise-stock';
 import { DHSComponent } from './component/dhs/dhs.component';
 import { DispatchPendingOneComponent } from './component/dispatch-pending-one/dispatch-pending-one.component';
 import { DatePipe } from '@angular/common';
@@ -192,7 +195,9 @@ import { NearExpiryItemwiseComponent } from "./component/near-expiry-itemwise/ne
     // MatTabGroup
     ,
     NearExpiryBatchwiseComponent,
-    NearExpiryItemwiseComponent
+    NearExpiryItemwiseComponent,
+    StockOuAndStockAvailabilityInWarehouse,
+    ItemWiseStock
 ], providers: [DatePipe, 
       { provide: APP_BASE_HREF, useValue: '/mdang/' }, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
