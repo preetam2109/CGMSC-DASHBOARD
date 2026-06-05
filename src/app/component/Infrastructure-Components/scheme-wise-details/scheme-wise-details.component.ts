@@ -463,6 +463,8 @@ export class SchemeWiseDetailsComponent {
   }
   //#region Scheme-Wise Work Abstract
   loadInitialData() {
+// debugger
+
     this.spinner.show();
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
@@ -786,7 +788,7 @@ export class SchemeWiseDetailsComponent {
     }
     // Icon for "Tender in Process"
     else if (did == 2001) {
-      //
+        //  debugger
       console.log('2001=: ', did);
       this.api
         .GETDetailProgress(
