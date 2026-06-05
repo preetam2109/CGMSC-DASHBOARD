@@ -262,30 +262,234 @@ export class FitUnFitInfrastructure {
     );
   }
   getPendigBill() {
-    // ;
-    // return;
-    this.spinner.show();
-    this.api.getPendigBill(this.mainSchemeID, this.officeorderid).subscribe(
-      (res) => {
-        this.himis_PendigBill = res.map(
-          (item: himis_PendigBill, index: number) => ({
-            ...item,
-            sno: index + 1,
-          }),
+  this.spinner.show();
+
+  this.api.getPendigBill(this.mainSchemeID, this.officeorderid).subscribe(
+    (res) => {
+
+      const groupedData = res.reduce((acc: any[], curr: any) => {
+
+        const cleanDivision =
+          curr.divisionname?.replace(' Division', '').trim();
+
+        const existing = acc.find(
+          x =>
+            x.fund === curr.fund &&
+            x.divisionname === cleanDivision
         );
-        this.dataSource1.data = this.himis_PendigBill;
-        console.log('himis_PendigBill= ', this.himis_PendigBill);
-        this.dataSource1.paginator = this.paginator1;
-        this.dataSource1.sort = this.sort1;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        console.error('Error fetching data', error);
-      },
-    );
-  }
+
+        if (existing) {
+
+          // Sum Gross Amount
+          existing.grossamount =
+            Number(existing.grossamount) +
+            Number(curr.grossamount);
+
+          // Update latest values if needed
+          existing.fileondesk = curr.fileondesk;
+          existing.dayssincefile = curr.dayssincefile;
+
+        } else {
+
+          acc.push({
+            ...curr, // ALL columns preserve
+
+            divisionname: cleanDivision,
+
+            grossamount: Number(curr.grossamount)
+          });
+
+        }
+
+        return acc;
+
+      }, []);
+
+      this.himis_PendigBill = groupedData.map((item, index) => ({
+        ...item, // keep all columns
+
+        sno: index + 1,
+
+        divisionname: item.divisionname
+          ?.replace(' Division', '')
+          .trim(),
+
+        // Convert amount to Lacs + round
+        grossamount: Number(
+          (item.grossamount / 100000).toFixed(2)
+        )
+      }));
+
+      this.dataSource1.data = this.himis_PendigBill;
+
+      this.dataSource1.paginator = this.paginator1;
+      this.dataSource1.sort = this.sort1;
+
+      this.cdr.detectChanges();
+
+      this.spinner.hide();
+
+    },
+    (error) => {
+      this.spinner.hide();
+      console.error(error);
+    }
+  );
+}
+//   getPendigBill() {
+//   this.spinner.show();
+
+//   this.api.getPendigBill(this.mainSchemeID, this.officeorderid).subscribe(
+//     (res) => {
+
+//       const groupedData = res.reduce((acc: any[], curr: any) => {
+
+//         const existing = acc.find(
+//           x => x.fund === curr.fund &&
+//                x.divisionname === curr.divisionname.replace(' Division', '')
+//         );
+
+//         if (existing) {
+
+//           // Gross amount sum
+//           existing.grossamount =
+//             Number(existing.grossamount) + Number(curr.grossamount);
+
+//           // Latest file date update
+//           existing.fileondesk = curr.fileondesk;
+
+//           // Optional update
+//           existing.dayssincefile = curr.dayssincefile;
+
+//         } else {
+
+//           acc.push({
+//             ...curr, // sabhi columns preserve kar dega
+
+//             // Division text replace
+//             divisionname: curr.divisionname.replace(' Division', ''),
+
+//             grossamount: Number(curr.grossamount)
+//           });
+
+//         }
+
+//         return acc;
+
+//       }, []);
+
+//       this.himis_PendigBill = groupedData.map((item, index) => ({
+//         ...item,
+//         sno: index + 1,
+//         // grossamount: Number(item.grossamount)
+//           grossamount: Number((item.grossamount / 100000).toFixed(2))
+//       }));
+
+//       this.dataSource1.data = this.himis_PendigBill;
+
+//       console.log(this.himis_PendigBill);
+
+//       this.dataSource1.paginator = this.paginator1;
+//       this.dataSource1.sort = this.sort1;
+
+//       this.cdr.detectChanges();
+//       this.spinner.hide();
+
+//     },
+//     (error) => {
+//       this.spinner.hide();
+//       console.error('Error fetching data', error);
+//     }
+//   );
+// }
+//   getPendigBill() {
+//   this.spinner.show();
+
+//   this.api.getPendigBill(this.mainSchemeID, this.officeorderid).subscribe(
+//     (res) => {
+
+//       const groupedData = res.reduce((acc: any[], curr: any) => {
+
+//         const existing = acc.find(
+//           x => x.fund === curr.fund &&
+//                x.divisionname === curr.divisionname
+//         );
+
+//         if (existing) {
+
+//           // gross amount sum
+//           existing.grossamount += Number(curr.grossamount);
+
+//           // latest date rakhna ho to
+//           existing.fileondesk = curr.fileondesk;
+
+//           // days sum ya max rakh sakte ho
+//           existing.dayssincefile = curr.dayssincefile;
+
+//         } else {
+
+//           acc.push({
+//             fund: curr.fund,
+//             divisionname: curr.divisionname,
+//             grossamount: Number(curr.grossamount),
+//             fileondesk: curr.fileondesk,
+//             dayssincefile: curr.dayssincefile
+//           });
+
+//         }
+
+//         return acc;
+
+//       }, []);
+
+//       this.himis_PendigBill = groupedData.map((item, index) => ({
+//         ...item,
+//         sno: index + 1,
+//         grossamount: item.grossamount.toFixed(2)
+//       }));
+
+//       this.dataSource1.data = this.himis_PendigBill;
+
+//       console.log(this.himis_PendigBill);
+
+//       this.dataSource1.paginator = this.paginator1;
+//       this.dataSource1.sort = this.sort1;
+
+//       this.cdr.detectChanges();
+//       this.spinner.hide();
+
+//     },
+//     (error) => {
+//       this.spinner.hide();
+//       console.error(error);
+//     }
+//   );
+// }
+  // getPendigBill() {
+  //   // ;
+  //   // return;
+  //   this.spinner.show();
+  //   this.api.getPendigBill(this.mainSchemeID, this.officeorderid).subscribe(
+  //     (res) => {
+  //       this.himis_PendigBill = res.map(
+  //         (item: himis_PendigBill, index: number) => ({
+  //           ...item,
+  //           sno: index + 1,
+  //         }),
+  //       );
+  //       this.dataSource1.data = this.himis_PendigBill;
+  //       console.log('himis_PendigBill= ', this.himis_PendigBill);
+  //       this.dataSource1.paginator = this.paginator1;
+  //       this.dataSource1.sort = this.sort1;
+  //       this.cdr.detectChanges();
+  //       this.spinner.hide();
+  //     },
+  //     (error) => {
+  //       this.spinner.hide();
+  //       console.error('Error fetching data', error);
+  //     },
+  //   );
+  // }
 
   applyTextFilter2(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
