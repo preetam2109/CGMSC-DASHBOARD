@@ -119,6 +119,7 @@ export class MenuServiceService {
             // },
             { label: 'Dashboard', route: '/welcome' },
             { label: 'Payments Pending', route: '/FitUnFit' },
+           
             { label: 'Payment Approvals', route: '/PayementApprovals' },
 
             { label: 'Analysis', route: '/analysis' },
@@ -233,7 +234,7 @@ export class MenuServiceService {
           Infrastructure: [
             { label: 'Home', route: '/home' },
             { label: 'Dashboard', route: '/infra-dash' },
-
+            { label: 'Payments Pending', route: '/FitUnFitinfra' },
             // { label: 'Home', route: 'InfrastructureHome' },
             // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
             // { label: 'SearchingWork', route: 'SearchingWork' },
@@ -1147,6 +1148,7 @@ export class MenuServiceService {
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Dashboard', route: '/welcome' },
           { label: 'Payments Pending', route: '/FitUnFit' },
+          { label: 'Payments FitUnFit', route: '/FitUnFitinfra' },
           { label: 'Search Work', route: '/SearchingWork' },
           { label: 'Work Abstract', route: '/InfrastructureHome' },
           { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
@@ -1200,7 +1202,7 @@ export class MenuServiceService {
           // { label: 'District Progress', route: 'District Progress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Dashboard', route: '/welcome' },
-
+           { label: 'Payments FitUnFit', route: '/FitUnFitinfra' },
           { label: 'Search Work', route: '/SearchingWork' },
           { label: 'Work Abstract', route: '/InfrastructureHome' },
           { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
@@ -1287,6 +1289,7 @@ export class MenuServiceService {
           // { label: 'SearchingWork', route: 'SearchingWork' },
           // { label: 'District Progress', route: 'District Progress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
+            { label: 'Payments FitUnFit', route: '/FitUnFitinfra' },
           { label: 'Search Work', route: '/SearchingWork' },
           { label: 'Work Abstract', route: '/InfrastructureHome' },
           { label: 'Administrative Sanction', route: '/AdministrativeSanction' },

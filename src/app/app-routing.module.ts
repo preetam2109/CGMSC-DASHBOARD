@@ -185,6 +185,7 @@ import { POFileStatusInsightsTechnical } from './component/TECHNICAL/pofile-stat
 import { DHSFacilityStock } from './component/DHS-Components/dhsfacility-stock/dhsfacility-stock';
 import { StockOuAndStockAvailabilityInWarehouse } from './component/ORACLE-DASHBOARD/stock-ou-and-stock-availability-in-warehouse/stock-ou-and-stock-availability-in-warehouse';
 import { ItemWiseStock } from './component/ORACLE-DASHBOARD/item-wise-stock/item-wise-stock';
+import { FitUnFitInfrastructure } from './component/fit-un-fit-infrastructure/fit-un-fit-infrastructure';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -463,6 +464,7 @@ const routes: Routes = [
   { path: 'cgmsc-qc-pending-status', component: CgmscQcPendingStatus, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'qc-performance', component: QcPerformance, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'qcsample-stage-monitoring', component: QCSampleStageMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'FitUnFitinfra', component: FitUnFitInfrastructure, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
 
 
 
