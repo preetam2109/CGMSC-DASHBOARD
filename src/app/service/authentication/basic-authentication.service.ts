@@ -5,16 +5,16 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BasicAuthenticationService {
-  private approle : any| null = null;
+  private approle: any | null = null;
 
   constructor(private http: HttpClient) { }
 
   executeAuthenticationService(emailid: string, pwd: string) {
-    
+
     return this.http.post<any>('https://dpdmis.in/CGMSCHO_API2/api/Login', { emailid, pwd }).pipe(
       map(
         data => {
-          
+
           const userInfo = data.userInfo;
           sessionStorage.setItem('authenticatedUser', emailid);
           sessionStorage.setItem('firstname', userInfo.firstname);
@@ -28,16 +28,16 @@ export class BasicAuthenticationService {
           // this.authenticate(emailid,pwd)                                
           // Optionally, you can store the token or other user info
 
-        // const userInfo = data.userInfo;
-        // const facilityId = userInfo?.facilityid; // Use optional chaining for safety
-        // sessionStorage.setItem('facilityId', facilityId 
-        // // ? facilityId.toString() : ''
-        // );
-         // Convert to string for storage
-        // sessionStorage.setItem('facilityTypeId', userInfo?.facilitytypeid?.toString() || ''); // Handle potential nulls
-        // sessionStorage.setItem('warehouseId', ''); // Set warehouseId to null (empty string)
-           // Save role if available
-           if (userInfo?.rolename) {
+          // const userInfo = data.userInfo;
+          // const facilityId = userInfo?.facilityid; // Use optional chaining for safety
+          // sessionStorage.setItem('facilityId', facilityId 
+          // // ? facilityId.toString() : ''
+          // );
+          // Convert to string for storage
+          // sessionStorage.setItem('facilityTypeId', userInfo?.facilitytypeid?.toString() || ''); // Handle potential nulls
+          // sessionStorage.setItem('warehouseId', ''); // Set warehouseId to null (empty string)
+          // Save role if available
+          if (userInfo?.rolename) {
             this.setRole(userInfo.rolename);
           }
 
@@ -48,7 +48,7 @@ export class BasicAuthenticationService {
   }
 
   // authenticate(emailid: any, pwd: any) {
-    
+
   //   if (emailid === 'SEC1@dpdmis.in' && pwd === 'Admin@cgmsc123') {
   //     sessionStorage.setItem('authenticatedUser', emailid);
   //     sessionStorage.setItem('role', 'MD'); // Assign MD role
@@ -64,13 +64,13 @@ export class BasicAuthenticationService {
   //   }
   //   return false;
   // }
-    // Set role information
-    setRole( approle: string) {
-      this.approle = approle;
-      localStorage.setItem('roleName', approle);
-    }
+  // Set role information
+  setRole(approle: string) {
+    this.approle = approle;
+    localStorage.setItem('roleName', approle);
+  }
 
-     // Retrieve role information
+  // Retrieve role information
   getRole() {
     return {
       roleName: this.approle ?? localStorage.getItem('roleName')
