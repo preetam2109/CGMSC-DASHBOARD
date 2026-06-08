@@ -109,10 +109,27 @@
                                 <td mat-cell *matCellDef="let e">{{e.sno}}</td>
                               </ng-container> -->
                           
-                              <ng-container matColumnDef="fund">
+                              <!-- <ng-container matColumnDef="fund">
                                 <td mat-cell *matCellDef="let e">{{e.fund}}</td>
+                              </ng-container> -->
+                           
+                              <!-- <ng-container matColumnDef="fund">
+                                <td mat-cell *matCellDef="let row; let i = index" [ngClass]="{'group-cell': isFirstFundRow(i)}">
+                              
+                                  <span *ngIf="isFirstFundRow(i)">
+                                    {{ row.fund }}
+                                  </span>
+                              
+                                </td>
+                              </ng-container> -->
+                              <ng-container matColumnDef="fund">
+                                <td mat-cell *matCellDef="let row; let i = index" [class.fund-parent]="isFirstFundRow(i)"
+                                  [class.fund-hidden]="!isFirstFundRow(i)" [attr.data-rowspan]="getRowSpan(i)">
+                                  <span *ngIf="isFirstFundRow(i)">
+                                    {{ row.fund }}
+                                  </span>
+                                </td>
                               </ng-container>
-                          
                               <ng-container matColumnDef="billdiv">
                                 <td mat-cell *matCellDef="let e">{{e.billdiv}}</td>
                               </ng-container>
@@ -227,18 +244,18 @@
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
                                     <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
                                 </ng-container>
-                            
+                              <!-- Pending Section -->
+                                <ng-container matColumnDef="pedingsection">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Section </th>
+                                    <td mat-cell *matCellDef="let element"> {{ element.pedingsection }} </td>
+                                </ng-container>
                                 <!-- Fund -->
                                 <ng-container matColumnDef="fund">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Fund Head</th>
                                     <td mat-cell *matCellDef="let element"> {{ element.fund }} </td>
                                 </ng-container>
                             
-                                <!-- Pending Section -->
-                                <ng-container matColumnDef="pedingsection">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Section </th>
-                                    <td mat-cell *matCellDef="let element"> {{ element.pedingsection }} </td>
-                                </ng-container>
+                              
                             
                                 <!-- Division Name -->
                                 <ng-container matColumnDef="divisionname">
@@ -296,7 +313,7 @@
                                 <!-- Gross Amount -->
                                 <ng-container matColumnDef="grossamount">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount (In Lacs)</th>
-                                    <td mat-cell *matCellDef="let element"> {{ element.grossamount | number:'1.2-2' }} </td>
+                                    <td mat-cell *matCellDef="let element"> {{ element.grossamount | number:'1.2-2' }}</td>
                                 </ng-container>
                             
                                 <!-- File On Desk -->
