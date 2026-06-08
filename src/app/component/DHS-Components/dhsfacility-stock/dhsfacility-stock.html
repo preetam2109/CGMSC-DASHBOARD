@@ -9,10 +9,7 @@
   </div>
 
   <!-- Oracle Analytics Dashboard -->
-  <iframe
-    class="oac_embedding_iframe"
-    style="height: 100vh; width: 100%; border: none;"
-    srcdoc='
+  <iframe class="oac_embedding_iframe" style="height: 100vh; width: 100%; border: none;" srcdoc='
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +22,6 @@
   </script>
   <script>
     var token = "";
-
     function fetchAndSetToken() {
       fetch("https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token")
       .then(response => {
@@ -102,5 +98,4 @@
 </html>
 '>
   </iframe>
-
 </div>
