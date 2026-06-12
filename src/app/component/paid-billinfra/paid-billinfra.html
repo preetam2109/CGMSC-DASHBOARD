@@ -1,0 +1,516 @@
+
+<div class="card container-fluid text-center mb-4 border-0 shadow-sm" style="background-color: #fbf5fc;">
+    <div class="card-body py-3">
+        <h3 class="mb-1 text-primary-emphasis fw-bold Heading-font-family">
+            Pending Bills (Unpaid) Under Process at Various Levels
+        </h3>
+        <p class="text-muted small mb-0">Please select the options below to filter the data.</p>
+    </div>
+</div>
+
+<section class="container-fluid px-3">
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body p-4">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-12 col-md-6 col-lg-3" *ngIf="mainscheme.length > 0">
+                    <label class="form-label small fw-bold text-secondary mb-1">Scheme</label>
+                    <ng-select class="form-control" [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID"
+                        [(ngModel)]="mainSchemeID" name="mainSchemeID" (change)="onselect_mainscheme_data($event)"
+                        #schemeField="ngModel" [placeholder]="'Select Scheme'" [searchable]="true" [clearable]="true"
+                        [appendTo]="'body'" required>
+                    </ng-select>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-3" *ngIf="Divisionlist.length > 0">
+                    <label class="form-label small fw-bold text-secondary mb-1">Division</label>
+                    <ng-select class="form-control" [items]="Divisionlist" bindLabel="Dname" bindValue="DId"
+                        [(ngModel)]="DId" name="DId" (change)="onselect_division_data($event)" #divisionField="ngModel"
+                        [placeholder]="'Select Division'" [searchable]="true" [clearable]="true" [appendTo]="'body'"
+                        required>
+                    </ng-select>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label small fw-bold text-secondary mb-1">From Date</label>
+                    <input class="form-control" type="date" [(ngModel)]="fromDate" name="fromDate"
+                        #fromDateField="ngModel" required />
+                </div>
+                <!-- (change)="onDateChange($event)"  -->
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label small fw-bold text-secondary mb-1">To Date</label>
+                    <input class="form-control" type="date" [(ngModel)]="toDate" name="toDate" #toDateField="ngModel"
+                        required />
+                </div>
+                <div class="col-12 text-center mt-3">
+                    <button type="button"
+                        class="btn btn-primary btn-sm px-4 py-2 fw-bold shadow-sm border-0 d-inline-flex align-items-center justify-content-center gap-2"
+                        style="transition: all 0.2s ease-in-out;"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 .5rem 1rem rgba(0,0,0,.15)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';"
+                        (click)="onShowClick()">
+                        <i class="bi bi-search"></i> Show Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Division Payment Summary -->
+<div class="card container-fluid text-center mb-4 border-0 shadow-sm mt-2" style="background-color: #fbf5fc;">
+    <div class="card-body py-3">
+        <h3 class="mb-1 text-primary-emphasis fw-bold Heading-font-family">
+            Division Payment Summary
+        </h3>
+        <p class="text-muted small mb-0">
+            Payment From Date : <strong class="text-dark">{{fromDate | date:'dd-MMM-yyyy'}}</strong> To Payment To Date:
+            <strong class="text-dark">{{toDate | date:'dd-MMM-yyyy'}}</strong>
+        </p>
+    </div>
+</div>
+
+<section class="container-fluid px-3">
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body p-3">
+
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white border-end-0 text-muted">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0 ps-0" placeholder="Filter.."
+                            (keyup)="applyTextFilter($event)">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 shadow-sm" mat-button
+                        [matMenuTriggerFor]="exportMenuDivision">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <mat-menu #exportMenuDivision="matMenu">
+                        <button mat-menu-item (click)="exportToExcel()"><i
+                                class="bi bi-file-earmark-excel text-success me-2"></i>Excel</button>
+                        <button mat-menu-item (click)="exportToPDF()"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button>
+                    </mat-menu>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" class="table table-hover align-middle data-table mb-0"
+                    matTableExporter #exporter="matTableExporter" matSort #sort="matSort">
+
+                    <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">S.No
+                        </th>
+                        <td mat-cell *matCellDef="let e" class="text-center">{{ e.sno }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">
+                            Division</th>
+                        <td mat-cell *matCellDef="let e" class="fw-semibold text-dark">{{ e.name }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-dark bg-light text-end pe-3">Total:
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="noofWorks">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">No
+                            of Works</th>
+                        <td mat-cell *matCellDef="let e" class="fw-bold text-primary bg-light text-center">{{
+                            e.noofWorks }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-primary bg-light text-center">{{
+                            totalWorks }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="grossPaidcr">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">
+                            Gross Paid (in Lacs)</th>
+                        <td mat-cell *matCellDef="let e" class="text-success fw-bold text-end">{{ e.grossPaidLacs |
+                            number:'1.2-2' }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-end">{{
+                            totalGrossLacs | number:'1.2-2' }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="border-bottom"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns" class="border-sm-bottom"></tr>
+
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns"
+                        class="fw-bold table-light border-top border-2"></tr>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-end mt-2">
+                <mat-paginator #paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons
+                    class="border-0"></mat-paginator>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Division Payment Summary Fund wise -->
+<div class="card container-fluid text-center mb-4 border-0 shadow-sm mt-2" style="background-color: #fbf5fc;">
+    <div class="card-body py-3">
+        <h3 class="mb-1 text-primary-emphasis fw-bold Heading-font-family">
+            Division Payment Summary Fund wise
+        </h3>
+        <p class="text-muted small mb-0">
+            Payment From Date : <strong class="text-dark">{{fromDate | date:'dd-MMM-yyyy'}}</strong> To Payment To Date:
+            <strong class="text-dark">{{toDate | date:'dd-MMM-yyyy'}}</strong>
+        </p>
+    </div>
+</div>
+
+<section class="container-fluid px-3">
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body p-3">
+
+
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white border-end-0 text-muted">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0 ps-0" placeholder="Filter.."
+                            (keyup)="applyTextFilter1($event)">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 shadow-sm" mat-button
+                        [matMenuTriggerFor]="exportMenuFund">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <mat-menu #exportMenuFund="matMenu">
+                        <button mat-menu-item (click)="exportToExcelpaiddetail()"><i
+                                class="bi bi-file-earmark-excel text-success me-2"></i>Excel</button>
+                        <button mat-menu-item (click)="generateStrictlyFundWisepdf()"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button>
+                    </mat-menu>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource1" class="table table-bordered table-hover align-middle mb-0"
+                    matTableExporter #exporter="matTableExporter" matSort #sort="matSort">
+
+                    <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center"
+                            style="width: 70px;">S.No</th>
+                        <td mat-cell *matCellDef="let e" class="text-center">{{ e.sno }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="division">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">
+                            Division</th>
+                        <td mat-cell *matCellDef="let e" [attr.rowspan]="e.divisionSpan"
+                            [class.d-none]="e.divisionSpan === 0" class="fw-bold text-dark bg-white">
+                            {{ e.division }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-dark bg-light text-end pe-3">Total:
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="head">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">
+                            Fund Head</th>
+                        <td mat-cell *matCellDef="let e" [attr.rowspan]="e.headSpan" [class.d-none]="e.headSpan === 0"
+                            class="fw-semibold text-secondary bg-white">
+                            {{ e.head }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+                    <!-- <ng-container matColumnDef="division">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">Division</th>
+                        <td mat-cell *matCellDef="let e" 
+                            *ngIf="e.divisionSpan > 0" 
+                            [attr.rowspan]="e.divisionSpan" 
+                            class="fw-bold text-dark bg-white">
+                            {{ e.division }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-dark bg-light text-end pe-3">Total:</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="head">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">Fund Head</th>
+                        <td mat-cell *matCellDef="let e" 
+                            *ngIf="e.headSpan > 0" 
+                            [attr.rowspan]="e.headSpan" 
+                            class="fw-semibold text-secondary bg-white">
+                            {{ e.head }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="noofWorks">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="bg-light fw-bold text-secondary text-center">No of Works</th>
+                        <td mat-cell *matCellDef="let e" class="fw-bold text-primary text-center">{{ e.noofWorks }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-primary bg-light text-center fs-6">{{
+                            totalWorks }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="grosspaid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="bg-light fw-bold text-secondary text-end">Gross Paid (in Lacs)</th>
+                        <td mat-cell *matCellDef="let e" class="text-success fw-bold text-end">{{ e.grosspaid |
+                            number:'1.2-2' }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-end fs-6">{{
+                            totalGrossLacs | number:'1.2-2' }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns1" class="border-bottom"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns1"
+                        class="fw-bold table-light border-top border-2"></tr>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-end mt-2">
+                <mat-paginator #paginator1 [pageSizeOptions]="[5,10,20]" showFirstLastButtons
+                    class="border-0"></mat-paginator>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Fund wise Payment Summary -->
+<div class="card container-fluid text-center mb-4 border-0 shadow-sm mt-2" style="background-color: #fbf5fc;">
+    <div class="card-body py-3">
+        <h3 class="mb-1 text-primary-emphasis fw-bold Heading-font-family">
+           Fund wise Payment Summary
+        </h3>
+        <p class="text-muted small mb-0">
+            Payment From Date : <strong class="text-dark">{{fromDate | date:'dd-MMM-yyyy'}}</strong> To Payment To Date:
+            <strong class="text-dark">{{toDate | date:'dd-MMM-yyyy'}}</strong>
+        </p>
+    </div>
+</div>
+
+<section class="container-fluid px-3">
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body p-3">
+
+
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white border-end-0 text-muted">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0 ps-0" placeholder="Filter.."
+                            (keyup)="applyTextFilter1($event)">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 shadow-sm" mat-button
+                        [matMenuTriggerFor]="exportMenuFundwise">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <mat-menu #exportMenuFundwise="matMenu">
+                        <button mat-menu-item (click)="exportToExcelfundwise()"><i
+                                class="bi bi-file-earmark-excel text-success me-2"></i>Excel</button>
+                        <button mat-menu-item (click)="FundWisepdf()"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button>
+                    </mat-menu>
+                </div>
+            </div>
+            <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource2" class="table table-bordered table-hover align-middle mb-0"
+        matTableExporter #exporter="matTableExporter" matSort #sort="matSort">
+
+        <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center" style="width: 70px;">S.No</th>
+            <td mat-cell *matCellDef="let e" class="text-center">{{ e.sno }}</td>
+            <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="head">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">Fund Head</th>
+            <td mat-cell *matCellDef="let e" [attr.rowspan]="e.headSpan" [class.d-none]="e.headSpan === 0" class="fw-bold text-dark bg-white">
+                {{ e.head }}
+            </td>
+            <td mat-footer-cell *matFooterCellDef class="fw-bold text-dark bg-light text-end pe-3">Total:</td>
+        </ng-container>
+
+        <ng-container matColumnDef="noofWorks">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-center">No of Works</th>
+            <td mat-cell *matCellDef="let e" class="fw-bold text-primary text-center">{{ e.noofWorks }}</td>
+            <td mat-footer-cell *matFooterCellDef class="fw-bold text-primary bg-light text-center fs-6">
+                {{ totalWorksOnlyFundWise }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="grosspaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-end">Gross Paid (in Lacs)</th>
+            <td mat-cell *matCellDef="let e" class="text-success fw-bold text-end">{{ e.grosspaid | number:'1.2-2' }}</td>
+            <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-end fs-6">
+                {{ totalGrossLacsOnlyFundWise | number:'1.2-2' }}
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns2" class="border-bottom"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns2" class="fw-bold table-light border-top border-2"></tr>
+    </table>
+</div>
+          
+
+            <div class="d-flex justify-content-end mt-2">
+                <mat-paginator #paginator2 [pageSizeOptions]="[5,10,20]" showFirstLastButtons
+                    class="border-0"></mat-paginator>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!--Work wise  Payment Summary -->
+
+<div class="card container-fluid text-center mb-4 border-0 shadow-sm mt-2" style="background-color: #fbf5fc;">
+    <div class="card-body py-3">
+        <h3 class="mb-1 text-primary-emphasis fw-bold Heading-font-family">
+            Work wise Payment Summary
+        </h3>
+        <p class="text-muted small mb-0">
+            Payment From Date : <strong class="text-dark">{{fromDate | date:'dd-MMM-yyyy'}}</strong> To Payment To Date:
+            <strong class="text-dark">{{toDate | date:'dd-MMM-yyyy'}}</strong>
+        </p>
+    </div>
+</div>
+
+<section class="container-fluid px-3">
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body p-3">
+
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white border-end-0 text-muted">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0 ps-0" placeholder="Filter Work wise.."
+                            (keyup)="applyTextFilter3($event)">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 shadow-sm" mat-button
+                        [matMenuTriggerFor]="exportMenuworkwise">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <mat-menu #exportMenuworkwise="matMenu">
+                        <button mat-menu-item (click)="exportToExcelworkwise()"><i
+                                class="bi bi-file-earmark-excel text-success me-2"></i>Excel</button>
+                        <button mat-menu-item (click)="Workwisepdf()"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button>
+                    </mat-menu>
+                </div>
+            </div>
+          
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource3" class="table table-bordered table-hover align-middle mb-0"
+                    matTableExporter #exporter="matTableExporter" matSort #sort3="matSort">
+
+                    <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center" style="width: 60px;">S.No</th>
+                        <td mat-cell *matCellDef="let e" class="text-center">{{ e.sno }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="division">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">Division</th>
+                        <td mat-cell *matCellDef="let e" class="text-dark">{{ e.division }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="district">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">District</th>
+                        <td mat-cell *matCellDef="let e" class="text-muted">{{ e.district }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="worK_ID">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-center">Workcode</th>
+                        <td mat-cell *matCellDef="let e" class="text-center text-secondary">{{ e.worK_ID }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="workname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">Work name</th>
+                        <td mat-cell *matCellDef="let e" class="text-wrap" style="max-width: 200px;">{{ e.workname }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="billno">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-center">Bill no</th>
+                        <td mat-cell *matCellDef="let e" class="text-center">{{ e.billno }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="agrbillstatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-center">Billtype</th>
+                        <td mat-cell *matCellDef="let e" class="text-center small">{{ e.agrbillstatus }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="billdate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-center">bill Date</th>
+                        <td mat-cell *matCellDef="let e" class="text-center">{{ e.billdate | date:'dd-MMM-yyyy' }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light text-end fw-bold pe-2">Total:</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mesurementDT">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-center">Measurement Date <br><small class="fw-normal">(A)</small></th>
+                        <td mat-cell *matCellDef="let e" class="text-center">{{ e.mesurementDT | date:'dd-MMM-yyyy' }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="chequeDT">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-center">Paid Date <br><small class="fw-normal">(B)</small></th>
+                        <td mat-cell *matCellDef="let e" class="text-center">{{ e.chequeDT | date:'dd-MMM-yyyy' }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="grosspaid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-end">Gross Paid (in Lacs)</th>
+                        <td mat-cell *matCellDef="let e" class="text-success fw-bold text-end">{{ e.grosspaid | number:'1.2-2' }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-end fs-6">
+                            {{ totalGrossLacsWorkWise | number:'1.2-2' }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="dayssincemeasurement">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary text-center">Time Taken Since<br>Measurement (B-A)</th>
+                        <td mat-cell *matCellDef="let e" class="text-center fw-semibold text-danger">{{ e.dayssincemeasurement }} Days</td>
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns3" class="border-bottom"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns3"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns3" class="fw-bold table-light border-top border-2"></tr>
+                </table>
+            </div> 
+
+            <div class="d-flex justify-content-end mt-2">
+                <mat-paginator #paginator3 [pageSizeOptions]="[5,10,20]" showFirstLastButtons class="border-0"></mat-paginator>
+            </div>
+<!-- <div class="d-flex justify-content-end mt-2">
+    <mat-paginator #paginator3 
+                   [pageSizeOptions]="[5,10,20]" 
+                   showFirstLastButtons
+                   (page)="onPageChange3()"
+                   class="border-0">
+    </mat-paginator>
+</div> -->
+        </div>
+    </div>
+</section>
+
+
+
+
