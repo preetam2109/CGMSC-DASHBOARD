@@ -226,17 +226,19 @@ export class InfrastructureHomeComponent {
     var mainSchemeId = 0;
     var ASID = 0;
     var GrantID = 0;
-    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount).subscribe(
+    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount,0,0).subscribe(
       (res: any) => {
         // console.log("res=",JSON.stringify(res));
         this.originalData = this.sortDistrictData(res); // Save as original data
         this.districtData = [...this.originalData]; // Set for display
         this.calculateTotalNosWorks();
+        this.bindDashboardData();
         this.spinner.hide();
       },
       (error) => {
-        // console.error('API Error:', error);
-        alert(`API Error: ${JSON.stringify(error)}`);
+           this.spinner.hide();
+        console.error('API Error:', error);
+        // alert(`API Error: ${JSON.stringify(error)}`);
       }
     );
   }
@@ -342,7 +344,7 @@ export class InfrastructureHomeComponent {
       // console.error('mainSchemeID:', this.mainSchemeID);
       // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
       // divisionId: any, mainSchemeId: number, distid: number,ASID:any,ASAmount:any
-      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid, ASID, GrantID, this.ASAmount).subscribe(
+      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid, ASID, GrantID, this.ASAmount,0,0).subscribe(
         (res: any) => {
           if (this.selectedTabIndex === 0) {
             // Do not overwrite the original data for "Total Works"
@@ -377,13 +379,14 @@ export class InfrastructureHomeComponent {
 
         },
         (error) => {
-          // console.error('API Error:', error);
-          alert(`API Error:: ${JSON.stringify(error)}`);
+             this.spinner.hide();
+          console.error('API Error:', error);
+          // alert(`API Error:: ${JSON.stringify(error)}`);
         }
       );
     } catch (ex: any) {
-      alert(`Exception:: ${JSON.stringify(ex.message)}`);
-      // console.error('Exception:', ex.message);
+      // alert(`Exception:: ${JSON.stringify(ex.message)}`);
+      console.error('Exception:', ex.message);
     }
   }
   onButtonClick(name: string, id: any): void {
@@ -730,8 +733,9 @@ export class InfrastructureHomeComponent {
         this.spinner.hide();
       },
       (error: any) => {
-        // console.error('Error fetching data', error);
-        alert(`API Error:: ${JSON.stringify(error)}`);
+           this.spinner.hide();
+        console.error('Error fetching data', error);
+        // alert(`API Error:: ${JSON.stringify(error)}`);
       }
     );
   }
@@ -2587,6 +2591,62 @@ export class InfrastructureHomeComponent {
   onImageError(event: any) {
     event.target.src = 'https://via.placeholder.com/450x450?text=Image+Not+Found';
   }
+// new code
+// Variables declare karein
+completedWorks: number = 0;
+returnWorks: number = 0;
+remainingWorks: number = 0; // Ye calculate hoga
+tenderInProcess: number = 0;
+acceptanceGenerated: number = 0;
+workOrderGenerated: number = 0;
+landDispute: number = 0;
+runningWork: number = 0;
+toBeTender: number = 0;
+appliedZonal: number = 0;
+zonalPermission: number = 0;
+cancellation: number = 0;
+
+// API se data aane ke baad is function ko call karein (jaise ngOnInit ya API subscribe me)
+bindDashboardData() {
+    // Array me se specific 'did' ke base par nosworks nikal rahe hain
+    this.completedWorks = this.getNosWorks(4001);
+    this.returnWorks = this.getNosWorks(8001);
+    
+    // Formula for Remaining Works: D = A - (B + C)
+    // (Aapka this.totalNosWorks pehle se set hona chahiye)
+    this.remainingWorks = this.totalNosWorks - (this.completedWorks + this.returnWorks);
+
+    this.tenderInProcess = this.getNosWorks(2001);
+    this.acceptanceGenerated = this.getNosWorks(3001);
+    this.workOrderGenerated = this.getNosWorks(3002);
+    this.landDispute = this.getNosWorks(6001);
+    this.runningWork = this.getNosWorks(5001);
+    this.toBeTender = this.getNosWorks(1001);
+    this.appliedZonal = this.getNosWorks(1002);
+    this.zonalPermission = this.getNosWorks(3003);
+    this.cancellation = this.getNosWorks(6002);
+}
+
+// Ye helper function data nikalne ka kaam karega bina code repeat kiye
+getNosWorks(id: number): number {
+    const item = this.districtData.find((data: any) => data.did === id);
+    // Agar item nahi hai ya item.nosworks undefined hai, to 0 return karega
+    return item?.nosworks ?? 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

@@ -14,7 +14,7 @@
                 <div class="row ">
                 
 
-                  <div class="col-12 col-md-6 mb-3">
+                  <div class="col-12 col-md-3 mb-3">
                     <div class="columns justify-content-center mb-3">
                       <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID"
                         [(ngModel)]="mainSchemeID" name="mainSchemeID" (change)="onselect_mainscheme_data($event)"
@@ -23,13 +23,28 @@
                       </ng-select>
                     </div>
                   </div>
-                  <div class="col-12 col-md-6 mb-3">
+                  <div class="col-12 col-md-3 mb-3">
                     <div class="columns justify-content-center mb-3">
                       <ng-select [items]="budgetOptions" bindLabel="label" bindValue="buid" [(ngModel)]="buid"
                         name="buid" (change)="onselect_databudgetOptions($event)" #nameidField="ngModel"
                         [placeholder]="!buid ? 'Select value : ' : ''" [searchable]="true" [clearable]="true"
                         [appendTo]="'body'" required class="form-control">
                       </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2 mb-3">
+                    <div class="columns justify-content-center mb-3">
+                         <input type="date" bindLabel="formdate" placeholder="Form Date" required class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2 mb-3">
+                    <div class="columns justify-content-center mb-3">
+                      <input type="date" bindLabel="todate"  placeholder="To Date" required class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2 mb-3">
+                    <div class="columns justify-content-center mb-3">
+                   <Button class="btn btn-info border ">Show data</Button>
                     </div>
                   </div>
 
@@ -2012,3 +2027,262 @@
     </div> -->
   </div>
 </ng-template>
+
+<!-- <div class="container-fluid py-5" style="background-color: #f4f6f9;">
+    <div class="tree-container">
+        
+        <div class="d-flex flex-column align-items-center position-relative z-3">
+          <a type="link" (click)="TotalWorksAbstract()">
+            <div class="card flow-card bg-total p-3">
+                <h6><i class="bi bi-bank2"></i> Total Works (A)</h6>
+                <h4> {{ totalNosWorks }}</h4>
+            </div>     </a>
+            <div class="connector-down"></div>
+       
+        </div>
+
+        <div class="tree-row d-flex justify-content-center">
+            
+            <div class="tree-node">
+                <div class="card flow-card bg-green p-3 z-3">
+                    <h6><i class="bi bi-check2-all"></i> Completed (B)</h6>
+                    <h4>115</h4>
+                </div>
+            </div>
+
+            <div class="tree-node d-flex flex-column align-items-center">
+                <div class="card flow-card bg-remaining p-3 z-3">
+                    <h6>Remaining Works (D) <br><small class="text-muted" style="font-size: 11px;">D = A - (B + C)</small></h6>
+                    <h4>129</h4>
+                </div>
+                <div class="connector-down" style="height: 40px;"></div>
+            </div>
+
+            <div class="tree-node">
+                <div class="card flow-card bg-grey p-3 text-white z-3" style="background-color: #8a8a8a;">
+                    <h6><i class="bi bi-trash"></i> Return (C)</h6>
+                    <h4>3</h4>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tree-row pt-0 w-100 justify-content-center">
+            
+            <div class="tree-node e-node-centered">
+                
+                <div class="d-flex flex-column align-items-center" style="width: 175px;">
+                    <div class="card flow-card bg-yellow-process p-3 z-3">
+                        <h6><i class="bi bi-hammer"></i> Tender in Process (E)</h6>
+                        <h4>15</h4>
+                    </div>
+                    <div class="connector-down with-arrow"></div>
+                </div>
+                
+                <div class="d-flex align-items-start mobile-stack w-100 mt-1">
+                    
+                    <div class="d-flex flex-column align-items-center" style="width: 175px;">
+                        <div class="card flow-card bg-orange p-3 z-3">
+                            <h6><i class="bi bi-book"></i> Acceptance Gen.</h6>
+                            <h4>5</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="connector-right with-arrow align-self-start mobile-connector-rotate mx-1" style="margin-top: 42px;"></div>
+                    
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="card flow-card bg-grey p-3 text-white z-3">
+                            <h6><i class="bi bi-file-earmark-text"></i> Work Order</h6>
+                            <h4>19</h4>
+                        </div>
+                        <div class="connector-down with-arrow"></div>
+                        
+                        <div class="d-flex align-items-center mobile-stack">
+                            <div class="card flow-card bg-pink-dark p-3 z-3">
+                                <h6><i class="bi bi-exclamation-circle"></i> Land Dispute</h6>
+                                <h4>4</h4>
+                            </div>
+                            <div class="connector-both-horizontal mobile-connector-rotate mx-1"></div>
+                            
+                            <div class="card flow-card bg-yellow-light p-3 z-3">
+                                <h6><i class="bi bi-graph-up-arrow"></i> Running Work</h6>
+                                <h4>81</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tree-node z-3">
+                <div class="position-relative d-flex align-items-center mobile-stack">
+                    <div class="position-absolute end-100 connector-both-horizontal mobile-connector-rotate me-1 d-none d-xl-block"></div>
+                    
+                    <div class="card flow-card bg-tender-pink p-3 z-3">
+                        <h6><i class="bi bi-bell"></i> To be Tender (F)</h6>
+                        <h4>4</h4>
+                    </div>
+
+                    <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-1 d-none d-xl-block"></div>
+                </div>
+            </div>
+
+            <div class="tree-node z-3">
+                <div class="position-relative d-flex align-items-center mobile-stack">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="card flow-card bg-grey p-3 text-white z-3">
+                            <h6><i class="bi bi-map"></i> Applied Zonal (G)</h6>
+                            <h4>0</h4>
+                        </div>
+                        
+                        <div class="connector-both-vertical my-1"></div>
+
+                        <div class="card flow-card bg-grey p-3 text-white z-3">
+                            <h6>Zonal Permission</h6>
+                            <h4>0</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-1 d-none d-xl-block" style="top: 42px; margin-right: 42px;"></div>
+                </div>
+            </div>
+
+            <div class="tree-node z-3">
+                <div class="card flow-card bg-grey p-3 text-white z-3">
+                    <h6><i class="bi bi-x-circle"></i> Cancellation (H)</h6>
+                    <h4>1</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+<div class="container-fluid py-5" style="background-color: #f4f6f9;">
+    <div class="tree-container">
+        
+        <div class="d-flex flex-column align-items-center position-relative z-3">
+          <a type="link" (click)="TotalWorksAbstract()" style="cursor: pointer; text-decoration: none;">
+            <div class="card flow-card bg-total p-3">
+                <h6><i class="bi bi-bank2"></i> Total Works (A)</h6>
+                <h4>{{ totalNosWorks }}</h4>
+            </div>    
+          </a>
+            <div class="connector-down"></div>
+        </div>
+
+        <div class="tree-row d-flex justify-content-center">
+            
+            <div class="tree-node">
+                <div class="card flow-card bg-green p-3 z-3">
+                    <h6><i class="bi bi-check2-all"></i> Completed (B)</h6>
+                    <h4>{{ completedWorks }}</h4>
+                </div>
+            </div>
+
+            <div class="tree-node d-flex flex-column align-items-center">
+                <div class="card flow-card bg-remaining p-3 z-3">
+                    <h6>Remaining Works (D) <br><small class="text-muted" style="font-size: 11px;">D = A - (B + C)</small></h6>
+                    <h4>{{ remainingWorks }}</h4>
+                </div>
+                <div class="connector-down" style="height: 40px;"></div>
+            </div>
+
+            <div class="tree-node">
+                <div class="card flow-card bg-grey p-3 text-white z-3" style="background-color: #8a8a8a;">
+                    <h6><i class="bi bi-trash"></i> Return (C)</h6>
+                    <h4>{{ returnWorks }}</h4>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tree-row pt-0 w-100 justify-content-center">
+            
+            <div class="tree-node e-node-centered">
+                
+                <div class="d-flex flex-column align-items-center" style="width: 175px;">
+                    <div class="card flow-card bg-yellow-process p-3 z-3">
+                        <h6><i class="bi bi-hammer"></i> Tender in Process (E)</h6>
+                        <h4>{{ tenderInProcess }}</h4>
+                    </div>
+                    <div class="connector-down with-arrow"></div>
+                </div>
+                
+                <div class="d-flex align-items-start mobile-stack w-100 mt-1">
+                    
+                    <div class="d-flex flex-column align-items-center" style="width: 175px;">
+                        <div class="card flow-card bg-orange p-3 z-3">
+                            <h6><i class="bi bi-book"></i> Acceptance Gen.</h6>
+                            <h4>{{ acceptanceGenerated }}</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="connector-right with-arrow align-self-start mobile-connector-rotate mx-1" style="margin-top: 42px;"></div>
+                    
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="card flow-card bg-grey p-3 text-white z-3">
+                            <h6><i class="bi bi-file-earmark-text"></i> Work Order</h6>
+                            <h4>{{ workOrderGenerated }}</h4>
+                        </div>
+                        <div class="connector-down with-arrow"></div>
+                        
+                        <div class="d-flex align-items-center mobile-stack">
+                            <div class="card flow-card bg-pink-dark p-3 z-3">
+                                <h6><i class="bi bi-exclamation-circle"></i> Land Dispute</h6>
+                                <h4>{{ landDispute }}</h4>
+                            </div>
+                            <div class="connector-both-horizontal mobile-connector-rotate mx-1"></div>
+                            
+                            <div class="card flow-card bg-yellow-light p-3 z-3">
+                                <h6><i class="bi bi-graph-up-arrow"></i> Running Work</h6>
+                                <h4>{{ runningWork }}</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tree-node z-3">
+                <div class="position-relative d-flex align-items-center mobile-stack">
+                    <div class="position-absolute end-100 connector-both-horizontal mobile-connector-rotate me-1 d-none d-xl-block"></div>
+                    
+                    <div class="card flow-card bg-tender-pink p-3 z-3">
+                        <h6><i class="bi bi-bell"></i> To be Tender (F)</h6>
+                        <h4>{{ toBeTender }}</h4>
+                    </div>
+
+                    <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block"></div>
+                </div>
+            </div>
+
+            <div class="tree-node z-3">
+                <div class="position-relative d-flex align-items-center mobile-stack">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="card flow-card bg-grey p-3 text-white z-3">
+                            <h6><i class="bi bi-map"></i> Applied Zonal (G)</h6>
+                            <h4>{{ appliedZonal }}</h4>
+                        </div>
+                        
+                        <div class="connector-both-vertical my-1"></div>
+
+                        <div class="card flow-card bg-grey p-3 text-white z-3">
+                            <h6>Zonal Permission</h6>
+                            <h4>{{ zonalPermission }}</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block" style="top: 42px;"></div>
+                </div>
+            </div>
+
+            <div class="tree-node z-3">
+                <div class="card flow-card bg-grey p-3 text-white z-3">
+                    <h6><i class="bi bi-x-circle"></i> Cancellation (H)</h6>
+                    <h4>{{ cancellation }}</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

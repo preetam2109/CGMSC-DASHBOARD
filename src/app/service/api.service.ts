@@ -703,12 +703,12 @@ export class ApiService {
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1&ASAmount=0;
   }
 
-  DashProgressCount(divisionId: any, mainSchemeId: number, distid: number, ASID: any, GrantID: any, ASAmount: any) {
+  DashProgressCount(divisionId: any, mainSchemeId: number, distid: number, ASID: any, GrantID: any, ASAmount: any,fromdt:any,todt:any) {
     // return this.http.get<DashProgressCount[]>(
     //   `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distId}`
     // );
 // debugger
-    return this.http.get<DashProgressCount[]>(`${this.apiUrl}/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&ASID=${ASID}&GrantID=${GrantID}&ASAmount=${ASAmount}`);
+    return this.http.get<DashProgressCount[]>(`${this.apiUrl}/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&ASID=${ASID}&GrantID=${GrantID}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=0&mainSchemeId=0&distid=0&ASID=0&GrantID=0&ASAmount=1
   }
   GetDistrict(isall: any, divisionId: number) {
