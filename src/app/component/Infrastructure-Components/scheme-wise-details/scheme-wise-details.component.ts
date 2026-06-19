@@ -479,7 +479,7 @@ export class SchemeWiseDetailsComponent {
         this.himisDistrictid,
         ASID,
         GrantID,
-        this.ASAmount
+        this.ASAmount,0,0
       )
       .subscribe(
         (res: any) => {
@@ -542,7 +542,7 @@ export class SchemeWiseDetailsComponent {
           this.himisDistrictid,
           ASID,
           GrantID,
-          this.ASAmount
+          this.ASAmount,0,0
         )
         .subscribe(
           (res: any) => {

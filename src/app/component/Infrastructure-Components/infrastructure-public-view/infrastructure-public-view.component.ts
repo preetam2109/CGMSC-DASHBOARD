@@ -214,7 +214,7 @@ export class InfrastructurePublicViewComponent {
       var mainSchemeId=0;
       var ASID=0;
       var GrantID=0;
-    this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid,ASID,GrantID,this.ASAmount).subscribe(
+    this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid,ASID,GrantID,this.ASAmount,0,0).subscribe(
       (res: any) => {
         // console.log("res=",JSON.stringify(res));
         this.originalData = this.sortDistrictData(res); // Save as original data
@@ -337,7 +337,7 @@ export class InfrastructurePublicViewComponent {
       // console.error('mainSchemeID:', this.mainSchemeID);
       // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
       // divisionId: any, mainSchemeId: number, distid: number,ASID:any,ASAmount:any
-      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid,ASID,GrantID,this.ASAmount).subscribe(
+      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid,ASID,GrantID,this.ASAmount,0,0).subscribe(
         (res: any) => {
           if (this.selectedTabIndex === 0) {
             // Do not overwrite the original data for "Total Works"
