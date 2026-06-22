@@ -702,7 +702,7 @@ export class SchemeWiseDetailsComponent {
         this.himisDistrictid,
         this.mainSchemeID,
         contractorid,
-        this.ASAmount
+        this.ASAmount,0,0
       )
       .subscribe(
         (res) => {
@@ -759,7 +759,7 @@ export class SchemeWiseDetailsComponent {
           this.divisionid,
           this.himisDistrictid,
           this.mainSchemeID,
-          this.ASAmount
+          this.ASAmount,'Y',0,0
         )
         .subscribe(
           (res) => {
@@ -796,7 +796,7 @@ export class SchemeWiseDetailsComponent {
           this.divisionid,
           this.himisDistrictid,
           this.mainSchemeID,
-          this.ASAmount
+          this.ASAmount,0,0
         )
         .subscribe(
           (res) => {
@@ -830,7 +830,7 @@ export class SchemeWiseDetailsComponent {
           this.himisDistrictid,
           this.mainSchemeID,
           this.contractorid,
-          this.ASAmount
+          this.ASAmount,0,0
         )
         .subscribe(
           (res) => {
@@ -865,7 +865,7 @@ export class SchemeWiseDetailsComponent {
           this.himisDistrictid,
           this.mainSchemeID,
           this.contractorid,
-          this.ASAmount
+          this.ASAmount,0,0
         )
         .subscribe(
           (res) => {
@@ -898,7 +898,7 @@ export class SchemeWiseDetailsComponent {
           this.divisionid,
           this.himisDistrictid,
           this.mainSchemeID,
-          this.ASAmount
+          this.ASAmount,0,0
         )
         .subscribe(
           (res) => {
@@ -930,7 +930,7 @@ export class SchemeWiseDetailsComponent {
           this.divisionid,
           this.himisDistrictid,
           this.mainSchemeID,
-          this.ASAmount
+          this.ASAmount,0,0
         )
         .subscribe(
           (res) => {
@@ -975,7 +975,7 @@ export class SchemeWiseDetailsComponent {
           this.himisDistrictid,
           this.mainSchemeID,
           this.contractorid,
-          this.ASAmount
+          this.ASAmount,0,0
         )
         .subscribe(
           (res) => {

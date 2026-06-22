@@ -680,26 +680,27 @@ export class ApiService {
   //#region DetailProgress
 
 
-  GETWORunningHandDetails(did: any, divisionId: any, distId: number, mainSchemeId: any, contractorid: any, ASAmount: any) {
-    return this.http.get<WORunningHandDetails[]>(`${this.apiUrl}/DetailProgress/WORunningHandDetails?did=${did}&divisionid=${divisionId}&districtid=${distId}&mainSchemeId=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}`);
+  GETWORunningHandDetails(did: any, divisionId: any, distId: number, mainSchemeId: any, contractorid: any, ASAmount: any,fromdt:any,todt:any) {
+    return this.http.get<WORunningHandDetails[]>(`${this.apiUrl}/DetailProgress/WORunningHandDetails?did=${did}&divisionid=${divisionId}&districtid=${distId}&mainSchemeId=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/WORunningHandDetails?did=3001&divisionid=0&districtid=0&mainschemeid=0&contractorid=0&ASAmount=1
     // WORunningHandDetails
   }
-  GETLandIssueRetToDeptDetatails(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any) {
-    return this.http.get<LandIssue_RetToDeptDetatails[]>(`${this.apiUrl}/DetailProgress/LandIssue_RetToDeptDetatails?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
+  GETLandIssueRetToDeptDetatails(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any,fromdt:any,todt:any) {
+    return this.http.get<LandIssue_RetToDeptDetatails[]>(`${this.apiUrl}/DetailProgress/LandIssue_RetToDeptDetatails?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/LandIssue_RetToDeptDetatails?did=6001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=1
   }
-  GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any) {
-    return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
+  GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any,isbelow20:any,fromdt:any,todt:any) {
+    return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}&isbelow20=${isbelow20}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TobeTenderAll?did=1001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=0;
   }
-  GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any) {
+  GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any,fromdt:any,todt:any) {
     // debugger
-    return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TenderInProcess?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}`);
+    return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TenderInProcess?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TenderInProcess?did=2001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=1
   }
-  GET_TotalWorksAbstract(divisionId: any,districtid:any,mainSchemeId: any, contractorid:any,ASAmount:any) {
-    return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}`);
+  GET_TotalWorksAbstract(divisionId: any,districtid:any,mainSchemeId: any, contractorid:any,ASAmount:any,fromdt:any,todt:any) {
+    return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
+    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1&fromdt=2026-06-01&todt=2026-06-22
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1&ASAmount=0;
   }
 

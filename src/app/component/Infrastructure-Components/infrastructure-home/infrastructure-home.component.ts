@@ -67,16 +67,16 @@ export class InfrastructureHomeComponent {
   districtData: DashProgressCount[] = [];
   DMEprogresssummary: DMEProgressSummary[] = [];
   DistrictNameDMEData: DistrictNameDME[] = [];
-  originalData: DashProgressCount[] = []; // To store the original data for "Total Works"
+  originalData: DashProgressCount[] = []; 
   GetDistrict: GetDistrict[] = [];
   totalNosWorks: number = 0;
   selectedTabIndex: number = 0;
   distid: any = 0;
-  // distid = 0;
+ 
   divisionid: any = 0;
   mainSchemeID = 0;
   id: any;
-  buid = 1;
+  buid = 0;
   selectedDistrict: any | null = null;
   name: any;
   isall: boolean = true;
@@ -86,7 +86,8 @@ export class InfrastructureHomeComponent {
   public showDivision: boolean = true; // Control card visibility
   public showDistrict: boolean = true; // Control card visibility
   distname: any;
-  // mainSchemeID:any;
+formdate:any;
+todate:any;
 
   public showCardss: boolean = false; // Control card visibility
   cardOrder: string[] = [
@@ -175,7 +176,8 @@ export class InfrastructureHomeComponent {
   contractorid = 0;
   dashname: any;
   nosworks: any;
-  ASAmount = 1;
+  ASAmount = 0;
+  // ASAmount = 1;
   pageName: string = '';
   fullUrl: string = '';
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private location: Location,) {
@@ -217,16 +219,23 @@ export class InfrastructureHomeComponent {
   }
   //#region 
   loadInitialData() {
+    // debugger;
+this.formdate;
+this.todate;
 
-    // Load data for "Total Works" tab on initialization
     this.spinner.show();
+
+var formdate = this.formdate ? this.formdate : 0;
+var todate = this.todate ? this.todate : 0;
+// console.log('form=',formdate)
+// console.log('todate=',todate)
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
     // console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
     var mainSchemeId = 0;
     var ASID = 0;
     var GrantID = 0;
-    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount,0,0).subscribe(
+    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount,formdate,todate).subscribe(
       (res: any) => {
         // console.log("res=",JSON.stringify(res));
         this.originalData = this.sortDistrictData(res); // Save as original data
@@ -340,11 +349,14 @@ export class InfrastructureHomeComponent {
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
       this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
       this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+
+      var formdate = this.formdate ? this.formdate : 0;
+var todate = this.todate ? this.todate : 0;
       // console.error('dist id:', this.himisDistrictid  );
       // console.error('mainSchemeID:', this.mainSchemeID);
       // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
       // divisionId: any, mainSchemeId: number, distid: number,ASID:any,ASAmount:any
-      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid, ASID, GrantID, this.ASAmount,0,0).subscribe(
+      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid, ASID, GrantID, this.ASAmount,formdate,todate).subscribe(
         (res: any) => {
           if (this.selectedTabIndex === 0) {
             // Do not overwrite the original data for "Total Works"
@@ -352,6 +364,7 @@ export class InfrastructureHomeComponent {
             if (this.mainSchemeID !== 0) {
               // alert("scheme ");
               this.districtData = this.sortDistrictData(res);
+               
               // console.log(' on bug reotalwork1=', JSON.stringify(this.districtData));
 
             }
@@ -362,6 +375,7 @@ export class InfrastructureHomeComponent {
             else {
               // alert("ather ");
               this.districtData = this.sortDistrictData(res);
+              
               // this.districtData = [...this.originalData];
 
               // console.log(' on bug reotalwork2=', JSON.stringify(this.districtData));
@@ -370,11 +384,13 @@ export class InfrastructureHomeComponent {
             this.districtData = res;
             // console.log('re1=', JSON.stringify(this.districtData));
             this.districtData = this.sortDistrictData(res);
+           
             // console.log('re2=', JSON.stringify(this.districtData));
           }
           // console.log('new on bug reotalwork3=', this.districtData);
 
           this.calculateTotalNosWorks();
+             this.bindDashboardData();
           this.spinner.hide();
 
         },
@@ -925,7 +941,9 @@ export class InfrastructureHomeComponent {
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
     // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
     // ?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1
-    this.api.GET_TotalWorksAbstract(this.divisionid, this.himisDistrictid, this.mainSchemeID, contractorid, this.ASAmount)
+          var formdate = this.formdate ? this.formdate : 0;
+var todate = this.todate ? this.todate : 0;
+    this.api.GET_TotalWorksAbstract(this.divisionid, this.himisDistrictid, this.mainSchemeID, contractorid, this.ASAmount,formdate,todate)
       .subscribe(
         (res) => {
           this.dispatchData4 = res.map(
@@ -952,7 +970,9 @@ export class InfrastructureHomeComponent {
   }
 
   DetailProgress(did: any, dashname: any, nosworks: any): void {
-    //  
+    // 
+debugger
+    
     this.dashname = dashname;
     this.nosworks = nosworks;
     this.spinner.show();
@@ -967,16 +987,26 @@ export class InfrastructureHomeComponent {
         // this.himisDistrictid = this.distid;
       }
     }
+    let formdate = this.formdate || 0;
+let todate = this.todate || 0;
+
+
+// did=6002 & isbelow20='NA'
     // this.distid = this.distid == 0 ? 0 : this.distid;
+//       var formdate = this.formdate ? this.formdate : 0;
+//       var todate = this.todate ? this.todate : 0;
+// var isbelow20='Y';
 
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-    console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
     // Icon for "To be Tender"
+    console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID,'ASAmount=',this.ASAmount);
     if (did == 1001) {
+      let isbelow20 = "'Y'";
+      console.log('did =: ',did);
       // console.log('1001 =: ',did);
-      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount)
+      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
         .subscribe(
           (res) => {
             this.dispatchData2 = res.map(
@@ -995,18 +1025,103 @@ export class InfrastructureHomeComponent {
           (error) => {
             this.spinner.hide();
             // alert(`Error fetching data: ${error.message}`);
-            alert(`API Error:: ${JSON.stringify(error.message)}`);
+            console.log(`API Error:: ${JSON.stringify(error.message)}`);
           }
         );
       this.openDialog2();
 
       // return 
     }
+    else if(did==3003){
+      let isbelow20 = "'NA'";
+console.log('did =: ',did);
+// console.log('1001 =: ',did);
+      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData2 = res.map(
+              (item: DetailProgressTinP, index: number) => ({
+                ...item,
+                sno: index + 1,
+              })
+            );
+            console.log('DetailProgressTinP 3003=:', this.dispatchData2);
+            this.dataSource2.data = this.dispatchData2;
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            // alert(`Error fetching data: ${error.message}`);
+            console.log(`API Error:: ${JSON.stringify(error.message)}`);
+          }
+        );
+      this.openDialog2();
+
+    }
+    else if(did==1002){
+         let isbelow20 = "'NA'";
+// console.log('1001 =: ',did);
+      this.api.GETTobeTenderAll(1001, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData2 = res.map(
+              (item: DetailProgressTinP, index: number) => ({
+                ...item,
+                sno: index + 1,
+              })
+            );
+            console.log('DetailProgressTinP=:', this.dispatchData2);
+            this.dataSource2.data = this.dispatchData2;
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            // alert(`Error fetching data: ${error.message}`);
+            console.log(`API Error:: ${JSON.stringify(error.message)}`);
+          }
+        );
+      this.openDialog2();
+
+    }
+    else if(did==6002){
+console.log('did =: ',did);
+   let isbelow20 = "'NA'";
+      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData2 = res.map(
+              (item: DetailProgressTinP, index: number) => ({
+                ...item,
+                sno: index + 1,
+              })
+            );
+            console.log('DetailProgressTinP=:', this.dispatchData2);
+            this.dataSource2.data = this.dispatchData2;
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            // alert(`Error fetching data: ${error.message}`);
+            console.log(`API Error:: ${JSON.stringify(error.message)}`);
+          }
+        );
+      this.openDialog2();
+
+    }
     // Icon for "Tender in Process"
     else if (did == 2001) {
       // 
       console.log('2001=: ', did);
-      this.api.GETDetailProgress(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount)
+      this.api.GETDetailProgress(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,formdate,todate)
         .subscribe(
           (res) => {
             this.dispatchData3 = res.map(
@@ -1033,7 +1148,7 @@ export class InfrastructureHomeComponent {
     }
     else if (did == 4001) {
       console.log('4001=: ', did);
-      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount)
+      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount,formdate,todate)
         .subscribe(
           (res) => {
             this.dispatchDataCom_Han = res.map(
@@ -1060,7 +1175,7 @@ export class InfrastructureHomeComponent {
     //  Running Work
     else if (did == 5001) {
       // console.log('5001=: ',did);
-      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount)
+      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount,formdate,todate)
         .subscribe(
           (res) => {
             this.dispatchDataRun_Work = res.map(
@@ -1086,7 +1201,7 @@ export class InfrastructureHomeComponent {
     // Land Not Alloted/Land Dispute
     else if (did === 6001) {
       console.log('6001 =: ', did);
-      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount)
+      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,formdate,todate)
         .subscribe(
           (res) => {
             this.dispatchDataLand_isu = res.map(
@@ -1113,7 +1228,7 @@ export class InfrastructureHomeComponent {
 
     else if (did == 8001) {
       console.log(' 8001 =: ', did);
-      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount)
+      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,formdate,todate)
         .subscribe(
           (res) => {
             this.dispatchData1 = res.map(
@@ -1151,7 +1266,7 @@ export class InfrastructureHomeComponent {
 
     else {
       // console.log('3001=: ',did);
-      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount)
+      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount,formdate,todate)
         .subscribe(
           (res) => {
             this.dispatchData = res.map(
@@ -2479,7 +2594,7 @@ export class InfrastructureHomeComponent {
     const selectedUser = this.budgetOptions.find((user: { buid: any }) => user.buid === this.buid);
     if (selectedUser) {
       this.ASAmount = selectedUser?.buid;
-      this.DashProgressCount();
+      // this.DashProgressCount();
 
       // alert( this.ASAmount);
     } else {
@@ -2507,7 +2622,7 @@ export class InfrastructureHomeComponent {
       } else {
         this.show = true;
       }
-      this.DashProgressCount();
+      // this.DashProgressCount();
       // alert(this.mainSchemeID);
       // alert(selectedName);
     } else {
@@ -2627,10 +2742,8 @@ bindDashboardData() {
     this.cancellation = this.getNosWorks(6002);
 }
 
-// Ye helper function data nikalne ka kaam karega bina code repeat kiye
 getNosWorks(id: number): number {
     const item = this.districtData.find((data: any) => data.did === id);
-    // Agar item nahi hai ya item.nosworks undefined hai, to 0 return karega
     return item?.nosworks ?? 0;
 }
 
