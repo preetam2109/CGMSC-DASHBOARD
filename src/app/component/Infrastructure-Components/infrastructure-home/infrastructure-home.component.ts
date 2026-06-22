@@ -1003,7 +1003,8 @@ let todate = this.todate || 0;
     // Icon for "To be Tender"
     console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID,'ASAmount=',this.ASAmount);
     if (did == 1001) {
-      let isbelow20 = "'Y'";
+      let isbelow20 = "'N'";
+      // let isbelow20 = "'Y'";
       console.log('did =: ',did);
       // console.log('1001 =: ',did);
       this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
