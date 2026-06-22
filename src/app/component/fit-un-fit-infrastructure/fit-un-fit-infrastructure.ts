@@ -1016,7 +1016,7 @@ exportToPDF31() {
     // row.measurementdate || '' 
   ]);
 
- 
+
   body.push([
     '', // 1. S.No
     '', // 2. Section

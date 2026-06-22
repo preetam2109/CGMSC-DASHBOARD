@@ -982,8 +982,25 @@ export class ApiService {
   GETRunningDelayWorksDetails(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any,IsMedicalCollege:any,isabove90:any) {
     return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}&IsMedicalCollege=${IsMedicalCollege}&isabove90=${isabove90}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&IsMedicalCollege=NA&isabove90=NA
-    // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=OnTime&parameter=TimeValid&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
+
   }
+GETRunningWorkSummaryValue() {
+    debugger
+    return this.http.get<any[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryValue`);
+    
+  }
+
+  GETRunningDelayWorksDetailsReport(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any,IsMedicalCollege:any,isabove90:any) {
+    debugger
+    return this.http.get<any[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}&IsMedicalCollege=${IsMedicalCollege}&isabove90=${isabove90}`);
+    
+  }
+
+
+
+
+
+
 
 
   //#endregion
