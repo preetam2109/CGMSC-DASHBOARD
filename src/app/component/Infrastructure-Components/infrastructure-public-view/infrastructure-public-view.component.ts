@@ -916,7 +916,7 @@ const contractorid=0;
   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
   // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
   // ?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1
-  this.api.GET_TotalWorksAbstract(this.divisionid,this.himisDistrictid,this.mainSchemeID,contractorid,this.ASAmount)
+  this.api.GET_TotalWorksAbstract(this.divisionid,this.himisDistrictid,this.mainSchemeID,contractorid,this.ASAmount,0,0)
   .subscribe(
     (res) => {
       this.dispatchData4 = res.map(
@@ -967,7 +967,7 @@ this.openDialogTW();
 // Icon for "To be Tender"
   if (did == 1001) {
     // console.log('1001 =: ',did);
-    this.api.GETTobeTenderAll(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount)
+    this.api.GETTobeTenderAll(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount,'Y',0,0)
     .subscribe(
       (res) => {
         this.dispatchData2 = res.map(
@@ -997,7 +997,7 @@ this.openDialogTW();
    else if (did == 2001) {
     // 
     console.log('2001=: ',did);
-    this.api.GETDetailProgress(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount)
+    this.api.GETDetailProgress(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount,0,0)
     .subscribe(
       (res) => {
         this.dispatchData3 = res.map(
@@ -1024,7 +1024,7 @@ this.openDialogTW();
   } 
    else if (did == 4001) {
     console.log('4001=: ',did);
-    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount)
+    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,0,0)
     .subscribe(
       (res) => {
         this.dispatchDataCom_Han = res.map(
@@ -1051,7 +1051,7 @@ this.openDialogTW();
   //  Running Work
   else if (did == 5001) {
     // console.log('5001=: ',did);
-    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount)
+    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,0,0)
     .subscribe(
       (res) => {
         this.dispatchDataRun_Work = res.map(
@@ -1077,7 +1077,7 @@ this.openDialogTW();
   // Land Not Alloted/Land Dispute
    else if (did === 6001) {
     console.log('6001 =: ',did);
-    this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount)
+    this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount,0,0)
     .subscribe(
       (res) => {
         this.dispatchDataLand_isu = res.map(
@@ -1104,7 +1104,7 @@ this.openDialogTW();
 
     else if (did == 8001) {
       console.log(' 8001 =: ',did);
-      this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount)
+      this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount,0,0)
       .subscribe(
         (res) => {
           this.dispatchData1 = res.map(
@@ -1142,7 +1142,7 @@ this.openDialogTW();
 
   else {
     // console.log('3001=: ',did);
-    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount)
+    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,0,0)
     .subscribe(
       (res) => {
         this.dispatchData = res.map(

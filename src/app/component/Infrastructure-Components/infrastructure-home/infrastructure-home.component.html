@@ -34,17 +34,17 @@
                   </div>
                   <div class="col-12 col-md-2 mb-3">
                     <div class="columns justify-content-center mb-3">
-                         <input type="date" bindLabel="formdate" placeholder="Form Date" required class="form-control"/>
+                         <input type="date" bindLabel="formdate" placeholder="Form Date"  [(ngModel)]="formdate"  required class="form-control"/>
                     </div>
                   </div>
                   <div class="col-12 col-md-2 mb-3">
                     <div class="columns justify-content-center mb-3">
-                      <input type="date" bindLabel="todate"  placeholder="To Date" required class="form-control"/>
+                      <input type="date" bindLabel="todate"  placeholder="To Date"  [(ngModel)]="todate" required class="form-control"/>
                     </div>
                   </div>
                   <div class="col-12 col-md-2 mb-3">
                     <div class="columns justify-content-center mb-3">
-                   <Button class="btn btn-info border ">Show data</Button>
+                   <Button class="btn btn-info border "  (click)="loadInitialData()" >Show data</Button>
                     </div>
                   </div>
 
@@ -163,7 +163,152 @@
 
 
     <div class="container-fluid mt-4" *ngIf="showCards">
-      <div class="row">
+      <div class="container-fluid py-5" style="background-color: #f4f6f9;">
+        <div class="tree-container">
+            
+            <div class="d-flex flex-column align-items-center position-relative z-3">
+              <a type="link" (click)="TotalWorksAbstract()" style="cursor: pointer; text-decoration: none;">
+                <div class="card flow-card bg-total p-3 text-dark">
+                    <h6><i class="bi bi-bank2"></i> Total Works (A)</h6>
+                    <h4>{{ totalNosWorks }}</h4>
+                </div>    
+              </a>
+                <div class="connector-down"></div>
+            </div>
+    
+            <div class="tree-row d-flex justify-content-center">
+                
+                <div class="tree-node">
+                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(4001, ' Completed (B)', completedWorks)">
+
+                    <div class="card flow-card bg-green p-3 z-3 text-dark">
+                        <h6><i class="bi bi-check2-all"></i>Completed/Handover (B)</h6>
+                        <h4>{{ completedWorks }}</h4>
+                    </div></a>
+                </div>
+    
+                <div class="tree-node d-flex flex-column align-items-center">
+                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(8000, 'Remaining Works (D)', remainingWorks)">
+
+                    <div class="card flow-card bg-remainingg p-3 z-3 text-dark" style="background-color: #7b8fff;">
+                        <h6>Remaining Works (D) <br><small class="text-muted" style="font-size: 11px;">D = A - (B + C)</small></h6>
+                        <h4>{{ remainingWorks }}</h4>
+                    </div></a>
+                    <div class="connector-down" style="height: 40px;"></div>
+                </div>
+    
+                <div class="tree-node">
+                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(8001, 'Return (C)', returnWorks)">
+
+                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #f87d7d;">
+                        <h6><i class="bi bi-trash"></i>Return to Department(C)</h6>
+                        <h4>{{ returnWorks }}</h4>
+                    </div></a>
+                </div>
+    
+            </div>
+    
+            <div class="tree-row pt-0 w-100 justify-content-center">
+                
+                <div class="tree-node e-node-centered">
+                    
+                    <div class="d-flex flex-column align-items-center" style="width: 175px;">
+                      <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(2001, 'Tender in Process (E)', tenderInProcess)">
+                        <div class="card flow-card bg-yellow-process p-3 z-3 text-dark">
+                            <h6><i class="bi bi-hammer"></i> Tender in Process (E)</h6>
+                            <h4>{{ tenderInProcess }}</h4>
+                        </div></a>
+                        <div class="connector-down with-arrow"></div>
+                    </div>
+                    
+                    <div class="d-flex align-items-start mobile-stack w-100 mt-1">
+                        
+                        <div class="d-flex flex-column align-items-center" style="width: 175px;">
+                          <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3001, 'Acceptance Gen.', acceptanceGenerated)">
+                            <div class="card flow-card bg-orange p-3 z-3 text-dark">
+                                <h6><i class="bi bi-book"></i>Acceptance/Zonal Permission Given</h6>
+                                <h4>{{ acceptanceGenerated }}</h4>
+                            </div></a>
+                        </div>
+                        
+                        <div class="connector-right with-arrow align-self-start mobile-connector-rotate mx-1" style="margin-top: 42px;"></div>
+                        
+                        <div class="d-flex flex-column align-items-center">
+                          <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3002, 'Work Order', workOrderGenerated)">
+                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #88fab4;">
+                                <h6><i class="bi bi-file-earmark-text"></i>Word Order Generated</h6>
+                                <h4>{{ workOrderGenerated }}</h4>
+                            </div></a>
+                            <div class="connector-down with-arrow"></div>
+                            
+                            <div class="d-flex align-items-center mobile-stack">
+                              <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(6001, 'Land Dispute', landDispute)">
+                                <div class="card flow-card bg-pink-dark p-3 z-3 text-dark">
+                                    <h6><i class="bi bi-exclamation-circle"></i>Land Not Alloted/Land Dispute</h6>
+                                    <h4>{{ landDispute }}</h4>
+                                </div></a>
+                                <div class="connector-both-horizontal mobile-connector-rotate mx-1"></div>
+                                <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(5001, ' Running Work', runningWork)">
+                                <div class="card flow-card bg-yellow-light p-3 z-3 text-dark">
+                                    <h6><i class="bi bi-graph-up-arrow"></i> Running Work</h6>
+                                    <h4>{{ runningWork }}</h4>
+                                </div></a>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+    
+                <div class="tree-node z-3">
+                    <div class="position-relative d-flex align-items-center mobile-stack">
+                        <div class="position-absolute end-100 connector-both-horizontal mobile-connector-rotate me-1 d-none d-xl-block"></div>
+                        <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(1001, 'To be Tender (F)', toBeTender)">
+                        <div class="card flow-card bg-tender-pink p-3 z-3 text-dark">
+                            <h6><i class="bi bi-bell"></i>To be Tender(>20L)F</h6>
+                            <h4>{{ toBeTender }}</h4>
+                        </div></a>
+    
+                        <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block"></div>
+                    </div>
+                </div>
+    
+                <div class="tree-node z-3">
+                    <div class="position-relative d-flex align-items-center mobile-stack">
+                        <div class="d-flex flex-column align-items-center">
+                          <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(1002, 'Zonal Permission', appliedZonal)">
+    
+                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #fdc3ec;">
+                                <h6><i class="bi bi-map"></i>To be Applied for Zonal(<=20L)G</h6>
+                                <h4>{{ appliedZonal }}</h4>
+                            </div></a>
+                            
+                            <div class="connector-both-vertical my-1"></div>
+                            <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3003, 'Zonal Permission', zonalPermission)">
+    
+                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #fa95e4;">
+                                <h6>Applied for Zonal Permission</h6>
+                                <h4>{{ zonalPermission }}</h4>
+                            </div></a>
+                        </div>
+                        
+                        <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block" style="top: 42px;"></div>
+                    </div>
+                </div>
+    
+                <div class="tree-node z-3">
+                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(6002, 'Cancellation (H)', cancellation)">
+                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #f5a7ff;">
+                        <h6><i class="bi bi-x-circle"></i>Proposed for Cancellation</h6>
+                        <h4>{{ cancellation }}</h4>
+                    </div>
+                </a>
+                 
+                </div>
+    
+            </div>
+        </div>
+    </div>
+      <!-- <div class="row">
        
         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
           <a type="link" (click)="TotalWorksAbstract()">
@@ -187,7 +332,7 @@
           </a>
         </div>
 
-        <!-- Dynamic Cards for Other District Data -->
+     
         <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let district of districtData">
           <a type="link" (click)="DetailProgress(district.did,district.dashname,district.nosworks)">
           
@@ -212,7 +357,9 @@
          
           </a>
         </div>
-      </div>
+
+        
+      </div> -->
     </div>
 
   </div>
@@ -494,8 +641,8 @@
             <td mat-cell *matCellDef="let element">{{ element.work_id}}</td>
           </ng-container>
           <ng-container matColumnDef="grantNo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
-            <td mat-cell *matCellDef="let element">{{ element.grantNo}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No  </th>
+            <td mat-cell *matCellDef="let element">{{ element.grantNo}}</td>
           </ng-container>
           <ng-container matColumnDef="head">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
@@ -1590,9 +1737,9 @@
             <td mat-cell *matCellDef="let element"> {{ element.worK_ID }} </td>
           </ng-container>
 
-          <ng-container matColumnDef="letterNo">
+          <ng-container matColumnDef="letterno">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter No</th>
-            <td mat-cell *matCellDef="let element"> {{ element.letterNo }} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.letterno }} </td>
           </ng-container>
           <ng-container matColumnDef="grantNo">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Head No</th>
@@ -1750,13 +1897,13 @@
               </span>
             </td>
           </ng-container>
-          <tr mat-header-row *matHeaderRowDef="[ 'sno', 'worK_ID', 'letterNo','grantNo', 'head', 'approver', 'divName_En',
+          <tr mat-header-row *matHeaderRowDef="[ 'sno', 'worK_ID', 'letterno','grantNo', 'head', 'approver', 'divName_En',
                       'district', 'blockname', 'work', 'asAmt', 'totalpaid','totalunpaid','tsamt', 'tsDate', 'aadt',
                       'lProgress', 'progressDT', 'remarks', 'groupName', 'dashName', 'asPath',
                       'asLetter', 'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
                       'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt','action']">
           </tr>
-          <tr mat-row *matRowDef="let row; columns: [ 'sno', 'worK_ID', 'letterNo','grantNo', 'head', 'approver','divName_En',
+          <tr mat-row *matRowDef="let row; columns: [ 'sno', 'worK_ID', 'letterno','grantNo', 'head', 'approver','divName_En',
                       'district', 'blockname', 'work', 'asAmt','totalpaid','totalunpaid', 'tsamt', 'tsDate', 'aadt',
                       'lProgress', 'progressDT', 'remarks', 'groupName', 'dashName', 'asPath',
                       'asLetter', 'asid', 'descri', 'fmrcode', 'startdt', 'enddt', 'noofcalls',
@@ -2157,132 +2304,3 @@
         </div>
     </div>
 </div> -->
-<div class="container-fluid py-5" style="background-color: #f4f6f9;">
-    <div class="tree-container">
-        
-        <div class="d-flex flex-column align-items-center position-relative z-3">
-          <a type="link" (click)="TotalWorksAbstract()" style="cursor: pointer; text-decoration: none;">
-            <div class="card flow-card bg-total p-3">
-                <h6><i class="bi bi-bank2"></i> Total Works (A)</h6>
-                <h4>{{ totalNosWorks }}</h4>
-            </div>    
-          </a>
-            <div class="connector-down"></div>
-        </div>
-
-        <div class="tree-row d-flex justify-content-center">
-            
-            <div class="tree-node">
-                <div class="card flow-card bg-green p-3 z-3">
-                    <h6><i class="bi bi-check2-all"></i> Completed (B)</h6>
-                    <h4>{{ completedWorks }}</h4>
-                </div>
-            </div>
-
-            <div class="tree-node d-flex flex-column align-items-center">
-                <div class="card flow-card bg-remaining p-3 z-3">
-                    <h6>Remaining Works (D) <br><small class="text-muted" style="font-size: 11px;">D = A - (B + C)</small></h6>
-                    <h4>{{ remainingWorks }}</h4>
-                </div>
-                <div class="connector-down" style="height: 40px;"></div>
-            </div>
-
-            <div class="tree-node">
-                <div class="card flow-card bg-grey p-3 text-white z-3" style="background-color: #8a8a8a;">
-                    <h6><i class="bi bi-trash"></i> Return (C)</h6>
-                    <h4>{{ returnWorks }}</h4>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="tree-row pt-0 w-100 justify-content-center">
-            
-            <div class="tree-node e-node-centered">
-                
-                <div class="d-flex flex-column align-items-center" style="width: 175px;">
-                    <div class="card flow-card bg-yellow-process p-3 z-3">
-                        <h6><i class="bi bi-hammer"></i> Tender in Process (E)</h6>
-                        <h4>{{ tenderInProcess }}</h4>
-                    </div>
-                    <div class="connector-down with-arrow"></div>
-                </div>
-                
-                <div class="d-flex align-items-start mobile-stack w-100 mt-1">
-                    
-                    <div class="d-flex flex-column align-items-center" style="width: 175px;">
-                        <div class="card flow-card bg-orange p-3 z-3">
-                            <h6><i class="bi bi-book"></i> Acceptance Gen.</h6>
-                            <h4>{{ acceptanceGenerated }}</h4>
-                        </div>
-                    </div>
-                    
-                    <div class="connector-right with-arrow align-self-start mobile-connector-rotate mx-1" style="margin-top: 42px;"></div>
-                    
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="card flow-card bg-grey p-3 text-white z-3">
-                            <h6><i class="bi bi-file-earmark-text"></i> Work Order</h6>
-                            <h4>{{ workOrderGenerated }}</h4>
-                        </div>
-                        <div class="connector-down with-arrow"></div>
-                        
-                        <div class="d-flex align-items-center mobile-stack">
-                            <div class="card flow-card bg-pink-dark p-3 z-3">
-                                <h6><i class="bi bi-exclamation-circle"></i> Land Dispute</h6>
-                                <h4>{{ landDispute }}</h4>
-                            </div>
-                            <div class="connector-both-horizontal mobile-connector-rotate mx-1"></div>
-                            
-                            <div class="card flow-card bg-yellow-light p-3 z-3">
-                                <h6><i class="bi bi-graph-up-arrow"></i> Running Work</h6>
-                                <h4>{{ runningWork }}</h4>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="tree-node z-3">
-                <div class="position-relative d-flex align-items-center mobile-stack">
-                    <div class="position-absolute end-100 connector-both-horizontal mobile-connector-rotate me-1 d-none d-xl-block"></div>
-                    
-                    <div class="card flow-card bg-tender-pink p-3 z-3">
-                        <h6><i class="bi bi-bell"></i> To be Tender (F)</h6>
-                        <h4>{{ toBeTender }}</h4>
-                    </div>
-
-                    <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block"></div>
-                </div>
-            </div>
-
-            <div class="tree-node z-3">
-                <div class="position-relative d-flex align-items-center mobile-stack">
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="card flow-card bg-grey p-3 text-white z-3">
-                            <h6><i class="bi bi-map"></i> Applied Zonal (G)</h6>
-                            <h4>{{ appliedZonal }}</h4>
-                        </div>
-                        
-                        <div class="connector-both-vertical my-1"></div>
-
-                        <div class="card flow-card bg-grey p-3 text-white z-3">
-                            <h6>Zonal Permission</h6>
-                            <h4>{{ zonalPermission }}</h4>
-                        </div>
-                    </div>
-                    
-                    <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block" style="top: 42px;"></div>
-                </div>
-            </div>
-
-            <div class="tree-node z-3">
-                <div class="card flow-card bg-grey p-3 text-white z-3">
-                    <h6><i class="bi bi-x-circle"></i> Cancellation (H)</h6>
-                    <h4>{{ cancellation }}</h4>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
