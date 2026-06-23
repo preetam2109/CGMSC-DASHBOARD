@@ -276,9 +276,18 @@ Divisionlist = [
   }
 
   getPendigBillSummary() {
- 
-    this.spinner.show();
-    this.api.getPendigBillSummary().subscribe(
+ this.spinner.show();
+let roleName = localStorage.getItem('roleName');
+
+if (roleName == 'Division') {
+        this.divisionid = sessionStorage.getItem('divisionID');
+      
+      }else{
+         this.divisionid = 0
+      }
+
+   console.log('1divisionid=',this.divisionid)
+    this.api.getPendigBillSummary(this.divisionid).subscribe(
       (res) => {
         this.himis_PendigBillSummary = res
   .sort((a: any, b: any) => a.fund.localeCompare(b.fund))
@@ -338,9 +347,18 @@ isFirstFundRow(index: number): boolean {
 
   // SE Office
   getPendigBill() {
+    debugger
   this.spinner.show();
+  let roleName = localStorage.getItem('roleName');
 
-  this.api.getPendigBill(this.mainSchemeID, this.officeorderid).subscribe(
+if (roleName == 'Division') {
+        this.divisionid = sessionStorage.getItem('divisionID');
+      
+      }else{
+         this.divisionid = 0
+      }
+console.log('divisionid=',this.divisionid,'schemeid=',this.mainSchemeID,'officerid=',this.officeorderid)
+  this.api.getPendigBill(this.mainSchemeID, this.officeorderid,this.divisionid).subscribe(
     (res) => {
 
       const groupedData = res.reduce((acc: any[], curr: any) => {
