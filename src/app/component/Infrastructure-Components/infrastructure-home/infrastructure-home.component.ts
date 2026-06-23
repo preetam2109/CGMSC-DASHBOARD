@@ -1003,7 +1003,7 @@ let todate = this.todate || 0;
     // Icon for "To be Tender"
     console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID,'ASAmount=',this.ASAmount);
     if (did == 1001) {
-      let isbelow20 = "'N'";
+      let isbelow20 = "N";
       // let isbelow20 = "'Y'";
       // console.log('did =: ',did);
       // console.log('1001 =: ',did);
@@ -1034,7 +1034,7 @@ let todate = this.todate || 0;
       // return 
     }
     else if(did==3003){
-      let isbelow20 = "'NA'";
+      let isbelow20 = "NA";
 // console.log('did =: ',did);
 // console.log('1001 =: ',did);
       this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
@@ -1063,7 +1063,8 @@ let todate = this.todate || 0;
 
     }
     else if(did==1002){
-         let isbelow20 = "'NA'";
+        let isbelow20 = "Y";
+        //  let isbelow20 = "'NA'";
 // console.log('1001 =: ',did);
       this.api.GETTobeTenderAll(1001, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
         .subscribe(
@@ -1092,7 +1093,8 @@ let todate = this.todate || 0;
     }
     else if(did==6002){
 console.log('did =: ',did);
-   let isbelow20 = "'NA'";
+  //  let isbelow20 = "N";
+   let isbelow20 = "NA";
       this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
         .subscribe(
           (res) => {
