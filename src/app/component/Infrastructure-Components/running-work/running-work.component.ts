@@ -2170,7 +2170,7 @@ fetchDataBasedOnChartSelection(delayTime:any,parameter:any,divisionID: any, seri
   this.spinner.show();
 //  const delayTime="delayTime";
 //  const parameter="parameter";
-  this.api.GETRunningDelayWorksDetails(delayTime,parameter,this.divisionid,this.himisDistrictid,mainSchemeId,contractid).subscribe(
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,this.divisionid,this.himisDistrictid,mainSchemeId,contractid,'NA','NA').subscribe(
     (res) => {
       this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
         ...item,
@@ -2216,7 +2216,7 @@ fetchDataBasedOnChartSelection_II(delayTime:any,parameter:any,divisionID: any, s
   this.spinner.show();
 //  const delayTime="delayTime";
 //  const parameter="parameter";
-  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,this.himisDistrictid ,mainSchemeId,contractid).subscribe(
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,this.himisDistrictid ,mainSchemeId,contractid,'NA','NA').subscribe(
     (res) => {
       this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
         ...item,
@@ -2259,7 +2259,7 @@ fetchDataBasedOnChartSelection_III(delayTime:any,parameter:any,mainSchemeId: any
   this.spinner.show();
 //  const delayTime="delayTime";
 //  const parameter="parameter";
-  this.api.GETRunningDelayWorksDetails(delayTime,parameter,this.divisionid,this.himisDistrictid,mainSchemeId,contractid).subscribe(
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,this.divisionid,this.himisDistrictid,mainSchemeId,contractid,'NA','NA').subscribe(
     (res) => {
       this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
         ...item,
@@ -2289,7 +2289,7 @@ fetchDataBasedOnChartSelection_IV(delayTime:any,parameter:any,districtid: any, s
   this.spinner.show();
 //  const delayTime="delayTime";
 //  const parameter="parameter";
-  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid,'NA','NA').subscribe(
     (res) => {
       this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
         ...item,
@@ -2318,7 +2318,7 @@ fetchDataBasedOnChartSelection_V(delayTime:any,parameter:any,contractid: any, se
   this.spinner.show();
 //  const delayTime="delayTime";
 //  const parameter="parameter";
-  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid).subscribe(
+  this.api.GETRunningDelayWorksDetails(delayTime,parameter,divisionID,districtid,mainSchemeId,contractid,'NA','NA').subscribe(
     (res) => {
       this.dispatchData = res.map((item: RunningDelayWorksDetails, index: number) => ({
         ...item,

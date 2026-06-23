@@ -231,7 +231,7 @@ var todate = this.todate ? this.todate : 0;
 // console.log('todate=',todate)
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-    // console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+    console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
     var mainSchemeId = 0;
     var ASID = 0;
     var GrantID = 0;
@@ -354,7 +354,7 @@ var todate = this.todate ? this.todate : 0;
 var todate = this.todate ? this.todate : 0;
       // console.error('dist id:', this.himisDistrictid  );
       // console.error('mainSchemeID:', this.mainSchemeID);
-      // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+      console.log('2 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
       // divisionId: any, mainSchemeId: number, distid: number,ASID:any,ASAmount:any
       this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid, ASID, GrantID, this.ASAmount,formdate,todate).subscribe(
         (res: any) => {
@@ -971,7 +971,7 @@ var todate = this.todate ? this.todate : 0;
 
   DetailProgress(did: any, dashname: any, nosworks: any): void {
     // 
-debugger
+// debugger
     
     this.dashname = dashname;
     this.nosworks = nosworks;
@@ -1005,7 +1005,7 @@ let todate = this.todate || 0;
     if (did == 1001) {
       let isbelow20 = "'N'";
       // let isbelow20 = "'Y'";
-      console.log('did =: ',did);
+      // console.log('did =: ',did);
       // console.log('1001 =: ',did);
       this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
         .subscribe(
@@ -1016,7 +1016,7 @@ let todate = this.todate || 0;
                 sno: index + 1,
               })
             );
-            console.log('DetailProgressTinP=:', this.dispatchData2);
+            // console.log('tobe tender data all=:', this.dispatchData2);
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -1035,7 +1035,7 @@ let todate = this.todate || 0;
     }
     else if(did==3003){
       let isbelow20 = "'NA'";
-console.log('did =: ',did);
+// console.log('did =: ',did);
 // console.log('1001 =: ',did);
       this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
         .subscribe(
@@ -1046,7 +1046,7 @@ console.log('did =: ',did);
                 sno: index + 1,
               })
             );
-            console.log('DetailProgressTinP 3003=:', this.dispatchData2);
+            // console.log('DetailProgressTinP 3003=:', this.dispatchData2);
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -1074,7 +1074,7 @@ console.log('did =: ',did);
                 sno: index + 1,
               })
             );
-            console.log('DetailProgressTinP=:', this.dispatchData2);
+            // console.log('DetailProgressTinP=:', this.dispatchData2);
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -1102,7 +1102,7 @@ console.log('did =: ',did);
                 sno: index + 1,
               })
             );
-            console.log('DetailProgressTinP=:', this.dispatchData2);
+            // console.log('DetailProgressTinP=:', this.dispatchData2);
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -1158,7 +1158,7 @@ console.log('did =: ',did);
                 sno: index + 1,
               })
             );
-            console.log('WORunningHandDetails=:', this.dispatchDataCom_Han);
+            // console.log('WORunningHandDetails=:', this.dispatchDataCom_Han);
             this.dataSourceCom_Han.data = this.dispatchDataCom_Han;
             this.dataSourceCom_Han.paginator = this.paginatorCom_Han;
             this.dataSourceCom_Han.sort = this.sortCom_Han;
@@ -1211,7 +1211,7 @@ console.log('did =: ',did);
                 sno: index + 1,
               })
             );
-            console.log('LandIssue=:', this.dispatchDataLand_isu);
+            // console.log('LandIssue=:', this.dispatchDataLand_isu);
             this.dataSourceLand_isu.data = this.dispatchDataLand_isu;
             this.dataSourceLand_isu.paginator = this.paginatorLand_isu;
             this.dataSourceLand_isu.sort = this.sortLand_isu;

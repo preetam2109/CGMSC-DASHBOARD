@@ -687,7 +687,7 @@ export class ApiService {
   }
   GETLandIssueRetToDeptDetatails(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any,fromdt:any,todt:any) {
     return this.http.get<LandIssue_RetToDeptDetatails[]>(`${this.apiUrl}/DetailProgress/LandIssue_RetToDeptDetatails?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/LandIssue_RetToDeptDetatails?did=6001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=1
+    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/LandIssue_RetToDeptDetatails?did=6001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=1&fromdt=2026-06-01&todt=2026-06-22
   }
   GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any,isbelow20:any,fromdt:any,todt:any) {
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}&isbelow20=${isbelow20}&fromdt=${fromdt}&todt=${todt}`);
@@ -979,9 +979,9 @@ export class ApiService {
     return this.http.get<RunningWorkDelay[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryDelay?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
     //https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummaryDelay?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
   }
-  GETRunningDelayWorksDetails(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any) {
-    return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
+  GETRunningDelayWorksDetails(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any,IsMedicalCollege:any,isabove90:any) {
+    return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}&IsMedicalCollege=${IsMedicalCollege}&isabove90=${isabove90}`);
+    // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&IsMedicalCollege=NA&isabove90=NA
     // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=OnTime&parameter=TimeValid&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0
   }
 
@@ -1839,13 +1839,13 @@ export class ApiService {
   }
 
 
-  getPendigBillSummary() {
-    // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBillSummary
-    return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBillSummary`);
+  getPendigBillSummary(divisionid:any) {
+    // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBillSummary?divisionid=D1017
+    return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBillSummary?divisionid=${divisionid}`);
   }
-  getPendigBill(mainSchemeId: any, officeOrder: any) {
-    // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBill?mainSchemeId=101&officeOrder=1
-    return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBill?mainSchemeId=${mainSchemeId}&officeOrder=${officeOrder}`);
+  getPendigBill(mainSchemeId: any, officeOrder: any,divisionid:any) {
+    // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBill?mainSchemeId=101&officeOrder=1&divisionid=D1017
+    return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBill?mainSchemeId=${mainSchemeId}&officeOrder=${officeOrder}&divisionid=${divisionid}`);
   }
   //#endregion
 
