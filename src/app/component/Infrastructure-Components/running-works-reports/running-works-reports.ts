@@ -59,13 +59,25 @@ export class RunningWorksReports implements OnInit {
   mainschemeid: any;
   ASFileData: any[] = [];
 
+  selectedDivisionName: string = '';
+
+  defaultColumns: string[] = [
+    'sno', 'work_id', 'head', 'divName_En', 'district', 'blockname', 'work', 'contractorNAme', 'mobNo',
+    'aaDate', 'aaamt',  'sanctionRate', 'sanctionDetail', 'workorderDT', 'timeAllowed', 'dueDTTimePerAdded', 'tvc', 'paidTillLacs', 'financialProgress',
+    'lProgress', 'progressDT', 'delayDays', 'delayreason', 'PRemarks', 'expcompdt', 'subengname',
+    'aeName', 'tType', 'tenderReference', 'dateOfIssueNIT', 'tsDate', 'tsamt','acceptanceLetterRefNo', 'acceptLetterDT',
+    'letterNo', 'approver', 'cid', 'action'
+  ];
+
+  displayedColumns: string[] = [...this.defaultColumns];
+
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
     public datePipe: DatePipe,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<any>([]);
@@ -82,7 +94,7 @@ export class RunningWorksReports implements OnInit {
         if (values && delays) {
           this.runningWorkSummaryValue = values.map((val: any, index: number) => {
             const delayItem: any = delays.find((d: any) => d.id === val.divisionID) || {};
-            
+
             const medicollege = Number(val.medicollege) || 0;
             const medicollegeworkvalue = Number(val.medicollegeworkvalue) || 0;
             const nosabove90 = Number(val.nosabove90) || 0;
@@ -118,14 +130,14 @@ export class RunningWorksReports implements OnInit {
 
   applyTextFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.filteredRunningWorkSummaryValue = this.runningWorkSummaryValue.filter(row => 
+    this.filteredRunningWorkSummaryValue = this.runningWorkSummaryValue.filter(row =>
       row.divName_En.toLowerCase().includes(filterValue)
     );
   }
 
   getCurrentDateTime(): string {
     const now = new Date();
-    const date = now.toLocaleDateString('en-GB'); 
+    const date = now.toLocaleDateString('en-GB');
     const time = now.toLocaleTimeString('en-IN', {
       hour: '2-digit',
       minute: '2-digit',
@@ -152,7 +164,7 @@ export class RunningWorksReports implements OnInit {
         acc.morethanSixMonth += Number(r.morethanSixMonth) || 0;
         acc.timeValid += Number(r.timeValid) || 0;
         acc.d_91_180Days += Number(r.d_91_180Days) || 0;
-        
+
         return acc;
       },
       {
@@ -344,9 +356,10 @@ export class RunningWorksReports implements OnInit {
     doc.save(`Running_Works_Summary_Value_${formattedDate}.pdf`);
   }
 
-  fetchDetails(divisionID: any, isMedicalCollege: string, isabove90: string, count: number, colName: string): void {
+  fetchDetails(divisionID: any, isMedicalCollege: string, isabove90: string, count: number, colName: string, divName: string = ''): void {
     if (count === 0) return;
 
+    this.selectedDivisionName = divName;
     this.selectedParameter = 'RunningWorkDetail';
     this.selectname = colName;
     this.selectedvalue = count;
@@ -361,6 +374,12 @@ export class RunningWorksReports implements OnInit {
     } else {
       this.divisionid = divisionID;
       this.himisDistrictid = 0;
+    }
+
+    if (this.divisionid !== 0 && this.divisionid !== '0') {
+      this.displayedColumns = this.defaultColumns.filter(col => col !== 'divName_En');
+    } else {
+      this.displayedColumns = [...this.defaultColumns];
     }
 
     const mainSchemeId = 0;
@@ -381,10 +400,28 @@ export class RunningWorksReports implements OnInit {
       isabove90
     ).subscribe({
       next: (res) => {
-        this.dispatchData = res.map((item: any, index: number) => ({
-          ...item,
-          sno: index + 1
-        }));
+        this.dispatchData = res.map((item: any, index: number) => {
+          const tvcVal = Number(item.tvc) || 0;
+          const paidVal = Number(item.paidTillLacs) || 0;
+          let finProgress = '0%';
+          if (paidVal > 0) {
+            if (tvcVal === 0) {
+              finProgress = '100%';
+            } else {
+              const percentage = (paidVal / tvcVal) * 100;
+              if (percentage > 100) {
+                finProgress = '100%';
+              } else {
+                finProgress = percentage.toFixed(2) + '%';
+              }
+            }
+          }
+          return {
+            ...item,
+            sno: index + 1,
+            financialProgress: finProgress
+          };
+        });
         console.log('dispatchData11:', this.dispatchData);
         this.dataSource.data = this.dispatchData;
         this.dataSource.paginator = this.paginator;
@@ -423,80 +460,161 @@ export class RunningWorksReports implements OnInit {
 
   exportDetailToPDF(): void {
     const doc = new jsPDF('l', 'mm', 'a4');
-    const columns = [
-      { header: 'S.No', dataKey: 'sno' },
-      { header: 'Head', dataKey: 'head' },
-      { header: 'Division', dataKey: 'divName_En' },
-      { header: 'District', dataKey: 'district' },
-      { header: 'Block', dataKey: 'blockname' },
-      { header: 'AS Letter No', dataKey: 'letterNo' },
-      { header: 'Approver', dataKey: 'approver' },
-      { header: 'Work', dataKey: 'work' },
-      { header: 'TS Date', dataKey: 'tsDate' },
-      { header: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
-      { header: 'Tender Type', dataKey: 'tType' },
-      { header: 'NIT Reference', dataKey: 'tenderReference' },
-      { header: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
-      { header: 'Acceptance Letter RefNo', dataKey: 'acceptanceLetterRefNo' },
-      { header: 'Accepted DT', dataKey: 'acceptLetterDT' },
-      { header: 'Time Allowed', dataKey: 'timeAllowed' },
-      { header: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
-      { header: 'Delay/On Time Days', dataKey: 'delayDays' },
-      { header: 'Contractor ID/Class', dataKey: 'cid' },
-      { header: 'Contractor', dataKey: 'contractorNAme' },
-      { header: 'Contractor Mobile No', dataKey: 'mobNo' },
-      { header: 'Last Progress', dataKey: 'lProgress' },
-      { header: 'Progress DT', dataKey: 'progressDT' },
-      { header: 'Exp.Comp DT', dataKey: 'expcompdt' },
-      { header: 'Delay Reason', dataKey: 'delayreason' },
-      { header: 'Sub Engineer', dataKey: 'subengname' },
-      { header: 'Asst.Eng', dataKey: 'aeName' },
-      { header: 'Work ID', dataKey: 'work_id' },
-    ];
+
+    const allPDFColumns: { [key: string]: { header: string, dataKey: string } } = {
+      sno: { header: 'S.No', dataKey: 'sno' },
+      work_id: { header: 'Work ID', dataKey: 'work_id' },
+      head: { header: 'Head', dataKey: 'head' },
+      divName_En: { header: 'Division', dataKey: 'divName_En' },
+      district: { header: 'District', dataKey: 'district' },
+      blockname: { header: 'Block', dataKey: 'blockname' },
+      work: { header: 'Work', dataKey: 'work' },
+      contractorNAme: { header: 'Contractor', dataKey: 'contractorNAme' },
+      mobNo: { header: 'Cont. Mob.', dataKey: 'mobNo' },
+      aaDate: { header: 'AS Date', dataKey: 'aaDate' },
+      aaamt: { header: 'AS Amt(L)', dataKey: 'aaamt' },
+      sanctionRate: { header: 'Rate', dataKey: 'sanctionRate' },
+      sanctionDetail: { header: 'Sanction', dataKey: 'sanctionDetail' },
+      workorderDT: { header: 'WO Date', dataKey: 'workorderDT' },
+      timeAllowed: { header: 'Time Allowed', dataKey: 'timeAllowed' },
+      dueDTTimePerAdded: { header: 'Due Date', dataKey: 'dueDTTimePerAdded' },
+      tvc: { header: 'TVC(L)', dataKey: 'tvc' },
+      paidTillLacs: { header: 'Paid(L)', dataKey: 'paidTillLacs' },
+      financialProgress: { header: 'Fin. Prog', dataKey: 'financialProgress' },
+      lProgress: { header: 'Phys. Prog', dataKey: 'lProgress' },
+      progressDT: { header: 'Prog Date', dataKey: 'progressDT' },
+      delayDays: { header: 'Delay Days', dataKey: 'delayDays' },
+      delayreason: { header: 'Delay Reason', dataKey: 'delayreason' },
+      PRemarks: { header: 'Remarks', dataKey: 'PRemarks' },
+      expcompdt: { header: 'Exp. Comp DT', dataKey: 'expcompdt' },
+      subengname: { header: 'Sub Eng', dataKey: 'subengname' },
+      aeName: { header: 'Asst.Eng', dataKey: 'aeName' },
+      tType: { header: 'Tender Type', dataKey: 'tType' },
+      tenderReference: { header: 'NIT Ref', dataKey: 'tenderReference' },
+      dateOfIssueNIT: { header: 'NIT/Sanction DT', dataKey: 'dateOfIssueNIT' },
+      tsDate: { header: 'TS Date', dataKey: 'tsDate' },
+      tsamt: { header: 'TS Amt(L)', dataKey: 'tsamt' },
+      acceptanceLetterRefNo: { header: 'Acceptance RefNo', dataKey: 'acceptanceLetterRefNo' },
+      acceptLetterDT: { header: 'Accepted DT', dataKey: 'acceptLetterDT' },
+      letterNo: { header: 'AS Letter', dataKey: 'letterNo' },
+      approver: { header: 'Approver', dataKey: 'approver' },
+      cid: { header: 'Cont. ID/Class', dataKey: 'cid' }
+    };
+
+    const columnWidths: { [key: string]: number } = {
+      sno: 3,
+      work_id: 7,
+      head: 7,
+      divName_En: 8,
+      district: 8,
+      blockname: 8,
+      work: 15,
+      contractorNAme: 12,
+      mobNo: 8,
+      aaDate: 7,
+      aaamt: 6,
+      sanctionRate: 5,
+      sanctionDetail: 7,
+      workorderDT: 7,
+      timeAllowed: 5,
+      dueDTTimePerAdded: 7,
+      tvc: 6,
+      paidTillLacs: 6,
+      financialProgress: 6,
+      lProgress: 8,
+      progressDT: 7,
+      delayDays: 5,
+      delayreason: 15,
+      PRemarks: 10,
+      expcompdt: 7,
+      subengname: 8,
+      aeName: 8,
+      tType: 6,
+      tenderReference: 10,
+      dateOfIssueNIT: 10,
+      tsDate: 7,
+      tsamt: 6,
+      acceptanceLetterRefNo: 10,
+      acceptLetterDT: 7,
+      letterNo: 10,
+      approver: 8,
+      cid: 10
+    };
+
+    const columns = this.displayedColumns
+      .filter(col => col !== 'action')
+      .map(col => allPDFColumns[col])
+      .filter(col => col !== undefined);
+
+    const colStyles: { [key: string]: { cellWidth: number } } = {};
+    columns.forEach((col) => {
+      colStyles[col.dataKey] = { cellWidth: columnWidths[col.dataKey] || 8 };
+    });
+
     const rows = this.dispatchData.map((row) => ({
       sno: row.sno,
+      work_id: row.work_id,
       head: row.head,
       divName_En: row.divName_En,
       district: row.district,
       blockname: row.blockname,
-      letterNo: row.letterNo,
-      approver: row.approver,
       work: row.work,
+      contractorNAme: row.contractorNAme,
+      mobNo: row.mobNo,
       aaDate: row.aaDate,
       aaamt: row.aaamt,
-      tsDate: row.tsDate,
-      tsamt: row.tsamt,
-      tType: row.tType,
-      tenderReference: row.tenderReference,
-      dateOfIssueNIT: row.dateOfIssueNIT,
-      acceptanceLetterRefNo: row.acceptanceLetterRefNo,
-      acceptLetterDT: row.acceptLetterDT,
+      sanctionRate: row.sanctionRate,
+      sanctionDetail: row.sanctionDetail,
       workorderDT: row.workorderDT,
       timeAllowed: row.timeAllowed,
       dueDTTimePerAdded: row.dueDTTimePerAdded,
-      delayDays: row.delayDays,
-      cid: row.cid,
-      contractorNAme: row.contractorNAme,
-      mobNo: row.mobNo,
+      tvc: row.tvc,
+      paidTillLacs: row.paidTillLacs,
+      financialProgress: row.financialProgress,
       lProgress: row.lProgress,
       progressDT: row.progressDT,
-      expcompdt: row.expcompdt,
+      delayDays: row.delayDays,
       delayreason: row.delayreason,
+      PRemarks: `${row.PRemarks || ''}/${row.Remarks || ''}`,
+      expcompdt: row.expcompdt,
       subengname: row.subengname,
       aeName: row.aeName,
-      work_id: row.work_id,
+      tType: row.tType,
+      tenderReference: row.tenderReference,
+      dateOfIssueNIT: `${row.dateOfIssueNIT || ''}/${row.dateOfSanction || ''}`,
+      tsDate: row.tsDate,
+      tsamt: row.tsamt,
+      acceptanceLetterRefNo: row.acceptanceLetterRefNo,
+      acceptLetterDT: row.acceptLetterDT,
+      letterNo: row.letterNo,
+      approver: row.approver,
+      cid: `${row.cid || ''}/${row.regType || ''}`,
     }));
 
     autoTable(doc, {
       columns: columns,
       body: rows,
       startY: 20,
-      theme: 'striped',
-      headStyles: { fillColor: [22, 160, 133] },
+      theme: 'grid',
+      margin: { left: 5, right: 5, top: 15, bottom: 10 },
+      styles: {
+        fontSize: 3.5,
+        cellPadding: 0.3,
+        overflow: 'linebreak'
+      },
+      columnStyles: colStyles,
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: [255, 255, 255],
+        fontSize: 3.5,
+        fontStyle: 'bold'
+      },
     });
 
     doc.save('LandIssue_Detail.pdf');
   }
+  
+  
 
   onButtonClick2(ASID: any, workid: any): void {
     this.spinner.show();
