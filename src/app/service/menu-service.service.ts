@@ -244,6 +244,8 @@ export class MenuServiceService {
             { label: 'Search Work', route: '/SearchingWork' },
 
             { label: 'Work Abstract', route: '/InfrastructureHome' },
+            { label: 'Running Works Abstract', route: '/RunningWorksReports' },
+            { label: 'Running Works Timeline', route: '/RunningWork' },
 
             { label: 'Progress on Scheme', route: '/SchemeWiseDetails' },
             { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
@@ -253,8 +255,7 @@ export class MenuServiceService {
             { label: 'To be Tender', route: '/ToBeTender' },
 
             { label: 'Work Order', route: '/WorkOrder' },
-            { label: 'Running Works', route: '/RunningWork' },
-            { label: 'Running Works Value Reports', route: '/RunningWorksReports' },
+           
             { label: 'Land Issues', route: '/LandIssue' },
             { label: 'Technical Sanction', route: '/TechnicalSanction' },
             // { label: 'District-Progress Monitoring', route: 'DashProgressIstCount' },
@@ -507,13 +508,14 @@ export class MenuServiceService {
             // { label: 'DivisionProgress', route: 'DivisionProgress' },
             { label: 'Search Work', route: '/SearchingWork' },
             { label: 'Work Abstract', route: '/InfrastructureHome' },
+            { label: 'Running Works Abstract', route: '/RunningWorksReports' },
+            { label: 'Running Works Timeline', route: '/RunningWork' },
             // { label: 'Live Tender', route: '/LiveTender' },
             // { label: 'Evaluation', route: '/TenderEvaluation' },
             // { label: 'To be Tender', route: '/ToBeTender' },
 
             { label: 'Work Order', route: '/WorkOrder' },
-            { label: 'Running Works', route: '/RunningWork' },
-            { label: 'Running Works Value Reports', route: '/RunningWorksReports' },
+
 
             { label: 'Land Issues', route: '/LandIssue' },
             // { label: 'Technical Sanction', route: '/TechnicalSanction' },
@@ -632,6 +634,8 @@ export class MenuServiceService {
             { label: 'Search Work', route: '/SearchingWork' },
 
             { label: 'Work Abstract', route: '/InfrastructureHome' },
+            { label: 'Running Works Abstract', route: '/RunningWorksReports' },
+            { label: 'Running Works Timeline', route: '/RunningWork' },
             { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
 
 
@@ -640,8 +644,7 @@ export class MenuServiceService {
             { label: 'To be Tender', route: '/ToBeTender' },
 
             { label: 'Work Order', route: '/WorkOrder' },
-            { label: 'Running Works', route: '/RunningWork' },
-            { label: 'Running Works Value Reports', route: '/RunningWorksReports' },
+            
 
             { label: 'Land Issues', route: '/LandIssue' },
             { label: 'Technical Sanction', route: '/TechnicalSanction' },
@@ -777,6 +780,8 @@ export class MenuServiceService {
             { label: 'Search Work', route: '/SearchingWork' },
 
             { label: 'Work Abstract', route: '/InfrastructureHome' },
+            { label: 'Running Works Abstract', route: '/RunningWorksReports' },
+            { label: 'Running Works Timeline', route: '/RunningWork' },
             { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
 
 
@@ -785,8 +790,7 @@ export class MenuServiceService {
             { label: 'To be Tender', route: '/ToBeTender' },
 
             { label: 'Work Order', route: '/WorkOrder' },
-            { label: 'Running Works', route: '/RunningWork' },
-            { label: 'Running Works Value Reports', route: '/RunningWorksReports' },
+            
 
             { label: 'Land Issues', route: '/LandIssue' },
             { label: 'Technical Sanction', route: '/TechnicalSanction' },
@@ -832,6 +836,8 @@ export class MenuServiceService {
             { label: 'Search Work', route: '/SearchingWork' },
 
             { label: 'Work Abstract', route: '/InfrastructureHome' },
+            { label: 'Running Works Abstract', route: '/RunningWorksReports' },
+            { label: 'Running Works Timeline', route: '/RunningWork' },
             { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
 
 
@@ -841,8 +847,7 @@ export class MenuServiceService {
             { label: 'To be Tender', route: '/ToBeTender' },
 
             { label: 'Work Order', route: '/WorkOrder' },
-            { label: 'Running Works', route: '/RunningWork' },
-            { label: 'Running Works Value Reports', route: '/RunningWorksReports' },
+            
 
             { label: 'Land Issues', route: '/LandIssue' },
             { label: 'Technical Sanction', route: '/TechnicalSanction' },
@@ -1160,6 +1165,8 @@ export class MenuServiceService {
          
           { label: 'Search Work', route: '/SearchingWork' },
           { label: 'Work Abstract', route: '/InfrastructureHome' },
+          { label: 'Running Works Abstract', route: '/RunningWorksReports' },
+            { label: 'Running Works Timeline', route: '/RunningWork' },
           { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
 
           { label: 'Live Tender', route: '/LiveTender' },
@@ -1167,8 +1174,7 @@ export class MenuServiceService {
           { label: 'To be Tender', route: '/ToBeTender' },
 
           { label: 'Work Order', route: '/WorkOrder' },
-          { label: 'Running Works', route: '/RunningWork' },
-          { label: 'Running Works Value Reports', route: '/RunningWorksReports' },
+          
 
           { label: 'Land Issues', route: '/LandIssue' },
           { label: 'Technical Sanction', route: '/TechnicalSanction' },
@@ -1216,6 +1222,8 @@ export class MenuServiceService {
             { label: 'Bills Payment Released', route: '/PaidBills' },
           { label: 'Search Work', route: '/SearchingWork' },
           { label: 'Work Abstract', route: '/InfrastructureHome' },
+          { label: 'Running Works Abstract', route: '/RunningWorksReports' },
+            { label: 'Running Works Timeline', route: '/RunningWork' },
           { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
 
           { label: 'Live Tender', route: '/LiveTender' },
@@ -1223,8 +1231,7 @@ export class MenuServiceService {
           { label: 'To be Tender', route: '/ToBeTender' },
 
           { label: 'Work Order', route: '/WorkOrder' },
-          { label: 'Running Works', route: '/RunningWork' },
-          { label: 'Running Works Value Reports', route: '/RunningWorksReports' },
+         
 
           { label: 'Land Issues', route: '/LandIssue' },
           { label: 'Technical Sanction', route: '/TechnicalSanction' },
@@ -1305,6 +1312,8 @@ export class MenuServiceService {
             { label: 'Bills Payment Released', route: '/PaidBills' },
           { label: 'Search Work', route: '/SearchingWork' },
           { label: 'Work Abstract', route: '/InfrastructureHome' },
+          { label: 'Running Works Abstract', route: '/RunningWorksReports' },
+            { label: 'Running Works Timeline', route: '/RunningWork' },
           { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
           { label: 'Live Tender', route: '/LiveTender' },
           { label: 'Evaluation', route: '/TenderEvaluation' },
@@ -1312,8 +1321,8 @@ export class MenuServiceService {
           { label: 'To be Tender', route: '/ToBeTender' },
 
           { label: 'Work Order', route: '/WorkOrder' },
-          { label: 'Running Works', route: '/RunningWork' },
-          { label: 'Running Works Value Reports', route: '/RunningWorksReports' },
+          
+          
 
           { label: 'Land Issues', route: '/LandIssue' },
           { label: 'Technical Sanction', route: '/TechnicalSanction' },
