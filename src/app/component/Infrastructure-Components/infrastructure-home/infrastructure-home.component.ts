@@ -234,6 +234,7 @@ export class InfrastructureHomeComponent implements OnInit {
   }
 
   loadInitialData() {
+    // debugger
     this.spinner.show();
     var formdate = this.formdate ? this.formdate : 0;
     var todate = this.todate ? this.todate : 0;
@@ -261,10 +262,15 @@ export class InfrastructureHomeComponent implements OnInit {
   }
 
   selectedTabValue(event: any): void {
+    // debugger
     this.selectedTabIndex = event.index;
     if (this.selectedTabIndex === 0) {
       this.districtData = [...this.originalData];
+      this.divisionid=0;
+      this.himisDistrictid=0;
+      this.ASAmount=0,
       this.loadInitialData();
+
       this.showCards = true;
     } else {
       this.showCards = false;

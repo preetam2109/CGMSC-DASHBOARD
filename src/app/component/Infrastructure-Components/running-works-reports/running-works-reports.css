@@ -1,0 +1,170 @@
+.table-responsive {
+  margin-top: 15px;
+}
+
+.filter-field {
+  margin-right: 16px;
+}
+
+.export-menu-container {
+  margin-left: 16px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.table td {
+  padding: 8px;
+  border: 1px solid #dee2e6;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table td, .table th {
+  border: 1px solid #dee2e6;
+}
+
+.text-start {
+  text-align: left !important;
+}
+
+.fw-bold {
+  font-weight: bold !important;
+}
+
+/* Category header text color: Dark Red */
+.category-red-text {
+  color: rgb(150, 0, 0) !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
+
+/* Header sub-columns background color: Peach */
+.header-peach-bg th, .header-peach-bg {
+  background-color: #FCE4D6 !important; /* light peach background */
+  color: #000000 !important;
+}
+
+/* Total numbers color: Blue */
+.cell-blue-text {
+  color: rgb(0, 51, 153) !important;
+  font-weight: bold !important;
+}
+
+/* Red highlight for zero medical college cells */
+.bg-bright-red {
+  background-color: #FF0000 !important; /* solid red background */
+  color: #FFFFFF !important; /* white text */
+  font-weight: bold !important;
+}
+
+/* Dialog and Material Table CSS copied from running-work.component.css */
+.modal-content {
+  border-radius: 0;
+}
+
+.modal-body {
+  padding-left: 30px;
+  padding-right: 14px;
+}
+
+.fullscreen-modal .modal-dialog {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.fullscreen-modal .modal-content {
+  height: 100%;
+  border: none;
+  border-radius: 0;
+}
+
+.modal {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+@media (min-width: 576px) {
+  .modal {
+      --bs-modal-margin: 1.75rem;
+      --bs-modal-box-shadow: var(--bs-box-shadow);
+  }
+}
+
+.full-screen-dialog .mat-dialog-container {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  border-radius: 0;
+}
+.mat-dialog-content {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 16px;
+}
+@media (max-width: 600px) {
+  .mat-dialog-container {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    max-height: 100vh !important;
+  }
+}
+
+.custom-dialog-container {
+  height: 110vh;
+}
+
+.mat-dialog-content {
+  overflow-y: auto;
+}
+.mat-mdc-dialog-content {
+  max-height: 75vh;
+}
+@media (max-width: 768px) {
+  .custom-dialog-container {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.clickable-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.clickable-link:hover {
+  color: darkblue;
+}
+
+.footer {
+  position: sticky;
+  padding: 5px;
+  bottom: 0;
+  width: 100%;
+  font-size: 30px;
+}
+
+/* Clickable cells in report summary */
+.clickable-cell {
+  cursor: pointer;
+  color: #0056b3;
+  text-decoration: underline;
+  font-weight: bold;
+}
+.clickable-cell:hover {
+  color: #003d80;
+  background-color: rgba(0, 86, 179, 0.05);
+}
