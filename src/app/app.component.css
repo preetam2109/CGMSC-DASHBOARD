@@ -91,7 +91,7 @@ mat-list-item:hover .left-icon {
 
 .submenu.open {
   display: block;
-  max-height: 500px;
+  max-height: 2000px;
   opacity: 1;
   padding: 8px 0;
 }

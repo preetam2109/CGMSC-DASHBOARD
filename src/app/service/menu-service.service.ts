@@ -74,6 +74,10 @@ export class MenuServiceService {
                     { label: 'Pendency within CGMSC (Not Send to Lab)', route: '/cgmsc-qc-pending-status' },
                     { label: 'QC Performance (Final result upload)', route: '/qc-performance' },
                     { label: 'QC Pendency Stage wise (Summary)', route: '/qcsample-stage-monitoring' },
+                    { label: 'QC Batches Report Summary', route: '/qc-batches-report-summary' },
+                    { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Pending HO)', route: '/wh-ho-qc-sample-transit-courier-pending-ho' },
+                    { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Lab)', route: '/wh-ho-qc-sample-transit-courier-lab' },
+                    { label: 'Batch Decision Pending – Zero Quantity Receipts', route: '/batch-decision-pending-zero-qty-receipts' },
                   ]
                 },
                 { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
@@ -294,7 +298,7 @@ export class MenuServiceService {
       },
       SSO: {
         items: [
-
+          
 
           // { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/welcome' },
@@ -315,12 +319,20 @@ export class MenuServiceService {
               { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle' },
               // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
               // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
-              { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
+              {
+                label: 'QC',
+                route: '',
+                submenu: [
+                  { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
+                  { label: 'QC Sample Status Lab Received Under Transit', route: '/qcsample-status-lab-received-under-transit' },
+                  { label: 'Final Result Awaiting after Empaneled Lab Result', route: '/final-result-awaitingafter-empaneled-lab-result' },
+                  { label: 'QC Batches Report Summary', route: '/qc-batches-report-summary' },
+                  { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Pending HO)', route: '/wh-ho-qc-sample-transit-courier-pending-ho' },
+                  { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Lab)', route: '/wh-ho-qc-sample-transit-courier-lab' },
+                  { label: 'Batch Decision Pending – Zero Quantity Receipts', route: '/batch-decision-pending-zero-qty-receipts' },
+                ]
+              },
               { label: 'Supplier Compliance and Grievance', route: '/supplier-compliance-and-grievance' },
-
-              { label: 'QC Sample Status Lab Received Under Transit', route: '/qcsample-status-lab-received-under-transit' },
-              { label: 'Final Result Awaiting after Empaneled Lab Result', route: '/final-result-awaitingafter-empaneled-lab-result' },
-
 
               { label: 'Facility Information', route: '/FacilityInformationOracle' },
             ]
@@ -1481,6 +1493,10 @@ export class MenuServiceService {
             { label: 'Pendency within CGMSC (Not Send to Lab)', route: '/cgmsc-qc-pending-status' },
             { label: 'QC Performance (Final result upload)', route: '/qc-performance' },
             { label: 'QC Sample Stage Monitoring(Summary)', route: '/qcsample-stage-monitoring' },
+            { label: 'QC Batches Report Summary', route: '/qc-batches-report-summary' },
+            { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Pending HO)', route: '/wh-ho-qc-sample-transit-courier-pending-ho' },
+            { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Lab)', route: '/wh-ho-qc-sample-transit-courier-lab' },
+            { label: 'Batch Decision Pending – Zero Quantity Receipts', route: '/batch-decision-pending-zero-qty-receipts' },
           ]
         },
         { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
