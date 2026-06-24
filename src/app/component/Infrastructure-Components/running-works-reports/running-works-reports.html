@@ -84,17 +84,11 @@
               <tr *ngIf="filteredRunningWorkSummaryValue.length > 0" style="background-color: rgb(254, 240, 255);"
                 class="fw-bold">
                 <td class="text-start">Total</td>
-                <td [class.clickable-cell]="getTotals().medicollege > 0"
-                  (click)="getTotals().medicollege > 0 && fetchDetails(0, 'Y', 'N', getTotals().medicollege, 'Medical College (Total)', 'All Divisions')">
-                  {{getTotals().medicollege}}</td>
+                <td>{{getTotals().medicollege}}</td>
                 <td>{{getTotals().medicollegeworkvalue?.toFixed(2)}}</td>
-                <td [class.clickable-cell]="getTotals().nosabove90 > 0"
-                  (click)="getTotals().nosabove90 > 0 && fetchDetails(0, 'N', 'Y', getTotals().nosabove90, '90 लाख से ऊपर (Total)', 'All Divisions')">
-                  {{getTotals().nosabove90}}</td>
+                <td>{{getTotals().nosabove90}}</td>
                 <td>{{getTotals().above90Valuecr?.toFixed(2)}}</td>
-                <td [class.clickable-cell]="getTotals().below90 > 0"
-                  (click)="getTotals().below90 > 0 && fetchDetails(0, 'NA', 'NA', getTotals().below90, '90 लाख से नीचे (Total)', 'All Divisions')">
-                  {{getTotals().below90}}</td>
+                <td>{{getTotals().below90}}</td>
                 <td>{{getTotals().below90valuecr?.toFixed(2)}}</td>
                 <td class="cell-blue-text">{{getTotals().totalNos}}</td>
                 <td class="cell-blue-text">{{getTotals().totalValue?.toFixed(2)}}</td>

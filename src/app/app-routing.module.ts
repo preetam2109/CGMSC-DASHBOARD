@@ -181,6 +181,10 @@ import { FinalResultAwaitingafterEmpaneledLabResult } from './component/ORACLE-D
 import { CgmscQcPendingStatus } from './component/ORACLE-DASHBOARD/QC/cgmsc-qc-pending-status/cgmsc-qc-pending-status';
 import { QcPerformance } from './component/ORACLE-DASHBOARD/QC/qc-performance/qc-performance';
 import { QCSampleStageMonitoring } from './component/ORACLE-DASHBOARD/QC/qcsample-stage-monitoring/qcsample-stage-monitoring';
+import { QcBatchesReportSummary } from './component/ORACLE-DASHBOARD/qc-batches-report-summary/qc-batches-report-summary';
+import { WhHoQcSampleTransitCourierPendingHo } from './component/ORACLE-DASHBOARD/wh-ho-qc-sample-transit-courier-pending-ho/wh-ho-qc-sample-transit-courier-pending-ho';
+import { WhHoQcSampleTransitCourierLab } from './component/ORACLE-DASHBOARD/wh-ho-qc-sample-transit-courier-lab/wh-ho-qc-sample-transit-courier-lab';
+import { BatchDecisionPendingZeroQtyReceipts } from './component/ORACLE-DASHBOARD/batch-decision-pending-zero-qty-receipts/batch-decision-pending-zero-qty-receipts';
 import { POFileStatusInsightsTechnical } from './component/TECHNICAL/pofile-status-insights-technical/pofile-status-insights-technical';
 import { DHSFacilityStock } from './component/DHS-Components/dhsfacility-stock/dhsfacility-stock';
 import { StockOuAndStockAvailabilityInWarehouse } from './component/ORACLE-DASHBOARD/stock-ou-and-stock-availability-in-warehouse/stock-ou-and-stock-availability-in-warehouse';
@@ -467,6 +471,10 @@ const routes: Routes = [
   { path: 'cgmsc-qc-pending-status', component: CgmscQcPendingStatus, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'qc-performance', component: QcPerformance, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'qcsample-stage-monitoring', component: QCSampleStageMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'qc-batches-report-summary', component: QcBatchesReportSummary, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'wh-ho-qc-sample-transit-courier-pending-ho', component: WhHoQcSampleTransitCourierPendingHo, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'wh-ho-qc-sample-transit-courier-lab', component: WhHoQcSampleTransitCourierLab, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'batch-decision-pending-zero-qty-receipts', component: BatchDecisionPendingZeroQtyReceipts, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'FitUnFitinfra', component: FitUnFitInfrastructure, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'PaidBills', component: PaidBillinfra, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
 
