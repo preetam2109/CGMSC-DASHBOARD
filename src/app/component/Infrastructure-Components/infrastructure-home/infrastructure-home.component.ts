@@ -1,5 +1,5 @@
 import { CommonModule, NgFor, NgStyle, Location } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +26,10 @@ import autoTable from 'jspdf-autotable';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatMenuModule } from '@angular/material/menu';
 import { InsertUserPageViewLogmodal } from 'src/app/Model/DashLoginDDL';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { DropdownModule } from 'primeng/dropdown';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -40,10 +44,6 @@ export type ChartOptions = {
   fill: ApexFill;
   legend: ApexLegend;
 };
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
-import { SelectDropDownModule } from 'ngx-select-dropdown';
-import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-infrastructure-home',
@@ -58,21 +58,20 @@ import { DropdownModule } from 'primeng/dropdown';
     NgApexchartsModule, MatSortModule, MatPaginatorModule, MatTableModule,
     MatTableExporterModule, MatDialogModule, MatMenuModule, NgSelectModule, FormsModule, SelectDropDownModule, DropdownModule,
   ],
-
   templateUrl: './infrastructure-home.component.html',
   styleUrl: './infrastructure-home.component.css'
 })
-export class InfrastructureHomeComponent {
+export class InfrastructureHomeComponent implements OnInit {
   mainscheme: MainScheme[] = [];
   districtData: DashProgressCount[] = [];
   DMEprogresssummary: DMEProgressSummary[] = [];
   DistrictNameDMEData: DistrictNameDME[] = [];
-  originalData: DashProgressCount[] = []; 
+  originalData: DashProgressCount[] = [];
   GetDistrict: GetDistrict[] = [];
   totalNosWorks: number = 0;
   selectedTabIndex: number = 0;
   distid: any = 0;
- 
+
   divisionid: any = 0;
   mainSchemeID = 0;
   id: any;
@@ -82,18 +81,17 @@ export class InfrastructureHomeComponent {
   isall: boolean = true;
   show: boolean = false;
   hide: boolean = false;
-  public showCards: boolean = true; // Control card visibility
-  public showDivision: boolean = true; // Control card visibility
-  public showDistrict: boolean = true; // Control card visibility
+  public showCards: boolean = true;
+  public showDivision: boolean = true;
+  public showDistrict: boolean = true;
   distname: any;
-formdate:any;
-todate:any;
+  formdate: any;
+  todate: any;
 
-  public showCardss: boolean = false; // Control card visibility
+  public showCardss: boolean = false;
   cardOrder: string[] = [
     "Completed/Handover",
     "Running Work",
-    // "Acceptance/Work Order",
     "Acceptance/Work Order Generated",
     "Land Not Alloted/Land Dispute",
     "Tender in Process",
@@ -115,7 +113,6 @@ todate:any;
     { buid: 4, label: 'Below 20 Lacs', value: 'below_20_lacs' },
   ];
 
-  //#region DataBase Table
   dataSource!: MatTableDataSource<WORunningHandDetails>;
   dataSourceCom_Han!: MatTableDataSource<WORunningHandDetails>;
   dataSourceRun_Work!: MatTableDataSource<WORunningHandDetails>;
@@ -124,7 +121,7 @@ todate:any;
   dataSource2!: MatTableDataSource<DetailProgressTinP>;
   dataSource3!: MatTableDataSource<TenderInProcess>;
   dataSource4!: MatTableDataSource<TotalWorksAbstract>;
-  // dataSourceDivision!: MatTableDataSource<DivisionWiseASPendingDetails>;
+
   @ViewChild('openimages') openimages: any;
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
@@ -150,6 +147,7 @@ todate:any;
   @ViewChild('sortRun_Work') sortRun_Work!: MatSort;
   @ViewChild('sortLand_isu') sortLand_isu!: MatSort;
   @ViewChild('sortTW') sortTW!: MatSort;
+
   dispatchData: WORunningHandDetails[] = [];
   dispatchDataCom_Han: WORunningHandDetails[] = [];
   dispatchDataRun_Work: WORunningHandDetails[] = [];
@@ -158,16 +156,12 @@ todate:any;
   dispatchData2: DetailProgressTinP[] = [];
   dispatchData3: TenderInProcess[] = [];
   dispatchData4: TotalWorksAbstract[] = [];
-  // ASFileData: ASFile[] = [];
   ASFileData: ASFile[] = [];
   InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
-  //#endregion
-  // ChartOptions
+
   @ViewChild('chart') chart: ChartComponent | undefined;
   public cO: Partial<ChartOptions> | undefined;
-  // chartOptions: ChartOptions;
   whidMap: { [key: string]: number } = {};
-  DMEProgressSummary: DMEProgressSummary[] = [];
   chartOptions!: ChartOptions;
   selectedName: any;
   himisDistrictid: any;
@@ -177,10 +171,33 @@ todate:any;
   dashname: any;
   nosworks: any;
   ASAmount = 0;
-  // ASAmount = 1;
   pageName: string = '';
   fullUrl: string = '';
-  constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef, private dialog: MatDialog, private location: Location,) {
+
+  completedWorks: number = 0;
+  returnWorks: number = 0;
+  remainingWorks: number = 0;
+  tenderInProcess: number = 0;
+  acceptanceGenerated: number = 0;
+  workOrderGenerated: number = 0;
+  landDispute: number = 0;
+  runningWork: number = 0;
+  toBeTender: number = 0;
+  appliedZonal: number = 0;
+  zonalPermission: number = 0;
+  cancellation: number = 0;
+
+  readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+  selectedWork: any;
+  imageUrls: string[] = [];
+
+  constructor(
+    public api: ApiService,
+    public spinner: NgxSpinnerService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private location: Location
+  ) {
     this.pageName = this.location.path();
     this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
@@ -205,145 +222,79 @@ todate:any;
       this.showDistrict = false;
       this.showDivision = false;
       this.loadInitialData();
-
     } else {
       this.himisDistrictid = 0;
       this.divisionid = 0;
       this.loadInitialData();
-
     }
     this.GetDistricts();
     this.getDistrictNameDME();
     this.getmain_scheme();
     this.InsertUserPageViewLog();
   }
-  //#region 
+
   loadInitialData() {
-    // debugger;
-this.formdate;
-this.todate;
-
+    // debugger
     this.spinner.show();
+    var formdate = this.formdate ? this.formdate : 0;
+    var todate = this.todate ? this.todate : 0;
 
-var formdate = this.formdate ? this.formdate : 0;
-var todate = this.todate ? this.todate : 0;
-// console.log('form=',formdate)
-// console.log('todate=',todate)
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-    console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
+    
     var mainSchemeId = 0;
     var ASID = 0;
     var GrantID = 0;
-    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount,formdate,todate).subscribe(
+
+    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount, formdate, todate).subscribe(
       (res: any) => {
-        // console.log("res=",JSON.stringify(res));
-        this.originalData = this.sortDistrictData(res); // Save as original data
-        this.districtData = [...this.originalData]; // Set for display
+        this.originalData = this.sortDistrictData(res);
+        this.districtData = [...this.originalData];
         this.calculateTotalNosWorks();
         this.bindDashboardData();
         this.spinner.hide();
       },
       (error) => {
-           this.spinner.hide();
+        this.spinner.hide();
         console.error('API Error:', error);
-        // alert(`API Error: ${JSON.stringify(error)}`);
       }
     );
   }
 
   selectedTabValue(event: any): void {
+    // debugger
     this.selectedTabIndex = event.index;
     if (this.selectedTabIndex === 0) {
-      // Restore original data for "Total Works"
       this.districtData = [...this.originalData];
+      this.divisionid=0;
+      this.himisDistrictid=0;
+      this.ASAmount=0,
       this.loadInitialData();
+
       this.showCards = true;
     } else {
       this.showCards = false;
     }
   }
-  // District-wise Tab 
-  // GetDistricts() {
-  //   try {
-  //     var roleName  = localStorage.getItem('roleName');
-  // if(roleName == 'Division'){
-  //   this.divisionid = sessionStorage.getItem('divisionID');
-  // } else {
-  //   this.divisionid =0;
-  // }
-  // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  //     this.api.GetDistrict(false,this.divisionid).subscribe(
-  //       (res: any) => {
-  //         this.GetDistrict = res;
-  //         console.log('GetDistrict=', this.GetDistrict);
 
-  //       },
-  //       (error) => {
-  //         alert(JSON.stringify(error));
-  //       }
-  //     );
-  //   } catch (ex: any) {
-  //     alert(ex.message);
-  //   }
-  // }
-  // getDistrictNameDME() {
-  //   try {
-  //     // showCardss
-  // var roleName = localStorage.getItem('roleName');
-  // if (roleName == 'Division') {
-  //   this.divisionid = sessionStorage.getItem('divisionID');this.himisDistrictid=0;
-  // } else if (roleName == 'Collector') {
-  //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
-  // } else{
-  //   this.himisDistrictid=0;
-  //   this.divisionid =0;
-  // }
-  // // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  // console.log('divisionid1=', this.divisionid, 'himisDistrictid1=', this.himisDistrictid);
-
-  //     this.api.GetDistrictNameDME(this.divisionid,this.himisDistrictid).subscribe(
-  //       (res: any) => {
-  //         this.DistrictNameDMEData = res;
-  //         console.log('DistrictNameDME1=', this.DistrictNameDMEData);
-  //       },
-  //       (error) => {
-  //         alert(JSON.stringify(error));
-  //       }
-  //     );
-  //   } catch (ex: any) {
-  //     alert(ex.message);
-  //   }
-  // }
   DashProgressCount() {
     try {
       this.spinner.show();
-
       var roleName = localStorage.getItem('roleName');
       if (roleName == 'Division') {
         this.divisionid = sessionStorage.getItem('divisionID');
         this.showDivision = false;
-        // if(this.divid != 0){
-        //   this.divisionid  = this.divid ;
-        //   alert(this.divisionid );
-        // }
-        // alert( this.divisionid )
-        // return
       } else if (roleName == 'Collector') {
         this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
-        // this.himisDistrictid = this.distid;
         if (this.distid != 0) {
           this.himisDistrictid = this.distid;
-          // alert(this.himisDistrictid);
         }
       }
+      
       if (this.selectedTabIndex === 1) {
         this.himisDistrictid = 0;
       }
-      // else{
-      //   this.himisDistrictid =0;
-      // }
-      // this.distid = this.distid == 0 ? 0 : this.distid;
+      
       var ASID = 0;
       var GrantID = 0;
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
@@ -351,133 +302,49 @@ var todate = this.todate ? this.todate : 0;
       this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
 
       var formdate = this.formdate ? this.formdate : 0;
-var todate = this.todate ? this.todate : 0;
-      // console.error('dist id:', this.himisDistrictid  );
-      // console.error('mainSchemeID:', this.mainSchemeID);
-      console.log('2 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-      // divisionId: any, mainSchemeId: number, distid: number,ASID:any,ASAmount:any
-      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid, ASID, GrantID, this.ASAmount,formdate,todate).subscribe(
+      var todate = this.todate ? this.todate : 0;
+
+      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid, ASID, GrantID, this.ASAmount, formdate, todate).subscribe(
         (res: any) => {
           if (this.selectedTabIndex === 0) {
-            // Do not overwrite the original data for "Total Works"
             this.districtData = [...this.originalData];
             if (this.mainSchemeID !== 0) {
-              // alert("scheme ");
               this.districtData = this.sortDistrictData(res);
-               
-              // console.log(' on bug reotalwork1=', JSON.stringify(this.districtData));
-
-            }
-            //  else if (){
-
-            // }
-
-            else {
-              // alert("ather ");
+            } else {
               this.districtData = this.sortDistrictData(res);
-              
-              // this.districtData = [...this.originalData];
-
-              // console.log(' on bug reotalwork2=', JSON.stringify(this.districtData));
             }
           } else {
             this.districtData = res;
-            // console.log('re1=', JSON.stringify(this.districtData));
             this.districtData = this.sortDistrictData(res);
-           
-            // console.log('re2=', JSON.stringify(this.districtData));
           }
-          // console.log('new on bug reotalwork3=', this.districtData);
 
           this.calculateTotalNosWorks();
-             this.bindDashboardData();
+          this.bindDashboardData();
           this.spinner.hide();
-
         },
         (error) => {
-             this.spinner.hide();
+          this.spinner.hide();
           console.error('API Error:', error);
-          // alert(`API Error:: ${JSON.stringify(error)}`);
         }
       );
     } catch (ex: any) {
-      // alert(`Exception:: ${JSON.stringify(ex.message)}`);
       console.error('Exception:', ex.message);
     }
   }
+
   onButtonClick(name: string, id: any): void {
     this.showCards = true;
-    // this.hide=false;
     this.divid = id;
     this.show = true;
     this.divisionid = id;
     this.distid = 0;
-    this.mainSchemeID = this.mainSchemeID;
     this.name = name;
     this.selectedDistrict = id;
-    if (this.selectedName == null) {
-      this.hide = false;
-    } else {
-      this.hide = true;
-    }
+    this.hide = this.selectedName != null;
     this.DashProgressCount();
-    // console.error('onButtonClick',this.divisionid);
-
   }
-  // onGetDistrictsSelect(districT_ID: any,distname:any): void {
-  //   // Make cards visible on district selection
-  //   this.distname=distname;
-  //   this.showCards = true;
-  //   this.distid = districT_ID;
-  //   this.himisDistrictid = districT_ID;
-  //   // this.mainSchemeID = 0;
-  //   this.mainSchemeID = this.mainSchemeID;
-  //   this.divisionid = 0;
-  //   this.show=true;
-  //   if(this.selectedName==null){
-  //     this.hide=false;
-  //   }else{
-  //     this.hide=true;
-  //   }
-  //   this.DashProgressCount();
-
-  //   // console.error('onGetDistrictsSelect', this.distid  );
-  //   if (this.selectedTabIndex === 3) {
-  //     this.showCards = false;
-  //     // this.GetDMEProgressSummary();
-  //     this.DashProgressCount();
-
-  //   }
-
-
-
-  // }
-  // onselectDistrictsDME(districT_ID: any,distname:any){
-  //   var roleName = localStorage.getItem('roleName');
-  //   if (roleName == 'Division') {
-  //     // this.divisionid = sessionStorage.getItem('divisionID');
-  //     if (this.selectedTabIndex === 2) {
-  //       this.distid = districT_ID;
-  //       // this.himisDistrictid = districT_ID;
-  //       this.showCards = false;
-  //       this.showCardss=true;
-  //       this.GetDMEProgressSummary();
-  //       // this.DashProgressCount();
-
-  //     }
-  //   } 
-  //   // else if (roleName == 'Collector') {
-  //   //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
-  //   // } 
-  //   else{
-  //     this.distid = districT_ID;
-  //     this.GetDMEProgressSummary();
-  //     this.showCardss=true;
-  //   }
-  // }
 
   sortDistrictData(data: DashProgressCount[]): DashProgressCount[] {
-
     return data.sort((a, b) =>
       this.cardOrder.indexOf(a.dashname || '') - this.cardOrder.indexOf(b.dashname || '')
     );
@@ -489,153 +356,54 @@ var todate = this.todate ? this.todate : 0;
       0
     );
   }
+
   getCardColor(did: any) {
-    if (did == 1001) {
-      return '#FFC0CB';
-    } else if (did == 2001) {
-      return '#faf557';
-      // return '#ADFF2F';
-      // return '#FF9800'; 
-    } else if (did == 3001) {
-      // return '#ADD8E6';
-      return '#FF8C00';
-    }
-    else if (did == 4001) {
-      return '#62f562';
-      // return '#008000';
-    }
-    else if (did == 5001) {
-      return '#e7fa57';//#4CAF50
-      // return '#90EE90';//#4CAF50
-    }
-    else if (did == 6001) {
-      return '#fa5795';
-      // return '#FF0000';
-    }
-    else if (did == 7001) {
-      return '#FFA500';
-    }
-    else if (did == 8001) {
-      return '#9E9E9E';
-    } else {
-      return '#9E9E9E';
-    }
+    if (did == 1001) return '#FFC0CB';
+    else if (did == 2001) return '#faf557';
+    else if (did == 3001) return '#FF8C00';
+    else if (did == 4001) return '#62f562';
+    else if (did == 5001) return '#e7fa57';
+    else if (did == 6001) return '#fa5795';
+    else if (did == 7001) return '#FFA500';
+    else if (did == 8001) return '#9E9E9E';
+    else return '#9E9E9E';
   }
 
   getIcon(did: any) {
     switch (did) {
-      case 1001:
-        return 'notifications_active'; // Icon for "To be Tender"
-      case 2001:
-        return 'gavel'; // Icon for "To be Tender"
-      // return 'hourglass_empty'; // Icon for "Tender in Process"
-      case 3001:
-        return 'import_contacts'; // Icon for "Acceptance/Work Order"
-      // return 'check_circle'; // Icon for "Acceptance/Work Order"
-      case 4001:
-        return 'playlist_add_check'; // Icon for "Completed/Handover"
-      // return 'done_all'; // Icon for "Completed/Handover"
-      case 5001:
-        return 'trending_up'; // Icon for "Running Work"
-      // return 'build'; // Icon for "Running Work"
-      case 6001:
-        return 'error'; // Icon for "Land Not Allotted/Land Dispute"
-      case 8001:
-        return 'delete_forever'; // Icon for "Return to Department"
-      // return 'reply'; // Icon for "Return to Department"
-      default:
-        return 'help'; // Default icon
+      case 1001: return 'notifications_active';
+      case 2001: return 'gavel';
+      case 3001: return 'import_contacts';
+      case 4001: return 'playlist_add_check';
+      case 5001: return 'trending_up';
+      case 6001: return 'error';
+      case 8001: return 'delete_forever';
+      default: return 'help';
     }
   }
+
   GetDMEProgressSummary() {
     this.spinner.show();
     this.showCards = false;
     this.showCardss = true;
     this.chartOptions = {
       series: [],
-      chart: {
-        type: 'bar',
-        stacked: true,
-        height: 'auto',
-        // height: 400,
-        // width:600,
-        events: {
-          dataPointSelection: (
-            event,
-            chartContext,
-            { dataPointIndex, seriesIndex }
-          ) => {
-            const selectedCategory =
-              this.chartOptions?.xaxis?.categories?.[dataPointIndex];
-            const selectedSeries = this.chartOptions?.series?.[seriesIndex]?.name;
-
-            if (selectedCategory && selectedSeries) {
-              const whid = this.whidMap[selectedCategory];
-              if (whid) {
-                // this.fetchDataBasedOnChartSelection();
-              }
-            }
-          },
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-        },
-      },
-      xaxis: {
-        categories: [],
-      },
-      yaxis: {
-        title: {
-          text: undefined,
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          // colors: ['#FF0000']
-          colors: ['#000']
-        }
-      },
-      stroke: {
-        width: 1,
-        // colors: ['#000'],
-        colors: ['#fff'],
-      },
-      title: {
-        text: 'MedicalCollege Wise work Progress',
-        align: 'center',
-        style: {
-          fontSize: '12px',
-          // color: '#000'
-          color: '#6e0d25'
-        },
-      },
-      tooltip: {
-        y: {
-          formatter: function (val: any) {
-            return val.toString();
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'center',
-        offsetX: 40,
-      },
+      chart: { type: 'bar', stacked: true, height: 'auto', events: {} },
+      plotOptions: { bar: { horizontal: true } },
+      xaxis: { categories: [] },
+      yaxis: { title: { text: undefined } },
+      dataLabels: { enabled: true, style: { colors: ['#000'] } },
+      stroke: { width: 1, colors: ['#fff'] },
+      title: { text: 'MedicalCollege Wise work Progress', align: 'center', style: { fontSize: '12px', color: '#6e0d25' } },
+      tooltip: { y: { formatter: function (val: any) { return val.toString(); } } },
+      fill: { opacity: 1 },
+      legend: { position: 'top', horizontalAlign: 'center', offsetX: 40 },
     };
     this.loadData();
-    // this.dataSource = new MatTableDataSource<DMEProgressSummary>([]);
     this.spinner.hide();
-
   }
 
   loadData(): void {
-    // console.log("this.distid=", this.distid)
     var roleName = localStorage.getItem('roleName');
     if (roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
@@ -643,17 +411,14 @@ var todate = this.todate ? this.todate : 0;
       const Districtid = sessionStorage.getItem('himisDistrictid');
       this.distid = Districtid;
     } else {
-      this.distid
       this.divisionid = 0;
       this.mainSchemeID = 0;
     }
-    // ?divisionId=0&mainSchemeId=0&distid=0&dashID=0
-    this.spinner.show();
 
+    this.spinner.show();
     this.api.DMEProgressSummary(this.divisionid, this.mainSchemeID, this.distid, 0).subscribe(
       (data: any) => {
         this.DMEprogresssummary = data;
-        const hc_id: string[] = [];
         const districtname: string[] = [];
         const accWorkOrder3001: number[] = [];
         const completed4001: number[] = [];
@@ -663,12 +428,9 @@ var todate = this.todate ? this.todate : 0;
         const toBeTender1001: number[] = [];
         const retunDept8001: number[] = [];
         const total: number[] = [];
-        this.whidMap = {}; // Initialize the mmidMap
-        // console.log('API Response:', data);
-        data.forEach((item: {
-          districtname: string; completed4001: any; tenderProcess2001: number; running5001: number;
-          landIssue6001: number; district_ID: number; retunDept8001: number; total: number; accWorkOrder3001: number; toBeTender1001: number
-        }) => {
+        this.whidMap = {};
+
+        data.forEach((item: any) => {
           districtname.push(item.districtname);
           accWorkOrder3001.push(item.accWorkOrder3001);
           completed4001.push(item.completed4001);
@@ -679,68 +441,19 @@ var todate = this.todate ? this.todate : 0;
           toBeTender1001.push(item.toBeTender1001);
           total.push(item.total);
 
-          // console.log('districtname:', item.districtname, 'whid:', item.district_ID);
           if (item.districtname && item.district_ID) {
             this.whidMap[item.districtname] = item.district_ID;
-          } else {
-            console.warn('Missing id :', item.districtname);
           }
-
-
         });
 
-        // console.log('whidMap:', this.whidMap); // Log the populated mmidMap
-
         this.chartOptions.series = [
-
-          {
-            name: 'Total Works',
-            data: total,
-            color: '#0000FF'
-          }
-          ,
-          {
-            name: 'Completed/Handover',
-            data: completed4001,
-            color: 'rgb(0, 128, 0)'
-            // color: '#eeba0b'
-          },
-          {
-            name: 'Running Work',
-            data: running5001,
-            color: 'rgb(144, 238, 144)'
-            // color: '#90EE90'
-          },
-          {
-            name: 'Acceptance/Work Order',
-            data: accWorkOrder3001,
-            color: 'rgb(173, 216, 230)'
-            // color: '#008000'
-          },
-          {
-            name: 'land Issue',
-            data: landIssue6001,
-            color: 'rgb(255, 0, 0)'
-            // color: '#FF0000'
-          },
-          {
-            name: 'Tender in Process',
-            data: tenderProcess2001,
-            color: 'rgb(255, 140, 0)'
-            // color: '#ADD8E6'
-          },
-          {
-            name: 'To be Tender',
-            data: toBeTender1001,
-            color: 'rgb(255, 192, 203)'
-            // color: '#FFC0CB'
-            // color: '#00b4d8'
-          },
-          // {
-          //   name: 'retunDept',
-          //   data: retunDept8001,
-          //   color: 'rgb(158, 158, 158)'
-          // },
+          { name: 'Total Works', data: total, color: '#0000FF' },
+          { name: 'Completed/Handover', data: completed4001, color: 'rgb(0, 128, 0)' },
+          { name: 'Running Work', data: running5001, color: 'rgb(144, 238, 144)' },
+          { name: 'Acceptance/Work Order', data: accWorkOrder3001, color: 'rgb(173, 216, 230)' },
+          { name: 'land Issue', data: landIssue6001, color: 'rgb(255, 0, 0)' },
+          { name: 'Tender in Process', data: tenderProcess2001, color: 'rgb(255, 140, 0)' },
+          { name: 'To be Tender', data: toBeTender1001, color: 'rgb(255, 192, 203)' }
         ];
 
         this.chartOptions.xaxis = { categories: districtname };
@@ -749,179 +462,13 @@ var todate = this.todate ? this.todate : 0;
         this.spinner.hide();
       },
       (error: any) => {
-           this.spinner.hide();
+        this.spinner.hide();
         console.error('Error fetching data', error);
-        // alert(`API Error:: ${JSON.stringify(error)}`);
       }
     );
   }
 
-  // getmain_scheme() {
-  //   try {
-  //     this.api.getMainScheme(this.isall).subscribe(
-  //       (res: any) => {
-  //         this.mainscheme = res;
-  //       },
-
-
-
-  //       (error) => {
-  //         alert(JSON.stringify(error));
-  //       }
-  //     );
-
-
-  //   } catch (ex: any) {
-  //     alert(ex.message);
-  //   }
-  // }
-  // onselect_mainscheme_data(mainSchemeID: any,selectedName: string) {
-  //   // this.showCards = true;
-  //   // alert(mainSchemeID);
-  //   // console.log('Selected ID:', mainSchemeID);
-  //   // console.log('Selected Name:', selectedName);
-  // //  this.show=false;
-  //  this.hide=true;
-  //  this.selectedName=selectedName
-  //   this.mainSchemeID = mainSchemeID;
-  //   // this.divisionid = 0;
-  //   this.distid = 0;
-  //   this.showCards = true;
-  //   if(this.name||this.distname ==null){
-  //     this.show=false;
-  //   }else{
-  //     this.show=true;
-  //   }
-  //   this.DashProgressCount();
-
-  //   // alert(this.mainSchemeID);
-
-  // }
-  //#endregion
-
-
-
-  //#region Data table GETTobeTenderAll
-  //   DetailProgress2(did:any): void {
-  //     // console.log( divisionId , mainSchemeId )
-  //     alert(did);
-  //   this.spinner.show();
-  //   // var did=3001;
-
-  //   var roleName = localStorage.getItem('roleName');
-  //   if (roleName == 'Division') {
-  //     this.divisionid = sessionStorage.getItem('divisionID');
-  //     this.showDivision = false;
-  //     // if(this.divid != 0){
-  //     //   this.divisionid  = this.divid ;
-  //     //   alert(this.divisionid );
-  //     // }
-  //     // alert( this.divisionid )
-  //     // return
-  //   } else if (roleName == 'Collector') {
-  //     this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
-  //     // this.himisDistrictid = this.distid;
-  //     if(this.distid!=0){
-  //       this.himisDistrictid = this.distid;
-  //       // alert(this.himisDistrictid);
-  //     }
-  //   }
-  //   // 
-  //   // this.distid = this.distid == 0 ? 0 : this.distid;
-  //   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  //   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
-  //   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-  //   console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-  //   const divisionid=0; 
-  //   const districtid=0;
-  //   const mainschemeid=0
-  //   this.api.GETTobeTenderAll(did,divisionid,districtid,mainschemeid)
-  //     .subscribe(
-  //       (res) => {
-  //         this.dispatchData2 = res.map(
-  //           (item: DetailProgressTinP, index: number) => ({
-  //             ...item,
-  //             sno: index + 1,
-  //           })
-  //         );
-  //         console.log('dispatchData2=:', this.dispatchData2);
-  //         this.dataSource2.data = this.dispatchData2;
-  //         this.dataSource2.paginator = this.paginator2;
-  //         this.dataSource2.sort = this.sort2;
-  //         this.cdr.detectChanges();
-  //         this.spinner.hide();
-  //       },
-  //       (error) => {
-  //         this.spinner.hide();
-  //         alert(`Error fetching data: ${error.message}`);
-  //       }
-  //     );
-  //   this.openDialog2();
-  //  }
-  //   DetailProgress1(did:any): void {
-  //     // console.log( divisionId , mainSchemeId )
-  //     // alert(did);
-  //   this.spinner.show();
-  //   // var did=3001;
-
-  //   var roleName = localStorage.getItem('roleName');
-  //   if (roleName == 'Division') {
-  //     this.divisionid = sessionStorage.getItem('divisionID');
-  //     this.showDivision = false;
-  //     // if(this.divid != 0){
-  //     //   this.divisionid  = this.divid ;
-  //     //   alert(this.divisionid );
-  //     // }
-  //     // alert( this.divisionid )
-  //     // return
-  //   } else if (roleName == 'Collector') {
-  //     this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
-  //     // this.himisDistrictid = this.distid;
-  //     if(this.distid!=0){
-  //       this.himisDistrictid = this.distid;
-  //       // alert(this.himisDistrictid);
-  //     }
-  //   }
-  //   // 
-  //   // this.distid = this.distid == 0 ? 0 : this.distid;
-  //   this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  //   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
-  //   this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-  //   console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-  //   const divisionid=0; 
-  //   const districtid=0;
-  //   const mainschemeid=0
-  //   this.api.GETLandIssueRetToDeptDetatails(did,divisionid,districtid,mainschemeid)
-  //     .subscribe(
-  //       (res) => {
-  //         this.dispatchData1 = res.map(
-  //           (item: LandIssue_RetToDeptDetatails, index: number) => ({
-  //             ...item,
-  //             sno: index + 1,
-  //           })
-  //         );
-  //         console.log('dispatchData1=:', this.dispatchData1);
-  //         this.dataSource1.data = this.dispatchData1;
-  //         this.dataSource1.paginator = this.paginator1;
-  //         this.dataSource1.sort = this.sort1;
-  //         this.cdr.detectChanges();
-  //         this.spinner.hide();
-  //       },
-  //       (error) => {
-  //         this.spinner.hide();
-  //         alert(`Error fetching data: ${error.message}`);
-  //       }
-  //     );
-  //   this.openDialog1();
-  //  }
-
-
-  //  GET_TotalWorksAbstract(divisionId: any, mainSchemeId: any, distid: any, contractorid: any) {
-  //     return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${distid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}`);
-  //   //  https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=147&contractorid=0
-  //   }
   TotalWorksAbstract() {
-    // ;
     this.spinner.show();
     this.roleName = localStorage.getItem('roleName');
     if (this.roleName == 'Division') {
@@ -931,28 +478,23 @@ var todate = this.todate ? this.todate : 0;
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       if (this.distid != 0) {
         this.himisDistrictid = this.distid;
-        // this.himisDistrictid = this.distid;
       }
     }
-    // this.distid = this.distid == 0 ? 0 : this.distid;
     const contractorid = 0;
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-    // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-    // ?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1
-          var formdate = this.formdate ? this.formdate : 0;
-var todate = this.todate ? this.todate : 0;
-    this.api.GET_TotalWorksAbstract(this.divisionid, this.himisDistrictid, this.mainSchemeID, contractorid, this.ASAmount,formdate,todate)
+    
+    var formdate = this.formdate ? this.formdate : 0;
+    var todate = this.todate ? this.todate : 0;
+
+    this.api.GET_TotalWorksAbstract(this.divisionid, this.himisDistrictid, this.mainSchemeID, contractorid, this.ASAmount, formdate, todate)
       .subscribe(
         (res) => {
-          this.dispatchData4 = res.map(
-            (item: TotalWorksAbstract, index: number) => ({
-              ...item,
-              sno: index + 1,
-            })
-          );
-          // console.log('TotalWorksAbstract 1=:', this.dispatchData4);
+          this.dispatchData4 = res.map((item: TotalWorksAbstract, index: number) => ({
+            ...item,
+            sno: index + 1,
+          }));
           this.dataSource4.data = this.dispatchData4;
           this.dataSource4.paginator = this.paginatorTW;
           this.dataSource4.sort = this.sortTW;
@@ -961,22 +503,18 @@ var todate = this.todate ? this.todate : 0;
         },
         (error) => {
           this.spinner.hide();
-          // alert(`Error fetching data: ${error.message}`);
-          alert(`API Error:: ${JSON.stringify(error.message)}`);
+          console.error(`API Error:: ${error.message}`);
         }
       );
     this.openDialogTW();
-
   }
 
   DetailProgress(did: any, dashname: any, nosworks: any): void {
-    // 
-// debugger
-    
     this.dashname = dashname;
     this.nosworks = nosworks;
     this.spinner.show();
     this.roleName = localStorage.getItem('roleName');
+
     if (this.roleName == 'Division') {
       this.divisionid = sessionStorage.getItem('divisionID');
       this.showDivision = false;
@@ -984,39 +522,22 @@ var todate = this.todate ? this.todate : 0;
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       if (this.distid != 0) {
         this.himisDistrictid = this.distid;
-        // this.himisDistrictid = this.distid;
       }
     }
+
     let formdate = this.formdate || 0;
-let todate = this.todate || 0;
-
-
-// did=6002 & isbelow20='NA'
-    // this.distid = this.distid == 0 ? 0 : this.distid;
-//       var formdate = this.formdate ? this.formdate : 0;
-//       var todate = this.todate ? this.todate : 0;
-// var isbelow20='Y';
+    let todate = this.todate || 0;
 
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-    // Icon for "To be Tender"
-    console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID,'ASAmount=',this.ASAmount);
+
     if (did == 1001) {
       let isbelow20 = "N";
-      // let isbelow20 = "'Y'";
-      // console.log('did =: ',did);
-      // console.log('1001 =: ',did);
-      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
+      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchData2 = res.map(
-              (item: DetailProgressTinP, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            // console.log('tobe tender data all=:', this.dispatchData2);
+            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -1025,28 +546,16 @@ let todate = this.todate || 0;
           },
           (error) => {
             this.spinner.hide();
-            // alert(`Error fetching data: ${error.message}`);
-            console.log(`API Error:: ${JSON.stringify(error.message)}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialog2();
-
-      // return 
-    }
-    else if(did==3003){
+    } else if (did == 3003) {
       let isbelow20 = "NA";
-// console.log('did =: ',did);
-// console.log('1001 =: ',did);
-      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
+      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchData2 = res.map(
-              (item: DetailProgressTinP, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            // console.log('DetailProgressTinP 3003=:', this.dispatchData2);
+            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -1055,27 +564,16 @@ let todate = this.todate || 0;
           },
           (error) => {
             this.spinner.hide();
-            // alert(`Error fetching data: ${error.message}`);
-            console.log(`API Error:: ${JSON.stringify(error.message)}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialog2();
-
-    }
-    else if(did==1002){
-        let isbelow20 = "Y";
-        //  let isbelow20 = "'NA'";
-// console.log('1001 =: ',did);
-      this.api.GETTobeTenderAll(1001, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
+    } else if (did == 1002) {
+      let isbelow20 = "Y";
+      this.api.GETTobeTenderAll(1001, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchData2 = res.map(
-              (item: DetailProgressTinP, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            // console.log('DetailProgressTinP=:', this.dispatchData2);
+            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -1084,27 +582,16 @@ let todate = this.todate || 0;
           },
           (error) => {
             this.spinner.hide();
-            // alert(`Error fetching data: ${error.message}`);
-            console.log(`API Error:: ${JSON.stringify(error.message)}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialog2();
-
-    }
-    else if(did==6002){
-console.log('did =: ',did);
-  //  let isbelow20 = "N";
-   let isbelow20 = "NA";
-      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,isbelow20,formdate,todate)
+    } else if (did == 6002) {
+      let isbelow20 = "NA";
+      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchData2 = res.map(
-              (item: DetailProgressTinP, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            // console.log('DetailProgressTinP=:', this.dispatchData2);
+            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -1113,27 +600,15 @@ console.log('did =: ',did);
           },
           (error) => {
             this.spinner.hide();
-            // alert(`Error fetching data: ${error.message}`);
-            console.log(`API Error:: ${JSON.stringify(error.message)}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialog2();
-
-    }
-    // Icon for "Tender in Process"
-    else if (did == 2001) {
-      // 
-      console.log('2001=: ', did);
-      this.api.GETDetailProgress(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,formdate,todate)
+    } else if (did == 2001) {
+      this.api.GETDetailProgress(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchData3 = res.map(
-              (item: TenderInProcess, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            // console.log('TenderInProcess=:', this.dispatchData3);
+            this.dispatchData3 = res.map((item: TenderInProcess, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSource3.data = this.dispatchData3;
             this.dataSource3.paginator = this.paginator3;
             this.dataSource3.sort = this.sort3;
@@ -1142,25 +617,15 @@ console.log('did =: ',did);
           },
           (error) => {
             this.spinner.hide();
-            alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialog3();
-
-      // return 
-    }
-    else if (did == 4001) {
-      console.log('4001=: ', did);
-      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount,formdate,todate)
+    } else if (did == 4001) {
+      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchDataCom_Han = res.map(
-              (item: WORunningHandDetails, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            // console.log('WORunningHandDetails=:', this.dispatchDataCom_Han);
+            this.dispatchDataCom_Han = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSourceCom_Han.data = this.dispatchDataCom_Han;
             this.dataSourceCom_Han.paginator = this.paginatorCom_Han;
             this.dataSourceCom_Han.sort = this.sortCom_Han;
@@ -1169,25 +634,15 @@ console.log('did =: ',did);
           },
           (error) => {
             this.spinner.hide();
-            alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialogCom_Han();
-      // return '#9E9E9E';
-    }
-    //  Running Work
-    else if (did == 5001) {
-      // console.log('5001=: ',did);
-      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount,formdate,todate)
+    } else if (did == 5001) {
+      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchDataRun_Work = res.map(
-              (item: WORunningHandDetails, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            console.log('Run_Work=:', this.dispatchDataRun_Work);
+            this.dispatchDataRun_Work = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSourceRun_Work.data = this.dispatchDataRun_Work;
             this.dataSourceRun_Work.paginator = this.paginatorRun_Work;
             this.dataSourceRun_Work.sort = this.sortRun_Work;
@@ -1196,24 +651,15 @@ console.log('did =: ',did);
           },
           (error) => {
             this.spinner.hide();
-            alert(`Error fetching data: ${error.message}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialogRun_Work();
-    }
-    // Land Not Alloted/Land Dispute
-    else if (did === 6001) {
-      console.log('6001 =: ', did);
-      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,formdate,todate)
+    } else if (did === 6001) {
+      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchDataLand_isu = res.map(
-              (item: LandIssue_RetToDeptDetatails, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            // console.log('LandIssue=:', this.dispatchDataLand_isu);
+            this.dispatchDataLand_isu = res.map((item: LandIssue_RetToDeptDetatails, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSourceLand_isu.data = this.dispatchDataLand_isu;
             this.dataSourceLand_isu.paginator = this.paginatorLand_isu;
             this.dataSourceLand_isu.sort = this.sortLand_isu;
@@ -1222,25 +668,15 @@ console.log('did =: ',did);
           },
           (error) => {
             this.spinner.hide();
-            alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialogLand_isu();
-      // return '#FF0000';|| did === 8001
-    }
-
-    else if (did == 8001) {
-      console.log(' 8001 =: ', did);
-      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount,formdate,todate)
+    } else if (did == 8001) {
+      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchData1 = res.map(
-              (item: LandIssue_RetToDeptDetatails, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            console.log('LandIssue_RetToDeptDetatails=:', this.dispatchData1);
+            this.dispatchData1 = res.map((item: LandIssue_RetToDeptDetatails, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSource1.data = this.dispatchData1;
             this.dataSource1.paginator = this.paginator1;
             this.dataSource1.sort = this.sort1;
@@ -1249,36 +685,15 @@ console.log('did =: ',did);
           },
           (error) => {
             this.spinner.hide();
-            alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialog1();
-    }
-    // else if (did == 3001) {
-    //   // return '#ADD8E6';
-    //   return '#FF8C00';
-    // }
-
-    // else if (did == 6001) {
-    //   return '#fa5795';
-    //   // return '#FF0000';
-    // }
-    // else if (did == 7001) {
-    //   return '#FFA500';
-    // }
-
-    else {
-      // console.log('3001=: ',did);
-      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount,formdate,todate)
+    } else {
+      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
         .subscribe(
           (res) => {
-            this.dispatchData = res.map(
-              (item: WORunningHandDetails, index: number) => ({
-                ...item,
-                sno: index + 1,
-              })
-            );
-            // console.log('WORunningHandDetails=:', this.dispatchData);
+            this.dispatchData = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
             this.dataSource.data = this.dispatchData;
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -1287,7 +702,7 @@ console.log('did =: ',did);
           },
           (error) => {
             this.spinner.hide();
-            alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+            console.error(`API Error:: ${error.message}`);
           }
         );
       this.openDialog();
@@ -1301,6 +716,7 @@ console.log('did =: ',did);
       this.dataSource4.paginator.firstPage();
     }
   }
+
   applyTextFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -1308,6 +724,7 @@ console.log('did =: ',did);
       this.dataSource.paginator.firstPage();
     }
   }
+
   applyTextFilterCom_Han(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceCom_Han.filter = filterValue.trim().toLowerCase();
@@ -1315,6 +732,7 @@ console.log('did =: ',did);
       this.dataSourceCom_Han.paginator.firstPage();
     }
   }
+
   applyTextFilterRun_Work(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceRun_Work.filter = filterValue.trim().toLowerCase();
@@ -1330,6 +748,7 @@ console.log('did =: ',did);
       this.dataSource2.paginator.firstPage();
     }
   }
+
   applyTextFilter_TenderInProcess(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource3.filter = filterValue.trim().toLowerCase();
@@ -1337,6 +756,7 @@ console.log('did =: ',did);
       this.dataSource3.paginator.firstPage();
     }
   }
+
   applyTextFilterLand_isu(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceLand_isu.filter = filterValue.trim().toLowerCase();
@@ -1344,6 +764,7 @@ console.log('did =: ',did);
       this.dataSourceLand_isu.paginator.firstPage();
     }
   }
+
   applyTextFilterreturntoD(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource1.filter = filterValue.trim().toLowerCase();
@@ -1351,6 +772,7 @@ console.log('did =: ',did);
       this.dataSource1.paginator.firstPage();
     }
   }
+
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -1377,12 +799,12 @@ console.log('did =: ',did);
       { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
-      { header: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+      { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
       { header: 'Time Allowed', dataKey: 'timeAllowed' },
       { header: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
       { header: 'Work Order RefNo', dataKey: 'agreementRefNo' },
       { header: 'Contractor ID/Class', dataKey: 'cid' },
-      { header: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+      { header: 'Contractor', dataKey: 'contractorNAme' },
       { header: 'Contractor Mobile No', dataKey: 'mobNo' },
       { header: 'Last Progress', dataKey: 'lProgress' },
       { header: 'Sub Engineer', dataKey: 'subengname' },
@@ -1436,16 +858,17 @@ console.log('did =: ',did);
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
       headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
       columnStyles: {
-        8: { cellWidth: 'auto' },  // Adjust width for long text columns
+        8: { cellWidth: 'auto' },
         33: { cellWidth: 'auto' }
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
-      pageBreak: 'auto'  // Ensures all rows are included across multiple pages
+      pageBreak: 'auto'
     });
 
     doc.save('Acceptance_WOrderDetail.pdf');
   }
+
   exportToPDFCom_Han() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -1472,12 +895,12 @@ console.log('did =: ',did);
       { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
-      { header: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+      { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
       { header: 'Time Allowed', dataKey: 'timeAllowed' },
       { header: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
       { header: 'Work Order RefNo', dataKey: 'agreementRefNo' },
       { header: 'Contractor ID/Class', dataKey: 'cid' },
-      { header: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+      { header: 'Contractor', dataKey: 'contractorNAme' },
       { header: 'Contractor Mobile No', dataKey: 'mobNo' },
       { header: 'Last Progress', dataKey: 'lProgress' },
       { header: 'Handover DT', dataKey: 'progressDT' },
@@ -1533,16 +956,17 @@ console.log('did =: ',did);
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
       headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
       columnStyles: {
-        8: { cellWidth: 'auto' },  // Adjust width for long text columns
+        8: { cellWidth: 'auto' },
         33: { cellWidth: 'auto' }
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
-      pageBreak: 'auto'  // Ensures all rows are included across multiple pages
+      pageBreak: 'auto'
     });
 
     doc.save('Completed_Handover.pdf');
   }
+
   exportToPDFTW() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -1569,12 +993,12 @@ console.log('did =: ',did);
       { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
-      { header: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+      { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
       { header: 'Time Allowed', dataKey: 'timeAllowed' },
       { header: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
       { header: 'Work Order RefNo', dataKey: 'agreementRefNo' },
       { header: 'Contractor ID/Class', dataKey: 'cid' },
-      { header: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+      { header: 'Contractor', dataKey: 'contractorNAme' },
       { header: 'Contractor Mobile No', dataKey: 'mobNo' },
       { header: 'Last Progress', dataKey: 'lProgress' },
       { header: 'Progress DT', dataKey: 'progressDT' },
@@ -1636,56 +1060,54 @@ console.log('did =: ',did);
       headStyles: { fillColor: [44, 62, 80], textColor: 255, fontSize: 7, fontStyle: 'bold' },
       styles: { textColor: [0, 0, 0], fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
       columnStyles: {
-        0: { cellWidth: 8 },   // S.No
-        1: { cellWidth: 15 },  // Head No
-        2: { cellWidth: 20 },  // Head
-        3: { cellWidth: 20 },  // Division
-        4: { cellWidth: 18 },  // District
-        5: { cellWidth: 18 },  // Block
-        6: { cellWidth: 20 },  // AS Letter No
-        7: { cellWidth: 18 },  // Approver
-        8: { cellWidth: 30 },  // Work
-        9: { cellWidth: 18 },  // AS Date
-        10: { cellWidth: 18 }, // AS Amount
-        11: { cellWidth: 18 }, // TS Date
-        12: { cellWidth: 18 }, // TS Amount
-        13: { cellWidth: 18 }, // Tender Type
-        14: { cellWidth: 22 }, // NIT Reference
-        15: { cellWidth: 22 }, // NIT/Sanction DT
-        16: { cellWidth: 22 }, // Acceptance Letter RefNo
-        17: { cellWidth: 18 }, // Accepted DT
-        18: { cellWidth: 12 }, // Rate%
-        19: { cellWidth: 22 }, // Sanction
-        20: { cellWidth: 22 }, // Contract Amount
-        21: { cellWidth: 22 }, // Total Paid
-        22: { cellWidth: 22 }, // Total Unpaid
-        23: { cellWidth: 22 }, // Work Order DT
-        24: { cellWidth: 18 }, // Time Allowed
-        25: { cellWidth: 22 }, // Due DT Time PerAdded
-        26: { cellWidth: 22 }, // Work Order RefNo
-        27: { cellWidth: 15 }, // Contractor ID/Class
-        28: { cellWidth: 22 }, // Contractor
-        29: { cellWidth: 18 }, // Contractor Mobile No
-        30: { cellWidth: 15 }, // Last Progress
-        31: { cellWidth: 18 }, // Progress DT
-        32: { cellWidth: 18 }, // Exp.Comp DT
-        33: { cellWidth: 30 }, // Delay Reason
-        34: { cellWidth: 15 }, // Remarks
-        35: { cellWidth: 15 }, // Sub Engineer
-        36: { cellWidth: 15 }, // Asst. Eng
-        37: { cellWidth: 15 }, // Work ID
-        38: { cellWidth: 22 }, // AS Letter
-        // 8: { cellWidth: 'wrap' },  // Adjust width for long text columns
-        // 33: { cellWidth: 'wrap' }
+        0: { cellWidth: 8 },
+        1: { cellWidth: 15 },
+        2: { cellWidth: 20 },
+        3: { cellWidth: 20 },
+        4: { cellWidth: 18 },
+        5: { cellWidth: 18 },
+        6: { cellWidth: 20 },
+        7: { cellWidth: 18 },
+        8: { cellWidth: 30 },
+        9: { cellWidth: 18 },
+        10: { cellWidth: 18 },
+        11: { cellWidth: 18 },
+        12: { cellWidth: 18 },
+        13: { cellWidth: 18 },
+        14: { cellWidth: 22 },
+        15: { cellWidth: 22 },
+        16: { cellWidth: 22 },
+        17: { cellWidth: 18 },
+        18: { cellWidth: 12 },
+        19: { cellWidth: 22 },
+        20: { cellWidth: 22 },
+        21: { cellWidth: 22 },
+        22: { cellWidth: 22 },
+        23: { cellWidth: 22 },
+        24: { cellWidth: 18 },
+        25: { cellWidth: 22 },
+        26: { cellWidth: 22 },
+        27: { cellWidth: 15 },
+        28: { cellWidth: 22 },
+        29: { cellWidth: 18 },
+        30: { cellWidth: 15 },
+        31: { cellWidth: 18 },
+        32: { cellWidth: 18 },
+        33: { cellWidth: 30 },
+        34: { cellWidth: 15 },
+        35: { cellWidth: 15 },
+        36: { cellWidth: 15 },
+        37: { cellWidth: 15 },
+        38: { cellWidth: 22 },
       },
       tableWidth: 'wrap',
       margin: { top: 20, left: 2, right: 2 },
       pageBreak: 'auto'
     });
 
-
     doc.save('WorksAbstractD.pdf');
   }
+
   exportToPDFRun_Work() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -1712,18 +1134,17 @@ console.log('did =: ',did);
       { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
-      { header: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+      { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
       { header: 'Time Allowed', dataKey: 'timeAllowed' },
       { header: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
       { header: 'Work Order RefNo', dataKey: 'agreementRefNo' },
       { header: 'Contractor ID/Class', dataKey: 'cid' },
-      { header: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+      { header: 'Contractor', dataKey: 'contractorNAme' },
       { header: 'Contractor Mobile No', dataKey: 'mobNo' },
       { header: 'Last Progress', dataKey: 'lProgress' },
       { header: 'Progress DT', dataKey: 'progressDT' },
       { header: 'Exp.Comp DT', dataKey: 'expcompdt' },
       { header: 'Delay Reason', dataKey: 'delayreason' },
-
       { header: 'Sub Engineer', dataKey: 'subengname' },
       { header: 'Asst.Eng', dataKey: 'aeName' },
       { header: 'Work ID', dataKey: 'work_id' },
@@ -1780,11 +1201,10 @@ console.log('did =: ',did);
 
     doc.save('Running_Work.pdf');
   }
+
   exportobeTenderAll_PDFT() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
-
-
       { header: 'S.No', dataKey: 'sno' },
       { header: 'Head No', dataKey: 'grantNo' },
       { header: 'Head', dataKey: 'head' },
@@ -1855,7 +1275,6 @@ console.log('did =: ',did);
       covOpenedDT: row.covOpenedDT,
       topnedpricedt: row.topnedpricedt,
       worK_ID: row.worK_ID,
-
     }));
 
     autoTable(doc, {
@@ -1875,6 +1294,7 @@ console.log('did =: ',did);
 
     doc.save('DetailProgress.pdf');
   }
+
   expor_TenderInProcess_PDFT() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -1895,7 +1315,6 @@ console.log('did =: ',did);
       { header: 'TS Amount(in Lacs)', dataKey: 'tsamt' },
       { header: 'lProgress', dataKey: 'lProgress' },
       { header: 'Progress DT', dataKey: 'progressDT' },
-
       { header: 'FMR code', dataKey: 'fmrcode' },
       { header: 'Start DT', dataKey: 'startdt' },
       { header: 'End DT', dataKey: 'enddt' },
@@ -1906,21 +1325,8 @@ console.log('did =: ',did);
       { header: 'Topned price DT', dataKey: 'topnedpricedt' },
       { header: 'Work id', dataKey: 'work_id' },
       { header: 'AS Letter', dataKey: 'asLetter' },
-      // { header: 'Type', dataKey: 'type_name' },
-      // { header: 'Remarks', dataKey: 'remarks' },
-      // { header: 'Group', dataKey: 'groupName' },
-      // { header: 'Dash', dataKey: 'dashName' },
-      // { header: 'AS Path', dataKey: 'asPath' },
-      // { header: 'Descri ID', dataKey: 'descri' },
-      // { header: 'AS ID', dataKey: 'asid' },
-
-
     ];
     const rows = this.dispatchData3.map((row) => ({
-      //  'sno','head','divName_En','district','blockname','letterNo',
-      // 'approver','work','aadt','asAmt','tsDate','tsamt',
-      // 'lProgress','progressDT','fmrcode', 'startdt','enddt', 'noofcalls',
-      // 'tenderno', 'eprocno', 'covOpenedDT', 'topnedpricedt',     'work_id','asLetter','action'
       sno: row.sno,
       grantNo: row.grantNo,
       head: row.head,
@@ -1930,7 +1336,6 @@ console.log('did =: ',did);
       letterNo: row.letterNo,
       approver: row.approver,
       work: row.work,
-      // type_name: row.type_name,
       aadt: row.aadt,
       asAmt: row.asAmt,
       totalpaid: row.totalpaid,
@@ -1949,16 +1354,6 @@ console.log('did =: ',did);
       topnedpricedt: row.topnedpricedt,
       worK_ID: row.worK_ID,
       asLetter: row.asLetter,
-
-      // work_id: row.work_id,
-      // remarks: row.remarks,
-      // groupName: row.groupName,
-      // dashName: row.dashName,
-      // asPath: row.asPath,
-      // asid: row.asid,
-      // descri: row.descri,
-
-
     }));
 
     autoTable(doc, {
@@ -1978,6 +1373,7 @@ console.log('did =: ',did);
 
     doc.save('TenderInProcess_Detail.pdf');
   }
+
   expor_PDFLand_isu() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -2004,12 +1400,12 @@ console.log('did =: ',did);
       { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
-      { header: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+      { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
       { header: 'Time Allowed', dataKey: 'timeAllowed' },
       { header: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
       { header: 'Work Order RefNo', dataKey: 'agreementRefNo' },
       { header: 'Contractor ID/Class', dataKey: 'cid' },
-      { header: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+      { header: 'Contractor', dataKey: 'contractorNAme' },
       { header: 'Contractor Mobile No', dataKey: 'mobNo' },
       { header: 'Last Progress', dataKey: 'lProgress' },
       { header: 'Progress DT', dataKey: 'progressDT' },
@@ -2074,16 +1470,11 @@ console.log('did =: ',did);
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
-
-      // didDrawPage: function (data) {
-      //   doc.setFontSize(8);
-      //   doc.text('Land Issue Report', data.settings.margin.left, 10);
-      // }
     });
-
 
     doc.save('LandIssueReport.pdf');
   }
+
   expor_PDFRturntoD() {
     const doc = new jsPDF('l', 'mm', 'a4');
     const columns = [
@@ -2110,12 +1501,12 @@ console.log('did =: ',did);
       { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
-      { header: 'Work Order DT', dataKey: 'wrokOrderDT' }, // (Consider renaming in data)
+      { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
       { header: 'Time Allowed', dataKey: 'timeAllowed' },
       { header: 'Due DT Time PerAdded', dataKey: 'dueDTTimePerAdded' },
       { header: 'Work Order RefNo', dataKey: 'agreementRefNo' },
       { header: 'Contractor ID/Class', dataKey: 'cid' },
-      { header: 'Contractor', dataKey: 'contractorNAme' }, // (Possible typo: "contractorNAme" should be "contractorName"?)
+      { header: 'Contractor', dataKey: 'contractorNAme' },
       { header: 'Contractor Mobile No', dataKey: 'mobNo' },
       { header: 'Last Progress', dataKey: 'lProgress' },
       { header: 'Progress DT', dataKey: 'progressDT' },
@@ -2180,216 +1571,123 @@ console.log('did =: ',did);
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
-
-      // didDrawPage: function (data) {
-      //   doc.setFontSize(8);
-      //   doc.text('Land Issue Report', data.settings.margin.left, 10);
-      // }
     });
-
 
     doc.save('RturnTODReport.pdf');
   }
-  // mat-dialog box
+
   openDialog() {
     const dialogRef = this.dialog.open(this.itemDetailsModal, {
       width: '100%',
       height: '100%',
       maxWidth: '100%',
-      panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: {
-        /* pass any data here */
-      },
-      // width: '100%',
-      // maxWidth: '100%', // Override default maxWidth
-      // maxHeight: '100%', // Override default maxHeight
-      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-      // height: 'auto',
+      panelClass: 'full-screen-dialog',
+      data: {},
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed');
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
-  openDialog1() {
 
+  openDialog1() {
     const dialogRef = this.dialog.open(this.itemDetailsModal1, {
       width: '100%',
       height: '100%',
       maxWidth: '100%',
-      panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: {
-        /* pass any data here */
-      },
-      // width: '100%',
-      // maxWidth: '100%', // Override default maxWidth
-      // maxHeight: '100%', // Override default maxHeight
-      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-      // height: 'auto',
+      panelClass: 'full-screen-dialog',
+      data: {},
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed');
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
-  openDialog2() {
 
+  openDialog2() {
     const dialogRef = this.dialog.open(this.itemDetailsModal2, {
       width: '100%',
       height: '100%',
       maxWidth: '100%',
-      panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: {
-        /* pass any data here */
-      },
-      // width: '100%',
-      // maxWidth: '100%', // Override default maxWidth
-      // maxHeight: '100%', // Override default maxHeight
-      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-      // height: 'auto',
+      panelClass: 'full-screen-dialog',
+      data: {},
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed');
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
-  openDialog3() {
 
+  openDialog3() {
     const dialogRef = this.dialog.open(this.itemDetailsModal3, {
       width: '100%',
       height: '100%',
       maxWidth: '100%',
-      panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: {
-        /* pass any data here */
-      },
-      // width: '100%',
-      // maxWidth: '100%', // Override default maxWidth
-      // maxHeight: '100%', // Override default maxHeight
-      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-      // height: 'auto',
+      panelClass: 'full-screen-dialog',
+      data: {},
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed');
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
-  openDialogCom_Han() {
 
+  openDialogCom_Han() {
     const dialogRef = this.dialog.open(this.itemDetailsModalCom_Han, {
       width: '100%',
       height: '100%',
       maxWidth: '100%',
-      panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: {
-        /* pass any data here */
-      },
-      // width: '100%',
-      // maxWidth: '100%', // Override default maxWidth
-      // maxHeight: '100%', // Override default maxHeight
-      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-      // height: 'auto',
+      panelClass: 'full-screen-dialog',
+      data: {},
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed');
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
+
   openDialogRun_Work() {
     const dialogRef = this.dialog.open(this.itemDetailsModalRun_Work, {
       width: '100%',
       height: '100%',
       maxWidth: '100%',
-      panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: {
-        /* pass any data here */
-      },
-      // width: '100%',
-      // maxWidth: '100%', // Override default maxWidth
-      // maxHeight: '100%', // Override default maxHeight
-      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-      // height: 'auto',
+      panelClass: 'full-screen-dialog',
+      data: {},
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed');
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
+
   openDialogLand_isu() {
     const dialogRef = this.dialog.open(this.itemDetailsModalLand_isu, {
       width: '100%',
       height: '100%',
       maxWidth: '100%',
-      panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: {
-        /* pass any data here */
-      },
-      // width: '100%',
-      // maxWidth: '100%', // Override default maxWidth
-      // maxHeight: '100%', // Override default maxHeight
-      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-      // height: 'auto',
+      panelClass: 'full-screen-dialog',
+      data: {},
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed');
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
+
   openDialogTW() {
     const dialogRef = this.dialog.open(this.itemDetailsModalTW, {
       width: '100%',
       height: '100%',
       maxWidth: '100%',
-      panelClass: 'full-screen-dialog', // Optional for additional styling
-      data: {
-        /* pass any data here */
-      },
-      // width: '100%',
-      // maxWidth: '100%', // Override default maxWidth
-      // maxHeight: '100%', // Override default maxHeight
-      // panelClass: 'full-screen-dialog' ,// Optional: Custom class for additional styling
-      // height: 'auto',
+      panelClass: 'full-screen-dialog',
+      data: {},
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Dialog closed');
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   onButtonClick2(ASID: any, workid: any): void {
-    //  this.value='Active';
-    // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
-    // alert(ASID);
-    // alert(this.value);
-    // return;
-    // asLetterName
-    // filename
     this.spinner.show();
     this.api.GETASFile(ASID, workid)
       .subscribe(
         (res) => {
-          // this.ASFileData=res;
-          const filename = res[0]?.filename; // Ensure `res[0]` exists
+          const filename = res[0]?.filename;
           const URL = res[0]?.asLetterName;
 
           if (filename) {
             window.open(URL, '_blank');
           } else {
             alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.");
-            // alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document (AS Letter) is not available at this moment.\nPlease check again later or contact support for further assistance.");
           }
-          //  const URL =this.ASFileData[0].asLetterName;
-          // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
-
-          // console.log('res:', res);
-          console.log('ASFileData:', this.ASFileData);
           this.spinner.hide();
         },
         (error) => {
           this.spinner.hide();
-          alert(`Error fetching data: ${error.message}`);
+          console.error(`API Error:: ${error.message}`);
         }
       );
   }
-  //#endregion
-
 
   getDistrictNameDME() {
     try {
-      // ;
-      // showCardss
       var roleName = localStorage.getItem('roleName');
       if (roleName == 'Division') {
         this.divisionid = sessionStorage.getItem('divisionID'); this.himisDistrictid = 0;
@@ -2399,73 +1697,45 @@ console.log('did =: ',did);
         this.himisDistrictid = 0;
         this.divisionid = 0;
       }
-      // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-      // console.log('divisionid1=', this.divisionid, 'himisDistrictid1=', this.himisDistrictid);
 
       this.api.GetDistrictNameDME(this.divisionid, this.himisDistrictid).subscribe((res: any) => {
         if (res && res.length > 0) {
           this.GetDistrict = res.map((item: { districT_ID: any; districtname: any; diV_ID: any }) => ({
-            districT_ID: item.districT_ID, // Adjust key names if needed
+            districT_ID: item.districT_ID,
             districtname: item.districtname,
             diV_ID: item.diV_ID,
           }));
-          // districT_ID!: string;
-          // districtname!: string;
-          // diV_ID!: any;
-          // console.log('mainscheme :', this.mainscheme);
-        } else {
-          console.error('No name found or incorrect structure:', res);
         }
-
-
         this.DistrictNameDMEData = res;
-        // console.log('DistrictNameDME1=', this.DistrictNameDMEData);
       },
         (error) => {
-          alert(`API Error: ${JSON.stringify(error)}`);
-          // alert(JSON.stringify(error));
+          console.error(`API Error:: ${JSON.stringify(error)}`);
         }
       );
     } catch (ex: any) {
-      alert(`API Error: ${JSON.stringify(ex.message)}`);
-      // alert(ex.message);
+      console.error(`API Error:: ${JSON.stringify(ex.message)}`);
     }
   }
-  onselectDistrictsDME(districT_ID: any, distname: any) {
+
+  onselectDistrictsDME(event: any, num: number) {
     const selectedUser = this.GetDistrict.find((user: { districT_ID: any }) => user.districT_ID === this.districT_ID);
 
     if (selectedUser) {
       const districT_ID = selectedUser?.districT_ID;
-      const distname = selectedUser?.districtname;
       var roleName = localStorage.getItem('roleName');
       if (roleName == 'Division') {
-        // this.divisionid = sessionStorage.getItem('divisionID');
         if (this.selectedTabIndex === 2) {
           this.distid = districT_ID;
-          // this.himisDistrictid = districT_ID;
           this.showCards = false;
           this.showCardss = true;
           this.GetDMEProgressSummary();
-          // this.DashProgressCount();
         }
-      }
-      // else if (roleName == 'Collector') {
-      //   this.himisDistrictid = sessionStorage.getItem('himisDistrictid');this.divisionid=0;
-      // } 
-      else {
+      } else {
         this.distid = districT_ID;
         this.GetDMEProgressSummary();
         this.showCardss = true;
       }
-
-      // alert(districT_ID);
-      // alert(distname);
-
-    } else {
-      console.error('Selected itemid not found in the list.');
     }
-
-
   }
 
   GetDistricts() {
@@ -2480,36 +1750,19 @@ console.log('did =: ',did);
       this.api.GetDistrict(false, this.divisionid).subscribe((res: any) => {
         if (res && res.length > 0) {
           this.GetDistrict = res;
-          // this.GetDistrict  = res.map((item: { districT_ID: any; districtname: any;diV_ID:any }) => ({
-          //   districT_ID: item.districT_ID, 
-          //   districtname : item.districtname,  
-          //   diV_ID : item.diV_ID,  
-          // }));
-          // console.log('this.GetDistrict  :', this.GetDistrict );
-        } else {
-          console.error('No name found or incorrect structure:', res);
         }
-        // districT_ID: number | undefined;
-        // districtname: string | undefined;
-        // diV_ID: number | undefined;
-        // this.GetDistrict = res;
       },
         (error) => {
-          // alert(JSON.stringify(error));
-          alert(`API Error: ${JSON.stringify(error)}`);
-
+          console.error(`API Error:: ${JSON.stringify(error)}`);
         }
       );
     } catch (ex: any) {
-      // alert(ex.message);
-      alert(`API Error: ${JSON.stringify(ex.message)}`);
-
+      console.error(`API Error:: ${JSON.stringify(ex.message)}`);
     }
   }
-  districT_ID: any;
-  onGetDistrictsSelect(districT_ID1: any, distname: any): void {
 
-    // Make cards visible on district selection
+  districT_ID: any;
+  onGetDistrictsSelect(event: any, num: number): void {
     const selectedUser = this.GetDistrict.find((user: { districT_ID: any }) => user.districT_ID === this.districT_ID);
 
     if (selectedUser) {
@@ -2520,104 +1773,49 @@ console.log('did =: ',did);
       this.showCards = true;
       this.distid = selectedUser?.districtname || null;
       this.himisDistrictid = districT_ID;
-      // this.mainSchemeID = 0;
       this.mainSchemeID = this.mainSchemeID;
       this.divisionid = 0;
       this.show = true;
-      if (this.selectedName == null) {
-        this.hide = false;
-      } else {
-        this.hide = true;
-      }
+      this.hide = this.selectedName != null;
       this.DashProgressCount();
 
-      // console.error('onGetDistrictsSelect', this.distid  );
       if (this.selectedTabIndex === 3) {
         this.showCards = false;
-        // this.GetDMEProgressSummary();
         this.DashProgressCount();
-
       }
-
-
-
-      // alert(districT_ID);
-      // alert(distname);
-
-    } else {
-      alert('Selected districT_ID not found in the list.');
     }
-
-
-
-
-
   }
-
 
   getmain_scheme() {
     try {
-      // 
       this.api.getMainScheme(this.isall).subscribe((res: any) => {
         if (res && res.length > 0) {
           this.mainscheme = res.map((item: { mainSchemeID: any; name: any; }) => ({
-            mainSchemeID: item.mainSchemeID, // Adjust key names if needed
+            mainSchemeID: item.mainSchemeID,
             name: item.name,
           }));
-          // console.log('mainscheme :', this.mainscheme);
-        } else {
-          console.error('No name found or incorrect structure:', res);
         }
       });
-      // this.api.getMainScheme(this.isall).subscribe(
-      //   (res: any) => {
-      //     this.mainscheme = res;
-      //   },
-
-      //   // mainSchemeID!: number;
-      //   // name: any;
-
-      //   (error) => {
-      //     alert(JSON.stringify(error));
-      //   }
-      // );
-
     } catch (ex: any) {
-      // alert(ex.message);
-      alert(`API Error: ${JSON.stringify(ex.message)}`);
+      console.error(`API Error:: ${JSON.stringify(ex.message)}`);
     }
   }
 
-
-
   onselect_databudgetOptions(event: Event): void {
-    // this.ASAmount=event.buid
-
-    // alert( this.ASAmount);
     const selectedUser = this.budgetOptions.find((user: { buid: any }) => user.buid === this.buid);
     if (selectedUser) {
       this.ASAmount = selectedUser?.buid;
-      // this.DashProgressCount();
-
-      // alert( this.ASAmount);
-    } else {
-      alert('Selected budget_ID not found in the list.');
     }
-
   }
 
   onselect_mainscheme_data(event: Event): void {
-    // 
     const selectedUser = this.mainscheme.find((user: { mainSchemeID: any }) => user.mainSchemeID === this.mainSchemeID);
 
     if (selectedUser) {
-      //  const MID  =selectedUser.mainSchemeID || null;
       this.mainSchemeID = selectedUser?.mainSchemeID;
       this.hide = true;
       const selectedName = selectedUser?.name;
       this.selectedName = selectedName;
-      //  this.mainSchemeID = mainSchemeID;
-      // this.divisionid = 0;
       this.distid = 0;
       this.showCards = true;
       if (this.name || this.distname == null) {
@@ -2625,23 +1823,17 @@ console.log('did =: ',did);
       } else {
         this.show = true;
       }
-      // this.DashProgressCount();
-      // alert(this.mainSchemeID);
-      // alert(selectedName);
-    } else {
-      alert('Selected districT_ID not found in the list.');
     }
   }
 
   InsertUserPageViewLog() {
     try {
-      // 
       const roleIdName = localStorage.getItem('roleName') || '';
       const userId = Number(sessionStorage.getItem('userid') || 0);
       const roleId = Number(sessionStorage.getItem('roleId') || 0);
-      // const userName = sessionStorage.getItem('firstname') || '';
       const ipAddress = sessionStorage.getItem('ipAddress') || '';
       const userAgent = navigator.userAgent;
+      
       this.InsertUserPageViewLogdata.logId = 0;
       this.InsertUserPageViewLogdata.userId = userId;
       this.InsertUserPageViewLogdata.roleId = roleId;
@@ -2651,33 +1843,17 @@ console.log('did =: ',did);
       this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
       this.InsertUserPageViewLogdata.ipAddress = ipAddress;
       this.InsertUserPageViewLogdata.userAgent = userAgent;
-      // console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
-      // if(localStorage.getItem('Log Saved')|| ''!){
-
-      // }
-      // API call
+      
       this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
-        next: (res: any) => {
-          console.log('Page View Log Saved:', res);
-          // const LogSaved='Log Saved'
-          // localStorage.setItem('Log Saved', LogSaved);
-        },
-        error: (err: any) => {
-          console.error('Backend Error:', JSON.stringify(err.message));
-        }
+        next: (res: any) => {},
+        error: (err: any) => { console.error('Backend Error:', err.message); }
       });
-
     } catch (err: any) {
       console.error('Error:', err.message);
     }
   }
 
-  readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
-  selectedWork: any;
-  imageUrls: string[] = [];
-
   onopenimges(element: any) {
-    // ;
     this.selectedWork = element;
     this.imageUrls = [];
 
@@ -2705,35 +1881,14 @@ console.log('did =: ',did);
     });
   }
 
-
   onImageError(event: any) {
     event.target.src = 'https://via.placeholder.com/450x450?text=Image+Not+Found';
   }
-// new code
-// Variables declare karein
-completedWorks: number = 0;
-returnWorks: number = 0;
-remainingWorks: number = 0; // Ye calculate hoga
-tenderInProcess: number = 0;
-acceptanceGenerated: number = 0;
-workOrderGenerated: number = 0;
-landDispute: number = 0;
-runningWork: number = 0;
-toBeTender: number = 0;
-appliedZonal: number = 0;
-zonalPermission: number = 0;
-cancellation: number = 0;
 
-// API se data aane ke baad is function ko call karein (jaise ngOnInit ya API subscribe me)
-bindDashboardData() {
-    // Array me se specific 'did' ke base par nosworks nikal rahe hain
+  bindDashboardData() {
     this.completedWorks = this.getNosWorks(4001);
     this.returnWorks = this.getNosWorks(8001);
-    
-    // Formula for Remaining Works: D = A - (B + C)
-    // (Aapka this.totalNosWorks pehle se set hona chahiye)
     this.remainingWorks = this.totalNosWorks - (this.completedWorks + this.returnWorks);
-
     this.tenderInProcess = this.getNosWorks(2001);
     this.acceptanceGenerated = this.getNosWorks(3001);
     this.workOrderGenerated = this.getNosWorks(3002);
@@ -2743,28 +1898,10 @@ bindDashboardData() {
     this.appliedZonal = this.getNosWorks(1002);
     this.zonalPermission = this.getNosWorks(3003);
     this.cancellation = this.getNosWorks(6002);
-}
+  }
 
-getNosWorks(id: number): number {
+  getNosWorks(id: number): number {
     const item = this.districtData.find((data: any) => data.did === id);
     return item?.nosworks ?? 0;
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-
-

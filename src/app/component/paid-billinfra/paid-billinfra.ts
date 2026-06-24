@@ -191,16 +191,25 @@ displayedColumns3 = [
   ngOnInit() {
   this.getmain_scheme();
   const today = new Date();
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(today.getDate() - 7);
+  // const sevenDaysAgo = new Date();
+  // sevenDaysAgo.setDate(today.getDate() - 7);
 
   
-  this.fromDate = sevenDaysAgo.toISOString().split('T')[0]; 
-  this.toDate = today.toISOString().split('T')[0];
+  // this.fromDate = sevenDaysAgo.toISOString().split('T')[0]; 
+  // this.toDate = today.toISOString().split('T')[0];
 
-  this.fromdt = this.datePipe.transform(sevenDaysAgo, 'dd-MMM-yyyy') || '0';
-  this.todt = this.datePipe.transform(today, 'dd-MMM-yyyy') || '0';
-  
+  // this.fromdt = this.datePipe.transform(sevenDaysAgo, 'dd-MMM-yyyy') || '0';
+  // this.todt = this.datePipe.transform(today, 'dd-MMM-yyyy') || '0';
+
+const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+
+this.fromDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd') || ''; 
+this.toDate = this.datePipe.transform(today, 'yyyy-MM-dd') || '';
+
+// dd-MMM-yyyy format
+this.fromdt = this.datePipe.transform(firstDayOfMonth, 'dd-MMM-yyyy') || '0';
+this.todt = this.datePipe.transform(today, 'dd-MMM-yyyy') || '0';
   this.GETPaidSummary();
  this.GETPaidDetails();
 

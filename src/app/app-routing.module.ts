@@ -187,6 +187,7 @@ import { StockOuAndStockAvailabilityInWarehouse } from './component/ORACLE-DASHB
 import { ItemWiseStock } from './component/ORACLE-DASHBOARD/item-wise-stock/item-wise-stock';
 import { FitUnFitInfrastructure } from './component/fit-un-fit-infrastructure/fit-un-fit-infrastructure';
 import { PaidBillinfra } from './component/paid-billinfra/paid-billinfra';
+import { RunningWorksReports } from './component/Infrastructure-Components/running-works-reports/running-works-reports';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -316,6 +317,7 @@ const routes: Routes = [
   { path: 'ToBeTender', component: ToBeTenderComponent, canActivate: [RouteGuardService], data: { allowedRoles: ['DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Collector', 'SE', 'HO_Infra', 'Division'] } },
   { path: 'AdministrativeSanction', component: AdministrativeSanctionComponent, canActivate: [RouteGuardService], data: { allowedRoles: ['DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Collector', 'SE', 'HO_Infra', 'Division'] } },
   { path: 'RunningWork', component: RunningWorkComponent, canActivate: [RouteGuardService], data: { allowedRoles: ['DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Collector', 'SE', 'HO_Infra', 'Division'] } },
+  { path: 'RunningWorksReports', component: RunningWorksReports, canActivate: [RouteGuardService], data: { allowedRoles: ['DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Collector', 'SE', 'HO_Infra', 'Division'] } },
   { path: 'SchemeWiseDetails', component: SchemeWiseDetailsComponent, canActivate: [RouteGuardService], data: { allowedRoles: ['DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Collector', 'SE', 'HO_Infra', 'Division'] } },
   { path: 'institute-wise-issuance', component: CgmscInstituteWiseIssuanceComponent, canActivate: [RouteGuardService], data: { allowedRoles: ['DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Collector', 'SE', 'HO_Infra', 'Division', 'SSO', 'Logi Cell'] } },
   { path: 'Complaint-Types-Hospital-Building-Con', component: ComplaintTHospitalBuConstructionComponent, canActivate: [RouteGuardService], data: { allowedRoles: ['DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Collector', 'SE', 'HO_Infra', 'Division', 'SSO', 'Logi Cell'] } },
