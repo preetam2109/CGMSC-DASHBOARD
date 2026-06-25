@@ -70,7 +70,7 @@ export class InfrastructurePublicViewComponent {
   divisionid:any = 0;
   mainSchemeID = 0;
   id:any;
-  buid=1;
+  buid=0;
   selectedDistrict: any | null = null;
   name: any;
   isall: boolean = true;
@@ -81,7 +81,8 @@ export class InfrastructurePublicViewComponent {
   public showDistrict: boolean = true; // Control card visibility
   distname:any;
   // mainSchemeID:any;
-
+  formdate: any;
+  todate: any;
   public showCardss: boolean = false; // Control card visibility
   cardOrder: string[] = [
     "Completed/Handover",
@@ -167,7 +168,22 @@ export class InfrastructurePublicViewComponent {
   contractorid=0;
   dashname:any;
   nosworks:any;
-  ASAmount=1;
+  ASAmount=0;
+
+    completedWorks: number = 0;
+  returnWorks: number = 0;
+  remainingWorks: number = 0;
+  tenderInProcess: number = 0;
+  acceptanceGenerated: number = 0;
+  workOrderGenerated: number = 0;
+  landDispute: number = 0;
+  runningWork: number = 0;
+  toBeTender: number = 0;
+  appliedZonal: number = 0;
+  zonalPermission: number = 0;
+  cancellation: number = 0;
+
+
   constructor(public api: ApiService, public spinner: NgxSpinnerService, private cdr: ChangeDetectorRef,private dialog: MatDialog,) {
   this.dataSource = new MatTableDataSource<WORunningHandDetails>([]);
   this.dataSourceCom_Han = new MatTableDataSource<WORunningHandDetails>([]);
@@ -204,27 +220,30 @@ export class InfrastructurePublicViewComponent {
     this.getmain_scheme();
   }
 //#region 
-  loadInitialData() {
-
-    // Load data for "Total Works" tab on initialization
+ loadInitialData() {
+    // debugger
     this.spinner.show();
+    var formdate = this.formdate ? this.formdate : 0;
+    var todate = this.todate ? this.todate : 0;
+
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-    // console.log('1 divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-      var mainSchemeId=0;
-      var ASID=0;
-      var GrantID=0;
-    this.api.DashProgressCount(this.divisionid,mainSchemeId,this.himisDistrictid,ASID,GrantID,this.ASAmount,0,0).subscribe(
+    
+    var mainSchemeId = 0;
+    var ASID = 0;
+    var GrantID = 0;
+
+    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount, formdate, todate).subscribe(
       (res: any) => {
-        // console.log("res=",JSON.stringify(res));
-        this.originalData = this.sortDistrictData(res); // Save as original data
-        this.districtData = [...this.originalData]; // Set for display
+        this.originalData = this.sortDistrictData(res);
+        this.districtData = [...this.originalData];
         this.calculateTotalNosWorks();
+        this.bindDashboardData();
         this.spinner.hide();
       },
       (error) => {
-        // console.error('API Error:', error);
-        alert(`API Error: ${JSON.stringify(error)}`);
+        this.spinner.hide();
+        console.error('API Error:', error);
       }
     );
   }
@@ -234,6 +253,9 @@ export class InfrastructurePublicViewComponent {
     if (this.selectedTabIndex === 0) {
       // Restore original data for "Total Works"
       this.districtData = [...this.originalData];
+         this.divisionid=0;
+      this.himisDistrictid=0;
+      this.ASAmount=0,
       this.loadInitialData();
       this.showCards = true;
     } else {
@@ -299,88 +321,62 @@ export class InfrastructurePublicViewComponent {
   //     alert(ex.message);
   //   }
   // }
+ 
   DashProgressCount() {
     try {
       this.spinner.show();
-
       var roleName = localStorage.getItem('roleName');
       if (roleName == 'Division') {
         this.divisionid = sessionStorage.getItem('divisionID');
         this.showDivision = false;
-        // if(this.divid != 0){
-        //   this.divisionid  = this.divid ;
-        //   alert(this.divisionid );
-        // }
-        // alert( this.divisionid )
-        // return
       } else if (roleName == 'Collector') {
-        this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
-        // this.himisDistrictid = this.distid;
-        if(this.distid!=0){
+        this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+        if (this.distid != 0) {
           this.himisDistrictid = this.distid;
-          // alert(this.himisDistrictid);
         }
       }
+      
       if (this.selectedTabIndex === 1) {
-        this.himisDistrictid =0;
+        this.himisDistrictid = 0;
       }
-      // else{
-      //   this.himisDistrictid =0;
-      // }
-      // this.distid = this.distid == 0 ? 0 : this.distid;
-     var ASID=0;
-     var GrantID=0;
+      
+      var ASID = 0;
+      var GrantID = 0;
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
       this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
       this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-      // console.error('dist id:', this.himisDistrictid  );
-      // console.error('mainSchemeID:', this.mainSchemeID);
-      // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-      // divisionId: any, mainSchemeId: number, distid: number,ASID:any,ASAmount:any
-      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid,ASID,GrantID,this.ASAmount,0,0).subscribe(
+
+      var formdate = this.formdate ? this.formdate : 0;
+      var todate = this.todate ? this.todate : 0;
+
+      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid, ASID, GrantID, this.ASAmount, formdate, todate).subscribe(
         (res: any) => {
           if (this.selectedTabIndex === 0) {
-            // Do not overwrite the original data for "Total Works"
             this.districtData = [...this.originalData];
             if (this.mainSchemeID !== 0) {
-              // alert("scheme ");
               this.districtData = this.sortDistrictData(res);
-              // console.log(' on bug reotalwork1=', JSON.stringify(this.districtData));
-
-            }
-            //  else if (){
-
-            // }
-            
-            else {
-              // alert("ather ");
+            } else {
               this.districtData = this.sortDistrictData(res);
-              // this.districtData = [...this.originalData];
-
-              // console.log(' on bug reotalwork2=', JSON.stringify(this.districtData));
             }
           } else {
             this.districtData = res;
-            // console.log('re1=', JSON.stringify(this.districtData));
             this.districtData = this.sortDistrictData(res);
-            // console.log('re2=', JSON.stringify(this.districtData));
           }
-          // console.log('new on bug reotalwork3=', this.districtData);
 
           this.calculateTotalNosWorks();
+          this.bindDashboardData();
           this.spinner.hide();
-
         },
         (error) => {
-          // console.error('API Error:', error);
-          alert(`API Error:: ${JSON.stringify(error)}`);
+          this.spinner.hide();
+          console.error('API Error:', error);
         }
       );
     } catch (ex: any) {
-      alert(`Exception:: ${JSON.stringify(ex.message)}`);
-      // console.error('Exception:', ex.message);
+      console.error('Exception:', ex.message);
     }
   }
+
   onButtonClick(name: string, id: any): void {
     this.showCards = true;
     // this.hide=false;
@@ -895,277 +891,247 @@ export class InfrastructurePublicViewComponent {
 //     return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${distid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}`);
 //   //  https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=147&contractorid=0
 //   }
-TotalWorksAbstract(){
-  // ;
-  this.spinner.show();
-  this.roleName = localStorage.getItem('roleName');
-  if (this.roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');
-    this.showDivision = false;
-  } else if (this.roleName == 'Collector') {
-    this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
-    if(this.distid!=0){
-      this.himisDistrictid = this.distid;
-      // this.himisDistrictid = this.distid;
+
+  TotalWorksAbstract() {
+    this.spinner.show();
+    this.roleName = localStorage.getItem('roleName');
+    if (this.roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.showDivision = false;
+    } else if (this.roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      if (this.distid != 0) {
+        this.himisDistrictid = this.distid;
+      }
     }
-  }
-  // this.distid = this.distid == 0 ? 0 : this.distid;
-const contractorid=0;
-  this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
-  this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-  // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-  // ?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1
-  this.api.GET_TotalWorksAbstract(this.divisionid,this.himisDistrictid,this.mainSchemeID,contractorid,this.ASAmount,0,0)
-  .subscribe(
-    (res) => {
-      this.dispatchData4 = res.map(
-        (item: TotalWorksAbstract, index: number) => ({
-          ...item,
-          sno: index + 1,
-        })
-      );
-      // console.log('TotalWorksAbstract 1=:', this.dispatchData4);
-      this.dataSource4.data = this.dispatchData4;
-      this.dataSource4.paginator = this.paginatorTW;
-      this.dataSource4.sort = this.sortTW;
-      this.cdr.detectChanges();
-      this.spinner.hide();
-    },
-    (error) => {
-      this.spinner.hide();
-      // alert(`Error fetching data: ${error.message}`);
-      alert(`API Error:: ${JSON.stringify(error.message)}`);
-    }
-  );
-this.openDialogTW();
+    const contractorid = 0;
+    this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+    this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+    
+    var formdate = this.formdate ? this.formdate : 0;
+    var todate = this.todate ? this.todate : 0;
 
-}
-
-  DetailProgress(did:any,dashname:any,nosworks:any): void {
-  //  
-  this.dashname=dashname;
-  this.nosworks=nosworks;
-  this.spinner.show();
-  this.roleName = localStorage.getItem('roleName');
-  if (this.roleName == 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID');
-    this.showDivision = false;
-  } else if (this.roleName == 'Collector') {
-    this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
-    if(this.distid!=0){
-      this.himisDistrictid = this.distid;
-      // this.himisDistrictid = this.distid;
-    }
-  }
-  // this.distid = this.distid == 0 ? 0 : this.distid;
-
-  this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-  this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
-  this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-  // console.log('divisionid=', this.divisionid, 'himisDistrictid=', this.himisDistrictid, 'mainSchemeID=', this.mainSchemeID);
-// Icon for "To be Tender"
-  if (did == 1001) {
-    // console.log('1001 =: ',did);
-    this.api.GETTobeTenderAll(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount,'Y',0,0)
-    .subscribe(
-      (res) => {
-        this.dispatchData2 = res.map(
-          (item: DetailProgressTinP, index: number) => ({
-            ...item,
-            sno: index + 1,
-          })
-        );
-        // console.log('DetailProgressTinP=:', this.dispatchData2);
-        this.dataSource2.data = this.dispatchData2;
-        this.dataSource2.paginator = this.paginator2;
-        this.dataSource2.sort = this.sort2;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        // alert(`Error fetching data: ${error.message}`);
-        alert(`API Error:: ${JSON.stringify(error.message)}`);
-      }
-    );
-  this.openDialog2();
-
-    // return 
-  }
-  // Icon for "Tender in Process"
-   else if (did == 2001) {
-    // 
-    console.log('2001=: ',did);
-    this.api.GETDetailProgress(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount,0,0)
-    .subscribe(
-      (res) => {
-        this.dispatchData3 = res.map(
-          (item: TenderInProcess, index: number) => ({
-            ...item,
-            sno: index + 1,
-          })
-        );
-        // console.log('TenderInProcess=:', this.dispatchData3);
-        this.dataSource3.data = this.dispatchData3;
-        this.dataSource3.paginator = this.paginator3;
-        this.dataSource3.sort = this.sort3;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        alert(`Error fetching data: ${JSON.stringify(error.message)}`);
-      }
-    );
-  this.openDialog3();
-
-    // return 
-  } 
-   else if (did == 4001) {
-    console.log('4001=: ',did);
-    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,0,0)
-    .subscribe(
-      (res) => {
-        this.dispatchDataCom_Han = res.map(
-          (item: WORunningHandDetails, index: number) => ({
-            ...item,
-            sno: index + 1,
-          })
-        );
-        console.log('WORunningHandDetails=:', this.dispatchDataCom_Han);
-        this.dataSourceCom_Han.data = this.dispatchDataCom_Han;
-        this.dataSourceCom_Han.paginator = this.paginatorCom_Han;
-        this.dataSourceCom_Han.sort = this.sortCom_Han;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        alert(`Error fetching data: ${JSON.stringify(error.message)}`);
-      }
-    );
-  this.openDialogCom_Han();
-    // return '#9E9E9E';
-  }
-  //  Running Work
-  else if (did == 5001) {
-    // console.log('5001=: ',did);
-    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,0,0)
-    .subscribe(
-      (res) => {
-        this.dispatchDataRun_Work = res.map(
-          (item: WORunningHandDetails, index: number) => ({
-            ...item,
-            sno: index + 1,
-          })
-        );
-        console.log('Run_Work=:', this.dispatchDataRun_Work);
-        this.dataSourceRun_Work.data = this.dispatchDataRun_Work;
-        this.dataSourceRun_Work.paginator = this.paginatorRun_Work;
-        this.dataSourceRun_Work.sort = this.sortRun_Work;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        alert(`Error fetching data: ${error.message}`);
-      }
-    );
-  this.openDialogRun_Work();
-  }
-  // Land Not Alloted/Land Dispute
-   else if (did === 6001) {
-    console.log('6001 =: ',did);
-    this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount,0,0)
-    .subscribe(
-      (res) => {
-        this.dispatchDataLand_isu = res.map(
-          (item: LandIssue_RetToDeptDetatails, index: number) => ({
-            ...item,
-            sno: index + 1,
-          })
-        );
-        console.log('LandIssue=:', this.dispatchDataLand_isu);
-        this.dataSourceLand_isu.data = this.dispatchDataLand_isu;
-        this.dataSourceLand_isu.paginator = this.paginatorLand_isu;
-        this.dataSourceLand_isu.sort = this.sortLand_isu;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        alert(`Error fetching data: ${JSON.stringify(error.message)}`);
-      }
-    );
-  this.openDialogLand_isu();
-    // return '#FF0000';|| did === 8001
-  }
-
-    else if (did == 8001) {
-      console.log(' 8001 =: ',did);
-      this.api.GETLandIssueRetToDeptDetatails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.ASAmount,0,0)
+    this.api.GET_TotalWorksAbstract(this.divisionid, this.himisDistrictid, this.mainSchemeID, contractorid, this.ASAmount, formdate, todate)
       .subscribe(
         (res) => {
-          this.dispatchData1 = res.map(
-            (item: LandIssue_RetToDeptDetatails, index: number) => ({
-              ...item,
-              sno: index + 1,
-            })
-          );
-          console.log('LandIssue_RetToDeptDetatails=:', this.dispatchData1);
-          this.dataSource1.data = this.dispatchData1;
-          this.dataSource1.paginator = this.paginator1;
-          this.dataSource1.sort = this.sort1;
+          this.dispatchData4 = res.map((item: TotalWorksAbstract, index: number) => ({
+            ...item,
+            sno: index + 1,
+          }));
+          this.dataSource4.data = this.dispatchData4;
+          this.dataSource4.paginator = this.paginatorTW;
+          this.dataSource4.sort = this.sortTW;
           this.cdr.detectChanges();
           this.spinner.hide();
         },
         (error) => {
           this.spinner.hide();
-          alert(`Error fetching data: ${JSON.stringify(error.message)}`);
+          console.error(`API Error:: ${error.message}`);
         }
       );
-    this.openDialog1();
-  } 
-  // else if (did == 3001) {
-  //   // return '#ADD8E6';
-  //   return '#FF8C00';
-  // }
-
-  // else if (did == 6001) {
-  //   return '#fa5795';
-  //   // return '#FF0000';
-  // }
-  // else if (did == 7001) {
-  //   return '#FFA500';
-  // }
-
-  else {
-    // console.log('3001=: ',did);
-    this.api.GETWORunningHandDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,0,0)
-    .subscribe(
-      (res) => {
-        this.dispatchData = res.map(
-          (item: WORunningHandDetails, index: number) => ({
-            ...item,
-            sno: index + 1,
-          })
-        );
-        // console.log('WORunningHandDetails=:', this.dispatchData);
-        this.dataSource.data = this.dispatchData;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        alert(`Error fetching data: ${JSON.stringify(error.message)}`);
-      }
-    );
-  this.openDialog();
+    this.openDialogTW();
   }
- }
+
+  DetailProgress(did: any, dashname: any, nosworks: any): void {
+    this.dashname = dashname;
+    this.nosworks = nosworks;
+    this.spinner.show();
+    this.roleName = localStorage.getItem('roleName');
+
+    if (this.roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.showDivision = false;
+    } else if (this.roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      if (this.distid != 0) {
+        this.himisDistrictid = this.distid;
+      }
+    }
+
+    let formdate = this.formdate || 0;
+    let todate = this.todate || 0;
+
+    this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+    this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+
+    if (did == 1001) {
+      let isbelow20 = "N";
+      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSource2.data = this.dispatchData2;
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialog2();
+    } else if (did == 3003) {
+      let isbelow20 = "NA";
+      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSource2.data = this.dispatchData2;
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialog2();
+    } else if (did == 1002) {
+      let isbelow20 = "Y";
+      this.api.GETTobeTenderAll(1001, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSource2.data = this.dispatchData2;
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialog2();
+    } else if (did == 6002) {
+      let isbelow20 = "NA";
+      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSource2.data = this.dispatchData2;
+            this.dataSource2.paginator = this.paginator2;
+            this.dataSource2.sort = this.sort2;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialog2();
+    } else if (did == 2001) {
+      this.api.GETDetailProgress(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData3 = res.map((item: TenderInProcess, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSource3.data = this.dispatchData3;
+            this.dataSource3.paginator = this.paginator3;
+            this.dataSource3.sort = this.sort3;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialog3();
+    } else if (did == 4001) {
+      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchDataCom_Han = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSourceCom_Han.data = this.dispatchDataCom_Han;
+            this.dataSourceCom_Han.paginator = this.paginatorCom_Han;
+            this.dataSourceCom_Han.sort = this.sortCom_Han;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialogCom_Han();
+    } else if (did == 5001) {
+      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchDataRun_Work = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSourceRun_Work.data = this.dispatchDataRun_Work;
+            this.dataSourceRun_Work.paginator = this.paginatorRun_Work;
+            this.dataSourceRun_Work.sort = this.sortRun_Work;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialogRun_Work();
+    } else if (did === 6001) {
+      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchDataLand_isu = res.map((item: LandIssue_RetToDeptDetatails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSourceLand_isu.data = this.dispatchDataLand_isu;
+            this.dataSourceLand_isu.paginator = this.paginatorLand_isu;
+            this.dataSourceLand_isu.sort = this.sortLand_isu;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialogLand_isu();
+    } else if (did == 8001) {
+      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData1 = res.map((item: LandIssue_RetToDeptDetatails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSource1.data = this.dispatchData1;
+            this.dataSource1.paginator = this.paginator1;
+            this.dataSource1.sort = this.sort1;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialog1();
+    } else {
+      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSource.data = this.dispatchData;
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialog();
+    }
+  }
 
  applyTextFilterTW(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
@@ -2504,4 +2470,24 @@ expor_PDFRturntoD() {
     alert('Selected districT_ID not found in the list.');
   }
 }
+
+  bindDashboardData() {
+    this.completedWorks = this.getNosWorks(4001);
+    this.returnWorks = this.getNosWorks(8001);
+    this.remainingWorks = this.totalNosWorks - (this.completedWorks + this.returnWorks);
+    this.tenderInProcess = this.getNosWorks(2001);
+    this.acceptanceGenerated = this.getNosWorks(3001);
+    this.workOrderGenerated = this.getNosWorks(3002);
+    this.landDispute = this.getNosWorks(6001);
+    this.runningWork = this.getNosWorks(5001);
+    this.toBeTender = this.getNosWorks(1001);
+    this.appliedZonal = this.getNosWorks(1002);
+    this.zonalPermission = this.getNosWorks(3003);
+    this.cancellation = this.getNosWorks(6002);
+  }
+
+  getNosWorks(id: number): number {
+    const item = this.districtData.find((data: any) => data.did === id);
+    return item?.nosworks ?? 0;
+  }
 }

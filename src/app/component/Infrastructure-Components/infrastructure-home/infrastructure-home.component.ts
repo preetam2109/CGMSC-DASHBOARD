@@ -233,7 +233,7 @@ export class InfrastructureHomeComponent implements OnInit {
     this.InsertUserPageViewLog();
   }
 
-  loadInitialData() {
+loadInitialData() {
     // debugger
     this.spinner.show();
     var formdate = this.formdate ? this.formdate : 0;
@@ -260,7 +260,6 @@ export class InfrastructureHomeComponent implements OnInit {
       }
     );
   }
-
   selectedTabValue(event: any): void {
     // debugger
     this.selectedTabIndex = event.index;

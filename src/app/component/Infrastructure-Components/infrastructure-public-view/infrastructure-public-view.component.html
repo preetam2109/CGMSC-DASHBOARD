@@ -4,21 +4,12 @@
         <h3></h3>
       </div>
   
-      <!-- <div class="columns justify-content-center mb-3">
-        <div class="col-12 col-md-6 mb-3">
-          <label class="form-label"><strong>Choose Item</strong>:</label>
-          <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID" [(ngModel)]="mainSchemeID" name="mainSchemeID"
-            (change)="onselect_mainscheme_data($event)" #emailidField="ngModel" [placeholder]="!mainSchemeID ? 'Choose Item' : ''"
-            [searchable]="true" [clearable]="true" [appendTo]="'body'" required class="form-control">
-          </ng-select>
-        </div>
-      </div> -->
+    
   
   
   
       <div class="container-fluid">
   
-        <!-- <mat-tab-group (selectedTabChange)="selectedTabValue($event)" (click)="DashProgressCount()"> -->
         <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
           <!-- Total Works Tab -->
           <mat-tab label="Total Works">
@@ -26,22 +17,7 @@
               <div class="container-fluid mt-4">
                 <div class="container-fluid p-2">
                   <div class="row ">
-                    <!-- <div class="card shadow">
-                    <div class="card-body">
-                      <div class="dropdown-container">
-                        <mat-form-field appearance="fill" class="dropdown-field">
-                          <mat-label>Select Scheme</mat-label>
-                          <mat-select (selectionChange)="onselect_mainscheme_data($event.value,$event.source.triggerValue)">
-                            <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
-                              {{ mainscheme.name }}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                  </div> -->
-  
-                    <div class="col-12 col-md-6 mb-3">
+                    <div class="col-12 col-md-3 mb-3">
                       <div class="columns justify-content-center mb-3">
                         <!-- <label class="form-label"><strong>Select Scheme</strong>:</label> -->
                         <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID"
@@ -51,7 +27,7 @@
                         </ng-select>
                       </div>
                     </div>
-                    <div class="col-12 col-md-6 mb-3">
+                    <div class="col-12 col-md-3 mb-3">
                       <div class="columns justify-content-center mb-3">
                         <!-- <label class="form-label"><strong>Select Scheme</strong>:</label> -->
                         <ng-select [items]="budgetOptions" bindLabel="label" bindValue="buid" [(ngModel)]="buid"
@@ -61,11 +37,23 @@
                         </ng-select>
                       </div>
                     </div>
+                     <div class="col-12 col-md-2 mb-3">
+                    <div class="columns justify-content-center mb-3">
+                         <input type="date" bindLabel="formdate" placeholder="Form Date"  [(ngModel)]="formdate"  required class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2 mb-3">
+                    <div class="columns justify-content-center mb-3">
+                      <input type="date" bindLabel="todate"  placeholder="To Date"  [(ngModel)]="todate" required class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-2 mb-3">
+                    <div class="columns justify-content-center mb-3">
+                   <Button class="btn btn-info border "  (click)="loadInitialData()" >Show data</Button>
+                    </div>
+                  </div>
   
                   </div>
-                  
-  
-                  <!-- </div> -->
                 </div>
   
   
@@ -149,35 +137,6 @@
                       </ng-select>
                     </div>
                   </div>
-  
-  
-                  <!-- <div class="col-12 col-md-6  p-2 ">
-                    <div class="dropdown-container ">
-                      <mat-form-field appearance="fill" class="dropdown-field">
-                        <mat-label> Select Scheme </mat-label>
-                        <mat-select (selectionChange)="onselect_mainscheme_data($event.value,$event.source.triggerValue)">
-                          <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
-                            {{ mainscheme.name }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                  </div> -->
-                  <!-- <div class="col-12 col-md-6  p-2 ">
-                    <div class="dropdown-container">
-                      <mat-form-field appearance="fill" class="dropdown-field">
-                        <mat-label>Select Districts</mat-label>
-                        <mat-select (selectionChange)="onGetDistrictsSelect($event.value,$event.source.triggerValue)">
-                          <mat-option *ngFor="let districts of GetDistrict" [value]="districts.districT_ID">
-                            {{ districts.districtname }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                  </div> -->
-  
-  
-  
                 </div>
               </div>
               <label class="division-label" *ngIf="hide">Selected Scheme: {{ selectedName }}</label>&nbsp;
@@ -185,36 +144,7 @@
             </ng-template>
           </mat-tab>
   
-          <!-- <mat-tab label="District-wise">
-        <ng-template matTabContent>
-          <div class="card-division">
-          <div class="dropdown-container">
-            <div class="row ">
-              <div class="col-12 col-md-6  p-2 ">
-                <mat-form-field appearance="fill" class="dropdown-field">
-                  <mat-label>Select Districts</mat-label>
-                  <mat-select (selectionChange)="onGetDistrictsSelect($event.value)">
-                    <mat-option *ngFor="let districts of GetDistrict" [value]="districts.districT_ID">
-                      {{ districts.districtname }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-12 col-md-6  p-2 ">
-                <mat-form-field appearance="fill" class="dropdown-field">
-                  <mat-label>Select Main Scheme</mat-label>
-                  <mat-select (selectionChange)="onselect_mainscheme_data($event.value)">
-                    <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
-                      {{ mainscheme.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-          </div>
-        </ng-template>
-      </mat-tab> -->
+     
   
           <!-- MedicalCollege-wise Tab -->
           <mat-tab label="MedicalCollege-wise" *ngIf="roleName != 'Infrastructure_Public'">
@@ -267,55 +197,6 @@
   
             </ng-template>
           </mat-tab>
-  
-          <!-- <mat-tab label="MedicalCollege-wise">
-        <ng-template matTabContent>
-          <div class="dropdown-container">
-          <div class="row ">
-              <div class="col-12 col-md-6  p-2 ">
-                <mat-form-field appearance="fill" class="dropdown-field">
-                  <mat-label>Select Districts</mat-label>
-                  <mat-select (selectionChange)="onGetDistrictsSelect($event.value)">
-                    <mat-option *ngFor="let districts of GetDistrict" [value]="districts.districT_ID">
-                      {{ districts.districtname }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-                <div class="col-12 col-md-6  p-2 ">
-                  <mat-form-field appearance="fill" class="dropdown-field">
-                    <mat-label>Select Main Scheme</mat-label>
-                    <mat-select (selectionChange)="onselect_mainscheme_data($event.value)">
-                      <mat-option *ngFor="let mainscheme of mainscheme" [value]="mainscheme.mainSchemeID">
-                        {{ mainscheme.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-          <div class="container-fluid p-4" *ngIf="showCardss">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4">
-                    <div class="chart-container">
-                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
-                            [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
-                            [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke" [fill]="chartOptions.fill"
-                            [yaxis]="chartOptions.yaxis" [title]="chartOptions.title" [tooltip]="chartOptions.tooltip"
-                            [legend]="chartOptions.legend"></apx-chart>
-                    </div>
-                </div>
-            </div>
-          </div>
-          
-        </ng-template>
-      </mat-tab> -->
-  
-          <!-- <mat-tab label="MedicalCollege-wise">
-        <ng-template matTabContent>
-          Placeholder for future content
-        </ng-template>
-      </mat-tab> -->
         </mat-tab-group>
   
       </div>
@@ -323,10 +204,165 @@
   
       <div class="container-fluid mt-4" *ngIf="showCards">
         <div class="row">
-          <!-- <div class="row"> -->
-          <!-- Static Card for Total Works -->
-          <!-- <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngIf="totalNosWorks != 0 "> -->
-          <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+   
+<div class="card border-0">
+    <div class="container-fluid mt-4 " *ngIf="showCards">
+      <div class="container-fluid py-5" style="background-color: #f4f6f9;">
+        <div class="tree-container">
+            
+            <div class="d-flex flex-column align-items-center position-relative z-3">
+              <a type="link" (click)="TotalWorksAbstract()" style="cursor: pointer; text-decoration: none;">
+                <div class="card flow-card bg-total p-3 text-dark">
+                    <h6><i class="bi bi-bank2"></i> Total Works (A)</h6>
+                    <h4>{{ totalNosWorks }}</h4>
+                </div>    
+              </a>
+                <div class="connector-down"></div>
+            </div>
+    
+            <div class="tree-row d-flex justify-content-center">
+                
+                <div class="tree-node">
+                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(4001, ' Completed (B)', completedWorks)">
+
+                    <div class="card flow-card bg-green p-3 z-3 text-dark">
+                        <h6><i class="bi bi-check2-all"></i>Completed/Handover (B)</h6>
+                        <h4>{{ completedWorks }}</h4>
+                    </div></a>
+                </div>
+    
+                <div class="tree-node d-flex flex-column align-items-center">
+                  <!-- (click)="DetailProgress(8000, 'Remaining Works (D)', remainingWorks)" -->
+                  <a type="link" style="cursor: pointer; text-decoration: none;" >
+
+                    <div class="card flow-card bg-remainingg p-3 z-3 text-dark" style="background-color: #7b8fff;">
+                        <h6>Remaining Works (D) <br><small class="text-muted" style="font-size: 11px;">D = A - (B + C)</small></h6>
+                        <h4>{{ remainingWorks }}</h4>
+                    </div></a>
+                    <div class="connector-down" style="height: 40px;"></div>
+                </div>
+    
+                <div class="tree-node">
+                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(8001, 'Return (C)', returnWorks)">
+
+                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #f87d7d;">
+                        <h6><i class="bi bi-trash"></i>Return to Department(C)</h6>
+                        <h4>{{ returnWorks }}</h4>
+                    </div></a>
+                </div>
+    
+            </div>
+    
+            <div class="tree-row pt-0 w-100 justify-content-center">
+                
+                <div class="tree-node e-node-centered">
+                    
+                    <div class="d-flex flex-column align-items-center" style="width: 175px;">
+                      <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(2001, 'Tender in Process (E)', tenderInProcess)">
+                        <div class="card flow-card bg-yellow-process p-3 z-3 text-dark">
+                            <h6><i class="bi bi-hammer"></i> Tender in Process (E)</h6>
+                            <h4>{{ tenderInProcess }}</h4>
+                        </div></a>
+                        <div class="connector-down with-arrow"></div>
+                    </div>
+                    
+                    <div class="d-flex align-items-start mobile-stack w-100 mt-1">
+                        
+                        <div class="d-flex flex-column align-items-center" style="width: 175px;">
+                          <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3001, 'Acceptance Gen.', acceptanceGenerated)">
+                            <div class="card flow-card bg-orange p-3 z-3 text-dark">
+                                <h6><i class="bi bi-book"></i>Acceptance/Zonal Permission Given</h6>
+                                <h4>{{ acceptanceGenerated }}</h4>
+                            </div></a>
+                        </div>
+                     
+                         <div class="connector-right with-arrow align-self-start mobile-connector-rotate" style="margin-top: 42px; width: 120px; margin-right: -100px; z-index: 0;"></div>
+                        
+                        <div class="d-flex flex-column align-items-center">
+
+                          <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3002, 'Work Order', workOrderGenerated)">
+                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #88fab4;">
+                                <h6><i class="bi bi-file-earmark-text"></i>Word Order Generated</h6>
+                                <h4>{{ workOrderGenerated }}</h4>
+                            </div></a>
+                            <div class="connector-down with-arrow" style="margin-left: 100px;"></div>
+                            
+                            <div class="d-flex align-items-center mobile-stack">
+                              <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(6001, 'Land Dispute', landDispute)">
+                                <div class="card flow-card bg-pink-dark p-3 z-3 text-dark">
+                                    <h6><i class="bi bi-exclamation-circle"></i>Land Not Alloted/Land Dispute</h6>
+                                    <h4>{{ landDispute }}</h4>
+                                </div></a>
+                                <div class="connector-both-horizontal mobile-connector-rotate mx-1"></div>
+                                <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(5001, ' Running Work', runningWork)">
+                                <div class="card flow-card bg-yellow-light p-3 z-3 text-dark">
+                                    <h6><i class="bi bi-graph-up-arrow"></i> Running Work</h6>
+                                    <h4>{{ runningWork }}</h4>
+                                </div></a>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+    
+                <div class="tree-node z-3">
+                    <div class="position-relative d-flex align-items-center mobile-stack">
+                         <div class="position-absolute end-100 connector-both-horizontal mobile-connector-rotate d-none d-xl-block me-1" style="width: 425px;"></div>
+                        <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(1001, 'To be Tender (F)', toBeTender)">
+                        <div class="card flow-card bg-tender-pink p-3 z-3 text-dark">
+                            <h6><i class="bi bi-bell"></i>To be Tender(>20L)F</h6>
+                            <h4>{{ toBeTender }}</h4>
+                        </div></a>
+                        <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block"></div>
+                    </div>
+                </div>
+    
+                <div class="tree-node z-3">
+                    <div class="position-relative d-flex align-items-center mobile-stack">
+                        <div class="d-flex flex-column align-items-center">
+                          <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(1002, 'Zonal Permission', appliedZonal)">
+    
+                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #fdc3ec;">
+                                <h6><i class="bi bi-map"></i>To be Applied for Zonal(<=20L)G</h6>
+                                <h4>{{ appliedZonal }}</h4>
+                            </div></a>
+                            
+                            <div class="connector-both-vertical my-1"></div>
+                            <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3003, 'Zonal Permission', zonalPermission)">
+    
+                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #a6ffd9;">
+                                <h6>Applied for Zonal Permission</h6>
+                                <h4>{{ zonalPermission }}</h4>
+                            </div></a>
+                        </div>
+                        
+                        <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block" style="top: 42px;"></div>
+                    </div>
+                </div>
+    
+                <div class="tree-node z-3">
+                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(6002, 'Cancellation (H)', cancellation)">
+                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #f5a7ff;">
+                        <h6><i class="bi bi-x-circle"></i>Proposed for Cancellation</h6>
+                        <h4>{{ cancellation }}</h4>
+                    </div>
+                </a>
+                 
+                </div>
+    
+            </div>
+        </div>
+    </div>
+    </div>
+
+  </div>
+
+
+
+
+
+
+          <!-- <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
             <a type="link" (click)="TotalWorksAbstract()">
               <mat-card class="card-class text-center" style="background-color: #6a6afd; color: Black;">
                 <mat-card-header class="mat-card-header" style="border-bottom: none; text-align: center;">
@@ -348,30 +384,8 @@
             </a>
           </div>
   
-          <!-- Dynamic Cards for Other District Data -->
-          <!-- <div class="col-lg-3 col-md-6 col-sm-12 mb-4" *ngFor="let district of districtData">
-            <a type="link" (click)="DetailProgress(district.did,district.dashname,district.nosworks)">
-              <a type="link" (click)="open_mobile_modal(1,itemDetailsModal)"> DetailProgress
-              <mat-card class="card-class text-center"
-                [ngStyle]="{'background-color': getCardColor(district.did), 'color': 'Black'}">
-                <mat-card-header class="mat-card-header" style="border-bottom: none; text-align: center;">
-                  <mat-icon role="img" mat-card-avatar
-                    class="mat-icon notranslate mat-card-avatar material-icons mat-icon-no-color"
-                    style="font-size: 40px; color: white;" aria-hidden="true">
-                    {{ getIcon(district.did) }}
-                  </mat-icon>
-                  <div style="text-align: center; margin-top: -20px; margin-left: 5%;">
-                    <h5 style="font-size: 18px; font-weight: bold;">{{ district.dashname }}</h5>
-                  </div>
-                </mat-card-header>
-                <mat-card-content>
-                  <h3 class="font-weight-bold" style="font-weight: bold; font-size: 16px;">
-                    {{ district.nosworks }}
-                  </h3>
-                </mat-card-content>
-              </mat-card>
-            </a>
-          </div> -->
+        
+         
           <div class="col-lg-3 col-md-6 col-sm-12 mb-4" 
           *ngFor="let district of districtData">
        <ng-container *ngIf="!shouldHideCard(district.did)">
@@ -396,7 +410,7 @@
            </mat-card>
          </a>
        </ng-container>
-     </div>
+     </div> -->
      
 
         </div>
