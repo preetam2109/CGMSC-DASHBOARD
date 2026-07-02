@@ -92,12 +92,11 @@
         </mat-tab>
 
         <!-- District-wise Tab -->
-        <mat-tab label="District-wise" *ngIf="showDistrict">
-          <ng-template matTabContent>
+        <mat-tab label="District-wise" *ngIf="showDistrict" (click)="ondesticcall()">
+          <ng-template matTabContent >
             <div class="card-division">
               <div class="row ">
-
-                <div class="col-12 col-md-6 mt-3">
+                <div class="col-12 col-md-4 mt-3">
                   <div class="columns justify-content-center mb-3">
                     <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID" [(ngModel)]="mainSchemeID"
                       name="mainSchemeID" (change)="onselect_mainscheme_data($event)" #emailidField="ngModel"
@@ -106,7 +105,7 @@
                     </ng-select>
                   </div>
                 </div>
-                <div class="col-12 col-md-6 mt-3">
+                <div class="col-12 col-md-4 mt-3">
                   <div class="columns justify-content-center mb-3">
                     <ng-select [items]="GetDistrict" bindLabel="districtname" bindValue="districT_ID"
                       [(ngModel)]="districT_ID" name="districT_ID" (change)="onGetDistrictsSelect($event,0)"
@@ -115,6 +114,11 @@
                     </ng-select>
                   </div>
                 </div>
+                  <div class="col-12 col-md-4 mt-3">
+                    <div class="columns justify-content-center mb-3">
+                   <Button class="btn btn-info border" (click)="DashProgressCount()" >Show data</Button>
+                    </div>
+                  </div>
               </div>
             </div>
             <label class="division-label" *ngIf="hide">Selected Scheme: {{ selectedName }}</label>&nbsp;

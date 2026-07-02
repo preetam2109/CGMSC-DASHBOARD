@@ -260,6 +260,44 @@ loadInitialData() {
       }
     );
   }
+loadInitialData1() {
+    // debugger
+    this.spinner.show();
+    var formdate = this.formdate ? this.formdate : 0;
+    var todate = this.todate ? this.todate : 0;
+
+ var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        this.divisionid = sessionStorage.getItem('divisionID');
+        this.showDivision = false;
+      } else if (roleName == 'Collector') {
+        this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+        if (this.distid != 0) {
+          this.himisDistrictid = this.distid;
+        }
+      }
+
+    this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+    
+    var mainSchemeId = 0;
+    var ASID = 0;
+    var GrantID = 0;
+
+    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount, formdate, todate).subscribe(
+      (res: any) => {
+        this.originalData = this.sortDistrictData(res);
+        this.districtData = [...this.originalData];
+        this.calculateTotalNosWorks();
+        this.bindDashboardData();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        console.error('API Error:', error);
+      }
+    );
+  }
   selectedTabValue(event: any): void {
     // debugger
     this.selectedTabIndex = event.index;
@@ -268,15 +306,34 @@ loadInitialData() {
       this.divisionid=0;
       this.himisDistrictid=0;
       this.ASAmount=0,
-      this.loadInitialData();
+      // this.loadInitialData();
+      this.farestcalll();
 
       this.showCards = true;
     } else {
       this.showCards = false;
+      this.ondesticcall();
     }
   }
+farestcalll(){
+    var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        // this.divisionid = sessionStorage.getItem('divisionID');
+        // this.showDivision = false;
+  this.loadInitialData1();
 
+      } else if (roleName == 'Collector') {
+      this.loadInitialData1();
+
+        // this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+        // if (this.distid != 0) {
+        //   this.himisDistrictid = this.distid;
+        // }
+      }
+       this.loadInitialData();
+}
   DashProgressCount() {
+    // debugger;
     try {
       this.spinner.show();
       var roleName = localStorage.getItem('roleName');
@@ -290,9 +347,9 @@ loadInitialData() {
         }
       }
       
-      if (this.selectedTabIndex === 1) {
-        this.himisDistrictid = 0;
-      }
+      // if (this.selectedTabIndex === 1) {
+      //   this.himisDistrictid = 0;
+      // }
       
       var ASID = 0;
       var GrantID = 0;
@@ -1762,6 +1819,7 @@ loadInitialData() {
 
   districT_ID: any;
   onGetDistrictsSelect(event: any, num: number): void {
+    debugger;
     const selectedUser = this.GetDistrict.find((user: { districT_ID: any }) => user.districT_ID === this.districT_ID);
 
     if (selectedUser) {
@@ -1776,7 +1834,7 @@ loadInitialData() {
       this.divisionid = 0;
       this.show = true;
       this.hide = this.selectedName != null;
-      this.DashProgressCount();
+      // this.DashProgressCount();
 
       if (this.selectedTabIndex === 3) {
         this.showCards = false;
@@ -1902,5 +1960,21 @@ loadInitialData() {
   getNosWorks(id: number): number {
     const item = this.districtData.find((data: any) => data.did === id);
     return item?.nosworks ?? 0;
+  }
+
+  ondesticcall(){
+    // debugger;
+    var roleName = localStorage.getItem('roleName');
+      if (roleName == 'Division') {
+        // this.divisionid = sessionStorage.getItem('divisionID');
+        this.GetDistricts();
+      } else if (roleName == 'Collector') {
+        // this.himisDistrictid = sessionStorage.getItem('himisDistrictid'); this.divisionid = 0;
+        this.getDistrictNameDME();
+      }
+      // else {
+      //   this.divisionid = 0;
+      // }  
+
   }
 }
