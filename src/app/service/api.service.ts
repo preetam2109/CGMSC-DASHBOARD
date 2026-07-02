@@ -680,35 +680,35 @@ export class ApiService {
   //#region DetailProgress
 
 
-  GETWORunningHandDetails(did: any, divisionId: any, distId: number, mainSchemeId: any, contractorid: any, ASAmount: any,fromdt:any,todt:any) {
+  GETWORunningHandDetails(did: any, divisionId: any, distId: number, mainSchemeId: any, contractorid: any, ASAmount: any, fromdt: any, todt: any) {
     return this.http.get<WORunningHandDetails[]>(`${this.apiUrl}/DetailProgress/WORunningHandDetails?did=${did}&divisionid=${divisionId}&districtid=${distId}&mainSchemeId=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/WORunningHandDetails?did=3001&divisionid=0&districtid=0&mainschemeid=0&contractorid=0&ASAmount=1
     // WORunningHandDetails
   }
-  GETLandIssueRetToDeptDetatails(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any,fromdt:any,todt:any) {
+  GETLandIssueRetToDeptDetatails(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any, fromdt: any, todt: any) {
     return this.http.get<LandIssue_RetToDeptDetatails[]>(`${this.apiUrl}/DetailProgress/LandIssue_RetToDeptDetatails?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/LandIssue_RetToDeptDetatails?did=6001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=1&fromdt=2026-06-01&todt=2026-06-22
   }
-  GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any,isbelow20:any,fromdt:any,todt:any) {
+  GETTobeTenderAll(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any, isbelow20: any, fromdt: any, todt: any) {
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TobeTenderAll?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}&isbelow20=${isbelow20}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TobeTenderAll?did=1001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=0
   }
-  GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid:any,ASAmount:any,fromdt:any,todt:any) {
+  GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any, fromdt: any, todt: any) {
     // debugger
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TenderInProcess?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TenderInProcess?did=2001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=0&fromdt=2026-06-01&todt=2026-06-22
   }
-  GET_TotalWorksAbstract(divisionId: any,districtid:any,mainSchemeId: any, contractorid:any,ASAmount:any,fromdt:any,todt:any) {
+  GET_TotalWorksAbstract(divisionId: any, districtid: any, mainSchemeId: any, contractorid: any, ASAmount: any, fromdt: any, todt: any) {
     return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1&fromdt=2026-06-01&todt=2026-06-22
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=116&contractorid=0&ASAmount=1&ASAmount=0;
   }
 
-  DashProgressCount(divisionId: any, mainSchemeId: number, distid: number, ASID: any, GrantID: any, ASAmount: any,fromdt:any,todt:any) {
+  DashProgressCount(divisionId: any, mainSchemeId: number, distid: number, ASID: any, GrantID: any, ASAmount: any, fromdt: any, todt: any) {
     // return this.http.get<DashProgressCount[]>(
     //   `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distId}`
     // );
-// debugger
+    // debugger
     return this.http.get<DashProgressCount[]>(`${this.apiUrl}/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&ASID=${ASID}&GrantID=${GrantID}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=0&mainSchemeId=0&distid=0&ASID=0&GrantID=0&ASAmount=1
   }
@@ -979,21 +979,21 @@ export class ApiService {
     return this.http.get<RunningWorkDelay[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryDelay?RPType=${RPType}&divisionid=${divisionId}&districtid=${districtid}&mainSchemeId=${mainschemeid}&contractid=${contractid}`);
     //https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningWorkSummaryDelay?RPType=GTotal&divisionid=0&districtid=0&mainSchemeId=0&contractid=0
   }
-  GETRunningDelayWorksDetails(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any,IsMedicalCollege:any,isabove90:any) {
+  GETRunningDelayWorksDetails(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any, IsMedicalCollege: any, isabove90: any) {
     return this.http.get<RunningDelayWorksDetails[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}&IsMedicalCollege=${IsMedicalCollege}&isabove90=${isabove90}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&IsMedicalCollege=NA&isabove90=NA
 
   }
-GETRunningWorkSummaryValue() {
+  GETRunningWorkSummaryValue() {
     debugger
     return this.http.get<any[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryValue`);
-    
+
   }
 
-  GETRunningDelayWorksDetailsReport(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any,IsMedicalCollege:any,isabove90:any) {
+  GETRunningDelayWorksDetailsReport(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any, IsMedicalCollege: any, isabove90: any) {
     debugger
     return this.http.get<any[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}&IsMedicalCollege=${IsMedicalCollege}&isabove90=${isabove90}`);
-    
+
   }
 
 
@@ -1856,11 +1856,11 @@ GETRunningWorkSummaryValue() {
   }
 
 
-  getPendigBillSummary(divisionid:any) {
+  getPendigBillSummary(divisionid: any) {
     // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBillSummary?divisionid=D1017
     return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBillSummary?divisionid=${divisionid}`);
   }
-  getPendigBill(mainSchemeId: any, officeOrder: any,divisionid:any) {
+  getPendigBill(mainSchemeId: any, officeOrder: any, divisionid: any) {
     // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBill?mainSchemeId=101&officeOrder=1&divisionid=D1017
     return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBill?mainSchemeId=${mainSchemeId}&officeOrder=${officeOrder}&divisionid=${divisionid}`);
   }
