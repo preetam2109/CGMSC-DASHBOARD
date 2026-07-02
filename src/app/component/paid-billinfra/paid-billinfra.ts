@@ -90,12 +90,14 @@ totalGrossLacsOnlyFundWise: number = 0;
 
 groupedWorkWiseData: any[] = [];
 totalGrossLacsWorkWise: number = 0;
+totalnetAmtLacsWorkWise: number = 0;
   // PaidSummary: PaidSummary[] = [];
   // dataSource!: MatTableDataSource<PaidSummary>;
 displayedColumns3 = [
-  'sno', 'division', 'district', 'worK_ID', 'workname', 'billno',
-  'agrbillstatus', 'billdate', 'mesurementDT', 'chequeDT', 'grosspaid', 'dayssincemeasurement'
+  'sno', 'division', 'district', 'worK_ID', 'workname','contractor' ,'mobNo','billno',
+  'agrbillstatus', 'billdate', 'mesurementDT', 'chequeDT', 'grosspaid','netAmtLacs', 'dayssincemeasurement'
 ];
+ 
   dataSource2!: MatTableDataSource<PaidSummary>;
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('paginator1') paginator1!: MatPaginator;
@@ -779,6 +781,8 @@ processWorkWiseData() {
     this.groupedWorkWiseData = [];
     this.dataSource3.data = [];
     this.totalGrossLacsWorkWise = 0;
+    this.totalnetAmtLacsWorkWise = 0;
+    
     return;
   }
 
@@ -793,8 +797,12 @@ processWorkWiseData() {
   });
 
   this.totalGrossLacsWorkWise = 0;
+  this.totalnetAmtLacsWorkWise = 0;
   this.groupedWorkWiseData.forEach(item => {
     this.totalGrossLacsWorkWise += Number(item.grosspaid || 0);
+  });
+  this.groupedWorkWiseData.forEach(item => {
+    this.totalnetAmtLacsWorkWise += Number(item.netAmtLacs || 0);
   });
 
   this.dataSource3.data = this.groupedWorkWiseData;
