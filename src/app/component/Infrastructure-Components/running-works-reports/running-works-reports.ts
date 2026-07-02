@@ -61,11 +61,14 @@ export class RunningWorksReports implements OnInit {
 
   selectedDivisionName: string = '';
 
+  expenditureGridDivisions: any[] = [];
+  expenditureGridTotal: any = {};
+
   defaultColumns: string[] = [
     'sno', 'work_id', 'head', 'divName_En', 'district', 'blockname', 'work', 'contractorNAme', 'mobNo',
-    'aaDate', 'aaamt',  'sanctionRate', 'sanctionDetail', 'workorderDT', 'timeAllowed', 'dueDTTimePerAdded', 'tvc', 'paidTillLacs', 'financialProgress',
+    'aaDate', 'aaamt', 'sanctionRate', 'sanctionDetail', 'workorderDT', 'timeAllowed', 'dueDTTimePerAdded', 'tvc', 'paidTillLacs', 'financialProgress',
     'lProgress', 'progressDT', 'delayDays', 'delayreason', 'PRemarks', 'expcompdt', 'subengname',
-    'aeName', 'tType', 'tenderReference', 'dateOfIssueNIT', 'tsDate', 'tsamt','acceptanceLetterRefNo', 'acceptLetterDT',
+    'aeName', 'tType', 'tenderReference', 'dateOfIssueNIT', 'tsDate', 'tsamt', 'acceptanceLetterRefNo', 'acceptLetterDT',
     'letterNo', 'approver', 'cid', 'action'
   ];
 
@@ -88,9 +91,12 @@ export class RunningWorksReports implements OnInit {
     this.spinner.show();
     forkJoin({
       values: this.api.GETRunningWorkSummaryValue(),
-      delays: this.api.GETRunningWorkSummaryDelay('Division', 0, 0, 0, 0)
+      delays: this.api.GETRunningWorkSummaryDelay('Division', 0, 0, 0, 0),
+      medCollegeDetails: this.api.GETRunningDelayWorksDetailsReport('0', '0', 0, 0, 0, 0, 'Y', 'NA'),
+      above90Details: this.api.GETRunningDelayWorksDetailsReport('0', '0', 0, 0, 0, 0, 'NA', 'Y'),
+      below90Details: this.api.GETRunningDelayWorksDetailsReport('0', '0', 0, 0, 0, 0, 'NA', 'NA')
     }).subscribe({
-      next: ({ values, delays }) => {
+      next: ({ values, delays, medCollegeDetails, above90Details, below90Details }) => {
         if (values && delays) {
           this.runningWorkSummaryValue = values.map((val: any, index: number) => {
             const delayItem: any = delays.find((d: any) => d.id === val.divisionID) || {};
@@ -117,6 +123,162 @@ export class RunningWorksReports implements OnInit {
           });
 
           this.filteredRunningWorkSummaryValue = [...this.runningWorkSummaryValue];
+
+          // Classify delays helper
+          const classifyDetails = (list: any[]) => {
+            const map: { [key: string]: { SixMonth: number, Between3_6: number, Between1_3: number, TimeValid: number } } = {};
+            if (list) {
+              list.forEach((item: any) => {
+                const divId = item.divisionID;
+                if (!map[divId]) {
+                  map[divId] = { SixMonth: 0, Between3_6: 0, Between1_3: 0, TimeValid: 0 };
+                }
+                const dDays = Number(item.delayDays) || 0;
+                if (dDays > 180) {
+                  map[divId].SixMonth++;
+                } else if (dDays >= 91 && dDays <= 180) {
+                  map[divId].Between3_6++;
+                } else if (dDays >= 1 && dDays <= 90) {
+                  map[divId].Between1_3++;
+                } else {
+                  map[divId].TimeValid++;
+                }
+              });
+            }
+            return map;
+          };
+
+          const medCollegeDelayMap = classifyDetails(medCollegeDetails);
+          const above90DelayMap = classifyDetails(above90Details);
+          const below90DelayMap = classifyDetails(below90Details);
+
+          this.expenditureGridDivisions = values.map((val: any) => {
+            const divId = val.divisionID;
+            const medDelays = medCollegeDelayMap[divId] || { SixMonth: 0, Between3_6: 0, Between1_3: 0, TimeValid: 0 };
+            const ab90Delays = above90DelayMap[divId] || { SixMonth: 0, Between3_6: 0, Between1_3: 0, TimeValid: 0 };
+            const bel90Delays = below90DelayMap[divId] || { SixMonth: 0, Between3_6: 0, Between1_3: 0, TimeValid: 0 };
+
+            const medValue = Number(val.medicollegeworkvalue) || 0;
+            const medPaid = Number(val.medicalCollegePaidcr) || 0;
+            const medPercent = medValue > 0 ? (medPaid / medValue) * 100 : 0;
+
+            const ab90Value = Number(val.above90Valuecr) || 0;
+            const ab90Paid = Number(val.above90Paidcr) || 0;
+            const ab90Percent = ab90Value > 0 ? (ab90Paid / ab90Value) * 100 : 0;
+
+            const bel90Value = Number(val.below90valuecr) || 0;
+            const bel90Paid = Number(val.below90Paidcr) || 0;
+            const bel90Percent = bel90Value > 0 ? (bel90Paid / bel90Value) * 100 : 0;
+
+            const totWorks = (Number(val.medicollege) || 0) + (Number(val.nosabove90) || 0) + (Number(val.below90) || 0);
+            const totValue = medValue + ab90Value + bel90Value;
+            const totPaid = medPaid + ab90Paid + bel90Paid;
+            const totPercent = totValue > 0 ? (totPaid / totValue) * 100 : 0;
+
+            const totDelSix = medDelays.SixMonth + ab90Delays.SixMonth + bel90Delays.SixMonth;
+            const totDelThreeSix = medDelays.Between3_6 + ab90Delays.Between3_6 + bel90Delays.Between3_6;
+            const totDelLessThree = medDelays.Between1_3 + ab90Delays.Between1_3 + bel90Delays.Between1_3;
+            const totOnTime = medDelays.TimeValid + ab90Delays.TimeValid + bel90Delays.TimeValid;
+
+            return {
+              divisionID: divId,
+              divName_En: val.divName_En,
+              med: {
+                works: Number(val.medicollege) || 0,
+                value: medValue,
+                paid: medPaid,
+                percent: medPercent,
+                delaySix: medDelays.SixMonth,
+                delayThreeSix: medDelays.Between3_6,
+                delayLessThree: medDelays.Between1_3,
+                onTime: medDelays.TimeValid
+              },
+              above90: {
+                works: Number(val.nosabove90) || 0,
+                value: ab90Value,
+                paid: ab90Paid,
+                percent: ab90Percent,
+                delaySix: ab90Delays.SixMonth,
+                delayThreeSix: ab90Delays.Between3_6,
+                delayLessThree: ab90Delays.Between1_3,
+                onTime: ab90Delays.TimeValid
+              },
+              below90: {
+                works: Number(val.below90) || 0,
+                value: bel90Value,
+                paid: bel90Paid,
+                percent: bel90Percent,
+                delaySix: bel90Delays.SixMonth,
+                delayThreeSix: bel90Delays.Between3_6,
+                delayLessThree: bel90Delays.Between1_3,
+                onTime: bel90Delays.TimeValid
+              },
+              total: {
+                works: totWorks,
+                value: totValue,
+                paid: totPaid,
+                percent: totPercent,
+                delaySix: totDelSix,
+                delayThreeSix: totDelThreeSix,
+                delayLessThree: totDelLessThree,
+                onTime: totOnTime
+              }
+            };
+          });
+
+          // Calculate Grand Totals
+          const medValueTotal = this.expenditureGridDivisions.reduce((sum, d) => sum + d.med.value, 0);
+          const medPaidTotal = this.expenditureGridDivisions.reduce((sum, d) => sum + d.med.paid, 0);
+          const above90ValueTotal = this.expenditureGridDivisions.reduce((sum, d) => sum + d.above90.value, 0);
+          const above90PaidTotal = this.expenditureGridDivisions.reduce((sum, d) => sum + d.above90.paid, 0);
+          const below90ValueTotal = this.expenditureGridDivisions.reduce((sum, d) => sum + d.below90.value, 0);
+          const below90PaidTotal = this.expenditureGridDivisions.reduce((sum, d) => sum + d.below90.paid, 0);
+          const totalValueTotal = this.expenditureGridDivisions.reduce((sum, d) => sum + d.total.value, 0);
+          const totalPaidTotal = this.expenditureGridDivisions.reduce((sum, d) => sum + d.total.paid, 0);
+
+          this.expenditureGridTotal = {
+            med: {
+              works: this.expenditureGridDivisions.reduce((sum, d) => sum + d.med.works, 0),
+              value: medValueTotal,
+              paid: medPaidTotal,
+              percent: medValueTotal > 0 ? (medPaidTotal / medValueTotal) * 100 : 0,
+              delaySix: this.expenditureGridDivisions.reduce((sum, d) => sum + d.med.delaySix, 0),
+              delayThreeSix: this.expenditureGridDivisions.reduce((sum, d) => sum + d.med.delayThreeSix, 0),
+              delayLessThree: this.expenditureGridDivisions.reduce((sum, d) => sum + d.med.delayLessThree, 0),
+              onTime: this.expenditureGridDivisions.reduce((sum, d) => sum + d.med.onTime, 0)
+            },
+            above90: {
+              works: this.expenditureGridDivisions.reduce((sum, d) => sum + d.above90.works, 0),
+              value: above90ValueTotal,
+              paid: above90PaidTotal,
+              percent: above90ValueTotal > 0 ? (above90PaidTotal / above90ValueTotal) * 100 : 0,
+              delaySix: this.expenditureGridDivisions.reduce((sum, d) => sum + d.above90.delaySix, 0),
+              delayThreeSix: this.expenditureGridDivisions.reduce((sum, d) => sum + d.above90.delayThreeSix, 0),
+              delayLessThree: this.expenditureGridDivisions.reduce((sum, d) => sum + d.above90.delayLessThree, 0),
+              onTime: this.expenditureGridDivisions.reduce((sum, d) => sum + d.above90.onTime, 0)
+            },
+            below90: {
+              works: this.expenditureGridDivisions.reduce((sum, d) => sum + d.below90.works, 0),
+              value: below90ValueTotal,
+              paid: below90PaidTotal,
+              percent: below90ValueTotal > 0 ? (below90PaidTotal / below90ValueTotal) * 100 : 0,
+              delaySix: this.expenditureGridDivisions.reduce((sum, d) => sum + d.below90.delaySix, 0),
+              delayThreeSix: this.expenditureGridDivisions.reduce((sum, d) => sum + d.below90.delayThreeSix, 0),
+              delayLessThree: this.expenditureGridDivisions.reduce((sum, d) => sum + d.below90.delayLessThree, 0),
+              onTime: this.expenditureGridDivisions.reduce((sum, d) => sum + d.below90.onTime, 0)
+            },
+            total: {
+              works: this.expenditureGridDivisions.reduce((sum, d) => sum + d.total.works, 0),
+              value: totalValueTotal,
+              paid: totalPaidTotal,
+              percent: totalValueTotal > 0 ? (totalPaidTotal / totalValueTotal) * 100 : 0,
+              delaySix: this.expenditureGridDivisions.reduce((sum, d) => sum + d.total.delaySix, 0),
+              delayThreeSix: this.expenditureGridDivisions.reduce((sum, d) => sum + d.total.delayThreeSix, 0),
+              delayLessThree: this.expenditureGridDivisions.reduce((sum, d) => sum + d.total.delayLessThree, 0),
+              onTime: this.expenditureGridDivisions.reduce((sum, d) => sum + d.total.onTime, 0)
+            }
+          };
+
           this.cdr.detectChanges();
         }
         this.spinner.hide();
@@ -186,14 +348,14 @@ export class RunningWorksReports implements OnInit {
   exportToExcel(): void {
     const excelData = this.filteredRunningWorkSummaryValue.map((r: any) => ({
       'Division': r.divName_En,
-      'Medical College - कुल कार्य': r.medicollege,
-      'Medical College - कुल वैल्यू (In cr)': r.medicollegeworkvalue,
-      '90 लाख से ऊपर के कार्य - कुल कार्य': r.nosabove90,
-      '90 लाख से ऊपर के कार्य - कुल वैल्यू (In cr)': r.above90Valuecr,
-      '90 लाख से नीचे के कार्य - कुल कार्य': r.below90,
-      '90 लाख से नीचे के कार्य - कुल वैल्यू (In cr)': r.below90valuecr,
-      'कुल - कुल कार्य': r.totalNos,
-      'कुल - कुल वैल्यू (In cr)': r.totalValue,
+      'Medical College - Total Works': r.medicollege,
+      'Medical College - Total Value (In cr)': r.medicollegeworkvalue,
+      'Works > 90 Lakhs - Total Works': r.nosabove90,
+      'Works > 90 Lakhs - Total Value (In cr)': r.above90Valuecr,
+      'Works < 90 Lakhs - Total Works': r.below90,
+      'Works < 90 Lakhs - Total Value (In cr)': r.below90valuecr,
+      'Total - Total Works': r.totalNos,
+      'Total - Total Value (In cr)': r.totalValue,
       // 'Delayed Work (>6 month)': r.morethanSixMonth,
       // 'Otime': r.timeValid,
       // '3-6 month': r.d_91_180Days
@@ -202,14 +364,14 @@ export class RunningWorksReports implements OnInit {
     const totals = this.getTotals();
     excelData.push({
       'Division': 'Total',
-      'Medical College - कुल कार्य': totals.medicollege,
-      'Medical College - कुल वैल्यू (In cr)': Number(totals.medicollegeworkvalue.toFixed(2)),
-      '90 लाख से ऊपर के कार्य - कुल कार्य': totals.nosabove90,
-      '90 लाख से ऊपर के कार्य - कुल वैल्यू (In cr)': Number(totals.above90Valuecr.toFixed(2)),
-      '90 लाख से नीचे के कार्य - कुल कार्य': totals.below90,
-      '90 लाख से नीचे के कार्य - कुल वैल्यू (In cr)': Number(totals.below90valuecr.toFixed(2)),
-      'कुल - कुल कार्य': totals.totalNos,
-      'कुल - कुल वैल्यू (In cr)': Number(totals.totalValue.toFixed(2)),
+      'Medical College - Total Works': totals.medicollege,
+      'Medical College - Total Value (In cr)': Number(totals.medicollegeworkvalue.toFixed(2)),
+      'Works > 90 Lakhs - Total Works': totals.nosabove90,
+      'Works > 90 Lakhs - Total Value (In cr)': Number(totals.above90Valuecr.toFixed(2)),
+      'Works < 90 Lakhs - Total Works': totals.below90,
+      'Works < 90 Lakhs - Total Value (In cr)': Number(totals.below90valuecr.toFixed(2)),
+      'Total - Total Works': totals.totalNos,
+      'Total - Total Value (In cr)': Number(totals.totalValue.toFixed(2)),
       // 'Delayed Work (>6 month)': totals.morethanSixMonth,
       // 'Otime': totals.timeValid,
       // '3-6 month': totals.d_91_180Days
@@ -265,7 +427,7 @@ export class RunningWorksReports implements OnInit {
       head: [
         [
           {
-            content: 'Running Works Summary Value (Division Wise)',
+            content: 'Running Works Financial and Physical Status',
             colSpan: 7,
             styles: {
               halign: 'center',
@@ -356,11 +518,194 @@ export class RunningWorksReports implements OnInit {
     doc.save(`Running_Works_Summary_Value_${formattedDate}.pdf`);
   }
 
-  fetchDetails(divisionID: any, isMedicalCollege: string, isabove90: string, count: number, colName: string, divName: string = ''): void {
+  exportExpenditureToExcel(): void {
+    const excelData: any[] = [];
+
+    const categories = [
+      { key: 'med', label: 'Medical College' },
+      { key: 'above90', label: 'Works > 90 Lakhs' },
+      { key: 'below90', label: 'Works < 90 Lakhs' },
+      { key: 'total', label: 'Total' }
+    ];
+
+    const parameters = [
+      { prop: 'works', label: 'Total Works', type: 'number' },
+      { prop: 'value', label: 'Total Value (In cr)', type: 'number' },
+      { prop: 'paid', label: 'Expenditure (Paid in Cr)', type: 'number' },
+      { prop: 'percent', label: 'Expenditure %', type: 'percent' },
+      { prop: 'delaySix', label: 'Delay > 6Month', type: 'number' },
+      { prop: 'delayThreeSix', label: 'Delay 3-6 Month', type: 'number' },
+      { prop: 'delayLessThree', label: 'Delay<3', type: 'number' },
+      { prop: 'onTime', label: 'Ontime', type: 'number' }
+    ];
+
+    categories.forEach(cat => {
+      parameters.forEach(param => {
+        const row: any = {
+          'Category': cat.label,
+          'Parameter': param.label
+        };
+
+        this.expenditureGridDivisions.forEach(div => {
+          let val = div[cat.key][param.prop];
+          if (param.type === 'percent') {
+            row[div.divName_En] = val.toFixed(2) + '%';
+          } else if (param.type === 'number' && param.prop !== 'works' && param.prop.indexOf('delay') === -1 && param.prop !== 'onTime') {
+            row[div.divName_En] = Number(val.toFixed(2));
+          } else {
+            row[div.divName_En] = val;
+          }
+        });
+
+        let totVal = this.expenditureGridTotal[cat.key][param.prop];
+        if (param.type === 'percent') {
+          row['Total'] = totVal.toFixed(2) + '%';
+        } else if (param.type === 'number' && param.prop !== 'works' && param.prop.indexOf('delay') === -1 && param.prop !== 'onTime') {
+          row['Total'] = Number(totVal.toFixed(2));
+        } else {
+          row['Total'] = totVal;
+        }
+
+        excelData.push(row);
+      });
+    });
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { Data: worksheet },
+      SheetNames: ['Data'],
+    };
+
+    XLSX.writeFile(workbook, 'Running_Works_With_Expenditure_Report.xlsx');
+  }
+
+  exportExpenditureToPDF(): void {
+    const currentDateTime = this.getCurrentDateTime();
+    const doc = new jsPDF('l', 'mm', 'a4');
+
+    const headers = [['Category', 'Parameter', ...this.expenditureGridDivisions.map(d => d.divName_En), 'Total']];
+    const bodyData: any[] = [];
+
+    const categories = [
+      { key: 'med', label: 'Medical College' },
+      { key: 'above90', label: 'Works > 90 Lakhs' },
+      { key: 'below90', label: 'Works < 90 Lakhs' },
+      { key: 'total', label: 'Total' }
+    ];
+
+    const parameters = [
+      { prop: 'works', label: 'Total Works', type: 'number' },
+      { prop: 'value', label: 'Total Value (In cr)', type: 'number' },
+      { prop: 'paid', label: 'Expenditure (Paid in Cr)', type: 'number' },
+      { prop: 'percent', label: 'Expenditure %', type: 'percent' },
+      { prop: 'delaySix', label: 'Delay > 6Month', type: 'number' },
+      { prop: 'delayThreeSix', label: 'Delay 3-6 Month', type: 'number' },
+      { prop: 'delayLessThree', label: 'Delay<3', type: 'number' },
+      { prop: 'onTime', label: 'Ontime', type: 'number' }
+    ];
+
+    categories.forEach(cat => {
+      parameters.forEach(param => {
+        const row: any[] = [cat.label, param.label];
+
+        this.expenditureGridDivisions.forEach(div => {
+          let val = div[cat.key][param.prop];
+          if (param.type === 'percent') {
+            row.push(val.toFixed(2) + '%');
+          } else if (param.type === 'number' && param.prop !== 'works' && param.prop.indexOf('delay') === -1 && param.prop !== 'onTime') {
+            row.push(Number(val.toFixed(2)));
+          } else {
+            row.push(val);
+          }
+        });
+
+        let totVal = this.expenditureGridTotal[cat.key][param.prop];
+        if (param.type === 'percent') {
+          row.push(totVal.toFixed(2) + '%');
+        } else if (param.type === 'number' && param.prop !== 'works' && param.prop.indexOf('delay') === -1 && param.prop !== 'onTime') {
+          row.push(Number(totVal.toFixed(2)));
+        } else {
+          row.push(totVal);
+        }
+
+        bodyData.push(row);
+      });
+    });
+
+    autoTable(doc, {
+      startY: 10,
+      theme: 'grid',
+      head: [
+        [
+          {
+            content: 'Running Works Financial and Physical Status',
+            colSpan: headers[0].length - 2,
+            styles: {
+              halign: 'center',
+              fontStyle: 'bold',
+              fontSize: 11,
+              fillColor: [254, 240, 255],
+              textColor: [0, 0, 0],
+              lineWidth: 0.8,
+              lineColor: [0, 0, 0]
+            }
+          },
+          {
+            content: `Date : ${currentDateTime}`,
+            colSpan: 2,
+            styles: {
+              halign: 'right',
+              valign: 'top',
+              fontSize: 9,
+              fillColor: [254, 240, 255],
+              textColor: [0, 0, 0],
+              lineWidth: 0.8,
+              lineColor: [0, 0, 0]
+            }
+          }
+        ],
+        headers[0]
+      ],
+      body: bodyData,
+      styles: {
+        fontSize: 8,
+        lineWidth: 0.6,
+        lineColor: [0, 0, 0],
+        valign: 'middle'
+      },
+      didParseCell: (data) => {
+        if (data.section === 'body') {
+          const category = data.row.cells[0].raw as string;
+          if (category === 'Medical College') {
+            data.cell.styles.fillColor = [226, 239, 218]; // soft green
+          } else if (category === 'Works > 90 Lakhs') {
+            data.cell.styles.fillColor = [221, 235, 247]; // soft blue
+          } else if (category === 'Works < 90 Lakhs') {
+            data.cell.styles.fillColor = [252, 228, 214]; // soft peach
+          } else if (category === 'Total') {
+            data.cell.styles.fillColor = [255, 242, 204]; // soft yellow/gold
+            data.cell.styles.fontStyle = 'bold';
+          }
+
+          if (data.column.index === 0 || data.column.index === 1) {
+            data.cell.styles.fontStyle = 'bold';
+          }
+          if (data.column.index === headers[0].length - 1) {
+            data.cell.styles.fontStyle = 'bold';
+          }
+        }
+      }
+    });
+
+    const formattedDate = this.datePipe.transform(new Date(), 'dd-MMM-yyyy');
+    doc.save(`Running_Works_With_Expenditure_${formattedDate}.pdf`);
+  }
+
+  fetchDetails(divisionID: any, isMedicalCollege: string, isabove90: string, count: number, colName: string, divName: string = '', delayTime: string = '0', parameter: string = '0'): void {
     if (count === 0) return;
 
     this.selectedDivisionName = divName;
-    this.selectedParameter = 'RunningWorkDetail';
+    this.selectedParameter = delayTime === '0' ? 'RunningWorkDetail' : delayTime;
     this.selectname = colName;
     this.selectedvalue = count;
 
@@ -384,57 +729,76 @@ export class RunningWorksReports implements OnInit {
 
     const mainSchemeId = 0;
     const contractid = 0;
-    const delayTime = '0';
-    const parameter = '0';
 
-    this.spinner.show();
-    debugger
-    this.api.GETRunningDelayWorksDetailsReport(
-      delayTime,
-      parameter,
-      this.divisionid,
-      this.himisDistrictid,
-      mainSchemeId,
-      contractid,
-      isMedicalCollege,
-      isabove90
-    ).subscribe({
-      next: (res) => {
-        this.dispatchData = res.map((item: any, index: number) => {
-          const tvcVal = Number(item.tvc) || 0;
-          const paidVal = Number(item.paidTillLacs) || 0;
-          let finProgress = '0%';
-          if (paidVal > 0) {
-            if (tvcVal === 0) {
+    const processResults = (res: any[]) => {
+      this.dispatchData = res.map((item: any, index: number) => {
+        const tvcVal = Number(item.tvc) || 0;
+        const paidVal = Number(item.paidTillLacs) || 0;
+        let finProgress = '0%';
+        if (paidVal > 0) {
+          if (tvcVal === 0) {
+            finProgress = '100%';
+          } else {
+            const percentage = (paidVal / tvcVal) * 100;
+            if (percentage > 100) {
               finProgress = '100%';
             } else {
-              const percentage = (paidVal / tvcVal) * 100;
-              if (percentage > 100) {
-                finProgress = '100%';
-              } else {
-                finProgress = percentage.toFixed(2) + '%';
-              }
+              finProgress = percentage.toFixed(2) + '%';
             }
           }
-          return {
-            ...item,
-            sno: index + 1,
-            financialProgress: finProgress
-          };
-        });
-        console.log('dispatchData11:', this.dispatchData);
-        this.dataSource.data = this.dispatchData;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-        this.openDialog();
-      },
-      error: (error) => {
-        console.error('Error fetching data', error);
-        this.spinner.hide();
-      }
-    });
+        }
+        return {
+          ...item,
+          sno: index + 1,
+          financialProgress: finProgress
+        };
+      });
+      console.log('dispatchData11:', this.dispatchData);
+      this.dataSource.data = this.dispatchData;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.detectChanges();
+      this.spinner.hide();
+      this.openDialog();
+    };
+
+    if (isMedicalCollege === 'ALL' && isabove90 === 'ALL') {
+      this.spinner.show();
+      forkJoin({
+        med: this.api.GETRunningDelayWorksDetailsReport(delayTime, parameter, this.divisionid, this.himisDistrictid, mainSchemeId, contractid, 'Y', 'NA'),
+        above: this.api.GETRunningDelayWorksDetailsReport(delayTime, parameter, this.divisionid, this.himisDistrictid, mainSchemeId, contractid, 'NA', 'Y'),
+        below: this.api.GETRunningDelayWorksDetailsReport(delayTime, parameter, this.divisionid, this.himisDistrictid, mainSchemeId, contractid, 'NA', 'NA')
+      }).subscribe({
+        next: ({ med, above, below }) => {
+          const combined = [...(med || []), ...(above || []), ...(below || [])];
+          processResults(combined);
+        },
+        error: (error) => {
+          console.error('Error fetching data', error);
+          this.spinner.hide();
+        }
+      });
+    } else {
+      this.spinner.show();
+      this.api.GETRunningDelayWorksDetailsReport(
+        delayTime,
+        parameter,
+        this.divisionid,
+        this.himisDistrictid,
+        mainSchemeId,
+        contractid,
+        isMedicalCollege,
+        isabove90
+      ).subscribe({
+        next: (res) => {
+          processResults(res);
+        },
+        error: (error) => {
+          console.error('Error fetching data', error);
+          this.spinner.hide();
+        }
+      });
+    }
   }
 
   openDialog(): void {
@@ -613,8 +977,8 @@ export class RunningWorksReports implements OnInit {
 
     doc.save('LandIssue_Detail.pdf');
   }
-  
-  
+
+
 
   onButtonClick2(ASID: any, workid: any): void {
     this.spinner.show();

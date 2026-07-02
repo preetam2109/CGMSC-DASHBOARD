@@ -102,6 +102,346 @@
       </div>
     </div>
   </div>
+
+  <!-- SECOND GRID: Running Works With Expenditure -->
+  <div class="card col-12 col-md-12 mt-4" *ngIf="expenditureGridDivisions.length > 0">
+    <div class="p-2">
+      <div class="card container-fluid text-center mb-1" style="background-color: rgb(254, 240, 255);">
+        <h3 class="mb-1 Heading-font-family pt-1">Running Works Financial and Physical Status</h3>
+      </div>
+
+      <div class="card border rounded py-2 px-2">
+        <div class="d-flex justify-content-end align-items-center mb-2">
+          <div class="export-menu-container">
+            <button class="btn btn-outline-secondary" mat-button
+              [matMenuTriggerFor]="exportExpenditureMenu">Export</button>
+            <mat-menu #exportExpenditureMenu="matMenu">
+              <button mat-menu-item (click)="exportExpenditureToExcel()">Excel</button>
+              <button mat-menu-item (click)="exportExpenditureToPDF()">PDF</button>
+            </mat-menu>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered text-center mb-0">
+            <thead>
+              <tr class="header-peach-bg fw-bold">
+                <th style="background-color: #FDE9D9; vertical-align: middle;">Head</th>
+                <th style="background-color: #FDE9D9; vertical-align: middle;">Progress</th>
+                <th style="background-color: #FDE9D9; vertical-align: middle;">Parameter</th>
+                <th *ngFor="let div of expenditureGridDivisions"
+                  style="background-color: #FDE9D9; vertical-align: middle;">{{ div.divName_En }}</th>
+                <th style="background-color: #FDE9D9; vertical-align: middle;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Medical College Group -->
+              <tr style="background-color: #E2EFDA;">
+                <td rowspan="8"
+                  style="background-color: #E2EFDA; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Medical
+                  College</td>
+                <td rowspan="4"
+                  style="background-color: #E2EFDA; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Financial</td>
+                <td class="text-start">कुल कार्य</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.med.works > 0"
+                  (click)="div.med.works > 0 && fetchDetails(div.divisionID, 'Y', 'NA', div.med.works, 'Medical College (कुल कार्य)', div.divName_En)">
+                  {{ div.med.works }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.med.works > 0"
+                  (click)="expenditureGridTotal.med.works > 0 && fetchDetails(0, 'Y', 'NA', expenditureGridTotal.med.works, 'Medical College (कुल कार्य)', 'All Divisions')">
+                  {{ expenditureGridTotal.med.works }}</td>
+              </tr>
+              <tr style="background-color: #E2EFDA;">
+                <td class="text-start">कुल वैल्यू (In cr)</td>
+                <td *ngFor="let div of expenditureGridDivisions">{{ div.med.value?.toFixed(2) }}</td>
+                <td class="fw-bold">{{ expenditureGridTotal.med.value?.toFixed(2) }}</td>
+              </tr>
+              <tr style="background-color: #E2EFDA;">
+                <td class="text-start">Expenditure (Paid in Cr)</td>
+                <td *ngFor="let div of expenditureGridDivisions">{{ div.med.paid?.toFixed(2) }}</td>
+                <td class="fw-bold">{{ expenditureGridTotal.med.paid?.toFixed(2) }}</td>
+              </tr>
+              <tr style="background-color: #E2EFDA;">
+                <td class="text-start">Expenditure %</td>
+                <td *ngFor="let div of expenditureGridDivisions">{{ div.med.percent?.toFixed(2) }}%</td>
+                <td class="fw-bold">{{ expenditureGridTotal.med.percent?.toFixed(2) }}%</td>
+              </tr>
+
+              <!-- Medical College Timeline Status Group -->
+              <tr style="background-color: #ffb3b3; --bs-table-bg: #ffb3b3 !important;">
+                <td rowspan="4"
+                  style="background-color: #E2EFDA; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Physical</td>
+                <td class="text-start">Delay > 6Month</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.med.delaySix > 0"
+                  (click)="div.med.delaySix > 0 && fetchDetails(div.divisionID, 'Y', 'NA', div.med.delaySix, 'Medical College (Delay > 6 Month)', div.divName_En, 'Delay', 'SixMonth')">
+                  {{ div.med.delaySix }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.med.delaySix > 0"
+                  (click)="expenditureGridTotal.med.delaySix > 0 && fetchDetails(0, 'Y', 'NA', expenditureGridTotal.med.delaySix, 'Medical College (Delay > 6 Month)', 'All Divisions', 'Delay', 'SixMonth')">
+                  {{ expenditureGridTotal.med.delaySix }}</td>
+              </tr>
+              <tr style="background-color: #ffd9d9; --bs-table-bg: #ffd9d9 !important;">
+                <td class="text-start">Delay 3-6 Month</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.med.delayThreeSix > 0"
+                  (click)="div.med.delayThreeSix > 0 && fetchDetails(div.divisionID, 'Y', 'NA', div.med.delayThreeSix, 'Medical College (Delay 3-6 Month)', div.divName_En, 'Delay', 'Between3_6')">
+                  {{ div.med.delayThreeSix }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.med.delayThreeSix > 0"
+                  (click)="expenditureGridTotal.med.delayThreeSix > 0 && fetchDetails(0, 'Y', 'NA', expenditureGridTotal.med.delayThreeSix, 'Medical College (Delay 3-6 Month)', 'All Divisions', 'Delay', 'Between3_6')">
+                  {{ expenditureGridTotal.med.delayThreeSix }}</td>
+              </tr>
+              <tr style="background-color: #ffffb3; --bs-table-bg: #ffffb3 !important;">
+                <td class="text-start">Delay&lt;3</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.med.delayLessThree > 0"
+                  (click)="div.med.delayLessThree > 0 && fetchDetails(div.divisionID, 'Y', 'NA', div.med.delayLessThree, 'Medical College (Delay < 3 Month)', div.divName_En, 'Delay', 'Between1_3')">
+                  {{ div.med.delayLessThree }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.med.delayLessThree > 0"
+                  (click)="expenditureGridTotal.med.delayLessThree > 0 && fetchDetails(0, 'Y', 'NA', expenditureGridTotal.med.delayLessThree, 'Medical College (Delay < 3 Month)', 'All Divisions', 'Delay', 'Between1_3')">
+                  {{ expenditureGridTotal.med.delayLessThree }}</td>
+              </tr>
+              <tr style="background-color: #d9ffd9; --bs-table-bg: #d9ffd9 !important;">
+                <td class="text-start">Ontime</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.med.onTime > 0"
+                  (click)="div.med.onTime > 0 && fetchDetails(div.divisionID, 'Y', 'NA', div.med.onTime, 'Medical College (On Time)', div.divName_En, 'OnTime', 'TimeValid')">
+                  {{ div.med.onTime }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.med.onTime > 0"
+                  (click)="expenditureGridTotal.med.onTime > 0 && fetchDetails(0, 'Y', 'NA', expenditureGridTotal.med.onTime, 'Medical College (On Time)', 'All Divisions', 'OnTime', 'TimeValid')">
+                  {{ expenditureGridTotal.med.onTime }}</td>
+              </tr>
+
+              <!-- 90 Lakhs Above Group -->
+              <tr style="background-color: #DDEBF7;">
+                <td rowspan="8"
+                  style="background-color: #DDEBF7; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  90 लाख
+                  से ऊपर के कार्य</td>
+                <td rowspan="4"
+                  style="background-color: #DDEBF7; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Financial</td>
+                <td class="text-start">कुल कार्य</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.above90.works > 0"
+                  (click)="div.above90.works > 0 && fetchDetails(div.divisionID, 'NA', 'Y', div.above90.works, '90 लाख से ऊपर (कुल कार्य)', div.divName_En)">
+                  {{ div.above90.works }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.above90.works > 0"
+                  (click)="expenditureGridTotal.above90.works > 0 && fetchDetails(0, 'NA', 'Y', expenditureGridTotal.above90.works, '90 लाख से ऊपर (कुल कार्य)', 'All Divisions')">
+                  {{ expenditureGridTotal.above90.works }}</td>
+              </tr>
+              <tr style="background-color: #DDEBF7;">
+                <td class="text-start">कुल वैल्यू (In cr)</td>
+                <td *ngFor="let div of expenditureGridDivisions">{{ div.above90.value?.toFixed(2) }}</td>
+                <td class="fw-bold">{{ expenditureGridTotal.above90.value?.toFixed(2) }}</td>
+              </tr>
+              <tr style="background-color: #DDEBF7;">
+                <td class="text-start">Expenditure (Paid in Cr)</td>
+                <td *ngFor="let div of expenditureGridDivisions">{{ div.above90.paid?.toFixed(2) }}</td>
+                <td class="fw-bold">{{ expenditureGridTotal.above90.paid?.toFixed(2) }}</td>
+              </tr>
+              <tr style="background-color: #DDEBF7;">
+                <td class="text-start">Expenditure %</td>
+                <td *ngFor="let div of expenditureGridDivisions">{{ div.above90.percent?.toFixed(2) }}%</td>
+                <td class="fw-bold">{{ expenditureGridTotal.above90.percent?.toFixed(2) }}%</td>
+              </tr>
+
+              <!-- 90 Lakhs Above Timeline Status Group -->
+              <tr style="background-color: #ffb3b3; --bs-table-bg: #ffb3b3 !important;">
+                <td rowspan="4"
+                  style="background-color: #DDEBF7; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Physical</td>
+                <td class="text-start">Delay > 6Month</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.above90.delaySix > 0"
+                  (click)="div.above90.delaySix > 0 && fetchDetails(div.divisionID, 'NA', 'Y', div.above90.delaySix, '90 लाख से ऊपर (Delay > 6 Month)', div.divName_En, 'Delay', 'SixMonth')">
+                  {{ div.above90.delaySix }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.above90.delaySix > 0"
+                  (click)="expenditureGridTotal.above90.delaySix > 0 && fetchDetails(0, 'NA', 'Y', expenditureGridTotal.above90.delaySix, '90 लाख से ऊपर (Delay > 6 Month)', 'All Divisions', 'Delay', 'SixMonth')">
+                  {{ expenditureGridTotal.above90.delaySix }}</td>
+              </tr>
+              <tr style="background-color: #ffd9d9; --bs-table-bg: #ffd9d9 !important;">
+                <td class="text-start">Delay 3-6 Month</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.above90.delayThreeSix > 0"
+                  (click)="div.above90.delayThreeSix > 0 && fetchDetails(div.divisionID, 'NA', 'Y', div.above90.delayThreeSix, '90 लाख से ऊपर (Delay 3-6 Month)', div.divName_En, 'Delay', 'Between3_6')">
+                  {{ div.above90.delayThreeSix }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.above90.delayThreeSix > 0"
+                  (click)="expenditureGridTotal.above90.delayThreeSix > 0 && fetchDetails(0, 'NA', 'Y', expenditureGridTotal.above90.delayThreeSix, '90 लाख से ऊपर (Delay 3-6 Month)', 'All Divisions', 'Delay', 'Between3_6')">
+                  {{ expenditureGridTotal.above90.delayThreeSix }}</td>
+              </tr>
+              <tr style="background-color: #ffffb3; --bs-table-bg: #ffffb3 !important;">
+                <td class="text-start">Delay&lt;3</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.above90.delayLessThree > 0"
+                  (click)="div.above90.delayLessThree > 0 && fetchDetails(div.divisionID, 'NA', 'Y', div.above90.delayLessThree, '90 लाख से ऊपर (Delay < 3 Month)', div.divName_En, 'Delay', 'Between1_3')">
+                  {{ div.above90.delayLessThree }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.above90.delayLessThree > 0"
+                  (click)="expenditureGridTotal.above90.delayLessThree > 0 && fetchDetails(0, 'NA', 'Y', expenditureGridTotal.above90.delayLessThree, '90 लाख से ऊपर (Delay < 3 Month)', 'All Divisions', 'Delay', 'Between1_3')">
+                  {{ expenditureGridTotal.above90.delayLessThree }}</td>
+              </tr>
+              <tr style="background-color: #d9ffd9; --bs-table-bg: #d9ffd9 !important;">
+                <td class="text-start">Ontime</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.above90.onTime > 0"
+                  (click)="div.above90.onTime > 0 && fetchDetails(div.divisionID, 'NA', 'Y', div.above90.onTime, '90 लाख से ऊपर (On Time)', div.divName_En, 'OnTime', 'TimeValid')">
+                  {{ div.above90.onTime }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.above90.onTime > 0"
+                  (click)="expenditureGridTotal.above90.onTime > 0 && fetchDetails(0, 'NA', 'Y', expenditureGridTotal.above90.onTime, '90 लाख से ऊपर (On Time)', 'All Divisions', 'OnTime', 'TimeValid')">
+                  {{ expenditureGridTotal.above90.onTime }}</td>
+              </tr>
+
+              <!-- 90 Lakhs Below Group -->
+              <tr style="background-color: #FCE4D6;">
+                <td rowspan="8"
+                  style="background-color: #FCE4D6; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  90 लाख
+                  से नीचे के कार्य</td>
+                <td rowspan="4"
+                  style="background-color: #FCE4D6; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Financial</td>
+                <td class="text-start">कुल कार्य</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.below90.works > 0"
+                  (click)="div.below90.works > 0 && fetchDetails(div.divisionID, 'NA', 'NA', div.below90.works, '90 लाख से नीचे (कुल कार्य)', div.divName_En)">
+                  {{ div.below90.works }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.below90.works > 0"
+                  (click)="expenditureGridTotal.below90.works > 0 && fetchDetails(0, 'NA', 'NA', expenditureGridTotal.below90.works, '90 लाख से नीचे (कुल कार्य)', 'All Divisions')">
+                  {{ expenditureGridTotal.below90.works }}</td>
+              </tr>
+              <tr style="background-color: #FCE4D6;">
+                <td class="text-start">कुल वैल्यू (In cr)</td>
+                <td *ngFor="let div of expenditureGridDivisions">{{ div.below90.value?.toFixed(2) }}</td>
+                <td class="fw-bold">{{ expenditureGridTotal.below90.value?.toFixed(2) }}</td>
+              </tr>
+              <tr style="background-color: #FCE4D6;">
+                <td class="text-start">Expenditure (Paid in Cr)</td>
+                <td *ngFor="let div of expenditureGridDivisions">{{ div.below90.paid?.toFixed(2) }}</td>
+                <td class="fw-bold">{{ expenditureGridTotal.below90.paid?.toFixed(2) }}</td>
+              </tr>
+              <tr style="background-color: #FCE4D6;">
+                <td class="text-start">Expenditure %</td>
+                <td *ngFor="let div of expenditureGridDivisions">{{ div.below90.percent?.toFixed(2) }}%</td>
+                <td class="fw-bold">{{ expenditureGridTotal.below90.percent?.toFixed(2) }}%</td>
+              </tr>
+
+              <!-- 90 Lakhs Below Timeline Status Group -->
+              <tr style="background-color: #ffb3b3; --bs-table-bg: #ffb3b3 !important;">
+                <td rowspan="4"
+                  style="background-color: #FCE4D6; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Physical</td>
+                <td class="text-start">Delay > 6Month</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.below90.delaySix > 0"
+                  (click)="div.below90.delaySix > 0 && fetchDetails(div.divisionID, 'NA', 'NA', div.below90.delaySix, '90 लाख से नीचे (Delay > 6 Month)', div.divName_En, 'Delay', 'SixMonth')">
+                  {{ div.below90.delaySix }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.below90.delaySix > 0"
+                  (click)="expenditureGridTotal.below90.delaySix > 0 && fetchDetails(0, 'NA', 'NA', expenditureGridTotal.below90.delaySix, '90 लाख से नीचे (Delay > 6 Month)', 'All Divisions', 'Delay', 'SixMonth')">
+                  {{ expenditureGridTotal.below90.delaySix }}</td>
+              </tr>
+              <tr style="background-color: #ffd9d9; --bs-table-bg: #ffd9d9 !important;">
+                <td class="text-start">Delay 3-6 Month</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.below90.delayThreeSix > 0"
+                  (click)="div.below90.delayThreeSix > 0 && fetchDetails(div.divisionID, 'NA', 'NA', div.below90.delayThreeSix, '90 लाख से नीचे (Delay 3-6 Month)', div.divName_En, 'Delay', 'Between3_6')">
+                  {{ div.below90.delayThreeSix }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.below90.delayThreeSix > 0"
+                  (click)="expenditureGridTotal.below90.delayThreeSix > 0 && fetchDetails(0, 'NA', 'NA', expenditureGridTotal.below90.delayThreeSix, '90 लाख से नीचे (Delay 3-6 Month)', 'All Divisions', 'Delay', 'Between3_6')">
+                  {{ expenditureGridTotal.below90.delayThreeSix }}</td>
+              </tr>
+              <tr style="background-color: #ffffb3; --bs-table-bg: #ffffb3 !important;">
+                <td class="text-start">Delay&lt;3</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.below90.delayLessThree > 0"
+                  (click)="div.below90.delayLessThree > 0 && fetchDetails(div.divisionID, 'NA', 'NA', div.below90.delayLessThree, '90 लाख से नीचे (Delay < 3 Month)', div.divName_En, 'Delay', 'Between1_3')">
+                  {{ div.below90.delayLessThree }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.below90.delayLessThree > 0"
+                  (click)="expenditureGridTotal.below90.delayLessThree > 0 && fetchDetails(0, 'NA', 'NA', expenditureGridTotal.below90.delayLessThree, '90 लाख से नीचे (Delay < 3 Month)', 'All Divisions', 'Delay', 'Between1_3')">
+                  {{ expenditureGridTotal.below90.delayLessThree }}</td>
+              </tr>
+              <tr style="background-color: #d9ffd9; --bs-table-bg: #d9ffd9 !important;">
+                <td class="text-start">Ontime</td>
+                <td *ngFor="let div of expenditureGridDivisions" [class.clickable-cell]="div.below90.onTime > 0"
+                  (click)="div.below90.onTime > 0 && fetchDetails(div.divisionID, 'NA', 'NA', div.below90.onTime, '90 लाख से नीचे (On Time)', div.divName_En, 'OnTime', 'TimeValid')">
+                  {{ div.below90.onTime }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.below90.onTime > 0"
+                  (click)="expenditureGridTotal.below90.onTime > 0 && fetchDetails(0, 'NA', 'NA', expenditureGridTotal.below90.onTime, '90 लाख से नीचे (On Time)', 'All Divisions', 'OnTime', 'TimeValid')">
+                  {{ expenditureGridTotal.below90.onTime }}</td>
+              </tr>
+
+              <!-- Total Group -->
+              <tr style="background-color: #FFF2CC;">
+                <td rowspan="8"
+                  style="background-color: #FFF2CC; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Total
+                </td>
+                <td rowspan="4"
+                  style="background-color: #FFF2CC; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Financial</td>
+                <td class="text-start fw-bold">कुल कार्य</td>
+                <td *ngFor="let div of expenditureGridDivisions" class="fw-bold"
+                  [class.clickable-cell]="div.total.works > 0"
+                  (click)="div.total.works > 0 && fetchDetails(div.divisionID, 'ALL', 'ALL', div.total.works, 'Total (कुल कार्य)', div.divName_En)">
+                  {{ div.total.works }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.total.works > 0"
+                  (click)="expenditureGridTotal.total.works > 0 && fetchDetails(0, 'ALL', 'ALL', expenditureGridTotal.total.works, 'Total (कुल कार्य)', 'All Divisions')">
+                  {{ expenditureGridTotal.total.works }}</td>
+              </tr>
+              <tr style="background-color: #FFF2CC;">
+                <td class="text-start fw-bold">कुल वैल्यू (In cr)</td>
+                <td *ngFor="let div of expenditureGridDivisions" class="fw-bold">{{ div.total.value?.toFixed(2) }}</td>
+                <td class="fw-bold">{{ expenditureGridTotal.total.value?.toFixed(2) }}</td>
+              </tr>
+              <tr style="background-color: #FFF2CC;">
+                <td class="text-start fw-bold">Expenditure (Paid in Cr)</td>
+                <td *ngFor="let div of expenditureGridDivisions" class="fw-bold">{{ div.total.paid?.toFixed(2) }}</td>
+                <td class="fw-bold">{{ expenditureGridTotal.total.paid?.toFixed(2) }}</td>
+              </tr>
+              <tr style="background-color: #FFF2CC;">
+                <td class="text-start fw-bold">Expenditure %</td>
+                <td *ngFor="let div of expenditureGridDivisions" class="fw-bold">{{ div.total.percent?.toFixed(2) }}%
+                </td>
+                <td class="fw-bold">{{ expenditureGridTotal.total.percent?.toFixed(2) }}%</td>
+              </tr>
+
+              <!-- Total Timeline Status Group -->
+              <tr style="background-color: #ffb3b3; --bs-table-bg: #ffb3b3 !important;">
+                <td rowspan="4"
+                  style="background-color: #FFF2CC; vertical-align: middle; font-weight: bold; border-right: 2px solid #aaa;">
+                  Physical</td>
+                <td class="text-start fw-bold">Delay > 6Month</td>
+                <td *ngFor="let div of expenditureGridDivisions" class="fw-bold"
+                  [class.clickable-cell]="div.total.delaySix > 0"
+                  (click)="div.total.delaySix > 0 && fetchDetails(div.divisionID, 'ALL', 'ALL', div.total.delaySix, 'Total (Delay > 6 Month)', div.divName_En, 'Delay', 'SixMonth')">
+                  {{ div.total.delaySix }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.total.delaySix > 0"
+                  (click)="expenditureGridTotal.total.delaySix > 0 && fetchDetails(0, 'ALL', 'ALL', expenditureGridTotal.total.delaySix, 'Total (Delay > 6 Month)', 'All Divisions', 'Delay', 'SixMonth')">
+                  {{ expenditureGridTotal.total.delaySix }}</td>
+              </tr>
+              <tr style="background-color: #ffd9d9; --bs-table-bg: #ffd9d9 !important;">
+                <td class="text-start fw-bold">Delay 3-6 Month</td>
+                <td *ngFor="let div of expenditureGridDivisions" class="fw-bold"
+                  [class.clickable-cell]="div.total.delayThreeSix > 0"
+                  (click)="div.total.delayThreeSix > 0 && fetchDetails(div.divisionID, 'ALL', 'ALL', div.total.delayThreeSix, 'Total (Delay 3-6 Month)', div.divName_En, 'Delay', 'Between3_6')">
+                  {{ div.total.delayThreeSix }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.total.delayThreeSix > 0"
+                  (click)="expenditureGridTotal.total.delayThreeSix > 0 && fetchDetails(0, 'ALL', 'ALL', expenditureGridTotal.total.delayThreeSix, 'Total (Delay 3-6 Month)', 'All Divisions', 'Delay', 'Between3_6')">
+                  {{ expenditureGridTotal.total.delayThreeSix }}</td>
+              </tr>
+              <tr style="background-color: #ffffb3; --bs-table-bg: #ffffb3 !important;">
+                <td class="text-start fw-bold">Delay&lt;3</td>
+                <td *ngFor="let div of expenditureGridDivisions" class="fw-bold"
+                  [class.clickable-cell]="div.total.delayLessThree > 0"
+                  (click)="div.total.delayLessThree > 0 && fetchDetails(div.divisionID, 'ALL', 'ALL', div.total.delayLessThree, 'Total (Delay < 3 Month)', div.divName_En, 'Delay', 'Between1_3')">
+                  {{ div.total.delayLessThree }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.total.delayLessThree > 0"
+                  (click)="expenditureGridTotal.total.delayLessThree > 0 && fetchDetails(0, 'ALL', 'ALL', expenditureGridTotal.total.delayLessThree, 'Total (Delay < 3 Month)', 'All Divisions', 'Delay', 'Between1_3')">
+                  {{ expenditureGridTotal.total.delayLessThree }}</td>
+              </tr>
+              <tr style="background-color: #d9ffd9; --bs-table-bg: #d9ffd9 !important;">
+                <td class="text-start fw-bold">Ontime</td>
+                <td *ngFor="let div of expenditureGridDivisions" class="fw-bold"
+                  [class.clickable-cell]="div.total.onTime > 0"
+                  (click)="div.total.onTime > 0 && fetchDetails(div.divisionID, 'ALL', 'ALL', div.total.onTime, 'Total (On Time)', div.divName_En, 'OnTime', 'TimeValid')">
+                  {{ div.total.onTime }}</td>
+                <td class="fw-bold" [class.clickable-cell]="expenditureGridTotal.total.onTime > 0"
+                  (click)="expenditureGridTotal.total.onTime > 0 && fetchDetails(0, 'ALL', 'ALL', expenditureGridTotal.total.onTime, 'Total (On Time)', 'All Divisions', 'OnTime', 'TimeValid')">
+                  {{ expenditureGridTotal.total.onTime }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Modal template for running work delay/on time detail reports -->
