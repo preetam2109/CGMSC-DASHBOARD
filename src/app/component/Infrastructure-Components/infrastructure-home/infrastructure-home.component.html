@@ -9,51 +9,105 @@
         <!-- Total Works Tab -->
         <mat-tab label="Total Works">
           <ng-template matTabContent>
-            <div class="container-fluid mt-4">
-              <div class="container-fluid p-2">
-                <div class="row ">
-                
-
-                  <div class="col-12 col-md-3 mb-3">
-                    <div class="columns justify-content-center mb-3">
-                      <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID"
-                        [(ngModel)]="mainSchemeID" name="mainSchemeID" (change)="onselect_mainscheme_data($event)"
-                        #emailidField="ngModel" [placeholder]="!mainSchemeID ? 'Select Scheme : ' : ''"
-                        [searchable]="true" [clearable]="true" [appendTo]="'body'" required class="form-control">
-                      </ng-select>
-                    </div>
+        
+            <div class="card border-0 shadow-sm rounded-3">
+              <div class="card-body p-4">
+        
+                <div class="row g-3 align-items-end">
+        
+                  <div class="col-12 col-md-6 col-lg-3" *ngIf="mainscheme.length > 0">
+                    <label class="form-label small fw-bold text-secondary mb-1">Scheme</label>
+                    <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID" [(ngModel)]="mainSchemeID"
+                      name="mainSchemeID" (change)="onselect_mainscheme_data($event)" #emailidField="ngModel"
+                      [placeholder]="!mainSchemeID ? 'Select Scheme : ' : ''" [searchable]="true" [clearable]="true"
+                      [appendTo]="'body'" required class="form-control">
+                    </ng-select>
+        
                   </div>
-                  <div class="col-12 col-md-3 mb-3">
-                    <div class="columns justify-content-center mb-3">
-                      <ng-select [items]="budgetOptions" bindLabel="label" bindValue="buid" [(ngModel)]="buid"
-                        name="buid" (change)="onselect_databudgetOptions($event)" #nameidField="ngModel"
-                        [placeholder]="!buid ? 'Select value : ' : ''" [searchable]="true" [clearable]="true"
-                        [appendTo]="'body'" required class="form-control">
-                      </ng-select>
-                    </div>
+        
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label small fw-bold text-secondary mb-1">Budget</label>
+                    <ng-select [items]="budgetOptions" bindLabel="label" bindValue="buid" [(ngModel)]="buid" name="buid"
+                      (change)="onselect_databudgetOptions($event)" #nameidField="ngModel"
+                      [placeholder]="!buid ? 'Select value : ' : ''" [searchable]="true" [clearable]="true" [appendTo]="'body'"
+                      required class="form-control">
+                    </ng-select>
                   </div>
-                  <div class="col-12 col-md-2 mb-3">
-                    <div class="columns justify-content-center mb-3">
-                         <input type="date" bindLabel="formdate" placeholder="Form Date"  [(ngModel)]="formdate"  required class="form-control"/>
-                    </div>
+        
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label small fw-bold text-secondary mb-1">AS Date</label>
+                    <input type="date" bindLabel="formdate" placeholder="Form Date" [(ngModel)]="formdate" required
+                      class="form-control" />
+        
                   </div>
-                  <div class="col-12 col-md-2 mb-3">
-                    <div class="columns justify-content-center mb-3">
-                      <input type="date" bindLabel="todate"  placeholder="To Date"  [(ngModel)]="todate" required class="form-control"/>
-                    </div>
+                  <!-- (change)="onDateChange($event)"  -->
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label small fw-bold text-secondary mb-1">To Date</label>
+                    <input type="date" bindLabel="todate" placeholder="To Date" [(ngModel)]="todate" required
+                      class="form-control" />
+        
                   </div>
-                  <div class="col-12 col-md-2 mb-3">
-                    <div class="columns justify-content-center mb-3">
-                   <Button class="btn btn-info border "  (click)="loadInitialData()" >Show data</Button>
-                    </div>
+                  <div class="col-12 text-center mt-3">
+                    <button type="button"
+                      class="btn btn-primary btn-sm px-4 py-2 fw-bold shadow-sm border-0 d-inline-flex align-items-center justify-content-center gap-2"
+                      style="transition: all 0.2s ease-in-out;"
+                      onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 .5rem 1rem rgba(0,0,0,.15)';"
+                      onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';"
+                      (click)="loadInitialData()">
+                      <i class="bi bi-search"></i> Show Report
+                    </button>
                   </div>
-
                 </div>
-               
               </div>
-
-
             </div>
+        
+            <!-- <div class="container-fluid mt-4">
+                              <div class="container-fluid p-2">
+                                <div class="row ">
+                                
+                
+                                  <div class="col-12 col-md-3 mb-3">
+                                    <div class="columns justify-content-center mb-3">
+                                      <ng-select [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID"
+                                        [(ngModel)]="mainSchemeID" name="mainSchemeID" (change)="onselect_mainscheme_data($event)"
+                                        #emailidField="ngModel" [placeholder]="!mainSchemeID ? 'Select Scheme : ' : ''"
+                                        [searchable]="true" [clearable]="true" [appendTo]="'body'" required class="form-control">
+                                      </ng-select>
+                                    </div>
+                                  </div>
+                                  <div class="col-12 col-md-3 mb-3">
+                                    <div class="columns justify-content-center mb-3">
+                                      <ng-select [items]="budgetOptions" bindLabel="label" bindValue="buid" [(ngModel)]="buid"
+                                        name="buid" (change)="onselect_databudgetOptions($event)" #nameidField="ngModel"
+                                        [placeholder]="!buid ? 'Select value : ' : ''" [searchable]="true" [clearable]="true"
+                                        [appendTo]="'body'" required class="form-control">
+                                      </ng-select>
+                                    </div>
+                                  </div>
+                                  <div class="col-12 col-md-2 mb-3">
+                                    <div class="columns justify-content-center mb-3">
+                                         <input type="date" bindLabel="formdate" placeholder="Form Date"  [(ngModel)]="formdate"  required class="form-control"/>
+                                    </div>
+                                  </div>
+                                  <div class="col-12 col-md-2 mb-3">
+                                    <div class="columns justify-content-center mb-3">
+                                      <input type="date" bindLabel="todate"  placeholder="To Date"  [(ngModel)]="todate" required class="form-control"/>
+                                    </div>
+                                  </div>
+                                  <div class="col-12 col-md-2 mb-3">
+                                    <div class="columns justify-content-center mb-3">
+                                   <Button class="btn btn-info border "  (click)="loadInitialData()" >Show data</Button>
+                                    </div>
+                                  </div>
+                
+                                </div>
+                               
+                              </div>
+                
+                
+                            </div> -->
+        
+        
           </ng-template>
         </mat-tab>
 
