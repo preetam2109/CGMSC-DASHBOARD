@@ -243,7 +243,7 @@ export class DistributionComponent {
         const shaccyear: string[] = [];
         const totalissuevalue: number[] = [];
         const totalissueitems: number[] = [];
-        console.log('API Response:', data);
+        console.log('API Response: 25-26 not present', data);
 
 
         data.forEach((item:any)=> {

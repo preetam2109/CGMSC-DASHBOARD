@@ -156,7 +156,7 @@ export class SchemeWiseDetailsComponent {
   appliedZonal: number = 0;
   zonalPermission: number = 0;
   cancellation: number = 0;
- formdate: any;
+  formdate: any;
   todate: any;
 
   public showCardss: boolean = false; // Control card visibility
@@ -398,7 +398,7 @@ export class SchemeWiseDetailsComponent {
     this.dataSourcePaid = new MatTableDataSource<PaidDetails>([]);
     this.dataSourceUnPaid = new MatTableDataSource<UnPaidDetails>([]);
     this.dataSourceLiveTender = new MatTableDataSource<TenderDetails>([]);
-    this.dataSourceTenderE = new MatTableDataSource<TenderEvaluationDetails>( [] );
+    this.dataSourceTenderE = new MatTableDataSource<TenderEvaluationDetails>([]);
     this.dataSourceLI = new MatTableDataSource<LandIssueDetails>([]);
     this.dataSourceWOGD = new MatTableDataSource<WorkGenDetails>([]);
     this.dataSourceWorkP = new MatTableDataSource<WorkOrderPendingDetailsNew>([]);
@@ -468,14 +468,14 @@ export class SchemeWiseDetailsComponent {
   }
   //#region Scheme-Wise Work Abstract
   loadInitialData() {
-    // debugger
+    // 
     this.spinner.show();
     var formdate = this.formdate ? this.formdate : 0;
     var todate = this.todate ? this.todate : 0;
 
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-    
+
     var mainSchemeId = 0;
     var ASID = 0;
     var GrantID = 0;
@@ -508,11 +508,11 @@ export class SchemeWiseDetailsComponent {
           this.himisDistrictid = this.distid;
         }
       }
-      
+
       if (this.selectedTabIndex === 1) {
         this.himisDistrictid = 0;
       }
-      
+
       var ASID = 0;
       var GrantID = 0;
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
@@ -639,7 +639,7 @@ export class SchemeWiseDetailsComponent {
   //#endregion
 
   //#region Data table GETTobeTenderAll
-  
+
   TotalWorksAbstract() {
     this.spinner.show();
     this.roleName = localStorage.getItem('roleName');
@@ -656,7 +656,7 @@ export class SchemeWiseDetailsComponent {
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-    
+
     var formdate = this.formdate ? this.formdate : 0;
     var todate = this.todate ? this.todate : 0;
 
@@ -985,7 +985,7 @@ export class SchemeWiseDetailsComponent {
       sno: row.sno,
       grantNo: row.grantNo,
       head: row.head,
-      divName_En:row.divName_En,
+      divName_En: row.divName_En,
       district: row.district,
       blockname: row.blockname,
       letterNo: row.letterNo,
@@ -1003,8 +1003,8 @@ export class SchemeWiseDetailsComponent {
       sanctionRate: row.sanctionRate,
       sanctionDetail: row.sanctionDetail,
       totalAmountOfContract: row.totalAmountOfContract,
-      totalpaid: row.totalpaid ,
-      totalunpaid : row.totalunpaid ,
+      totalpaid: row.totalpaid,
+      totalunpaid: row.totalunpaid,
       wrokOrderDT: row.wrokOrderDT,
       timeAllowed: row.timeAllowed,
       dueDTTimePerAdded: row.dueDTTimePerAdded,
@@ -1014,36 +1014,36 @@ export class SchemeWiseDetailsComponent {
       mobNo: row.mobNo,
       lProgress: row.lProgress,
       progressDT: row.progressDT,
-       expcompdt: row.expcompdt,
-       delayreason: row.delayreason,
+      expcompdt: row.expcompdt,
+      delayreason: row.delayreason,
       subengname: row.subengname,
       aeName: row.aeName,
       work_id: row.work_id,
       asLetter: row.asLetter,
     }));
-  
+
     autoTable(doc, {
-      head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)], 
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')), 
+      head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
+      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
       headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
       columnStyles: {
-        8: { cellWidth: 'wrap' },  
-        33: { cellWidth: 'wrap' }, 
+        8: { cellWidth: 'wrap' },
+        33: { cellWidth: 'wrap' },
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
-    
+
       // didDrawPage: function (data) {
       //   doc.setFontSize(8);
       //   doc.text('Land Issue Report', data.settings.margin.left, 10);
       // }
     });
-    
-    
-        doc.save('RturnTODReport.pdf');
+
+
+    doc.save('RturnTODReport.pdf');
   }
   exportToPDF() {
     const doc = new jsPDF('l', 'mm', 'a3');
@@ -2250,30 +2250,30 @@ export class SchemeWiseDetailsComponent {
     }
   }
 
-  onclick(){
-      // this.DashProgressCount();
-       this.loadInitialData();
-        this.GETRunningWorksDivision();
-        this.GETRunningWorkScheme();
-        this.HandoverAbstractRPTypeTotal();
-        this.handoverAbstractRPTypeScheme();
-        this.GetWOPendingTotal();
-        this.GETPaidSummaryDivision();
-        this.GETPaidSummaryScheme();
-        this.GETUnPaidSummaryDivision();
-        this.GETUnPaidSummaryScheme();
-        this.GETLiveTenderScheme();
-        this.GETLiveTenderDivision();
-        this.GETTenderEvaluationScheme();
-        this.GETTenderEvaluationDivision();
-        this.GetWOIssueTotal();
-        this.LIPendingTotal();
-        this.LOPendingDistrict();
-        this.TenderStatusTotal();
-        // chart  method
-        this.initializeChartOptionsLI();
-        this.initializeChartOptionsWOP();
-        this.initializeChartOptionsTobeTender();
+  onclick() {
+    // this.DashProgressCount();
+    this.loadInitialData();
+    this.GETRunningWorksDivision();
+    this.GETRunningWorkScheme();
+    this.HandoverAbstractRPTypeTotal();
+    this.handoverAbstractRPTypeScheme();
+    this.GetWOPendingTotal();
+    this.GETPaidSummaryDivision();
+    this.GETPaidSummaryScheme();
+    this.GETUnPaidSummaryDivision();
+    this.GETUnPaidSummaryScheme();
+    this.GETLiveTenderScheme();
+    this.GETLiveTenderDivision();
+    this.GETTenderEvaluationScheme();
+    this.GETTenderEvaluationDivision();
+    this.GetWOIssueTotal();
+    this.LIPendingTotal();
+    this.LOPendingDistrict();
+    this.TenderStatusTotal();
+    // chart  method
+    this.initializeChartOptionsLI();
+    this.initializeChartOptionsWOP();
+    this.initializeChartOptionsTobeTender();
   }
   onselect_mainscheme_data(event: Event): void {
     // console.log('event',event);
@@ -2535,11 +2535,11 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-    
-    
-   
+
+
+
   }
- 
+
   GETRunningWorksDivision(): void {
     this.spinner.show();
     var roleName = localStorage.getItem('roleName');
@@ -2973,8 +2973,8 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-    
-    
+
+
   }
   HandoverAbstractRPTypeTotal(): void {
     // const roleName = localStorage.getItem('roleName');
@@ -3312,7 +3312,7 @@ export class SchemeWiseDetailsComponent {
         );
     }
   }
- 
+
 
   fetchDataBasedOnChartSelection(divisionID: any, seriesName: string): void {
     // console.log(`Selected ID: ${divisionID}, Series: ${seriesName}`);
@@ -3717,8 +3717,8 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-   
-   
+
+
     this.chartUnPaid3 = {
       series: [],
       chart: {
@@ -3833,7 +3833,7 @@ export class SchemeWiseDetailsComponent {
     };
   }
 
- 
+
   GETUnPaidSummaryDivision(): void {
     this.spinner.show();
     var roleName = localStorage.getItem('roleName');
@@ -4446,7 +4446,7 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-   
+
     this.chartPaid = {
       // animationEnabled: true,
       series: [],
@@ -4579,7 +4579,7 @@ export class SchemeWiseDetailsComponent {
       ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
       : '';
     this.todt1 = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-    
+
     this.api
       .GETPaidSummary(
         RPType,
@@ -4638,7 +4638,7 @@ export class SchemeWiseDetailsComponent {
             //   data: avgDaysSinceMeasurement,
             //   color: '#eeba0b',
             // },
-            
+
           ];
           this.chartPaid1.xaxis = { categories: name };
           this.chartPaid1.title = {
@@ -4762,7 +4762,7 @@ export class SchemeWiseDetailsComponent {
             //   data: avgDaysSinceMeasurement,
             //   color: '#eeba0b',
             // },
-            
+
           ];
           this.chartPaid.xaxis = { categories: name };
           this.chartPaid.title = {
@@ -6098,7 +6098,7 @@ export class SchemeWiseDetailsComponent {
   // #region Get APT data Work Order Pending
 
   initializeChartOptionsWOP() {
-    
+
     this.chartOptionsWOPDivision = {
       series: [],
       chart: {
@@ -6113,7 +6113,7 @@ export class SchemeWiseDetailsComponent {
             if (dataPointIndex !== undefined && seriesIndex !== undefined) {
               const selectedCategory =
                 this.chartOptionsWOPDivision?.xaxis?.categories?.[
-                  dataPointIndex
+                dataPointIndex
                 ];
               const selectedSeries =
                 this.chartOptionsWOPDivision?.series?.[seriesIndex]?.name;
@@ -6135,7 +6135,7 @@ export class SchemeWiseDetailsComponent {
                     this.name = selectedData.name;
                     this.noofWorksGreater7Days =
                       selectedData.noofWorksGreater7Days;
-                    this.fetchDataBasedOnChartSelectionDivisionWP( id, selectedSeries);
+                    this.fetchDataBasedOnChartSelectionDivisionWP(id, selectedSeries);
                     // this.fetchDataBasedOnChartSelectionmainSchemeWOP( id, selectedSeries);
                   } else {
                     console.error(
@@ -6316,7 +6316,7 @@ export class SchemeWiseDetailsComponent {
     };
   }
 
-  
+
 
   GetWOPendingTotal(): void {
     this.spinner.show();
@@ -6339,11 +6339,11 @@ export class SchemeWiseDetailsComponent {
     // ?RPType=Scheme&divisionid=0&districtid=0&fromdt=0&todt=0
     var fromdt = 0, todt = 0;
     this.api.WOPendingTotal(
-        RPType,
-        this.divisionid,
-        this.himisDistrictid,
-        this.mainSchemeID
-      )
+      RPType,
+      this.divisionid,
+      this.himisDistrictid,
+      this.mainSchemeID
+    )
       .subscribe(
         // this.api.WOPendingTotal(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID).subscribe(
         (data: any) => {
@@ -6551,11 +6551,11 @@ export class SchemeWiseDetailsComponent {
     this.spinner.show();
 
     this.api.GetWorkOrderPendingDetailsNew(
-        divisionID,
-        this.mainSchemeID,
-        distid,
-        contractid
-      )
+      divisionID,
+      this.mainSchemeID,
+      distid,
+      contractid
+    )
       .subscribe(
         (res) => {
           this.dispatchDataWOP = res.map(
@@ -6807,7 +6807,7 @@ export class SchemeWiseDetailsComponent {
         offsetX: 40,
       },
     };
-   
+
     this.chartOptionsLIDistrict = {
       series: [],
       chart: {
@@ -6825,7 +6825,7 @@ export class SchemeWiseDetailsComponent {
             if (dataPointIndex !== undefined && seriesIndex !== undefined) {
               const selectedCategory =
                 this.chartOptionsLIDistrict?.xaxis?.categories?.[
-                  dataPointIndex
+                dataPointIndex
                 ];
               const selectedSeries =
                 this.chartOptionsLIDistrict?.series?.[seriesIndex]?.name;
@@ -7060,7 +7060,7 @@ export class SchemeWiseDetailsComponent {
                   color: 'rgb(255, 69, 96)',
                 },
               ];
-             
+
               this.chartOptionsLIDistrict.xaxis = { categories: name };
               this.chartOptionsLIDistrict.title.text = `District-wise Land Issue: ${this.selectedName}`;
               this.cdr.detectChanges(); // Trigger view update
@@ -7390,7 +7390,7 @@ export class SchemeWiseDetailsComponent {
         }
       );
   }
-bindDashboardData() {
+  bindDashboardData() {
     this.completedWorks = this.getNosWorks(4001);
     this.returnWorks = this.getNosWorks(8001);
     this.remainingWorks = this.totalNosWorks - (this.completedWorks + this.returnWorks);

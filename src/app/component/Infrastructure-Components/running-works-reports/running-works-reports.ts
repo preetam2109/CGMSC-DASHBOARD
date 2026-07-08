@@ -46,15 +46,24 @@ export class RunningWorksReports implements OnInit {
   filteredRunningWorkSummaryValue: any[] = [];
 
   dataSource!: MatTableDataSource<any>;
-  @ViewChild('paginator') paginator!: MatPaginator;
-  @ViewChild('sort') sort!: MatSort;
+  @ViewChild('paginator') set matPaginator(mp: MatPaginator) {
+    if (mp) {
+      this.dataSource.paginator = mp;
+    }
+  }
+  @ViewChild('sort') set matSort(ms: MatSort) {
+    if (ms) {
+      this.dataSource.sort = ms;
+    }
+  }
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
 
   dispatchData: any[] = [];
   selectedParameter: any;
   selectname: any;
   selectedvalue: any;
-  divisionid: any;
+  // divisionid: any;
+   divisionid: any = sessionStorage.getItem("divisionID")?.match(/^D\d+$/) ? sessionStorage.getItem("divisionID") : 0;
   himisDistrictid: any;
   mainschemeid: any;
   ASFileData: any[] = [];
@@ -83,6 +92,7 @@ export class RunningWorksReports implements OnInit {
   ) { }
 
   ngOnInit(): void {
+   
     this.dataSource = new MatTableDataSource<any>([]);
     this.getRunningWorkSummaryValue();
   }
@@ -90,7 +100,7 @@ export class RunningWorksReports implements OnInit {
   getRunningWorkSummaryValue(): void {
     this.spinner.show();
     forkJoin({
-      values: this.api.GETRunningWorkSummaryValue(),
+      values: this.api.GETRunningWorkSummaryValue(this.divisionid || 0, this.himisDistrictid || 0, this.mainschemeid || 0),
       delays: this.api.GETRunningWorkSummaryDelay('Division', 0, 0, 0, 0),
       medCollegeDetails: this.api.GETRunningDelayWorksDetailsReport('0', '0', 0, 0, 0, 0, 'Y', 'NA'),
       above90Details: this.api.GETRunningDelayWorksDetailsReport('0', '0', 0, 0, 0, 0, 'NA', 'Y'),
@@ -755,8 +765,6 @@ export class RunningWorksReports implements OnInit {
       });
       console.log('dispatchData11:', this.dispatchData);
       this.dataSource.data = this.dispatchData;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
       this.cdr.detectChanges();
       this.spinner.hide();
       this.openDialog();

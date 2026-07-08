@@ -980,6 +980,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.setRole(this.rolename);
       sessionStorage.setItem('firstname', this.firstname);
       sessionStorage.setItem('authenticatedUser', this.firstname);
+
       sessionStorage.setItem('divisionID', this.id)
 
 

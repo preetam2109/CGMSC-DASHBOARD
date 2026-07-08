@@ -694,7 +694,7 @@ export class ApiService {
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TobeTenderAll?did=1001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=0
   }
   GETDetailProgress(did: any, divisionid: any, districtid: number, mainschemeid: any, ASAmount: any, fromdt: any, todt: any) {
-    // debugger
+    // 
     return this.http.get<DetailProgressTinP[]>(`${this.apiUrl}/DetailProgress/TenderInProcess?did=${did}&divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TenderInProcess?did=2001&divisionid=0&districtid=0&mainschemeid=0&ASAmount=0&fromdt=2026-06-01&todt=2026-06-22
   }
@@ -708,7 +708,7 @@ export class ApiService {
     // return this.http.get<DashProgressCount[]>(
     //   `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distId}`
     // );
-    // debugger
+    // 
     return this.http.get<DashProgressCount[]>(`${this.apiUrl}/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&ASID=${ASID}&GrantID=${GrantID}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=0&mainSchemeId=0&distid=0&ASID=0&GrantID=0&ASAmount=1
   }
@@ -985,14 +985,17 @@ export class ApiService {
     // https://cgmsc.gov.in/HIMIS_APIN/api/RunningWork/RunningDelayWorksDetails?delayTime=Delay&parameter=Between3_6&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&IsMedicalCollege=NA&isabove90=NA
 
   }
-  GETRunningWorkSummaryValue() {
-    debugger
-    return this.http.get<any[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryValue`);
+  GETRunningWorkSummaryValue(divisionid: any, districtid: any, mainschemeid: any) {
+
+    return this.http.get<any[]>(`${this.apiUrl}/RunningWork/RunningWorkSummaryValue?divisionid=${divisionid}&districtid=${districtid}&mainschemeid=${mainschemeid}`);
 
   }
 
   GETRunningDelayWorksDetailsReport(delayTime: any, parameter: any, divisionId: any, districtid: any, mainschemeid: any, contractid: any, IsMedicalCollege: any, isabove90: any) {
-    debugger
+
+    // raipur=D1004
+
+
     return this.http.get<any[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}&IsMedicalCollege=${IsMedicalCollege}&isabove90=${isabove90}`);
 
   }

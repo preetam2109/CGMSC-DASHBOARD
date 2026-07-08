@@ -1419,7 +1419,7 @@ Workwisepdf() {
     head: [
       [
         {
-          content: 'Work wise Payment Summary',
+          content: 'Work wise Payment Detail',
           colSpan: 11, // UPDATE: Adjusted to match total 15 columns (11 + 4)
           styles: { halign: 'left', fontStyle: 'bold', fontSize: 11, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
         },
