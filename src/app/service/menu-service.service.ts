@@ -322,7 +322,6 @@ export class MenuServiceService {
               route: '',
               submenu: [
                 { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle', verified: true },
-
               ]
             },
             {
@@ -332,7 +331,6 @@ export class MenuServiceService {
                 { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
                 { label: 'Upcoming PO Supply', route: '/pipeline-supply', verified: true },
                 { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
-
               ]
             },
             {
@@ -340,8 +338,6 @@ export class MenuServiceService {
               route: '',
               submenu: [
                 { label: 'Inward Analytics & Insights', route: '/inward-analytics-and-insights', verified: true },
-
-
               ]
             },
             {
@@ -350,7 +346,6 @@ export class MenuServiceService {
               submenu: [
                 { label: 'QC Pendency Monitoring', route: '/qc-pendency-monitoring', verified: true },
                 { label: 'QC Lab', route: '/qclab' },
-                // { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
                 { label: 'Pendency Lab and Courier Monitoring', route: '/qcsample-status-lab-received-under-transit' },
                 { label: 'Final Result Awaiting (HO- QC Pendency)', route: '/final-result-awaitingafter-empaneled-lab-result' },
                 { label: 'Pendency within CGMSC (Not Send to Lab)', route: '/cgmsc-qc-pending-status' },
@@ -362,7 +357,6 @@ export class MenuServiceService {
                 { label: 'Batch Decision Pending – Zero Quantity Receipts', route: '/batch-decision-pending-zero-qty-receipts' },
               ]
             },
-
             {
               label: 'Logistics',
               route: '',
@@ -378,16 +372,12 @@ export class MenuServiceService {
                     { label: 'Near Expiry Reagents', route: '/near-expiry-reagents', verified: true }
                   ]
                 },
-
                 { label: 'Expired Items', route: '/Expired-Items-Oracle' },
                 { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
-
                 { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock', verified: true },
                 { label: 'Stock Out & Stock Availability in Warehouse', route: '/stock-ou-and-stock-availability-in-warehouse', verified: true },
                 { label: 'Item wise Stock', route: '/item-wise-stock', verified: true },
                 { label: 'Warehouse Indent Pending Activity ', route: '/warehouse-indent-pending-activity-monitoring' },
-
-
               ]
             },
             {
@@ -398,8 +388,6 @@ export class MenuServiceService {
                 { label: 'Consumption Pattern', route: '/consumption-pattern' },
                 { label: 'CME Lifting Status', route: '/cme-lifting-dash' },
                 { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
-
-
               ]
             },
             {
@@ -414,150 +402,27 @@ export class MenuServiceService {
                 { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights', verified: true },
                 { label: 'Supplier Pending Payments', route: '/supplier-pending', verified: true },
                 { label: 'Fund Received Status', route: '/finance-dash' },
-
-
               ]
             },
             {
               label: 'Monitoring Report',
-              route: '',   // 👈 empty string or '/welcome' as placeholder
+              route: '',
               submenu: [
-
-
-                // { label: 'Tender Status', route: '/oracle-dashboard' },
-
-                // { label: 'Tender Management', route: '/tender-management' },
-                // { label: 'Inventory Management', route: '/inventory-management' },
-                // { label: 'PO Planning', route: '/po-planning-oracle' },
-                // { label: 'Current Stock', route: '/CurrentStockOracle' },
-                // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
-
-
                 { label: 'Supplier Compliance and Grievance', route: '/supplier-compliance-and-grievance', verified: true },
-
-
                 { label: 'Warehouse Issuance Activity ', route: '/warehouse-issuance-activity-monitoring', verified: true },
-
-
-
-
-                // { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
-                // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
-                // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
                 { label: 'Facility Information', route: '/FacilityInformationOracle' },
               ]
             },
-            // {
-            //   label: 'Power Bi Dashboard',
-            //   route: '',   // 👈 empty string or '/welcome' as placeholder
-            //   submenu: [
-            //     { label: 'Tender Status', route: '/oracle-dashboard' },
-            //     { label: 'PO Planning', route: '/po-planning-oracle' },
-            //     { label: 'Near Expiry', route: '/Near-Expiry-Oracle'},
-            //     { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle'},
-            //     { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
-            //     { label: 'QC Analysis', route: '/QCAnalysisOracle'},
-            //     { label: 'Facility Information', route: '/FacilityInformationOracle'},
-            //   ]
-            // },
-            // { label: 'Dashboard', route: '/welcome' },
-            // { label: 'Payments Pending', route: '/FitUnFit' },
-
-            // { label: 'Payment Approvals', route: '/PayementApprovals' },
-
-            // { label: 'Analysis', route: '/analysis' },
-            // { label: 'Attendance', route: '/attendance-dash' },
-            // { label: 'Conversation Hod ', route: '/conversationHodCgmsc' },
-            // { label: 'Tender Status', route: '/tender-status' },
-            // { label: 'QC Insights ', route: '/qc-dashboard' },
-            // { label: 'Hold Batch History', route: '/holdbatchhistory' },
-            // { label: 'DHS Dashboard', route: '/dhsdash' },
-            // { label: 'CME Dashboard', route: '/cmedash' },
-            // { label: 'Warehouse Wise', route: '/w-wise' },
-            // { label: 'Non Supply', route: '/nonsupply' },
-            // { label: 'Noc', route: '/dmefacnoc' },
-
-
-            // {
-            //   label: 'Health Facilities Coverage',
-            //   route:  '/FacCoverage',
-            //   submenu: [
-            //     { label: 'District Details', route:  '/districtDetails' },
-            //     { label: 'Facility Details', route:  '/facilityDetails' }
-            //   ]
-            // },
-            // { label: 'EMD Drugs/Consumables', route: '/emd' },
-            // { label: 'Health Facilities Coverage', route: '/FacCoverage' },
-            // { label: 'Warehouse Information', route: '/WarehouseInfo' },
-            // { label: 'Warehouse Stock Abstract', route: '/whStockAbstract' },
-            // { label: 'Warehouse Stock Details', route: '/stockDetails' },
-            // { label: 'Field Stock', route: '/field-stock' },
-            // { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
-            // { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
-            // { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
-
-            // { label: 'Near Expiry', route: '/nearExpiry' },
-            // { label: 'Delivery', route: '/Devlivery' },
-
-            // { label: 'QC Courier', route:  '/QcPendings' },
-            // { label: 'QC-Lab Issues', route:  '/qc-dash' },
-            // { label: 'Quality Control', route: '/qc-dashboard' },
-            // {
-            //   label: 'Quality Control Track',
-            //   submenu: [
-            //     { label: 'QC Courier', route: '/QcPendings' },
-            //     { label: 'QC-Lab Issues', route: '/qc-dash' },
-            //   ],
-            //   route: '/welcome',
-            // },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // { label: 'IWH Pendings', route: '/iwhPending' },
-            // { label: 'NOC', route: '/noc' },
-            // { label: 'ANPR Report ', route: '/vehicleTracking' },
-            // { label: 'WH Wise Stock Out', route: '/WHWiseStockOut' },
-            // {label:'Quality Controll'
-
-            // },
-            // Menu=Quality Controll
             {
               label: 'Time-Based Analysis',
-
               submenu: [
-                {
-                  label: 'Door Delivery App Uses',
-                  route: '/DropAppWarehousePerformance',
-                },
-                {
-                  label: 'Time Taken By Supplier',
-                  route: '/timetakenBySupplier',
-                },
+                { label: 'Door Delivery App Uses', route: '/DropAppWarehousePerformance' },
+                { label: 'Time Taken By Supplier', route: '/timetakenBySupplier' },
                 { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
                 { label: 'QC Time Taken', route: '/QcTimeTaken' },
-
-
-                // { label: 'Facility Details', route:  '/facilityDetails' }
               ],
               route: '/welcome',
             },
-
-            // { label: 'In-Transit Issues', route:  '/intransitIssues' },
           ],
           EquipmentReagent: [
             { label: 'Home', route: '/home' },
@@ -573,108 +438,55 @@ export class MenuServiceService {
             { label: 'Dashboard', route: '/infra-dash' },
             { label: 'Bills Pending for Payment', route: '/FitUnFitinfra', verified: true },
             { label: 'Bills Payment Released', route: '/PaidBills', verified: true },
-            // { label: 'Home', route: 'InfrastructureHome' },
-            // { label: 'DashProgressIstCount', route: 'DashProgressIstCount' },
-            // { label: 'SearchingWork', route: 'SearchingWork' },
-            // { label: 'District Progress', route: 'District Progress' },
-            // { label: 'DivisionProgress', route: 'DivisionProgress' },
             { label: 'Search Work', route: '/SearchingWork' },
-
             { label: 'Work Abstract', route: '/InfrastructureHome', verified: true },
             { label: 'Running Works Abstract', route: '/RunningWorksReports', verified: true },
             { label: 'Running Works Timeline', route: '/RunningWork' },
-
             { label: 'Progress on Scheme', route: '/SchemeWiseDetails' },
             { label: 'Administrative Sanction', route: '/AdministrativeSanction' },
-
             { label: 'Live Tender', route: '/LiveTender' },
             { label: ' Evaluation', route: '/TenderEvaluation' },
             { label: 'To be Tender', route: '/ToBeTender' },
-
             { label: 'Work Order', route: '/WorkOrder' },
-
             { label: 'Land Issues', route: '/LandIssue' },
             { label: 'Technical Sanction', route: '/TechnicalSanction' },
-            // { label: 'District-Progress Monitoring', route: 'DashProgressIstCount' },
             { label: 'Monitoring with Geographic Coordinate', route: 'DivisionProgress' },
-            // { label: 'District Progress Monitoring', route: 'District Progress' },
             { label: 'Handover', route: '/Handover' },
-
             { label: 'Engineer-Works', route: '/EngineerWorks' },
             { label: 'Payment', route: '/PriceEvaluation' },
-
-            // { label: 'Payment', route: 'Payment' },
-
-            // { label: 'RCDetail', route:  '/Rcdetail' },
-            // { label: 'Complaints', route:  '/complaints' },
-            // { label: 'Pending', route:  '/dispatchPending' },
-            // { label: 'Orders', route:  '/dhs' },
-            // { label: 'Reagent Issue', route:  '/ReagentIssue' },
           ],
           Admin: [
             { label: 'Home', route: '/home' },
             { label: 'Dashboard', route: '/admin-dash' },
-            // { label: 'Attendance', route: '/attendance-dash' },
-
-
           ],
-
-          // HR:[
-          //   { label: 'Home', route: '/home' },
-          //   { label: 'Dashboard', route: '/admin-dash' },
-          //   { label: 'Attendance', route: '/attendance-dash' },
-
-          // ]
-
-
         },
       },
       SSO: {
         items: [
-
-
           // { label: 'Home', route: '/home' },
           { label: 'Dashboard', route: '/welcome' },
+          { label: 'Tender/RC Position', route: '/rcpoplanning' },
+          { label: 'Tender Status', route: '/oracle-dashboard' },
+          { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
+          { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle' },
           {
-            label: 'Analytics Report',
-            route: '',   // 👈 empty string or '/welcome' as placeholder
+            label: 'QC',
+            route: '',
             submenu: [
-
-              { label: 'Tender/RC Position', route: '/rcpoplanning' },
-              { label: 'Consumption Based PO Planning', route: '/consumption-based-po-planning' },
-              { label: 'Tender Status', route: '/oracle-dashboard' },
-              // { label: 'Tender Management', route: '/tender-management' },
-              // { label: 'Inventory Management', route: '/inventory-management' },
-              // { label: 'PO Planning', route: '/po-planning-oracle' },
-              // { label: 'Current Stock', route: '/CurrentStockOracle' },
-              // { label: 'Payment Status Dashboard', route: '/PaymentStatusDashboard' },
-              { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
-              { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle' },
-              // { label: 'ABCVEDSDE Analysis', route: '/ABCVEDSDEAnalysisOracle'},
-              // { label: 'QC Analysis', route: '/QCAnalysisOracle'},
-              {
-                label: 'QC',
-                route: '',
-                submenu: [
-                  { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
-                  { label: 'QC Sample Status Lab Received Under Transit', route: '/qcsample-status-lab-received-under-transit' },
-                  { label: 'Final Result Awaiting after Empaneled Lab Result', route: '/final-result-awaitingafter-empaneled-lab-result' },
-                  { label: 'QC Batches Report Summary', route: '/qc-batches-report-summary' },
-                  { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Pending HO)', route: '/wh-ho-qc-sample-transit-courier-pending-ho' },
-                  { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Lab)', route: '/wh-ho-qc-sample-transit-courier-lab' },
-                  { label: 'Batch Decision Pending – Zero Quantity Receipts', route: '/batch-decision-pending-zero-qty-receipts' },
-                ]
-              },
-              { label: 'Supplier Compliance and Grievance', route: '/supplier-compliance-and-grievance' },
-
-              { label: 'Facility Information', route: '/FacilityInformationOracle' },
+              { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
+              { label: 'QC Sample Status Lab Received Under Transit', route: '/qcsample-status-lab-received-under-transit' },
+              { label: 'Final Result Awaiting after Empaneled Lab Result', route: '/final-result-awaitingafter-empaneled-lab-result' },
+              { label: 'QC Batches Report Summary', route: '/qc-batches-report-summary' },
+              { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Pending HO)', route: '/wh-ho-qc-sample-transit-courier-pending-ho' },
+              { label: 'Warehouse to Head Office QC Sample Transit Monitoring (Courier Lab)', route: '/wh-ho-qc-sample-transit-courier-lab' },
+              { label: 'Batch Decision Pending – Zero Quantity Receipts', route: '/batch-decision-pending-zero-qty-receipts' },
             ]
           },
-
+          { label: 'Supplier Compliance and Grievance', route: '/supplier-compliance-and-grievance' },
+          { label: 'Facility Information', route: '/FacilityInformationOracle' },
           { label: 'DHS Dashboard', route: '/dhsdash' },
           { label: 'CME Dashboard', route: '/cmedash' },
           { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
-
           { label: 'Health Facilities Coverage', route: '/FacCoverage' },
           { label: 'Warehouse Information', route: '/WarehouseInfo' },
           { label: 'Warehouse Stock Abstract', route: '/whStockAbstract' },
@@ -683,40 +495,7 @@ export class MenuServiceService {
           { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
           { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
           { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
-          // { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
-          // { label: 'Growth in Distribution', route: '/distribution' },
           { label: 'Near Expiry', route: '/nearExpiry' },
-          // { label: 'Devlivery', route: '/Devlivery' },
-          // { label: 'Quality Control', route: '/qc-dashboard' },
-          // {
-          //   label: 'Quality Control Track',
-          //   submenu: [
-          //     { label: 'QC Courier', route: '/QcPendings' },
-          //     { label: 'QC-Lab Issues', route: '/qc-dash' },
-          //   ],
-          //   route: '/welcome',
-          // },
-
-          // { label: 'IWH Pendings', route: '/iwhPending' },
-          // { label: 'NOC', route: '/noc' },
-          // { label: 'ANPR Report ', route: '/vehicleTracking' },
-          // {
-          //   label: 'Time-Based Analysis',
-
-          //   submenu: [
-          //     {
-          //       label: 'Door Delivery App Uses',
-          //       route: '/DropAppWarehousePerformance',
-          //     },
-          //     {
-          //       label: 'Time Taken By Supplier',
-          //       route: '/timetakenBySupplier',
-          //     },
-          //     { label: 'Paid Time Taken', route: '/PaidTimeTaken' },
-          //     { label: 'QC Time Taken', route: '/QcTimeTaken' },
-          //   ],
-          //   route: '/welcome',
-          // },
         ],
       },
       'Logi Cell': {
