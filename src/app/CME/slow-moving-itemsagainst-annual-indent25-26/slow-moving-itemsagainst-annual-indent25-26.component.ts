@@ -100,7 +100,9 @@ export class SlowMovingItemsagainstAnnualIndent2526Component {
         { id: 542, label: '2022-2023' },
         { id: 544, label: '2023-2024' },
         { id: 545, label: '2024-2025' },
-        { id: 546, label: '2025-2026' }
+        { id: 546, label: '2025-2026' },
+        { id: 547, label: '2026-2027' }
+
       ];
 
       percentageRanges = [
