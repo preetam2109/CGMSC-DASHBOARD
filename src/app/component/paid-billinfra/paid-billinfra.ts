@@ -1627,7 +1627,8 @@ generateStrictlyFundWisepdf() {
     row.push({ content: (item.noofWorks || 0).toString(), styles: { halign: 'center' } });
 
     // 5. No of Bills (नया कॉलम) - मान लेते हैं कि आपके ऑब्जेक्ट में यह डेटा है
-    row.push({ content: (item.noofbill || 0).toString(), styles: { halign: 'center' } });
+    row.push({ content: (item.noofWorks || 0).toString(), styles: { halign: 'center' } });
+    // row.push({ content: (item.noofbill || 0).toString(), styles: { halign: 'center' } });
 
     // 6. Gross Paid
     row.push({ content: Number(item.grosspaid || 0).toFixed(2), styles: { halign: 'right' } });
@@ -1862,9 +1863,90 @@ generateStrictlyFundWisepdf1() {
   const formattedDate = this.datePipe.transform(new Date(), 'dd-MMM-yyyy');
   doc.save(`Division_Fundwise_Payment_Summary_${formattedDate}.pdf`);
 }
-
-
 FundWisepdf() {
+  const currentDateTime = this.getCurrentDateTime();
+  const doc = new jsPDF('p', 'mm', 'a4'); 
+  const bodyData: any[] = [];
+  const sourceData = this.groupedFundWiseData;
+
+  if (!sourceData || sourceData.length === 0) {
+    this.toastr.warning('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
+    return;
+  }
+
+  sourceData.forEach((item) => {
+    const row: any[] = [];
+    row.push(item.sno);
+
+    if (item.headSpan > 0) {
+      row.push({ content: item.head || '', rowSpan: item.headSpan, styles: { fontStyle: 'bold', halign: 'left' } });
+    }
+
+    row.push({ content: (item.distinctWorkCount || 0).toString(), styles: { halign: 'center' } }); // Distinct Works
+    row.push({ content: (item.noofWorks || 0).toString(), styles: { halign: 'center' } });         // No of Bills
+    row.push({ content: Number(item.grosspaid || 0).toFixed(2), styles: { halign: 'right' } });
+    row.push({ content: Number(item.netAmtLacs || 0).toFixed(2), styles: { halign: 'right' } });
+
+    bodyData.push(row);
+  });
+
+  autoTable(doc, {
+    startY: 15,
+    theme: 'grid',
+    head: [
+      [
+        { content: 'Fund wise Consolidated Payment', colSpan: 5, styles: { halign: 'left', fontStyle: 'bold', fontSize: 12, fillColor: [254, 240, 255] ,textColor: [0, 0, 0]} },
+        { content: `Print Dt: ${currentDateTime}`, colSpan: 1, styles: { halign: 'right', fontSize: 9, fillColor: [254, 240, 255],textColor: [0, 0, 0] } }
+      ],
+      [
+         {
+          content: `Payment From Date : ${this.datePipe.transform(this.fromDate, 'dd-MMM-yyyy')}    To    Payment To Date: ${this.datePipe.transform(this.toDate, 'dd-MMM-yyyy')}`,
+          colSpan: 5, // UPDATE: 4 se 5 kar diya kyunki ab total 5 columns hain
+          styles: { halign: 'left', fontSize: 10, fontStyle: 'normal', fillColor: [255, 255, 255], textColor: [50, 50, 50] }
+        }
+        //{ content: `Date: ${this.datePipe.transform(this.fromDate, 'dd-MMM-yyyy')} to ${this.datePipe.transform(this.toDate, 'dd-MMM-yyyy')}`, colSpan: 6, styles: { halign: 'left', fontSize: 10 } }
+      ],
+      [
+        { content: 'S.No', styles: { halign: 'center' } },
+        { content: 'Fund Head', styles: { halign: 'left' } },
+        { content: 'No of Works', styles: { halign: 'center' } },
+        { content: 'No of Bills', styles: { halign: 'center' } },
+        { content: 'Gross Paid (Lacs)', styles: { halign: 'right' } },
+        { content: 'Net Amt (Lacs)', styles: { halign: 'right' } }
+      ]
+    ],
+    body: bodyData,
+    foot: [[
+        { content: 'Total', colSpan: 2, styles: { fontStyle: 'bold', halign: 'left' } }, 
+        { content: this.totalDistinctWorksOverall.toString(), styles: { fontStyle: 'bold', halign: 'center' } }, // Distinct Works Total
+        { content: this.totalWorksOnlyFundWise.toString(), styles: { fontStyle: 'bold', halign: 'center' } }, // Bills Total
+        { content: Number(this.totalGrossLacsOnlyFundWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
+        { content: Number(this.totalnetAmtLacsWorkWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
+    ]],
+    styles: { fontSize: 9, lineWidth: 0.3 },
+    columnStyles: {
+      0: { cellWidth: 12, halign: 'center' }, // S.No
+      1: { cellWidth: 60, halign: 'left' },   // Fund Head
+      2: { cellWidth: 20, halign: 'center' }, // Works
+      3: { cellWidth: 20, halign: 'center' }, // Bills
+      4: { cellWidth: 35, halign: 'right' },  // Gross
+      5: { cellWidth: 35, halign: 'right' }   // Net
+    },
+    didParseCell: (data) => {
+      if (data.section === 'foot') {
+        data.cell.styles.fillColor = [173, 197, 230];
+        data.cell.styles.fontStyle = 'bold';
+      }
+      if (data.section === 'head' && data.row.index === 2) {
+        data.cell.styles.fillColor = [142, 171, 219];
+      }
+    }
+  });
+
+  doc.save(`Fundwise_Payment_Summary_${this.datePipe.transform(new Date(), 'dd-MMM-yyyy')}.pdf`);
+}
+
+FundWisepdf1() {
   const currentDateTime = this.getCurrentDateTime();
   const doc = new jsPDF('p', 'mm', 'a4'); // 'p' matlab Portrait (Sidha page)
   const bodyData: any[] = [];
