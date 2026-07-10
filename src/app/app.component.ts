@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener, DoCheck, ChangeDetectorRef } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { HardcodedAuthenticationService } from './service/authentication/hardcoded-authentication.service';
 import { ToastrService } from 'ngx-toastr';
 import { MenuServiceService } from './service/menu-service.service';
@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 
 // import { TokenService } from './services/token.service';
 import { ApiService } from './service/api.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
@@ -60,7 +61,7 @@ export class AppComponent implements OnInit, DoCheck {
   constructor(private location: Location, private cdr: ChangeDetectorRef, private menuService: MenuServiceService,
     private toastr: ToastrService, private router: Router,
     public basicAuthentication: BasicAuthenticationService, private Service: ApiService,
-    private https: HttpClient) { }
+    private https: HttpClient, private spinner: NgxSpinnerService) { }
 
 
 
@@ -94,6 +95,9 @@ export class AppComponent implements OnInit, DoCheck {
   ngOnInit(): void {
 
     this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.spinner.hide(); // Prevent spinner from getting stuck if user navigates back while loading
+      }
       if (event instanceof NavigationEnd) {
         this.isLoginPage = (event.urlAfterRedirects === '/login' || event.urlAfterRedirects === '/otp' || event.urlAfterRedirects === '/collector-login' || event.urlAfterRedirects === '/public-view' || event.urlAfterRedirects === '/GrowthInProcurmentTabPublic' || event.urlAfterRedirects === '/distributionPublic' || event.urlAfterRedirects === '/IndentPendingWHdashPublic');
 
