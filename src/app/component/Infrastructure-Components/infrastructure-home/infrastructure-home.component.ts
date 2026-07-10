@@ -566,7 +566,7 @@ export class InfrastructureHomeComponent implements OnInit {
   }
 
   DetailProgress(did: any, dashname: any, nosworks: any): void {
-    // debugger;
+    // ;
     this.dashname = dashname;
     this.nosworks = nosworks;
     this.spinner.show();
