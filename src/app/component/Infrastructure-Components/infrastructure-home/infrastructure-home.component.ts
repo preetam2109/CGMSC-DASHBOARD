@@ -566,7 +566,7 @@ farestcalll(){
   }
 
   DetailProgress(did: any, dashname: any, nosworks: any): void {
-    debugger;
+    // debugger;
     this.dashname = dashname;
     this.nosworks = nosworks;
     this.spinner.show();
