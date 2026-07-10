@@ -67,7 +67,7 @@ dataSource = new MatTableDataSource<any>([]);
 PaidSummary: any[] = [];
 dataSource1=new MatTableDataSource<any>([]);
 dataSource3 = new MatTableDataSource<any>([]);
-displayedColumns1: string[] = ['sno', 'division', 'head', 'noofWorks', 'grosspaid','netAmtLacs'];
+displayedColumns1: string[] = ['sno', 'division', 'head', 'noofWorks','noofbill', 'grosspaid','netAmtLacs'];
   PaidDetails: any[] = [];
   groupedSummaryData: any[] = [];
 
@@ -76,6 +76,7 @@ displayedColumns1: string[] = ['sno', 'division', 'head', 'noofWorks', 'grosspai
     // 'division',
     'head',
     'noofWorks',
+    'noofbill',
     'grosspaid','netAmtLacs'
     ];
   isall: boolean = true;
@@ -91,8 +92,7 @@ totalGrossLacsOnlyFundWise: number = 0;
 groupedWorkWiseData: any[] = [];
 totalGrossLacsWorkWise: number = 0;
 totalnetAmtLacsWorkWise: number = 0;
-  // PaidSummary: PaidSummary[] = [];
-  // dataSource!: MatTableDataSource<PaidSummary>;
+
 displayedColumns3 = [
   'sno', 'division', 'district', 'worK_ID', 'workname','contractor' ,'mobNo','billno',
   'agrbillstatus', 'billdate', 'mesurementDT', 'chequeDT', 'grosspaid','netAmtLacs', 'dayssincemeasurement'
@@ -107,33 +107,13 @@ displayedColumns3 = [
   @ViewChild('sort1') sort1!: MatSort;
   @ViewChild('sort2') sort2!: MatSort;
   @ViewChild('sort3') sort3!: MatSort;
-//   private _paginator3!: MatPaginator;
-// private _sort3!: MatSort;
-// @ViewChild('paginator3') set paginator3(mp: MatPaginator) {
-//   this._paginator3 = mp;
-//   if (this.dataSource3) {
-//     this.dataSource3.paginator = this._paginator3;
-//   }
-// }
 
-// @ViewChild('sort3') set sort3(ms: MatSort) {
-//   this._sort3 = ms;
-//   if (this.dataSource3) {
-//     this.dataSource3.sort = this._sort3;
-//   }
-// }
-
-// // नया इवेंट मेथड जो पेजिनेटर चेंज होने पर UI को तुरंत री-रेंडर करेगा
-// onPageChange3() {
-//   this.cdr.detectChanges();
-// }
 
 
   displayedColumns = [
-    'sno',
-    'name',
-    'noofWorks',
-    'grossPaidcr',
+    'sno', 'division', 'noofWorks','noofbill', 'grosspaid','netAmtLacs'
+  
+  
   ];
 // displayedColumns3 = [
 //   'sno',
@@ -155,6 +135,10 @@ displayedColumns3 = [
 
   Divisionlist = [
     {
+      DId: '0',
+      Dname: 'All',
+    },
+    {
       DId: 'D1017',
       Dname: 'Surguja Division',
     },
@@ -175,6 +159,17 @@ displayedColumns3 = [
       Dname: 'Durg Division',
     },
   ];
+
+
+  groupedDivisionData: any[] = [];
+  totalDistinctWorksDivisionWise: number = 0;
+  totalBillsDivisionWise: number = 0;
+  totalGrossLacsDivisionWise: number = 0;
+  totalNetAmtLacsDivisionWise: number = 0;
+
+
+
+  totalDistinctWorksOverall: number = 0;
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
@@ -187,48 +182,24 @@ displayedColumns3 = [
   ) {
     this.dataSource = new MatTableDataSource<any>([]);
     this.dataSource1 = new MatTableDataSource<any>([]);
-    this.dataSource2 = new MatTableDataSource<PaidSummary>([]);
+    this.dataSource2 = new MatTableDataSource<any>([]);
     this.dataSource3 = new MatTableDataSource<any>([]);
   }
   ngOnInit() {
   this.getmain_scheme();
   const today = new Date();
-  // const sevenDaysAgo = new Date();
-  // sevenDaysAgo.setDate(today.getDate() - 7);
-
-  
-  // this.fromDate = sevenDaysAgo.toISOString().split('T')[0]; 
-  // this.toDate = today.toISOString().split('T')[0];
-
-  // this.fromdt = this.datePipe.transform(sevenDaysAgo, 'dd-MMM-yyyy') || '0';
-  // this.todt = this.datePipe.transform(today, 'dd-MMM-yyyy') || '0';
-
 const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
 
 this.fromDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd') || ''; 
 this.toDate = this.datePipe.transform(today, 'yyyy-MM-dd') || '';
 
-// dd-MMM-yyyy format
 this.fromdt = this.datePipe.transform(firstDayOfMonth, 'dd-MMM-yyyy') || '0';
 this.todt = this.datePipe.transform(today, 'dd-MMM-yyyy') || '0';
-  this.GETPaidSummary();
  this.GETPaidDetails();
 
   }
-  selectedTabValue2(event: any): void {
-    this.selectedTabIndex2 = event.index;
-    if (this.selectedTabIndex2 == 0) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    } else if (this.selectedTabIndex2 == 1) {
-      this.dataSource1.paginator = this.paginator1;
-      this.dataSource1.sort = this.sort1;
-    } else if (this.selectedTabIndex2 == 2) {
-      this.dataSource3.paginator = this.paginator3;
-      this.dataSource3.sort = this.sort3;
-    }
-  }
+
   getmain_scheme() {
     try {
       //
@@ -236,7 +207,7 @@ this.todt = this.datePipe.transform(today, 'dd-MMM-yyyy') || '0';
         if (res && res.length > 0) {
           this.mainscheme = res.map(
             (item: { mainSchemeID: any; name: any }) => ({
-              mainSchemeID: item.mainSchemeID, // Adjust key names if needed
+              mainSchemeID: item.mainSchemeID,
               name: item.name,
             }),
           );
@@ -245,28 +216,20 @@ this.todt = this.datePipe.transform(today, 'dd-MMM-yyyy') || '0';
           console.error('No name found or incorrect structure:', res);
         }
       });
-      // this.api.getMainScheme(this.isall).subscribe(
-      //   (res: any) => {
-      //     this.mainscheme = res;
-      //   },
-
-      //   // mainSchemeID!: number;
-      //   // name: any;
-
-      //   (error) => {
-      //     alert(JSON.stringify(error));
-      //   }
-      // );
+  
     } catch (ex: any) {
       // alert(ex.message);
       alert(`API Error: ${JSON.stringify(ex.message)}`);
     }
   }
+
+  
   onselect_mainscheme_data(event: any): void {
     if (event) {
       this.mainSchemeID = event.mainSchemeID;
-      // alert(this.mainSchemeID);
-      // this.getPendigBill();
+    } 
+    else {
+      this.mainSchemeID = 0; 
     }
   }
   onselect_division_data(event: any) {
@@ -278,38 +241,7 @@ this.todt = this.datePipe.transform(today, 'dd-MMM-yyyy') || '0';
 
     // this.GETPaidDetails();
   }
-  // GETPaidSummary(): void {
-  //   // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/PaidSummary?RPType=Division&divisionid=0&districtid=0&mainschemeid=0&fromdt=01-June-2026&todt=09-June-2026
-  //   this.spinner.show();
-  //   var RPType = 'Division';
-  //   // const startDate = this.dateRange.value.start;
-  //   // const endDate = this.dateRange.value.end;
-  //   // this.fromdt = startDate
-  //   //   ? this.datePipe.transform(startDate, 'dd-MMM-yyyy')
-  //   //   : '';
-  //   // this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
-  //   // console.log('this.fromdt=', this.fromdt, 'this.todt=', this.todt);
-  //   this.api
-  //     .GETPaidSummary(RPType,this.divisionid,this.himisDistrictid,this.mainSchemeID, this.fromdt, this.todt).subscribe(
-  //       (data: any) => {
-  //         this.PaidSummary = data.map((item: PaidSummary, index: number) => ({
-  //           ...item,
-  //           sno: index + 1,
-  //         }));
-  //         // console.log('PaidDetails total:', res);
-  //         console.log('GETPaidSummary =:',  this.PaidSummary);
-  //         this.dataSource.data = this.PaidSummary;
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //         this.cdr.detectChanges();
-  //         this.spinner.hide();
-  //       },
-  //       (error: any) => {
-  //         this.spinner.hide();
-  //         console.error('Error fetching data', error);
-  //       },
-  //     );
-  // }
+
 
 
 
@@ -318,88 +250,13 @@ onShowClick(): void {
   this.fromdt = this.fromDate ? this.datePipe.transform(this.fromDate, 'dd-MMM-yyyy') || '0' : '0';
   this.todt = this.toDate ? this.datePipe.transform(this.toDate, 'dd-MMM-yyyy') || '0' : '0';
 
-  this.GETPaidSummary();
  this.GETPaidDetails();
  
 }
 
-GETPaidSummary(): void {
-  this.spinner.show();
-const roleName = localStorage.getItem('roleName');
-if (roleName === 'Division') {
-  this.divisionid = sessionStorage.getItem('divisionID') || 0;
-  this.himisDistrictid = 0;
-  this.mainSchemeID = this.mainSchemeID ?  this.mainSchemeID:0;
-} else {
-  this.divisionid = 0;
-  this.himisDistrictid = 0;
-  this.mainSchemeID = this.mainSchemeID ?  this.mainSchemeID:0;
-}
-
-const RPType = 'Division';
 
 
 
-let divisionIdToSend = 0;
-if (this.DId != 0) {
-  divisionIdToSend = this.DId ? this.DId : 0;
-} else {
-  divisionIdToSend = this.divisionid;
-}
-
-const districtIdToSend = this.himisDistrictid ? Number(this.himisDistrictid) : 0;
-const schemeIdToSend = this.mainSchemeID ? Number(this.mainSchemeID) : 0;
-
-
-  // const RPType = 'Division';
-  // const divisionIdToSend = this.DId ? this.DId : 0;
-  // const districtIdToSend = this.himisDistrictid ? this.himisDistrictid : 0;
-  // const schemeIdToSend = this.mainSchemeID ? this.mainSchemeID : 0;
-
-  this.api
-    .GETPaidSummary(RPType, divisionIdToSend, districtIdToSend, schemeIdToSend, this.fromdt, this.todt)
-    .subscribe(
-      (data: any) => {
-        if (data && data.length > 0) {
-          this.PaidSummary = data.map((item: any, index: number) => {
-          
-            const lacsValue = item.grossPaidcr ? Number(item.grossPaidcr) * 100 : 0;
-            return {
-              ...item,
-              sno: index + 1,
-              grossPaidLacs: lacsValue 
-            };
-          });
-
-          this.calculateTotals();
-        } else {
-          this.PaidSummary = [];
-          this.totalWorks = 0;
-          this.totalGrossLacs = 0;
-        }
-
-        this.dataSource.data = this.PaidSummary;
-        
-        setTimeout(() => {
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        });
-        
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error: any) => {
-        this.spinner.hide();
-        console.error('Error fetching data', error);
-      }
-    );
-}
-
-
-calculateTotals(): void {
-  this.totalWorks = this.PaidSummary.reduce((sum, item) => sum + (Number(item.noofWorks) || 0), 0);
-  this.totalGrossLacs = this.PaidSummary.reduce((sum, item) => sum + (Number(item.grossPaidcr) || 0), 0);
-}
 
 
 applyTextFilter(event: Event) {
@@ -444,128 +301,248 @@ applyTextFilter(event: Event) {
     });
 
   }
-exportToPDF() {
-  const currentDateTime = this.getCurrentDateTime();
+// exportToPDF() {
+//   const currentDateTime = this.getCurrentDateTime();
 
-  const doc = new jsPDF('p', 'mm', 'a4');
+//   const doc = new jsPDF('p', 'mm', 'a4');
   
  
-  const bodyData: any[] = [];
+//   const bodyData: any[] = [];
   
-  this.PaidSummary.forEach((item) => {
-    bodyData.push([
-      item.sno,
-      item.name,
-      item.noofWorks,
-      Number(item.grossPaidLacs || 0).toFixed(2)
-    ]);
-  });
+//   this.PaidSummary.forEach((item) => {
+//     bodyData.push([
+//       item.sno,
+//       item.name,
+//       item.noofWorks,
+//       Number(item.grossPaidLacs || 0).toFixed(2)
+//     ]);
+//   });
+
+//   autoTable(doc, {
+//     startY: 15,
+//     theme: 'grid',
+    
+//     /* ================= HEADER SECTION ================= */
+//     head: [
+//       [
+//         {
+//           content: 'Division Payment Summary',
+//           colSpan: 3,
+//           styles: {
+//             halign: 'left',
+//             fontStyle: 'bold',
+//             fontSize: 12,
+//             fillColor: [254, 240, 255], 
+//             textColor: [0, 0, 0]
+//           }
+//         },
+//         {
+//           content: `Print Dt: ${currentDateTime}`,
+//           colSpan: 1,
+//           styles: {
+//             halign: 'right',
+//             fontSize: 9,
+//             fillColor: [254, 240, 255],
+//             textColor: [100, 100, 100]
+//           }
+//         }
+//       ],
+//       [
+//         {
+//           content: `Payment From Date : ${this.datePipe.transform(this.fromDate, 'dd-MMM-yyyy')}     To     Payment To Date: ${this.datePipe.transform(this.toDate, 'dd-MMM-yyyy')}`,
+//           colSpan: 4,
+//           styles: {
+//             halign: 'left',
+//             fontSize: 10,
+//             fontStyle: 'normal',
+//             fillColor: [255, 255, 255],
+//             textColor: [50, 50, 50],
+//             minCellHeight: 10
+//           }
+//         }
+//       ],
+//       [
+//         { content: 's.No', styles: { halign: 'center' } },
+//         { content: 'Division', styles: { halign: 'left' } },
+//         { content: 'No of Works', styles: { halign: 'center' } },
+//         { content: 'Gross Paid (in Lacs)', styles: { halign: 'right' } }
+//       ]
+//     ],
+    
+//     /* ================= BODY & TOTAL SECTION ================= */
+//     body: [
+//       ...bodyData,
+//       [
+//         { content: '', styles: { bgCol: [210, 225, 245] } }, 
+//         { content: 'Total', styles: { fontStyle: 'bold', halign: 'left' } },
+//         { content: this.totalWorks, styles: { fontStyle: 'bold', halign: 'center' } },
+//         { content: Number(this.totalGrossLacs || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
+//       ]
+//     ],
+    
+//     /* ================= GLOBAL STYLES ================= */
+//     styles: {
+//       fontSize: 10,
+//       lineWidth: 0.3,
+//       lineColor: [80, 80, 80], 
+//       valign: 'middle',
+//       textColor: [0, 0, 0]
+//     },
+    
+//     /* ================= COLUMN ALIGNMENT ================= */
+//     columnStyles: {
+//       0: { cellWidth: 20, halign: 'center' },  // s.No
+//       1: { cellWidth: 'auto', halign: 'left' }, // Division
+//       2: { cellWidth: 35, halign: 'center' },  // No of Works
+//       3: { cellWidth: 45, halign: 'right' }    // Gross Paid
+//     },
+    
+//     /* ================= DYNAMIC CELL STYLES ================= */
+//     didParseCell: (data) => {
+//       if (data.row.index === data.table.body.length - 1) {
+//         data.cell.styles.fillColor = [173, 197, 230]; 
+//         data.cell.styles.lineWidth = 0.5;
+//         data.cell.styles.fontStyle = 'bold';
+//         data.cell.styles.textColor = [0, 0, 0];
+//       }
+      
+//       if (data.section === 'head' && data.row.index === 2) {
+//         data.cell.styles.fillColor = [142, 171, 219]; 
+//         data.cell.styles.textColor = [0, 0, 0];
+//         data.cell.styles.lineWidth = 0.5;
+//       }
+//     }
+//   });
+  
+//   // doc.save('Division_Payment_Summary.pdf');
+//   const formattedDate = this.datePipe.transform(new Date(), 'dd-MMM-yyyy');
+
+  
+//   doc.save(`Division_Payment_Summary_${formattedDate}.pdf`);
+// }
+exportToPDF() {
+  const currentDateTime = this.getCurrentDateTime();
+  const doc = new jsPDF('p', 'mm', 'a4');
+
+  const bodyData = this.groupedDivisionData.map((item) => [
+    item.sno,
+    item.division,
+    item.noofWorks,
+    item.noofbill,
+    Number(item.grosspaid || 0).toFixed(2),
+    Number(item.netAmtLacs || 0).toFixed(2)
+  ]);
 
   autoTable(doc, {
-    startY: 15,
+    startY: 20,
     theme: 'grid',
-    
-    /* ================= HEADER SECTION ================= */
     head: [
       [
-        {
-          content: 'Division Payment Summary',
-          colSpan: 3,
-          styles: {
-            halign: 'left',
-            fontStyle: 'bold',
-            fontSize: 12,
-            fillColor: [254, 240, 255], 
-            textColor: [0, 0, 0]
-          }
-        },
-        {
-          content: `Print Dt: ${currentDateTime}`,
-          colSpan: 1,
-          styles: {
-            halign: 'right',
-            fontSize: 9,
-            fillColor: [254, 240, 255],
-            textColor: [100, 100, 100]
-          }
-        }
+        { content: 'Division-wise Consolidated Payment ', colSpan: 6, styles: { halign: 'center', fontSize: 14, fillColor: [240, 240, 240] ,  textColor: [0, 0, 0] } }
       ],
       [
-        {
-          content: `Payment From Date : ${this.datePipe.transform(this.fromDate, 'dd-MMM-yyyy')}     To     Payment To Date: ${this.datePipe.transform(this.toDate, 'dd-MMM-yyyy')}`,
-          colSpan: 4,
-          styles: {
-            halign: 'left',
-            fontSize: 10,
-            fontStyle: 'normal',
-            fillColor: [255, 255, 255],
-            textColor: [50, 50, 50],
-            minCellHeight: 10
-          }
-        }
+        { content: `Report Generated: ${currentDateTime}`, colSpan: 6, styles: { halign: 'right', fontSize: 8 } }
       ],
-      [
-        { content: 's.No', styles: { halign: 'center' } },
-        { content: 'Division', styles: { halign: 'left' } },
-        { content: 'No of Works', styles: { halign: 'center' } },
-        { content: 'Gross Paid (in Lacs)', styles: { halign: 'right' } }
-      ]
+      ['S.No', 'Division', 'No of Works', 'No of Bills', 'Gross Paid (Lacs)', 'Net Amount (Lacs)']
     ],
-    
-    /* ================= BODY & TOTAL SECTION ================= */
     body: [
       ...bodyData,
       [
-        { content: '', styles: { bgCol: [210, 225, 245] } }, 
-        { content: 'Total', styles: { fontStyle: 'bold', halign: 'left' } },
-        { content: this.totalWorks, styles: { fontStyle: 'bold', halign: 'center' } },
-        { content: Number(this.totalGrossLacs || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
+        { content: 'Total', colSpan: 1, styles: { fontStyle: 'bold' } },
+        { content: '', styles: {} },
+        { content: this.totalDistinctWorksDivisionWise, styles: { fontStyle: 'bold', halign: 'center' } },
+        { content: this.totalBillsDivisionWise, styles: { fontStyle: 'bold', halign: 'center' } },
+        { content: Number(this.totalGrossLacsDivisionWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
+        { content: Number(this.totalNetAmtLacsDivisionWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
       ]
     ],
-    
-    /* ================= GLOBAL STYLES ================= */
-    styles: {
-      fontSize: 10,
-      lineWidth: 0.3,
-      lineColor: [80, 80, 80], 
-      valign: 'middle',
-      textColor: [0, 0, 0]
-    },
-    
-    /* ================= COLUMN ALIGNMENT ================= */
     columnStyles: {
-      0: { cellWidth: 20, halign: 'center' },  // s.No
-      1: { cellWidth: 'auto', halign: 'left' }, // Division
-      2: { cellWidth: 35, halign: 'center' },  // No of Works
-      3: { cellWidth: 45, halign: 'right' }    // Gross Paid
+      0: { halign: 'center', cellWidth: 15 },
+      1: { halign: 'left' },
+      2: { halign: 'center' },
+      3: { halign: 'center' },
+      4: { halign: 'right' },
+      5: { halign: 'right' }
     },
-    
-    /* ================= DYNAMIC CELL STYLES ================= */
     didParseCell: (data) => {
       if (data.row.index === data.table.body.length - 1) {
-        data.cell.styles.fillColor = [173, 197, 230]; 
-        data.cell.styles.lineWidth = 0.5;
+        data.cell.styles.fillColor = [230, 230, 230];
         data.cell.styles.fontStyle = 'bold';
-        data.cell.styles.textColor = [0, 0, 0];
       }
-      
       if (data.section === 'head' && data.row.index === 2) {
-        data.cell.styles.fillColor = [142, 171, 219]; 
+        data.cell.styles.fillColor = [200, 200, 200];
         data.cell.styles.textColor = [0, 0, 0];
-        data.cell.styles.lineWidth = 0.5;
       }
     }
   });
-  
-  // doc.save('Division_Payment_Summary.pdf');
-  const formattedDate = this.datePipe.transform(new Date(), 'dd-MMM-yyyy');
 
-  
-  doc.save(`Division_Payment_Summary_${formattedDate}.pdf`);
+  const formattedDate = this.datePipe.transform(new Date(), 'dd-MMM-yyyy');
+  doc.save(`Division_Summary_${formattedDate}.pdf`);
 }
+processDivisionWiseData() {
+    if (!this.PaidDetails || this.PaidDetails.length === 0) {
+      this.groupedDivisionData = [];
+      this.dataSource.data = [];
+      return;
+    }
+
+    const divMap = new Map<string, any>();
+    const overallWorksSet = new Set<string>(); // Footer ग्रांड टोटल के लिए
+
+    this.PaidDetails.forEach(item => {
+      const key = item.division ? item.division.trim() : 'Unknown';
+      const currentGross = Number(item.grosspaid) || 0;
+      const currentBills = Number(item.noofWorks || 1); // No of bills के लिए
+      const currentNet = Number(item.netAmtLacs) || 0;
+
+      // ग्रांड टोटल (Distinct Work IDs) के लिए
+      if (item.worK_ID) {
+        overallWorksSet.add(item.worK_ID);
+      }
+
+      if (!divMap.has(key)) {
+        divMap.set(key, {
+          division: key,
+          workIds: new Set(item.worK_ID ? [item.worK_ID] : []), // Distinct works के लिए Set
+          noofbill: currentBills,
+          grosspaid: currentGross,
+          netAmtLacs: currentNet
+        });
+      } else {
+        const existing = divMap.get(key);
+        if (item.worK_ID) {
+          existing.workIds.add(item.worK_ID);
+        }
+        existing.noofbill += currentBills;
+        existing.grosspaid += currentGross;
+        existing.netAmtLacs += currentNet;
+      }
+    });
+
+    this.groupedDivisionData = Array.from(divMap.values());
+    this.groupedDivisionData.sort((a, b) => a.division.localeCompare(b.division));
+
+    // Totals को 0 से रीसेट करें
+    this.totalDistinctWorksDivisionWise = overallWorksSet.size;
+    this.totalBillsDivisionWise = 0;
+    this.totalGrossLacsDivisionWise = 0;
+    this.totalNetAmtLacsDivisionWise = 0;
+
+    this.groupedDivisionData.forEach((item, index) => {
+      item.sno = index + 1;
+      item.noofWorks = item.workIds.size; // Distinct Count यहाँ सेट हो रहा है
+
+      this.totalBillsDivisionWise += item.noofbill;
+      this.totalGrossLacsDivisionWise += item.grosspaid;
+      this.totalNetAmtLacsDivisionWise += item.netAmtLacs;
+    });
+
+    this.dataSource.data = this.groupedDivisionData;
+  }
 // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/PaidDetails?divisionId=D1017&mainSchemeId=0&distid=0&fromdt=03-June-2026&todt=10-June-2026
 
 GETPaidDetails() {
+      this.spinner.show();
 const roleName = localStorage.getItem('roleName');
 if (roleName === 'Division') {
   this.divisionid = sessionStorage.getItem('divisionID') || 0;
@@ -591,11 +568,14 @@ const schemeIdToSend = this.mainSchemeID ? Number(this.mainSchemeID) : 0;
       .subscribe({
         next: (res: any[]) => {
           this.PaidDetails = res || [];
-          
+          this.processDivisionWiseData();
           this.processAndGroupData();
           this.processOnlyFundWiseData();
           this.processWorkWiseData();
         setTimeout(() => {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+
           this.dataSource1.paginator = this.paginator1;
           this.dataSource1.sort = this.sort1;
 
@@ -616,15 +596,133 @@ const schemeIdToSend = this.mainSchemeID ? Number(this.mainSchemeID) : 0;
       });
   }
 
+  // processAndGroupData() {
+  //   this.PaidDetails.sort((a, b) => (a.division || '').localeCompare(b.division || ''));
+
+  //   const groupMap = new Map<string, any>();
+
+  //   this.PaidDetails.forEach(item => {
+  //     const key = `${item.division}_${item.head}`;
+      
+      
+  //     const currentGross = Number(item.grosspaid) || 0;
+  //     const currentnet = Number(item.netAmtLacs) || 0;
+
+  //     if (!groupMap.has(key)) {
+  //       groupMap.set(key, {
+  //         division: item.division,
+  //         head: item.head,
+  //         noofWorks: 1,               
+  //         grosspaid: currentGross,    
+  //         netAmtLacs: currentnet,    
+  //         divisionSpan: 1,           
+  //         headSpan: 1
+  //       });
+  //     } else {
+  //       const existing = groupMap.get(key);
+  //       existing.noofWorks += 1;               
+  //       existing.grosspaid += currentGross;    
+  //       existing.netAmtLacs += currentnet;    
+  //     }
+  //   });
+
+  //   this.groupedSummaryData = Array.from(groupMap.values());
+
+  //   this.calculateRowSpans();
+
+  //   // this.totalWorks = 0;
+  //  this.totalWorksOnlyFundWise=0;
+  //   // this.totalGrossLacs = 0;
+  //   this.totalGrossLacsOnlyFundWise=0;
+  //   this.totalnetAmtLacsWorkWise = 0;
+  //   this.groupedSummaryData.forEach((item, index) => {
+  //     item.sno = index + 1;
+  //     // this.totalWorks += item.noofWorks;
+  //     // this.totalGrossLacs += item.grosspaid;
+  //     this.totalWorksOnlyFundWise+= item.noofWorks;
+  //      this.totalGrossLacsOnlyFundWise+= item.grosspaid;
+  //     this.totalnetAmtLacsWorkWise += item.netAmtLacs;
+  //   });
+
+  //   this.dataSource1.data = this.groupedSummaryData;
+  //   // console.log('datasource1=',this.groupedSummaryData);
+  // }
+
+
+
+  // processAndGroupData() {
+  //   this.PaidDetails.sort((a, b) => (a.division || '').localeCompare(b.division || ''));
+
+  //   const groupMap = new Map<string, any>();
+  //   const overallWorksSet = new Set<string>(); // Footer के ग्रांड टोटल के लिए Set
+
+  //   this.PaidDetails.forEach(item => {
+  //     // हर work_id को ग्रांड टोटल वाले Set में डालें (डुप्लीकेट अपने आप इग्नोर हो जाएंगे)
+  //     if (item.worK_ID) {
+  //       overallWorksSet.add(item.worK_ID);
+  //     }
+
+  //     const key = `${item.division}_${item.head}`;
+  //     const currentGross = Number(item.grosspaid) || 0;
+  //     const currentnet = Number(item.netAmtLacs) || 0;
+
+  //     if (!groupMap.has(key)) {
+  //       groupMap.set(key, {
+  //         division: item.division,
+  //         head: item.head,
+  //         // यहाँ हम array की जगह Set का इस्तेमाल कर रहे हैं
+  //         workIds: new Set(item.worK_ID ? [item.worK_ID] : []), 
+  //         noofWorks: 1,               
+  //         grosspaid: currentGross,    
+  //         netAmtLacs: currentnet,    
+  //         divisionSpan: 1,           
+  //         headSpan: 1
+  //       });
+  //     } else {
+  //       const existing = groupMap.get(key);
+  //       // अगर work_id है, तो उसे Set में जोड़ दें
+  //       if (item.worK_ID) {
+  //         existing.workIds.add(item.worK_ID);
+  //       }
+  //       existing.noofWorks = existing.workIds.size; // Distinct काउंट अपडेट करें             
+  //       existing.grosspaid += currentGross;    
+  //       existing.netAmtLacs += currentnet;    
+  //     }
+  //   });
+
+  //   this.groupedSummaryData = Array.from(groupMap.values());
+    
+  //   // ग्रांड टोटल Distinct वर्क्स की गिनती यहाँ सेव करें
+  //   this.totalDistinctWorksOverall = overallWorksSet.size;
+
+  //   this.calculateRowSpans();
+
+  //   this.totalWorksOnlyFundWise = 0;
+  //   this.totalGrossLacsOnlyFundWise = 0;
+  //   this.totalnetAmtLacsWorkWise = 0;
+    
+  //   this.groupedSummaryData.forEach((item, index) => {
+  //     item.sno = index + 1;
+  //     this.totalWorksOnlyFundWise += item.noofWorks;
+  //     this.totalGrossLacsOnlyFundWise += item.grosspaid;
+  //     this.totalnetAmtLacsWorkWise += item.netAmtLacs;
+  //   });
+
+  //   this.dataSource1.data = this.groupedSummaryData;
+  // }
   processAndGroupData() {
     this.PaidDetails.sort((a, b) => (a.division || '').localeCompare(b.division || ''));
 
     const groupMap = new Map<string, any>();
+    const overallWorksSet = new Set<string>(); // Footer के ग्रांड टोटल के लिए Set
 
     this.PaidDetails.forEach(item => {
+      // हर work_id को ग्रांड टोटल वाले Set में डालें (डुप्लीकेट अपने आप इग्नोर हो जाएंगे)
+      if (item.worK_ID) {
+        overallWorksSet.add(item.worK_ID);
+      }
+
       const key = `${item.division}_${item.head}`;
-      
-      
       const currentGross = Number(item.grosspaid) || 0;
       const currentnet = Number(item.netAmtLacs) || 0;
 
@@ -632,6 +730,72 @@ const schemeIdToSend = this.mainSchemeID ? Number(this.mainSchemeID) : 0;
         groupMap.set(key, {
           division: item.division,
           head: item.head,
+          // यहाँ हम array की जगह Set का इस्तेमाल कर रहे हैं
+          workIds: new Set(item.worK_ID ? [item.worK_ID] : []), 
+          noofWorks: item.worK_ID ? 1 : 0, // शुरुआत में 1 काउंट 
+          grosspaid: currentGross,    
+          netAmtLacs: currentnet,    
+          divisionSpan: 1,           
+          headSpan: 1
+        });
+      } else {
+        const existing = groupMap.get(key);
+        // अगर work_id है, तो उसे Set में जोड़ दें
+        if (item.worK_ID) {
+          existing.workIds.add(item.worK_ID);
+        }
+        // Distinct काउंट अपडेट करें
+        existing.noofWorks = existing.workIds.size;             
+        existing.grosspaid += currentGross;    
+        existing.netAmtLacs += currentnet;    
+      }
+    });
+
+    this.groupedSummaryData = Array.from(groupMap.values());
+    
+    // ग्रांड टोटल Distinct वर्क्स की गिनती यहाँ सेव करें
+    this.totalDistinctWorksOverall = overallWorksSet.size;
+
+    this.calculateRowSpans();
+
+    this.totalWorksOnlyFundWise = 0;
+    this.totalGrossLacsOnlyFundWise = 0;
+    this.totalnetAmtLacsWorkWise = 0;
+    
+    this.groupedSummaryData.forEach((item, index) => {
+      item.sno = index + 1;
+      
+      // (यहाँ से स्ट्रिंग बनाने वाला कोड हटा दिया गया है)
+      
+      this.totalWorksOnlyFundWise += item.noofWorks;
+      this.totalGrossLacsOnlyFundWise += item.grosspaid;
+      this.totalnetAmtLacsWorkWise += item.netAmtLacs;
+    });
+
+    this.dataSource1.data = this.groupedSummaryData;
+  }
+  processAndGroupData1() {
+    this.PaidDetails.sort((a, b) => (a.division || '').localeCompare(b.division || ''));
+
+    const groupMap = new Map<string, any>();
+    const overallWorksSet = new Set<string>(); // Footer के ग्रांड टोटल के लिए Set
+
+    this.PaidDetails.forEach(item => {
+      // हर work_id को ग्रांड टोटल वाले Set में डालें (डुप्लीकेट अपने आप इग्नोर हो जाएंगे)
+      if (item.worK_ID) {
+        overallWorksSet.add(item.worK_ID);
+      }
+
+      const key = `${item.division}_${item.head}`;
+      const currentGross = Number(item.grosspaid) || 0;
+      const currentnet = Number(item.netAmtLacs) || 0;
+
+      if (!groupMap.has(key)) {
+        groupMap.set(key, {
+          division: item.division,
+          head: item.head,
+          // यहाँ हम array की जगह Set का इस्तेमाल कर रहे हैं
+          workIds: new Set(item.worK_ID ? [item.worK_ID] : []), 
           noofWorks: 1,               
           grosspaid: currentGross,    
           netAmtLacs: currentnet,    
@@ -640,47 +804,106 @@ const schemeIdToSend = this.mainSchemeID ? Number(this.mainSchemeID) : 0;
         });
       } else {
         const existing = groupMap.get(key);
-        existing.noofWorks += 1;               
+        // अगर work_id है, तो उसे Set में जोड़ दें
+        if (item.worK_ID) {
+          existing.workIds.add(item.worK_ID);
+        }
+        existing.noofWorks = existing.workIds.size; // Distinct काउंट अपडेट करें             
         existing.grosspaid += currentGross;    
         existing.netAmtLacs += currentnet;    
       }
     });
 
     this.groupedSummaryData = Array.from(groupMap.values());
+    
+    // ग्रांड टोटल Distinct वर्क्स की गिनती यहाँ सेव करें
+    this.totalDistinctWorksOverall = overallWorksSet.size;
 
     this.calculateRowSpans();
 
-    this.totalWorks = 0;
-    this.totalGrossLacs = 0;
-this.totalnetAmtLacsWorkWise = 0;
+    this.totalWorksOnlyFundWise = 0;
+    this.totalGrossLacsOnlyFundWise = 0;
+    this.totalnetAmtLacsWorkWise = 0;
+    
     this.groupedSummaryData.forEach((item, index) => {
       item.sno = index + 1;
-      this.totalWorks += item.noofWorks;
-      this.totalGrossLacs += item.grosspaid;
+      
+      // *** यहाँ नया बदलाव किया गया है ***
+      // Set को Array में बदलकर कॉमा (,) के साथ स्ट्रिंग बना रहे हैं
+      item.rowWorkIdsString = Array.from(item.workIds).join(', ');
+
+      this.totalWorksOnlyFundWise += item.noofWorks;
+      this.totalGrossLacsOnlyFundWise += item.grosspaid;
       this.totalnetAmtLacsWorkWise += item.netAmtLacs;
     });
 
     this.dataSource1.data = this.groupedSummaryData;
-    // console.log('datasource1=',this.groupedSummaryData);
   }
+  // calculateRowSpans() {
+  //   for (let i = 0; i < this.groupedSummaryData.length; ) {
+  //     let rowSpan = 1;
+  //     for (let j = i + 1; j < this.groupedSummaryData.length; j++) {
+  //       if (this.groupedSummaryData[i].division === this.groupedSummaryData[j].division) {
+  //         rowSpan++;
+  //       } else {
+  //         break;
+  //       }
+  //     }
+  //     this.groupedSummaryData[i].divisionSpan = rowSpan;
+  //     for (let k = i + 1; k < i + rowSpan; k++) {
+  //       this.groupedSummaryData[k].divisionSpan = 0;
+  //     }
+  //     i += rowSpan;
+  //   }
+
+  //   for (let i = 0; i < this.groupedSummaryData.length; ) {
+  //     let rowSpan = 1;
+  //     for (let j = i + 1; j < this.groupedSummaryData.length; j++) {
+  //       if (
+  //         this.groupedSummaryData[i].division === this.groupedSummaryData[j].division &&
+  //         this.groupedSummaryData[i].head === this.groupedSummaryData[j].head
+  //       ) {
+  //         rowSpan++;
+  //       } else {
+  //         break;
+  //       }
+  //     }
+  //     this.groupedSummaryData[i].headSpan = rowSpan;
+  //     for (let k = i + 1; k < i + rowSpan; k++) {
+  //       this.groupedSummaryData[k].headSpan = 0;
+  //     }
+  //     i += rowSpan;
+  //   }
+  // }
 
   calculateRowSpans() {
-    for (let i = 0; i < this.groupedSummaryData.length; ) {
+  for (let i = 0; i < this.groupedSummaryData.length; ) {
       let rowSpan = 1;
+      let divisionWorksSet = new Set(this.groupedSummaryData[i].workIds);
+
       for (let j = i + 1; j < this.groupedSummaryData.length; j++) {
         if (this.groupedSummaryData[i].division === this.groupedSummaryData[j].division) {
           rowSpan++;
+          this.groupedSummaryData[j].workIds.forEach((id: string) => {
+            divisionWorksSet.add(id);
+          });
         } else {
           break;
         }
       }
+      
       this.groupedSummaryData[i].divisionSpan = rowSpan;
+      
+      // *** नया बदलाव ***
+      // Set को Array में बदलकर कॉमा (,) के साथ जोड़ दें
+      this.groupedSummaryData[i].divisionWorkIdsString = Array.from(divisionWorksSet).join(', '); 
+      
       for (let k = i + 1; k < i + rowSpan; k++) {
         this.groupedSummaryData[k].divisionSpan = 0;
       }
       i += rowSpan;
     }
-
+    // 2. Head Span calculation (इसमें कोई बदलाव नहीं)
     for (let i = 0; i < this.groupedSummaryData.length; ) {
       let rowSpan = 1;
       for (let j = i + 1; j < this.groupedSummaryData.length; j++) {
@@ -700,7 +923,114 @@ this.totalnetAmtLacsWorkWise = 0;
       i += rowSpan;
     }
   }
+  calculateRowSpans1() {
+    for (let i = 0; i < this.groupedSummaryData.length; ) {
+      let rowSpan = 1;
+      let divisionWorksSet = new Set(this.groupedSummaryData[i].workIds);
+
+      for (let j = i + 1; j < this.groupedSummaryData.length; j++) {
+        if (this.groupedSummaryData[i].division === this.groupedSummaryData[j].division) {
+          rowSpan++;
+          this.groupedSummaryData[j].workIds.forEach((id: string) => {
+            divisionWorksSet.add(id);
+          });
+        } else {
+          break;
+        }
+      }
+      
+      this.groupedSummaryData[i].divisionSpan = rowSpan;
+      
+      // *** नया बदलाव ***
+      // स्ट्रिंग (.join) की जगह .size का इस्तेमाल करके Distinct Count निकाल रहे हैं
+      this.groupedSummaryData[i].divisionDistinctWorkCount = divisionWorksSet.size; 
+      
+      for (let k = i + 1; k < i + rowSpan; k++) {
+        this.groupedSummaryData[k].divisionSpan = 0;
+      }
+      i += rowSpan;
+    }
+    
+    // 2. Head Span calculation (नीचे का कोड वैसा ही रहेगा)
+    for (let i = 0; i < this.groupedSummaryData.length; ) {
+       // ... (बाकी का Head Span कोड)
+    }
+  }
 processOnlyFundWiseData() {
+    if (!this.PaidDetails || this.PaidDetails.length === 0) {
+      this.groupedFundWiseData = [];
+      this.dataSource2.data = [];
+      this.totalWorksOnlyFundWise = 0;
+      this.totalGrossLacsOnlyFundWise = 0;
+      return;
+    }
+
+    this.PaidDetails.sort((a, b) => (a.head || '').localeCompare(b.head || ''));
+
+    const fundMap = new Map<string, any>();
+    const overallFundWorksSet = new Set<string>(); // Footer के ग्रांड टोटल के लिए
+
+    this.PaidDetails.forEach(item => {
+      const key = item.head ? item.head.trim() : 'Unknown';
+      const currentGross = Number(item.grosspaid) || 0;
+      
+      // यह आपका बिल काउंट के लिए काम आ रहा है
+      const currentBills = Number(item.noofWorks || 1); 
+      const currentnet = Number(item.netAmtLacs || 0); 
+
+      // ग्रांड टोटल के लिए Work ID सेट में डालें
+      if (item.worK_ID) {
+        overallFundWorksSet.add(item.worK_ID);
+      }
+
+      if (!fundMap.has(key)) {
+        fundMap.set(key, {
+          head: key,
+          // Fund Head के हिसाब से Work ID स्टोर करने के लिए Set
+          workIds: new Set(item.worK_ID ? [item.worK_ID] : []), 
+          noofWorks: currentBills, // यह No of Bills के लिए काम आएगा
+          grosspaid: currentGross,
+          netAmtLacs: currentnet,
+          headSpan: 1
+        });
+      } else {
+        const existing = fundMap.get(key);
+        // अगर work_id है, तो उसे Set में जोड़ दें
+        if (item.worK_ID) {
+          existing.workIds.add(item.worK_ID);
+        }
+        existing.noofWorks += currentBills; // बिल काउंट बढ़ाएँ
+        existing.grosspaid += currentGross;
+        existing.netAmtLacs += currentnet;
+      }
+    });
+
+    this.groupedFundWiseData = Array.from(fundMap.values());
+
+    this.calculateOnlyFundRowSpans();
+
+    this.totalWorksOnlyFundWise = 0;
+    this.totalGrossLacsOnlyFundWise = 0;
+    this.totalnetAmtLacsWorkWise = 0;
+    
+    // ग्रांड टोटल Distinct Work IDs की गिनती अपडेट करें
+    this.totalDistinctWorksOverall = overallFundWorksSet.size;
+
+    this.groupedFundWiseData.forEach((item, index) => {
+      item.sno = index + 1;
+      
+      // *** नया बदलाव ***
+      // Set का साइज़ निकालकर अलग वेरिएबल में स्टोर कर रहे हैं (यूनिक गिनती)
+      item.distinctWorkCount = item.workIds.size;
+
+      this.totalWorksOnlyFundWise += item.noofWorks; // No of Bills का टोटल
+      this.totalGrossLacsOnlyFundWise += item.grosspaid;
+      this.totalnetAmtLacsWorkWise += item.netAmtLacs;
+    });
+
+    this.dataSource2.data = this.groupedFundWiseData;
+  }
+processOnlyFundWiseData1() {
   if (!this.PaidDetails || this.PaidDetails.length === 0) {
     this.groupedFundWiseData = [];
     this.dataSource2.data = [];
@@ -753,6 +1083,79 @@ processOnlyFundWiseData() {
     // console.log('dataSource2=',this.groupedFundWiseData);
 
 }
+processOnlyFundWiseData3() {
+    if (!this.PaidDetails || this.PaidDetails.length === 0) {
+      this.groupedFundWiseData = [];
+      this.dataSource2.data = [];
+      this.totalWorksOnlyFundWise = 0;
+      this.totalGrossLacsOnlyFundWise = 0;
+      return;
+    }
+
+    this.PaidDetails.sort((a, b) => (a.head || '').localeCompare(b.head || ''));
+
+    const fundMap = new Map<string, any>();
+    const overallFundWorksSet = new Set<string>(); // Footer के ग्रांड टोटल के लिए
+
+    this.PaidDetails.forEach(item => {
+      const key = item.head ? item.head.trim() : 'Unknown';
+      const currentGross = Number(item.grosspaid) || 0;
+      // हर रिकॉर्ड को एक बिल (bill) मान रहे हैं
+      const currentWorks = Number(item.noofWorks || 1); 
+      const currentnet = Number(item.netAmtLacs || 0); 
+
+      // ग्रांड टोटल के लिए Work ID सेट में डालें
+      if (item.worK_ID) {
+        overallFundWorksSet.add(item.worK_ID);
+      }
+
+      if (!fundMap.has(key)) {
+        fundMap.set(key, {
+          head: key,
+          // Fund Head के हिसाब से Work ID स्टोर करने के लिए Set
+          workIds: new Set(item.worK_ID ? [item.worK_ID] : []), 
+          noofWorks: currentWorks, // यह No of Bills के लिए काम आएगा
+          grosspaid: currentGross,
+          netAmtLacs: currentnet,
+          headSpan: 1
+        });
+      } else {
+        const existing = fundMap.get(key);
+        // अगर work_id है, तो उसे Set में जोड़ दें
+        if (item.worK_ID) {
+          existing.workIds.add(item.worK_ID);
+        }
+        existing.noofWorks += currentWorks; // बिल काउंट बढ़ाएँ
+        existing.grosspaid += currentGross;
+        existing.netAmtLacs += currentnet;
+      }
+    });
+
+    this.groupedFundWiseData = Array.from(fundMap.values());
+
+    this.calculateOnlyFundRowSpans();
+
+    this.totalWorksOnlyFundWise = 0;
+    this.totalGrossLacsOnlyFundWise = 0;
+    this.totalnetAmtLacsWorkWise = 0;
+    
+    // ग्रांड टोटल Distinct Work IDs की गिनती अपडेट करें
+    this.totalDistinctWorksOverall = overallFundWorksSet.size;
+
+    this.groupedFundWiseData.forEach((item, index) => {
+      item.sno = index + 1;
+      
+      // *** नया बदलाव ***
+      // Set को Array में बदलकर कॉमा (,) के साथ स्ट्रिंग बना रहे हैं
+      item.rowWorkIdsString = Array.from(item.workIds).join(', ');
+
+      this.totalWorksOnlyFundWise += item.noofWorks; // No of Bills का टोटल
+      this.totalGrossLacsOnlyFundWise += item.grosspaid;
+      this.totalnetAmtLacsWorkWise += item.netAmtLacs;
+    });
+
+    this.dataSource2.data = this.groupedFundWiseData;
+  }
 
 calculateOnlyFundRowSpans() {
   for (let i = 0; i < this.groupedFundWiseData.length; ) {
@@ -1184,167 +1587,7 @@ applyTextFilter3(event: Event) {
 
   }
 
-  generateStrictlyFundWisepdf1() {
-  const currentDateTime = this.getCurrentDateTime();
-  const doc = new jsPDF('p', 'mm', 'a4');
-  const bodyData: any[] = [];
 
-
-  const sourceData = this.groupedSummaryData;
-
-  if (!sourceData || sourceData.length === 0) {
-    this.toastr.warning('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
-    return;
-  }
-
-
-  sourceData.forEach((item) => {
-    const row: any[] = [];
-
-    // 1. S.No Column
-    row.push(item.sno);
-
-
-    if (item.divisionSpan > 0) {
-      row.push({
-        content: item.division || '',
-        rowSpan: item.divisionSpan,
-        styles: { fontStyle: 'bold', fillColor: [255, 255, 255], halign: 'left' }
-      });
-    }
-
- 
-    if (item.headSpan > 0) {
-      row.push({
-        content: item.head || '',
-        rowSpan: item.headSpan,
-        styles: { fillColor: [255, 255, 255], halign: 'left' }
-      });
-    }
-
-    // 4. No of Works
-    row.push({
-      content: (item.noofWorks || 0).toString(),
-      styles: { halign: 'center' }
-    });
-
-    // 5. Gross Paid (in Lacs)
-    row.push({
-      content: Number(item.grosspaid || 0).toFixed(2),
-      styles: { halign: 'right' }
-    });
-   row.push({
-      content: Number(item.netAmtLacs || 0).toFixed(2),
-      styles: { halign: 'right' }
-    });
-    bodyData.push(row);
-  });
-
-  autoTable(doc, {
-    startY: 15,
-    theme: 'grid',
-    
-    /* ================= HEADER SECTION ================= */
-    head: [
-      [
-        {
-          content: 'Division Payment Summary Fund wise',
-          colSpan: 4, 
-          styles: {
-            halign: 'left',
-            fontStyle: 'bold',
-            fontSize: 12,
-            fillColor: [254, 240, 255], 
-            textColor: [0, 0, 0]
-          }
-        },
-        {
-          content: `Print Dt: ${currentDateTime}`,
-          colSpan: 1,
-          styles: {
-            halign: 'right',
-            fontSize: 9,
-            fillColor: [254, 240, 255],
-            textColor: [100, 100, 100]
-          }
-        }
-      ],
-      [
-        {
-          content: `Payment From Date : ${this.datePipe.transform(this.fromDate, 'dd-MMM-yyyy')}     To     Payment To Date: ${this.datePipe.transform(this.toDate, 'dd-MMM-yyyy')}`,
-          colSpan: 5, 
-          styles: {
-            halign: 'left',
-            fontSize: 10,
-            fontStyle: 'normal',
-            fillColor: [255, 255, 255],
-            textColor: [50, 50, 50]
-          }
-        }
-      ],
-      [
-        { content: 's.No', styles: { halign: 'center' } },
-        { content: 'Division', styles: { halign: 'left' } },
-        { content: 'Fund Head', styles: { halign: 'left' } },
-        { content: 'No of Works', styles: { halign: 'center' } },
-        { content: 'Gross Paid (in Lacs)', styles: { halign: 'right' } },
-           { content: 'Net Amount (in Lacs)', styles: { halign: 'right' } } // 5th Column Header
-      ]
-    ],
-    
-    /* ================= BODY SECTION ================= */
-    body: bodyData, 
-
-    /* ================= TOTAL FOOTER SECTION ================= */
-    foot: [
-      [
-        { content: '', styles: { fillColor: [210, 225, 245] } }, 
-        { content: 'Total', colSpan: 2, styles: { fontStyle: 'bold', halign: 'left' } }, 
-        { content: this.totalWorks.toString(), styles: { fontStyle: 'bold', halign: 'center' } },
-        { content: Number(this.totalGrossLacs || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
-        { content: Number(this.totalnetAmtLacsWorkWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
-
-      ]
-    ],
-
-    /* ================= GLOBAL STYLES ================= */
-    styles: {
-      fontSize: 10,
-      lineWidth: 0.3,
-      lineColor: [80, 80, 80], 
-      valign: 'middle',
-      textColor: [0, 0, 0]
-    },
-    
-    /* ================= COLUMN WIDTHS ================= */
-    columnStyles: {
-      0: { cellWidth: 15 },  
-      1: { cellWidth: 45 },  
-      2: { cellWidth: 45 },  
-      3: { cellWidth: 30 },  
-      4: { cellWidth: 40 }   
-    },
-    
-    /* ================= DYNAMIC CELL STYLES ================= */
-    didParseCell: (data) => {
-      if (data.section === 'foot') {
-        data.cell.styles.fillColor = [173, 197, 230]; 
-        data.cell.styles.lineWidth = 0.5;
-        data.cell.styles.fontStyle = 'bold';
-        data.cell.styles.textColor = [0, 0, 0];
-      }
-      
-      if (data.section === 'head' && data.row.index === 2) {
-        data.cell.styles.fillColor = [142, 171, 219]; 
-        data.cell.styles.lineWidth = 0.5;
-      }
-    }
-  });
-    const formattedDate = this.datePipe.transform(new Date(), 'dd-MMM-yyyy');
-
-  
-  doc.save(`Division_Fundwise_Payment_Summary_${formattedDate}.pdf`);
-}
 generateStrictlyFundWisepdf() {
   const currentDateTime = this.getCurrentDateTime();
   const doc = new jsPDF('p', 'mm', 'a4'); // 'p' for Portrait
@@ -1410,7 +1653,7 @@ generateStrictlyFundWisepdf() {
     head: [
       [
         {
-          content: 'Division Payment Summary Fund wise',
+          content: '  Division & Fund-wise Consolidated Payments',
           colSpan: 5, // UPDATE: Total 6 columns (5 + 1)
           styles: {
             halign: 'left',
@@ -1507,135 +1750,7 @@ generateStrictlyFundWisepdf() {
   doc.save(`Division_Fundwise_Payment_Summary_${formattedDate}.pdf`);
 }
 
-// FundWisepdf1() {
-//   const currentDateTime = this.getCurrentDateTime();
-//   const doc = new jsPDF('p', 'mm', 'a4');
-//   const bodyData: any[] = [];
-//   const sourceData = this.groupedFundWiseData;
 
-//   if (!sourceData || sourceData.length === 0) {
-//     this.toastr.warning('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
-//     return;
-//   }
-
-//   sourceData.forEach((item) => {
-//     const row: any[] = [];
-
-//     // 1. S.No Column
-//     row.push(item.sno);
-
-//     // 2. Fund Head Column (Rowspan मर्जिंग चेक के साथ)
-//     if (item.headSpan > 0) {
-//       row.push({
-//         content: item.head || '',
-//         rowSpan: item.headSpan,
-//         styles: { fontStyle: 'bold', fillColor: [255, 255, 255], halign: 'left' }
-//       });
-//     }
-
-//     // 3. No of Works
-//     row.push({
-//       content: (item.noofWorks || 0).toString(),
-//       styles: { halign: 'center' }
-//     });
-
-//     // 4. Gross Paid (in Lacs)
-//     row.push({
-//       content: Number(item.grosspaid || 0).toFixed(2),
-//       styles: { halign: 'right' }
-//     });
-//     row.push({
-//       content: Number(item.netAmtLacs || 0).toFixed(2),
-//       styles: { halign: 'right' }
-//     });
-
-//     bodyData.push(row);
-//   });
-
-//   autoTable(doc, {
-//     startY: 15,
-//     theme: 'grid',
-    
-//     /* ================= HEADER SECTION (4 COLUMNS) ================= */
-//     head: [
-//       [
-//         {
-//           content: 'Fund wise Payment Summary',
-//           colSpan: 3, 
-//           styles: { halign: 'left', fontStyle: 'bold', fontSize: 12, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
-//         },
-//         {
-//           content: `Print Dt: ${currentDateTime}`,
-//           colSpan: 1,
-//           styles: { halign: 'right', fontSize: 9, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
-//         }
-//       ],
-//       [
-//         {
-//           content: `Payment From Date : ${this.datePipe.transform(this.fromDate, 'dd-MMM-yyyy')}     To     Payment To Date: ${this.datePipe.transform(this.toDate, 'dd-MMM-yyyy')}`,
-//           colSpan: 4, 
-//           styles: { halign: 'left', fontSize: 10, fontStyle: 'normal', fillColor: [255, 255, 255], textColor: [50, 50, 50] }
-//         }
-//       ],
-//       [
-//         { content: 's.No', styles: { halign: 'center' } },
-//         { content: 'Fund Head', styles: { halign: 'left' } },
-//         { content: 'No of Works', styles: { halign: 'center' } },
-//         { content: 'Gross Paid (in Lacs)', styles: { halign: 'right' } },
-//         { content: 'Net Amount (in Lacs)', styles: { halign: 'right' } },
-//       ]
-//     ],
-    
-//     /* ================= BODY SECTION ================= */
-//     body: bodyData, 
-
-//     /* ================= TOTAL FOOTER SECTION ================= */
-//     foot: [
-//       [
-//         { content: '', styles: { fillColor: [210, 225, 245] } }, 
-//         { content: 'Total', colSpan: 1, styles: { fontStyle: 'bold', halign: 'left' } }, 
-//         { content: this.totalWorksOnlyFundWise.toString(), styles: { fontStyle: 'bold', halign: 'center' } },
-//         { content: Number(this.totalGrossLacsOnlyFundWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
-//         { content: Number(this.totalnetAmtLacsWorkWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
-//       ]
-//     ],
-
-//     /* ================= GLOBAL STYLES ================= */
-//     styles: {
-//       fontSize: 10,
-//       lineWidth: 0.3,
-//       lineColor: [80, 80, 80], 
-//       valign: 'middle',
-//       textColor: [0, 0, 0]
-//     },
-    
-//     /* ================= COLUMN WIDTHS (TOTAL 175mm A4) ================= */
-//     columnStyles: {
-//       0: { cellWidth: 20 },  // s.No
-//       1: { cellWidth: 75 },  // Fund Head (अब इसे चौड़ा कर दिया है)
-//       2: { cellWidth: 35 },  // No of Works
-//       3: { cellWidth: 45 },   // Gross Paid
-//       4: { cellWidth: 45 }   // Gross Paid
-//     },
-    
-//     /* ================= DYNAMIC CELL STYLES ================= */
-//     didParseCell: (data) => {
-//       if (data.section === 'foot') {
-//         data.cell.styles.fillColor = [173, 197, 230]; 
-//         data.cell.styles.lineWidth = 0.5;
-//         data.cell.styles.fontStyle = 'bold';
-//       }
-//       if (data.section === 'head' && data.row.index === 2) {
-//         data.cell.styles.fillColor = [142, 171, 219]; 
-//         data.cell.styles.lineWidth = 0.5;
-//       }
-//     }
-//   });
-//      const formattedDate = this.datePipe.transform(new Date(), 'dd-MMM-yyyy');
-
-  
-//   doc.save(`Fundwise_Payment_Summary_${formattedDate}.pdf`);
-// }
 FundWisepdf() {
   const currentDateTime = this.getCurrentDateTime();
   const doc = new jsPDF('p', 'mm', 'a4'); // 'p' matlab Portrait (Sidha page)
@@ -1667,7 +1782,10 @@ FundWisepdf() {
       content: (item.noofWorks || 0).toString(),
       styles: { halign: 'center' }
     });
-
+row.push({
+  content: (item.noofbill || 0).toString(),
+  styles: { halign: 'center' }
+});
     // 4. Gross Paid (in Lacs)
     row.push({
       content: Number(item.grosspaid || 0).toFixed(2),
@@ -1691,7 +1809,7 @@ FundWisepdf() {
     head: [
       [
         {
-          content: 'Fund wise Payment Summary',
+          content: '  Division & Fund-wise Consolidated Payments',
           colSpan: 4, // UPDATE: 3 se 4 kar diya (Total 5 columns = 4 + 1)
           styles: { halign: 'left', fontStyle: 'bold', fontSize: 12, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
         },
@@ -1712,6 +1830,7 @@ FundWisepdf() {
         { content: 'S.No', styles: { halign: 'center' } },
         { content: 'Fund Head', styles: { halign: 'left' } },
         { content: 'No of Works', styles: { halign: 'center' } },
+          { content: 'No of Bills', styles: { halign: 'center' } }, // NEW
         { content: 'Gross Paid (in Lacs)', styles: { halign: 'right' } },
         { content: 'Net Amount (in Lacs)', styles: { halign: 'right' } } // 5th Column Header
       ]
@@ -1726,6 +1845,7 @@ FundWisepdf() {
         { content: '', styles: { fillColor: [210, 225, 245] } }, 
         { content: 'Total', colSpan: 1, styles: { fontStyle: 'bold', halign: 'left' } }, 
         { content: this.totalWorksOnlyFundWise.toString(), styles: { fontStyle: 'bold', halign: 'center' } },
+          { content: this.totalWorksOnlyFundWise.toString(), styles: { halign: 'center' } }, // NEW
         { content: Number(this.totalGrossLacsOnlyFundWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
         { content: Number(this.totalnetAmtLacsWorkWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
       ]
@@ -1745,8 +1865,9 @@ FundWisepdf() {
       0: { cellWidth: 15, halign: 'center' },  // S.No
       1: { cellWidth: 70, halign: 'left' },    // Fund Head
       2: { cellWidth: 25, halign: 'center' },  // No of Works
-      3: { cellWidth: 35, halign: 'right' },   // Gross Paid
-      4: { cellWidth: 35, halign: 'right' }    // Net Amount
+      3: { cellWidth: 25, halign: 'center' },  // No of Works
+      4: { cellWidth: 35, halign: 'right' },   // Gross Paid
+      5: { cellWidth: 35, halign: 'right' }    // Net Amount
     },
     
     /* ================= DYNAMIC CELL STYLES ================= */
