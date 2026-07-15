@@ -896,6 +896,7 @@ const schemeIdToSend = this.mainSchemeID ? Number(this.mainSchemeID) : 0;
       
       // *** नया बदलाव ***
       // Set को Array में बदलकर कॉमा (,) के साथ जोड़ दें
+      
       this.groupedSummaryData[i].divisionWorkIdsString = Array.from(divisionWorksSet).join(', '); 
       
       for (let k = i + 1; k < i + rowSpan; k++) {
