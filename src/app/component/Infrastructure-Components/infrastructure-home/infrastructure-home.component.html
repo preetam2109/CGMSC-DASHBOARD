@@ -250,7 +250,7 @@
                   <a type="link" style="cursor: pointer; text-decoration: none;" >
 
                     <div class="card flow-card bg-remainingg p-3 z-3 text-dark" style="background-color: #7b8fff;">
-                        <h6>Remaining Works (D) <br><small class="text-muted" style="font-size: 11px;">D = A - (B + C)</small></h6>
+                        <h6>Remaining Works (D) <br><small class="text-muted" style="font-size: 11px;">D = A - (B + C1+C2)</small></h6>
                         <h4>{{ remainingWorks }}</h4>
                     </div></a>
                     <div class="connector-down" style="height: 40px;"></div>
@@ -260,8 +260,16 @@
                   <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(8001, 'Return (C)', returnWorks)">
 
                     <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #f87d7d;">
-                        <h6><i class="bi bi-trash"></i>Return to Department(C)</h6>
+                        <h6><i class="bi bi-arrow-counterclockwise"></i>Return to Department(C1)</h6>
                         <h4>{{ returnWorks }}</h4>
+                    </div></a>
+                </div>
+                <div class="tree-node">
+                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(7001, 'Permanent Cancelled(c2)', Permanent_Cancelled)">
+
+                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #fd4f75;">
+                        <h6><i class="bi bi-trash"></i>Permanent Cancelled(C2)</h6>
+                        <h4>{{ Permanent_Cancelled }}</h4>
                     </div></a>
                 </div>
     
