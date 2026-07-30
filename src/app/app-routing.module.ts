@@ -180,7 +180,7 @@ import { QCSampleStatusLabReceivedUnderTransit } from './component/ORACLE-DASHBO
 import { FinalResultAwaitingafterEmpaneledLabResult } from './component/ORACLE-DASHBOARD/QC/final-result-awaitingafter-empaneled-lab-result/final-result-awaitingafter-empaneled-lab-result';
 import { CgmscQcPendingStatus } from './component/ORACLE-DASHBOARD/QC/cgmsc-qc-pending-status/cgmsc-qc-pending-status';
 import { QcPerformance } from './component/ORACLE-DASHBOARD/QC/qc-performance/qc-performance';
-import { QcPendencyMonitoring } from './component/oracle-dashboard/QC/qc-pendency-monitoring/qc-pendency-monitoring';
+import { QcPendencyMonitoring } from './component/ORACLE-DASHBOARD/QC/qc-pendency-monitoring/qc-pendency-monitoring';
 import { QCSampleStageMonitoring } from './component/ORACLE-DASHBOARD/QC/qcsample-stage-monitoring/qcsample-stage-monitoring';
 import { QcBatchesReportSummary } from './component/ORACLE-DASHBOARD/qc-batches-report-summary/qc-batches-report-summary';
 import { WhHoQcSampleTransitCourierPendingHo } from './component/ORACLE-DASHBOARD/wh-ho-qc-sample-transit-courier-pending-ho/wh-ho-qc-sample-transit-courier-pending-ho';
