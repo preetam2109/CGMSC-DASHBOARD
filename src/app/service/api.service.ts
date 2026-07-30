@@ -709,8 +709,9 @@ export class ApiService {
     //   `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distId}`
     // );
     // 
+
     return this.http.get<DashProgressCount[]>(`${this.apiUrl}/Progress/DashProgressCount?divisionid=${divisionId}&mainSchemeId=${mainSchemeId}&distid=${distid}&ASID=${ASID}&GrantID=${GrantID}&ASAmount=${ASAmount}&fromdt=${fromdt}&todt=${todt}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=0&mainSchemeId=0&distid=0&ASID=0&GrantID=0&ASAmount=1
+    //  https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressCount?divisionid=0&mainSchemeId=0&distid=0&ASID=0&GrantID=0&ASAmount=0&fromdt=0&todt=0
   }
   GetDistrict(isall: any, divisionId: number) {
     return this.http.get<GetDistrict[]>(
@@ -996,6 +997,7 @@ export class ApiService {
     // raipur=D1004
 
 
+    // debugger
     return this.http.get<any[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}&IsMedicalCollege=${IsMedicalCollege}&isabove90=${isabove90}`);
 
   }
@@ -1867,6 +1869,14 @@ export class ApiService {
   getPendigBill(mainSchemeId: any, officeOrder: any, divisionid: any) {
     // https://www.cgmsc.gov.in/himis_apin/api/payment/UnionPendigBill?mainSchemeId=101&officeOrder=1&divisionid=D1017
     return this.http.get<any[]>(`${this.himis_apin}/payment/UnionPendigBill?mainSchemeId=${mainSchemeId}&officeOrder=${officeOrder}&divisionid=${divisionid}`);
+  }
+  LimitSummary(divisionId: any, districtid: any, mainSchemeId: any, finalstatus: any, DEMANDID: any) {
+    // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/LimitSummary?divisionId=0&districtid=0&mainSchemeId=0&finalstatus=0&DEMANDID=0
+    return this.http.get<any[]>(`${this.himis_apin}/payment/LimitSummary?divisionId=${divisionId}&districtid=${districtid}&mainSchemeId=${mainSchemeId}&finalstatus=${finalstatus}&DEMANDID=${DEMANDID}`);
+  }
+  LimitDetails(divisionId: any, districtid: any, mainSchemeId: any, finalstatus: any, DEMANDID: any) {
+    // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/LimitDetails?divisionId=D1001&districtid=0&mainSchemeId=0&finalstatus=0&DEMANDID=0
+    return this.http.get<any[]>(`${this.himis_apin}/payment/LimitDetails?divisionId=${divisionId}&districtid=${districtid}&mainSchemeId=${mainSchemeId}&finalstatus=${finalstatus}&DEMANDID=${DEMANDID}`);
   }
   //#endregion
 

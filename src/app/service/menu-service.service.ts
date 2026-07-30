@@ -252,6 +252,7 @@ export class MenuServiceService {
           Infrastructure: [
             { label: 'Home', route: '/home' },
             { label: 'Dashboard', route: '/infra-dash' },
+            { label: 'Fund Release Management', route: '/FundReleaseManagement' },
             { label: 'Bills Pending for Payment', route: '/FitUnFitinfra' },
             { label: 'Bills Payment Released', route: '/PaidBills' },
             // { label: 'Home', route: 'InfrastructureHome' },

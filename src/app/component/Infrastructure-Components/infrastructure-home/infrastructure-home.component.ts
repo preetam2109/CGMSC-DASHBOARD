@@ -182,6 +182,7 @@ export class InfrastructureHomeComponent implements OnInit {
   workOrderGenerated: number = 0;
   landDispute: number = 0;
   runningWork: number = 0;
+  Permanent_Cancelled: number = 0;
   toBeTender: number = 0;
   appliedZonal: number = 0;
   zonalPermission: number = 0;
@@ -730,6 +731,25 @@ export class InfrastructureHomeComponent implements OnInit {
         );
       this.openDialogLand_isu();
     } else if (did == 8001) {
+      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
+        .subscribe(
+          (res) => {
+            this.dispatchData1 = res.map((item: LandIssue_RetToDeptDetatails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dataSource1.data = this.dispatchData1;
+            this.dataSource1.paginator = this.paginator1;
+            this.dataSource1.sort = this.sort1;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error(`API Error:: ${error.message}`);
+          }
+        );
+      this.openDialog1();
+    } 
+     else if (did == 7001) {
+      // (click)="DetailProgress(7001, 'Permanent Cancelled(c2)', returnWorks)
       this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
         .subscribe(
           (res) => {
@@ -1914,7 +1934,7 @@ export class InfrastructureHomeComponent implements OnInit {
   onopenimges(element: any) {
     this.selectedWork = element;
     this.imageUrls = [];
-
+// https://cgmsc.gov.in/himisr/ProgressImages/
     const imageKeys = ['imagename', 'imagenamE2', 'imagenamE3', 'imagenamE4', 'imagenamE5'];
 
     imageKeys.forEach(key => {
@@ -1946,7 +1966,8 @@ export class InfrastructureHomeComponent implements OnInit {
   bindDashboardData() {
     this.completedWorks = this.getNosWorks(4001);
     this.returnWorks = this.getNosWorks(8001);
-    this.remainingWorks = this.totalNosWorks - (this.completedWorks + this.returnWorks);
+    this.Permanent_Cancelled = this.getNosWorks(7001);
+    this.remainingWorks = this.totalNosWorks - (this.completedWorks + this.returnWorks + this.Permanent_Cancelled);
     this.tenderInProcess = this.getNosWorks(2001);
     this.acceptanceGenerated = this.getNosWorks(3001);
     this.workOrderGenerated = this.getNosWorks(3002);
@@ -1956,6 +1977,7 @@ export class InfrastructureHomeComponent implements OnInit {
     this.appliedZonal = this.getNosWorks(1002);
     this.zonalPermission = this.getNosWorks(3003);
     this.cancellation = this.getNosWorks(6002);
+  
   }
 
   getNosWorks(id: number): number {
@@ -1978,4 +2000,8 @@ export class InfrastructureHomeComponent implements OnInit {
     // }  
 
   }
+
+// https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
+
+
 }
