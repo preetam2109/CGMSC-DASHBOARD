@@ -552,7 +552,7 @@ export class FundReleaseManagement {
     // this.api.LimitDetails(divisionId,districtid,mainSchemeId,finalstatus,DEMANDID)
     // this.sname = this.sname ? this.sname : 0;
     // this.api.LimitDetails(divisionId,0,mainSchemeId,this.sname,demandid)
-    this.api.LimitDetails(0, 0, 0, 0, demandid).subscribe({
+    this.api.LimitDetails(0, 0, 0, mainSchemeId, demandid).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {
           this.dataSource2.data = res;
