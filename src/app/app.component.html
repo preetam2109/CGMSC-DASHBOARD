@@ -48,7 +48,7 @@
               <button mat-button class="menu-btn" (click)="drawer.close()">
                 <div class="menu-content">
                   <mat-icon class="left-icon">format_list_bulleted</mat-icon> 
-                  <span class="menu-text">{{ item.label }}</span>
+                  <span class="menu-text">{{ item.label }} <img *ngIf="item.verified" src="assets/dash-icon/verified-badge.svg" class="verified-badge" alt="Verified"></span>
                 </div>
               </button>
             </a>
@@ -60,7 +60,7 @@
               routerLinkActive="active-menu">
               <div class="menu-content">
                 <mat-icon class="left-icon">format_list_bulleted</mat-icon>
-                <span class="menu-text">{{ item.label }}</span>
+                <span class="menu-text">{{ item.label }} <img *ngIf="item.verified" src="assets/dash-icon/verified-badge.svg" class="verified-badge" alt="Verified"></span>
 
                 <!-- Conditionally Show Arrow for Submenus -->
                 <mat-icon *ngIf="item.submenu" class="right-icon" [class.rotate]="expandedMenus[item.label]">
@@ -79,7 +79,7 @@
                 <button [routerLink]="subItem.route" mat-button class="submenu-btn" routerLinkActive="active-submenu" (click)="drawer.close()">
                   <div class="menu-content">
                     <mat-icon class="sub-icon">subdirectory_arrow_right</mat-icon> 
-                    <span class="menu-text">{{ subItem.label }}</span>
+                    <span class="menu-text">{{ subItem.label }} <img *ngIf="subItem.verified" src="assets/dash-icon/verified-badge.svg" class="verified-badge" alt="Verified"></span>
                   </div>
                 </button>
               </mat-list-item>
@@ -89,7 +89,7 @@
                 <button mat-button class="submenu-btn" (click)="toggleSubmenu(subItem.label, item.label)">
                   <div class="menu-content">
                     <mat-icon class="sub-icon">subdirectory_arrow_right</mat-icon> 
-                    <span class="menu-text">{{ subItem.label }}</span>
+                    <span class="menu-text">{{ subItem.label }} <img *ngIf="subItem.verified" src="assets/dash-icon/verified-badge.svg" class="verified-badge" alt="Verified"></span>
                     <mat-icon class="right-icon" [class.rotate]="expandedMenus[subItem.label]">
                       chevron_right
                     </mat-icon>
@@ -100,14 +100,45 @@
               <!-- Second-level submenu -->
               <div class="submenu second-level-submenu" [class.open]="expandedMenus[subItem.label]"
                 style="padding-left: 20px;">
-                <mat-list-item *ngFor="let subSubItem of subItem.submenu; let j = index" class="sub-nav-item" [style.transition-delay]="(j * 0.05) + 's'">
-                  <button [routerLink]="subSubItem.route" mat-button class="submenu-btn" routerLinkActive="active-submenu" (click)="drawer.close()">
-                    <div class="menu-content">
-                      <mat-icon class="sub-icon">subdirectory_arrow_right</mat-icon> 
-                      <span class="menu-text">{{ subSubItem.label }}</span>
-                    </div>
-                  </button>
-                </mat-list-item>
+                <ng-container *ngFor="let subSubItem of subItem.submenu; let j = index">
+                  
+                  <!-- Second-level subitem with no children -->
+                  <mat-list-item *ngIf="!subSubItem.submenu" class="sub-nav-item" [style.transition-delay]="(j * 0.05) + 's'">
+                    <button [routerLink]="subSubItem.route" mat-button class="submenu-btn" routerLinkActive="active-submenu" (click)="drawer.close()">
+                      <div class="menu-content">
+                        <mat-icon class="sub-icon">subdirectory_arrow_right</mat-icon> 
+                        <span class="menu-text">{{ subSubItem.label }} <img *ngIf="subSubItem.verified" src="assets/dash-icon/verified-badge.svg" class="verified-badge" alt="Verified"></span>
+                      </div>
+                    </button>
+                  </mat-list-item>
+
+                  <!-- Second-level subitem WITH children -->
+                  <mat-list-item *ngIf="subSubItem.submenu" class="sub-nav-item" [style.transition-delay]="(j * 0.05) + 's'">
+                    <button mat-button class="submenu-btn" (click)="toggleSubmenu(subSubItem.label, subItem.label, item.label)">
+                      <div class="menu-content">
+                        <mat-icon class="sub-icon">subdirectory_arrow_right</mat-icon> 
+                        <span class="menu-text">{{ subSubItem.label }} <img *ngIf="subSubItem.verified" src="assets/dash-icon/verified-badge.svg" class="verified-badge" alt="Verified"></span>
+                        <mat-icon class="right-icon" [class.rotate]="expandedMenus[subSubItem.label]">
+                          chevron_right
+                        </mat-icon>
+                      </div>
+                    </button>
+                  </mat-list-item>
+
+                  <!-- Third-level submenu -->
+                  <div class="submenu third-level-submenu" [class.open]="expandedMenus[subSubItem.label]"
+                    style="padding-left: 20px;">
+                    <mat-list-item *ngFor="let subSubSubItem of subSubItem.submenu; let k = index" class="sub-nav-item" [style.transition-delay]="(k * 0.05) + 's'">
+                      <button [routerLink]="subSubSubItem.route" mat-button class="submenu-btn" routerLinkActive="active-submenu" (click)="drawer.close()">
+                        <div class="menu-content">
+                          <mat-icon class="sub-icon">subdirectory_arrow_right</mat-icon> 
+                          <span class="menu-text">{{ subSubSubItem.label }} <img *ngIf="subSubSubItem.verified" src="assets/dash-icon/verified-badge.svg" class="verified-badge" alt="Verified"></span>
+                        </div>
+                      </button>
+                    </mat-list-item>
+                  </div>
+
+                </ng-container>
               </div>
 
             </ng-container>

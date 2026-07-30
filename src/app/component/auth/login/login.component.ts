@@ -180,7 +180,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.siMobile = selectedUser.siMobile || null;
       this.userid = selectedUser.userid || null;
       this.roleid = selectedUser.roleid || null;
-      this.rolename = selectedUser.rolename || null;
+      if (selectedUser.emailid === 'chairman@dpdmis.in') {
+        this.rolename = 'Chairman';
+      } else {
+        this.rolename = selectedUser.rolename || null;
+      }
       this.firstname = selectedUser.firstname || null;
 
       this.setRole(this.rolename);
@@ -980,6 +984,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.setRole(this.rolename);
       sessionStorage.setItem('firstname', this.firstname);
       sessionStorage.setItem('authenticatedUser', this.firstname);
+
       sessionStorage.setItem('divisionID', this.id)
 
 

@@ -1,0 +1,8 @@
+@@ -242,4 +242,6 @@
+ .blink-arrow {
+   animation: blink 1s step-start 0s infinite;
+-  color: red;
+   margin-left: 5px;
++  width: 30px;
++  height: 15px;
++  vertical-align: middle;

@@ -14,7 +14,7 @@ type Category = 'DrugsConsumables' | 'EquipmentReagent' | 'Infrastructure' | 'Ad
 })
 export class CategorySelectionComponent implements OnInit {
   // Available categories as cards with the Category type
-  categories: Category[] = ['DrugsConsumables', 'EquipmentReagent', 'Infrastructure','Admin']; 
+  categories: Category[] = ['DrugsConsumables', 'EquipmentReagent', 'Infrastructure' /*, 'Admin'*/]; 
   selectedCategory: Category | '' = ''; // To store the selected category
   menuItems: { label: string; route: string }[] = [];
   role: any = ''; // Dynamic role

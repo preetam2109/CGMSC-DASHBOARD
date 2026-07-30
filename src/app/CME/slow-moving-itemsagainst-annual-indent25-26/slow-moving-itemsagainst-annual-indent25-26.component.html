@@ -18,11 +18,11 @@
               value="Reagent" (change)="updateSelectedHodid()" />
             <label class="form-check-label" for="reagent">Reagent</label>
           </div>
-          <div class="form-check me-3">
+          <!-- <div class="form-check me-3">
             <input class="form-check-input" type="radio" name="categoryGroup" id="ayush" [(ngModel)]="selectedCategory"
               value="AYUSH" (change)="updateSelectedHodid()" />
             <label class="form-check-label" for="ayush">AYUSH</label>
-          </div>
+          </div> -->
         </div>
     </div>
 
@@ -139,12 +139,12 @@
                 <!-- Header & Row Definitions -->
                 <tr mat-header-row *matHeaderRowDef="['sno',
                   'nositems', 'facilityname',
-                  'mcategory', 'stockparameter', 'colorpara'
+                  'mcategory', 'stockparameter'
                 ]"></tr>
               
                 <tr mat-row *matRowDef="let row; columns: ['sno',
                   'nositems','facilityname',
-                  'mcategory','stockparameter','colorpara'
+                  'mcategory','stockparameter'
                   ];" [ngStyle]="{
       'background-color': row.colorpara === '1.Pink' ? '#ff8fab' :
                           row.colorpara === '2.Yellow' ? '#ffc300' :
@@ -287,7 +287,7 @@
                   'facilityname','mcategory','itemname','itemcode','strength1','unit',
                   'ai','issueqty','issuePer','balanceAnnualIndentQTY',
                   'warehouseReadystock','whrEadyPerAgainstBalindent',
-                  'facilityid','itemid','stockparameter','warehouseid'
+                  'facilityid','itemid','stockparameter'
                 ]"></tr>
               
                 <!-- Data Row -->
@@ -295,7 +295,7 @@
                   'facilityname','mcategory','itemname','itemcode','strength1','unit',
                   'ai','issueqty','issuePer','balanceAnnualIndentQTY',
                   'warehouseReadystock','whrEadyPerAgainstBalindent',
-                  'facilityid','itemid','stockparameter','warehouseid'
+                  'facilityid','itemid','stockparameter'
                 ];"></tr>
               
               </table>
