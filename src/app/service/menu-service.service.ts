@@ -80,7 +80,7 @@ export class MenuServiceService {
                   label: 'QC',
                   route: '',
                   submenu: [
-                    { label: 'QC Pendency Monitoring', route: '/qc-pendency-monitoring' , verified: true },
+                    { label: 'QC Pendency Monitoring', route: '/qc-pendency-monitoring', verified: true },
                     { label: 'QC Lab', route: '/qclab' },
                     // { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
                     { label: 'Pendency Lab and Courier Monitoring', route: '/qcsample-status-lab-received-under-transit' },
@@ -348,7 +348,7 @@ export class MenuServiceService {
               label: 'QC',
               route: '',
               submenu: [
-                { label: 'QC Pendency Monitoring', route: '/qc-pendency-monitoring' , verified: true },
+                { label: 'QC Pendency Monitoring', route: '/qc-pendency-monitoring', verified: true },
                 { label: 'QC Lab', route: '/qclab' },
                 // { label: 'QC Sample Status and Tracking Insights', route: '/qc-sample-status-and-tracking-insights' },
                 { label: 'Pendency Lab and Courier Monitoring', route: '/qcsample-status-lab-received-under-transit' },
@@ -1304,7 +1304,7 @@ export class MenuServiceService {
       QC: {
         items: [
           { label: 'Home', route: '/home' },
-          { label: 'QC Pendency Monitoring', route: '/qc-pendency-monitoring' , verified: true },
+          { label: 'QC Pendency Monitoring', route: '/qc-pendency-monitoring', verified: true },
           { label: 'QC Insights ', route: '/qc-dashboard' },
           { label: 'Hold Batch History', route: '/holdbatchhistory' },
 
@@ -1323,7 +1323,7 @@ export class MenuServiceService {
         items: [
           { label: 'Home', route: '/home' },
           { label: 'QC Insights ', route: '/qc-dashboard' },
-          { label: 'QC Pendency Monitoring', route: '/qc-pendency-monitoring' , verified: true },
+          { label: 'QC Pendency Monitoring', route: '/qc-pendency-monitoring', verified: true },
           { label: 'Hold Batch History', route: '/holdbatchhistory' },
 
           { label: 'Stock Details', route: '/stockDetails' },
