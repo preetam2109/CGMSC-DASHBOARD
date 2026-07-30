@@ -1,0 +1,660 @@
+<!-- <div class="card container-fluid text-center mb-4 border-0 shadow-sm" style="background-color: #fbf5fc;">
+    <div class="card-body py-3">
+        <h3 class="mb-1 text-primary-emphasis fw-bold Heading-font-family">
+            Division & Fund-wise Construction Payment Summary
+        </h3>
+        <p class="text-muted small mb-0">Detailed breakdown of payments categorized by both division and specific fund heads.</p>
+    </div>
+</div> -->
+<section class="container-fluid px-3">
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body p-4">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-12 col-md-6 col-lg-3" *ngIf="mainscheme.length > 0">
+                    <label class="form-label small fw-bold text-secondary mb-1">Fund head</label>
+                    <ng-select class="form-control" [items]="mainscheme" bindLabel="name" bindValue="mainSchemeID"
+                        [(ngModel)]="mainSchemeID" name="mainSchemeID" (change)="onselect_mainscheme_data($event)"
+                        #schemeField="ngModel" [placeholder]="mainSchemeID ? '' : ''" [searchable]="true"
+                        [clearable]="true" [appendTo]="'body'" required>
+                    </ng-select>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-3" *ngIf="Divisionlist.length > 0">
+                    <label class="form-label small fw-bold text-secondary mb-1">Division</label>
+                    <ng-select class="form-control" [items]="Divisionlist" bindLabel="Dname" bindValue="DId"
+                        [(ngModel)]="DId" name="DId" (change)="onselect_division_data($event)" #divisionField="ngModel"
+                        [placeholder]="DId ? '' : 'All'" [searchable]="true" [clearable]="true" [appendTo]="'body'"
+                        required>
+                    </ng-select>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3" *ngIf="LimitStatus.length > 0">
+                    <label class="form-label small fw-bold text-secondary mb-1">Limit Status</label>
+                    <!-- <ng-select class="form-control" [items]="LimitStatus" bindLabel="sname" bindValue="sname"
+                        name="sId" (change)="onselect_limitstatus($event)" 
+                          [placeholder]="DId ? '' : 'All'" [searchable]="true" [clearable]="true" [appendTo]="'body'"
+                        required>
+                    </ng-select> -->
+                    <ng-select class="form-control" [items]="LimitStatus" bindLabel="sname" bindValue="sname" [(ngModel)]="sname" name="sId"
+                        (change)="onselect_limitstatus($event)" [placeholder]="sname ? '' : 'All'" [searchable]="true" [clearable]="true"
+                        [appendTo]="'body'" required>
+                    </ng-select>
+                </div>
+                <!-- <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label small fw-bold text-secondary mb-1">Limit Status</label>
+                    <p>1-APR-26 to Limit Item Funds</p>
+
+                </div> -->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label small fw-bold text-secondary mb-1">Note</label>
+                        <div class="alert alert-primary d-flex align-items-center p-2 mb-0 border-0 shadow-sm rounded-3" role="alert">
+                            <i class="bi bi-info-circle-fill text-primary fs-5 me-2"></i>
+                            <div class="small fw-medium text-primary-emphasis">
+                                1-APR-26 to Limit Item Funds
+                            </div>
+                        </div>
+                    </div>
+                        <!-- <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label small fw-bold text-secondary mb-1">Limit Status</label>
+                    <div class="bg-light border rounded-3 p-2 d-flex align-items-center justify-content-between shadow-sm">
+                        <span class="small fw-bold text-secondary">
+                            <i class="bi bi-calendar-event text-primary me-1"></i> 1-APR-26
+                        </span>
+                        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle">
+                            Limit Item Funds
+                        </span>
+                    </div>
+                </div> -->
+                
+                <div class="col-12 text-center mt-3">
+                    <button type="button"
+                        class="btn btn-primary btn-sm px-4 py-2 fw-bold shadow-sm border-0 d-inline-flex align-items-center justify-content-center gap-2"
+                        style="transition: all 0.2s ease-in-out;"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 .5rem 1rem rgba(0,0,0,.15)';"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 .125rem .25rem rgba(0,0,0,.075)';"
+                        (click)="GetLimitSummary()">
+                        <i class="bi bi-search"></i> Show Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid px-3 mb-4 mt-2">
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body py-3">
+            <h3 class="mb-1 text-primary-emphasis fw-bold Heading-font-family">
+                Limit Demand /Release Limit Summary
+            </h3>
+            <!-- <p class="text-muted small mb-0">Detailed breakdown of payments categorized by both division and specific fund heads.</p> -->
+        </div>
+        <div class="card-body p-3">
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white border-end-0 text-muted">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0 ps-0" placeholder="Filter.."
+                            (keyup)="applyTextFilter($event)">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 shadow-sm" mat-button
+                        [matMenuTriggerFor]="exportMenuDivision">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <mat-menu #exportMenuDivision="matMenu">
+                        <button mat-menu-item (click)="exportToExcel()"><i
+                                class="bi bi-file-earmark-excel text-success me-2"></i>Excel</button>
+                        <button mat-menu-item (click)="exportToPDF()"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button>
+                    </mat-menu>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource" class="table table-bordered table-hover align-middle mb-0"
+                    matTableExporter #exporter="matTableExporter" matSort #sort="matSort">
+
+                    <!-- Serial Number Column -->
+                    <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center"
+                            style="width: 70px;">S.No</th>
+                        <td mat-cell *matCellDef="let e" class="text-center">{{ e.sno }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+
+                    <!-- Division Name Column -->
+                    <ng-container matColumnDef="divName_En">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-light fw-bold text-secondary">
+                            Division</th>
+                        <td mat-cell *matCellDef="let e" class="fw-bold text-dark bg-white">
+                            {{ e.divName_En }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-dark bg-light text-end pe-3">Total:
+                        </td>
+                    </ng-container>
+
+                    <!-- Number of Documents Column -->
+                    <ng-container matColumnDef="No_of_document">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="bg-light fw-bold text-secondary text-center"> No of Limit Demanded</th>
+                        <td mat-cell *matCellDef="let e" class="fw-bold text-center">
+                            {{ e.No_of_document }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-center fs-6">
+                            {{ totalDocuments }}
+                        </td>
+                    </ng-container>
+
+                  
+                    <!-- SE Cr Column-->
+                    <ng-container matColumnDef="Seamtincr">
+                            <!-- /* class="bg-light fw-bold text-secondary text-end">SE Office Approved Amount(In Cr)</th> */ -->
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="bg-light fw-bold text-secondary text-center">SE Office Approved Amount(In Cr)</th>
+                        <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
+                            {{ e.Seamtincr | number:'1.2-2' }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-center fs-6">
+                            {{ totalSEAmountInCr | number:'1.2-2' }}
+                        </td>
+                    </ng-container>
+                    <!-- Limit Value in Cr Column -->
+                    <!-- /* class="bg-light fw-bold text-secondary text-end">Total Limit Amount (in Cr)</th> */ -->
+                    <ng-container matColumnDef="limitamtincr">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="bg-light fw-bold text-secondary text-center">Released Amount(in Cr)</th>
+                        <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
+                            {{ e.limitamtincr | number:'1.2-2' }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-center fs-6">
+                            {{ totalLimitAmountInCr | number:'1.2-2' }}
+                        </td>
+                    </ng-container>
+                      <!-- Value in Cr Column -->
+                    <ng-container matColumnDef="value_in_cr">
+                            <!-- /* class="bg-light fw-bold text-secondary text-end">Total Amount (in Cr)</th> */ -->
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header
+                            class="bg-light fw-bold text-secondary text-end"> Limit Demanded Amount (in Cr)</th>
+                        <td mat-cell *matCellDef="let e" class="text-dark  fw-bold text-center">
+                            {{ e.value_in_cr | number:'1.2-2' }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-center fs-6">
+                            {{ totalAmountInCr | number:'1.2-2' }}
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="border-bottom"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns"
+                        class="fw-bold table-light border-top border-2"></tr>
+                </table>
+            </div>
+
+            <div class="d-flex justify-content-end mt-2">
+                <mat-paginator #paginator [pageSizeOptions]="[5,10,20,30,40]" showFirstLastButtons
+                    class="border-0"></mat-paginator>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="container-fluid px-3 mb-4 mt-4">
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body py-3">
+            <h3 class="mb-1 text-primary-emphasis fw-bold Heading-font-family">
+                Fund-wise Limit Demand Status
+            </h3>
+        </div>
+         <div class="row g-3 align-items-center mb-3">
+                <div class="col">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white border-end-0 text-muted">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0 ps-0" placeholder="Filter.."
+                            (keyup)="applyTextFilter1($event)">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 shadow-sm" mat-button
+                        [matMenuTriggerFor]="exportMenuDivisionlimt">
+                        <i class="bi bi-download"></i> Export
+                    </button>
+                    <mat-menu #exportMenuDivisionlimt="matMenu">
+                        <button mat-menu-item (click)="exportToExcel1()"><i
+                                class="bi bi-file-earmark-excel text-success me-2"></i>Excel</button>
+                        <button mat-menu-item (click)="exportToPDF1()"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button>
+                    </mat-menu>
+                </div>
+            </div>
+        <div class="card-body p-3">
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSourceScheme" class="table table-bordered table-hover align-middle mb-0">
+
+                    <!-- S.No -->
+                    <ng-container matColumnDef="sno">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center" style="width: 70px;">S.No</th>
+                        <td mat-cell *matCellDef="let e" class="text-center">{{ e.sno }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+
+                    <!-- Division Name (Merge/Rowspan Wala Column) -->
+                    <ng-container matColumnDef="divName_En">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary">Division</th>
+                        <td mat-cell *matCellDef="let e" 
+                            [attr.rowspan]="e.rowSpan" 
+                            [style.display]="e.rowSpan === 0 ? 'none' : ''" 
+                            class="fw-bold text-dark bg-white align-middle">
+                            {{ e.divName_En }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-dark bg-light text-end pe-3">Total:</td>
+                    </ng-container>
+
+                    <!-- Scheme Name -->
+                    <ng-container matColumnDef="mainschemanme">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary">Fund Head</th>
+                        <td mat-cell *matCellDef="let e" class="fw-bold text-dark">{{ e.mainschemanme }}</td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+
+                    <!-- Demand Date -->
+                    <ng-container matColumnDef="demandno">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">Demand Number</th>
+                        <td mat-cell *matCellDef="let e" class="text-center text-muted">
+                            {{ e.demandno }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="seForwardDateddmmyy">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">SE Office Forward Date</th>
+                        <td mat-cell *matCellDef="let e" class="text-center text-muted">
+                            {{ e.seForwardDateddmmyy }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="finApprovedDateddmmyy">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">Release Date</th>
+                        <td mat-cell *matCellDef="let e" class="text-center text-muted">
+                            {{ e.finApprovedDateddmmyy  }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="demanddate">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">Demand Date</th>
+                        <td mat-cell *matCellDef="let e" class="text-center text-muted">
+                            {{ e.demanddate | date:'dd-MM-yyyy' }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="finalstatus">
+    <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">Status</th>
+    <td mat-cell *matCellDef="let e" class="text-center fw-bold">
+        <span [ngClass]="{
+            'text-primary': e.finalstatus === 'Pending at SE Office',
+            'text-danger': e.finalstatus === 'Pending at Finance',
+            'text-success': e.finalstatus === 'Limit Approved'
+        }">
+            {{ e.finalstatus }}
+        </span>
+    </td>
+    <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+</ng-container>
+                    <!-- <ng-container matColumnDef="finalstatus">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">Status</th>
+                        <td mat-cell *matCellDef="let e" class="text-center text-muted">
+                            {{ e.finalstatus }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container> -->
+
+                    <!-- No of Works (Clickable Column) -->
+                    <ng-container matColumnDef="noofworks">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">No of Works</th>
+                        <td mat-cell *matCellDef="let e" class="fw-bold text-center">
+                            <!-- Naya: yahan pe click event aur styling add ki gayi hai -->
+                            <a href="javascript:void(0)" class="text-primary text-decoration-underline" (click)="getLimitDetails(e)">
+                                {{ e.nosworks }}
+                            </a>
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-primary bg-light text-center fs-6">
+                            {{ totalSchemeWorks }}
+                        </td>
+                    </ng-container>
+                    <!-- Value in Cr SE  ,-->
+                    <ng-container matColumnDef="value_in_crSEAMT">
+                        <!-- <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-end">Total SE Amount (in Cr)</th> -->
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">SE Office Approved Amount(In Cr)</th>
+                        <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
+                            {{ e.value_in_crSEAMT | number:'1.2-2' }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-center fs-6">
+                            {{ totalSchemeAmtCrSE | number:'1.2-2' }}
+                        </td>
+                    </ng-container>
+                       <!-- Value in CrLimit   ,-->
+                    <ng-container matColumnDef="value_in_crLimitAMT">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">Released Amount(in Cr)</th>
+                        <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
+                            {{ e.value_in_crLimitAMT | number:'1.2-2' }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-center fs-6">
+                            {{ totalSchemeAmtCrLiMIT | number:'1.2-2' }}
+                        </td>
+                    </ng-container>
+                       <!-- Value in Cr -->
+                    <ng-container matColumnDef="value_in_cr">
+                        <!-- <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-end">Total Amount (in Cr)</th>  Released Amount(in Cr) -->
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center"> Limit Demanded Amount (In Cr)</th>
+                        <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
+                            {{ e.value_in_cr | number:'1.2-2' }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-center fs-6">
+                            {{ totalSchemeAmtCr | number:'1.2-2' }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-secondary text-center">View PDF</th>
+                    
+                        <td mat-cell *matCellDef="let e" class="fw-bold text-center">
+                            <button mat-button class="btn btn-sm btn-outline-primary" (click)="openPDF(e)">
+                                <i class="bi bi-file-earmark-pdf text-danger"></i>
+                            </button>
+                        </td>
+                    
+                        <td mat-footer-cell *matFooterCellDef class="bg-light"></td>
+                    </ng-container>
+                    
+                      
+
+                    <!-- Rows Bind -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsScheme" class="border-bottom"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsScheme"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumnsScheme" class="fw-bold table-light border-top border-2"></tr>
+                </table>
+              
+            </div>
+               <div class="d-flex justify-content-end mt-2">
+                <mat-paginator #paginator1 [pageSizeOptions]="[5,10,20,30,40,50]" showFirstLastButtons
+                    class="border-0"></mat-paginator>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<ng-template #itemDetailsModal let-modal>
+  
+  <!-- 1. HEADER (Fixed at Top) -->
+  <div class="d-flex justify-content-between align-items-center bg-light p-3 border-bottom m-0">
+    <div>
+      <h4 class="m-0 text-primary-emphasis fw-bold">Works Details</h4>
+            <span class="small text-muted">Division Name:  {{dashname}} | Fund head:  {{nosworks}} </span>
+    </div>
+    <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
+  </div>
+
+
+  <div mat-dialog-content class="p-3 m-0 d-flex flex-column" style="height: calc(100vh - 140px); max-height: none !important; overflow: hidden;">
+    
+    <!-- Filter and Export Row -->
+    <div class="row align-items-center mb-3">
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Filter..." (keyup)="applyTextFilter3($event)">
+      </div>
+      <div class="col-auto text-end">
+        <button type="button" class="btn border rounded btn-outline-secondary d-flex align-items-center gap-1" mat-button [matMenuTriggerFor]="exportMenue">
+          <i class="bi bi-download"></i> Export
+        </button>
+        <mat-menu #exportMenue="matMenu">
+        
+             <button mat-menu-item (click)="exportToExcel3()"><i
+                                class="bi bi-file-earmark-excel text-success me-2"></i>Excel</button>
+                        <button mat-menu-item (click)="exportToPDF3()"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button>
+        </mat-menu>
+      </div>
+    </div>
+
+    <!-- Table Container (Responsive & Scrollable) -->
+    <div class="table-responsive flex-grow-1 border rounded shadow-sm" style="overflow-y: auto;">
+    <table mat-table [dataSource]="dataSource2" class="table table-bordered table-hover align-middle mb-0" style="white-space: nowrap;">
+
+    <!-- 1. S.No -->
+    <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">S.No</th>
+        <td mat-cell *matCellDef="let element; let i = index" class="text-center">{{ i + 1 }}</td>
+    </ng-container>
+
+    <!-- 2. Demand Detail ID -->
+    <ng-container matColumnDef="demanddetailid">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Demand Detail ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.demanddetailid }}</td>
+    </ng-container>
+
+    <!-- 3. Division Name -->
+    <ng-container matColumnDef="divName_En">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Division</th>
+        <td mat-cell *matCellDef="let element">{{ element.divName_En }}</td>
+    </ng-container>
+
+    <!-- 4. Demand No -->
+    <ng-container matColumnDef="demandno">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Demand No</th>
+        <td mat-cell *matCellDef="let element">{{ element.demandno }}</td>
+    </ng-container>
+
+    <!-- 5. Work ID -->
+    <ng-container matColumnDef="work_id">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work ID</th>
+        <td mat-cell *matCellDef="let element" class="text-primary">{{ element.work_id }}</td>
+    </ng-container>
+
+    <!-- 6. Head -->
+    <ng-container matColumnDef="head">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Head</th>
+        <td mat-cell *matCellDef="let element">{{ element.head }}</td>
+    </ng-container>
+
+    <!-- 7. Main Scheme ID -->
+    <ng-container matColumnDef="mainSchemeID">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Scheme ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.mainSchemeID }}</td>
+    </ng-container>
+
+    <!-- 8. District -->
+    <ng-container matColumnDef="district">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">District</th>
+        <td mat-cell *matCellDef="let element">{{ element.district }}</td>
+    </ng-container>
+
+    <!-- 9. Block Name -->
+    <ng-container matColumnDef="block_Name_En">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Block</th>
+        <td mat-cell *matCellDef="let element">{{ element.block_Name_En }}</td>
+    </ng-container>
+
+    <!-- 10. Work Name -->
+    <ng-container matColumnDef="workName">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work Name</th>
+        <td mat-cell *matCellDef="let element" class="text-wrap" style="min-width: 250px;">
+            {{ element.workName }}
+        </td>
+    </ng-container>
+
+    <!-- 11. AA Date -->
+    <ng-container matColumnDef="aadT_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">AA Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.aadT_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 12. TS Date -->
+    <ng-container matColumnDef="tsdT_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">TS Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.tsdT_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 13. AS Amount -->
+    <ng-container matColumnDef="asAmt">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">AS Amt</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.asAmt | number:'1.2-2' }}</td>
+    </ng-container>
+
+    <!-- 14. TS Amount -->
+    <ng-container matColumnDef="tsAmt">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">TS Amt</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.tsAmt | number:'1.2-2' }}</td>
+    </ng-container>
+
+    <!-- 15. Type -->
+    <ng-container matColumnDef="tType">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.tType }}</td>
+    </ng-container>
+
+    <!-- 16. Letter No -->
+    <ng-container matColumnDef="letterNo">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Letter No</th>
+        <td mat-cell *matCellDef="let element">{{ element.letterNo }}</td>
+    </ng-container>
+
+    <!-- 17. CID -->
+    <ng-container matColumnDef="cid">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">CID</th>
+        <td mat-cell *matCellDef="let element">{{ element.cid }}</td>
+    </ng-container>
+
+    <!-- 18. NIT No -->
+    <ng-container matColumnDef="nitno">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">NIT No</th>
+        <td mat-cell *matCellDef="let element">{{ element.nitno }}</td>
+    </ng-container>
+
+    <!-- 19. Accept Date -->
+    <ng-container matColumnDef="acceptDT_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Accept Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.acceptDT_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 20. Work Order Date -->
+    <ng-container matColumnDef="wrokOrderDT_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work Order Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.wrokOrderDT_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 21. Contract Amount -->
+    <ng-container matColumnDef="totalAmountOfContract_Lacs">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Contract (Lacs)</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.totalAmountOfContract_Lacs | number:'1.2-2' }}</td>
+    </ng-container>
+
+    <!-- 22. Total Exp Lacs -->
+    <ng-container matColumnDef="totalExpLacs">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Total Exp (Lacs)</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ (element.totalExpLacs | number:'1.2-2') || '-' }}</td>
+    </ng-container>
+
+    <!-- 23. Division ID -->
+    <ng-container matColumnDef="divisionID">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Div ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.divisionID }}</td>
+    </ng-container>
+
+    <!-- 24. Contractor Name -->
+    <ng-container matColumnDef="contrctorName">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Contractor</th>
+        <td mat-cell *matCellDef="let element">{{ element.contrctorName }}</td>
+    </ng-container>
+
+    <!-- 25. Name (Engineer/Officer) -->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name?.trim() }}</td>
+    </ng-container>
+
+    <!-- 26. AS Fund Recv -->
+    <ng-container matColumnDef="asFundRecv">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">AS Fund Recv</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.asFundRecv | number:'1.2-2' }}</td>
+    </ng-container>
+
+    <!-- 27. Demand Value -->
+    <ng-container matColumnDef="demandValue">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end text-success">Demand Val</th>
+        <td mat-cell *matCellDef="let element" class="text-end fw-bold text-success">{{ element.demandValue | number:'1.2-2' }}</td>
+    </ng-container>
+
+    <!-- 28. SE Approved Amt -->
+    <ng-container matColumnDef="seApprovedAmt">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">SE Appr Amt</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.seApprovedAmt | number:'1.2-2' }}</td>
+    </ng-container>
+
+    <!-- 29. Fin Approved Amt -->
+    <ng-container matColumnDef="finApprovedAmt">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Fin Appr Amt</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.finApprovedAmt | number:'1.2-2' }}</td>
+    </ng-container>
+
+    <!-- 30. Final Status -->
+    <ng-container matColumnDef="finalStatus">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Final Status</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+            <span class="badge bg-info text-dark">{{ element.finalStatus }}</span>
+        </td>
+    </ng-container>
+
+    <!-- 31. Demand Date (String) -->
+    <ng-container matColumnDef="demandDateddMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Demand Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.demandDateddMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 32. SE Forward Date -->
+    <ng-container matColumnDef="seForwardDateddmmyy">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">SE Forward Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.seForwardDateddmmyy || '-' }}</td>
+    </ng-container>
+
+    <!-- 33. Fin Approved Date -->
+    <ng-container matColumnDef="finApprovedDateddmmyy">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Fin Appr Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.finApprovedDateddmmyy || '-' }}</td>
+    </ng-container>
+
+    <!-- 34. Days Taken -->
+    <ng-container matColumnDef="daysTaken">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Days Taken</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.daysTaken }}</td>
+    </ng-container>
+
+    <!-- 35. Demand Date (Full Date) -->
+    <ng-container matColumnDef="demandDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Demand Date (Full)</th>
+        <td mat-cell *matCellDef="let element">{{ element.demandDate | date:'dd-MM-yyyy' }}</td>
+    </ng-container>
+
+    <!-- Rows Rendering -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky: true" class="border-bottom"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns3"></tr>
+</table>
+    </div>
+    
+    <!-- Paginator table ke theek niche fixed -->
+    <mat-paginator #paginator3 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons class="mt-2"></mat-paginator>
+  </div>
+
+  <!-- 3. FOOTER (Fixed at Bottom) -->
+  <div mat-dialog-actions class="d-flex justify-content-center m-0 p-3 bg-light border-top">
+    <button mat-button mat-dialog-close type="button" class="btn btn-info text-white px-5 rounded-pill shadow-sm">
+      Close Details
+    </button>
+  </div>
+
+</ng-template>
+

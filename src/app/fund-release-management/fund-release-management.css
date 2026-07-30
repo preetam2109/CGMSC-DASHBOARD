@@ -1,0 +1,6 @@
+/* Angular Material Dialog ko 100% space lene denge */
+.full-screen-modal .mat-dialog-container {
+    padding: 0 !important;
+    border-radius: 0 !important;
+    overflow: hidden !important;
+}

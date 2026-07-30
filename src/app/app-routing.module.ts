@@ -192,6 +192,7 @@ import { ItemWiseStock } from './component/ORACLE-DASHBOARD/item-wise-stock/item
 import { FitUnFitInfrastructure } from './component/fit-un-fit-infrastructure/fit-un-fit-infrastructure';
 import { PaidBillinfra } from './component/paid-billinfra/paid-billinfra';
 import { RunningWorksReports } from './component/Infrastructure-Components/running-works-reports/running-works-reports';
+import { FundReleaseManagement } from './fund-release-management/fund-release-management';
 
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
@@ -477,6 +478,7 @@ const routes: Routes = [
   { path: 'batch-decision-pending-zero-qty-receipts', component: BatchDecisionPendingZeroQtyReceipts, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'FitUnFitinfra', component: FitUnFitInfrastructure, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'PaidBills', component: PaidBillinfra, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'FundReleaseManagement', component: FundReleaseManagement, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
 
 
 
