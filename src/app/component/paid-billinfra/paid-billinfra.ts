@@ -420,7 +420,103 @@ applyTextFilter(event: Event) {
   
 //   doc.save(`Division_Payment_Summary_${formattedDate}.pdf`);
 // }
+
 exportToPDF() {
+  const currentDateTime = this.getCurrentDateTime(); 
+  const doc = new jsPDF('p', 'mm', 'a4');
+
+  const bodyData = this.groupedDivisionData.map((item) => [
+    item.sno,
+    item.division,
+    item.noofWorks,
+    item.noofbill,
+    Number(item.grosspaid || 0).toFixed(2),
+    Number(item.netAmtLacs || 0).toFixed(2)
+  ]);
+
+  // Apne actual Date variables yaha use karein. 
+  // Example: this.datePipe.transform(this.fromDate, 'dd-MMM-yyyy')
+  // const fromDateStr = '01-Jun-2026'; 
+  // const toDateStr = '30-Jun-2026';   
+  
+  // FIX: Added explicit tuple type [number, number, number] to fix TS2322 error
+  const headerBlueColor: [number, number, number] = [165, 194, 228]; 
+
+  autoTable(doc, {
+    startY: 20,
+    theme: 'grid',
+    styles: {
+      lineWidth: 0.2,          // Border ki motai (thickness)
+      lineColor: [0, 0, 0],    // Border ka color (Black)
+    },
+    head: [
+      // Row 1: Title and Print Date
+      [
+        { 
+          content: 'Division-wise Consolidated Payment', 
+          colSpan: 4, 
+          styles: { halign: 'left', fontSize: 12, fontStyle: 'bold', fillColor: headerBlueColor, textColor: [0, 0, 0] } 
+        },
+        { 
+          content: `Print Dt: ${currentDateTime}`, 
+          colSpan: 2, 
+          styles: { halign: 'right', fontSize: 10, fontStyle: 'bold', fillColor: headerBlueColor, textColor: [0, 0, 0] } 
+        }
+      ],
+      // Row 2: Date Filters (White Background)
+      [
+        { 
+          content: `Payment From Date : ${this.datePipe.transform(this.fromDate, 'dd-MMM-yyyy')}    To    Payment To Date: ${this.datePipe.transform(this.toDate, 'dd-MMM-yyyy')}`,
+          // content: `Payment From Date : ${fromDateStr}    To    Payment To Date: ${toDateStr}`, 
+          colSpan: 6, 
+          styles: { halign: 'left', fontSize: 10, fillColor: [255, 255, 255], textColor: [0, 0, 0], fontStyle: 'normal' } 
+        }
+      ],
+      // Row 3: Actual Column Headers
+      ['S.No', 'Division', 'No of Works', 'No of Bills', 'Gross Paid (Lacs)', 'Net Amount (Lacs)']
+    ],
+    body: [
+      ...bodyData,
+      // Total Row
+      [
+        { content: '', styles: {} },
+        { content: 'Total', colSpan: 1, styles: { fontStyle: 'bold', halign: 'left' } },
+        { content: this.totalDistinctWorksDivisionWise, styles: { fontStyle: 'bold', halign: 'center' } },
+        { content: this.totalBillsDivisionWise, styles: { fontStyle: 'bold', halign: 'center' } },
+        { content: Number(this.totalGrossLacsDivisionWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
+        { content: Number(this.totalNetAmtLacsDivisionWise || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
+      ]
+    ],
+    columnStyles: {
+      0: { halign: 'center', cellWidth: 15 },
+      1: { halign: 'left' },
+      2: { halign: 'center' },
+      3: { halign: 'center' },
+      4: { halign: 'right' },
+      5: { halign: 'right' }
+    },
+    didParseCell: (data) => {
+      // Styling for the Total row (Last row of body)
+      if (data.section === 'body' && data.row.index === data.table.body.length - 1) {
+        data.cell.styles.fillColor = headerBlueColor; 
+        data.cell.styles.fontStyle = 'bold';
+        data.cell.styles.textColor = [0, 0, 0];
+      }
+      
+      // Styling for the Column Headers (Row 3 of head, index 2)
+      if (data.section === 'head' && data.row.index === 2) {
+        data.cell.styles.fillColor = headerBlueColor; 
+        data.cell.styles.textColor = [0, 0, 0];
+        data.cell.styles.fontStyle = 'bold';
+        data.cell.styles.halign = 'center'; 
+      }
+    }
+  });
+
+  const formattedDate = this.datePipe.transform(new Date(), 'dd-MMM-yyyy');
+  doc.save(`Division_Summary_${formattedDate}.pdf`);
+}
+exportToPDF1() {
   const currentDateTime = this.getCurrentDateTime();
   const doc = new jsPDF('p', 'mm', 'a4');
 
