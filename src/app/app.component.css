@@ -243,3 +243,9 @@ mat-drawer-container {
   flex: 1;
   width: 100%;
 }
+.verified-badge {
+  margin-left: 5px;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}

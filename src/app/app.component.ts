@@ -47,9 +47,9 @@ export class AppComponent implements OnInit, DoCheck {
   menuItems: any[] = [];
   expandedMenus: { [key: string]: boolean } = {}; // Track expanded state for each menu item
 
-  toggleSubmenu(menuLabel: string, parentLabel?: string): void {
+  toggleSubmenu(menuLabel: string, parentLabel?: string, grandParentLabel?: string): void {
     for (const key in this.expandedMenus) {
-      if (key !== menuLabel && key !== parentLabel) {
+      if (key !== menuLabel && key !== parentLabel && key !== grandParentLabel) {
         this.expandedMenus[key] = false; // Collapse all other menus
       }
     }
