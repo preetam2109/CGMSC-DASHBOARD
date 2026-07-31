@@ -1434,6 +1434,7 @@ export class MenuServiceService {
           // { label: 'SearchingWork', route: 'SearchingWork' },
           // { label: 'District Progress', route: 'District Progress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
+            { label: 'Fund Release Management', route: '/FundReleaseManagement' },
           { label: 'Bills Pending for Payment', route: '/FitUnFitinfra' },
           { label: 'Bills Payment Released', route: '/PaidBills' },
           { label: 'Search Work', route: '/SearchingWork' },
