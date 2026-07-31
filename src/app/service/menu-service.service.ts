@@ -252,7 +252,7 @@ export class MenuServiceService {
           Infrastructure: [
             { label: 'Home', route: '/home' },
             { label: 'Dashboard', route: '/infra-dash' },
-            { label: 'Fund Release Management', route: '/FundReleaseManagement' },
+            { label: 'Fund Release Management', route: '/FundReleaseManagement', verified: true },
             { label: 'Bills Pending for Payment', route: '/FitUnFitinfra' },
             { label: 'Bills Payment Released', route: '/PaidBills' },
             // { label: 'Home', route: 'InfrastructureHome' },
@@ -436,6 +436,7 @@ export class MenuServiceService {
           Infrastructure: [
             { label: 'Home', route: '/home' },
             { label: 'Dashboard', route: '/infra-dash' },
+            { label: 'Fund Release Management', route: '/FundReleaseManagement', verified: true },
             { label: 'Bills Pending for Payment', route: '/FitUnFitinfra', verified: true },
             { label: 'Bills Payment Released', route: '/PaidBills', verified: true },
             { label: 'Search Work', route: '/SearchingWork' },
@@ -1132,6 +1133,7 @@ export class MenuServiceService {
         items: [
           { label: 'Home', route: '/home' },
           { label: 'Payment Approvals', route: '/PayementApprovals' },
+          { label: 'Fund Release Management', route: '/FundReleaseManagement', verified: true },
 
           { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
 
@@ -1286,6 +1288,7 @@ export class MenuServiceService {
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Dashboard', route: '/welcome' },
           { label: 'Payments Pending', route: '/FitUnFit' },
+          { label: 'Fund Release Management', route: '/FundReleaseManagement', verified: true },
           { label: 'Bills Pending for Payment', route: '/FitUnFitinfra' },
           { label: 'Bills Payment Released', route: '/PaidBills' },
 
@@ -1344,6 +1347,7 @@ export class MenuServiceService {
           // { label: 'District Progress', route: 'District Progress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Dashboard', route: '/welcome' },
+          { label: 'Fund Release Management', route: '/FundReleaseManagement', verified: true },
           { label: 'Bills Pending for Payment', route: '/FitUnFitinfra' },
           { label: 'Bills Payment Released', route: '/PaidBills' },
           { label: 'Search Work', route: '/SearchingWork' },
@@ -1434,7 +1438,7 @@ export class MenuServiceService {
           // { label: 'SearchingWork', route: 'SearchingWork' },
           // { label: 'District Progress', route: 'District Progress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
-            { label: 'Fund Release Management', route: '/FundReleaseManagement' },
+          { label: 'Fund Release Management', route: '/FundReleaseManagement', verified: true },
           { label: 'Bills Pending for Payment', route: '/FitUnFitinfra' },
           { label: 'Bills Payment Released', route: '/PaidBills' },
           { label: 'Search Work', route: '/SearchingWork' },

@@ -2605,228 +2605,657 @@
     <div class="table-responsive flex-grow-1 border rounded shadow-sm" style="overflow-y: auto;">
     <table mat-table [dataSource]="dataSourcev_work" class="table table-bordered table-hover align-middle mb-0" style="white-space: nowrap;">
 
+   <!-- <table mat-table [dataSource]="dataSource" class="table table-bordered table-hover align-middle mb-0" style="white-space: nowrap;">sort12 -->
+
     <!-- 1. S.No -->
     <ng-container matColumnDef="sno">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">S.No</th>
         <td mat-cell *matCellDef="let element; let i = index" class="text-center">{{ i + 1 }}</td>
     </ng-container>
 
-    <!-- 2. Demand Detail ID -->
-    <ng-container matColumnDef="demanddetailid">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Demand Detail ID</th>
-        <td mat-cell *matCellDef="let element">{{ element.demanddetailid }}</td>
-    </ng-container>
-
-    <!-- 3. Division Name -->
-    <ng-container matColumnDef="divName_En">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Division</th>
-        <td mat-cell *matCellDef="let element">{{ element.divName_En }}</td>
-    </ng-container>
-
-    <!-- 4. Demand No -->
-    <ng-container matColumnDef="demandno">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Demand No</th>
-        <td mat-cell *matCellDef="let element">{{ element.demandno }}</td>
-    </ng-container>
-
-    <!-- 5. Work ID -->
-    <ng-container matColumnDef="work_id">
+    <!-- 2. Work ID -->
+    <ng-container matColumnDef="work_Id">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work ID</th>
-        <td mat-cell *matCellDef="let element" class="text-primary">{{ element.work_id }}</td>
+        <td mat-cell *matCellDef="let element" class="text-primary fw-bold">{{ element.work_Id || '-' }}</td>
     </ng-container>
 
-    <!-- 6. Head -->
+    <!-- 3. Progress Group -->
+    <ng-container matColumnDef="progress_Group">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Progress Group</th>
+        <td mat-cell *matCellDef="let element">{{ element.progress_Group || '-' }}</td>
+    </ng-container>
+
+    <!-- 4. PGroup ID -->
+    <ng-container matColumnDef="pGroupID">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Group ID</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.pGroupID || '-' }}</td>
+    </ng-container>
+
+    <!-- 5. Progress Level -->
+    <ng-container matColumnDef="progressLevel">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Progress Level</th>
+        <td mat-cell *matCellDef="let element">{{ element.progressLevel || '-' }}</td>
+    </ng-container>
+
+    <!-- 6. Progress ID -->
+    <ng-container matColumnDef="progressID">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Progress ID</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.progressID || '-' }}</td>
+    </ng-container>
+
+    <!-- 7. Last Progress Date (DDMMYY) -->
+    <ng-container matColumnDef="lastProgressDate_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Last Progress Dt</th>
+        <td mat-cell *matCellDef="let element">{{ element.lastProgressDate_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 8. Progress Remarks -->
+    <ng-container matColumnDef="progress_Remarks">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Remarks</th>
+        <td mat-cell *matCellDef="let element">{{ element.progress_Remarks || '-' }}</td>
+    </ng-container>
+
+    <!-- 9. Delay Reason -->
+    <ng-container matColumnDef="delay_Reason">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Delay Reason</th>
+        <td mat-cell *matCellDef="let element">{{ element.delay_Reason || '-' }}</td>
+    </ng-container>
+
+    <!-- 10. Expected Completion (DDMMYY) -->
+    <ng-container matColumnDef="expected_Completion_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Expected Comp. Dt</th>
+        <td mat-cell *matCellDef="let element">{{ element.expected_Completion_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 11. Main Progress -->
+    <ng-container matColumnDef="mainProgress">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Main Progress</th>
+        <td mat-cell *matCellDef="let element">{{ element.mainProgress || '-' }}</td>
+    </ng-container>
+
+    <!-- 12. AS Date (DDMMYY) -->
+    <ng-container matColumnDef="aS_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">AS Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.aS_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 13. Letter No -->
+    <ng-container matColumnDef="letterNo">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Letter No</th>
+        <td mat-cell *matCellDef="let element">{{ element.letterNo || '-' }}</td>
+    </ng-container>
+
+    <!-- 14. Head -->
     <ng-container matColumnDef="head">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Head</th>
-        <td mat-cell *matCellDef="let element">{{ element.head }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.head || '-' }}</td>
     </ng-container>
 
-    <!-- 7. Main Scheme ID -->
-    <ng-container matColumnDef="mainSchemeID">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Scheme ID</th>
-        <td mat-cell *matCellDef="let element">{{ element.mainSchemeID }}</td>
+    <!-- 15. Approver -->
+    <ng-container matColumnDef="approver">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Approver</th>
+        <td mat-cell *matCellDef="let element">{{ element.approver || '-' }}</td>
     </ng-container>
 
-    <!-- 8. District -->
+    <!-- 16. Type Name -->
+    <ng-container matColumnDef="type_Name">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.type_Name || '-' }}</td>
+    </ng-container>
+
+    <!-- 17. Work Description -->
+    <ng-container matColumnDef="workDescription">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Description</th>
+        <td mat-cell *matCellDef="let element">{{ element.workDescription || '-' }}</td>
+    </ng-container>
+
+    <!-- 18. District -->
     <ng-container matColumnDef="district">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">District</th>
-        <td mat-cell *matCellDef="let element">{{ element.district }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.district || '-' }}</td>
     </ng-container>
 
-    <!-- 9. Block Name -->
-    <ng-container matColumnDef="block_Name_En">
+    <!-- 19. Block -->
+    <ng-container matColumnDef="block">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Block</th>
-        <td mat-cell *matCellDef="let element">{{ element.block_Name_En }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.block || '-' }}</td>
     </ng-container>
 
-    <!-- 10. Work Name -->
+    <!-- 20. Work Name -->
     <ng-container matColumnDef="workName">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work Name</th>
         <td mat-cell *matCellDef="let element" class="text-wrap" style="min-width: 250px;">
-            {{ element.workName }}
+            {{ element.workName || '-' }}
         </td>
     </ng-container>
 
-    <!-- 11. AA Date -->
-    <ng-container matColumnDef="aadT_DDMMYY">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">AA Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.aadT_DDMMYY || '-' }}</td>
-    </ng-container>
-
-    <!-- 12. TS Date -->
-    <ng-container matColumnDef="tsdT_DDMMYY">
+    <!-- 21. TS Date (DDMMYY) -->
+    <ng-container matColumnDef="tS_DDMMYY">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">TS Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.tsdT_DDMMYY || '-' }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.tS_DDMMYY || '-' }}</td>
     </ng-container>
 
-    <!-- 13. AS Amount -->
-    <ng-container matColumnDef="asAmt">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">AS Amt</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ element.asAmt | number:'1.2-2' }}</td>
+    <!-- 22. Acceptance Letter Ref No -->
+    <ng-container matColumnDef="acceptanceLetterRefNo">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Acc. Letter Ref</th>
+        <td mat-cell *matCellDef="let element">{{ element.acceptanceLetterRefNo || '-' }}</td>
     </ng-container>
 
-    <!-- 14. TS Amount -->
-    <ng-container matColumnDef="tsAmt">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">TS Amt</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ element.tsAmt | number:'1.2-2' }}</td>
+    <!-- 23. Acceptance Date (DDMMYY) -->
+    <ng-container matColumnDef="acceptance_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Acceptance Dt</th>
+        <td mat-cell *matCellDef="let element">{{ element.acceptance_DDMMYY || '-' }}</td>
     </ng-container>
 
-    <!-- 15. Type -->
-    <ng-container matColumnDef="tType">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Type</th>
-        <td mat-cell *matCellDef="let element">{{ element.tType }}</td>
+    <!-- 24. Tender NIT Ref -->
+    <ng-container matColumnDef="tender_NITReference">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender NIT</th>
+        <td mat-cell *matCellDef="let element">{{ element.tender_NITReference || '-' }}</td>
     </ng-container>
 
-    <!-- 16. Letter No -->
-    <ng-container matColumnDef="letterNo">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">AS Letter No</th>
-        <td mat-cell *matCellDef="let element">{{ element.letterNo }}</td>
+    <!-- 25. Tender Type -->
+    <ng-container matColumnDef="tenderType">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.tenderType || '-' }}</td>
     </ng-container>
 
-    <!-- 17. CID -->
-    <ng-container matColumnDef="cid">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Contractor ID</th>
-        <td mat-cell *matCellDef="let element">{{ element.cid }}</td>
+    <!-- 26. Division -->
+    <ng-container matColumnDef="division">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Division</th>
+        <td mat-cell *matCellDef="let element">{{ element.division || '-' }}</td>
     </ng-container>
 
-    <!-- 18. NIT No -->
-    <ng-container matColumnDef="nitno">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">NIT No</th>
-        <td mat-cell *matCellDef="let element">{{ element.nitno }}</td>
-    </ng-container>
-
-    <!-- 19. Accept Date -->
-    <ng-container matColumnDef="acceptDT_DDMMYY">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Accept Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.acceptDT_DDMMYY || '-' }}</td>
-    </ng-container>
-
-    <!-- 20. Work Order Date -->
-    <ng-container matColumnDef="wrokOrderDT_DDMMYY">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work Order Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.wrokOrderDT_DDMMYY || '-' }}</td>
-    </ng-container>
-
-    <!-- 21. Contract Amount -->
-    <ng-container matColumnDef="totalAmountOfContract_Lacs">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Contract (Lacs)</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ element.totalAmountOfContract_Lacs | number:'1.2-2' }}</td>
-    </ng-container>
-
-    <!-- 22. Total Exp Lacs -->
-    <ng-container matColumnDef="totalExpLacs">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Total Exp (Lacs)</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ (element.totalExpLacs | number:'1.2-2') || '-' }}</td>
-    </ng-container>
-
-    <!-- 23. Division ID -->
+    <!-- 27. Division ID -->
     <ng-container matColumnDef="divisionID">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Div ID</th>
-        <td mat-cell *matCellDef="let element">{{ element.divisionID }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.divisionID || '-' }}</td>
     </ng-container>
 
-    <!-- 24. Contractor Name -->
-    <ng-container matColumnDef="contrctorName">
+    <!-- 28. Contractor ID -->
+    <ng-container matColumnDef="contractorID">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Cont. ID</th>
+        <td mat-cell *matCellDef="let element">{{ element.contractorID || '-' }}</td>
+    </ng-container>
+
+    <!-- 29. Contractor -->
+    <ng-container matColumnDef="contractor">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Contractor</th>
-        <td mat-cell *matCellDef="let element">{{ element.contrctorName }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.contractor || '-' }}</td>
     </ng-container>
 
-    <!-- 25. Name (Engineer/Officer) -->
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.name?.trim() }}</td>
+    <!-- 30. Contractor Reg. Type -->
+    <ng-container matColumnDef="contractorRegistrationType">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Reg. Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.contractorRegistrationType || '-' }}</td>
     </ng-container>
 
-    <!-- 26. AS Fund Recv -->
-    <ng-container matColumnDef="asFundRecv">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">AS Fund Recv</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ element.asFundRecv | number:'1.2-2' }}</td>
+    <!-- 31. Contractor Class -->
+    <ng-container matColumnDef="contractor_Class">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Class</th>
+        <td mat-cell *matCellDef="let element">{{ element.contractor_Class || '-' }}</td>
     </ng-container>
 
-    <!-- 27. Demand Value -->
-    <ng-container matColumnDef="demandValue">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end text-success">Demand Val</th>
-        <td mat-cell *matCellDef="let element" class="text-end fw-bold text-success">{{ element.demandValue | number:'1.2-2' }}</td>
+    <!-- 32. Contractor Address -->
+    <ng-container matColumnDef="contractor_Address">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Cont. Address</th>
+        <td mat-cell *matCellDef="let element">{{ element.contractor_Address || '-' }}</td>
     </ng-container>
 
-    <!-- 28. SE Approved Amt -->
-    <ng-container matColumnDef="seApprovedAmt">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">SE Appr Amt</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ element.seApprovedAmt | number:'1.2-2' }}</td>
+    <!-- 33. Contractor Contact -->
+    <ng-container matColumnDef="contractor_Contact">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Cont. Contact</th>
+        <td mat-cell *matCellDef="let element">{{ element.contractor_Contact || '-' }}</td>
     </ng-container>
 
-    <!-- 29. Fin Approved Amt -->
-    <ng-container matColumnDef="finApprovedAmt">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Fin Appr Amt</th>
-        <td mat-cell *matCellDef="let element" class="text-end">{{ element.finApprovedAmt | number:'1.2-2' }}</td>
+    <!-- 34. Workorder Date (DDMMYY) -->
+    <ng-container matColumnDef="workorder_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Workorder Dt</th>
+        <td mat-cell *matCellDef="let element">{{ element.workorder_DDMMYY || '-' }}</td>
     </ng-container>
 
-    <!-- 30. Final Status -->
-    <ng-container matColumnDef="finalStatus">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Final Status</th>
+    <!-- 35. Work Commencement (DDMMYY) -->
+    <ng-container matColumnDef="work_CommencementDDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Commencement Dt</th>
+        <td mat-cell *matCellDef="let element">{{ element.work_CommencementDDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 36. Due Date Completion (DDMMYY) -->
+    <ng-container matColumnDef="dueDateCompletion_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Due Dt</th>
+        <td mat-cell *matCellDef="let element">{{ element.dueDateCompletion_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 37. Agreement No -->
+    <ng-container matColumnDef="agreementNo">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Agreement No</th>
+        <td mat-cell *matCellDef="let element">{{ element.agreementNo || '-' }}</td>
+    </ng-container>
+
+    <!-- 38. Workorder Ref No Govt -->
+    <ng-container matColumnDef="workorderRefNoGovt">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Workorder Ref</th>
+        <td mat-cell *matCellDef="let element">{{ element.workorderRefNoGovt || '-' }}</td>
+    </ng-container>
+
+    <!-- 39. Agreement Ref No -->
+    <ng-container matColumnDef="agreementRefNo">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Agreement Ref</th>
+        <td mat-cell *matCellDef="let element">{{ element.agreementRefNo || '-' }}</td>
+    </ng-container>
+
+    <!-- 40. Agreement Name -->
+    <ng-container matColumnDef="agreementName">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Agreement Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.agreementName || '-' }}</td>
+    </ng-container>
+
+    <!-- 41. Alloted Sub Eng -->
+    <ng-container matColumnDef="alloted_Sub_Enginner">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Sub Eng.</th>
+        <td mat-cell *matCellDef="let element">{{ element.alloted_Sub_Enginner || '-' }}</td>
+    </ng-container>
+
+    <!-- 42. Alloted Asst Eng -->
+    <ng-container matColumnDef="alloted_Assitant_Enginner">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Asst Eng.</th>
+        <td mat-cell *matCellDef="let element">{{ element.alloted_Assitant_Enginner || '-' }}</td>
+    </ng-container>
+
+    <!-- 43. Sub Eng Mobile -->
+    <ng-container matColumnDef="subEng_MobileNo">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">SubEng Mobile</th>
+        <td mat-cell *matCellDef="let element">{{ element.subEng_MobileNo || '-' }}</td>
+    </ng-container>
+
+    <!-- 44. AE Mobile -->
+    <ng-container matColumnDef="aE_Mobileno">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">AE Mobile</th>
+        <td mat-cell *matCellDef="let element">{{ element.aE_Mobileno || '-' }}</td>
+    </ng-container>
+
+    <!-- 45. EE Mobile -->
+    <ng-container matColumnDef="eE_MobileNo">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">EE Mobile</th>
+        <td mat-cell *matCellDef="let element">{{ element.eE_MobileNo || '-' }}</td>
+    </ng-container>
+
+    <!-- 46. Tender Start Dt -->
+    <ng-container matColumnDef="tenderStart_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender Start</th>
+        <td mat-cell *matCellDef="let element">{{ element.tenderStart_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 47. Tender End Dt -->
+    <ng-container matColumnDef="tender_End_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender End</th>
+        <td mat-cell *matCellDef="let element">{{ element.tender_End_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 48. Live Status -->
+    <ng-container matColumnDef="liveStatus">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Live Status</th>
         <td mat-cell *matCellDef="let element" class="text-center">
-            <span class="badge bg-info text-dark">{{ element.finalStatus }}</span>
+            <span class="badge bg-info text-dark">{{ element.liveStatus || '-' }}</span>
         </td>
     </ng-container>
 
-    <!-- 31. Demand Date (String) -->
-    <ng-container matColumnDef="demandDateddMMYY">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Demand Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.demandDateddMMYY || '-' }}</td>
+    <!-- 49. Current Tender Zonal Type -->
+    <ng-container matColumnDef="currentTenderZonalType">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Zonal Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.currentTenderZonalType || '-' }}</td>
     </ng-container>
 
-    <!-- 32. SE Forward Date -->
-    <ng-container matColumnDef="seForwardDateddmmyy">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">SE Forward Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.seForwardDateddmmyy || '-' }}</td>
+    <!-- 50. Zonal District -->
+    <ng-container matColumnDef="zonalDistrict">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Zonal District</th>
+        <td mat-cell *matCellDef="let element">{{ element.zonalDistrict || '-' }}</td>
     </ng-container>
 
-    <!-- 33. Fin Approved Date -->
-    <ng-container matColumnDef="finApprovedDateddmmyy">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Fin Appr Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.finApprovedDateddmmyy || '-' }}</td>
+    <!-- 51. Zonal Block -->
+    <ng-container matColumnDef="zonalBlock">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Zonal Block</th>
+        <td mat-cell *matCellDef="let element">{{ element.zonalBlock || '-' }}</td>
     </ng-container>
 
-    <!-- 34. Days Taken -->
-    <ng-container matColumnDef="daysTaken">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Days Taken</th>
-        <td mat-cell *matCellDef="let element" class="text-center">{{ element.daysTaken }}</td>
+    <!-- 52. Latitude -->
+    <ng-container matColumnDef="latitude">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Lat.</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.latitude || '-' }}</td>
     </ng-container>
 
-    <!-- 35. Demand Date (Full Date) -->
-    <ng-container matColumnDef="demandDate">
-        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Demand Date (Full)</th>
-        <td mat-cell *matCellDef="let element">{{ element.demandDate | date:'dd-MM-yyyy' }}</td>
+    <!-- 53. Longitude -->
+    <ng-container matColumnDef="longitude">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Long.</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.longitude || '-' }}</td>
+    </ng-container>
+
+    <!-- 54. Medicollege -->
+    <ng-container matColumnDef="medicollege">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Medi College</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.medicollege || '0' }}</td>
+    </ng-container>
+
+    <!-- 55. Above 90 Lacs -->
+    <ng-container matColumnDef="above_90LacsValue">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">>90 Lacs</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.above_90LacsValue || '0' }}</td>
+    </ng-container>
+
+    <!-- 56. Below 90 Lacs -->
+    <ng-container matColumnDef="below_90LacsValue">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center"><90 Lacs</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.below_90LacsValue || '0' }}</td>
+    </ng-container>
+
+    <!-- 57. On Time Works -->
+    <ng-container matColumnDef="onTimeWorks">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">On Time</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.onTimeWorks || '0' }}</td>
+    </ng-container>
+
+    <!-- 58. Delay > 6 Months -->
+    <ng-container matColumnDef="delayMoreThanSixMonth">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Delay >6m</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.delayMoreThanSixMonth || '0' }}</td>
+    </ng-container>
+
+    <!-- 59. Nos Bill -->
+    <ng-container matColumnDef="nosBill">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Nos Bill</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.nosBill || '0' }}</td>
+    </ng-container>
+
+    <!-- 60. Final Bill Status -->
+    <ng-container matColumnDef="finalBillStatus">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Final Bill St.</th>
+        <td mat-cell *matCellDef="let element">{{ element.finalBillStatus || '-' }}</td>
+    </ng-container>
+
+    <!-- 61. Above Below -->
+    <ng-container matColumnDef="above_Below">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Above/Below</th>
+        <td mat-cell *matCellDef="let element">{{ element.above_Below || '-' }}</td>
+    </ng-container>
+
+    <!-- 62. No Of Calls -->
+    <ng-container matColumnDef="noOfCalls">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Calls</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.noOfCalls || '-' }}</td>
+    </ng-container>
+
+    <!-- 63. Cover A Open (DDMMYY) -->
+    <ng-container matColumnDef="coverA_OpenDDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Cover A Open</th>
+        <td mat-cell *matCellDef="let element">{{ element.coverA_OpenDDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 64. Cover B Open (DDMMYY) -->
+    <ng-container matColumnDef="coverB_OpendDDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Cover B Open</th>
+        <td mat-cell *matCellDef="let element">{{ element.coverB_OpendDDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 65. Tender Price Opened (DDMMYY) -->
+    <ng-container matColumnDef="tender_Price_Opened_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Price Open Dt</th>
+        <td mat-cell *matCellDef="let element">{{ element.tender_Price_Opened_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 66. Current Tender Sancton -->
+    <ng-container matColumnDef="currentTenderSancton">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender Sancton</th>
+        <td mat-cell *matCellDef="let element">{{ element.currentTenderSancton || '-' }}</td>
+    </ng-container>
+
+    <!-- 67. Tender Rejected (DDMMYY) -->
+    <ng-container matColumnDef="tender_Rejected_DDMMYY">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender Rej Dt</th>
+        <td mat-cell *matCellDef="let element">{{ element.tender_Rejected_DDMMYY || '-' }}</td>
+    </ng-container>
+
+    <!-- 68. Current Tender Accept Status -->
+    <ng-container matColumnDef="currentTenderAcceptStatus">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Accept Status</th>
+        <td mat-cell *matCellDef="let element">{{ element.currentTenderAcceptStatus || '-' }}</td>
+    </ng-container>
+
+    <!-- 69. eProc No -->
+    <ng-container matColumnDef="eProcNo">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">eProc No</th>
+        <td mat-cell *matCellDef="let element">{{ element.eProcNo || '-' }}</td>
+    </ng-container>
+
+    <!-- 70. NIT No -->
+    <ng-container matColumnDef="nitNo">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">NIT No</th>
+        <td mat-cell *matCellDef="let element">{{ element.nitNo || '-' }}</td>
+    </ng-container>
+
+    <!-- 71. Delay 1-3 Month -->
+    <ng-container matColumnDef="delay_1_3Month">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Delay 1-3M</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.delay_1_3Month || '0' }}</td>
+    </ng-container>
+
+    <!-- 72. Delay 3-6 Month -->
+    <ng-container matColumnDef="delay_3_6Month">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Delay 3-6M</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.delay_3_6Month || '0' }}</td>
+    </ng-container>
+
+    <!-- 73. Approved Fin Year -->
+    <ng-container matColumnDef="approved_Fin_Year">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Appr. Fin Yr</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.approved_Fin_Year || '-' }}</td>
+    </ng-container>
+
+    <!-- 74. Fin Year -->
+    <ng-container matColumnDef="fin_Year">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Fin Year</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.fin_Year || '-' }}</td>
+    </ng-container>
+
+    <!-- 75. AS Path -->
+    <ng-container matColumnDef="asPath">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">AS Path</th>
+        <td mat-cell *matCellDef="let element">{{ element.asPath || '-' }}</td>
+    </ng-container>
+
+    <!-- 76. AS Letter -->
+    <ng-container matColumnDef="asLetter">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">AS Letter</th>
+        <td mat-cell *matCellDef="let element">{{ element.asLetter || '-' }}</td>
+    </ng-container>
+
+    <!-- 77. Image Name -->
+    <ng-container matColumnDef="imageName">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Image 1</th>
+        <td mat-cell *matCellDef="let element">{{ element.imageName || '-' }}</td>
+    </ng-container>
+
+    <!-- 78. Image Name 2 -->
+    <ng-container matColumnDef="imageName2">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Image 2</th>
+        <td mat-cell *matCellDef="let element">{{ element.imageName2 || '-' }}</td>
+    </ng-container>
+
+    <!-- 79. Image Name 3 -->
+    <ng-container matColumnDef="imageName3">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Image 3</th>
+        <td mat-cell *matCellDef="let element">{{ element.imageName3 || '-' }}</td>
+    </ng-container>
+
+    <!-- 80. Image Name 4 -->
+    <ng-container matColumnDef="imageName4">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Image 4</th>
+        <td mat-cell *matCellDef="let element">{{ element.imageName4 || '-' }}</td>
+    </ng-container>
+
+    <!-- 81. Image Name 5 -->
+    <ng-container matColumnDef="imageName5">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Image 5</th>
+        <td mat-cell *matCellDef="let element">{{ element.imageName5 || '-' }}</td>
+    </ng-container>
+
+    <!-- 82. Tender Form -->
+    <ng-container matColumnDef="tenderForm">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender Form</th>
+        <td mat-cell *matCellDef="let element">{{ element.tenderForm || '-' }}</td>
+    </ng-container>
+
+    <!-- 83. AS Value Lacs -->
+    <ng-container matColumnDef="aS_ValueLacs">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">AS Val (Lacs)</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.aS_ValueLacs | number:'1.2-2' || '0.00' }}</td>
+    </ng-container>
+
+    <!-- 84. TS Value Lacs -->
+    <ng-container matColumnDef="tS_ValueLacs">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">TS Val (Lacs)</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.tS_ValueLacs | number:'1.2-2' || '0.00' }}</td>
+    </ng-container>
+
+    <!-- 85. Time Allowed Month -->
+    <ng-container matColumnDef="timeAllowed_Month">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Time(M)</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.timeAllowed_Month || '-' }}</td>
+    </ng-container>
+
+    <!-- 86. PAC -->
+    <ng-container matColumnDef="pac">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">PAC</th>
+        <td mat-cell *matCellDef="let element">{{ element.pac || '-' }}</td>
+    </ng-container>
+
+    <!-- 87. Rate Percent -->
+    <ng-container matColumnDef="rate_Percent">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Rate %</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.rate_Percent || '-' }}</td>
+    </ng-container>
+
+    <!-- 88. Contract Value Lacs -->
+    <ng-container matColumnDef="contract_Value_Lacs">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Contract (Lacs)</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.contract_Value_Lacs | number:'1.2-2' || '-' }}</td>
+    </ng-container>
+
+    <!-- 89. Gross Paid Lacs -->
+    <ng-container matColumnDef="grossPaidLacs">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Gross Paid (Lacs)</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.grossPaidLacs | number:'1.2-2' || '0.00' }}</td>
+    </ng-container>
+
+    <!-- 90. Total Net Paid Lacs -->
+    <ng-container matColumnDef="totalNetPaidLacs">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Net Paid (Lacs)</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.totalNetPaidLacs | number:'1.2-2' || '0.00' }}</td>
+    </ng-container>
+
+    <!-- 91. Gross Bill Generated Not Paid -->
+    <ng-container matColumnDef="gross_Bill_Generated_Lacs_NotPaid">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-end">Generated/Not Paid</th>
+        <td mat-cell *matCellDef="let element" class="text-end">{{ element.gross_Bill_Generated_Lacs_NotPaid | number:'1.2-2' || '0.00' }}</td>
+    </ng-container>
+
+    <!-- 92. Current Tender Percent -->
+    <ng-container matColumnDef="currentTender_Percent">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">Tender %</th>
+        <td mat-cell *matCellDef="let element" class="text-center">{{ element.currentTender_Percent || '-' }}</td>
+    </ng-container>
+
+    <!-- 93. Due Date Completion (Full Date) -->
+    <ng-container matColumnDef="dueDateCompletionDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Due Comp Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.dueDateCompletionDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 94. Work Commencement (Full Date) -->
+    <ng-container matColumnDef="work_Commencement_Date">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Commence Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.work_Commencement_Date | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 95. Work Order (Full Date) -->
+    <ng-container matColumnDef="workOrderDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work Order Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.workOrderDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 96. Acceptance (Full Date) -->
+    <ng-container matColumnDef="acceptanceDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Acceptance Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.acceptanceDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 97. TS (Full Date) -->
+    <ng-container matColumnDef="tsDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">TS Date (Full)</th>
+        <td mat-cell *matCellDef="let element">{{ (element.tsDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 98. AS (Full Date) -->
+    <ng-container matColumnDef="asDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">AS Date (Full)</th>
+        <td mat-cell *matCellDef="let element">{{ (element.asDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 99. Expected Completion (Full Date) -->
+    <ng-container matColumnDef="expected_Completion_Date">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Exp Comp Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.expected_Completion_Date | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 100. Last Progress Date (Full Date) -->
+    <ng-container matColumnDef="lastProgressDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Last Progress Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.lastProgressDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 101. Tender Start (Full Date) -->
+    <ng-container matColumnDef="tenderStartDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender Start Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.tenderStartDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 102. Tender End (Full Date) -->
+    <ng-container matColumnDef="tender_EndDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender End Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.tender_EndDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 103. Tender Rejected (Full Date) -->
+    <ng-container matColumnDef="tender_Rejected_Date">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Tender Rej. Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.tender_Rejected_Date | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 104. Tender Price Opened (Full Date) -->
+    <ng-container matColumnDef="tender_Price_OpenedDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Price Open Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.tender_Price_OpenedDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 105. Cover B Opened (Full Date) -->
+    <ng-container matColumnDef="coverB_OpendDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Cover B Open Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.coverB_OpendDate | date:'dd-MM-yyyy') || '-' }}</td>
+    </ng-container>
+
+    <!-- 106. Cover A Opened (Full Date) -->
+    <ng-container matColumnDef="coverA_OpenDate">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Cover A Open Dt</th>
+        <td mat-cell *matCellDef="let element">{{ (element.coverA_OpenDate | date:'dd-MM-yyyy') || '-' }}</td>
     </ng-container>
 
     <!-- Rows Rendering -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns12; sticky: true" class="border-bottom"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns12"></tr>
 </table>
+   
     </div>
     
     <!-- Paginator table ke theek niche fixed -->
-    <mat-paginator #paginator3 [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons class="mt-2"></mat-paginator>
+    <mat-paginator #paginatorv_wor [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons class="mt-2"></mat-paginator>
   </div>
 
   <!-- 3. FOOTER (Fixed at Bottom) -->
