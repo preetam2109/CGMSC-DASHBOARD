@@ -30,7 +30,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { DropdownModule } from 'primeng/dropdown';
-
+import * as XLSX from 'xlsx';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -54,12 +54,24 @@ export type ChartOptions = {
     MatCardModule,
     MatIconModule,
     MatTabsModule,
-    CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
-    NgApexchartsModule, MatSortModule, MatPaginatorModule, MatTableModule,
-    MatTableExporterModule, MatDialogModule, MatMenuModule, NgSelectModule, FormsModule, SelectDropDownModule, DropdownModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    NgApexchartsModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatTableExporterModule,
+    MatDialogModule,
+    MatMenuModule,
+    NgSelectModule,
+    FormsModule,
+    SelectDropDownModule,
+    DropdownModule,
   ],
   templateUrl: './infrastructure-home.component.html',
-  styleUrl: './infrastructure-home.component.css'
+  styleUrl: './infrastructure-home.component.css',
 })
 export class InfrastructureHomeComponent implements OnInit {
   mainscheme: MainScheme[] = [];
@@ -68,6 +80,7 @@ export class InfrastructureHomeComponent implements OnInit {
   DistrictNameDMEData: DistrictNameDME[] = [];
   originalData: DashProgressCount[] = [];
   GetDistrict: GetDistrict[] = [];
+  Dispachv_work: any[] = [];
   totalNosWorks: number = 0;
   selectedTabIndex: number = 0;
   distid: any = 0;
@@ -90,13 +103,13 @@ export class InfrastructureHomeComponent implements OnInit {
 
   public showCardss: boolean = false;
   cardOrder: string[] = [
-    "Completed/Handover",
-    "Running Work",
-    "Acceptance/Work Order Generated",
-    "Land Not Alloted/Land Dispute",
-    "Tender in Process",
-    "To be Tender",
-    "Return to Department",
+    'Completed/Handover',
+    'Running Work',
+    'Acceptance/Work Order Generated',
+    'Land Not Alloted/Land Dispute',
+    'Tender in Process',
+    'To be Tender',
+    'Return to Department',
   ];
   divisions = [
     { id: 'D1004', name: 'Raipur ', color: '#2196F3' },
@@ -121,8 +134,10 @@ export class InfrastructureHomeComponent implements OnInit {
   dataSource2!: MatTableDataSource<DetailProgressTinP>;
   dataSource3!: MatTableDataSource<TenderInProcess>;
   dataSource4!: MatTableDataSource<TotalWorksAbstract>;
+  dataSourcev_work!: MatTableDataSource<any>;
 
   @ViewChild('openimages') openimages: any;
+  @ViewChild('itemDetailsModal12') itemDetailsModal12: any;
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   @ViewChild('itemDetailsModal1') itemDetailsModal1: any;
   @ViewChild('itemDetailsModal2') itemDetailsModal2: any;
@@ -139,6 +154,7 @@ export class InfrastructureHomeComponent implements OnInit {
   @ViewChild('paginatorRun_Work') paginatorRun_Work!: MatPaginator;
   @ViewChild('paginatorLand_isu') paginatorLand_isu!: MatPaginator;
   @ViewChild('paginatorTW') paginatorTW!: MatPaginator;
+  @ViewChild('paginatorv_wor') paginatorv_wor!: MatPaginator;
   @ViewChild('sort') sort!: MatSort;
   @ViewChild('sort1') sort1!: MatSort;
   @ViewChild('sort2') sort2!: MatSort;
@@ -147,6 +163,7 @@ export class InfrastructureHomeComponent implements OnInit {
   @ViewChild('sortRun_Work') sortRun_Work!: MatSort;
   @ViewChild('sortLand_isu') sortLand_isu!: MatSort;
   @ViewChild('sortTW') sortTW!: MatSort;
+  @ViewChild('sort12') sort12!: MatSort;
 
   dispatchData: WORunningHandDetails[] = [];
   dispatchDataCom_Han: WORunningHandDetails[] = [];
@@ -157,7 +174,8 @@ export class InfrastructureHomeComponent implements OnInit {
   dispatchData3: TenderInProcess[] = [];
   dispatchData4: TotalWorksAbstract[] = [];
   ASFileData: ASFile[] = [];
-  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal =
+    new InsertUserPageViewLogmodal();
 
   @ViewChild('chart') chart: ChartComponent | undefined;
   public cO: Partial<ChartOptions> | undefined;
@@ -197,7 +215,7 @@ export class InfrastructureHomeComponent implements OnInit {
     public spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
-    private location: Location
+    private location: Location,
   ) {
     this.pageName = this.location.path();
     this.fullUrl = window.location.href;
@@ -205,10 +223,12 @@ export class InfrastructureHomeComponent implements OnInit {
     this.dataSourceCom_Han = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSourceRun_Work = new MatTableDataSource<WORunningHandDetails>([]);
     this.dataSource1 = new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
-    this.dataSourceLand_isu = new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
+    this.dataSourceLand_isu =
+      new MatTableDataSource<LandIssue_RetToDeptDetatails>([]);
     this.dataSource2 = new MatTableDataSource<DetailProgressTinP>([]);
     this.dataSource3 = new MatTableDataSource<TenderInProcess>([]);
     this.dataSource4 = new MatTableDataSource<TotalWorksAbstract>([]);
+    this.dataSourcev_work=new MatTableDataSource<any>([]);
   }
 
   ngOnInit() {
@@ -235,7 +255,7 @@ export class InfrastructureHomeComponent implements OnInit {
   }
 
   loadInitialData() {
-    // 
+    //
     this.spinner.show();
     var formdate = this.formdate ? this.formdate : 0;
     var todate = this.todate ? this.todate : 0;
@@ -247,22 +267,33 @@ export class InfrastructureHomeComponent implements OnInit {
     var ASID = 0;
     var GrantID = 0;
 
-    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount, formdate, todate).subscribe(
-      (res: any) => {
-        this.originalData = this.sortDistrictData(res);
-        this.districtData = [...this.originalData];
-        this.calculateTotalNosWorks();
-        this.bindDashboardData();
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        console.error('API Error:', error);
-      }
-    );
+    this.api
+      .DashProgressCount(
+        this.divisionid,
+        mainSchemeId,
+        this.himisDistrictid,
+        ASID,
+        GrantID,
+        this.ASAmount,
+        formdate,
+        todate,
+      )
+      .subscribe(
+        (res: any) => {
+          this.originalData = this.sortDistrictData(res);
+          this.districtData = [...this.originalData];
+          this.calculateTotalNosWorks();
+          this.bindDashboardData();
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          console.error('API Error:', error);
+        },
+      );
   }
   loadInitialData1() {
-    // 
+    //
     this.spinner.show();
     var formdate = this.formdate ? this.formdate : 0;
     var todate = this.todate ? this.todate : 0;
@@ -285,30 +316,41 @@ export class InfrastructureHomeComponent implements OnInit {
     var ASID = 0;
     var GrantID = 0;
 
-    this.api.DashProgressCount(this.divisionid, mainSchemeId, this.himisDistrictid, ASID, GrantID, this.ASAmount, formdate, todate).subscribe(
-      (res: any) => {
-        this.originalData = this.sortDistrictData(res);
-        this.districtData = [...this.originalData];
-        this.calculateTotalNosWorks();
-        this.bindDashboardData();
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        console.error('API Error:', error);
-      }
-    );
+    this.api
+      .DashProgressCount(
+        this.divisionid,
+        mainSchemeId,
+        this.himisDistrictid,
+        ASID,
+        GrantID,
+        this.ASAmount,
+        formdate,
+        todate,
+      )
+      .subscribe(
+        (res: any) => {
+          this.originalData = this.sortDistrictData(res);
+          this.districtData = [...this.originalData];
+          this.calculateTotalNosWorks();
+          this.bindDashboardData();
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          console.error('API Error:', error);
+        },
+      );
   }
   selectedTabValue(event: any): void {
-    // 
+    //
     this.selectedTabIndex = event.index;
     if (this.selectedTabIndex === 0) {
       this.districtData = [...this.originalData];
       this.divisionid = 0;
       this.himisDistrictid = 0;
-      this.ASAmount = 0,
+      ((this.ASAmount = 0),
         // this.loadInitialData();
-        this.farestcalll();
+        this.farestcalll());
 
       this.showCards = true;
     } else {
@@ -322,7 +364,6 @@ export class InfrastructureHomeComponent implements OnInit {
       // this.divisionid = sessionStorage.getItem('divisionID');
       // this.showDivision = false;
       this.loadInitialData1();
-
     } else if (roleName == 'Collector') {
       this.loadInitialData1();
 
@@ -356,34 +397,46 @@ export class InfrastructureHomeComponent implements OnInit {
       var GrantID = 0;
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
       this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
-      this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+      this.himisDistrictid =
+        this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
 
       var formdate = this.formdate ? this.formdate : 0;
       var todate = this.todate ? this.todate : 0;
 
-      this.api.DashProgressCount(this.divisionid, this.mainSchemeID, this.himisDistrictid, ASID, GrantID, this.ASAmount, formdate, todate).subscribe(
-        (res: any) => {
-          if (this.selectedTabIndex === 0) {
-            this.districtData = [...this.originalData];
-            if (this.mainSchemeID !== 0) {
-              this.districtData = this.sortDistrictData(res);
+      this.api
+        .DashProgressCount(
+          this.divisionid,
+          this.mainSchemeID,
+          this.himisDistrictid,
+          ASID,
+          GrantID,
+          this.ASAmount,
+          formdate,
+          todate,
+        )
+        .subscribe(
+          (res: any) => {
+            if (this.selectedTabIndex === 0) {
+              this.districtData = [...this.originalData];
+              if (this.mainSchemeID !== 0) {
+                this.districtData = this.sortDistrictData(res);
+              } else {
+                this.districtData = this.sortDistrictData(res);
+              }
             } else {
+              this.districtData = res;
               this.districtData = this.sortDistrictData(res);
             }
-          } else {
-            this.districtData = res;
-            this.districtData = this.sortDistrictData(res);
-          }
 
-          this.calculateTotalNosWorks();
-          this.bindDashboardData();
-          this.spinner.hide();
-        },
-        (error) => {
-          this.spinner.hide();
-          console.error('API Error:', error);
-        }
-      );
+            this.calculateTotalNosWorks();
+            this.bindDashboardData();
+            this.spinner.hide();
+          },
+          (error) => {
+            this.spinner.hide();
+            console.error('API Error:', error);
+          },
+        );
     } catch (ex: any) {
       console.error('Exception:', ex.message);
     }
@@ -402,15 +455,17 @@ export class InfrastructureHomeComponent implements OnInit {
   }
 
   sortDistrictData(data: DashProgressCount[]): DashProgressCount[] {
-    return data.sort((a, b) =>
-      this.cardOrder.indexOf(a.dashname || '') - this.cardOrder.indexOf(b.dashname || '')
+    return data.sort(
+      (a, b) =>
+        this.cardOrder.indexOf(a.dashname || '') -
+        this.cardOrder.indexOf(b.dashname || ''),
     );
   }
 
   calculateTotalNosWorks() {
     this.totalNosWorks = this.districtData.reduce(
       (sum, district) => sum + (district.nosworks || 0),
-      0
+      0,
     );
   }
 
@@ -428,14 +483,22 @@ export class InfrastructureHomeComponent implements OnInit {
 
   getIcon(did: any) {
     switch (did) {
-      case 1001: return 'notifications_active';
-      case 2001: return 'gavel';
-      case 3001: return 'import_contacts';
-      case 4001: return 'playlist_add_check';
-      case 5001: return 'trending_up';
-      case 6001: return 'error';
-      case 8001: return 'delete_forever';
-      default: return 'help';
+      case 1001:
+        return 'notifications_active';
+      case 2001:
+        return 'gavel';
+      case 3001:
+        return 'import_contacts';
+      case 4001:
+        return 'playlist_add_check';
+      case 5001:
+        return 'trending_up';
+      case 6001:
+        return 'error';
+      case 8001:
+        return 'delete_forever';
+      default:
+        return 'help';
     }
   }
 
@@ -451,8 +514,18 @@ export class InfrastructureHomeComponent implements OnInit {
       yaxis: { title: { text: undefined } },
       dataLabels: { enabled: true, style: { colors: ['#000'] } },
       stroke: { width: 1, colors: ['#fff'] },
-      title: { text: 'MedicalCollege Wise work Progress', align: 'center', style: { fontSize: '12px', color: '#6e0d25' } },
-      tooltip: { y: { formatter: function (val: any) { return val.toString(); } } },
+      title: {
+        text: 'MedicalCollege Wise work Progress',
+        align: 'center',
+        style: { fontSize: '12px', color: '#6e0d25' },
+      },
+      tooltip: {
+        y: {
+          formatter: function (val: any) {
+            return val.toString();
+          },
+        },
+      },
       fill: { opacity: 1 },
       legend: { position: 'top', horizontalAlign: 'center', offsetX: 40 },
     };
@@ -473,56 +546,82 @@ export class InfrastructureHomeComponent implements OnInit {
     }
 
     this.spinner.show();
-    this.api.DMEProgressSummary(this.divisionid, this.mainSchemeID, this.distid, 0).subscribe(
-      (data: any) => {
-        this.DMEprogresssummary = data;
-        const districtname: string[] = [];
-        const accWorkOrder3001: number[] = [];
-        const completed4001: number[] = [];
-        const tenderProcess2001: number[] = [];
-        const running5001: number[] = [];
-        const landIssue6001: number[] = [];
-        const toBeTender1001: number[] = [];
-        const retunDept8001: number[] = [];
-        const total: number[] = [];
-        this.whidMap = {};
+    this.api
+      .DMEProgressSummary(this.divisionid, this.mainSchemeID, this.distid, 0)
+      .subscribe(
+        (data: any) => {
+          this.DMEprogresssummary = data;
+          const districtname: string[] = [];
+          const accWorkOrder3001: number[] = [];
+          const completed4001: number[] = [];
+          const tenderProcess2001: number[] = [];
+          const running5001: number[] = [];
+          const landIssue6001: number[] = [];
+          const toBeTender1001: number[] = [];
+          const retunDept8001: number[] = [];
+          const total: number[] = [];
+          this.whidMap = {};
 
-        data.forEach((item: any) => {
-          districtname.push(item.districtname);
-          accWorkOrder3001.push(item.accWorkOrder3001);
-          completed4001.push(item.completed4001);
-          tenderProcess2001.push(item.tenderProcess2001);
-          running5001.push(item.running5001);
-          landIssue6001.push(item.landIssue6001);
-          retunDept8001.push(item.retunDept8001);
-          toBeTender1001.push(item.toBeTender1001);
-          total.push(item.total);
+          data.forEach((item: any) => {
+            districtname.push(item.districtname);
+            accWorkOrder3001.push(item.accWorkOrder3001);
+            completed4001.push(item.completed4001);
+            tenderProcess2001.push(item.tenderProcess2001);
+            running5001.push(item.running5001);
+            landIssue6001.push(item.landIssue6001);
+            retunDept8001.push(item.retunDept8001);
+            toBeTender1001.push(item.toBeTender1001);
+            total.push(item.total);
 
-          if (item.districtname && item.district_ID) {
-            this.whidMap[item.districtname] = item.district_ID;
-          }
-        });
+            if (item.districtname && item.district_ID) {
+              this.whidMap[item.districtname] = item.district_ID;
+            }
+          });
 
-        this.chartOptions.series = [
-          { name: 'Total Works', data: total, color: '#0000FF' },
-          { name: 'Completed/Handover', data: completed4001, color: 'rgb(0, 128, 0)' },
-          { name: 'Running Work', data: running5001, color: 'rgb(144, 238, 144)' },
-          { name: 'Acceptance/Work Order', data: accWorkOrder3001, color: 'rgb(173, 216, 230)' },
-          { name: 'land Issue', data: landIssue6001, color: 'rgb(255, 0, 0)' },
-          { name: 'Tender in Process', data: tenderProcess2001, color: 'rgb(255, 140, 0)' },
-          { name: 'To be Tender', data: toBeTender1001, color: 'rgb(255, 192, 203)' }
-        ];
+          this.chartOptions.series = [
+            { name: 'Total Works', data: total, color: '#0000FF' },
+            {
+              name: 'Completed/Handover',
+              data: completed4001,
+              color: 'rgb(0, 128, 0)',
+            },
+            {
+              name: 'Running Work',
+              data: running5001,
+              color: 'rgb(144, 238, 144)',
+            },
+            {
+              name: 'Acceptance/Work Order',
+              data: accWorkOrder3001,
+              color: 'rgb(173, 216, 230)',
+            },
+            {
+              name: 'land Issue',
+              data: landIssue6001,
+              color: 'rgb(255, 0, 0)',
+            },
+            {
+              name: 'Tender in Process',
+              data: tenderProcess2001,
+              color: 'rgb(255, 140, 0)',
+            },
+            {
+              name: 'To be Tender',
+              data: toBeTender1001,
+              color: 'rgb(255, 192, 203)',
+            },
+          ];
 
-        this.chartOptions.xaxis = { categories: districtname };
-        this.cO = this.chartOptions;
-        this.cdr.detectChanges();
-        this.spinner.hide();
-      },
-      (error: any) => {
-        this.spinner.hide();
-        console.error('Error fetching data', error);
-      }
-    );
+          this.chartOptions.xaxis = { categories: districtname };
+          this.cO = this.chartOptions;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error: any) => {
+          this.spinner.hide();
+          console.error('Error fetching data', error);
+        },
+      );
   }
 
   TotalWorksAbstract() {
@@ -545,13 +644,24 @@ export class InfrastructureHomeComponent implements OnInit {
     var formdate = this.formdate ? this.formdate : 0;
     var todate = this.todate ? this.todate : 0;
 
-    this.api.GET_TotalWorksAbstract(this.divisionid, this.himisDistrictid, this.mainSchemeID, contractorid, this.ASAmount, formdate, todate)
+    this.api
+      .GET_TotalWorksAbstract(
+        this.divisionid,
+        this.himisDistrictid,
+        this.mainSchemeID,
+        contractorid,
+        this.ASAmount,
+        formdate,
+        todate,
+      )
       .subscribe(
         (res) => {
-          this.dispatchData4 = res.map((item: TotalWorksAbstract, index: number) => ({
-            ...item,
-            sno: index + 1,
-          }));
+          this.dispatchData4 = res.map(
+            (item: TotalWorksAbstract, index: number) => ({
+              ...item,
+              sno: index + 1,
+            }),
+          );
           this.dataSource4.data = this.dispatchData4;
           this.dataSource4.paginator = this.paginatorTW;
           this.dataSource4.sort = this.sortTW;
@@ -561,13 +671,141 @@ export class InfrastructureHomeComponent implements OnInit {
         (error) => {
           this.spinner.hide();
           console.error(`API Error:: ${error.message}`);
-        }
+        },
       );
     this.openDialogTW();
   }
 
-  DetailProgress(did: any, dashname: any, nosworks: any): void {
-    // ;
+ // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
+  // GETV_WorkDetails(did: any, dashname: any, nosworks: any){
+
+      //  1001,
+      //     this.divisionid,
+      //     this.himisDistrictid,
+      //     this.mainSchemeID,
+      //     this.ASAmount,
+      //     isbelow20,
+      //     formdate,
+      //     todate,
+      displayedColumns12: string[] = [
+  'sno',
+  // 'demanddetailid',
+  'divName_En',
+  'head',
+
+  'demandno',
+    'demandValue',
+  'seApprovedAmt',
+  'finApprovedAmt',
+  'finalStatus',
+  'demandDateddMMYY',
+  'seForwardDateddmmyy',
+  'finApprovedDateddmmyy',
+  // 'mainSchemeID',
+  'district',
+  'block_Name_En',
+  'work_id',
+  'workName',
+  'aadT_DDMMYY',
+  'tsdT_DDMMYY',
+  'asAmt',
+  'tsAmt',
+  // 'tType',
+  'letterNo',
+  'nitno',
+  'acceptDT_DDMMYY',
+  'wrokOrderDT_DDMMYY',
+  'totalAmountOfContract_Lacs',
+  'totalExpLacs',
+  // 'divisionID',
+  'contrctorName',
+  'cid',
+
+  // 'name',
+  // 'asFundRecv',
+
+  // 'daysTaken',
+  // 'demandDate'
+];
+      isbelow20:any;
+  DetailProgress(did: any, dashname: any, nosworks: any){
+  debugger;
+  let workid=0;
+    this.dashname = dashname;
+    this.nosworks = nosworks;
+    this.spinner.show();
+    this.roleName = localStorage.getItem('roleName');
+
+    if (this.roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.showDivision = false;
+    } else if (this.roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      if (this.distid != 0) {
+        this.himisDistrictid = this.distid;
+      }
+    }
+
+    let formdate = this.formdate || 0;
+    let todate = this.todate || 0;
+
+    this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+    this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
+    if (did == 1001) {
+      this.isbelow20 = 'N';
+    }else if (did == 3003) {
+       this.isbelow20 = 'NA';
+    }else if (did == 1002) {
+      this.isbelow20 = 'Y';
+    } else if (did == 6002) {
+       this.isbelow20 = 'NA';
+    }else if (did == 2001) {
+     this.isbelow20=0;
+    }else if (did == 5001) {
+     this.isbelow20=0;
+
+    }else if (did === 6001) {
+     this.isbelow20=0;
+
+    }else if (did == 8001) {
+     this.isbelow20=0;
+
+    }else if (did == 7001) {
+     this.isbelow20=0;
+
+    }else if (did == 7001) {
+     this.isbelow20=0;
+      
+    }else{
+     this.isbelow20=0;
+
+    }
+    this.api.V_WorkDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,this.isbelow20,formdate,todate,workid)
+          .subscribe(
+            (res) => {
+              this.Dispachv_work = res.map((item: any, index: number) => ({ ...item, sno: index + 1 }));
+              this.dataSourcev_work.data = this.Dispachv_work;
+              console.log('dataSourcev_work=',this.dataSourcev_work);
+              this.dataSourcev_work.paginator = this.paginatorv_wor;
+              this.dataSourcev_work.sort = this.sort12;
+              this.cdr.detectChanges();
+              this.spinner.hide();
+            },
+            (error) => {
+              this.spinner.hide();
+              console.error(`API Error:: ${error.message}`);
+            }
+          );
+         this.openDialogv_work();
+  }
+
+
+
+
+
+
+  DetailProgress11(did: any, dashname: any, nosworks: any): void {
     this.dashname = dashname;
     this.nosworks = nosworks;
     this.spinner.show();
@@ -591,11 +829,26 @@ export class InfrastructureHomeComponent implements OnInit {
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
 
     if (did == 1001) {
-      let isbelow20 = "N";
-      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
+      let isbelow20 = 'N';
+      this.api
+        .GETTobeTenderAll(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.ASAmount,
+          isbelow20,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchData2 = res.map(
+              (item: DetailProgressTinP, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -605,15 +858,30 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialog2();
     } else if (did == 3003) {
-      let isbelow20 = "NA";
-      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
+      let isbelow20 = 'NA';
+      this.api
+        .GETTobeTenderAll(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.ASAmount,
+          isbelow20,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchData2 = res.map(
+              (item: DetailProgressTinP, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -623,15 +891,30 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialog2();
     } else if (did == 1002) {
-      let isbelow20 = "Y";
-      this.api.GETTobeTenderAll(1001, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
+      let isbelow20 = 'Y';
+      this.api
+        .GETTobeTenderAll(
+          1001,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.ASAmount,
+          isbelow20,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchData2 = res.map(
+              (item: DetailProgressTinP, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -641,15 +924,30 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialog2();
     } else if (did == 6002) {
-      let isbelow20 = "NA";
-      this.api.GETTobeTenderAll(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, isbelow20, formdate, todate)
+      let isbelow20 = 'NA';
+      this.api
+        .GETTobeTenderAll(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.ASAmount,
+          isbelow20,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchData2 = res.map((item: DetailProgressTinP, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchData2 = res.map(
+              (item: DetailProgressTinP, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSource2.data = this.dispatchData2;
             this.dataSource2.paginator = this.paginator2;
             this.dataSource2.sort = this.sort2;
@@ -659,14 +957,28 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialog2();
     } else if (did == 2001) {
-      this.api.GETDetailProgress(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
+      this.api
+        .GETDetailProgress(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.ASAmount,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchData3 = res.map((item: TenderInProcess, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchData3 = res.map(
+              (item: TenderInProcess, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSource3.data = this.dispatchData3;
             this.dataSource3.paginator = this.paginator3;
             this.dataSource3.sort = this.sort3;
@@ -676,14 +988,29 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialog3();
     } else if (did == 4001) {
-      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
+      this.api
+        .GETWORunningHandDetails(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.contractorid,
+          this.ASAmount,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchDataCom_Han = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchDataCom_Han = res.map(
+              (item: WORunningHandDetails, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSourceCom_Han.data = this.dispatchDataCom_Han;
             this.dataSourceCom_Han.paginator = this.paginatorCom_Han;
             this.dataSourceCom_Han.sort = this.sortCom_Han;
@@ -693,14 +1020,29 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialogCom_Han();
     } else if (did == 5001) {
-      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
+      this.api
+        .GETWORunningHandDetails(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.contractorid,
+          this.ASAmount,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchDataRun_Work = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchDataRun_Work = res.map(
+              (item: WORunningHandDetails, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSourceRun_Work.data = this.dispatchDataRun_Work;
             this.dataSourceRun_Work.paginator = this.paginatorRun_Work;
             this.dataSourceRun_Work.sort = this.sortRun_Work;
@@ -710,14 +1052,28 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialogRun_Work();
     } else if (did === 6001) {
-      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
+      this.api
+        .GETLandIssueRetToDeptDetatails(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.ASAmount,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchDataLand_isu = res.map((item: LandIssue_RetToDeptDetatails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchDataLand_isu = res.map(
+              (item: LandIssue_RetToDeptDetatails, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSourceLand_isu.data = this.dispatchDataLand_isu;
             this.dataSourceLand_isu.paginator = this.paginatorLand_isu;
             this.dataSourceLand_isu.sort = this.sortLand_isu;
@@ -727,14 +1083,28 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialogLand_isu();
     } else if (did == 8001) {
-      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
+      this.api
+        .GETLandIssueRetToDeptDetatails(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.ASAmount,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchData1 = res.map((item: LandIssue_RetToDeptDetatails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchData1 = res.map(
+              (item: LandIssue_RetToDeptDetatails, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSource1.data = this.dispatchData1;
             this.dataSource1.paginator = this.paginator1;
             this.dataSource1.sort = this.sort1;
@@ -744,16 +1114,29 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialog1();
-    } 
-     else if (did == 7001) {
+    } else if (did == 7001) {
       // (click)="DetailProgress(7001, 'Permanent Cancelled(c2)', returnWorks)
-      this.api.GETLandIssueRetToDeptDetatails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.ASAmount, formdate, todate)
+      this.api
+        .GETLandIssueRetToDeptDetatails(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.ASAmount,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchData1 = res.map((item: LandIssue_RetToDeptDetatails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchData1 = res.map(
+              (item: LandIssue_RetToDeptDetatails, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSource1.data = this.dispatchData1;
             this.dataSource1.paginator = this.paginator1;
             this.dataSource1.sort = this.sort1;
@@ -763,14 +1146,29 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialog1();
     } else {
-      this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
+      this.api
+        .GETWORunningHandDetails(
+          did,
+          this.divisionid,
+          this.himisDistrictid,
+          this.mainSchemeID,
+          this.contractorid,
+          this.ASAmount,
+          formdate,
+          todate,
+        )
         .subscribe(
           (res) => {
-            this.dispatchData = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
+            this.dispatchData = res.map(
+              (item: WORunningHandDetails, index: number) => ({
+                ...item,
+                sno: index + 1,
+              }),
+            );
             this.dataSource.data = this.dispatchData;
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -780,7 +1178,7 @@ export class InfrastructureHomeComponent implements OnInit {
           (error) => {
             this.spinner.hide();
             console.error(`API Error:: ${error.message}`);
-          }
+          },
         );
       this.openDialog();
     }
@@ -873,7 +1271,10 @@ export class InfrastructureHomeComponent implements OnInit {
       { header: 'Accepted DT', dataKey: 'acceptLetterDT' },
       { header: 'Rate%', dataKey: 'sanctionRate' },
       { header: 'Sanction', dataKey: 'sanctionDetail' },
-      { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+      {
+        header: 'Amount Of Contract(In Lacs)',
+        dataKey: 'totalAmountOfContract',
+      },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
       { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
@@ -928,19 +1329,30 @@ export class InfrastructureHomeComponent implements OnInit {
     }));
 
     autoTable(doc, {
-      head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row])),
+      head: [
+        columns
+          .map((col) => col.header)
+          .filter((h): h is string => h !== undefined),
+      ],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row]),
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
         8: { cellWidth: 'auto' },
-        33: { cellWidth: 'auto' }
+        33: { cellWidth: 'auto' },
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
-      pageBreak: 'auto'
+      pageBreak: 'auto',
     });
 
     doc.save('Acceptance_WOrderDetail.pdf');
@@ -969,7 +1381,10 @@ export class InfrastructureHomeComponent implements OnInit {
       { header: 'Accepted DT', dataKey: 'acceptLetterDT' },
       { header: 'Rate%', dataKey: 'sanctionRate' },
       { header: 'Sanction', dataKey: 'sanctionDetail' },
-      { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+      {
+        header: 'Amount Of Contract(In Lacs)',
+        dataKey: 'totalAmountOfContract',
+      },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
       { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
@@ -1026,19 +1441,30 @@ export class InfrastructureHomeComponent implements OnInit {
     }));
 
     autoTable(doc, {
-      head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row])),
+      head: [
+        columns
+          .map((col) => col.header)
+          .filter((h): h is string => h !== undefined),
+      ],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row]),
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
         8: { cellWidth: 'auto' },
-        33: { cellWidth: 'auto' }
+        33: { cellWidth: 'auto' },
       },
       tableWidth: 'auto',
       margin: { top: 20, left: 5, right: 5 },
-      pageBreak: 'auto'
+      pageBreak: 'auto',
     });
 
     doc.save('Completed_Handover.pdf');
@@ -1067,7 +1493,10 @@ export class InfrastructureHomeComponent implements OnInit {
       { header: 'Accepted DT', dataKey: 'acceptLetterDT' },
       { header: 'Rate%', dataKey: 'sanctionRate' },
       { header: 'Sanction', dataKey: 'sanctionDetail' },
-      { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+      {
+        header: 'Amount Of Contract(In Lacs)',
+        dataKey: 'totalAmountOfContract',
+      },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
       { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
@@ -1130,12 +1559,28 @@ export class InfrastructureHomeComponent implements OnInit {
     }));
 
     autoTable(doc, {
-      head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
+      head: [
+        columns
+          .map((col) => col.header)
+          .filter((h): h is string => h !== undefined),
+      ],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || ''),
+      ),
       startY: 20,
       theme: 'grid',
-      headStyles: { fillColor: [44, 62, 80], textColor: 255, fontSize: 7, fontStyle: 'bold' },
-      styles: { textColor: [0, 0, 0], fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
+      headStyles: {
+        fillColor: [44, 62, 80],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
+      styles: {
+        textColor: [0, 0, 0],
+        fontSize: 6,
+        cellPadding: 0.5,
+        overflow: 'linebreak',
+      },
       columnStyles: {
         0: { cellWidth: 8 },
         1: { cellWidth: 15 },
@@ -1179,7 +1624,7 @@ export class InfrastructureHomeComponent implements OnInit {
       },
       tableWidth: 'wrap',
       margin: { top: 20, left: 2, right: 2 },
-      pageBreak: 'auto'
+      pageBreak: 'auto',
     });
 
     doc.save('WorksAbstractD.pdf');
@@ -1208,7 +1653,10 @@ export class InfrastructureHomeComponent implements OnInit {
       { header: 'Accepted DT', dataKey: 'acceptLetterDT' },
       { header: 'Rate%', dataKey: 'sanctionRate' },
       { header: 'Sanction', dataKey: 'sanctionDetail' },
-      { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+      {
+        header: 'Amount Of Contract(In Lacs)',
+        dataKey: 'totalAmountOfContract',
+      },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
       { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
@@ -1355,12 +1803,23 @@ export class InfrastructureHomeComponent implements OnInit {
     }));
 
     autoTable(doc, {
-      head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
+      head: [
+        columns
+          .map((col) => col.header)
+          .filter((h): h is string => h !== undefined),
+      ],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || ''),
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
         8: { cellWidth: 'wrap' },
         33: { cellWidth: 'wrap' },
@@ -1434,12 +1893,23 @@ export class InfrastructureHomeComponent implements OnInit {
     }));
 
     autoTable(doc, {
-      head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
+      head: [
+        columns
+          .map((col) => col.header)
+          .filter((h): h is string => h !== undefined),
+      ],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || ''),
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
         8: { cellWidth: 'wrap' },
         33: { cellWidth: 'wrap' },
@@ -1474,7 +1944,10 @@ export class InfrastructureHomeComponent implements OnInit {
       { header: 'Accepted DT', dataKey: 'acceptLetterDT' },
       { header: 'Rate%', dataKey: 'sanctionRate' },
       { header: 'Sanction', dataKey: 'sanctionDetail' },
-      { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+      {
+        header: 'Amount Of Contract(In Lacs)',
+        dataKey: 'totalAmountOfContract',
+      },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
       { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
@@ -1535,12 +2008,23 @@ export class InfrastructureHomeComponent implements OnInit {
     }));
 
     autoTable(doc, {
-      head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
+      head: [
+        columns
+          .map((col) => col.header)
+          .filter((h): h is string => h !== undefined),
+      ],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || ''),
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
         8: { cellWidth: 'wrap' },
         33: { cellWidth: 'wrap' },
@@ -1575,7 +2059,10 @@ export class InfrastructureHomeComponent implements OnInit {
       { header: 'Accepted DT', dataKey: 'acceptLetterDT' },
       { header: 'Rate%', dataKey: 'sanctionRate' },
       { header: 'Sanction', dataKey: 'sanctionDetail' },
-      { header: 'Amount Of Contract(In Lacs)', dataKey: 'totalAmountOfContract' },
+      {
+        header: 'Amount Of Contract(In Lacs)',
+        dataKey: 'totalAmountOfContract',
+      },
       { header: 'Total paid(In Lacs)', dataKey: 'totalpaid' },
       { header: 'Total unpaid(In Lacs)', dataKey: 'totalunpaid' },
       { header: 'Work Order DT', dataKey: 'wrokOrderDT' },
@@ -1636,12 +2123,23 @@ export class InfrastructureHomeComponent implements OnInit {
     }));
 
     autoTable(doc, {
-      head: [columns.map(col => col.header).filter((h): h is string => h !== undefined)],
-      body: rows.map(row => columns.map(col => row[col.dataKey as keyof typeof row] || '')),
+      head: [
+        columns
+          .map((col) => col.header)
+          .filter((h): h is string => h !== undefined),
+      ],
+      body: rows.map((row) =>
+        columns.map((col) => row[col.dataKey as keyof typeof row] || ''),
+      ),
       startY: 20,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.5, overflow: 'linebreak' },
-      headStyles: { fillColor: [22, 160, 133], textColor: 255, fontSize: 7, fontStyle: 'bold' },
+      headStyles: {
+        fillColor: [22, 160, 133],
+        textColor: 255,
+        fontSize: 7,
+        fontStyle: 'bold',
+      },
       columnStyles: {
         8: { cellWidth: 'wrap' },
         33: { cellWidth: 'wrap' },
@@ -1661,7 +2159,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => { });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   openDialog1() {
@@ -1672,7 +2170,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => { });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   openDialog2() {
@@ -1683,7 +2181,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => { });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   openDialog3() {
@@ -1694,7 +2192,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => { });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   openDialogCom_Han() {
@@ -1705,7 +2203,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => { });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   openDialogRun_Work() {
@@ -1716,7 +2214,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => { });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   openDialogLand_isu() {
@@ -1727,7 +2225,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => { });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   openDialogTW() {
@@ -1738,64 +2236,78 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => { });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   onButtonClick2(ASID: any, workid: any): void {
     this.spinner.show();
-    this.api.GETASFile(ASID, workid)
-      .subscribe(
-        (res) => {
-          const filename = res[0]?.filename;
-          const URL = res[0]?.asLetterName;
+    this.api.GETASFile(ASID, workid).subscribe(
+      (res) => {
+        const filename = res[0]?.filename;
+        const URL = res[0]?.asLetterName;
 
-          if (filename) {
-            window.open(URL, '_blank');
-          } else {
-            alert("⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.");
-          }
-          this.spinner.hide();
-        },
-        (error) => {
-          this.spinner.hide();
-          console.error(`API Error:: ${error.message}`);
+        if (filename) {
+          window.open(URL, '_blank');
+        } else {
+          alert(
+            '⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.',
+          );
         }
-      );
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        console.error(`API Error:: ${error.message}`);
+      },
+    );
   }
 
   getDistrictNameDME() {
     try {
       var roleName = localStorage.getItem('roleName');
       if (roleName == 'Division') {
-        this.divisionid = sessionStorage.getItem('divisionID'); this.himisDistrictid = 0;
+        this.divisionid = sessionStorage.getItem('divisionID');
+        this.himisDistrictid = 0;
       } else if (roleName == 'Collector') {
-        this.himisDistrictid = sessionStorage.getItem('himisDistrictid'); this.divisionid = 0;
+        this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+        this.divisionid = 0;
       } else {
         this.himisDistrictid = 0;
         this.divisionid = 0;
       }
 
-      this.api.GetDistrictNameDME(this.divisionid, this.himisDistrictid).subscribe((res: any) => {
-        if (res && res.length > 0) {
-          this.GetDistrict = res.map((item: { districT_ID: any; districtname: any; diV_ID: any }) => ({
-            districT_ID: item.districT_ID,
-            districtname: item.districtname,
-            diV_ID: item.diV_ID,
-          }));
-        }
-        this.DistrictNameDMEData = res;
-      },
-        (error) => {
-          console.error(`API Error:: ${JSON.stringify(error)}`);
-        }
-      );
+      this.api
+        .GetDistrictNameDME(this.divisionid, this.himisDistrictid)
+        .subscribe(
+          (res: any) => {
+            if (res && res.length > 0) {
+              this.GetDistrict = res.map(
+                (item: {
+                  districT_ID: any;
+                  districtname: any;
+                  diV_ID: any;
+                }) => ({
+                  districT_ID: item.districT_ID,
+                  districtname: item.districtname,
+                  diV_ID: item.diV_ID,
+                }),
+              );
+            }
+            this.DistrictNameDMEData = res;
+          },
+          (error) => {
+            console.error(`API Error:: ${JSON.stringify(error)}`);
+          },
+        );
     } catch (ex: any) {
       console.error(`API Error:: ${JSON.stringify(ex.message)}`);
     }
   }
 
   onselectDistrictsDME(event: any, num: number) {
-    const selectedUser = this.GetDistrict.find((user: { districT_ID: any }) => user.districT_ID === this.districT_ID);
+    const selectedUser = this.GetDistrict.find(
+      (user: { districT_ID: any }) => user.districT_ID === this.districT_ID,
+    );
 
     if (selectedUser) {
       const districT_ID = selectedUser?.districT_ID;
@@ -1824,14 +2336,15 @@ export class InfrastructureHomeComponent implements OnInit {
         this.divisionid = 0;
       }
       this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-      this.api.GetDistrict(false, this.divisionid).subscribe((res: any) => {
-        if (res && res.length > 0) {
-          this.GetDistrict = res;
-        }
-      },
+      this.api.GetDistrict(false, this.divisionid).subscribe(
+        (res: any) => {
+          if (res && res.length > 0) {
+            this.GetDistrict = res;
+          }
+        },
         (error) => {
           console.error(`API Error:: ${JSON.stringify(error)}`);
-        }
+        },
       );
     } catch (ex: any) {
       console.error(`API Error:: ${JSON.stringify(ex.message)}`);
@@ -1840,8 +2353,9 @@ export class InfrastructureHomeComponent implements OnInit {
 
   districT_ID: any;
   onGetDistrictsSelect(event: any, num: number): void {
-    ;
-    const selectedUser = this.GetDistrict.find((user: { districT_ID: any }) => user.districT_ID === this.districT_ID);
+    const selectedUser = this.GetDistrict.find(
+      (user: { districT_ID: any }) => user.districT_ID === this.districT_ID,
+    );
 
     if (selectedUser) {
       const districT_ID = selectedUser?.districT_ID;
@@ -1868,10 +2382,12 @@ export class InfrastructureHomeComponent implements OnInit {
     try {
       this.api.getMainScheme(this.isall).subscribe((res: any) => {
         if (res && res.length > 0) {
-          this.mainscheme = res.map((item: { mainSchemeID: any; name: any; }) => ({
-            mainSchemeID: item.mainSchemeID,
-            name: item.name,
-          }));
+          this.mainscheme = res.map(
+            (item: { mainSchemeID: any; name: any }) => ({
+              mainSchemeID: item.mainSchemeID,
+              name: item.name,
+            }),
+          );
         }
       });
     } catch (ex: any) {
@@ -1880,14 +2396,18 @@ export class InfrastructureHomeComponent implements OnInit {
   }
 
   onselect_databudgetOptions(event: Event): void {
-    const selectedUser = this.budgetOptions.find((user: { buid: any }) => user.buid === this.buid);
+    const selectedUser = this.budgetOptions.find(
+      (user: { buid: any }) => user.buid === this.buid,
+    );
     if (selectedUser) {
       this.ASAmount = selectedUser?.buid;
     }
   }
 
   onselect_mainscheme_data(event: Event): void {
-    const selectedUser = this.mainscheme.find((user: { mainSchemeID: any }) => user.mainSchemeID === this.mainSchemeID);
+    const selectedUser = this.mainscheme.find(
+      (user: { mainSchemeID: any }) => user.mainSchemeID === this.mainSchemeID,
+    );
 
     if (selectedUser) {
       this.mainSchemeID = selectedUser?.mainSchemeID;
@@ -1922,10 +2442,14 @@ export class InfrastructureHomeComponent implements OnInit {
       this.InsertUserPageViewLogdata.ipAddress = ipAddress;
       this.InsertUserPageViewLogdata.userAgent = userAgent;
 
-      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
-        next: (res: any) => { },
-        error: (err: any) => { console.error('Backend Error:', err.message); }
-      });
+      this.api
+        .InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata)
+        .subscribe({
+          next: (res: any) => {},
+          error: (err: any) => {
+            console.error('Backend Error:', err.message);
+          },
+        });
     } catch (err: any) {
       console.error('Error:', err.message);
     }
@@ -1934,10 +2458,16 @@ export class InfrastructureHomeComponent implements OnInit {
   onopenimges(element: any) {
     this.selectedWork = element;
     this.imageUrls = [];
-// https://cgmsc.gov.in/himisr/ProgressImages/
-    const imageKeys = ['imagename', 'imagenamE2', 'imagenamE3', 'imagenamE4', 'imagenamE5'];
+    // https://cgmsc.gov.in/himisr/ProgressImages/
+    const imageKeys = [
+      'imagename',
+      'imagenamE2',
+      'imagenamE3',
+      'imagenamE4',
+      'imagenamE5',
+    ];
 
-    imageKeys.forEach(key => {
+    imageKeys.forEach((key) => {
       const imgFile = element[key];
       if (imgFile && imgFile !== 'NA' && imgFile !== 'null') {
         this.imageUrls.push(this.baseImageUrl + imgFile);
@@ -1955,19 +2485,22 @@ export class InfrastructureHomeComponent implements OnInit {
     this.dialog.open(this.openimages, {
       width: '80%',
       maxWidth: '100vw',
-      panelClass: 'custom-dialog-container'
+      panelClass: 'custom-dialog-container',
     });
   }
 
   onImageError(event: any) {
-    event.target.src = 'https://via.placeholder.com/450x450?text=Image+Not+Found';
+    event.target.src =
+      'https://via.placeholder.com/450x450?text=Image+Not+Found';
   }
 
   bindDashboardData() {
     this.completedWorks = this.getNosWorks(4001);
     this.returnWorks = this.getNosWorks(8001);
     this.Permanent_Cancelled = this.getNosWorks(7001);
-    this.remainingWorks = this.totalNosWorks - (this.completedWorks + this.returnWorks + this.Permanent_Cancelled);
+    this.remainingWorks =
+      this.totalNosWorks -
+      (this.completedWorks + this.returnWorks + this.Permanent_Cancelled);
     this.tenderInProcess = this.getNosWorks(2001);
     this.acceptanceGenerated = this.getNosWorks(3001);
     this.workOrderGenerated = this.getNosWorks(3002);
@@ -1977,7 +2510,6 @@ export class InfrastructureHomeComponent implements OnInit {
     this.appliedZonal = this.getNosWorks(1002);
     this.zonalPermission = this.getNosWorks(3003);
     this.cancellation = this.getNosWorks(6002);
-  
   }
 
   getNosWorks(id: number): number {
@@ -1997,27 +2529,369 @@ export class InfrastructureHomeComponent implements OnInit {
     }
     // else {
     //   this.divisionid = 0;
-    // }  
-
+    // }
   }
 
-// https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
-// V_WorkDetails(){
-//   this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
-//         .subscribe(
-//           (res) => {
-//             this.dispatchData = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
-//             this.dataSource.data = this.dispatchData;
-//             this.dataSource.paginator = this.paginator;
-//             this.dataSource.sort = this.sort;
-//             this.cdr.detectChanges();
-//             this.spinner.hide();
-//           },
-//           (error) => {
-//             this.spinner.hide();
-//             console.error(`API Error:: ${error.message}`);
-//           }
-//         );
-// }
+ 
+ getCurrentDateTime(): string {
+   const now = new Date();
+   const date = now.toLocaleDateString('en-GB'); 
+   const time = now.toLocaleTimeString('en-IN', {
+     hour: '2-digit',
+     minute: '2-digit',
+     hour12: true
+   });
+   return `${date} ${time}`;
+ }
+ exportToPDF1() {
+   const currentDateTime = this.getCurrentDateTime();
+   const doc = new jsPDF('l', 'mm', 'a4'); 
+   const bodyData: any[] = [];
+   
+   const sourceData = this.dataSourcev_work.data;
+ 
+   if (!sourceData || sourceData.length === 0) {
+     alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
+     return;
+   }
+ 
+   // PDF ke body ka data tayar karna
+   sourceData.forEach((item: any) => {
+     const row: any[] = [];
+ 
+     // 1. S.No
+     row.push({ content: item.sno.toString(), styles: { halign: 'center' } });
+ 
+     if (item.rowSpan > 0) {
+       row.push({ 
+         content: item.divName_En || '-', 
+         rowSpan: item.rowSpan, 
+         styles: { halign: 'left', valign: 'middle', fontStyle: 'bold', fillColor: [255, 255, 255] } 
+       });
+     }
+ 
+     // 3. Fund Head
+     row.push({ content: item.mainschemanme || '-', styles: { halign: 'left' } });
+ 
+     // 4. Demand Number
+     row.push({ content: item.demandno || '-', styles: { halign: 'center' } });
+ 
+     // 5. SE Office Forward Date
+     row.push({ content: item.seForwardDateddmmyy || '-', styles: { halign: 'center' } });
+ 
+     // 6. Release Date
+     row.push({ content: item.finApprovedDateddmmyy || '-', styles: { halign: 'center' } });
+ 
+ 
+     let dDate = item.demanddate ? item.demanddate.split('T')[0] : '-';
+     if(dDate !== '-') {
+        const parts = dDate.split('-');
+        if(parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // Convert yyyy-mm-dd to dd-mm-yyyy
+     }
+     row.push({ content: dDate, styles: { halign: 'center' } });
+ 
+     // 8. Status
+     row.push({ content: item.finalstatus || '-', styles: { halign: 'center' } });
+ 
+     // 9. No of Works
+     row.push({ content: (item.nosworks || 0).toString(), styles: { halign: 'center' } });
+ 
+     // 10. SE Office Approved Amount (In Cr)
+     row.push({ content: Number(item.value_in_crSEAMT || 0).toFixed(2), styles: { halign: 'right' } });
+     
+     // 11. Limit Demanded Amount (in Cr)
+     row.push({ content: Number(item.value_in_crLimitAMT || 0).toFixed(2), styles: { halign: 'right' } });
+     
+     // 12. Total Release Amt (in Cr)
+     row.push({ content: Number(item.value_in_cr || 0).toFixed(2), styles: { halign: 'right' } });
+ 
+     bodyData.push(row);
+   });
+ 
+   autoTable(doc, {
+     startY: 15,
+     theme: 'grid',
+     
+     /* ================= HEADER SECTION ================= */
+     head: [
+       [
+         {
+           content: ' Division & Fund Wise Limit Summary',
+           colSpan: 9, // Total 12 cols = 9 here + 3 in date
+           styles: { halign: 'left', fontStyle: 'bold', fontSize: 13, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
+         },
+         {
+           content: `Print Dt: ${currentDateTime}`,
+           colSpan: 3, 
+           styles: { halign: 'right', fontSize: 9, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
+         }
+       ],
+       // Main Column Headers (12 Columns)
+       [
+         { content: 'S.No', styles: { halign: 'center' } },
+         { content: 'Division', styles: { halign: 'center' } },
+         { content: 'Fund Head', styles: { halign: 'center' } },
+         { content: 'Demand Number', styles: { halign: 'center' } },
+         { content: 'SE Forward Dt.', styles: { halign: 'center' } },
+         { content: 'Release Dt.', styles: { halign: 'center' } },
+         { content: 'Demand Dt.', styles: { halign: 'center' } },
+         { content: 'Status', styles: { halign: 'center' } },
+         { content: 'No of\nWorks', styles: { halign: 'center' } },
+         { content: 'SE Appr. Amt\n(In Cr)', styles: { halign: 'right' } },
+         { content: 'Limit Demand\n(In Cr)', styles: { halign: 'right' } },
+         { content: 'Total Release\n(In Cr)', styles: { halign: 'right' } } 
+       ]
+     ],
+     
+     /* ================= BODY SECTION ================= */
+     body: bodyData, 
+ 
+     /* ================= TOTAL FOOTER SECTION ================= */
+     foot: [
+       [
+           { content: 'Grand Total', colSpan: 8, styles: { fontStyle: 'bold', halign: 'right', fillColor: [210, 225, 245]} }, 
+         
+        //  // Works Total
+        //  { content: this.totalSchemeWorks.toString(), styles: { fontStyle: 'bold', halign: 'center' } },
+         
+        //  // SE Amount Total
+        //  { content: Number(this.totalSchemeAmtCrSE || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
+         
+        //  // Limit Amount Total
+        //  { content: Number(this.totalSchemeAmtCrLiMIT || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
+         
+        //  // Release Amount Total
+        //  { content: Number(this.totalSchemeAmtCr || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
+       ]
+     ],
+ 
+     /* ================= GLOBAL STYLES ================= */
+     styles: {
+       fontSize: 8, // Font chota rakha hai taaki landscape me sab fit ho
+       lineWidth: 0.2,
+       lineColor: [80, 80, 80], 
+       valign: 'middle',
+       textColor: [0, 0, 0]
+     },
+     
+     /* ================= DYNAMIC CELL STYLES ================= */
+     didParseCell: (data) => {
+       // Footer styling
+       if (data.section === 'foot') {
+         data.cell.styles.fillColor = [173, 197, 230]; 
+         data.cell.styles.lineWidth = 0.5;
+         data.cell.styles.fontStyle = 'bold';
+       }
+       // Header styling
+       if (data.section === 'head' && data.row.index === 1) {
+         data.cell.styles.fillColor = [142, 171, 219]; 
+         data.cell.styles.lineWidth = 0.5;
+       }
+     }
+   });
+   
+   // PDF Download Trigger
+   const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
+   doc.save(`Division_FundWise_Limit_${safeDateString}.pdf`);
+ }
+ 
+ 
+ exportToPDF3() {
+   const currentDateTime = this.getCurrentDateTime();
+   
+   
+   const doc = new jsPDF('l', 'mm', 'a1'); 
+   const bodyData: any[] = [];
+   
+   const sourceData = this.dataSource2.data;
+ 
+   if (!sourceData || sourceData.length === 0) {
+     alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
+     return;
+   }
+ 
+   sourceData.forEach((item: any, index: number) => {
+     const row: any[] = [];
+ 
+     // 1. S.No
+     row.push({ content: (index + 1).toString(), styles: { halign: 'center' } });
+     // 2. Demand Detail ID
+     row.push({ content: item.demanddetailid?.toString() || '-', styles: { halign: 'center' } });
+     // 3. Division
+     row.push({ content: item.divName_En || '-', styles: { halign: 'left' } });
+     // 4. Demand No
+     row.push({ content: item.demandno || '-', styles: { halign: 'center' } });
+     // 5. Work ID
+     row.push({ content: item.work_id || '-', styles: { halign: 'center' } });
+     // 6. Head
+     row.push({ content: item.head || '-', styles: { halign: 'left' } });
+     // 7. Scheme ID
+     row.push({ content: item.mainSchemeID?.toString() || '-', styles: { halign: 'center' } });
+     // 8. District
+     row.push({ content: item.district || '-', styles: { halign: 'left' } });
+     // 9. Block Name
+     row.push({ content: item.block_Name_En || '-', styles: { halign: 'left' } });
+     // 10. Work Name
+     row.push({ content: item.workName || '-', styles: { halign: 'left', cellWidth: 70 } }); // Iski thodi width zyada rakhi h
+     
+     // 11. AA Date
+     row.push({ content: item.aadT_DDMMYY || '-', styles: { halign: 'center' } });
+     // 12. TS Date
+     row.push({ content: item.tsdT_DDMMYY || '-', styles: { halign: 'center' } });
+     
+     // 13. AS Amount
+     row.push({ content: Number(item.asAmt || 0).toFixed(2), styles: { halign: 'right' } });
+     // 14. TS Amount
+     row.push({ content: Number(item.tsAmt || 0).toFixed(2), styles: { halign: 'right' } });
+     
+     // 15. Type
+     row.push({ content: item.tType || '-', styles: { halign: 'center' } });
+     // 16. Letter No
+     row.push({ content: item.letterNo || '-', styles: { halign: 'left' } });
+     // 17. CID
+     row.push({ content: item.cid || '-', styles: { halign: 'center' } });
+     // 18. NIT No
+     row.push({ content: item.nitno || '-', styles: { halign: 'left' } });
+     
+     // 19. Accept Date
+     row.push({ content: item.acceptDT_DDMMYY || '-', styles: { halign: 'center' } });
+     // 20. Work Order Date
+     row.push({ content: item.wrokOrderDT_DDMMYY || '-', styles: { halign: 'center' } });
+     
+     // 21. Contract Amount (Lacs)
+     row.push({ content: Number(item.totalAmountOfContract_Lacs || 0).toFixed(2), styles: { halign: 'right' } });
+     // 22. Total Exp (Lacs)
+     row.push({ content: item.totalExpLacs != null ? Number(item.totalExpLacs).toFixed(2) : '-', styles: { halign: 'right' } });
+     
+     // 23. Div ID
+     row.push({ content: item.divisionID || '-', styles: { halign: 'center' } });
+     // 24. Contractor
+     row.push({ content: item.contrctorName || '-', styles: { halign: 'left' } });
+     // 25. Name
+     row.push({ content: item.name?.trim() || '-', styles: { halign: 'left' } });
+     
+     // 26. AS Fund Recv
+     row.push({ content: Number(item.asFundRecv || 0).toFixed(2), styles: { halign: 'right' } });
+     // 27. Demand Value
+     row.push({ content: Number(item.demandValue || 0).toFixed(2), styles: { halign: 'right', textColor: [0, 128, 0], fontStyle: 'bold' } }); // Green color
+     // 28. SE Approved Amt
+     row.push({ content: Number(item.seApprovedAmt || 0).toFixed(2), styles: { halign: 'right' } });
+     // 29. Fin Approved Amt
+     row.push({ content: Number(item.finApprovedAmt || 0).toFixed(2), styles: { halign: 'right' } });
+     
+     // 30. Final Status
+     row.push({ content: item.finalStatus || '-', styles: { halign: 'center' } });
+     
+     // 31. Demand Date
+     row.push({ content: item.demandDateddMMYY || '-', styles: { halign: 'center' } });
+     // 32. SE Forward Date
+     row.push({ content: item.seForwardDateddmmyy || '-', styles: { halign: 'center' } });
+     // 33. Fin Approved Date
+     row.push({ content: item.finApprovedDateddmmyy || '-', styles: { halign: 'center' } });
+     // 34. Days Taken
+     row.push({ content: item.daysTaken?.toString() || '-', styles: { halign: 'center' } });
+     
+     // 35. Demand Date (Full Date)
+     let fullDDate = item.demandDate ? item.demandDate.split('T')[0] : '-';
+     if(fullDDate !== '-') {
+        const parts = fullDDate.split('-');
+        if(parts.length === 3) fullDDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+     }
+     row.push({ content: fullDDate, styles: { halign: 'center' } });
+ 
+     bodyData.push(row);
+   });
+ 
+   autoTable(doc, {
+     startY: 15,
+     theme: 'grid',
+     
+     /* ================= HEADER SECTION ================= */
+     head: [
+       [
+         {
+           content: 'Detailed Work Demand & Limit Summary',
+           colSpan: 20, // Title ke liye 20 columns ka span
+           styles: { halign: 'left', fontStyle: 'bold', fontSize: 16, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
+         },
+         {
+           content: `Print Dt: ${currentDateTime}`,
+           colSpan: 15, // Date ke liye baaki 15 columns
+           styles: { halign: 'right', fontSize: 12, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
+         }
+       ],
+       // 35 Column Headers
+       [
+         'S.No', 'Detail ID', 'Division', 'Demand No', 'Work ID', 'Head', 'Scheme ID', 'District', 'Block', 'Work Name',
+         'AA Date', 'TS Date', 'AS Amt', 'TS Amt', 'Type', 'Letter No', 'CID', 'NIT No', 'Accept Date', 'Work Order Dt',
+         'Contract\n(Lacs)', 'Total Exp\n(Lacs)', 'Div ID', 'Contractor', 'Name', 'AS Fund\nRecv', 'Demand\nValue', 'SE Appr\nAmt', 'Fin Appr\nAmt', 'Final Status',
+         'Demand Dt', 'SE Forward Dt', 'Fin Appr Dt', 'Days\nTaken', 'Demand Dt\n(Full)'
+       ]
+     ],
+     
+     /* ================= BODY SECTION ================= */
+     body: bodyData, 
+ 
+     /* ================= GLOBAL STYLES ================= */
+     styles: {
+       fontSize: 9, // A1 page pe 9 fontsize aasaani se padha jayega
+       lineWidth: 0.2,
+       lineColor: [80, 80, 80], 
+       valign: 'middle',
+       textColor: [0, 0, 0],
+       overflow: 'linebreak'
+     },
+     
+     /* ================= DYNAMIC CELL STYLES ================= */
+     didParseCell: (data) => {
+       // Header styling
+       if (data.section === 'head' && data.row.index === 1) {
+         data.cell.styles.fillColor = [142, 171, 219]; 
+         data.cell.styles.lineWidth = 0.5;
+         data.cell.styles.halign = 'center';
+       }
+     }
+   });
+   
+   // PDF Download Trigger
+   const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
+   doc.save(`Work_Demand_Details_${safeDateString}.pdf`);
+ }
+  openDialogv_work() {
+    debugger;
+    const dialogRef = this.dialog.open(this.itemDetailsModal12, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100%',
+      // panelClass: 'full-screen-dialog',
+      panelClass: 'full-screen-modal',
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe(() => {});
+  }
+    applyTextFilter3(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
 
+    if (this.dataSource2.paginator) {
+      this.dataSource2.paginator.firstPage();
+    }
+  }
+    exportToExcel3(): void {
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+        this.dataSource2.data,
+      );
+  
+      const workbook: XLSX.WorkBook = {
+        Sheets: { Data: worksheet },
+        SheetNames: ['Data'],
+      };
+  
+      XLSX.writeFile(workbook, 'DivFundLimitSummary_report.xlsx');
+  
+      const excelBuffer: any = XLSX.write(workbook, {
+        bookType: 'xlsx',
+        type: 'array',
+      });
+    }
 }
