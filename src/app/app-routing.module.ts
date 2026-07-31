@@ -180,7 +180,9 @@ import { QCSampleStatusLabReceivedUnderTransit } from './component/ORACLE-DASHBO
 import { FinalResultAwaitingafterEmpaneledLabResult } from './component/ORACLE-DASHBOARD/QC/final-result-awaitingafter-empaneled-lab-result/final-result-awaitingafter-empaneled-lab-result';
 import { CgmscQcPendingStatus } from './component/ORACLE-DASHBOARD/QC/cgmsc-qc-pending-status/cgmsc-qc-pending-status';
 import { QcPerformance } from './component/ORACLE-DASHBOARD/QC/qc-performance/qc-performance';
+
 import { QcPendencyMonitoring } from './component/ORACLE-DASHBOARD/QC/qc-pendency-monitoring/qc-pendency-monitoring';
+
 import { QCSampleStageMonitoring } from './component/ORACLE-DASHBOARD/QC/qcsample-stage-monitoring/qcsample-stage-monitoring';
 import { QcBatchesReportSummary } from './component/ORACLE-DASHBOARD/qc-batches-report-summary/qc-batches-report-summary';
 import { WhHoQcSampleTransitCourierPendingHo } from './component/ORACLE-DASHBOARD/wh-ho-qc-sample-transit-courier-pending-ho/wh-ho-qc-sample-transit-courier-pending-ho';
@@ -198,7 +200,7 @@ import { NearExpiryDrugs } from './component/ORACLE-DASHBOARD/near-expiry-utiliz
 import { NearExpiryConsumables } from './component/ORACLE-DASHBOARD/near-expiry-utilization/near-expiry-consumables/near-expiry-consumables';
 import { NearExpiryAyushDrugs } from './component/ORACLE-DASHBOARD/near-expiry-utilization/near-expiry-ayush-drugs/near-expiry-ayush-drugs';
 import { NearExpiryReagents } from './component/ORACLE-DASHBOARD/near-expiry-utilization/near-expiry-reagents/near-expiry-reagents';
-
+import {FundReleaseManagement} from './fund-release-management/fund-release-management';
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
 
@@ -481,7 +483,7 @@ const routes: Routes = [
   { path: 'final-result-awaitingafter-empaneled-lab-result', component: FinalResultAwaitingafterEmpaneledLabResult, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'cgmsc-qc-pending-status', component: CgmscQcPendingStatus, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'qc-performance', component: QcPerformance, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
-  { path: 'qc-pendency-monitoring', component: QcPendencyMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  // { path: 'qc-pendency-monitoring', component: QcPendencyMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'qcsample-stage-monitoring', component: QCSampleStageMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'qc-batches-report-summary', component: QcBatchesReportSummary, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'wh-ho-qc-sample-transit-courier-pending-ho', component: WhHoQcSampleTransitCourierPendingHo, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
@@ -489,7 +491,7 @@ const routes: Routes = [
   { path: 'batch-decision-pending-zero-qty-receipts', component: BatchDecisionPendingZeroQtyReceipts, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'FitUnFitinfra', component: FitUnFitInfrastructure, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'PaidBills', component: PaidBillinfra, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
-
+  { path: 'FundReleaseManagement', component: FundReleaseManagement, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
 
 
   //#region public view 
