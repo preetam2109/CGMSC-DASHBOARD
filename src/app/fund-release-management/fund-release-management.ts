@@ -30,7 +30,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { InsertUserPageViewLogmodal } from 'src/app/Model/DashLoginDDL';
-
+import { Subscription } from 'rxjs'; 
 @Component({
   selector: 'app-fund-release-management',
   standalone: true,
@@ -53,6 +53,7 @@ import { InsertUserPageViewLogmodal } from 'src/app/Model/DashLoginDDL';
   styleUrl: './fund-release-management.css',
 })
 export class FundReleaseManagement {
+  renderedDataSub!: Subscription;
   dashname: any;
   nosworks: any;
   Divisionlist = [
@@ -429,41 +430,78 @@ export class FundReleaseManagement {
             });
 
             // 4. Calculating Totals & Applying RowSpan (Cell Merge)
+            // this.totalSchemeDocs = 0;
+            // this.totalSchemeWorks = 0;
+            // this.totalSchemeAmtCr = 0;
+            // let schemeSno = 1;
+
+            // for (let i = 0; i < schemeTableData.length; i++) {
+            //   schemeTableData[i].sno = schemeSno++;
+
+            //   this.totalSchemeDocs += schemeTableData[i].No_of_document;
+            //   this.totalSchemeWorks += schemeTableData[i].nosworks;
+            //   this.totalSchemeAmtCr += schemeTableData[i].value_in_cr;
+            //   this.totalSchemeAmtCrSE += schemeTableData[i].value_in_crSEAMT;
+            //   this.totalSchemeAmtCrLiMIT += schemeTableData[i].value_in_crLimitAMT;
+
+            //   if (
+            //     i === 0 ||
+            //     schemeTableData[i].divName_En !==
+            //       schemeTableData[i - 1].divName_En
+            //   ) {
+            //     let count = 1;
+            //     for (let j = i + 1; j < schemeTableData.length; j++) {
+            //       if (
+            //         schemeTableData[j].divName_En ===
+            //         schemeTableData[i].divName_En
+            //       ) {
+            //         count++;
+            //       } else {
+            //         break;
+            //       }
+            //     }
+            //     schemeTableData[i].rowSpan = count;
+            //   } else {
+            //     schemeTableData[i].rowSpan = 0;
+            //   }
+            // }
+            // 4. Calculating Totals ONLY (Yahan se rowSpan ka logic hata diya hai)
             this.totalSchemeDocs = 0;
             this.totalSchemeWorks = 0;
             this.totalSchemeAmtCr = 0;
+            this.totalSchemeAmtCrSE = 0;
+            this.totalSchemeAmtCrLiMIT = 0;
             let schemeSno = 1;
 
             for (let i = 0; i < schemeTableData.length; i++) {
               schemeTableData[i].sno = schemeSno++;
 
+              // Sirf Grand Total calculate kar rahe hain (Taaki footer humesha sahi aaye)
               this.totalSchemeDocs += schemeTableData[i].No_of_document;
               this.totalSchemeWorks += schemeTableData[i].nosworks;
               this.totalSchemeAmtCr += schemeTableData[i].value_in_cr;
               this.totalSchemeAmtCrSE += schemeTableData[i].value_in_crSEAMT;
               this.totalSchemeAmtCrLiMIT += schemeTableData[i].value_in_crLimitAMT;
-
-              if (
-                i === 0 ||
-                schemeTableData[i].divName_En !==
-                  schemeTableData[i - 1].divName_En
-              ) {
-                let count = 1;
-                for (let j = i + 1; j < schemeTableData.length; j++) {
-                  if (
-                    schemeTableData[j].divName_En ===
-                    schemeTableData[i].divName_En
-                  ) {
-                    count++;
-                  } else {
-                    break;
-                  }
-                }
-                schemeTableData[i].rowSpan = count;
-              } else {
-                schemeTableData[i].rowSpan = 0;
-              }
             }
+
+            this.dataSourceScheme.data = schemeTableData;
+            
+            // 5. Connect Paginator, Sort and Dynamically calculate RowSpan
+            setTimeout(() => {
+              this.dataSourceScheme.paginator = this.paginator1;
+              this.dataSourceScheme.sort = this.sort1;
+
+              // NAYA LOGIC: Paginator aur Filter ke hisaab se RowSpan set karna
+              if (this.renderedDataSub) {
+                this.renderedDataSub.unsubscribe();
+              }
+              // connect() hume humesha filter aur paginate hone ke BAAD ka data deta hai
+              this.renderedDataSub = this.dataSourceScheme.connect().subscribe((renderedData: any[]) => {
+                setTimeout(() => {
+                  this.updateRowSpans(renderedData);
+                });
+              });
+            });
 
             this.dataSourceScheme.data = schemeTableData;
             console.log('res schema ==', this.dataSourceScheme.data); // Ab aapko console me naye fields mil jayenge
@@ -535,7 +573,23 @@ export class FundReleaseManagement {
       this.dataSourceScheme.paginator.firstPage();
     }
   }
-
+updateRowSpans(renderedData: any[]) {
+  for (let i = 0; i < renderedData.length; i++) {
+    if (i === 0 || renderedData[i].divName_En !== renderedData[i - 1].divName_En) {
+      let count = 1;
+      for (let j = i + 1; j < renderedData.length; j++) {
+        if (renderedData[j].divName_En === renderedData[i].divName_En) {
+          count++;
+        } else {
+          break;
+        }
+      }
+      renderedData[i].rowSpan = count;
+    } else {
+      renderedData[i].rowSpan = 0; // Duplicate division names ko hide karne ke liye
+    }
+  }
+}
   getLimitDetails(data: any) {
     debugger;
     this.spinner.show();
