@@ -534,8 +534,21 @@ export class FundReleaseManagement {
   }
 
   getLimitDetails(data: any) {
-    // debugger;
+    debugger;
     this.spinner.show();
+
+    //   const roleName = localStorage.getItem('roleName');
+    // if (roleName === 'Division') {
+    //   this.DId = sessionStorage.getItem('divisionID') || 0;
+    //   this.himisDistrictid = 0;
+    //   this.mainSchemeID = this.mainSchemeID ? this.mainSchemeID : 0;
+    // }
+    // else {
+    //   this.DId = 0;
+    //   this.himisDistrictid = 0;
+    //   this.mainSchemeID = this.mainSchemeID ? this.mainSchemeID : 0;
+    // } 
+
     this.dashname = data.divName_En;
     this.nosworks = data.mainschemanme;
     this.isLoading = true;
@@ -552,7 +565,7 @@ export class FundReleaseManagement {
     // this.api.LimitDetails(divisionId,districtid,mainSchemeId,finalstatus,DEMANDID)
     // this.sname = this.sname ? this.sname : 0;
     // this.api.LimitDetails(divisionId,0,mainSchemeId,this.sname,demandid)
-    this.api.LimitDetails(0, 0, 0, mainSchemeId, demandid).subscribe({
+    this.api.LimitDetails(0, 0, 0, 0, demandid).subscribe({
       next: (res: any[]) => {
         if (res && res.length > 0) {
           this.dataSource2.data = res;

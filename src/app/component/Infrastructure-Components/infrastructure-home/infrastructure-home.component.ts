@@ -2002,6 +2002,22 @@ export class InfrastructureHomeComponent implements OnInit {
   }
 
 // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
-
+// V_WorkDetails(){
+//   this.api.GETWORunningHandDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, formdate, todate)
+//         .subscribe(
+//           (res) => {
+//             this.dispatchData = res.map((item: WORunningHandDetails, index: number) => ({ ...item, sno: index + 1 }));
+//             this.dataSource.data = this.dispatchData;
+//             this.dataSource.paginator = this.paginator;
+//             this.dataSource.sort = this.sort;
+//             this.cdr.detectChanges();
+//             this.spinner.hide();
+//           },
+//           (error) => {
+//             this.spinner.hide();
+//             console.error(`API Error:: ${error.message}`);
+//           }
+//         );
+// }
 
 }
