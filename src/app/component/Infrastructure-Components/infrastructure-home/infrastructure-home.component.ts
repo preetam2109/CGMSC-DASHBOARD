@@ -687,68 +687,84 @@ export class InfrastructureHomeComponent implements OnInit {
       //     isbelow20,
       //     formdate,
       //     todate,
+      // 'sno','work_id','grantNo','head','district','blockname','letterNo',
+      //     'work','tenderno', 'eprocno','noofcalls','aadt','asAmt','totalpaid','totalunpaid','tsDate','tsamt',
+      //     'lProgress', 'startdt','enddt',
+      //      'covOpenedDT','topnedpricedt','divName_En','fmrcode','approver','action'
       displayedColumns12: string[] = [
   'sno',
+  'action',
   'work_Id',
-  'progress_Group',
-  'pGroupID',
-  'progressLevel',
-  'progressID',
-  'lastProgressDate_DDMMYY',
-  'progress_Remarks',
-  'delay_Reason',
-  'expected_Completion_DDMMYY',
-  'mainProgress',
-  'aS_DDMMYY',
-  'letterNo',
-  'head',
-  'approver',
-  'type_Name',
-  'workDescription',
+  'approved_Fin_Year',
+
+   'head',
+  'division',
   'district',
   'block',
   'workName',
+ 'aS_DDMMYY',
+'aS_ValueLacs',
+  'progress_Group',
+  // 'pGroupID',
+  'progressLevel',
+  // 'progressID',
+  'lastProgressDate_DDMMYY',
+  // 'progress_Remarks',
+  'delay_Reason',
+  'expected_Completion_DDMMYY',
+  // 'mainProgress',
+  'workorder_DDMMYY',
+  'timeAllowed_Month',
+  'work_CommencementDDMMYY',
+  'dueDateCompletion_DDMMYY',
+  'contractor',
+  'contract_Value_Lacs',
+  'above_Below',
+  'rate_Percent',
+  'finalBillStatus',
+  'nosBill',
+  'grossPaidLacs',
+  'totalNetPaidLacs',
+  'gross_Bill_Generated_Lacs_NotPaid',
+
+
+  // 'currentTender_Percent',
+
+ 
+  'approver',
+  'type_Name',
+  'workDescription',
   'tS_DDMMYY',
+  'tS_ValueLacs',
+
   'acceptanceLetterRefNo',
   'acceptance_DDMMYY',
   'tender_NITReference',
-  'tenderType',
-  'division',
-  'divisionID',
-  'contractorID',
-  'contractor',
+  
+  // 'divisionID',
+
+   'alloted_Sub_Enginner',
+  'alloted_Assitant_Enginner',
+  'subEng_MobileNo',
+    'contractorID',
   'contractorRegistrationType',
   'contractor_Class',
-  'contractor_Address',
+  // 'contractor_Address',
   'contractor_Contact',
-  'workorder_DDMMYY',
-  'work_CommencementDDMMYY',
-  'dueDateCompletion_DDMMYY',
   'agreementNo',
   'workorderRefNoGovt',
   'agreementRefNo',
-  'agreementName',
-  'alloted_Sub_Enginner',
-  'alloted_Assitant_Enginner',
-  'subEng_MobileNo',
-  'aE_Mobileno',
-  'eE_MobileNo',
+  // 'agreementName',
+
+  // 'aE_Mobileno',
+  // 'eE_MobileNo',
   'tenderStart_DDMMYY',
   'tender_End_DDMMYY',
   'liveStatus',
   'currentTenderZonalType',
   'zonalDistrict',
   'zonalBlock',
-  'latitude',
-  'longitude',
-  'medicollege',
-  'above_90LacsValue',
-  'below_90LacsValue',
-  'onTimeWorks',
-  'delayMoreThanSixMonth',
-  'nosBill',
-  'finalBillStatus',
-  'above_Below',
+
   'noOfCalls',
   'coverA_OpenDDMMYY',
   'coverB_OpendDDMMYY',
@@ -758,43 +774,52 @@ export class InfrastructureHomeComponent implements OnInit {
   'currentTenderAcceptStatus',
   'eProcNo',
   'nitNo',
-  'delay_1_3Month',
-  'delay_3_6Month',
-  'approved_Fin_Year',
-  'fin_Year',
-  'asPath',
-  'asLetter',
-  'imageName',
-  'imageName2',
-  'imageName3',
-  'imageName4',
-  'imageName5',
-  'tenderForm',
-  'aS_ValueLacs',
-  'tS_ValueLacs',
-  'timeAllowed_Month',
-  'pac',
-  'rate_Percent',
-  'contract_Value_Lacs',
-  'grossPaidLacs',
-  'totalNetPaidLacs',
-  'gross_Bill_Generated_Lacs_NotPaid',
-  'currentTender_Percent',
-  'dueDateCompletionDate',
-  'work_Commencement_Date',
-  'workOrderDate',
-  'acceptanceDate',
-  'tsDate',
-  'asDate',
-  'expected_Completion_Date',
-  'lastProgressDate',
-  'tenderStartDate',
-  'tender_EndDate',
-  'tender_Rejected_Date',
-  'tender_Price_OpenedDate',
-  'coverB_OpendDate',
-  'coverA_OpenDate'
+  'letterNo',
+  'tenderType',
+
+
+  // 'tender_Price_OpenedDate',
+  // 'coverB_OpendDate',
+  // 'coverA_OpenDate',
+  
+    // 'latitude',
+  // 'longitude',
+  // 'medicollege',
+  // 'above_90LacsValue',
+  // 'below_90LacsValue',
+  // 'onTimeWorks',
+  // 'delayMoreThanSixMonth',
+      // 'expected_Completion_Date',
+  // 'lastProgressDate',
+  // 'tenderStartDate',
+  // 'tender_EndDate',
+  // 'tender_Rejected_Date',
+  // 'delay_1_3Month',
+  // 'delay_3_6Month',
+  // 'fin_Year',
+  // 'asPath',
+  // 'asLetter',
+  // 'imageName',
+  // 'imageName2',
+  // 'imageName3',
+  // 'imageName4',
+  // 'imageName5',
+  // 'tenderForm',
+  
+  // 'pac',
+ 
+  // 'dueDateCompletionDate',
+  // 'work_Commencement_Date',
+  // 'workOrderDate',
+  // 'acceptanceDate',
+  // 'tsDate',
+  // 'asDate',
+
+
 ];
+
+
+
       displayedColumns122: string[] = [
   'sno',
   // 'demanddetailid',
@@ -836,10 +861,10 @@ export class InfrastructureHomeComponent implements OnInit {
   // 'demandDate'
 ];
       isbelow20:any;
-  DetailProgress11(did: any, dashname: any, nosworks: any){
-  debugger;
+  DetailProgress(did: any, dashname: any, nosworks: any){
+  // debugger;
   let workid=0;
-    this.dashname = dashname;
+     this.dashname = dashname;
     this.nosworks = nosworks;
     this.spinner.show();
     this.roleName = localStorage.getItem('roleName');
@@ -913,7 +938,7 @@ export class InfrastructureHomeComponent implements OnInit {
 
 
 
-  DetailProgress(did: any, dashname: any, nosworks: any): void {
+  DetailProgress11(did: any, dashname: any, nosworks: any): void {
     this.dashname = dashname;
     this.nosworks = nosworks;
     this.spinner.show();
@@ -2563,17 +2588,66 @@ export class InfrastructureHomeComponent implements OnInit {
     }
   }
 
-  onopenimges(element: any) {
+//  readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+
+onopenimges(element: any) {
+  this.selectedWork = element;
+  this.imageUrls = [];
+  
+  const imageKeys = [
+    'imageName',
+    'imageName2',
+    'imageName3',
+    'imageName4',
+    'imageName5',
+  ];
+imageKeys.forEach((key) => {
+  const imgFile = element[key];
+  // Check if value exists, is not empty string, and not 'NA' / 'null'
+  if (imgFile && imgFile.trim() !== '' && imgFile !== 'NA' && imgFile !== 'null') {
+    this.imageUrls.push(this.baseImageUrl + imgFile.trim()); // trim() zarur lagayein
+  }
+});
+
+  // imageKeys.forEach((key) => {
+  //   const imgFile = element[key];
+  //   if (imgFile && imgFile.trim() !== '' && imgFile !== 'NA' && imgFile !== 'null') {
+  //     this.imageUrls.push(this.baseImageUrl + imgFile.trim());    }
+  // });
+
+  if (this.imageUrls.length === 0) {
+    this.imageUrls.push('assets/no-image-placeholder.png');
+  }
+
+  // 👇 YAHAN DHYAN DEIN: Modal open karte time `data` pass karna zaroori hai
+  // 'this.openimages1()' ke andar ya yahan seedha dialog open karein:
+  this.dialog.open(this.openimages, { // 'this.openimages' aapka ViewChild template reference hoga
+    width: '800px',
+    data: {
+      work: this.selectedWork,
+      images: this.imageUrls
+    }
+  });
+}
+  onopenimges1(element: any) {
+    debugger;
     this.selectedWork = element;
     this.imageUrls = [];
     // https://cgmsc.gov.in/himisr/ProgressImages/
     const imageKeys = [
-      'imagename',
-      'imagenamE2',
-      'imagenamE3',
-      'imagenamE4',
-      'imagenamE5',
+      'imageName',
+      'imageName2',
+      'imageName3',
+      'imageName4',
+      'imageName5',
     ];
+    // const imageKeys = [
+    //   'imagename',
+    //   'imagenamE2',
+    //   'imagenamE3',
+    //   'imagenamE4',
+    //   'imagenamE5',
+    // ];
 
     imageKeys.forEach((key) => {
       const imgFile = element[key];
@@ -2651,322 +2725,131 @@ export class InfrastructureHomeComponent implements OnInit {
    });
    return `${date} ${time}`;
  }
- exportToPDF1() {
-   const currentDateTime = this.getCurrentDateTime();
-   const doc = new jsPDF('l', 'mm', 'a4'); 
-   const bodyData: any[] = [];
-   
-   const sourceData = this.dataSourcev_work.data;
+ exportToPDF_WorkDetails() {
+  const currentDateTime = this.getCurrentDateTime();
+  
+  // 100 columns ke liye 'a0' (sabse bada landscape size) use kar rahe hain
+  const doc = new jsPDF('l', 'mm', 'a0'); 
+  const bodyData: any[] = [];
+  
+  // Data aapke naye method ke hisaab se dataSourcev_work.data me hai
+  const sourceData = this.dataSourcev_work.data;
+
+  if (!sourceData || sourceData.length === 0) {
+    alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
+    return;
+  }
+
+  // 1. Jin columns me Amount (Paisa) hai, unko right-align aur 2 decimal karna hai
+  const amountColumns = [
+    'aS_ValueLacs', 'tS_ValueLacs', 'contract_Value_Lacs',
+    'grossPaidLacs', 'totalNetPaidLacs', 'gross_Bill_Generated_Lacs_NotPaid', 'demandValue'
+  ];
+
+  // 2. Jin columns me Full Time (T00:00:00) aati hai, unhe DD-MM-YYYY karna hai
+  const fullDateColumns = [
+    'dueDateCompletionDate', 'work_Commencement_Date', 'workOrderDate', 'acceptanceDate',
+    'tsDate', 'asDate', 'expected_Completion_Date', 'lastProgressDate', 'tenderStartDate',
+    'tender_EndDate', 'tender_Rejected_Date', 'tender_Price_OpenedDate', 'coverB_OpendDate', 'coverA_OpenDate'
+  ];
+
+  // PDF ke body ka data tayar karna (Dynamic Loop for 100 columns)
+  sourceData.forEach((item: any, index: number) => {
+    const row: any[] = [];
+
+    this.displayedColumns12.forEach((colName) => {
+      // Serial Number
+      if (colName === 'sno') {
+        row.push({ content: (index + 1).toString(), styles: { halign: 'center' } });
+      } 
+      // Amounts / Decimal values
+      else if (amountColumns.includes(colName)) {
+        row.push({ content: Number(item[colName] || 0).toFixed(2), styles: { halign: 'right' } });
+      } 
+      // Full Time Format Dates
+      else if (fullDateColumns.includes(colName)) {
+        let dDate = item[colName] ? item[colName].split('T')[0] : '-';
+        if (dDate !== '-' && dDate.includes('-')) {
+          const parts = dDate.split('-');
+          if (parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+        row.push({ content: dDate, styles: { halign: 'center' } });
+      } 
+      // General Text & DDMMYY String dates
+      else {
+        row.push({ content: item[colName]?.toString() || '-', styles: { halign: 'center' } });
+      }
+    });
+
+    bodyData.push(row);
+  });
+
+  // Headers array generate karna (CamelCase ko proper Header Name me badalna)
+  const generateHeaderName = (col: string) => {
+    if (col === 'sno') return 'S.No';
+    if (col === 'work_Id') return 'Work ID';
+    if (col === 'divName_En') return 'Division';
+    if (col === 'aadT_DDMMYY') return 'AA Date';
+    if (col === 'tsdT_DDMMYY') return 'TS Date';
+    // Baaki sabhi variables ke '_' ko hata kar Space lagana
+    return col.replace(/_/g, ' ').toUpperCase();
+  };
+
+  const pdfHeaders = this.displayedColumns12.map(col => generateHeaderName(col));
+
+  autoTable(doc, {
+    startY: 15,
+    theme: 'grid',
+    
+    /* ================= HEADER SECTION ================= */
+    head: [
+      [
+        {
+          content: `${this.dashname || 'Detailed'} - Progress Work List`, // Title me Dashname add kiya hai
+          colSpan: 50, // Title ke liye
+          styles: { halign: 'left', fontStyle: 'bold', fontSize: 18, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
+        },
+        {
+          content: `Print Dt: ${currentDateTime} | Total Works: ${this.nosworks || 0}`,
+          colSpan: this.displayedColumns12.length - 50, // Date ke liye baaki span
+          styles: { halign: 'right', fontSize: 14, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
+        }
+      ],
+      // Dynamic 100 Column Headers
+      pdfHeaders
+    ],
+    
+    /* ================= BODY SECTION ================= */
+    body: bodyData, 
+
+    /* ================= GLOBAL STYLES ================= */
+    styles: {
+      fontSize: 8, // A0 page par itne columns fit karne ke liye chota font zaroori hai
+      lineWidth: 0.1,
+      lineColor: [100, 100, 100], 
+      valign: 'middle',
+      textColor: [0, 0, 0],
+      overflow: 'linebreak'
+    },
+    
+    /* ================= DYNAMIC CELL STYLES ================= */
+    didParseCell: (data) => {
+      // Header styling (Index 1 par main column headers hain)
+      if (data.section === 'head' && data.row.index === 1) {
+        data.cell.styles.fillColor = [142, 171, 219]; 
+        data.cell.styles.lineWidth = 0.3;
+        data.cell.styles.halign = 'center';
+      }
+    }
+  });
+  
+  // PDF Download Trigger
+  const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
+  doc.save(`Work_Progress_Details_${safeDateString}.pdf`);
+}
  
-   if (!sourceData || sourceData.length === 0) {
-     alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
-     return;
-   }
- 
-   // PDF ke body ka data tayar karna
-   sourceData.forEach((item: any) => {
-     const row: any[] = [];
- 
-     // 1. S.No
-     row.push({ content: item.sno.toString(), styles: { halign: 'center' } });
- 
-     if (item.rowSpan > 0) {
-       row.push({ 
-         content: item.divName_En || '-', 
-         rowSpan: item.rowSpan, 
-         styles: { halign: 'left', valign: 'middle', fontStyle: 'bold', fillColor: [255, 255, 255] } 
-       });
-     }
- 
-     // 3. Fund Head
-     row.push({ content: item.mainschemanme || '-', styles: { halign: 'left' } });
- 
-     // 4. Demand Number
-     row.push({ content: item.demandno || '-', styles: { halign: 'center' } });
- 
-     // 5. SE Office Forward Date
-     row.push({ content: item.seForwardDateddmmyy || '-', styles: { halign: 'center' } });
- 
-     // 6. Release Date
-     row.push({ content: item.finApprovedDateddmmyy || '-', styles: { halign: 'center' } });
- 
- 
-     let dDate = item.demanddate ? item.demanddate.split('T')[0] : '-';
-     if(dDate !== '-') {
-        const parts = dDate.split('-');
-        if(parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // Convert yyyy-mm-dd to dd-mm-yyyy
-     }
-     row.push({ content: dDate, styles: { halign: 'center' } });
- 
-     // 8. Status
-     row.push({ content: item.finalstatus || '-', styles: { halign: 'center' } });
- 
-     // 9. No of Works
-     row.push({ content: (item.nosworks || 0).toString(), styles: { halign: 'center' } });
- 
-     // 10. SE Office Approved Amount (In Cr)
-     row.push({ content: Number(item.value_in_crSEAMT || 0).toFixed(2), styles: { halign: 'right' } });
-     
-     // 11. Limit Demanded Amount (in Cr)
-     row.push({ content: Number(item.value_in_crLimitAMT || 0).toFixed(2), styles: { halign: 'right' } });
-     
-     // 12. Total Release Amt (in Cr)
-     row.push({ content: Number(item.value_in_cr || 0).toFixed(2), styles: { halign: 'right' } });
- 
-     bodyData.push(row);
-   });
- 
-   autoTable(doc, {
-     startY: 15,
-     theme: 'grid',
-     
-     /* ================= HEADER SECTION ================= */
-     head: [
-       [
-         {
-           content: ' Division & Fund Wise Limit Summary',
-           colSpan: 9, // Total 12 cols = 9 here + 3 in date
-           styles: { halign: 'left', fontStyle: 'bold', fontSize: 13, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
-         },
-         {
-           content: `Print Dt: ${currentDateTime}`,
-           colSpan: 3, 
-           styles: { halign: 'right', fontSize: 9, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
-         }
-       ],
-       // Main Column Headers (12 Columns)
-       [
-         { content: 'S.No', styles: { halign: 'center' } },
-         { content: 'Division', styles: { halign: 'center' } },
-         { content: 'Fund Head', styles: { halign: 'center' } },
-         { content: 'Demand Number', styles: { halign: 'center' } },
-         { content: 'SE Forward Dt.', styles: { halign: 'center' } },
-         { content: 'Release Dt.', styles: { halign: 'center' } },
-         { content: 'Demand Dt.', styles: { halign: 'center' } },
-         { content: 'Status', styles: { halign: 'center' } },
-         { content: 'No of\nWorks', styles: { halign: 'center' } },
-         { content: 'SE Appr. Amt\n(In Cr)', styles: { halign: 'right' } },
-         { content: 'Limit Demand\n(In Cr)', styles: { halign: 'right' } },
-         { content: 'Total Release\n(In Cr)', styles: { halign: 'right' } } 
-       ]
-     ],
-     
-     /* ================= BODY SECTION ================= */
-     body: bodyData, 
- 
-     /* ================= TOTAL FOOTER SECTION ================= */
-     foot: [
-       [
-           { content: 'Grand Total', colSpan: 8, styles: { fontStyle: 'bold', halign: 'right', fillColor: [210, 225, 245]} }, 
-         
-        //  // Works Total
-        //  { content: this.totalSchemeWorks.toString(), styles: { fontStyle: 'bold', halign: 'center' } },
-         
-        //  // SE Amount Total
-        //  { content: Number(this.totalSchemeAmtCrSE || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
-         
-        //  // Limit Amount Total
-        //  { content: Number(this.totalSchemeAmtCrLiMIT || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
-         
-        //  // Release Amount Total
-        //  { content: Number(this.totalSchemeAmtCr || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
-       ]
-     ],
- 
-     /* ================= GLOBAL STYLES ================= */
-     styles: {
-       fontSize: 8, // Font chota rakha hai taaki landscape me sab fit ho
-       lineWidth: 0.2,
-       lineColor: [80, 80, 80], 
-       valign: 'middle',
-       textColor: [0, 0, 0]
-     },
-     
-     /* ================= DYNAMIC CELL STYLES ================= */
-     didParseCell: (data) => {
-       // Footer styling
-       if (data.section === 'foot') {
-         data.cell.styles.fillColor = [173, 197, 230]; 
-         data.cell.styles.lineWidth = 0.5;
-         data.cell.styles.fontStyle = 'bold';
-       }
-       // Header styling
-       if (data.section === 'head' && data.row.index === 1) {
-         data.cell.styles.fillColor = [142, 171, 219]; 
-         data.cell.styles.lineWidth = 0.5;
-       }
-     }
-   });
-   
-   // PDF Download Trigger
-   const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
-   doc.save(`Division_FundWise_Limit_${safeDateString}.pdf`);
- }
- 
- 
- exportToPDF3() {
-   const currentDateTime = this.getCurrentDateTime();
-   
-   
-   const doc = new jsPDF('l', 'mm', 'a1'); 
-   const bodyData: any[] = [];
-   
-   const sourceData = this.dataSource2.data;
- 
-   if (!sourceData || sourceData.length === 0) {
-     alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
-     return;
-   }
- 
-   sourceData.forEach((item: any, index: number) => {
-     const row: any[] = [];
- 
-     // 1. S.No
-     row.push({ content: (index + 1).toString(), styles: { halign: 'center' } });
-     // 2. Demand Detail ID
-     row.push({ content: item.demanddetailid?.toString() || '-', styles: { halign: 'center' } });
-     // 3. Division
-     row.push({ content: item.divName_En || '-', styles: { halign: 'left' } });
-     // 4. Demand No
-     row.push({ content: item.demandno || '-', styles: { halign: 'center' } });
-     // 5. Work ID
-     row.push({ content: item.work_id || '-', styles: { halign: 'center' } });
-     // 6. Head
-     row.push({ content: item.head || '-', styles: { halign: 'left' } });
-     // 7. Scheme ID
-     row.push({ content: item.mainSchemeID?.toString() || '-', styles: { halign: 'center' } });
-     // 8. District
-     row.push({ content: item.district || '-', styles: { halign: 'left' } });
-     // 9. Block Name
-     row.push({ content: item.block_Name_En || '-', styles: { halign: 'left' } });
-     // 10. Work Name
-     row.push({ content: item.workName || '-', styles: { halign: 'left', cellWidth: 70 } }); // Iski thodi width zyada rakhi h
-     
-     // 11. AA Date
-     row.push({ content: item.aadT_DDMMYY || '-', styles: { halign: 'center' } });
-     // 12. TS Date
-     row.push({ content: item.tsdT_DDMMYY || '-', styles: { halign: 'center' } });
-     
-     // 13. AS Amount
-     row.push({ content: Number(item.asAmt || 0).toFixed(2), styles: { halign: 'right' } });
-     // 14. TS Amount
-     row.push({ content: Number(item.tsAmt || 0).toFixed(2), styles: { halign: 'right' } });
-     
-     // 15. Type
-     row.push({ content: item.tType || '-', styles: { halign: 'center' } });
-     // 16. Letter No
-     row.push({ content: item.letterNo || '-', styles: { halign: 'left' } });
-     // 17. CID
-     row.push({ content: item.cid || '-', styles: { halign: 'center' } });
-     // 18. NIT No
-     row.push({ content: item.nitno || '-', styles: { halign: 'left' } });
-     
-     // 19. Accept Date
-     row.push({ content: item.acceptDT_DDMMYY || '-', styles: { halign: 'center' } });
-     // 20. Work Order Date
-     row.push({ content: item.wrokOrderDT_DDMMYY || '-', styles: { halign: 'center' } });
-     
-     // 21. Contract Amount (Lacs)
-     row.push({ content: Number(item.totalAmountOfContract_Lacs || 0).toFixed(2), styles: { halign: 'right' } });
-     // 22. Total Exp (Lacs)
-     row.push({ content: item.totalExpLacs != null ? Number(item.totalExpLacs).toFixed(2) : '-', styles: { halign: 'right' } });
-     
-     // 23. Div ID
-     row.push({ content: item.divisionID || '-', styles: { halign: 'center' } });
-     // 24. Contractor
-     row.push({ content: item.contrctorName || '-', styles: { halign: 'left' } });
-     // 25. Name
-     row.push({ content: item.name?.trim() || '-', styles: { halign: 'left' } });
-     
-     // 26. AS Fund Recv
-     row.push({ content: Number(item.asFundRecv || 0).toFixed(2), styles: { halign: 'right' } });
-     // 27. Demand Value
-     row.push({ content: Number(item.demandValue || 0).toFixed(2), styles: { halign: 'right', textColor: [0, 128, 0], fontStyle: 'bold' } }); // Green color
-     // 28. SE Approved Amt
-     row.push({ content: Number(item.seApprovedAmt || 0).toFixed(2), styles: { halign: 'right' } });
-     // 29. Fin Approved Amt
-     row.push({ content: Number(item.finApprovedAmt || 0).toFixed(2), styles: { halign: 'right' } });
-     
-     // 30. Final Status
-     row.push({ content: item.finalStatus || '-', styles: { halign: 'center' } });
-     
-     // 31. Demand Date
-     row.push({ content: item.demandDateddMMYY || '-', styles: { halign: 'center' } });
-     // 32. SE Forward Date
-     row.push({ content: item.seForwardDateddmmyy || '-', styles: { halign: 'center' } });
-     // 33. Fin Approved Date
-     row.push({ content: item.finApprovedDateddmmyy || '-', styles: { halign: 'center' } });
-     // 34. Days Taken
-     row.push({ content: item.daysTaken?.toString() || '-', styles: { halign: 'center' } });
-     
-     // 35. Demand Date (Full Date)
-     let fullDDate = item.demandDate ? item.demandDate.split('T')[0] : '-';
-     if(fullDDate !== '-') {
-        const parts = fullDDate.split('-');
-        if(parts.length === 3) fullDDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-     }
-     row.push({ content: fullDDate, styles: { halign: 'center' } });
- 
-     bodyData.push(row);
-   });
- 
-   autoTable(doc, {
-     startY: 15,
-     theme: 'grid',
-     
-     /* ================= HEADER SECTION ================= */
-     head: [
-       [
-         {
-           content: 'Detailed Work Demand & Limit Summary',
-           colSpan: 20, // Title ke liye 20 columns ka span
-           styles: { halign: 'left', fontStyle: 'bold', fontSize: 16, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
-         },
-         {
-           content: `Print Dt: ${currentDateTime}`,
-           colSpan: 15, // Date ke liye baaki 15 columns
-           styles: { halign: 'right', fontSize: 12, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
-         }
-       ],
-       // 35 Column Headers
-       [
-         'S.No', 'Detail ID', 'Division', 'Demand No', 'Work ID', 'Head', 'Scheme ID', 'District', 'Block', 'Work Name',
-         'AA Date', 'TS Date', 'AS Amt', 'TS Amt', 'Type', 'Letter No', 'CID', 'NIT No', 'Accept Date', 'Work Order Dt',
-         'Contract\n(Lacs)', 'Total Exp\n(Lacs)', 'Div ID', 'Contractor', 'Name', 'AS Fund\nRecv', 'Demand\nValue', 'SE Appr\nAmt', 'Fin Appr\nAmt', 'Final Status',
-         'Demand Dt', 'SE Forward Dt', 'Fin Appr Dt', 'Days\nTaken', 'Demand Dt\n(Full)'
-       ]
-     ],
-     
-     /* ================= BODY SECTION ================= */
-     body: bodyData, 
- 
-     /* ================= GLOBAL STYLES ================= */
-     styles: {
-       fontSize: 9, // A1 page pe 9 fontsize aasaani se padha jayega
-       lineWidth: 0.2,
-       lineColor: [80, 80, 80], 
-       valign: 'middle',
-       textColor: [0, 0, 0],
-       overflow: 'linebreak'
-     },
-     
-     /* ================= DYNAMIC CELL STYLES ================= */
-     didParseCell: (data) => {
-       // Header styling
-       if (data.section === 'head' && data.row.index === 1) {
-         data.cell.styles.fillColor = [142, 171, 219]; 
-         data.cell.styles.lineWidth = 0.5;
-         data.cell.styles.halign = 'center';
-       }
-     }
-   });
-   
-   // PDF Download Trigger
-   const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
-   doc.save(`Work_Demand_Details_${safeDateString}.pdf`);
- }
   openDialogv_work() {
-    debugger;
+    // debugger;
     const dialogRef = this.dialog.open(this.itemDetailsModal12, {
       width: '100%',
       height: '100%',
@@ -2985,21 +2868,61 @@ export class InfrastructureHomeComponent implements OnInit {
       this.dataSource2.paginator.firstPage();
     }
   }
+    // exportToExcel3(): void {
+    //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+    //     this.dataSourcev_work.data,
+    //   );
+  
+    //   const workbook: XLSX.WorkBook = {
+    //     Sheets: { Data: worksheet },
+    //     SheetNames: ['Data'],
+    //   };
+  
+    //   XLSX.writeFile(workbook, 'DivFundLimitSummary_report.xlsx');
+  
+    //   const excelBuffer: any = XLSX.write(workbook, {
+    //     bookType: 'xlsx',
+    //     type: 'array',
+    //   });
+    // }
     exportToExcel3(): void {
-      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
-        this.dataSource2.data,
-      );
-  
-      const workbook: XLSX.WorkBook = {
-        Sheets: { Data: worksheet },
-        SheetNames: ['Data'],
-      };
-  
-      XLSX.writeFile(workbook, 'DivFundLimitSummary_report.xlsx');
-  
-      const excelBuffer: any = XLSX.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array',
-      });
-    }
+  const sourceData = this.dataSourcev_work.data;
+
+  if (!sourceData || sourceData.length === 0) {
+    alert('Export करने के लिए कोई डेटा नहीं है।');
+    return;
+  }
+
+  // 1. सिर्फ displayedColumns12 में मौजूद कॉलम्स का डेटा निकालें
+  const filteredData = sourceData.map((item: any) => {
+    const rowData: any = {};
+
+    this.displayedColumns12.forEach((colName: string) => {
+      // 'action' (बटन) कॉलम को छोड़कर बाकी सब Excel में डालें
+      if (colName !== 'action') {
+        // अगर डेटा null या undefined है, तो '-' दिखाएं
+        rowData[colName] = item[colName] !== null && item[colName] !== undefined ? item[colName] : '-';
+      }
+    });
+
+    return rowData;
+  });
+
+  // 2. फ़िल्टर किए गए डेटा को Excel शीट में बदलें
+  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(filteredData);
+
+  const workbook: XLSX.WorkBook = {
+    Sheets: { Data: worksheet },
+    SheetNames: ['Data'],
+  };
+
+  // 3. Excel फाइल डाउनलोड करें
+  XLSX.writeFile(workbook, 'DivFundLimitSummary_report.xlsx');
+
+  const excelBuffer: any = XLSX.write(workbook, {
+    bookType: 'xlsx',
+    type: 'array',
+  });
+}
+
 }
