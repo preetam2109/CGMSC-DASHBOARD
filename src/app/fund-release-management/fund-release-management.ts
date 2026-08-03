@@ -128,12 +128,13 @@ export class FundReleaseManagement {
     'demanddate',
     'value_in_cr',
     'seForwardDateddmmyy',
-
+    'eFileNO',
     'value_in_crSEAMT',
     'finApprovedDateddmmyy',
 
     'value_in_crLimitAMT',
     'finalstatus',
+    'remarks',
     'action',
   ];
 
@@ -188,6 +189,8 @@ export class FundReleaseManagement {
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
   finalstatus = 0;
   DEMANDID = 0;
+  isDivisionLogin: boolean = false;
+  divisionid1:any;
   constructor(
     public api: ApiService,
     public spinner: NgxSpinnerService,
@@ -202,6 +205,22 @@ export class FundReleaseManagement {
     this.dataSource1 = new MatTableDataSource<any>([]);
   }
   ngOnInit() {
+  // this.divisionid1=sessionStorage.getItem('divisionID')
+  const sessionDivId = sessionStorage.getItem('divisionID');
+
+  // Check karein ki session me ID hai ya nahi (aur '0' ya 'null' toh nahi hai)
+  if (sessionDivId && sessionDivId !== '0' && sessionDivId !== 'null') {
+    
+    // Note: sessionStorage humesha string return karta hai. 
+    // Agar aapka bindValue="DId" number type ka hai, toh ise Number() me convert karein:
+    this.divisionid1 = Number(sessionDivId); 
+    
+    // this.DId = this.divisionid1; // Auto-fill ke liye
+    this.isDivisionLogin = true; // Dropdown disable karne ke liye
+    
+  } else {
+    this.isDivisionLogin = false; // Agar state login (Admin) hai
+  }
     this.getmain_scheme();
     this.GetLimitSummary();
     // this.getLimitDetails();
@@ -261,7 +280,7 @@ export class FundReleaseManagement {
 
   GetLimitSummary() {
     this.spinner.show();
-    // debugger;
+    debugger;
     const roleName = localStorage.getItem('roleName');
     if (roleName === 'Division') {
       this.DId = sessionStorage.getItem('divisionID') || 0;
@@ -316,12 +335,34 @@ export class FundReleaseManagement {
             this.totalAmountInCr = 0;
             this.totalSEAmountInCr = 0;
             this.totalLimitAmountInCr = 0;
+            // const finalTableData = Array.from(groupedData.values()).map(
+            //   (div) => {
+            //     // API से डेटा पहले से ही लाख में है, इसलिए / 100 हटा दिया गया है
+            //     const amountInLakhs = div.totalAmountRaw;
+            //     const amtSeLakhs = div.seAmt;
+            //     const limitAmtLakhs = div.limitamount;
+
+            //     this.totalDocuments += div.No_of_document;
+            //     this.totalAmountInCr += amountInLakhs; // Note: Variable ka naam InCr hai par value Lakhs me jayegi, aage naam change karna better hoga
+            //     this.totalSEAmountInCr += amtSeLakhs;
+            //     this.totalLimitAmountInCr += limitAmtLakhs;
+
+            //     return {
+            //       sno: snoCounter++,
+            //       divName_En: div.divName_En,
+            //       No_of_document: div.No_of_document,
+            //       value_in_cr: amountInLakhs, // Yahan value Lakhs me set ho rahi hai
+            //       Seamtincr: amtSeLakhs,
+            //       limitamtincr: limitAmtLakhs,
+            //     };
+            //   }
+            // );
 
             const finalTableData = Array.from(groupedData.values()).map(
               (div) => {
-                const amountInCrore = div.totalAmountRaw / 100;
-                const amtsecrore = div.seAmt / 100;
-                const limitamtcrore = div.limitamount / 100;
+                const amountInCrore = div.totalAmountRaw; // / 100;
+                const amtsecrore = div.seAmt; /// 100;
+                const limitamtcrore = div.limitamount; /// 100;
 
                 this.totalDocuments += div.No_of_document;
                 this.totalAmountInCr += amountInCrore;
@@ -340,172 +381,263 @@ export class FundReleaseManagement {
             );
 
             // 3. Final grouped data ko MatTableDataSource me dena
-            console.log('res 1=', finalTableData);
+            // console.log('res 1=', finalTableData);
             this.dataSource.data = finalTableData;
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
             //#endregion Table 1
 
-            //#region TABLE 2 LOGIC
-            const groupedScheme = new Map<string, any>();
+            // //#region TABLE 2 LOGIC
+            // const groupedScheme = new Map<string, any>();
 
-            // 1. Grouping Data (Ab sirf Division aur Scheme ke aadhar par)
-            res.forEach((item: any) => {
-              const divName = item.divName_En || 'Unknown';
-              const scheme = item.mainschemanme || 'Unknown';
-              // const demandno = item.demandno || 'Unknown';
+            // // 1. Grouping Data (Ab sirf Division aur Scheme ke aadhar par)
+            // res.forEach((item: any) => {
+            //   const divName = item.divName_En || 'Unknown';
+            //   const scheme = item.mainschemanme || 'Unknown';
+            //   // const demandno = item.demandno || 'Unknown';
 
-              // Unique Key
-              const key = `${divName}_${scheme}`;
+            //   // Unique Key
+            //   const key = `${divName}_${scheme}`;
 
-              if (!groupedScheme.has(key)) {
-                groupedScheme.set(key, {
-                  // NAYE FIELDS YAHAN ADD KIYE GAYE HAIN
-                  divisionID: item.divisionID,
-                  mainschemeid: item.mainschemeid,
-                  finalstatus: item.finalstatus,
-                  demandid: item.demandid,
-                  fileNameNew: item.fileNameNew,
-                  filePathNew: item.filePathNew,
+            //   if (!groupedScheme.has(key)) {
+            //     groupedScheme.set(key, {
+            //       // NAYE FIELDS YAHAN ADD KIYE GAYE HAIN
+            //       divisionID: item.divisionID,
+            //       mainschemeid: item.mainschemeid,
+            //       finalstatus: item.finalstatus,
+            //       demandid: item.demandid,
+            //       fileNameNew: item.fileNameNew,
+            //       filePathNew: item.filePathNew,
+            //       eFileNO: item.eFileNO,
+            //       remarks: item.remarks,
 
-                  divName_En: divName,
-                  mainschemanme: scheme.trim(),
-                  demandno: item.demandno,
-                  demanddate: item.demanddate,
-                  seForwardDateddmmyy: item.seForwardDateddmmyy,
-                  finApprovedDateddmmyy: item.finApprovedDateddmmyy,
-                  No_of_document: 0,
-                  nosworks: 0,
-                  totalAmountRaw: 0,
-                  totalAmountSEAMT: 0,
-                  totalAmountLimitAMT: 0,
-                });
-              }
+            //       divName_En: divName,
+            //       mainschemanme: scheme.trim(),
+            //       demandno: item.demandno,
+            //       demanddate: item.demanddate,
+            //       seForwardDateddmmyy: item.seForwardDateddmmyy,
+            //       finApprovedDateddmmyy: item.finApprovedDateddmmyy,
+            //       No_of_document: 0,
+            //       nosworks: 0,
+            //       totalAmountRaw: 0,
+            //       totalAmountSEAMT: 0,
+            //       totalAmountLimitAMT: 0,
+            //     });
+            //   }
 
-              const record = groupedScheme.get(key);
+            //   const record = groupedScheme.get(key);
 
-              // Counts aur Amounts ko add karna
-              record.No_of_document += 1;
-              record.nosworks += item.nosworks || 0;
-              record.totalAmountRaw += item.totalamount || 0;
-              record.totalAmountSEAMT += item.seAmt || 0;
-              record.totalAmountLimitAMT += item.limitamount || 0;
+            //   // Counts aur Amounts ko add karna
+            //   record.No_of_document += 1;
+            //   record.nosworks += item.nosworks || 0;
+            //   record.totalAmountRaw += item.totalamount || 0;
+            //   record.totalAmountSEAMT += item.seAmt || 0;
+            //   record.totalAmountLimitAMT += item.limitamount || 0;
 
-              if (
-                item.demanddate &&  new Date(item.demanddate) > new Date(record.demanddate),
-                item.seForwardDateddmmyy && new Date(item.seForwardDateddmmyy) > new Date(record.seForwardDateddmmyy),
-                item.finApprovedDateddmmyy &&new Date(item.finApprovedDateddmmyy) > new Date(record.finApprovedDateddmmyy)
-              ) {
-                record.demanddate = item.demanddate;
-                record.seForwardDateddmmyy = item.seForwardDateddmmyy;
-                record.finApprovedDateddmmyy = item.finApprovedDateddmmyy;
-                // Agar naya bill aata h toh uski details update kar lo
-                record.demandid = item.demandid;
-                record.finalstatus = item.finalstatus;
-              }
-            });
+            //   if (
+            //     (item.demanddate &&
+            //       new Date(item.demanddate) > new Date(record.demanddate),
+            //     item.seForwardDateddmmyy &&
+            //       new Date(item.seForwardDateddmmyy) >
+            //         new Date(record.seForwardDateddmmyy),
+            //     item.finApprovedDateddmmyy &&
+            //       new Date(item.finApprovedDateddmmyy) >
+            //         new Date(record.finApprovedDateddmmyy))
+            //   ) {
+            //     record.demanddate = item.demanddate;
+            //     record.seForwardDateddmmyy = item.seForwardDateddmmyy;
+            //     record.finApprovedDateddmmyy = item.finApprovedDateddmmyy;
+            //     // Agar naya bill aata h toh uski details update kar lo
+            //     record.demandid = item.demandid;
+            //     record.finalstatus = item.finalstatus;
+            //   }
+            // });
 
-            // 2. Converting amount to Crore
-            let schemeTableData = Array.from(groupedScheme.values()).map(
-              (x) => {
-                return {
-                  ...x,
-                  value_in_cr: x.totalAmountRaw / 100, // Amount converted to Cr
-                  value_in_crSEAMT: x.totalAmountSEAMT / 100, // Amount converted to Cr
-                  value_in_crLimitAMT: x.totalAmountLimitAMT / 100, // Amount converted to Cr
-                };
-              },
-            );
+            // // 2. Converting amount to Crore
+            // let schemeTableData = Array.from(groupedScheme.values()).map(
+            //   (x) => {
+            //     return {
+            //       ...x,
+            //       value_in_cr: x.totalAmountRaw, // / 100, // Amount converted to Cr
+            //       value_in_crSEAMT: x.totalAmountSEAMT, // / 100, // Amount converted to Cr
+            //       value_in_crLimitAMT: x.totalAmountLimitAMT, // / 100, // Amount converted to Cr
+            //     };
+            //   },
+            // );
 
-            // 3. Sorting (Pehle Division, Fir Latest Demand Date)
-            schemeTableData.sort((a, b) => {
-              const divA = a.divName_En.toLowerCase();
-              const divB = b.divName_En.toLowerCase();
-              if (divA < divB) return -1;
-              if (divA > divB) return 1;
+            // // 3. Sorting (Pehle Division, Fir Latest Demand Date)
+            // schemeTableData.sort((a, b) => {
+            //   const divA = a.divName_En.toLowerCase();
+            //   const divB = b.divName_En.toLowerCase();
+            //   if (divA < divB) return -1;
+            //   if (divA > divB) return 1;
 
-              const dateA = new Date(a.demanddate).getTime();
-              const dateB = new Date(b.demanddate).getTime();
-              return dateB - dateA;
-            });
+            //   const dateA = new Date(a.demanddate).getTime();
+            //   const dateB = new Date(b.demanddate).getTime();
+            //   return dateB - dateA;
+            // });
 
-            // 4. Calculating Totals & Applying RowSpan (Cell Merge)
             // this.totalSchemeDocs = 0;
             // this.totalSchemeWorks = 0;
             // this.totalSchemeAmtCr = 0;
+            // this.totalSchemeAmtCrSE = 0;
+            // this.totalSchemeAmtCrLiMIT = 0;
             // let schemeSno = 1;
 
             // for (let i = 0; i < schemeTableData.length; i++) {
             //   schemeTableData[i].sno = schemeSno++;
 
+            //   // Sirf Grand Total calculate kar rahe hain (Taaki footer humesha sahi aaye)
             //   this.totalSchemeDocs += schemeTableData[i].No_of_document;
             //   this.totalSchemeWorks += schemeTableData[i].nosworks;
             //   this.totalSchemeAmtCr += schemeTableData[i].value_in_cr;
             //   this.totalSchemeAmtCrSE += schemeTableData[i].value_in_crSEAMT;
-            //   this.totalSchemeAmtCrLiMIT += schemeTableData[i].value_in_crLimitAMT;
-
-            //   if (
-            //     i === 0 ||
-            //     schemeTableData[i].divName_En !==
-            //       schemeTableData[i - 1].divName_En
-            //   ) {
-            //     let count = 1;
-            //     for (let j = i + 1; j < schemeTableData.length; j++) {
-            //       if (
-            //         schemeTableData[j].divName_En ===
-            //         schemeTableData[i].divName_En
-            //       ) {
-            //         count++;
-            //       } else {
-            //         break;
-            //       }
-            //     }
-            //     schemeTableData[i].rowSpan = count;
-            //   } else {
-            //     schemeTableData[i].rowSpan = 0;
-            //   }
+            //   this.totalSchemeAmtCrLiMIT +=
+            //     schemeTableData[i].value_in_crLimitAMT;
             // }
-            // 4. Calculating Totals ONLY (Yahan se rowSpan ka logic hata diya hai)
-            this.totalSchemeDocs = 0;
-            this.totalSchemeWorks = 0;
-            this.totalSchemeAmtCr = 0;
-            this.totalSchemeAmtCrSE = 0;
-            this.totalSchemeAmtCrLiMIT = 0;
-            let schemeSno = 1;
 
-            for (let i = 0; i < schemeTableData.length; i++) {
-              schemeTableData[i].sno = schemeSno++;
+            // this.dataSourceScheme.data = schemeTableData;
 
-              // Sirf Grand Total calculate kar rahe hain (Taaki footer humesha sahi aaye)
-              this.totalSchemeDocs += schemeTableData[i].No_of_document;
-              this.totalSchemeWorks += schemeTableData[i].nosworks;
-              this.totalSchemeAmtCr += schemeTableData[i].value_in_cr;
-              this.totalSchemeAmtCrSE += schemeTableData[i].value_in_crSEAMT;
-              this.totalSchemeAmtCrLiMIT += schemeTableData[i].value_in_crLimitAMT;
-            }
+            // // 5. Connect Paginator, Sort and Dynamically calculate RowSpan
+            // setTimeout(() => {
+            //   this.dataSourceScheme.paginator = this.paginator1;
+            //   this.dataSourceScheme.sort = this.sort1;
 
-            this.dataSourceScheme.data = schemeTableData;
-            
-            // 5. Connect Paginator, Sort and Dynamically calculate RowSpan
-            setTimeout(() => {
-              this.dataSourceScheme.paginator = this.paginator1;
-              this.dataSourceScheme.sort = this.sort1;
+            //   // NAYA LOGIC: Paginator aur Filter ke hisaab se RowSpan set karna
+            //   if (this.renderedDataSub) {
+            //     this.renderedDataSub.unsubscribe();
+            //   }
+            //   // connect() hume humesha filter aur paginate hone ke BAAD ka data deta hai
+            //   this.renderedDataSub = this.dataSourceScheme
+            //     .connect()
+            //     .subscribe((renderedData: any[]) => {
+            //       setTimeout(() => {
+            //         this.updateRowSpans(renderedData);
+            //       });
+            //     });
+            // });
 
-              // NAYA LOGIC: Paginator aur Filter ke hisaab se RowSpan set karna
-              if (this.renderedDataSub) {
-                this.renderedDataSub.unsubscribe();
-              }
-              // connect() hume humesha filter aur paginate hone ke BAAD ka data deta hai
-              this.renderedDataSub = this.dataSourceScheme.connect().subscribe((renderedData: any[]) => {
-                setTimeout(() => {
-                  this.updateRowSpans(renderedData);
-                });
-              });
-            });
+            // this.dataSourceScheme.data = schemeTableData;
+            // console.log('res schema ==', this.dataSourceScheme.data); // Ab aapko console me naye fields mil jayenge
+            // //#endregion Table 2
+            //#region TABLE 2 LOGIC
+const groupedScheme = new Map<string, any>();
 
-            this.dataSourceScheme.data = schemeTableData;
-            console.log('res schema ==', this.dataSourceScheme.data); // Ab aapko console me naye fields mil jayenge
-        //#endregion Table 2
+// 1. Grouping Data (Division, Scheme, aur Demand ID ke aadhar par)
+res.forEach((item: any) => {
+  const divName = item.divName_En || 'Unknown';
+  const scheme = item.mainschemanme || 'Unknown';
+  
+  // NAYA: Unique Key me demandid ko add kiya gaya hai
+  const demandId = item.demandid || 'Unknown'; 
+  const key = `${divName}_${scheme}_${demandId}`;
+
+  if (!groupedScheme.has(key)) {
+    groupedScheme.set(key, {
+      divisionID: item.divisionID,
+      mainschemeid: item.mainschemeid,
+      finalstatus: item.finalstatus,
+      demandid: item.demandid,
+      fileNameNew: item.fileNameNew,
+      filePathNew: item.filePathNew,
+      eFileNO: item.eFileNO,
+      remarks: item.remarks,
+
+      divName_En: divName,
+      mainschemanme: scheme.trim(),
+      demandno: item.demandno,
+      demanddate: item.demanddate,
+      seForwardDateddmmyy: item.seForwardDateddmmyy,
+      finApprovedDateddmmyy: item.finApprovedDateddmmyy,
+      No_of_document: 0,
+      nosworks: 0,
+      totalAmountRaw: 0,
+      totalAmountSEAMT: 0,
+      totalAmountLimitAMT: 0,
+    });
+  }
+
+  const record = groupedScheme.get(key);
+
+  // Counts aur Amounts ko add karna (Ab ye sirf usi specific demand ke liye plus hoga)
+  record.No_of_document += 1;
+  record.nosworks += item.nosworks || 0;
+  record.totalAmountRaw += item.totalamount || 0;
+  record.totalAmountSEAMT += item.seAmt || 0;
+  record.totalAmountLimitAMT += item.limitamount || 0;
+
+  // Dates aur Status update karna
+  if (
+    (item.demanddate && new Date(item.demanddate) > new Date(record.demanddate)) ||
+    (item.seForwardDateddmmyy && new Date(item.seForwardDateddmmyy) > new Date(record.seForwardDateddmmyy)) ||
+    (item.finApprovedDateddmmyy && new Date(item.finApprovedDateddmmyy) > new Date(record.finApprovedDateddmmyy))
+  ) {
+    record.demanddate = item.demanddate;
+    record.seForwardDateddmmyy = item.seForwardDateddmmyy;
+    record.finApprovedDateddmmyy = item.finApprovedDateddmmyy;
+    record.demandid = item.demandid;
+    record.finalstatus = item.finalstatus;
+  }
+});
+
+// 2. Converting amount (Values in Lakhs/Raw)
+let schemeTableData = Array.from(groupedScheme.values()).map((x) => {
+  return {
+    ...x,
+    value_in_cr: x.totalAmountRaw, // Amount in Lacs
+    value_in_crSEAMT: x.totalAmountSEAMT, // Amount in Lacs
+    value_in_crLimitAMT: x.totalAmountLimitAMT, // Amount in Lacs
+  };
+});
+
+// 3. Sorting (Pehle Division, Fir Latest Demand Date)
+schemeTableData.sort((a, b) => {
+  const divA = a.divName_En.toLowerCase();
+  const divB = b.divName_En.toLowerCase();
+  if (divA < divB) return -1;
+  if (divA > divB) return 1;
+
+  const dateA = new Date(a.demanddate).getTime();
+  const dateB = new Date(b.demanddate).getTime();
+  return dateB - dateA; // Latest date pehle aayegi
+});
+
+this.totalSchemeDocs = 0;
+this.totalSchemeWorks = 0;
+this.totalSchemeAmtCr = 0;
+this.totalSchemeAmtCrSE = 0;
+this.totalSchemeAmtCrLiMIT = 0;
+let schemeSno = 1;
+
+for (let i = 0; i < schemeTableData.length; i++) {
+  schemeTableData[i].sno = schemeSno++;
+
+  // Sirf Grand Total calculate kar rahe hain (Taaki footer humesha sahi aaye)
+  this.totalSchemeDocs += schemeTableData[i].No_of_document;
+  this.totalSchemeWorks += schemeTableData[i].nosworks;
+  this.totalSchemeAmtCr += schemeTableData[i].value_in_cr;
+  this.totalSchemeAmtCrSE += schemeTableData[i].value_in_crSEAMT;
+  this.totalSchemeAmtCrLiMIT += schemeTableData[i].value_in_crLimitAMT;
+}
+
+this.dataSourceScheme.data = schemeTableData;
+
+// 5. Connect Paginator, Sort and Dynamically calculate RowSpan
+setTimeout(() => {
+  this.dataSourceScheme.paginator = this.paginator1;
+  this.dataSourceScheme.sort = this.sort1;
+
+  if (this.renderedDataSub) {
+    this.renderedDataSub.unsubscribe();
+  }
+  
+  this.renderedDataSub = this.dataSourceScheme.connect().subscribe((renderedData: any[]) => {
+    setTimeout(() => {
+      this.updateRowSpans(renderedData);
+    });
+  });
+});
+//#endregion Table 2
             setTimeout(() => {
               this.dataSourceScheme.paginator = this.paginator1;
               this.dataSourceScheme.sort = this.sort1;
@@ -591,7 +723,7 @@ updateRowSpans(renderedData: any[]) {
   }
 }
   getLimitDetails(data: any) {
-    debugger;
+    // debugger;
     this.spinner.show();
 
     //   const roleName = localStorage.getItem('roleName');
@@ -758,9 +890,9 @@ updateRowSpans(renderedData: any[]) {
         { content: 'S.No', styles: { halign: 'center' } },
         { content: 'Division', styles: { halign: 'center' } },
         { content: 'No of Limit Demanded', styles: { halign: 'center' } },
-        { content: 'SE Office Approved Amount(In Cr)', styles: { halign: 'right' } },
-        { content: 'Limit Demanded Amount (in Cr)', styles: { halign: 'right' } },
-        { content: 'Total Amount (in Cr)', styles: { halign: 'right' } } 
+        { content: 'SE Office Approved Amount(In Lacs)', styles: { halign: 'right' } },
+        { content: 'Limit Demanded Amount (in Lacs)', styles: { halign: 'right' } },
+        { content: 'Total Amount (in Lacs)', styles: { halign: 'right' } } 
       ]
     ],
     
@@ -837,67 +969,255 @@ getCurrentDateTime(): string {
   });
   return `${date} ${time}`;
 }
-exportToPDF1() {
+
+// exportToPDF1() {
+//   const currentDateTime = this.getCurrentDateTime();
+  
+//   // 14 Columns के लिए 'a3' landscape (l) 
+//   const doc = new jsPDF('l', 'mm', 'a3'); 
+//   const bodyData: any[] = [];
+  
+//   // डेटा सोर्स
+//   const sourceData = this.dataSourceScheme.data;
+
+//   if (!sourceData || sourceData.length === 0) {
+//     alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
+//     return;
+//   }
+
+//   // NAYA FIX: बिना किसी ऑब्जेक्ट या RowSpan के सिंपल एरे (Array of Strings) बना रहे हैं
+//   sourceData.forEach((item: any, index: number) => {
+//     const row: any[] = [];
+
+//     // 0. S.No
+//     row.push((index + 1).toString()); 
+    
+//     // 1. Division (अब हर लाइन में प्रिंट होगा, जिससे PDF क्रैश नहीं होगा)
+//     row.push(item.divName_En || '-'); 
+
+//     // 2. Fund Head
+//     row.push(item.mainschemanme || '-'); 
+    
+//     // 3. Demand Number
+//     row.push(item.demandno || '-'); 
+
+//     // 4. e-Office File NO
+//     row.push(item.eFileNO || '-'); 
+
+//     // 5. Remarks
+//     row.push(item.remarks || '-'); 
+
+//     // 6. SE Office Forward Date
+//     row.push(item.seForwardDateddmmyy || '-'); 
+    
+//     // 7. Release Date
+//     row.push(item.finApprovedDateddmmyy || '-'); 
+
+//     // 8. Demand Date (Format dd-mm-yyyy)
+//     let dDate = item.demanddate ? item.demanddate.split('T')[0] : '-';
+//     if (dDate !== '-' && dDate.includes('-')) {
+//        const parts = dDate.split('-');
+//        if (parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`; 
+//     }
+//     row.push(dDate); 
+
+//     // 9. Status
+//     row.push(item.finalstatus || '-'); 
+
+//     // 10. No of Works
+//     row.push((item.nosworks || 0).toString()); 
+
+//     // 11. SE Office Approved Amount (In Lacs)
+//     row.push(Number(item.value_in_crSEAMT || 0).toFixed(2)); 
+
+//     // 12. Released Amount (In Lacs)
+//     row.push(Number(item.value_in_crLimitAMT || 0).toFixed(2)); 
+    
+//     // 13. Limit Demanded Amount (In Lacs) 
+//     row.push(Number(item.value_in_cr || 0).toFixed(2)); 
+
+//     // रो (Row) को बॉडी में डालें
+//     bodyData.push(row);
+//   });
+
+//   autoTable(doc, {
+//     startY: 15,
+//     theme: 'grid',
+    
+//     /* ================= HEADER SECTION ================= */
+//     head: [
+//       [
+//         {
+//           content: ' Division & Fund Wise Limit Summary',
+//           colSpan: 10, 
+//           styles: { halign: 'left', fontStyle: 'bold', fontSize: 14, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
+//         },
+//         {
+//           content: `Print Dt: ${currentDateTime}`,
+//           colSpan: 4, 
+//           styles: { halign: 'right', fontSize: 11, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
+//         }
+//       ],
+//       // HTML टेबल के बिलकुल सटीक क्रम (Exact 14 Columns)
+//       [
+//         { content: 'S.No', styles: { halign: 'center' } },
+//         { content: 'Division', styles: { halign: 'center' } },
+//         { content: 'Fund Head', styles: { halign: 'center' } },
+//         { content: 'Demand\nNumber', styles: { halign: 'center' } },
+//         { content: 'e-Office\nFile NO', styles: { halign: 'center' } },
+//         { content: 'Remarks', styles: { halign: 'center' } },
+//         { content: 'SE Office\nForward Date', styles: { halign: 'center' } },
+//         { content: 'Release\nDate', styles: { halign: 'center' } },
+//         { content: 'Demand\nDate', styles: { halign: 'center' } },
+//         { content: 'Status', styles: { halign: 'center' } },
+//         { content: 'No of\nWorks', styles: { halign: 'center' } },
+//         { content: 'SE Appr. Amt\n(In Lacs)', styles: { halign: 'center' } },
+//         { content: 'Released Amt\n(In Lacs)', styles: { halign: 'center' } },
+//         { content: 'Limit Demanded\nAmt (In Lacs)', styles: { halign: 'center' } }
+//       ]
+//     ],
+    
+//     /* ================= BODY SECTION ================= */
+//     body: bodyData, 
+
+//     /* ================= TOTAL FOOTER SECTION ================= */
+//     foot: [
+//       [
+//         // Grand Total (Col 0 se 9 tak merge होगा)
+//         { content: 'Total: ', colSpan: 10, styles: { fontStyle: 'bold', halign: 'right', fillColor: [210, 225, 245]} }, 
+        
+//         // Works Total
+//         { content: this.totalSchemeWorks.toString(), styles: { fontStyle: 'bold', halign: 'center', fillColor: [210, 225, 245] } },
+        
+//         // SE Amount Total
+//         { content: Number(this.totalSchemeAmtCrSE || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [210, 225, 245], textColor: [0, 128, 0] } },
+        
+//         // Released Amount Total
+//         { content: Number(this.totalSchemeAmtCrLiMIT || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [210, 225, 245], textColor: [0, 128, 0] } },
+        
+//         // Limit Demand Total
+//         { content: Number(this.totalSchemeAmtCr || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [210, 225, 245], textColor: [0, 128, 0] } }
+//       ]
+//     ],
+
+//     /* ================= COLUMN ALIGNMENTS ================= */
+//     columnStyles: {
+//        0: { halign: 'center' },
+//        10: { halign: 'center', fontStyle: 'bold' },
+//        11: { halign: 'right' },
+//        12: { halign: 'right' },
+//        13: { halign: 'right' }
+//     },
+
+//     /* ================= GLOBAL STYLES ================= */
+//     styles: {
+//       fontSize: 8, 
+//       lineWidth: 0.2,
+//       lineColor: [80, 80, 80], 
+//       valign: 'middle',
+//       textColor: [0, 0, 0]
+//     },
+    
+//     didParseCell: (data) => {
+//       if (data.section === 'head' && data.row.index === 1) {
+//         data.cell.styles.fillColor = [142, 171, 219]; 
+//         data.cell.styles.lineWidth = 0.5;
+//       }
+//     }
+//   });
+  
+//   const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
+//   doc.save(`Division_FundWise_Limit_${safeDateString}.pdf`);
+// }
+
+qewwqexportToPDF1() {
   const currentDateTime = this.getCurrentDateTime();
-  const doc = new jsPDF('l', 'mm', 'a4'); 
+  
+  // 14 Columns के लिए 'a3' landscape (l) 
+  const doc = new jsPDF('l', 'mm', 'a3'); 
   const bodyData: any[] = [];
   
-  const sourceData = this.dataSourceScheme.data;
+  // टेबल में फ़िल्टर (Search) किए गए डेटा को प्राथमिकता दें
+  const sourceData = this.dataSourceScheme.filteredData && this.dataSourceScheme.filteredData.length > 0 
+    ? this.dataSourceScheme.filteredData 
+    : this.dataSourceScheme.data;
 
   if (!sourceData || sourceData.length === 0) {
     alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
     return;
   }
 
-  // PDF ke body ka data tayar karna
-  sourceData.forEach((item: any) => {
+  // PDF के बॉडी का डेटा तैयार करना (बिल्कुल HTML टेबल के क्रम में)
+  sourceData.forEach((item: any, index: number) => {
     const row: any[] = [];
+    
+    // Fallback logic in case item.rowSpan is not defined directly
+    let spanValue = item.rowSpan;
+    if (spanValue === undefined) {
+      if (index === 0 || sourceData[index].divName_En !== sourceData[index - 1].divName_En) {
+        let count = 1;
+        for (let j = index + 1; j < sourceData.length; j++) {
+          if (sourceData[j].divName_En === sourceData[index].divName_En) count++;
+          else break;
+        }
+        spanValue = count;
+      } else {
+        spanValue = 0;
+      }
+    }
 
-    // 1. S.No
-    row.push({ content: item.sno.toString(), styles: { halign: 'center' } });
+    // 0. S.No
+    row.push({ content: (index + 1).toString(), styles: { halign: 'center' } });
 
-    if (item.rowSpan > 0) {
+    // 1. Division (Merge logic)
+    if (spanValue > 0) {
       row.push({ 
         content: item.divName_En || '-', 
-        rowSpan: item.rowSpan, 
-        styles: { halign: 'left', valign: 'middle', fontStyle: 'bold', fillColor: [255, 255, 255] } 
+        rowSpan: spanValue, 
+        styles: { valign: 'middle', halign: 'left', fontStyle: 'bold', fillColor: [255, 255, 255] } 
       });
     }
 
-    // 3. Fund Head
-    row.push({ content: item.mainschemanme || '-', styles: { halign: 'left' } });
+    // 2. Fund Head
+    row.push({ content: item.mainschemanme || '-' });
 
-    // 4. Demand Number
+    // 3. Demand Number
     row.push({ content: item.demandno || '-', styles: { halign: 'center' } });
 
-    // 5. SE Office Forward Date
+    // 4. e-Office File NO
+    row.push({ content: item.eFileNO || '-', styles: { halign: 'center' } });
+
+    // 5. Remarks
+    row.push({ content: item.remarks || '-' });
+
+    // 6. SE Office Forward Date
     row.push({ content: item.seForwardDateddmmyy || '-', styles: { halign: 'center' } });
 
-    // 6. Release Date
+    // 7. Release Date
     row.push({ content: item.finApprovedDateddmmyy || '-', styles: { halign: 'center' } });
 
-
+    // 8. Demand Date (Format dd-mm-yyyy)
     let dDate = item.demanddate ? item.demanddate.split('T')[0] : '-';
-    if(dDate !== '-') {
+    if (dDate !== '-' && dDate.includes('-')) {
        const parts = dDate.split('-');
-       if(parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // Convert yyyy-mm-dd to dd-mm-yyyy
+       if (parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`; 
     }
     row.push({ content: dDate, styles: { halign: 'center' } });
 
-    // 8. Status
-    row.push({ content: item.finalstatus || '-', styles: { halign: 'center' } });
+    // 9. Status
+    row.push({ content: item.finalstatus || '-', styles: { halign: 'center', fontStyle: 'bold' } });
 
-    // 9. No of Works
-    row.push({ content: (item.nosworks || 0).toString(), styles: { halign: 'center' } });
+    // 10. No of Works (Text-primary color in HTML)
+    row.push({ content: (item.nosworks || 0).toString(), styles: { halign: 'center', fontStyle: 'bold', textColor: [13, 110, 253] } });
 
-    // 10. SE Office Approved Amount (In Cr)
-    row.push({ content: Number(item.value_in_crSEAMT || 0).toFixed(2), styles: { halign: 'right' } });
+    // 11. SE Office Approved Amount(In Lacs) -> value_in_crSEAMT
+    row.push({ content: Number(item.value_in_crSEAMT || 0).toFixed(2), styles: { halign: 'center', fontStyle: 'bold' } });
+
+    // 12. Released Amount(In Lacs) -> value_in_crLimitAMT
+    row.push({ content: Number(item.value_in_crLimitAMT || 0).toFixed(2), styles: { halign: 'center', fontStyle: 'bold' } });
     
-    // 11. Limit Demanded Amount (in Cr)
-    row.push({ content: Number(item.value_in_crLimitAMT || 0).toFixed(2), styles: { halign: 'right' } });
-    
-    // 12. Total Release Amt (in Cr)
-    row.push({ content: Number(item.value_in_cr || 0).toFixed(2), styles: { halign: 'right' } });
+    // 13. Limit Demanded Amount (In Lacs) -> value_in_cr
+    row.push({ content: Number(item.value_in_cr || 0).toFixed(2), styles: { halign: 'center', fontStyle: 'bold' } });
 
     bodyData.push(row);
   });
@@ -911,29 +1231,31 @@ exportToPDF1() {
       [
         {
           content: ' Division & Fund Wise Limit Summary',
-          colSpan: 9, // Total 12 cols = 9 here + 3 in date
-          styles: { halign: 'left', fontStyle: 'bold', fontSize: 13, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
+          colSpan: 10, 
+          styles: { halign: 'left', fontStyle: 'bold', fontSize: 14, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
         },
         {
           content: `Print Dt: ${currentDateTime}`,
-          colSpan: 3, 
-          styles: { halign: 'right', fontSize: 9, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
+          colSpan: 4, 
+          styles: { halign: 'right', fontSize: 11, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
         }
       ],
-      // Main Column Headers (12 Columns)
+      // HTML टेबल के बिलकुल सटीक 14 कॉलम्स
       [
         { content: 'S.No', styles: { halign: 'center' } },
         { content: 'Division', styles: { halign: 'center' } },
         { content: 'Fund Head', styles: { halign: 'center' } },
-        { content: 'Demand Number', styles: { halign: 'center' } },
-        { content: 'SE Forward Dt.', styles: { halign: 'center' } },
-        { content: 'Release Dt.', styles: { halign: 'center' } },
-        { content: 'Demand Dt.', styles: { halign: 'center' } },
+        { content: 'Demand\nNumber', styles: { halign: 'center' } },
+        { content: 'e-Office\nFile NO', styles: { halign: 'center' } },
+        { content: 'Remarks', styles: { halign: 'center' } },
+        { content: 'SE Office\nForward Date', styles: { halign: 'center' } },
+        { content: 'Release\nDate', styles: { halign: 'center' } },
+        { content: 'Demand\nDate', styles: { halign: 'center' } },
         { content: 'Status', styles: { halign: 'center' } },
         { content: 'No of\nWorks', styles: { halign: 'center' } },
-        { content: 'SE Appr. Amt\n(In Cr)', styles: { halign: 'right' } },
-        { content: 'Limit Demand\n(In Cr)', styles: { halign: 'right' } },
-        { content: 'Total Release\n(In Cr)', styles: { halign: 'right' } } 
+        { content: 'SE Office Approved\nAmount(In Lacs)', styles: { halign: 'center' } },
+        { content: 'Released\nAmount(In Lacs)', styles: { halign: 'center' } },
+        { content: 'Limit Demanded\nAmount (In Lacs)', styles: { halign: 'center' } }
       ]
     ],
     
@@ -943,51 +1265,448 @@ exportToPDF1() {
     /* ================= TOTAL FOOTER SECTION ================= */
     foot: [
       [
-          { content: 'Grand Total', colSpan: 8, styles: { fontStyle: 'bold', halign: 'right', fillColor: [210, 225, 245]} }, 
+        // Grand Total (Col 0 से 9 तक, HTML के bg-light जैसा)
+        { content: 'Total: ', colSpan: 10, styles: { fontStyle: 'bold', halign: 'right', fillColor: [248, 249, 250]} }, 
         
-        // Works Total
-        { content: this.totalSchemeWorks.toString(), styles: { fontStyle: 'bold', halign: 'center' } },
+        // 10. Works Total (Primary text)
+        { content: this.totalSchemeWorks.toString(), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [13, 110, 253] } },
         
-        // SE Amount Total
-        { content: Number(this.totalSchemeAmtCrSE || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
+        // 11. SE Amount Total (Success text)
+        { content: Number(this.totalSchemeAmtCrSE || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [25, 135, 84] } },
         
-        // Limit Amount Total
-        { content: Number(this.totalSchemeAmtCrLiMIT || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } },
+        // 12. Released Amount Total (Success text)
+        { content: Number(this.totalSchemeAmtCrLiMIT || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [25, 135, 84] } },
         
-        // Release Amount Total
-        { content: Number(this.totalSchemeAmtCr || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'right' } }
+        // 13. Limit Demand Total (Success text)
+        { content: Number(this.totalSchemeAmtCr || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [25, 135, 84] } }
       ]
     ],
 
     /* ================= GLOBAL STYLES ================= */
     styles: {
-      fontSize: 8, // Font chota rakha hai taaki landscape me sab fit ho
+      fontSize: 8, 
       lineWidth: 0.2,
       lineColor: [80, 80, 80], 
       valign: 'middle',
       textColor: [0, 0, 0]
     },
     
-    /* ================= DYNAMIC CELL STYLES ================= */
     didParseCell: (data) => {
-      // Footer styling
-      if (data.section === 'foot') {
-        data.cell.styles.fillColor = [173, 197, 230]; 
-        data.cell.styles.lineWidth = 0.5;
-        data.cell.styles.fontStyle = 'bold';
-      }
-      // Header styling
+      // हेडर के लिए HTML की तरह bg-primary (नीला) रंग
       if (data.section === 'head' && data.row.index === 1) {
-        data.cell.styles.fillColor = [142, 171, 219]; 
+        data.cell.styles.fillColor = [13, 110, 253]; 
+        data.cell.styles.textColor = [255, 255, 255];
         data.cell.styles.lineWidth = 0.5;
       }
     }
   });
   
-  // PDF Download Trigger
   const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
   doc.save(`Division_FundWise_Limit_${safeDateString}.pdf`);
 }
+exportToPDF1() {
+  const currentDateTime = this.getCurrentDateTime();
+  
+  // 14 Columns के लिए 'a3' landscape (l) 
+  const doc = new jsPDF('l', 'mm', 'a3'); 
+  const bodyData: any[] = [];
+  
+  // टेबल में फ़िल्टर (Search) किए गए डेटा को प्राथमिकता दें
+  const sourceData = this.dataSourceScheme.filteredData && this.dataSourceScheme.filteredData.length > 0 
+    ? this.dataSourceScheme.filteredData 
+    : this.dataSourceScheme.data;
+
+  if (!sourceData || sourceData.length === 0) {
+    alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
+    return;
+  }
+
+  // 1. PDF के लिए RowSpan (Merging) लॉजिक
+  const pdfSpans: number[] = [];
+  for (let i = 0; i < sourceData.length; i++) {
+    if (i === 0 || sourceData[i].divName_En !== sourceData[i - 1].divName_En) {
+      let count = 1;
+      for (let j = i + 1; j < sourceData.length; j++) {
+        if (sourceData[j].divName_En === sourceData[i].divName_En) {
+          count++;
+        } else {
+          break;
+        }
+      }
+      pdfSpans[i] = count;
+    } else {
+      pdfSpans[i] = 0;
+    }
+  }
+
+  // 2. PDF के बॉडी का डेटा तैयार करना (बिल्कुल हेडर के क्रम में)
+  sourceData.forEach((item: any, index: number) => {
+    const row: any[] = [];
+
+    // Col 0: S.No 
+    row.push(String(index + 1));
+
+    // Col 1: Division (Merge logic)
+    if (pdfSpans[index] > 0) {
+      row.push({ 
+        content: String(item.divName_En || '-'), 
+        rowSpan: pdfSpans[index], 
+        styles: { valign: 'middle', halign: 'left', fontStyle: 'bold', fillColor: [255, 255, 255] } 
+      });
+    }
+
+    // Col 2: Fund Head
+    row.push(String(item.mainschemanme || '-')); 
+
+    // Col 3: Demand Number
+    row.push(String(item.demandno || '-')); 
+
+    // Col 4: No of Works
+    row.push(String(item.nosworks || '0')); 
+
+    // Col 5: Demand Date
+    let dDate = item.demanddate ? item.demanddate.split('T')[0] : '-';
+    if (dDate !== '-' && dDate.includes('-')) {
+       const parts = dDate.split('-');
+       if (parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`; 
+    }
+    row.push(String(dDate)); 
+
+    // Col 6: Limit Demanded Amount (In Lacs)
+    row.push(Number(item.value_in_cr || 0).toFixed(2)); 
+
+    // Col 7: SE Office Forward Date
+    row.push(String(item.seForwardDateddmmyy || '-')); 
+
+    // Col 8: e-Office File NO
+    row.push(String(item.eFileNO || '-')); 
+
+    // Col 9: SE Office Approved Amount(In Lacs)
+    row.push(Number(item.value_in_crSEAMT || 0).toFixed(2)); 
+
+    // Col 10: Release Date
+    row.push(String(item.finApprovedDateddmmyy || '-')); 
+
+    // Col 11: Released Amount(In Lacs)
+    row.push(Number(item.value_in_crLimitAMT || 0).toFixed(2)); 
+    
+    // Col 12: Status
+    row.push(String(item.finalstatus || '-')); 
+
+    // Col 13: Remarks
+    row.push(String(item.remarks || '-')); 
+
+    bodyData.push(row);
+  });
+
+  autoTable(doc, {
+    startY: 15,
+    theme: 'grid',
+    
+    /* ================= HEADER SECTION ================= */
+    head: [
+      [
+        {
+          content: 'Fund-wise Limit Demand Status',
+          colSpan: 10, 
+          styles: { halign: 'left', fontStyle: 'bold', fontSize: 14, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
+        },
+        {
+          content: `Print Dt: ${currentDateTime}`,
+          colSpan: 4, 
+          styles: { halign: 'right', fontSize: 11, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
+        }
+      ],
+      // HTML टेबल के बिलकुल सटीक 14 कॉलम्स
+      [
+        { content: 'S.No', styles: { halign: 'center' } },
+        { content: 'Division', styles: { halign: 'center' } },
+        { content: 'Fund Head', styles: { halign: 'center' } },
+        { content: 'Demand\nNumber', styles: { halign: 'center' } },
+        { content: 'No of\nWorks', styles: { halign: 'center' } },
+        { content: 'Demand\nDate', styles: { halign: 'center' } },
+        { content: 'Limit Demanded\nAmount (In Lacs)', styles: { halign: 'center' } },
+        { content: 'SE Office\nForward Date', styles: { halign: 'center' } },
+        { content: 'e-Office\nFile NO', styles: { halign: 'center' } },
+        { content: 'SE Office Approved\nAmount(In Lacs)', styles: { halign: 'center' } },
+        { content: 'Release\nDate', styles: { halign: 'center' } },
+        { content: 'Released\nAmount(In Lacs)', styles: { halign: 'center' } },
+        { content: 'Status', styles: { halign: 'center' } },
+        { content: 'Remarks', styles: { halign: 'center' } }
+      ]
+    ],
+    
+    /* ================= BODY SECTION ================= */
+    body: bodyData, 
+
+    /* ================= TOTAL FOOTER SECTION ================= */
+    foot: [
+      [
+        // Col 0, 1, 2, 3 (Total 4 Columns Merge)
+        { content: 'Total: ', colSpan: 4, styles: { fontStyle: 'bold', halign: 'right', fillColor: [248, 249, 250]} }, 
+        
+        // Col 4: Works Total 
+        { content: this.totalSchemeWorks.toString(), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [13, 110, 253] } },
+        
+        // Col 5: Demand Date (Blank)
+        { content: '', styles: { fillColor: [248, 249, 250] } },
+
+        // Col 6: Limit Demand Total 
+        { content: Number(this.totalSchemeAmtCr || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [25, 135, 84] } },
+        
+        // Col 7 & 8: SE Fwd Date & eFile NO (Blank Merge 2 Columns)
+        { content: '', colSpan: 2, styles: { fillColor: [248, 249, 250] } },
+
+        // Col 9: SE Amount Total 
+        { content: Number(this.totalSchemeAmtCrSE || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [25, 135, 84] } },
+        
+        // Col 10: Release Date (Blank)
+        { content: '', styles: { fillColor: [248, 249, 250] } },
+
+        // Col 11: Released Amount Total 
+        { content: Number(this.totalSchemeAmtCrLiMIT || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [25, 135, 84] } },
+
+        // Col 12 & 13: Status & Remarks (Blank Merge 2 Columns)
+        { content: '', colSpan: 2, styles: { fillColor: [248, 249, 250] } }
+      ]
+    ],
+
+    /* ================= GLOBAL STYLES ================= */
+    styles: {
+      fontSize: 8, 
+      lineWidth: 0.2,
+      lineColor: [80, 80, 80], 
+      valign: 'middle',
+      textColor: [0, 0, 0]
+    },
+    
+    didParseCell: (data) => {
+      // हेडर के लिए HTML की तरह bg-primary (नीला) रंग
+      if (data.section === 'head' && data.row.index === 1) {
+        data.cell.styles.fillColor = [13, 110, 253]; 
+        data.cell.styles.textColor = [255, 255, 255];
+        data.cell.styles.lineWidth = 0.5;
+      }
+      
+      // बॉडी में कॉलम्स को सेंटर और बोल्ड करने का लॉजिक
+      if (data.section === 'body') {
+        const col = data.column.index;
+        
+        // Center aligned columns
+        if ([0, 5, 7, 8, 10].includes(col)) {
+           data.cell.styles.halign = 'center';
+        }
+        // No of Works (Center, Bold, Blue text)
+        if (col === 4) {
+           data.cell.styles.halign = 'center';
+           data.cell.styles.fontStyle = 'bold';
+           data.cell.styles.textColor = [13, 110, 253];
+        }
+        // Amounts (Center, Bold)
+        if ([6, 9, 11].includes(col)) {
+           data.cell.styles.halign = 'center'; 
+           data.cell.styles.fontStyle = 'bold';
+        }
+        // Status (Center, Bold)
+        if (col === 12) {
+           data.cell.styles.halign = 'center';
+           data.cell.styles.fontStyle = 'bold';
+        }
+      }
+    }
+  });
+  
+  const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
+  doc.save(`Fund-wise_Limit_Demand_Status_${safeDateString}.pdf`);
+}
+exportToPDF155() {
+  const currentDateTime = this.getCurrentDateTime();
+  
+  // 14 Columns के लिए 'a3' landscape (l) 
+  const doc = new jsPDF('l', 'mm', 'a3'); 
+  const bodyData: any[] = [];
+  
+  // टेबल में फ़िल्टर (Search) किए गए डेटा को प्राथमिकता दें
+  const sourceData = this.dataSourceScheme.filteredData && this.dataSourceScheme.filteredData.length > 0 
+    ? this.dataSourceScheme.filteredData 
+    : this.dataSourceScheme.data;
+
+  if (!sourceData || sourceData.length === 0) {
+    alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
+    return;
+  }
+
+  // 1. PDF के लिए बिल्कुल नया RowSpan (Merging) लॉजिक
+  const pdfSpans: number[] = [];
+  for (let i = 0; i < sourceData.length; i++) {
+    if (i === 0 || sourceData[i].divName_En !== sourceData[i - 1].divName_En) {
+      let count = 1;
+      for (let j = i + 1; j < sourceData.length; j++) {
+        if (sourceData[j].divName_En === sourceData[i].divName_En) {
+          count++;
+        } else {
+          break;
+        }
+      }
+      pdfSpans[i] = count;
+    } else {
+      pdfSpans[i] = 0;
+    }
+  }
+
+  // 2. PDF के बॉडी का डेटा तैयार करना (सुरक्षित तरीके से)
+  sourceData.forEach((item: any, index: number) => {
+    const row: any[] = [];
+
+    // 0. S.No (Simple String)
+    row.push(String(index + 1));
+
+    // 1. Division (सिर्फ यही ऑब्जेक्ट रहेगा ताकि RowSpan काम करे)
+    if (pdfSpans[index] > 0) {
+      row.push({ 
+        content: String(item.divName_En || '-'), 
+        rowSpan: pdfSpans[index], 
+        styles: { valign: 'middle', halign: 'left', fontStyle: 'bold' } 
+      });
+    }
+    // ध्यान दें: अगर pdfSpans 0 है, तो हम इस कॉलम में कुछ भी push नहीं करेंगे।
+    // jsPDF-autotable खुद समझ जाएगा कि ऊपर वाला सेल यहाँ तक आ रहा है।
+
+    // बाकी सभी कॉलम्स (Simple Strings ताकि बॉडी गायब न हो)
+    row.push(String(item.mainschemanme || '-')); // 2. Fund Head
+    row.push(String(item.demandno || '-')); // 3. Demand No
+    row.push(String(item.nosworks || '0')); // 10. Works
+  // 8. Demand Date
+    let dDate = item.demanddate ? item.demanddate.split('T')[0] : '-';
+    if (dDate !== '-' && dDate.includes('-')) {
+       const parts = dDate.split('-');
+       if (parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`; 
+    }
+    row.push(String(dDate)); 
+    row.push(Number(item.value_in_crLimitAMT || 0).toFixed(2)); // 12. Rel Amt
+    row.push(String(item.seForwardDateddmmyy || '-')); // 6. SE Date
+
+    row.push(String(item.eFileNO || '-')); // 4. eFile
+    row.push(Number(item.value_in_crSEAMT || 0).toFixed(2)); // 11. SE Amt
+
+    row.push(String(item.finApprovedDateddmmyy || '-')); // 7. Release Date
+row.push(Number(item.value_in_cr || 0).toFixed(2)); // 13. Limit Amt
+    row.push(String(item.finalstatus || '-')); // 9. Status
+    row.push(String(item.remarks || '-')); // 5. Remarks
+
+  
+
+    
+
+    bodyData.push(row);
+  });
+
+  autoTable(doc, {
+    startY: 15,
+    theme: 'grid',
+    
+    /* ================= HEADER SECTION ================= */
+    head: [
+      [
+        {
+          content: ' Division & Fund Wise Limit Summary',
+          colSpan: 10, 
+          styles: { halign: 'left', fontStyle: 'bold', fontSize: 14, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
+        },
+        {
+          content: `Print Dt: ${currentDateTime}`,
+          colSpan: 4, 
+          styles: { halign: 'right', fontSize: 11, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
+        }
+      ],
+      // HTML टेबल के बिलकुल सटीक 14 कॉलम्स
+      [
+        { content: 'S.No', styles: { halign: 'center' } },
+        { content: 'Division', styles: { halign: 'center' } },
+        { content: 'Fund Head', styles: { halign: 'center' } },
+        { content: 'Demand\nNumber', styles: { halign: 'center' } },
+        { content: 'No of\nWorks', styles: { halign: 'center' } },
+        { content: 'Demand\nDate', styles: { halign: 'center' } },
+        { content: 'Limit Demanded\nAmount (In Lacs)', styles: { halign: 'center' } },
+
+        { content: 'SE Office\nForward Date', styles: { halign: 'center' } },
+        { content: 'e-Office\nFile NO', styles: { halign: 'center' } },
+        { content: 'SE Office Approved\nAmount(In Lacs)', styles: { halign: 'center' } },
+
+        { content: 'Release\nDate', styles: { halign: 'center' } },
+
+        { content: 'Released\nAmount(In Lacs)', styles: { halign: 'center' } },
+        { content: 'Status', styles: { halign: 'center' } },
+        { content: 'Remarks', styles: { halign: 'center' } },
+
+      ]
+    ],
+    
+    /* ================= BODY SECTION ================= */
+    body: bodyData, 
+
+    /* ================= TOTAL FOOTER SECTION ================= */
+    foot: [
+      [
+        // Grand Total (Col 0 से 9 तक)
+        { content: 'Total: ', colSpan: 3, styles: { fontStyle: 'bold', halign: 'right', fillColor: [248, 249, 250]} }, 
+        
+        // 10. Works Total 
+        { content: this.totalSchemeWorks.toString(), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [13, 110, 253] } },
+        
+        // 11. SE Amount Total 
+        { content: Number(this.totalSchemeAmtCrSE || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [25, 135, 84] } },
+        
+        // 12. Released Amount Total 
+        { content: Number(this.totalSchemeAmtCrLiMIT || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [25, 135, 84] } },
+        
+        // 13. Limit Demand Total 
+        { content: Number(this.totalSchemeAmtCr || 0).toFixed(2), styles: { fontStyle: 'bold', halign: 'center', fillColor: [248, 249, 250], textColor: [25, 135, 84] } }
+      ]
+    ],
+
+    /* ================= GLOBAL STYLES ================= */
+    styles: {
+      fontSize: 8, 
+      lineWidth: 0.2,
+      lineColor: [80, 80, 80], 
+      valign: 'middle',
+      textColor: [0, 0, 0]
+    },
+    
+    didParseCell: (data) => {
+      if (data.section === 'head' && data.row.index === 1) {
+        data.cell.styles.fillColor = [13, 110, 253]; 
+        data.cell.styles.textColor = [255, 255, 255];
+        data.cell.styles.lineWidth = 0.5;
+      }
+      
+      if (data.section === 'body') {
+        const col = data.column.index;
+        if (col === 0 || col === 3 || col === 4 || col === 6 || col === 7 || col === 8) {
+           data.cell.styles.halign = 'center';
+        }
+        if (col === 9) {
+           data.cell.styles.halign = 'center';
+           data.cell.styles.fontStyle = 'bold';
+        }
+        if (col === 10) {
+           data.cell.styles.halign = 'center';
+           data.cell.styles.fontStyle = 'bold';
+           data.cell.styles.textColor = [13, 110, 253]; // Blue text
+        }
+        if (col === 11 || col === 12 || col === 13) {
+           data.cell.styles.halign = 'center'; 
+           data.cell.styles.fontStyle = 'bold';
+        }
+      }
+    }
+  });
+  
+  const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
+  doc.save(`Division_FundWise_Limit_${safeDateString}.pdf`);
+}
+
 
 
 exportToPDF3() {

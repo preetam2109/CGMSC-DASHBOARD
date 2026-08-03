@@ -26,6 +26,8 @@
                     <ng-select class="form-control" [items]="Divisionlist" bindLabel="Dname" bindValue="DId"
                         [(ngModel)]="DId" name="DId" (change)="onselect_division_data($event)" #divisionField="ngModel"
                         [placeholder]="DId ? '' : 'All'" [searchable]="true" [clearable]="true" [appendTo]="'body'"
+                        [disabled]="isDivisionLogin" 
+                        [clearable]="!isDivisionLogin"
                         required>
                     </ng-select>
                 </div>
@@ -153,21 +155,22 @@
                   
                     <!-- SE Cr Column-->
                     <ng-container matColumnDef="Seamtincr">
-                            <!-- /* class="bg-primary fw-bold text-white text-end">SE Office Approved Amount(In Cr)</th> */ -->
+                            <!-- /* class="bg-primary fw-bold text-white text-end">SE Office Approved Amount(In Lacs)</th> */ -->
                         <th mat-header-cell *matHeaderCellDef mat-sort-header
-                            class="bg-primary fw-bold text-white text-center">SE Office Approved Amount(In Cr)</th>
+                            class="bg-primary fw-bold text-white text-center">SE Office Approved Amount(In Lacs)</th>
                         <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
                             {{ e.Seamtincr | number:'1.2-2' }}
                         </td>
                         <td mat-footer-cell *matFooterCellDef class="fw-bold text-success bg-light text-center fs-6">
                             {{ totalSEAmountInCr | number:'1.2-2' }}
+                            
                         </td>
                     </ng-container>
                     <!-- Limit Value in Cr Column -->
-                    <!-- /* class="bg-primary fw-bold text-white text-end">Total Limit Amount (in Cr)</th> */ -->
+                    <!-- /* class="bg-primary fw-bold text-white text-end">Total Limit Amount (In Lacs)</th> */ -->
                     <ng-container matColumnDef="limitamtincr">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header
-                            class="bg-primary fw-bold text-white text-center">Released Amount(in Cr)</th>
+                            class="bg-primary fw-bold text-white text-center">Released Amount(In Lacs)</th>
                         <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
                             {{ e.limitamtincr | number:'1.2-2' }}
                         </td>
@@ -177,9 +180,9 @@
                     </ng-container>
                       <!-- Value in Cr Column -->
                     <ng-container matColumnDef="value_in_cr">
-                            <!-- /* class="bg-primary fw-bold text-white text-end">Total Amount (in Cr)</th> */ -->
+                            <!-- /* class="bg-primary fw-bold text-white text-end">Total Amount (In Lacs)</th> */ -->
                         <th mat-header-cell *matHeaderCellDef mat-sort-header
-                            class="bg-primary fw-bold text-white text-end"> Limit Demanded Amount (in Cr)</th>
+                            class="bg-primary fw-bold text-white text-end"> Limit Demanded Amount (In Lacs)</th>
                         <td mat-cell *matCellDef="let e" class="text-dark  fw-bold text-center">
                             {{ e.value_in_cr | number:'1.2-2' }}
                         </td>
@@ -274,6 +277,22 @@
                         </td>
                         <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
                     </ng-container>
+                    <ng-container matColumnDef="eFileNO">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-center">e-Office File NO
+                            </th>
+                        <td mat-cell *matCellDef="let e" class="text-center text-muted">
+                            {{ e.eFileNO }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="remarks">
+                        <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-center">Remarks
+                            </th>
+                        <td mat-cell *matCellDef="let e" class="text-center text-muted">
+                            {{ e.remarks }}
+                        </td>
+                        <td mat-footer-cell *matFooterCellDef class="fw-bold bg-light"></td>
+                    </ng-container>
                     <ng-container matColumnDef="seForwardDateddmmyy">
                         <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-center">SE
                             Office Forward Date</th>
@@ -337,9 +356,9 @@
                     </ng-container>
                     <!-- Value in Cr SE  ,-->
                     <ng-container matColumnDef="value_in_crSEAMT">
-                        <!-- <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-end">Total SE Amount (in Cr)</th> -->
+                        <!-- <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-end">Total SE Amount (In Lacs)</th> -->
                         <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-center">SE
-                            Office Approved Amount(In Cr)</th>
+                            Office Approved Amount(In Lacs)</th>
                         <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
                             {{ e.value_in_crSEAMT | number:'1.2-2' }}
                         </td>
@@ -350,7 +369,7 @@
                     <!-- Value in CrLimit   ,-->
                     <ng-container matColumnDef="value_in_crLimitAMT">
                         <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-center">Released
-                            Amount(in Cr)</th>
+                            Amount(In Lacs)</th>
                         <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
                             {{ e.value_in_crLimitAMT | number:'1.2-2' }}
                         </td>
@@ -360,9 +379,9 @@
                     </ng-container>
                     <!-- Value in Cr -->
                     <ng-container matColumnDef="value_in_cr">
-                        <!-- <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-end">Total Amount (in Cr)</th>  Released Amount(in Cr) -->
+                        <!-- <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-end">Total Amount (In Lacs)</th>  Released Amount(In Lacs) -->
                         <th mat-header-cell *matHeaderCellDef class="bg-primary fw-bold text-white text-center"> Limit
-                            Demanded Amount (In Cr)</th>
+                            Demanded Amount (In Lacs)</th>
                         <td mat-cell *matCellDef="let e" class="text-dark fw-bold text-center">
                             {{ e.value_in_cr | number:'1.2-2' }}
                         </td>

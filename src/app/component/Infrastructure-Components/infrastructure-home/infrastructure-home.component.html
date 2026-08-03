@@ -225,29 +225,40 @@
         <div class="tree-container">
             
             <div class="d-flex flex-column align-items-center position-relative z-3">
-              <a type="link" (click)="TotalWorksAbstract()" style="cursor: pointer; text-decoration: none;">
-                <div class="card flow-card bg-total p-3 text-dark">
+              <!-- <a  type="link" (click)="TotalWorksAbstract()" style="cursor: pointer; text-decoration: none;"> -->
+                <div class="card flow-card bg-total p-3 text-dark" (click)="TotalWorksAbstract()"   style="cursor: pointer;">
                     <h6><i class="bi bi-bank2"></i> Total Works (A)</h6>
                     <h4>{{ totalNosWorks }}</h4>
                 </div>    
-              </a>
+              <!-- </a> -->
                 <div class="connector-down"></div>
             </div>
     
             <div class="tree-row d-flex justify-content-center">
+              <div class="tree-node">
+    
+    <div class="card flow-card bg-green p-3 z-3 text-dark" 
+         (click)="DetailProgress(4001, ' Completed (B)', completedWorks)" 
+         style="cursor: pointer;">
+         
+        <h6><i class="bi bi-check2-all"></i>Completed/Handover (B)</h6>
+        <h4>{{ completedWorks }}</h4>
+        
+    </div>
+</div>
                 
-                <div class="tree-node">
-                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(4001, ' Completed (B)', completedWorks)">
+                <!-- <div class="tree-node"   >
+                  <a type="link"(click)="DetailProgress(4001, ' Completed (B)', completedWorks)" style="cursor: pointer; text-decoration: none;">
 
                     <div class="card flow-card bg-green p-3 z-3 text-dark">
                         <h6><i class="bi bi-check2-all"></i>Completed/Handover (B)</h6>
                         <h4>{{ completedWorks }}</h4>
                     </div></a>
-                </div>
+                </div> -->
     
                 <div class="tree-node d-flex flex-column align-items-center">
                   <!-- (click)="DetailProgress(8000, 'Remaining Works (D)', remainingWorks)" -->
-                  <a type="link" style="cursor: pointer; text-decoration: none;" >
+                  <a  type="link" style="cursor: pointer; text-decoration: none;" >
 
                     <div class="card flow-card bg-remainingg p-3 z-3 text-dark" style="background-color: #7b8fff;">
                         <h6>Remaining Works (D) <br><small class="text-muted" style="font-size: 11px;">D = A - (B + C1+C2)</small></h6>
@@ -257,20 +268,22 @@
                 </div>
     
                 <div class="tree-node">
-                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(8001, 'Return (C)', returnWorks)">
+                  <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(8001, 'Return (C)', returnWorks)"> -->
 
-                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #f87d7d;">
+                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #f87d7d; cursor: pointer;" (click)="DetailProgress(8001, 'Return (C)', returnWorks)">
                         <h6><i class="bi bi-arrow-counterclockwise"></i>Return to Department(C1)</h6>
                         <h4>{{ returnWorks }}</h4>
-                    </div></a>
+                    </div>
+                  <!-- </a> -->
                 </div>
                 <div class="tree-node">
-                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(7001, 'Permanent Cancelled(c2)', Permanent_Cancelled)">
+                  <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(7001, 'Permanent Cancelled(c2)', Permanent_Cancelled)"> -->
 
-                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #fd4f75;">
+                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #fd4f75; cursor: pointer;" (click)="DetailProgress(7001, 'Permanent Cancelled(c2)', Permanent_Cancelled)">
                         <h6><i class="bi bi-trash"></i>Permanent Cancelled(C2)</h6>
                         <h4>{{ Permanent_Cancelled }}</h4>
-                    </div></a>
+                    </div>
+                  <!-- </a> -->
                 </div>
             </div>
     
@@ -279,22 +292,24 @@
                 <div class="tree-node e-node-centered">
                     
                     <div class="d-flex flex-column align-items-center" style="width: 175px;">
-                      <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(2001, 'Tender in Process (E)', tenderInProcess)">
-                        <div class="card flow-card bg-yellow-process p-3 z-3 text-dark">
+                      <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(2001, 'Tender in Process (E)', tenderInProcess)"> -->
+                        <div class="card flow-card bg-yellow-process p-3 z-3 text-dark" style="cursor: pointer;" (click)="DetailProgress(2001, 'Tender in Process (E)', tenderInProcess)">
                             <h6><i class="bi bi-hammer"></i> Tender in Process (E)</h6>
                             <h4>{{ tenderInProcess }}</h4>
-                        </div></a>
+                        </div>
+                      <!-- </a> -->
                         <div class="connector-down with-arrow"></div>
                     </div>
                     
                     <div class="d-flex align-items-start mobile-stack w-100 mt-1">
                         
                         <div class="d-flex flex-column align-items-center" style="width: 175px;">
-                          <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3001, 'Acceptance Gen.', acceptanceGenerated)">
-                            <div class="card flow-card bg-orange p-3 z-3 text-dark">
+                          <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3001, 'Acceptance Gen.', acceptanceGenerated)"> -->
+                            <div class="card flow-card bg-orange p-3 z-3 text-dark" (click)="DetailProgress(3001, 'Acceptance Gen.', acceptanceGenerated)" style="cursor: pointer;">
                                 <h6><i class="bi bi-book"></i>Acceptance/Zonal Permission Given</h6>
                                 <h4>{{ acceptanceGenerated }}</h4>
-                            </div></a>
+                            </div>
+                          <!-- </a> -->
                         </div>
                          <!-- <div class="position-absolute end-100 connector-both-horizontal mobile-connector-rotate d-none d-xl-block me-1" style="width: 443px;"></div> -->
                         <!-- <div class="connector-right with-arrow align-self-start mobile-connector-rotate mx-1" style="margin-top: 42px;"></div> -->
@@ -307,25 +322,28 @@
                         
                         <div class="d-flex flex-column align-items-center">
 
-                          <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3002, 'Work Order', workOrderGenerated)">
-                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #88fab4;">
+                          <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3002, 'Work Order', workOrderGenerated)"> -->
+                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #88fab4; cursor: pointer;" (click)="DetailProgress(3002, 'Work Order', workOrderGenerated)">
                                 <h6><i class="bi bi-file-earmark-text"></i>Word Order Generated</h6>
                                 <h4>{{ workOrderGenerated }}</h4>
-                            </div></a>
+                            </div>
+                          <!-- </a> -->
                             <div class="connector-down with-arrow" style="margin-left: 100px;"></div>
                             
                             <div class="d-flex align-items-center mobile-stack">
-                              <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(6001, 'Land Dispute', landDispute)">
-                                <div class="card flow-card bg-pink-dark p-3 z-3 text-dark">
+                              <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(6001, 'Land Dispute', landDispute)"> -->
+                                <div class="card flow-card bg-pink-dark p-3 z-3 text-dark"  style="cursor: pointer;" (click)="DetailProgress(6001, 'Land Dispute', landDispute)">
                                     <h6><i class="bi bi-exclamation-circle"></i>Land Not Alloted/Land Dispute</h6>
                                     <h4>{{ landDispute }}</h4>
-                                </div></a>
+                                </div>
+                              <!-- </a> -->
                                 <div class="connector-both-horizontal mobile-connector-rotate mx-1"></div>
-                                <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(5001, ' Running Work', runningWork)">
-                                <div class="card flow-card bg-yellow-light p-3 z-3 text-dark">
+                                <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(5001, ' Running Work', runningWork)"> -->
+                                <div class="card flow-card bg-yellow-light p-3 z-3 text-dark" style="cursor: pointer;" (click)="DetailProgress(5001, ' Running Work', runningWork)">
                                     <h6><i class="bi bi-graph-up-arrow"></i> Running Work</h6>
                                     <h4>{{ runningWork }}</h4>
-                                </div></a>
+                                </div>
+                              <!-- </a> -->
                             </div>
                         </div>
     
@@ -337,11 +355,12 @@
                         <!-- <div class="position-absolute end-100 connector-both-horizontal mobile-connector-rotate me-1 d-none d-xl-block"></div> -->
                          <!-- <div class="position-absolute end-100 connector-both-horizontal mobile-connector-rotate d-none d-xl-block" style="width: 70px; margin-right: 0px;"></div> -->
                          <div class="position-absolute end-100 connector-both-horizontal mobile-connector-rotate d-none d-xl-block me-1" style="width: 425px;"></div>
-                        <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(1001, 'To be Tender (F)', toBeTender)">
-                        <div class="card flow-card bg-tender-pink p-3 z-3 text-dark">
+                        <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(1001, 'To be Tender (F)', toBeTender)"> -->
+                        <div class="card flow-card bg-tender-pink p-3 z-3 text-dark" style="cursor: pointer;" (click)="DetailProgress(1001, 'To be Tender (F)', toBeTender)">
                             <h6><i class="bi bi-bell"></i>To be Tender(>20L)F</h6>
                             <h4>{{ toBeTender }}</h4>
-                        </div></a>
+                        </div>
+                      <!-- </a> -->
                         <!-- <div class="connector-right with-arrow align-self-start mobile-connector-rotate me-0" style="margin-top: 42px; width: 22px;  margin-right: -100px; z-index: 0;"></div> -->
                         <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block"></div>
                     </div>
@@ -350,20 +369,22 @@
                 <div class="tree-node z-3">
                     <div class="position-relative d-flex align-items-center mobile-stack">
                         <div class="d-flex flex-column align-items-center">
-                          <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(1002, 'Zonal Permission', appliedZonal)">
+                          <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(1002, 'Zonal Permission', appliedZonal)"> -->
     
-                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #fdc3ec;">
+                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #fdc3ec; cursor: pointer;" (click)="DetailProgress(1002, 'Zonal Permission', appliedZonal)">
                                 <h6><i class="bi bi-map"></i>To be Applied for Zonal(<=20L)G</h6>
                                 <h4>{{ appliedZonal }}</h4>
-                            </div></a>
+                            </div>
+                          <!-- </a> -->
                             
                             <div class="connector-both-vertical my-1"></div>
-                            <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3003, 'Zonal Permission', zonalPermission)">
+                            <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3003, 'Zonal Permission', zonalPermission)"> -->
     
-                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #a6ffd9;">
+                            <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #a6ffd9; cursor: pointer;" (click)="DetailProgress(3003, 'Zonal Permission', zonalPermission)">
                                 <h6>Applied for Zonal Permission</h6>
                                 <h4>{{ zonalPermission }}</h4>
-                            </div></a>
+                            </div>
+                          <!-- </a> -->
                         </div>
                         
                         <div class="position-absolute start-100 connector-right with-arrow mobile-connector-rotate ms-0 d-none d-xl-block" style="top: 42px;"></div>
@@ -371,12 +392,12 @@
                 </div>
     
                 <div class="tree-node z-3">
-                  <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(6002, 'Cancellation (H)', cancellation)">
-                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #f5a7ff;">
+                  <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(6002, 'Cancellation (H)', cancellation)"> -->
+                    <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #f5a7ff; cursor: pointer;"  (click)="DetailProgress(6002, 'Cancellation (H)', cancellation)">
                         <h6><i class="bi bi-x-circle"></i>Proposed for Cancellation</h6>
                         <h4>{{ cancellation }}</h4>
                     </div>
-                </a>
+                <!-- </a> -->
                  
                 </div>
     
@@ -2381,20 +2402,123 @@
  
 </ng-template>
 
+<!-- let-data add karna zaroori hai -->
+<ng-template #openimages let-data>
+  <div class="modal-content border-0">
+    
+    <!-- Header -->
+    <div class="modal-header" style="background-color: #0000ff; color: white; display: flex; justify-content: space-between; align-items: center; padding: 1rem;">
+      <!-- Title me data.work ka use kiya gaya hai -->
+      <h5 class="modal-title m-0">{{ data.work?.work_Id }} - Progress Images</h5>
+      <button type="button" class="btn-close btn-close-white" mat-dialog-close aria-label="Close" style="filter: invert(1);"></button>
+    </div>
 
+    <!-- Body -->
+    <div class="modal-body bg-dark p-0">
+      
+      <!-- Main Carousel Wrapper -->
+      <div id="progressImageCarousel" class="carousel slide" data-bs-ride="carousel">
+   <div class="carousel-inner">
+  <div *ngFor="let url of data.images; let i = index" 
+       class="carousel-item" 
+       [class.active]="i === 0"> 
+    
+    <!-- YAHAN ERROR FIX KIYA GAYA HAI: data.images[i] ka use karke -->
+  <img [src]="url" 
+     (error)="data.images[i] = 'https://placehold.co/800x600/333333/FFFFFF/png?text=Image+Not+Found'"
+     class="d-block w-100" 
+     style="height: 70vh; object-fit: contain; background: #000;" 
+     alt="Progress Image {{i + 1}}">
+         
+    <div class="carousel-caption">
+      <span class="badge bg-dark opacity-75">Image {{i + 1}} of {{data.images.length}}</span>
+    </div>
+  </div>
+</div>
+        <!-- Carousel Images -->
+        <!-- <div class="carousel-inner">
+               <p style="color: yellow; padding: 10px;">URLs: {{ data.images | json }}</p>
+          <div *ngFor="let url of data.images; let i = index" 
+               class="carousel-item" 
+               [ngClass]="{'active': i === 0}"> 
+            <img [src]="url" 
+                 class="d-block w-100" 
+                 style="height: 70vh; object-fit: contain; background: #000;" 
+                 alt="Progress Image {{i + 1}}">
+                 
+            <div class="carousel-caption">
+              <span class="badge bg-dark opacity-75">Image {{i + 1}} of {{data.images.length}}</span>
+            </div>
+          </div>
+        </div> -->
 
-<ng-template #openimages>
+        <!-- Left/Right Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#progressImageCarousel" data-bs-slide="prev" *ngIf="data.images.length > 1">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#progressImageCarousel" data-bs-slide="next" *ngIf="data.images.length > 1">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer bg-light py-1 justify-content-center">
+       <small class="text-center text-muted px-2">
+         <!-- API me workName hai, isliye data.work.workName likha hai -->
+         <b>Work:</b> {{ data.work?.workName }}
+       </small>
+    </div>
+    
+  </div>
+</ng-template>
+
+<ng-template #openimages122>
   <div class="modal-content border-0">
     <!-- Header -->
     <div class="modal-header" style="background-color: #0000ff; color: white; display: flex; justify-content: space-between; align-items: center; padding: 1rem;">
-      <h5 class="modal-title m-0">{{selectedWork?.work_id}} - Progress Images</h5>
+      <h5 class="modal-title m-0">{{selectedWork?.work_Id}} - Progress Images</h5>
       <button type="button" class="btn-close btn-close-white" mat-dialog-close aria-label="Close" style="filter: invert(1);"></button>
     </div>
 
     <!-- Body -->
     <div class="modal-body bg-dark p-0">
       <!-- Bootstrap Carousel -->
-      <div id="workCarousel" class="carousel slide" data-bs-ride="carousel">
+       <!-- Main Carousel Wrapper -->
+<div id="progressImageCarousel" class="carousel slide" data-bs-ride="carousel">
+  
+  <!-- Carousel Images -->
+  <div class="carousel-inner">
+    <div *ngFor="let url of imageUrls; let i = index" 
+         class="carousel-item" 
+         [ngClass]="{'active': i === 0}"> <!-- [ngClass] zyada safe hota h Angular me -->
+      
+      <img [src]="url" 
+           class="d-block w-100" 
+           style="height: 70vh; object-fit: contain; background: #000;" 
+           alt="Progress Image {{i + 1}}">
+           
+      <div class="carousel-caption">
+        <span class="badge bg-dark opacity-75">Image {{i + 1}} of {{imageUrls.length}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Left/Right Controls (Sirf tab dikhenge jab 1 se zyada images hongi) -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#progressImageCarousel" data-bs-slide="prev" *ngIf="imageUrls.length > 1">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#progressImageCarousel" data-bs-slide="next" *ngIf="imageUrls.length > 1">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+      <!-- <div id="workCarousel" class="carousel slide" data-bs-ride="carousel">
         
         <div class="carousel-inner">
           <div *ngFor="let url of imageUrls; let i = index" 
@@ -2410,7 +2534,7 @@
           </div>
         </div>
 
-        <!-- Controls (Tabhi dikhega jab multiple images honge) -->
+      
         <ng-container *ngIf="imageUrls.length > 1">
           <button class="carousel-control-prev" type="button" data-bs-target="#workCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -2420,7 +2544,7 @@
           </button>
         </ng-container>
 
-      </div>
+      </div> -->
     </div>
 
     <!-- Footer -->
@@ -2573,8 +2697,12 @@
   <!-- 1. HEADER (Fixed at Top) -->
   <div class="d-flex justify-content-between align-items-center bg-light p-3 border-bottom m-0">
     <div>
-      <h4 class="m-0 text-primary-emphasis fw-bold">Works Details</h4>
-            <span class="small text-muted">Division Name:  {{dashname}} | Fund head:  {{nosworks}} </span>
+        <!-- this.dashname = dashname;
+    this.nosworks = nosworks; -->
+      <!-- <h4 class="m-0 text-primary-emphasis fw-bold">Works Details</h4>
+            <span class="small text-muted">Total Works:  {{dashname}} | Fund head:  {{nosworks}} </span> -->
+              <h1 class="text-primary-emphasis">Progress Level:<span class="text-primary">{{dashname}}</span></h1>
+      <h1 class="text-primary-emphasis">No. of Works: <span class="text-primary">{{ nosworks }}</span></h1>
     </div>
     <button type="button" class="btn-close" mat-dialog-close aria-label="Close"></button>
   </div>
@@ -2595,29 +2723,49 @@
         
              <button mat-menu-item (click)="exportToExcel3()"><i
                                 class="bi bi-file-earmark-excel text-success me-2"></i>Excel</button>
-                        <button mat-menu-item (click)="exportToPDF3()"><i
-                                class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button>
+                        <!-- <button mat-menu-item (click)="exportToPDF_WorkDetails()"><i
+                                class="bi bi-file-earmark-pdf text-danger me-2"></i>PDF</button> -->
         </mat-menu>
       </div>
     </div>
 
     <!-- Table Container (Responsive & Scrollable) -->
     <div class="table-responsive flex-grow-1 border rounded shadow-sm" style="overflow-y: auto;">
-    <table mat-table [dataSource]="dataSourcev_work" class="table table-bordered table-hover align-middle mb-0" style="white-space: nowrap;">
+    <table mat-table [dataSource]="dataSourcev_work" class="table table-bordered table-hover align-middle mb-0" style="white-space: nowrap;"
+        matTableExporter #exporter="matTableExporter" matSort #sort12="matSort">
 
    <!-- <table mat-table [dataSource]="dataSource" class="table table-bordered table-hover align-middle mb-0" style="white-space: nowrap;">sort12 -->
 
     <!-- 1. S.No -->
-    <ng-container matColumnDef="sno">
+    <!-- <ng-container matColumnDef="sno">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold text-center">S.No</th>
         <td mat-cell *matCellDef="let element; let i = index" class="text-center">{{ i + 1 }}</td>
-    </ng-container>
-
+    </ng-container> -->
+ <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+            <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+          </ng-container>
     <!-- 2. Work ID -->
+         <!-- <ng-container matColumnDef="work_Id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work ID</th>
+            <td mat-cell *matCellDef="let element">{{ element.work_Id || '-' }}/
+              <button class="btn btn-outline-primary btn-sm" (click)="onopenimges(element)" style="padding: 0px;">
+      <i class="bi bi-image"></i>View({{ (element.imageName ? 1 : 0) + (element.imageName2 ? 1 : 0) }}+)
+    </button></td>
+          </ng-container> -->
+        
     <ng-container matColumnDef="work_Id">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work ID</th>
-        <td mat-cell *matCellDef="let element" class="text-primary fw-bold">{{ element.work_Id || '-' }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.work_Id || '-' }}/
+              <button class="btn btn-outline-primary btn-sm" (click)="onopenimges(element)" style="padding: 0px;">
+      <i class="bi bi-image"></i>View({{ (element.imageName ? 1 : 0) + (element.imageName2 ? 1 : 0) }}+)
+    </button></td>
+        <!-- <td mat-cell *matCellDef="let element" class="text-primary fw-bold">{{ element.work_Id || '-' }}</td> -->
     </ng-container>
+    <!-- <ng-container matColumnDef="work_Id">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work ID</th>
+        <td mat-cell *matCellDef="let element" class="text-primary fw-bold">{{ element.work_Id || '-' }}</td>
+    </ng-container> -->
 
     <!-- 3. Progress Group -->
     <ng-container matColumnDef="progress_Group">
@@ -3246,7 +3394,17 @@
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Cover A Open Dt</th>
         <td mat-cell *matCellDef="let element">{{ (element.coverA_OpenDate | date:'dd-MM-yyyy') || '-' }}</td>
     </ng-container>
-
+     <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>AS</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="d-flex  flex-row-reverse p-2 ">
+                <button class="btn btn-light btn-sm btn-outline-secondary align-items-center border rounded" mat-button
+                  (click)="onButtonClick2(0,element.work_Id)">
+                  <i class="bi bi-file-earmark-pdf me-0 bg-danger"></i>
+                </button>
+              </span>
+            </td>
+          </ng-container>
     <!-- Rows Rendering -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns12; sticky: true" class="border-bottom"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns12"></tr>
@@ -3255,7 +3413,7 @@
     </div>
     
     <!-- Paginator table ke theek niche fixed -->
-    <mat-paginator #paginatorv_wor [pageSizeOptions]="[10, 15, 30]" showFirstLastButtons class="mt-2"></mat-paginator>
+    <mat-paginator #paginatorv_wor [pageSizeOptions]="[10,20,30,40]" showFirstLastButtons class="mt-2"></mat-paginator>
   </div>
 
   <!-- 3. FOOTER (Fixed at Bottom) -->
