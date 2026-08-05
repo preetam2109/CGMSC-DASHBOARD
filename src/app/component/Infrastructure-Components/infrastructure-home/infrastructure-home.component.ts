@@ -255,22 +255,23 @@ export class InfrastructureHomeComponent implements OnInit {
   }
 
   loadInitialData() {
-    //
+    //  debugger;
+
     this.spinner.show();
     var formdate = this.formdate ? this.formdate : 0;
     var todate = this.todate ? this.todate : 0;
 
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-
-    var mainSchemeId = 0;
+   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+    // var mainSchemeId = 0;
     var ASID = 0;
     var GrantID = 0;
 
     this.api
       .DashProgressCount(
         this.divisionid,
-        mainSchemeId,
+       this.mainSchemeID,
         this.himisDistrictid,
         ASID,
         GrantID,
@@ -907,7 +908,7 @@ export class InfrastructureHomeComponent implements OnInit {
     }else if (did == 7001) {
      this.isbelow20=0;
 
-    }else if (did == 7001) {
+    }else if (did == 4001) {
      this.isbelow20=0;
       
     }else{
@@ -2862,10 +2863,10 @@ imageKeys.forEach((key) => {
   }
     applyTextFilter3(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource2.filter = filterValue.trim().toLowerCase();
+    this.dataSourcev_work.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource2.paginator) {
-      this.dataSource2.paginator.firstPage();
+    if (this.dataSourcev_work.paginator) {
+      this.dataSourcev_work.paginator.firstPage();
     }
   }
     // exportToExcel3(): void {

@@ -226,7 +226,8 @@
             
             <div class="d-flex flex-column align-items-center position-relative z-3">
               <!-- <a  type="link" (click)="TotalWorksAbstract()" style="cursor: pointer; text-decoration: none;"> -->
-                <div class="card flow-card bg-total p-3 text-dark" (click)="TotalWorksAbstract()"   style="cursor: pointer;">
+                <div class="card flow-card bg-total p-3 text-dark" (click)="DetailProgress(0, 'Total Works (A)', totalNosWorks)"  style="cursor: pointer;">
+                <!-- <div class="card flow-card bg-total p-3 text-dark" (click)="TotalWorksAbstract()"   style="cursor: pointer;"> -->
                     <h6><i class="bi bi-bank2"></i> Total Works (A)</h6>
                     <h4>{{ totalNosWorks }}</h4>
                 </div>    
@@ -324,7 +325,7 @@
 
                           <!-- <a type="link" style="cursor: pointer; text-decoration: none;" (click)="DetailProgress(3002, 'Work Order', workOrderGenerated)"> -->
                             <div class="card flow-card bg-greyy p-3 text-whitet z-3 text-dark" style="background-color: #88fab4; cursor: pointer;" (click)="DetailProgress(3002, 'Work Order', workOrderGenerated)">
-                                <h6><i class="bi bi-file-earmark-text"></i>Word Order Generated</h6>
+                                <h6><i class="bi bi-file-earmark-text"></i>Work Order Generated</h6>
                                 <h4>{{ workOrderGenerated }}</h4>
                             </div>
                           <!-- </a> -->
@@ -2753,15 +2754,29 @@
       <i class="bi bi-image"></i>View({{ (element.imageName ? 1 : 0) + (element.imageName2 ? 1 : 0) }}+)
     </button></td>
           </ng-container> -->
-        
-    <ng-container matColumnDef="work_Id">
+        <ng-container matColumnDef="work_Id">
+        <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work ID</th>
+        <td mat-cell *matCellDef="let element">
+            {{ element.work_Id || '-' }} 
+            
+            <!-- *ngIf कंडीशन लगाई गई है -->
+            <button *ngIf="element.imageName || element.imageName2" 
+                    class="btn btn-outline-primary btn-sm ms-1" 
+                    (click)="onopenimges(element)" 
+                    style="padding: 0px 4px;">
+                <i class="bi bi-image"></i> View({{ (element.imageName ? 1 : 0) + (element.imageName2 ? 1 : 0) }}+)
+            </button>
+        </td>
+    </ng-container>
+    <!-- <ng-container matColumnDef="work_Id">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work ID</th>
           <td mat-cell *matCellDef="let element">{{ element.work_Id || '-' }}/
               <button class="btn btn-outline-primary btn-sm" (click)="onopenimges(element)" style="padding: 0px;">
       <i class="bi bi-image"></i>View({{ (element.imageName ? 1 : 0) + (element.imageName2 ? 1 : 0) }}+)
-    </button></td>
-        <!-- <td mat-cell *matCellDef="let element" class="text-primary fw-bold">{{ element.work_Id || '-' }}</td> -->
-    </ng-container>
+    </button>
+  </td>
+</ng-container> -->
+<!-- <td mat-cell *matCellDef="let element" class="text-primary fw-bold">{{ element.work_Id || '-' }}</td> -->
     <!-- <ng-container matColumnDef="work_Id">
         <th mat-header-cell *matHeaderCellDef class="bg-light fw-bold">Work ID</th>
         <td mat-cell *matCellDef="let element" class="text-primary fw-bold">{{ element.work_Id || '-' }}</td>
