@@ -120,6 +120,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
+    // Clear active session storage on login page access to prevent session replay attacks (CWE-294)
+    this.loginService.logout();
+
+    // Prevent browser back navigation replay after logout or on login screen
+    history.pushState(null, '', location.href);
+    window.onpopstate = function () {
+      history.go(1);
+    };
 
     this.getIPAddress();
     this.browserInfo = this.getBrowserInfo();
@@ -400,42 +408,52 @@ export class LoginComponent implements OnInit, AfterViewInit {
   // alert("hi")
   //   }
   verifyOTP() {
-
     if (this.otp.length === 5) {
+      // Disabled for Security Audit (CWE-287 OTP Bypass):
+      // if (this.userid === 2926 || this.userid === 4821 || this.otp === '11111') {
+      //   this.InsertUserLoginLog();
+      //   this.router.navigate(['/home']);
+      //   this.toastr.success('Login Successful!');
+      //   return;
+      // }
 
-
-
-      if (this.userid === 2926 || this.userid === 4821 || this.otp === '11111') {
-        // this.getdata();
-        this.InsertUserLoginLog();
-        this.router.navigate(['/home']);
-        this.toastr.success('Login Successful!');
-
-        return;
-
-      }
-
-      // Call the API to verify the OTP
+      // Call the API to verify the OTP strictly on the server side
       this.api.VerifyOTPLogin(this.otp, this.userid).subscribe(
         (res: any) => {
           console.log("Response", res);
-          // Show SweetAlert for successful OTP verification
-          Swal.fire({
-            title: 'Login Successful!',
-            text: 'You have successfully logged in.',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          }).then(() => {
-            // Navigate to the correct page after the SweetAlert is closed
-            if (this.rolename === 'GM Finance' || this.rolename === 'DMFin') {
-              this.router.navigate(['/finance-dash']);
-            } else if (this.rolename === 'DHS') {
-              localStorage.setItem('selectedCategory', 'DrugsConsumables');
-              this.router.navigate(['/dhsdash']);
-            } else {
-              this.router.navigate(['/home']);
-            }
-          });
+          const isSuccess = res && (
+            res === '1' ||
+            res.toString().toLowerCase().includes('success') ||
+            res.toString().toLowerCase().includes('verified') ||
+            res.toString() === 'true'
+          );
+
+          if (isSuccess) {
+            // Show SweetAlert for successful OTP verification
+            Swal.fire({
+              title: 'Login Successful!',
+              text: 'You have successfully logged in.',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            }).then(() => {
+              // Navigate to the correct page after the SweetAlert is closed
+              if (this.rolename === 'GM Finance' || this.rolename === 'DMFin') {
+                this.router.navigate(['/finance-dash']);
+              } else if (this.rolename === 'DHS') {
+                localStorage.setItem('selectedCategory', 'DrugsConsumables');
+                this.router.navigate(['/dhsdash']);
+              } else {
+                this.router.navigate(['/home']);
+              }
+            });
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: 'Invalid OTP! Please try again.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
         },
         (error) => {
           // Show SweetAlert for OTP verification error
@@ -459,32 +477,40 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
   verifyOTP_SMIT() {
     if (this.otp.length === 5) {
-      // Call the API to verify the OTP
+      // Call the API to verify the OTP strictly on the server side
       this.api.VerifyOTPLogin(this.otp, 2926).subscribe(
         (res: any) => {
           console.log("Response", res);
-          // Show SweetAlert for successful OTP verification
-          Swal.fire({
-            title: 'Login Successful!',
-            text: 'You have successfully logged in.',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          }).then(() => {
-            // Navigate to the home page after the SweetAlert is closed
-            if (this.rolename === 'Public') {
-              this.dialogRef.close();
-              this.router.navigate(['public-view1'])
+          const isSuccess = res && (
+            res === '1' ||
+            res.toString().toLowerCase().includes('success') ||
+            res.toString().toLowerCase().includes('verified') ||
+            res.toString() === 'true'
+          );
 
-
-
-            } else {
-              this.dialogRef.close();
-              this.router.navigate(['/Infrastructure-Public-View'])
-
-
-            }
-            // this.router.navigate(['/home']);
-          });
+          if (isSuccess) {
+            Swal.fire({
+              title: 'Login Successful!',
+              text: 'You have successfully logged in.',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            }).then(() => {
+              if (this.rolename === 'Public') {
+                this.dialogRef.close();
+                this.router.navigate(['public-view1']);
+              } else {
+                this.dialogRef.close();
+                this.router.navigate(['/Infrastructure-Public-View']);
+              }
+            });
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: 'Invalid OTP! Please try again.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
         },
         (error) => {
           // Show SweetAlert for OTP verification error
@@ -649,26 +675,44 @@ export class LoginComponent implements OnInit, AfterViewInit {
         return;
       }
 
-      if (this.emailid === 'gmfinance@dpdmis.in' && this.otp === '11111') {
-        Swal.fire({
-          title: 'OTP Verified!',
-          text: 'Successfully login!.',
-          icon: 'success',
-          confirmButtonText: 'OK',
-        });
-        resolve(true);
-        return;
-      }
+      // Disabled for Security Audit (CWE-287 OTP Bypass):
+      // if (this.emailid === 'gmfinance@dpdmis.in' && this.otp === '11111') {
+      //   Swal.fire({
+      //     title: 'OTP Verified!',
+      //     text: 'Successfully login!.',
+      //     icon: 'success',
+      //     confirmButtonText: 'OK',
+      //   });
+      //   resolve(true);
+      //   return;
+      // }
 
       this.api.VerifyOTPLogin(this.otp, this.userid).subscribe({
         next: (res: any) => {
-          Swal.fire({
-            title: 'OTP Verified!',
-            text: 'Successfully login!.',
-            icon: 'success',
-            confirmButtonText: 'OK',
-          });
-          resolve(true); // OTP valid
+          const isSuccess = res && (
+            res === '1' ||
+            res.toString().toLowerCase().includes('success') ||
+            res.toString().toLowerCase().includes('verified') ||
+            res.toString() === 'true'
+          );
+
+          if (isSuccess) {
+            Swal.fire({
+              title: 'OTP Verified!',
+              text: 'Successfully login!.',
+              icon: 'success',
+              confirmButtonText: 'OK',
+            });
+            resolve(true); // OTP valid
+          } else {
+            Swal.fire({
+              title: 'Invalid OTP',
+              text: 'Please try again.',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+            resolve(false); // OTP invalid
+          }
         },
         error: () => {
           Swal.fire({
@@ -896,6 +940,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
       (res: any) => {
         // Close the loading indicator
         Swal.close();
+
+        // alert(res)
 
         // Show success alert
         Swal.fire({

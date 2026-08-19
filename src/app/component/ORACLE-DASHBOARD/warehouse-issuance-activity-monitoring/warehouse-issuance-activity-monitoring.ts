@@ -18,7 +18,9 @@ export class WarehouseIssuanceActivityMonitoring {
     if (event.data === 'OAC_LOADED') {
       this.loading = false;
     }
-
   }
 
+  onIframeLoad() {
+    // Backup fallback
+  }
 }

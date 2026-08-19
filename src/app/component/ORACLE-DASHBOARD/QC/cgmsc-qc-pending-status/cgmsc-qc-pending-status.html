@@ -19,9 +19,19 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>QC Sample Tracking</title>
-        <script src="https://cgmscanalytics-cgmscee-bo.analytics.ocp.oraclecloud.com/public/dv/v1/embedding/standalone/embedding.js" type="application/javascript"></script>
+        <script src="https://cgmscanalyticspro-cgmscee-t1-bo.analytics.ocp.oraclecloud.com/public/dv/v1/embedding/standalone/embedding.js" type="application/javascript"></script>
         <script>
           var token = "";
+
+          function runWithRequireJS(callback) {
+            if (typeof requirejs !== "undefined") {
+              callback();
+            } else {
+              setTimeout(function() {
+                runWithRequireJS(callback);
+              }, 100);
+            }
+          }
 
           function fetchAndSetToken() {
             fetch("https://kcthepe5e6xwemxr36bzoz4xgq.apigateway.ap-mumbai-1.oci.customer-oci.com/oac/auth_token")
@@ -33,28 +43,32 @@
               })
               .then(data => {
                 token = data.access_token;
+                console.log("✅ Fetched OAC Token successfully:", token);
 
-                requirejs(["jquery", "knockout", "obitech-application/application","ojs/ojcore", "ojs/ojknockout", "ojs/ojcomposite", "jet-composites/oracle-dv/loader"], 
-                function($, ko, application) {
-                  application.setSecurityConfig("token", {
-                    tokenAuthFunction: function() {
-                      return token;
+                runWithRequireJS(function() {
+                  requirejs(["jquery", "knockout", "obitech-application/application","ojs/ojcore", "ojs/ojknockout", "ojs/ojcomposite", "jet-composites/oracle-dv/loader"], 
+                  function($, ko, application) {
+                    application.setSecurityConfig("token", {
+                      tokenAuthFunction: function() {
+                        return token;
+                      }
+                    });
+
+                    if (!window.bindingsApplied) {
+                      function MyProject() {
+                        var self = this;
+                        self.projectPath = ko.observable("/@Catalog/users/sm.cgmsc@gmail.com/QC_Sample_Tracking");
+                        self.parameters = ko.observableArray([]);
+                      }
+                      var targetNode = document.getElementById("oac-container") || document.body;
+                      ko.applyBindings(new MyProject(), targetNode);
+                      window.bindingsApplied = true;
+                      
+                      setTimeout(function() {
+                        window.parent.postMessage("OAC_LOADED", "*");
+                      }, 3000);
                     }
                   });
-
-                  if (!window.bindingsApplied) {
-                    function MyProject() {
-                      var self = this;
-                      self.projectPath = ko.observable("/@Catalog/users/sm.cgmsc@gmail.com/QC_Sample_Tracking");
-                    }
-                    ko.applyBindings(new MyProject());
-                    window.bindingsApplied = true;
-                    
-                    // Send message to parent window (Angular component) that OAC is loaded
-                    setTimeout(function() {
-                      window.parent.postMessage("OAC_LOADED", "*");
-                    }, 3000);
-                  }
                 });
               })
               .catch(error => {
@@ -67,7 +81,7 @@
         </script>
     </head>
     <body>
-        <div style="width: 100%; height: 100vh;">
+        <div id="oac-container" style="width: 100%; height: 100vh;">
           <oracle-dv 
           project-path="[[projectPath]]" 
           active-page="insight" 

@@ -19,4 +19,8 @@ export class ItemWiseStock implements OnInit {
       this.loading = false;
     }
   }
+
+  onIframeLoad() {
+    // Backup fallback
+  }
 }

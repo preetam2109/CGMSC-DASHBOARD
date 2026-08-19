@@ -96,6 +96,15 @@ isPasswordVisible: boolean = false;
     this.generateCaptcha();
   }
   ngOnInit(): void {
+    // Clear active session storage on login page access to prevent session replay attacks (CWE-294)
+    this.loginService.logout();
+
+    // Prevent browser back navigation replay after logout or on login screen
+    history.pushState(null, '', location.href);
+    window.onpopstate = function () {
+      history.go(1);
+    };
+
     this.adminLoginDropdown();
     this.fetchActualDropInfo(this.days);
     
@@ -352,17 +361,32 @@ setRole( approle: string) {
           this.api.VerifyOTPLogin(this.otp, this.userid).subscribe(
             (res: any) => {
               console.log("Response", res);
-      
-              // Show SweetAlert for successful OTP verification
-              Swal.fire({
-                title: 'Login Successful!',
-                text: 'You have successfully logged in.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-              }).then(() => {
-                // Navigate to the home page after the SweetAlert is closed
-                this.router.navigate(['/home']);
-              });
+              const isSuccess = res && (
+                res === '1' || 
+                res.toString().toLowerCase().includes('success') || 
+                res.toString().toLowerCase().includes('verified') || 
+                res.toString() === 'true'
+              );
+
+              if (isSuccess) {
+                // Show SweetAlert for successful OTP verification
+                Swal.fire({
+                  title: 'Login Successful!',
+                  text: 'You have successfully logged in.',
+                  icon: 'success',
+                  confirmButtonText: 'OK'
+                }).then(() => {
+                  // Navigate to the home page after the SweetAlert is closed
+                  this.router.navigate(['/home']);
+                });
+              } else {
+                Swal.fire({
+                  title: 'Error',
+                  text: 'Invalid OTP! Please try again.',
+                  icon: 'error',
+                  confirmButtonText: 'OK'
+                });
+              }
             },
             (error) => {
               // Show SweetAlert for OTP verification error

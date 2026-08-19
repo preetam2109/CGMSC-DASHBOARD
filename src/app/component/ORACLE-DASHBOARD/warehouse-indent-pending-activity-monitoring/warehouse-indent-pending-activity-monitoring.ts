@@ -17,7 +17,9 @@ export class WarehouseIndentPendingActivityMonitoring {
     if (event.data === 'OAC_LOADED') {
       this.loading = false;
     }
-
   }
 
+  onIframeLoad() {
+    // Backup fallback
+  }
 }

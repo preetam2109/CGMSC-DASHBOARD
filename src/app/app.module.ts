@@ -14,7 +14,8 @@ import { HomeComponent } from './component/home/home.component';
 import { CardComponent } from './component/card/card.component';
 // import { SliderComponent } from './component/slider/slider.component';
 // import { TableComponent } from './component/table/table.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { GlobalErrorInterceptor } from './service/error.interceptor';
 import { FormdesignComponent } from './component/formdesign/formdesign.component';
 // import { PopupComponent } from './component/popup/popup.component';
 // import { AssociateComponent } from './component/associate/associate.component';
@@ -199,7 +200,9 @@ import { NearExpiryItemwiseComponent } from "./component/near-expiry-itemwise/ne
     StockOuAndStockAvailabilityInWarehouse,
     ItemWiseStock
 ], providers: [DatePipe, 
-      { provide: APP_BASE_HREF, useValue: '/mdang/' }, provideHttpClient(withInterceptorsFromDi())] })
+      { provide: APP_BASE_HREF, useValue: '/mdang/' },
+      { provide: HTTP_INTERCEPTORS, useClass: GlobalErrorInterceptor, multi: true },
+      provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fas);

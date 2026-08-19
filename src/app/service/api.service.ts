@@ -637,6 +637,7 @@ export class ApiService {
   //   return this.http.post(`${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}`, { responseType: 'text' });
   // }
   getOTPSaved(userid: any, ipAddress: any) {
+    debugger
     const url = `${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}&ipAddress=${encodeURIComponent(ipAddress)}`;
     return this.http.post(url, null, { responseType: 'text' });
   }

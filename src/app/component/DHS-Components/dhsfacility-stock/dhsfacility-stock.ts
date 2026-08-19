@@ -19,4 +19,8 @@ export class DHSFacilityStock implements OnInit {
       this.loading = false;
     }
   }
+
+  onIframeLoad() {
+    // Backup fallback
+  }
 }

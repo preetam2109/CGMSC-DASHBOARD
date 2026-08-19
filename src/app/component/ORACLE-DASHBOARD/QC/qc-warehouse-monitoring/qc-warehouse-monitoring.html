@@ -1,0 +1,25 @@
+<div class="container-fluid mt-3">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" id="qcWarehouseMonitoringTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" [class.active]="activeTab === 'tab1'" (click)="setActiveTab('tab1')" type="button" role="tab">
+        Sample Issue Pending from Warehouse
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" [class.active]="activeTab === 'tab2'" (click)="setActiveTab('tab2')" type="button" role="tab">
+        Sample Pickup Pending in Warehouse
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content border-start border-end border-bottom p-3 bg-white" id="qcWarehouseMonitoringTabContent">
+    <div class="tab-pane fade" [class.show]="activeTab === 'tab1'" [class.active]="activeTab === 'tab1'" role="tabpanel" *ngIf="activeTab === 'tab1'">
+      <app-sample-issue-pending-from-warehouse></app-sample-issue-pending-from-warehouse>
+    </div>
+    <div class="tab-pane fade" [class.show]="activeTab === 'tab2'" [class.active]="activeTab === 'tab2'" role="tabpanel" *ngIf="activeTab === 'tab2'">
+      <app-sample-pickup-pending-in-warehouse></app-sample-pickup-pending-in-warehouse>
+    </div>
+  </div>
+</div>

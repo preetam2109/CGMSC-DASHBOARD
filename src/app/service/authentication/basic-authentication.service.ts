@@ -41,6 +41,11 @@ export class BasicAuthenticationService {
             this.setRole(userInfo.rolename);
           }
 
+          // Single-Session Token for Concurrent Login Detection (CWE-287)
+          const sessionToken = emailid + '_' + Date.now();
+          sessionStorage.setItem('activeSessionToken', sessionToken);
+          localStorage.setItem('activeSessionToken', sessionToken);
+
           return data;
         }
       )
@@ -88,7 +93,7 @@ export class BasicAuthenticationService {
   }
 
   logout() {
-    sessionStorage.removeItem('authenticatedUser');
-    sessionStorage.removeItem('role');
+    sessionStorage.clear();
+    localStorage.clear();
   }
 }

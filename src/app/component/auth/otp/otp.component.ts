@@ -50,21 +50,36 @@ InsertUserLoginLogData: InsertUserLoginLogmodal = new InsertUserLoginLogmodal();
       this.userid = sessionStorage.getItem('userid');
 
   
-      // Call the API to verify the OTP
+      // Call the API to verify the OTP strictly
       this.api.VerifyOTPLogin(this.otp, this.userid).subscribe(
         (res: any) => {
           console.log("Response", res);
-  
-          // Show SweetAlert for successful OTP verification
-          Swal.fire({
-            title: 'Login Successful!',
-            text: 'You have successfully logged in.',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          }).then(() => {
-            // Navigate to the home page after the SweetAlert is closed
-            this.router.navigate(['home']);
-          });
+          const isSuccess = res && (
+            res === '1' || 
+            res.toString().toLowerCase().includes('success') || 
+            res.toString().toLowerCase().includes('verified') || 
+            res.toString() === 'true'
+          );
+
+          if (isSuccess) {
+            // Show SweetAlert for successful OTP verification
+            Swal.fire({
+              title: 'Login Successful!',
+              text: 'You have successfully logged in.',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            }).then(() => {
+              // Navigate to the home page after the SweetAlert is closed
+              this.router.navigate(['home']);
+            });
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: 'Invalid OTP! Please try again.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
         },
         (error) => {
           // Show SweetAlert for OTP verification error

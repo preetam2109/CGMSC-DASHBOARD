@@ -37,6 +37,45 @@ export class AppComponent implements OnInit, DoCheck {
     this.showButton = true;
   }
 
+  // Concurrent Login Detection (CWE-287) across browser tabs & windows
+  @HostListener('window:storage', ['$event'])
+  onStorageChange(event: StorageEvent) {
+    if (event.key === 'activeSessionToken') {
+      const currentSessionToken = sessionStorage.getItem('activeSessionToken');
+      if (currentSessionToken && event.newValue && currentSessionToken !== event.newValue) {
+        this.basicAuthentication.logout();
+        this.toastr.warning('A new login was detected from another window/device. Your session here has been terminated.', 'Session Terminated');
+        this.router.navigate(['login']);
+      }
+    }
+  }
+
+  // Excessive Session Timeout Mitigation (CWE-613) - 15 Minutes Inactivity Limit
+  private readonly INACTIVITY_LIMIT_MS = 15 * 60 * 1000; // 15 Minutes
+  private inactivityTimer: any;
+
+  @HostListener('window:mousemove')
+  @HostListener('window:keydown')
+  @HostListener('window:click')
+  @HostListener('window:scroll')
+  @HostListener('window:touchstart')
+  resetInactivityTimer() {
+    if (this.basicAuthentication.isUserLogedIn()) {
+      clearTimeout(this.inactivityTimer);
+      this.inactivityTimer = setTimeout(() => {
+        this.handleInactivityTimeout();
+      }, this.INACTIVITY_LIMIT_MS);
+    }
+  }
+
+  private handleInactivityTimeout() {
+    if (this.basicAuthentication.isUserLogedIn()) {
+      this.basicAuthentication.logout();
+      this.toastr.warning('Your session has expired due to 15 minutes of inactivity. Please log in again.', 'Session Expired');
+      this.router.navigate(['login']);
+    }
+  }
+
 
   isExternalLink(route: string): boolean {
     return route.startsWith('http://') || route.startsWith('https://');
@@ -93,6 +132,7 @@ export class AppComponent implements OnInit, DoCheck {
 
 
   ngOnInit(): void {
+    this.resetInactivityTimer();
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {

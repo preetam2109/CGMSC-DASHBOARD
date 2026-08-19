@@ -1,5 +1,5 @@
-  
-    <div class="container-fluid">
+  <app-tender-dashboard></app-tender-dashboard>
+    <!-- <div class="container-fluid">
         <mat-tab-group
           [(selectedIndex)]="selectedTabIndex"
           (selectedTabChange)="selectedTabValue($event)"
@@ -23,7 +23,7 @@
                 *ngIf="selectedTabIndex === 1"
               ></app-drug-tender-status>
             </ng-template>
-          </mat-tab>
+          </mat-tab> 
         <mat-tab
             label="Item-Type Wise Tender Status"
             [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
@@ -33,7 +33,7 @@
                 *ngIf="selectedTabIndex === 2"
               ></app-item-type-wise-tender-status>
             </ng-template>
-          </mat-tab>
+          </mat-tab> -->
           <!-- <mat-tab
             label="Tender Status"
             [ngClass]="{ 'active-tab': selectedTabIndex === 2 }"
@@ -42,7 +42,7 @@
               <app-tender-status-oracle *ngIf="selectedTabIndex === 2"></app-tender-status-oracle>
             </ng-template>
           </mat-tab> -->
-          <mat-tab
+          <!-- <mat-tab
             label="Item Wise Tender Status"
             [ngClass]="{ 'active-tab': selectedTabIndex === 3 }"
           >
@@ -53,4 +53,6 @@
          
         </mat-tab-group>
       </div>
+    -->
+
       

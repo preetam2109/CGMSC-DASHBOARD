@@ -12,6 +12,36 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="manifest" href="manifest.webmanifest">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Content Security Policy & Security Headers (CWE-693 Mitigation for Frontend) -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: blob: data:; style-src 'self' 'unsafe-inline' https:; font-src 'self' data: https:; img-src 'self' data: blob: https:; connect-src 'self' https: wss:; frame-src 'self' blob: data: https:; object-src 'none'; base-uri 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+  <!-- Cache Control Anti-Caching Headers (CWE-525 Mitigation for Frontend) -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <style id="antiClickjack">
+    body {
+      display: none !important;
+    }
+  </style>
+  <script type="application/javascript">
+    if (self === top) {
+      var antiClickjack = document.getElementById("antiClickjack");
+      if (antiClickjack && antiClickjack.parentNode) {
+        antiClickjack.parentNode.removeChild(antiClickjack);
+      }
+    } else {
+      try {
+        top.location = self.location;
+      } catch (e) {
+        // If top location access is blocked by cross-origin iframe sandbox, body remains display: none
+      }
+    }
+  </script>
+
   <meta name="theme-color" content="#1976d2">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5hW2eQFDDSAYfngDFdtVp4TFa47SKwjM"></script>
   <!-- <script src="https://cgmscanalytics-cgmscee-bo.analytics.ocp.oraclecloud.com/public/dv/v1/embedding/standalone/embedding.js" type="application/javascript"></script> -->

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-near-expiry-oracle',
   standalone: true,
@@ -8,9 +9,16 @@ import { CommonModule } from '@angular/common';
   styleUrl: './near-expiry-oracle.component.css'
 })
 export class NearExpiryOracleComponent {
-loading = true;
+  loading = true;
+
+  @HostListener('window:message', ['$event'])
+  onMessage(event: MessageEvent) {
+    if (event.data === 'OAC_LOADED') {
+      this.loading = false;
+    }
+  }
 
   onIframeLoad() {
-    this.loading = false;
+    // Backup fallback
   }
 }

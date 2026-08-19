@@ -84,6 +84,18 @@ export class HomeComponent {
   totalValuecr: any;
   nosfacility: any;
   roleName: any = localStorage.getItem('roleName');
+  firstname: any = sessionStorage.getItem('firstname');
+
+  get userDisplayName(): string {
+    const fn = sessionStorage.getItem('firstname');
+    if (fn === 'SM') {
+      return 'System Manager';
+    }
+    if (fn === 'Public') {
+      return 'Public View Of Drugs and Consumables';
+    }
+    return fn || this.username || 'User';
+  }
   currentMonth = new Date().toLocaleString('default', { month: 'long' });
   MasIndentitemslist: any;
   itemid: any;
