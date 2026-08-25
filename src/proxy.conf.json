@@ -1,0 +1,7 @@
+{
+  "/himisr": {
+    "target": "https://cgmsc.gov.in",
+    "secure": true,
+    "changeOrigin": true
+  }
+}

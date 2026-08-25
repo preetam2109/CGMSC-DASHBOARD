@@ -117,6 +117,10 @@ export class CategorySelectionComponent implements OnInit {
         return 'assets/images/default-image.jpg';
     }
   }
+isChatOpen: boolean = false;
 
+toggleChatbot() {
+  this.isChatOpen = !this.isChatOpen;
+}
   
 }

@@ -151,69 +151,33 @@ export class AdministrativeSanctionComponent {
   }
 
 
-  onButtonClick(ASID: any, workid: any): void {
 
+ 
+onButtonClick(ASID: any, workid: any): void {
     this.spinner.show();
-
-    this.api.GETASFile(ASID, workid).subscribe(
-      (res) => {
-
-        const filename = res[0]?.filename;
-        const pdfUrl = res[0]?.asLetterName;
-
-        if (!filename || !pdfUrl) {
-          this.spinner.hide();
-          alert("⚠️ Alert: AS Letter Not Found!");
-          return;
-        }
-
-        // Fetch PDF as Blob
-        this.http.get(pdfUrl, {
-          responseType: 'blob'
-        }).subscribe(
-          (blob: Blob) => {
-
-            // Create temporary URL for the PDF
-            const blobUrl = window.URL.createObjectURL(blob);
-
-            // Create download link
-            const link = document.createElement('a');
-            link.href = blobUrl;
-            link.download = filename;
-            link.style.display = 'none';
-
-            document.body.appendChild(link);
-
-            // Trigger download
-            link.click();
-
-            // Cleanup
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(blobUrl);
-
+    this.api.GETASFile(ASID, workid)
+      .subscribe(
+        (res) => {
+          console.log("url=", res);
+          const filename = res[0]?.filename; 
+          const URL = res[0]?.asLetterName; // e.g., "https://cgmsc.gov.in/himisr/UploadAS/323AS.pdf"
+          
+          if (filename && URL) {
+            // Remove the domain part so it becomes "/himisr/UploadAS/323AS.pdf"
+            const relativeUrl = URL.replace('https://cgmsc.gov.in', ''); 
+            this.downloadPDF(relativeUrl, filename);
+          } else {
             this.spinner.hide();
-          },
-          (error) => {
-
-            this.spinner.hide();
-
-            console.error('PDF download error:', error);
-            alert("⚠️ Unable to download AS Letter.");
-
+            alert("⚠️ Alert: AS Letter Not Found!\nThe requested document is missing.");
           }
-        );
+        },
+        (error) => {
+          this.spinner.hide();
+          alert(`Error fetching data: ${error.message}`);
+        }
+      );
+}
 
-      },
-      (error) => {
-
-        this.spinner.hide();
-
-        console.error('API error:', error);
-        alert(`Error fetching data: ${error.message}`);
-
-      }
-    );
-  }
 
 
   getASEnteredDetails(ASID: any, divisionId: any, mainSchemeId: any): void {

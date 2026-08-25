@@ -76,3 +76,164 @@
   }
   
   
+
+  
+/* chat box  */
+/* Floating Button Styling */
+.floating-chatbot-btn {
+  position: fixed;
+  /* bottom: 20px; */
+      bottom: 35px;
+  right: 20px;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 50rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.floating-chatbot-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Chatbot Popup Container Window */
+.chatbot-popup-container {
+  position: fixed;
+  bottom: 85px;
+  right: 20px;
+  /* width: 380px; */
+  width:  309px;
+  max-width: calc(100vw - 40px);
+  z-index: 1055;
+  animation: slideUp 0.3s ease-out;
+  border: 1px solid rgba(0,0,0,0.1);
+  background-color: #ffffff !important;
+}
+
+/* Header Action Icons Hover Effect */
+.hover-light:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
+
+/* Floating Button Styling & Animation Fix */
+.floating-chatbot-btn {
+  position: fixed;
+  bottom: 35px;
+  right: 20px;
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 50rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  /* Smooth animation properties */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.floating-chatbot-btn:hover {
+  transform: scale(1.08) translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.floating-chatbot-btn:active {
+  transform: scale(0.95);
+}
+
+/* Chatbot Popup Container Window - Resizable from Top-Left without Vertical Scrollbar */
+.chatbot-popup-container {
+  position: fixed;
+  bottom: 95px;
+  right: 20px;
+  width: 320px;
+  min-width: 280px;
+  min-height: 350px;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 120px);
+  z-index: 1055;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(0,0,0,0.15);
+  background-color: #ffffff !important;
+  
+  /* Yeh property resize handle ko top/left side par le aayegi */
+  direction: rtl; 
+  resize: both;
+  
+  /* Vertical scrollbar ko poori tarah hatane ke liye */
+  overflow: hidden !important; 
+}
+
+/* Yeh andar ke content ko wapas normal (Left-to-Right) karne ke liye zaroori hai, taaki text ulta na ho */
+.chatbot-popup-container > * {
+  direction: ltr;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Chatbot Popup Container Window with RESIZE feature */
+/* .chatbot-popup-container {
+  position: fixed;
+  bottom: 95px;
+  right: 20px;
+  width: 320px;
+  min-width: 280px;
+  min-height: 350px;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 120px);
+  z-index: 1055;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(0,0,0,0.15);
+  background-color: #ffffff !important;
+  
+ 
+  resize: both;
+  overflow: hidden; 
+} */
+
+/* Header Action Icons Hover Effect */
+.hover-light:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
