@@ -644,7 +644,7 @@ export class ApiService {
   //   return this.http.post(`${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}`, { responseType: 'text' });
   // }
   getOTPSaved(userid: any, ipAddress: any) {
-    debugger
+
     const url = `${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}&ipAddress=${encodeURIComponent(ipAddress)}`;
     return this.http.post(url, null, { responseType: 'text' });
   }
@@ -983,14 +983,14 @@ export class ApiService {
     // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
   }
   GETASFile(ASID: any, workid: any) {
-    debugger
+
     return this.http.get<ASFile[]>(`${this.apiUrl}/ASDetails/getASFile?ASID=${ASID}&workid=${workid}`);
 
     //md :otp=11344
     // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
   }
   downloadASFile(ASID: any, workid: any) {
-    debugger
+
     return this.http.get(
       `${this.apiUrl}/downloadASFile?ASID=${ASID}&workid=${workid}`,
       {
@@ -1026,7 +1026,7 @@ export class ApiService {
     // raipur=D1004
 
 
-    // debugger
+    // 
     return this.http.get<any[]>(`${this.apiUrl}/RunningWork/RunningDelayWorksDetails?delayTime=${delayTime}&parameter=${parameter}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainschemeid}&contractorid=${contractid}&IsMedicalCollege=${IsMedicalCollege}&isabove90=${isabove90}`);
 
   }
