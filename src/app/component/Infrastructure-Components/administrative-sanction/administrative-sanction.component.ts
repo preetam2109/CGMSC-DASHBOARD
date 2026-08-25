@@ -53,7 +53,7 @@ import { ASCompletedDetails, ASEnteredDetails, ASFile, ASPendingDetails, Divisio
     FormsModule,
   ],
   templateUrl: './administrative-sanction.component.html',
-  styleUrl: './administrative-sanction.component.css'
+  styleUrl: './administrative-sanction.component.css',
 })
 export class AdministrativeSanctionComponent {
   selectedTabIndex: number = 0;
@@ -83,11 +83,12 @@ export class AdministrativeSanctionComponent {
   himisDistrictid: any;
   TimeStatus: any;
   mainschemeid: any;
-  titleTotal: any
+  titleTotal: any;
   titleDivision: any;
   titleScheme: any;
   titleDist: any;
-  InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
+  InsertUserPageViewLogdata: InsertUserPageViewLogmodal =
+    new InsertUserPageViewLogmodal();
 
   pageName: string = '';
   fullUrl: string = '';
@@ -98,19 +99,33 @@ export class AdministrativeSanctionComponent {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     public datePipe: DatePipe,
-    private fb: FormBuilder, private location: Location,
+    private fb: FormBuilder,
+    private location: Location,
   ) {
     this.pageName = this.location.path();
     this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<ASPendingDetails>([]);
     this.dataSource1 = new MatTableDataSource<ASEnteredDetails>([]);
     this.dataSource2 = new MatTableDataSource<ASCompletedDetails>([]);
-    this.dataSourceDivision = new MatTableDataSource<DivisionWiseASPendingDetails>([]);
+    this.dataSourceDivision =
+      new MatTableDataSource<DivisionWiseASPendingDetails>([]);
   }
   // Authorization guard for Export functionality (CWE-285 Fix)
   canExport(): boolean {
-    const roleName = localStorage.getItem('roleName') || sessionStorage.getItem('role') || '';
-    const allowedRoles = ['DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Collector', 'SE', 'HO_Infra', 'Division'];
+    const roleName =
+      localStorage.getItem('roleName') || sessionStorage.getItem('role') || '';
+    const allowedRoles = [
+      'DHS',
+      'DHS STORE',
+      'SEC1',
+      'Chairman',
+      'CME',
+      'DME1',
+      'Collector',
+      'SE',
+      'HO_Infra',
+      'Division',
+    ];
     return allowedRoles.includes(roleName);
   }
 
@@ -142,201 +157,171 @@ export class AdministrativeSanctionComponent {
       this.dataSource.sort = this.sort;
       this.dataSourceDivision.paginator = this.paginatorPageSize;
       this.dataSourceDivision.sort = this.sort2;
-
     } else {
       // this.getDivisionWiseASPendingDetails();
       this.getASCompletedDetails();
-
     }
   }
 
-
- 
-onButtonClick(ASID: any, workid: any): void {
+  onButtonClick(ASID: any, workid: any): void {
     this.spinner.show();
-    this.api.GETASFile(ASID, workid)
-      .subscribe(
-        (res) => {
-          console.log("url=", res);
-          const filename = res[0]?.filename; 
-          const URL = res[0]?.asLetterName; // e.g., "https://cgmsc.gov.in/himisr/UploadAS/323AS.pdf"
-          
-          if (filename && URL) {
-            // Remove the domain part so it becomes "/himisr/UploadAS/323AS.pdf"
-            const relativeUrl = URL.replace('https://cgmsc.gov.in', ''); 
-            this.downloadPDF(relativeUrl, filename);
-          } else {
-            this.spinner.hide();
-            alert("⚠️ Alert: AS Letter Not Found!\nThe requested document is missing.");
-          }
-        },
-        (error) => {
-          this.spinner.hide();
-          alert(`Error fetching data: ${error.message}`);
-        }
-      );
-}
+    this.api.GETASFile(ASID, workid).subscribe(
+      (res) => {
+        console.log('url=', res);
+        const filename = res[0]?.filename;
+        const URL = res[0]?.asLetterName; // e.g., "https://cgmsc.gov.in/himisr/UploadAS/323AS.pdf"
 
-downloadPDF(url: string, fileName: string): void {
+        if (filename && URL) {
+          // Remove the domain part so it becomes "/himisr/UploadAS/323AS.pdf"
+          const relativeUrl = URL.replace('https://cgmsc.gov.in', '');
+          this.downloadPDF(relativeUrl, filename);
+        } else {
+          this.spinner.hide();
+          alert(
+            '⚠️ Alert: AS Letter Not Found!\nThe requested document is missing.',
+          );
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      },
+    );
+  }
+
+  downloadPDF(url: string, fileName: string): void {
     fetch(url)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) throw new Error('Network response was not ok');
-        return response.blob(); 
+        return response.blob();
       })
-      .then(blob => {
+      .then((blob) => {
         const blobUrl = window.URL.createObjectURL(blob);
         const anchor = document.createElement('a');
         anchor.href = blobUrl;
-        
-        anchor.download = fileName.endsWith('.pdf') ? fileName : `${fileName}.pdf`;
-        
+
+        anchor.download = fileName.endsWith('.pdf')
+          ? fileName
+          : `${fileName}.pdf`;
+
         document.body.appendChild(anchor);
         anchor.click();
         document.body.removeChild(anchor);
-        
+
         window.URL.revokeObjectURL(blobUrl);
-        this.spinner.hide(); 
+        this.spinner.hide();
       })
-      .catch(error => {
+      .catch((error) => {
         this.spinner.hide();
         console.error('Download error:', error);
         alert('⚠️ Error downloading the file. Please try again.');
       });
-}
+  }
 
   getASEnteredDetails(ASID: any, divisionId: any, mainSchemeId: any): void {
     // console.log(ASID, divisionId , mainSchemeId )
     this.spinner.show();
-    this.api.GETASEnteredDetails(ASID, divisionId, mainSchemeId)
-      .subscribe(
-        (res) => {
-          this.dispatchData1 = res.map(
-            (item: ASEnteredDetails, index: number) => ({
-              ...item,
-              sno: index + 1,
-            })
-          );
-          // console.log('res:', res);
-          // console.log('dispatchData=:', this.dispatchData);
-          this.dataSource1.data = this.dispatchData1;
-          this.dataSource1.paginator = this.paginator1;
-          this.dataSource1.sort = this.sort1;
-          this.cdr.detectChanges();
-          this.spinner.hide();
-        },
-        (error) => {
-          this.spinner.hide();
-          alert(`Error fetching data: ${error.message}`);
-        }
-      );
-    this.openDialog();
-  }
-    this.spinner.show();
-    this.api.GETASEnteredDetails(ASID, divisionId, mainSchemeId)
-      .subscribe(
-        (res) => {
-          this.dispatchData1 = res.map(
-            (item: ASEnteredDetails, index: number) => ({
-              ...item,
-              sno: index + 1,
-            })
-          );
-          // console.log('res:', res);
-          // console.log('dispatchData=:', this.dispatchData);
-          this.dataSource1.data = this.dispatchData1;
-          this.dataSource1.paginator = this.paginator1;
-          this.dataSource1.sort = this.sort1;
-          this.cdr.detectChanges();
-          this.spinner.hide();
-        },
-        (error) => {
-          this.spinner.hide();
-          alert(`Error fetching data: ${error.message}`);
-        }
-      );
+    this.api.GETASEnteredDetails(ASID, divisionId, mainSchemeId).subscribe(
+      (res) => {
+        this.dispatchData1 = res.map(
+          (item: ASEnteredDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          }),
+        );
+        // console.log('res:', res);
+        // console.log('dispatchData=:', this.dispatchData);
+        this.dataSource1.data = this.dispatchData1;
+        this.dataSource1.paginator = this.paginator1;
+        this.dataSource1.sort = this.sort1;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      },
+    );
     this.openDialog();
   }
 
   getASCompletedDetails(): void {
     this.spinner.show();
-    this.api.GETASCompleted()
-      .subscribe(
-        (res) => {
-          this.dispatchData2 = res.map(
-            (item: ASCompletedDetails, index: number) => ({
-              ...item,
-              sno: index + 1,
-            })
-          );
-          // console.log('res:', res);
-          // console.log('dataSource2:', this.dataSource2);
-          // console.log('dispatchData2 =:', this.dispatchData2);
-          this.dataSource2.data = this.dispatchData2;
-          this.dataSource2.paginator = this.paginator3;
-          this.dataSource2.sort = this.sort3;
-          this.cdr.detectChanges();
-          this.spinner.hide();
-        },
-        (error) => {
-          alert(`Error fetching data: ${error.message}`);
-        }
-      );
+    this.api.GETASCompleted().subscribe(
+      (res) => {
+        this.dispatchData2 = res.map(
+          (item: ASCompletedDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          }),
+        );
+        // console.log('res:', res);
+        // console.log('dataSource2:', this.dataSource2);
+        // console.log('dispatchData2 =:', this.dispatchData2);
+        this.dataSource2.data = this.dispatchData2;
+        this.dataSource2.paginator = this.paginator3;
+        this.dataSource2.sort = this.sort3;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        alert(`Error fetching data: ${error.message}`);
+      },
+    );
     // this.openDialog();
   }
   getASPendingDetails(): void {
     this.spinner.show();
-    this.api.GETASPendingDetails()
-      .subscribe(
-        (res) => {
-          this.dispatchData = res.map(
-            (item: ASPendingDetails, index: number) => ({
-              ...item,
-              sno: index + 1,
-            })
-          );
-          // console.log('res:', res);
-          // console.log('dataSource:', this.dataSource);
-          // console.log('dispatchData=:', this.dispatchData);
-          this.dataSource.data = this.dispatchData;
-          this.dataSource.paginator = this.paginatorval;
-          this.dataSource.sort = this.sort;
-          this.cdr.detectChanges();
-          this.spinner.hide();
-        },
-        (error) => {
-          this.spinner.hide();
-          alert(`Error fetching data: ${error.message}`);
-        }
-      );
+    this.api.GETASPendingDetails().subscribe(
+      (res) => {
+        this.dispatchData = res.map(
+          (item: ASPendingDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          }),
+        );
+        // console.log('res:', res);
+        // console.log('dataSource:', this.dataSource);
+        // console.log('dispatchData=:', this.dispatchData);
+        this.dataSource.data = this.dispatchData;
+        this.dataSource.paginator = this.paginatorval;
+        this.dataSource.sort = this.sort;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      },
+    );
     // this.openDialog();
   }
   getDivisionWiseASPendingDetails(): void {
-    let divisionId = 0
-    let mainSchemeId = 0
+    let divisionId = 0;
+    let mainSchemeId = 0;
     this.spinner.show();
-    this.api.GETDivisionWiseASPending(divisionId, mainSchemeId)
-      .subscribe(
-        (res) => {
-          this.dispatchDataDivision = res.map(
-            (item: DivisionWiseASPendingDetails, index: number) => ({
-              ...item,
-              sno: index + 1,
-            })
-          );
-          // console.log('res:', res);
-          // console.log('dataSource:', this.dataSource);
-          // console.log('dispatchData=:', this.dispatchData);
-          this.dataSourceDivision.data = this.dispatchDataDivision;
-          this.dataSourceDivision.paginator = this.paginatorPageSize;
-          this.dataSourceDivision.sort = this.sort2;
-          this.cdr.detectChanges();
-          this.spinner.hide();
-        },
-        (error) => {
-          this.spinner.hide();
-          alert(`Error fetching data: ${error.message}`);
-        }
-      );
+    this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
+      (res) => {
+        this.dispatchDataDivision = res.map(
+          (item: DivisionWiseASPendingDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          }),
+        );
+        // console.log('res:', res);
+        // console.log('dataSource:', this.dataSource);
+        // console.log('dispatchData=:', this.dispatchData);
+        this.dataSourceDivision.data = this.dispatchDataDivision;
+        this.dataSourceDivision.paginator = this.paginatorPageSize;
+        this.dataSourceDivision.sort = this.sort2;
+        this.cdr.detectChanges();
+        this.spinner.hide();
+      },
+      (error) => {
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
+      },
+    );
     // this.openDialog();
   }
 
@@ -386,7 +371,6 @@ downloadPDF(url: string, fileName: string): void {
       { header: 'AS ID', dataKey: 'asid' },
     ];
     const rows = this.dispatchDataDivision.map((row) => ({
-
       sno: row.sno,
       login_name: row.login_name,
       head: row.head,
@@ -430,17 +414,17 @@ downloadPDF(url: string, fileName: string): void {
       { header: 'AS ID', dataKey: 'asid' },
     ];
     const rows = this.dispatchData1.map((row) => ({
-      sno: row.sno,//
+      sno: row.sno, //
       login_name: row.login_name,
       head: row.head,
       letterno: row.letterno,
-      division: row.division,//
+      division: row.division, //
       asDate: row.asDate,
-      work_id: row.work_id,//
-      district: row.district,//
-      block_Name_En: row.block_Name_En,//
-      asAmt: row.asAmt,//
-      workname: row.workname,//
+      work_id: row.work_id, //
+      district: row.district, //
+      block_Name_En: row.block_Name_En, //
+      asAmt: row.asAmt, //
+      workname: row.workname, //
       // balanceASAmount: row.balanceASAmount,
       asid: row.asid,
     }));
@@ -500,7 +484,9 @@ downloadPDF(url: string, fileName: string): void {
   }
   exportToPDF() {
     if (!this.canExport()) {
-      alert('Unauthorized access: You do not have permission to export this data.');
+      alert(
+        'Unauthorized access: You do not have permission to export this data.',
+      );
       return;
     }
     const doc = new jsPDF('l', 'mm', 'a4');
@@ -571,7 +557,7 @@ downloadPDF(url: string, fileName: string): void {
 
   InsertUserPageViewLog() {
     try {
-      // 
+      //
       const roleIdName = localStorage.getItem('roleName') || '';
       const userId = Number(sessionStorage.getItem('userid') || 0);
       const roleId = Number(sessionStorage.getItem('roleId') || 0);
@@ -592,17 +578,18 @@ downloadPDF(url: string, fileName: string): void {
 
       // }
       // API call
-      this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
-        next: (res: any) => {
-          console.log('Page View Log Saved:', res);
-          // const LogSaved='Log Saved'
-          // localStorage.setItem('Log Saved', LogSaved);
-        },
-        error: (err: any) => {
-          console.error('Backend Error:', JSON.stringify(err.message));
-        }
-      });
-
+      this.api
+        .InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata)
+        .subscribe({
+          next: (res: any) => {
+            console.log('Page View Log Saved:', res);
+            // const LogSaved='Log Saved'
+            // localStorage.setItem('Log Saved', LogSaved);
+          },
+          error: (err: any) => {
+            console.error('Backend Error:', JSON.stringify(err.message));
+          },
+        });
     } catch (err: any) {
       console.error('Error:', err.message);
     }
