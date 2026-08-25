@@ -231,6 +231,31 @@ downloadPDF(url: string, fileName: string): void {
       );
     this.openDialog();
   }
+    this.spinner.show();
+    this.api.GETASEnteredDetails(ASID, divisionId, mainSchemeId)
+      .subscribe(
+        (res) => {
+          this.dispatchData1 = res.map(
+            (item: ASEnteredDetails, index: number) => ({
+              ...item,
+              sno: index + 1,
+            })
+          );
+          // console.log('res:', res);
+          // console.log('dispatchData=:', this.dispatchData);
+          this.dataSource1.data = this.dispatchData1;
+          this.dataSource1.paginator = this.paginator1;
+          this.dataSource1.sort = this.sort1;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          alert(`Error fetching data: ${error.message}`);
+        }
+      );
+    this.openDialog();
+  }
 
   getASCompletedDetails(): void {
     this.spinner.show();
