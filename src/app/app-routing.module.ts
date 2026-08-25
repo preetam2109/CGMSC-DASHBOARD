@@ -168,6 +168,7 @@ import { SecurityDepositPendingMonitoring } from './component/ORACLE-DASHBOARD/s
 import { SecurityDepositReleasedMonitoring } from './component/ORACLE-DASHBOARD/security-deposit-released-monitoring/security-deposit-released-monitoring';
 import { EMdMonitoringAndInsights } from './component/ORACLE-DASHBOARD/emd-monitoring-and-insights/emd-monitoring-and-insights';
 import { InwardAnalyticsAndInsights } from './component/ORACLE-DASHBOARD/inward-analytics-and-insights/inward-analytics-and-insights';
+import { DeliveryStatusMonitoring } from './component/ORACLE-DASHBOARD/delivery-status-monitoring/delivery-status-monitoring';
 import { SDAcknowledgementInsights } from './component/ORACLE-DASHBOARD/sdacknowledgement-insights/sdacknowledgement-insights';
 import { ExecutiveSupplyChain } from './component/ORACLE-DASHBOARD/executive-supply-chain/executive-supply-chain';
 import { PayementApprovals } from './Finance-Dashboard/payement-approvals/payement-approvals';
@@ -483,6 +484,7 @@ const routes: Routes = [
   { path: 'securitydepositreleasedmonitoring-oracle', component: SecurityDepositReleasedMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['DMFin', 'GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'EMDMonitoringAndInsights', component: EMdMonitoringAndInsights, canActivate: [RouteGuardService], data: { allowedRoles: ['DMFin', 'GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'inward-analytics-and-insights', component: InwardAnalyticsAndInsights, canActivate: [RouteGuardService], data: { allowedRoles: ['SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'delivery-status-monitoring', component: DeliveryStatusMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division', 'Logi Cell'] } },
   { path: 'sdacknowledgement-insights', component: SDAcknowledgementInsights, canActivate: [RouteGuardService], data: { allowedRoles: ['SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'ExecutiveSupplyChain', component: ExecutiveSupplyChain, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'PayementApprovals', component: PayementApprovals, canActivate: [RouteGuardService], data: { allowedRoles: ['DMFin', 'GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },

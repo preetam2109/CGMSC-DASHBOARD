@@ -63,6 +63,7 @@ export class MenuServiceService {
                     { label: 'Stock Out & Stock Availability in Warehouse', route: '/stock-ou-and-stock-availability-in-warehouse' },
                     { label: 'Item wise Stock', route: '/item-wise-stock' },
                     { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },
+                    { label: 'Delivery Status Monitoring', route: '/delivery-status-monitoring', verified: true },
                     { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
                     { label: 'Medical College Hospital NOC Analytics', route: '/medical-college-hospital-noc-analytics', verified: true },
                   ]
@@ -401,6 +402,7 @@ export class MenuServiceService {
                 { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
                 { label: 'Medical College Hospital NOC Analytics', route: '/medical-college-hospital-noc-analytics', verified: true },
                 { label: 'Warehouse Indent Pending Activity ', route: '/warehouse-indent-pending-activity-monitoring' },
+                { label: 'Delivery Status Monitoring', route: '/delivery-status-monitoring', verified: true },
               ]
             },
             {
@@ -1629,6 +1631,7 @@ export class MenuServiceService {
             { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },
             { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
             { label: 'Medical College Hospital NOC Analytics', route: '/medical-college-hospital-noc-analytics', verified: true },
+            { label: 'Delivery Status Monitoring', route: '/delivery-status-monitoring', verified: true },
           ]
         },
         {

@@ -228,7 +228,7 @@ export class InfrastructureHomeComponent implements OnInit {
     this.dataSource2 = new MatTableDataSource<DetailProgressTinP>([]);
     this.dataSource3 = new MatTableDataSource<TenderInProcess>([]);
     this.dataSource4 = new MatTableDataSource<TotalWorksAbstract>([]);
-    this.dataSourcev_work=new MatTableDataSource<any>([]);
+    this.dataSourcev_work = new MatTableDataSource<any>([]);
   }
 
   ngOnInit() {
@@ -255,7 +255,7 @@ export class InfrastructureHomeComponent implements OnInit {
   }
 
   loadInitialData() {
-    //  debugger;
+    //  ;
 
     this.spinner.show();
     var formdate = this.formdate ? this.formdate : 0;
@@ -263,7 +263,7 @@ export class InfrastructureHomeComponent implements OnInit {
 
     this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
-   this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
+    this.mainSchemeID = this.mainSchemeID == 0 ? 0 : this.mainSchemeID;
     // var mainSchemeId = 0;
     var ASID = 0;
     var GrantID = 0;
@@ -271,7 +271,7 @@ export class InfrastructureHomeComponent implements OnInit {
     this.api
       .DashProgressCount(
         this.divisionid,
-       this.mainSchemeID,
+        this.mainSchemeID,
         this.himisDistrictid,
         ASID,
         GrantID,
@@ -677,195 +677,195 @@ export class InfrastructureHomeComponent implements OnInit {
     this.openDialogTW();
   }
 
- // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
+  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
   // GETV_WorkDetails(did: any, dashname: any, nosworks: any){
 
-      //  1001,
-      //     this.divisionid,
-      //     this.himisDistrictid,
-      //     this.mainSchemeID,
-      //     this.ASAmount,
-      //     isbelow20,
-      //     formdate,
-      //     todate,
-      // 'sno','work_id','grantNo','head','district','blockname','letterNo',
-      //     'work','tenderno', 'eprocno','noofcalls','aadt','asAmt','totalpaid','totalunpaid','tsDate','tsamt',
-      //     'lProgress', 'startdt','enddt',
-      //      'covOpenedDT','topnedpricedt','divName_En','fmrcode','approver','action'
-      displayedColumns12: string[] = [
-  'sno',
-  'action',
-  'work_Id',
-  'approved_Fin_Year',
+  //  1001,
+  //     this.divisionid,
+  //     this.himisDistrictid,
+  //     this.mainSchemeID,
+  //     this.ASAmount,
+  //     isbelow20,
+  //     formdate,
+  //     todate,
+  // 'sno','work_id','grantNo','head','district','blockname','letterNo',
+  //     'work','tenderno', 'eprocno','noofcalls','aadt','asAmt','totalpaid','totalunpaid','tsDate','tsamt',
+  //     'lProgress', 'startdt','enddt',
+  //      'covOpenedDT','topnedpricedt','divName_En','fmrcode','approver','action'
+  displayedColumns12: string[] = [
+    'sno',
+    'action',
+    'work_Id',
+    'approved_Fin_Year',
 
-   'head',
-  'division',
-  'district',
-  'block',
-  'workName',
- 'aS_DDMMYY',
-'aS_ValueLacs',
-  'progress_Group',
-  // 'pGroupID',
-  'progressLevel',
-  // 'progressID',
-  'lastProgressDate_DDMMYY',
-  // 'progress_Remarks',
-  'delay_Reason',
-  'expected_Completion_DDMMYY',
-  // 'mainProgress',
-  'workorder_DDMMYY',
-  'timeAllowed_Month',
-  'work_CommencementDDMMYY',
-  'dueDateCompletion_DDMMYY',
-  'contractor',
-  'contract_Value_Lacs',
-  'above_Below',
-  'rate_Percent',
-  'finalBillStatus',
-  'nosBill',
-  'grossPaidLacs',
-  'totalNetPaidLacs',
-  'gross_Bill_Generated_Lacs_NotPaid',
+    'head',
+    'division',
+    'district',
+    'block',
+    'workName',
+    'aS_DDMMYY',
+    'aS_ValueLacs',
+    'progress_Group',
+    // 'pGroupID',
+    'progressLevel',
+    // 'progressID',
+    'lastProgressDate_DDMMYY',
+    // 'progress_Remarks',
+    'delay_Reason',
+    'expected_Completion_DDMMYY',
+    // 'mainProgress',
+    'workorder_DDMMYY',
+    'timeAllowed_Month',
+    'work_CommencementDDMMYY',
+    'dueDateCompletion_DDMMYY',
+    'contractor',
+    'contract_Value_Lacs',
+    'above_Below',
+    'rate_Percent',
+    'finalBillStatus',
+    'nosBill',
+    'grossPaidLacs',
+    'totalNetPaidLacs',
+    'gross_Bill_Generated_Lacs_NotPaid',
 
 
-  // 'currentTender_Percent',
+    // 'currentTender_Percent',
 
- 
-  'approver',
-  'type_Name',
-  'workDescription',
-  'tS_DDMMYY',
-  'tS_ValueLacs',
 
-  'acceptanceLetterRefNo',
-  'acceptance_DDMMYY',
-  'tender_NITReference',
-  
-  // 'divisionID',
+    'approver',
+    'type_Name',
+    'workDescription',
+    'tS_DDMMYY',
+    'tS_ValueLacs',
 
-   'alloted_Sub_Enginner',
-  'alloted_Assitant_Enginner',
-  'subEng_MobileNo',
+    'acceptanceLetterRefNo',
+    'acceptance_DDMMYY',
+    'tender_NITReference',
+
+    // 'divisionID',
+
+    'alloted_Sub_Enginner',
+    'alloted_Assitant_Enginner',
+    'subEng_MobileNo',
     'contractorID',
-  'contractorRegistrationType',
-  'contractor_Class',
-  // 'contractor_Address',
-  'contractor_Contact',
-  'agreementNo',
-  'workorderRefNoGovt',
-  'agreementRefNo',
-  // 'agreementName',
+    'contractorRegistrationType',
+    'contractor_Class',
+    // 'contractor_Address',
+    'contractor_Contact',
+    'agreementNo',
+    'workorderRefNoGovt',
+    'agreementRefNo',
+    // 'agreementName',
 
-  // 'aE_Mobileno',
-  // 'eE_MobileNo',
-  'tenderStart_DDMMYY',
-  'tender_End_DDMMYY',
-  'liveStatus',
-  'currentTenderZonalType',
-  'zonalDistrict',
-  'zonalBlock',
+    // 'aE_Mobileno',
+    // 'eE_MobileNo',
+    'tenderStart_DDMMYY',
+    'tender_End_DDMMYY',
+    'liveStatus',
+    'currentTenderZonalType',
+    'zonalDistrict',
+    'zonalBlock',
 
-  'noOfCalls',
-  'coverA_OpenDDMMYY',
-  'coverB_OpendDDMMYY',
-  'tender_Price_Opened_DDMMYY',
-  'currentTenderSancton',
-  'tender_Rejected_DDMMYY',
-  'currentTenderAcceptStatus',
-  'eProcNo',
-  'nitNo',
-  'letterNo',
-  'tenderType',
+    'noOfCalls',
+    'coverA_OpenDDMMYY',
+    'coverB_OpendDDMMYY',
+    'tender_Price_Opened_DDMMYY',
+    'currentTenderSancton',
+    'tender_Rejected_DDMMYY',
+    'currentTenderAcceptStatus',
+    'eProcNo',
+    'nitNo',
+    'letterNo',
+    'tenderType',
 
 
-  // 'tender_Price_OpenedDate',
-  // 'coverB_OpendDate',
-  // 'coverA_OpenDate',
-  
+    // 'tender_Price_OpenedDate',
+    // 'coverB_OpendDate',
+    // 'coverA_OpenDate',
+
     // 'latitude',
-  // 'longitude',
-  // 'medicollege',
-  // 'above_90LacsValue',
-  // 'below_90LacsValue',
-  // 'onTimeWorks',
-  // 'delayMoreThanSixMonth',
-      // 'expected_Completion_Date',
-  // 'lastProgressDate',
-  // 'tenderStartDate',
-  // 'tender_EndDate',
-  // 'tender_Rejected_Date',
-  // 'delay_1_3Month',
-  // 'delay_3_6Month',
-  // 'fin_Year',
-  // 'asPath',
-  // 'asLetter',
-  // 'imageName',
-  // 'imageName2',
-  // 'imageName3',
-  // 'imageName4',
-  // 'imageName5',
-  // 'tenderForm',
-  
-  // 'pac',
- 
-  // 'dueDateCompletionDate',
-  // 'work_Commencement_Date',
-  // 'workOrderDate',
-  // 'acceptanceDate',
-  // 'tsDate',
-  // 'asDate',
+    // 'longitude',
+    // 'medicollege',
+    // 'above_90LacsValue',
+    // 'below_90LacsValue',
+    // 'onTimeWorks',
+    // 'delayMoreThanSixMonth',
+    // 'expected_Completion_Date',
+    // 'lastProgressDate',
+    // 'tenderStartDate',
+    // 'tender_EndDate',
+    // 'tender_Rejected_Date',
+    // 'delay_1_3Month',
+    // 'delay_3_6Month',
+    // 'fin_Year',
+    // 'asPath',
+    // 'asLetter',
+    // 'imageName',
+    // 'imageName2',
+    // 'imageName3',
+    // 'imageName4',
+    // 'imageName5',
+    // 'tenderForm',
+
+    // 'pac',
+
+    // 'dueDateCompletionDate',
+    // 'work_Commencement_Date',
+    // 'workOrderDate',
+    // 'acceptanceDate',
+    // 'tsDate',
+    // 'asDate',
 
 
-];
+  ];
 
 
 
-      displayedColumns122: string[] = [
-  'sno',
-  // 'demanddetailid',
-  'divName_En',
-  'head',
+  displayedColumns122: string[] = [
+    'sno',
+    // 'demanddetailid',
+    'divName_En',
+    'head',
 
-  'demandno',
+    'demandno',
     'demandValue',
-  'seApprovedAmt',
-  'finApprovedAmt',
-  'finalStatus',
-  'demandDateddMMYY',
-  'seForwardDateddmmyy',
-  'finApprovedDateddmmyy',
-  // 'mainSchemeID',
-  'district',
-  'block_Name_En',
-  'work_id',
-  'workName',
-  'aadT_DDMMYY',
-  'tsdT_DDMMYY',
-  'asAmt',
-  'tsAmt',
-  // 'tType',
-  'letterNo',
-  'nitno',
-  'acceptDT_DDMMYY',
-  'wrokOrderDT_DDMMYY',
-  'totalAmountOfContract_Lacs',
-  'totalExpLacs',
-  // 'divisionID',
-  'contrctorName',
-  'cid',
+    'seApprovedAmt',
+    'finApprovedAmt',
+    'finalStatus',
+    'demandDateddMMYY',
+    'seForwardDateddmmyy',
+    'finApprovedDateddmmyy',
+    // 'mainSchemeID',
+    'district',
+    'block_Name_En',
+    'work_id',
+    'workName',
+    'aadT_DDMMYY',
+    'tsdT_DDMMYY',
+    'asAmt',
+    'tsAmt',
+    // 'tType',
+    'letterNo',
+    'nitno',
+    'acceptDT_DDMMYY',
+    'wrokOrderDT_DDMMYY',
+    'totalAmountOfContract_Lacs',
+    'totalExpLacs',
+    // 'divisionID',
+    'contrctorName',
+    'cid',
 
-  // 'name',
-  // 'asFundRecv',
+    // 'name',
+    // 'asFundRecv',
 
-  // 'daysTaken',
-  // 'demandDate'
-];
-      isbelow20:any;
-  DetailProgress(did: any, dashname: any, nosworks: any){
-  // debugger;
-  let workid=0;
-     this.dashname = dashname;
+    // 'daysTaken',
+    // 'demandDate'
+  ];
+  isbelow20: any;
+  DetailProgress(did: any, dashname: any, nosworks: any) {
+    // ;
+    let workid = 0;
+    this.dashname = dashname;
     this.nosworks = nosworks;
     this.spinner.show();
     this.roleName = localStorage.getItem('roleName');
@@ -888,50 +888,50 @@ export class InfrastructureHomeComponent implements OnInit {
     this.himisDistrictid = this.himisDistrictid == 0 ? 0 : this.himisDistrictid;
     if (did == 1001) {
       this.isbelow20 = 'N';
-    }else if (did == 3003) {
-       this.isbelow20 = 'NA';
-    }else if (did == 1002) {
+    } else if (did == 3003) {
+      this.isbelow20 = 'NA';
+    } else if (did == 1002) {
       this.isbelow20 = 'Y';
     } else if (did == 6002) {
-       this.isbelow20 = 'NA';
-    }else if (did == 2001) {
-     this.isbelow20=0;
-    }else if (did == 5001) {
-     this.isbelow20=0;
+      this.isbelow20 = 'NA';
+    } else if (did == 2001) {
+      this.isbelow20 = 0;
+    } else if (did == 5001) {
+      this.isbelow20 = 0;
 
-    }else if (did === 6001) {
-     this.isbelow20=0;
+    } else if (did === 6001) {
+      this.isbelow20 = 0;
 
-    }else if (did == 8001) {
-     this.isbelow20=0;
+    } else if (did == 8001) {
+      this.isbelow20 = 0;
 
-    }else if (did == 7001) {
-     this.isbelow20=0;
+    } else if (did == 7001) {
+      this.isbelow20 = 0;
 
-    }else if (did == 4001) {
-     this.isbelow20=0;
-      
-    }else{
-     this.isbelow20=0;
+    } else if (did == 4001) {
+      this.isbelow20 = 0;
+
+    } else {
+      this.isbelow20 = 0;
 
     }
-    this.api.V_WorkDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,this.isbelow20,formdate,todate,workid)
-          .subscribe(
-            (res) => {
-              this.Dispachv_work = res.map((item: any, index: number) => ({ ...item, sno: index + 1 }));
-              this.dataSourcev_work.data = this.Dispachv_work;
-              console.log('dataSourcev_work=',this.dataSourcev_work);
-              this.dataSourcev_work.paginator = this.paginatorv_wor;
-              this.dataSourcev_work.sort = this.sort12;
-              this.cdr.detectChanges();
-              this.spinner.hide();
-            },
-            (error) => {
-              this.spinner.hide();
-              console.error(`API Error:: ${error.message}`);
-            }
-          );
-         this.openDialogv_work();
+    this.api.V_WorkDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, this.isbelow20, formdate, todate, workid)
+      .subscribe(
+        (res) => {
+          this.Dispachv_work = res.map((item: any, index: number) => ({ ...item, sno: index + 1 }));
+          this.dataSourcev_work.data = this.Dispachv_work;
+          console.log('dataSourcev_work=', this.dataSourcev_work);
+          this.dataSourcev_work.paginator = this.paginatorv_wor;
+          this.dataSourcev_work.sort = this.sort12;
+          this.cdr.detectChanges();
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          console.error(`API Error:: ${error.message}`);
+        }
+      );
+    this.openDialogv_work();
   }
 
 
@@ -2293,7 +2293,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
   openDialog1() {
@@ -2304,7 +2304,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
   openDialog2() {
@@ -2315,7 +2315,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
   openDialog3() {
@@ -2326,7 +2326,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
   openDialogCom_Han() {
@@ -2337,7 +2337,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
   openDialogRun_Work() {
@@ -2348,7 +2348,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
   openDialogLand_isu() {
@@ -2359,7 +2359,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
   openDialogTW() {
@@ -2370,7 +2370,7 @@ export class InfrastructureHomeComponent implements OnInit {
       panelClass: 'full-screen-dialog',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
 
   onButtonClick2(ASID: any, workid: any): void {
@@ -2579,7 +2579,7 @@ export class InfrastructureHomeComponent implements OnInit {
       this.api
         .InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata)
         .subscribe({
-          next: (res: any) => {},
+          next: (res: any) => { },
           error: (err: any) => {
             console.error('Backend Error:', err.message);
           },
@@ -2589,49 +2589,49 @@ export class InfrastructureHomeComponent implements OnInit {
     }
   }
 
-//  readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+  //  readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
 
-onopenimges(element: any) {
-  this.selectedWork = element;
-  this.imageUrls = [];
-  
-  const imageKeys = [
-    'imageName',
-    'imageName2',
-    'imageName3',
-    'imageName4',
-    'imageName5',
-  ];
-imageKeys.forEach((key) => {
-  const imgFile = element[key];
-  // Check if value exists, is not empty string, and not 'NA' / 'null'
-  if (imgFile && imgFile.trim() !== '' && imgFile !== 'NA' && imgFile !== 'null') {
-    this.imageUrls.push(this.baseImageUrl + imgFile.trim()); // trim() zarur lagayein
-  }
-});
+  onopenimges(element: any) {
+    this.selectedWork = element;
+    this.imageUrls = [];
 
-  // imageKeys.forEach((key) => {
-  //   const imgFile = element[key];
-  //   if (imgFile && imgFile.trim() !== '' && imgFile !== 'NA' && imgFile !== 'null') {
-  //     this.imageUrls.push(this.baseImageUrl + imgFile.trim());    }
-  // });
+    const imageKeys = [
+      'imageName',
+      'imageName2',
+      'imageName3',
+      'imageName4',
+      'imageName5',
+    ];
+    imageKeys.forEach((key) => {
+      const imgFile = element[key];
+      // Check if value exists, is not empty string, and not 'NA' / 'null'
+      if (imgFile && imgFile.trim() !== '' && imgFile !== 'NA' && imgFile !== 'null') {
+        this.imageUrls.push(this.baseImageUrl + imgFile.trim()); // trim() zarur lagayein
+      }
+    });
 
-  if (this.imageUrls.length === 0) {
-    this.imageUrls.push('assets/no-image-placeholder.png');
-  }
+    // imageKeys.forEach((key) => {
+    //   const imgFile = element[key];
+    //   if (imgFile && imgFile.trim() !== '' && imgFile !== 'NA' && imgFile !== 'null') {
+    //     this.imageUrls.push(this.baseImageUrl + imgFile.trim());    }
+    // });
 
-  // 👇 YAHAN DHYAN DEIN: Modal open karte time `data` pass karna zaroori hai
-  // 'this.openimages1()' ke andar ya yahan seedha dialog open karein:
-  this.dialog.open(this.openimages, { // 'this.openimages' aapka ViewChild template reference hoga
-    width: '800px',
-    data: {
-      work: this.selectedWork,
-      images: this.imageUrls
+    if (this.imageUrls.length === 0) {
+      this.imageUrls.push('assets/no-image-placeholder.png');
     }
-  });
-}
+
+    // 👇 YAHAN DHYAN DEIN: Modal open karte time `data` pass karna zaroori hai
+    // 'this.openimages1()' ke andar ya yahan seedha dialog open karein:
+    this.dialog.open(this.openimages, { // 'this.openimages' aapka ViewChild template reference hoga
+      width: '800px',
+      data: {
+        work: this.selectedWork,
+        images: this.imageUrls
+      }
+    });
+  }
   onopenimges1(element: any) {
-    debugger;
+    ;
     this.selectedWork = element;
     this.imageUrls = [];
     // https://cgmsc.gov.in/himisr/ProgressImages/
@@ -2715,142 +2715,142 @@ imageKeys.forEach((key) => {
     // }
   }
 
- 
- getCurrentDateTime(): string {
-   const now = new Date();
-   const date = now.toLocaleDateString('en-GB'); 
-   const time = now.toLocaleTimeString('en-IN', {
-     hour: '2-digit',
-     minute: '2-digit',
-     hour12: true
-   });
-   return `${date} ${time}`;
- }
- exportToPDF_WorkDetails() {
-  const currentDateTime = this.getCurrentDateTime();
-  
-  // 100 columns ke liye 'a0' (sabse bada landscape size) use kar rahe hain
-  const doc = new jsPDF('l', 'mm', 'a0'); 
-  const bodyData: any[] = [];
-  
-  // Data aapke naye method ke hisaab se dataSourcev_work.data me hai
-  const sourceData = this.dataSourcev_work.data;
 
-  if (!sourceData || sourceData.length === 0) {
-    alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
-    return;
+  getCurrentDateTime(): string {
+    const now = new Date();
+    const date = now.toLocaleDateString('en-GB');
+    const time = now.toLocaleTimeString('en-IN', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+    return `${date} ${time}`;
   }
+  exportToPDF_WorkDetails() {
+    const currentDateTime = this.getCurrentDateTime();
 
-  // 1. Jin columns me Amount (Paisa) hai, unko right-align aur 2 decimal karna hai
-  const amountColumns = [
-    'aS_ValueLacs', 'tS_ValueLacs', 'contract_Value_Lacs',
-    'grossPaidLacs', 'totalNetPaidLacs', 'gross_Bill_Generated_Lacs_NotPaid', 'demandValue'
-  ];
+    // 100 columns ke liye 'a0' (sabse bada landscape size) use kar rahe hain
+    const doc = new jsPDF('l', 'mm', 'a0');
+    const bodyData: any[] = [];
 
-  // 2. Jin columns me Full Time (T00:00:00) aati hai, unhe DD-MM-YYYY karna hai
-  const fullDateColumns = [
-    'dueDateCompletionDate', 'work_Commencement_Date', 'workOrderDate', 'acceptanceDate',
-    'tsDate', 'asDate', 'expected_Completion_Date', 'lastProgressDate', 'tenderStartDate',
-    'tender_EndDate', 'tender_Rejected_Date', 'tender_Price_OpenedDate', 'coverB_OpendDate', 'coverA_OpenDate'
-  ];
+    // Data aapke naye method ke hisaab se dataSourcev_work.data me hai
+    const sourceData = this.dataSourcev_work.data;
 
-  // PDF ke body ka data tayar karna (Dynamic Loop for 100 columns)
-  sourceData.forEach((item: any, index: number) => {
-    const row: any[] = [];
+    if (!sourceData || sourceData.length === 0) {
+      alert('डाउनलोड करने के लिए कोई डेटा उपलब्ध नहीं है।');
+      return;
+    }
 
-    this.displayedColumns12.forEach((colName) => {
-      // Serial Number
-      if (colName === 'sno') {
-        row.push({ content: (index + 1).toString(), styles: { halign: 'center' } });
-      } 
-      // Amounts / Decimal values
-      else if (amountColumns.includes(colName)) {
-        row.push({ content: Number(item[colName] || 0).toFixed(2), styles: { halign: 'right' } });
-      } 
-      // Full Time Format Dates
-      else if (fullDateColumns.includes(colName)) {
-        let dDate = item[colName] ? item[colName].split('T')[0] : '-';
-        if (dDate !== '-' && dDate.includes('-')) {
-          const parts = dDate.split('-');
-          if (parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+    // 1. Jin columns me Amount (Paisa) hai, unko right-align aur 2 decimal karna hai
+    const amountColumns = [
+      'aS_ValueLacs', 'tS_ValueLacs', 'contract_Value_Lacs',
+      'grossPaidLacs', 'totalNetPaidLacs', 'gross_Bill_Generated_Lacs_NotPaid', 'demandValue'
+    ];
+
+    // 2. Jin columns me Full Time (T00:00:00) aati hai, unhe DD-MM-YYYY karna hai
+    const fullDateColumns = [
+      'dueDateCompletionDate', 'work_Commencement_Date', 'workOrderDate', 'acceptanceDate',
+      'tsDate', 'asDate', 'expected_Completion_Date', 'lastProgressDate', 'tenderStartDate',
+      'tender_EndDate', 'tender_Rejected_Date', 'tender_Price_OpenedDate', 'coverB_OpendDate', 'coverA_OpenDate'
+    ];
+
+    // PDF ke body ka data tayar karna (Dynamic Loop for 100 columns)
+    sourceData.forEach((item: any, index: number) => {
+      const row: any[] = [];
+
+      this.displayedColumns12.forEach((colName) => {
+        // Serial Number
+        if (colName === 'sno') {
+          row.push({ content: (index + 1).toString(), styles: { halign: 'center' } });
         }
-        row.push({ content: dDate, styles: { halign: 'center' } });
-      } 
-      // General Text & DDMMYY String dates
-      else {
-        row.push({ content: item[colName]?.toString() || '-', styles: { halign: 'center' } });
+        // Amounts / Decimal values
+        else if (amountColumns.includes(colName)) {
+          row.push({ content: Number(item[colName] || 0).toFixed(2), styles: { halign: 'right' } });
+        }
+        // Full Time Format Dates
+        else if (fullDateColumns.includes(colName)) {
+          let dDate = item[colName] ? item[colName].split('T')[0] : '-';
+          if (dDate !== '-' && dDate.includes('-')) {
+            const parts = dDate.split('-');
+            if (parts.length === 3) dDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+          }
+          row.push({ content: dDate, styles: { halign: 'center' } });
+        }
+        // General Text & DDMMYY String dates
+        else {
+          row.push({ content: item[colName]?.toString() || '-', styles: { halign: 'center' } });
+        }
+      });
+
+      bodyData.push(row);
+    });
+
+    // Headers array generate karna (CamelCase ko proper Header Name me badalna)
+    const generateHeaderName = (col: string) => {
+      if (col === 'sno') return 'S.No';
+      if (col === 'work_Id') return 'Work ID';
+      if (col === 'divName_En') return 'Division';
+      if (col === 'aadT_DDMMYY') return 'AA Date';
+      if (col === 'tsdT_DDMMYY') return 'TS Date';
+      // Baaki sabhi variables ke '_' ko hata kar Space lagana
+      return col.replace(/_/g, ' ').toUpperCase();
+    };
+
+    const pdfHeaders = this.displayedColumns12.map(col => generateHeaderName(col));
+
+    autoTable(doc, {
+      startY: 15,
+      theme: 'grid',
+
+      /* ================= HEADER SECTION ================= */
+      head: [
+        [
+          {
+            content: `${this.dashname || 'Detailed'} - Progress Work List`, // Title me Dashname add kiya hai
+            colSpan: 50, // Title ke liye
+            styles: { halign: 'left', fontStyle: 'bold', fontSize: 18, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
+          },
+          {
+            content: `Print Dt: ${currentDateTime} | Total Works: ${this.nosworks || 0}`,
+            colSpan: this.displayedColumns12.length - 50, // Date ke liye baaki span
+            styles: { halign: 'right', fontSize: 14, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
+          }
+        ],
+        // Dynamic 100 Column Headers
+        pdfHeaders
+      ],
+
+      /* ================= BODY SECTION ================= */
+      body: bodyData,
+
+      /* ================= GLOBAL STYLES ================= */
+      styles: {
+        fontSize: 8, // A0 page par itne columns fit karne ke liye chota font zaroori hai
+        lineWidth: 0.1,
+        lineColor: [100, 100, 100],
+        valign: 'middle',
+        textColor: [0, 0, 0],
+        overflow: 'linebreak'
+      },
+
+      /* ================= DYNAMIC CELL STYLES ================= */
+      didParseCell: (data) => {
+        // Header styling (Index 1 par main column headers hain)
+        if (data.section === 'head' && data.row.index === 1) {
+          data.cell.styles.fillColor = [142, 171, 219];
+          data.cell.styles.lineWidth = 0.3;
+          data.cell.styles.halign = 'center';
+        }
       }
     });
 
-    bodyData.push(row);
-  });
+    // PDF Download Trigger
+    const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
+    doc.save(`Work_Progress_Details_${safeDateString}.pdf`);
+  }
 
-  // Headers array generate karna (CamelCase ko proper Header Name me badalna)
-  const generateHeaderName = (col: string) => {
-    if (col === 'sno') return 'S.No';
-    if (col === 'work_Id') return 'Work ID';
-    if (col === 'divName_En') return 'Division';
-    if (col === 'aadT_DDMMYY') return 'AA Date';
-    if (col === 'tsdT_DDMMYY') return 'TS Date';
-    // Baaki sabhi variables ke '_' ko hata kar Space lagana
-    return col.replace(/_/g, ' ').toUpperCase();
-  };
-
-  const pdfHeaders = this.displayedColumns12.map(col => generateHeaderName(col));
-
-  autoTable(doc, {
-    startY: 15,
-    theme: 'grid',
-    
-    /* ================= HEADER SECTION ================= */
-    head: [
-      [
-        {
-          content: `${this.dashname || 'Detailed'} - Progress Work List`, // Title me Dashname add kiya hai
-          colSpan: 50, // Title ke liye
-          styles: { halign: 'left', fontStyle: 'bold', fontSize: 18, fillColor: [254, 240, 255], textColor: [0, 0, 0] }
-        },
-        {
-          content: `Print Dt: ${currentDateTime} | Total Works: ${this.nosworks || 0}`,
-          colSpan: this.displayedColumns12.length - 50, // Date ke liye baaki span
-          styles: { halign: 'right', fontSize: 14, fillColor: [254, 240, 255], textColor: [100, 100, 100] }
-        }
-      ],
-      // Dynamic 100 Column Headers
-      pdfHeaders
-    ],
-    
-    /* ================= BODY SECTION ================= */
-    body: bodyData, 
-
-    /* ================= GLOBAL STYLES ================= */
-    styles: {
-      fontSize: 8, // A0 page par itne columns fit karne ke liye chota font zaroori hai
-      lineWidth: 0.1,
-      lineColor: [100, 100, 100], 
-      valign: 'middle',
-      textColor: [0, 0, 0],
-      overflow: 'linebreak'
-    },
-    
-    /* ================= DYNAMIC CELL STYLES ================= */
-    didParseCell: (data) => {
-      // Header styling (Index 1 par main column headers hain)
-      if (data.section === 'head' && data.row.index === 1) {
-        data.cell.styles.fillColor = [142, 171, 219]; 
-        data.cell.styles.lineWidth = 0.3;
-        data.cell.styles.halign = 'center';
-      }
-    }
-  });
-  
-  // PDF Download Trigger
-  const safeDateString = currentDateTime.replace(/[\/:\s]/g, '_');
-  doc.save(`Work_Progress_Details_${safeDateString}.pdf`);
-}
- 
   openDialogv_work() {
-    // debugger;
+    // ;
     const dialogRef = this.dialog.open(this.itemDetailsModal12, {
       width: '100%',
       height: '100%',
@@ -2859,9 +2859,9 @@ imageKeys.forEach((key) => {
       panelClass: 'full-screen-modal',
       data: {},
     });
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => { });
   }
-    applyTextFilter3(event: Event) {
+  applyTextFilter3(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourcev_work.filter = filterValue.trim().toLowerCase();
 
@@ -2869,61 +2869,61 @@ imageKeys.forEach((key) => {
       this.dataSourcev_work.paginator.firstPage();
     }
   }
-    // exportToExcel3(): void {
-    //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
-    //     this.dataSourcev_work.data,
-    //   );
-  
-    //   const workbook: XLSX.WorkBook = {
-    //     Sheets: { Data: worksheet },
-    //     SheetNames: ['Data'],
-    //   };
-  
-    //   XLSX.writeFile(workbook, 'DivFundLimitSummary_report.xlsx');
-  
-    //   const excelBuffer: any = XLSX.write(workbook, {
-    //     bookType: 'xlsx',
-    //     type: 'array',
-    //   });
-    // }
-    exportToExcel3(): void {
-  const sourceData = this.dataSourcev_work.data;
+  // exportToExcel3(): void {
+  //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+  //     this.dataSourcev_work.data,
+  //   );
 
-  if (!sourceData || sourceData.length === 0) {
-    alert('Export करने के लिए कोई डेटा नहीं है।');
-    return;
-  }
+  //   const workbook: XLSX.WorkBook = {
+  //     Sheets: { Data: worksheet },
+  //     SheetNames: ['Data'],
+  //   };
 
-  // 1. सिर्फ displayedColumns12 में मौजूद कॉलम्स का डेटा निकालें
-  const filteredData = sourceData.map((item: any) => {
-    const rowData: any = {};
+  //   XLSX.writeFile(workbook, 'DivFundLimitSummary_report.xlsx');
 
-    this.displayedColumns12.forEach((colName: string) => {
-      // 'action' (बटन) कॉलम को छोड़कर बाकी सब Excel में डालें
-      if (colName !== 'action') {
-        // अगर डेटा null या undefined है, तो '-' दिखाएं
-        rowData[colName] = item[colName] !== null && item[colName] !== undefined ? item[colName] : '-';
-      }
+  //   const excelBuffer: any = XLSX.write(workbook, {
+  //     bookType: 'xlsx',
+  //     type: 'array',
+  //   });
+  // }
+  exportToExcel3(): void {
+    const sourceData = this.dataSourcev_work.data;
+
+    if (!sourceData || sourceData.length === 0) {
+      alert('Export करने के लिए कोई डेटा नहीं है।');
+      return;
+    }
+
+    // 1. सिर्फ displayedColumns12 में मौजूद कॉलम्स का डेटा निकालें
+    const filteredData = sourceData.map((item: any) => {
+      const rowData: any = {};
+
+      this.displayedColumns12.forEach((colName: string) => {
+        // 'action' (बटन) कॉलम को छोड़कर बाकी सब Excel में डालें
+        if (colName !== 'action') {
+          // अगर डेटा null या undefined है, तो '-' दिखाएं
+          rowData[colName] = item[colName] !== null && item[colName] !== undefined ? item[colName] : '-';
+        }
+      });
+
+      return rowData;
     });
 
-    return rowData;
-  });
+    // 2. फ़िल्टर किए गए डेटा को Excel शीट में बदलें
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(filteredData);
 
-  // 2. फ़िल्टर किए गए डेटा को Excel शीट में बदलें
-  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(filteredData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { Data: worksheet },
+      SheetNames: ['Data'],
+    };
 
-  const workbook: XLSX.WorkBook = {
-    Sheets: { Data: worksheet },
-    SheetNames: ['Data'],
-  };
+    // 3. Excel फाइल डाउनलोड करें
+    XLSX.writeFile(workbook, 'DivFundLimitSummary_report.xlsx');
 
-  // 3. Excel फाइल डाउनलोड करें
-  XLSX.writeFile(workbook, 'DivFundLimitSummary_report.xlsx');
-
-  const excelBuffer: any = XLSX.write(workbook, {
-    bookType: 'xlsx',
-    type: 'array',
-  });
-}
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+  }
 
 }
