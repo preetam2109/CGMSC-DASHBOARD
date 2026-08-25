@@ -1,8 +1,5 @@
-
-
-
-
-<div class="category-selector" *ngIf="role === 'SEC1' || role === 'DHS' || role === 'CME' || role === 'Collector' || role === 'DME1' || role === 'HR' || role === 'Chairman' ">
+<div class="category-selector"
+  *ngIf="role === 'SEC1' || role === 'DHS' || role === 'CME' || role === 'Collector' || role === 'DME1' || role === 'HR' || role === 'Chairman' ">
   <h1 style="color: maroon;">Verticals of CGMSC</h1>
 
   <div class="row">
@@ -13,13 +10,13 @@
             <img class="card-img-top" [src]="getImageForCategory(category)" alt="Category image">
             <div class="card-body">
               <h5 class="card-title">
-                {{ category === 'DrugsConsumables' 
-                    ? 'Drugs & Consumables' 
-                    : (category === 'EquipmentReagent' 
-                        ? 'Equipment & Reagents' 
-                        : (category === 'Admin' 
-                            ? 'Admin / HR' 
-                            : 'Infrastructure')) 
+                {{ category === 'DrugsConsumables'
+                ? 'Drugs & Consumables'
+                : (category === 'EquipmentReagent'
+                ? 'Equipment & Reagents'
+                : (category === 'Admin'
+                ? 'Admin / HR'
+                : 'Infrastructure'))
                 }}
               </h5>
             </div>
@@ -28,5 +25,45 @@
       </ng-container>
     </ng-container>
   </div>
+
+<button type="button" class="floating-chatbot-btn border-0 bg-primary" (click)="toggleChatbot()" aria-label="Open Chat Bot">
+  <span class="bot-icon text-white">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"/>
+      <circle cx="5" cy="7" r="1.5" fill="black"/>
+      <circle cx="8" cy="7" r="1.5" fill="black"/>
+      <circle cx="11" cy="7" r="1.5" fill="black"/>
+    </svg>
+  </span>
+  <span class="bot-text text-white fw-bold">CHAT BOT</span>
+</button>
+
+<!-- Resizable & Animated Chat Popup -->
+<div class="chatbot-popup-container shadow-lg rounded-4 bg-white" *ngIf="isChatOpen">
+  
+  <div class="chatbot-header text-white p-3 d-flex justify-content-between align-items-center" style="background-color: rgb(18 0 13) !important;">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-robot fs-5"></i>
+      <span class="fw-bold text-white">CHAT BOT</span>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <a href="https://bot.chatbot-builder.services.ailifebot.com/c-g-m-s-c-new-53n1dcd" target="_blank" class="text-white text-decoration-none p-1 rounded hover-light" title="Open in New Tab" [attr.aria-label]="'OPEN NEW TAB'">
+        <i class="bi bi-box-arrow-up-right fs-6"></i>
+      </a>
+      <button type="button" class="btn-close btn-close-white shadow-none" aria-label="Close" (click)="toggleChatbot()"></button>
+    </div>
+  </div>
+
+  <div class="chatbot-body bg-white" style="height: 380px;">
+    <iframe 
+      src="https://bot.chatbot-builder.services.ailifebot.com/c-g-m-s-c-new-53n1dcd" 
+      width="100%" 
+      height="100%" 
+      style="border: none; background-color: #ffffff;"
+      title="AI Assistant">
+    </iframe>
+  </div>
 </div>
 
+</div>

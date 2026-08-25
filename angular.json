@@ -79,6 +79,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+           "options": {
+            "proxyConfig": "src/proxy.conf.json"
+             },
           "configurations": {
             "production": {
               "buildTarget": "mddashboard:build:production"
@@ -86,6 +89,7 @@
             "development": {
               "buildTarget": "mddashboard:build:development"
             }
+           
           },
           "defaultConfiguration": "development"
         },
