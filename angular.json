@@ -19,36 +19,36 @@
             "polyfills": [
               "zone.js"
             ],
-            "allowedCommonJsDependencies": ["lodash"
-          ,"apexcharts",
-          "xlsx/dist/xlsx.mini.min",
-          "html2canvas",
-          "jspdf-autotable",
-          "sweetalert2",
-          "canvg",
-          "raf",
-          "rgbcolor",
-          "core-js"
-
-        ],
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "apexcharts",
+              "xlsx/dist/xlsx.mini.min",
+              "html2canvas",
+              "jspdf-autotable",
+              "sweetalert2",
+              "canvg",
+              "raf",
+              "rgbcolor",
+              "core-js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest"
             ],
-            "styles": ["./node_modules/bootstrap/dist/css/bootstrap.min.css",
-            "@angular/material/prebuilt-themes/indigo-pink.css",
-            "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-            "src/styles.css",
-            "node_modules/ngx-spinner/animations/line-scale-party.css" ,
-            "node_modules/ngx-toastr/toastr.css",
-            "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
-
-
-          ],
-          "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.js"]
-       
+            "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "src/styles.css",
+              "node_modules/ngx-spinner/animations/line-scale-party.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+            ],
+            "scripts": [
+              "./node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
           },
           "configurations": {
             "production": {
