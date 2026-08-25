@@ -221,51 +221,29 @@ isPasswordVisible: boolean = false;
   }
 
   handleLogin() {
-
-    const captchaValue = this.captchaInput?.nativeElement.value;  // Get value from the input element
+    const captchaValue = this.captchaInput?.nativeElement?.value;
     console.log('Captcha Value:', captchaValue);
-    
-    
-    
-    // if (captchaValue !== this.captcha) {
-    //   alert('Incorrect CAPTCHA. Please try again.');
-    //   this.generateCaptcha(); // Refresh CAPTCHA
-    //   return;
-    // }
-    // unhide after fully selly selection
-    sessionStorage.removeItem
-    localStorage.removeItem
-    this.verifyOTP()
-    
-    //  console.log(this.username);
-    //if(this.username==="SEC1" && this.password === '2025#cgmsc') {
-  //     this.loginService.executeAuthenticationService(this.emailid, this.pwd).subscribe(
-  //       res => {
-  //   if (res.message === "Successfully Login"){
-  //     //Redirect to Welcome Page
-  //     this.invalidLogin = false
-  //     // this.toastr.success('Logged in Successfully');
-  //     console.log('login details',res)
-  //     // this.router.navigate(['home'])
-  //     this.router.navigate(['/otp']); // Redirect to category selector after login
-  //   } else {
-  //     this.invalidLogin = true
-  //     this.toastr.error('Login Failed', 'Invalid Credentials');
-  //   }
-  // },
-  // error => {
-  //   this.invalidLogin = true;
-  //   this.errorMessage = 'Invalid Credentials';
-  //   console.error('Login error', error);
-  // }
 
-  // );
-}
+    if (!captchaValue || captchaValue.trim().toLowerCase() !== this.captcha.toLowerCase()) {
+      Swal.fire({
+        title: 'Incorrect CAPTCHA',
+        text: 'Please enter the correct CAPTCHA code shown on screen.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      this.generateCaptcha();
+      if (this.captchaInput?.nativeElement) {
+        this.captchaInput.nativeElement.value = '';
+      }
+      return;
+    }
 
+    this.verifyOTP();
+  }
 
-toggleText() {
-  this.showFullText = !this.showFullText; // Toggle the visibility of full text
-}
+  toggleText() {
+    this.showFullText = !this.showFullText; // Toggle the visibility of full text
+  }
 
 
 onUserChange(event: Event): void {
@@ -369,6 +347,15 @@ setRole( approle: string) {
               );
 
               if (isSuccess) {
+                const nameToStore = this.firstname || this.emailid || 'Collector';
+                sessionStorage.setItem('authenticatedUser', nameToStore);
+                sessionStorage.setItem('firstname', nameToStore);
+                localStorage.setItem('firstname', nameToStore);
+                if (this.rolename) {
+                  localStorage.setItem('roleName', this.rolename);
+                }
+                this.InsertUserLoginLog();
+
                 // Show SweetAlert for successful OTP verification
                 Swal.fire({
                   title: 'Login Successful!',
