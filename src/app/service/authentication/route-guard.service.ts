@@ -36,7 +36,7 @@ export class RouteGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-    const isLoggedIn = this.loginService.isUserLogedIn()
+    const isLoggedIn = this.loginService.isUserLogedIn();
     // || this.loginService.isAAMConsultantLoggedIn();
 
     if (!isLoggedIn) {
@@ -44,8 +44,17 @@ export class RouteGuardService implements CanActivate {
       return false;
     }
 
-    // Retrieve the user's role from the authentication service
+    // Check Excessive Session Timeout Mitigation (CWE-613) - 15 Minutes Inactivity Limit
+    if (this.loginService.checkAndHandleSessionTimeout()) {
+      return false;
+    }
 
+    // Validate Concurrent Login (CWE-287) - Disabled per user request
+    // if (!this.loginService.isSessionValid()) {
+    //   return false;
+    // }
+
+    // Retrieve the user's role from the authentication service
     const userRole = this.loginService.getRole().roleName;
 
     // Get the allowed roles from the route data
@@ -55,8 +64,7 @@ export class RouteGuardService implements CanActivate {
     console.log('Allowed Roles:', allowedRoles);
 
     // Allow access if the user's role is included in the allowed roles
-
-    if (!allowedRoles || allowedRoles.includes(userRole)) {
+    if (!allowedRoles || allowedRoles.includes(userRole) || (userRole === 'Finance Consultant' && allowedRoles.includes('SEC1'))) {
       return true;
     } else {
       // Redirect to an unauthorized page or login if role does not match

@@ -63,9 +63,11 @@ export class MenuServiceService {
                     { label: 'Stock Out & Stock Availability in Warehouse', route: '/stock-ou-and-stock-availability-in-warehouse' },
                     { label: 'Item wise Stock', route: '/item-wise-stock' },
                     { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },
-                    { label: 'Delivery Status Monitoring', route: '/delivery-status-monitoring', verified: true },
+                    { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring', verified: true },
                     { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
                     { label: 'Medical College Hospital NOC Analytics', route: '/medical-college-hospital-noc-analytics', verified: true },
+                    { label: 'Delivery Performance Insights', route: '/delivery-performance-insights-oracle', verified: true },
+
                   ]
                 },
                 {
@@ -401,8 +403,8 @@ export class MenuServiceService {
                 { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },
                 { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
                 { label: 'Medical College Hospital NOC Analytics', route: '/medical-college-hospital-noc-analytics', verified: true },
-                { label: 'Warehouse Indent Pending Activity ', route: '/warehouse-indent-pending-activity-monitoring' },
-                { label: 'Delivery Status Monitoring', route: '/delivery-status-monitoring', verified: true },
+                { label: 'Warehouse Indent Pending Activity ', route: '/warehouse-indent-pending-activity-monitoring', verified: true },
+
               ]
             },
             {
@@ -694,6 +696,7 @@ export class MenuServiceService {
                 { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock' },
                 { label: 'Health Facility Batch wise Stock', route: '/facility-stock-status' },
                 { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+                { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
                 // { label: 'Expired Items', route: '/Expired-Items-Oracle' },
                 // { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
                 // { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
@@ -831,7 +834,7 @@ export class MenuServiceService {
         categories: {
           DrugsConsumables: [
             { label: 'Home', route: '/home' },
-            { label: 'Dashboard', route: '/dhsdash' },
+            // { label: 'Dashboard', route: '/dhsdash' },
 
 
             {
@@ -841,9 +844,20 @@ export class MenuServiceService {
                 // { label: 'Facility Stock Status', route: '/facility-stock-status' },
                 // { label: 'DHS Stock Availability & Monitoring', route: '/dhs-stock-availability-monitoring' },
                 // { label: 'DHS Batch Stock Monitoring', route: '/dhs-batch-stock-monitoring' },
+
                 { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock' },
                 { label: 'Health Facility Batch wise Stock', route: '/facility-stock-status' },
                 { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+                { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
+                { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
+                { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
+                { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+                { label: 'Item wise Stock', route: '/item-wise-stock' },
+                { label: 'Stock Out & Stock Availability in Warehouse', route: '/stock-ou-and-stock-availability-in-warehouse' },
+                { label: 'Warehouse Issuance Activity ', route: '/warehouse-issuance-activity-monitoring' },
+                { label: 'Tender/RC Position', route: '/rcpoplanning' },
+                { label: 'Delivery Performance Insights', route: '/delivery-performance-insights-oracle' },
+
                 // { label: 'Expired Items', route: '/Expired-Items-Oracle' },
 
                 // { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
@@ -905,10 +919,12 @@ export class MenuServiceService {
             // { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
 
             { label: 'Near Expiry', route: '/nearExpiry' },
-            { label: 'NOC', route: '/noc' },
+
             { label: 'District EDL Counts', route: '/DistrictWiseStk' },
             { label: 'DdlItemWiseInHandQty', route: '/DdlItemWiseInHandQty' },
             { label: 'Stock Position', route: '/DistFACwiseStockPostionNew' },
+            { label: 'NOC', route: '/noc' },
+
             {
               label: 'Time-Based Analysis',
 
@@ -1529,6 +1545,15 @@ export class MenuServiceService {
           // { label: 'Technical Sanction Pending', route: 'TechnicalSanction' },
         ],
       },
+      'Ayushman Arogya Mandir AAM': {
+        items: [
+          { label: 'Dashboard', route: '/welcome' },
+          { label: 'AAM Stock Status', route: '/aam-stock-status' },
+          { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
+          { label: 'Delivery Performance Insights', route: '/delivery-performance-insights-oracle' },
+          { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+        ],
+      },
     };
 
   // Store selected category in localStorage to persist across page refreshes
@@ -1555,22 +1580,75 @@ export class MenuServiceService {
         | 'Infrastructure'
         | 'Admin'
         | undefined;
+      if (!this.selectedCategory) {
+        const roleName = localStorage.getItem('roleName') || sessionStorage.getItem('roleName');
+        if (roleName === 'DHS' || roleName === 'DHS STORE') {
+          this.selectedCategory = 'DrugsConsumables';
+        }
+      }
     }
     return this.selectedCategory;
+  }
+
+  isDHSP01User(role?: string): boolean {
+    const currentRole = role || localStorage.getItem('roleName') || sessionStorage.getItem('roleName');
+    const userid = sessionStorage.getItem('userid') || localStorage.getItem('userid');
+    const userEmail =
+      sessionStorage.getItem('emailid') ||
+      sessionStorage.getItem('authenticatedUser') ||
+      localStorage.getItem('userEmail');
+    return (
+      currentRole === 'DHSP01' ||
+      currentRole === 'DHS Program' ||
+      userid === '14218' ||
+      userEmail === 'bloodcellcg@gmail.com'
+    );
+  }
+
+  isBloodCellUser(role?: string): boolean {
+    return this.isDHSP01User(role);
   }
 
   getMenuItems(role: string): {
     label: string;
     route: string;
-    submenu?: { label: string; route: string }[];
+    submenu?: { label: string; route: string; verified?: boolean }[];
+    verified?: boolean;
   }[] {
+    if (role === 'Ayushman Arogya Mandir AAM' || role === 'AAM') {
+      return [
+        { label: 'Dashboard', route: '/welcome' },
+        { label: 'AAM Stock Status', route: '/aam-stock-status' },
+        { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
+        { label: 'Delivery Performance Insights', route: '/delivery-performance-insights-oracle'},
+        { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+      ];
+    }
+
+    if (role === 'DHSP01' || role === 'DHS Program' || this.isDHSP01User(role)) {
+      return [
+        { label: 'Dashboard', route: '/welcome' },
+        { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock' },
+        { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
+        { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
+        { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
+        { label: 'Item wise Stock', route: '/item-wise-stock' },
+        { label: 'Stock Out & Stock Availability in Warehouse', route: '/stock-ou-and-stock-availability-in-warehouse' },
+        { label: 'NOC', route: '/noc' },
+        { label: 'Warehouse Issuance Activity ', route: '/warehouse-issuance-activity-monitoring' },
+        { label: 'Tender/RC Position', route: '/rcpoplanning' },
+      ];
+    }
+    if (role === 'Finance Consultant') {
+      role = 'SEC1';
+    }
     const roleMenu = this.menu[role];
 
     if (!roleMenu) {
       return [];
     }
 
-    const rolesUsingCategories = ['Collector', 'SEC1', 'Chairman', 'DHS', 'DHS STORE', 'CME', 'DME1'];
+    const rolesUsingCategories = ['Collector', 'SEC1', 'Finance Consultant', 'Chairman', 'DHS', 'DHS STORE', 'CME', 'DME1'];
 
     if (rolesUsingCategories.includes(role) && roleMenu.categories) {
       const selectedCategory = this.getSelectedCategory();
@@ -1631,7 +1709,6 @@ export class MenuServiceService {
             { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },
             { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
             { label: 'Medical College Hospital NOC Analytics', route: '/medical-college-hospital-noc-analytics', verified: true },
-            { label: 'Delivery Status Monitoring', route: '/delivery-status-monitoring', verified: true },
           ]
         },
         {

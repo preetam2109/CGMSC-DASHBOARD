@@ -522,6 +522,7 @@
                   <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login"
                     type="button" role="tab" aria-controls="login" aria-selected="true">Admin</button>
                 </li>
+                
                 <li class="nav-item" role="presentation">
                   <button class="nav-link" id="cgmscl-tab" data-bs-toggle="tab" data-bs-target="#cgmscl" type="button"
                     role="tab" aria-controls="cgmscl" aria-selected="false">CGMSCL-HO</button>
@@ -534,6 +535,10 @@
                   <button class="nav-link" id="infrastructure-tab" data-bs-toggle="tab" data-bs-target="#infrastructure"
                     type="button" role="tab" aria-controls="infrastructure"
                     aria-selected="false">Infrastructure</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="program-tab" data-bs-toggle="tab" data-bs-target="#program"
+                    type="button" role="tab" aria-controls="program" aria-selected="false">Program</button>
                 </li>
               </ul>
             </div>
@@ -581,12 +586,49 @@
                     </div>
                     <input type="text" class="form-control" id="captcha" #captchaInput placeholder="Enter CAPTCHA"
                       required>
-                    <div *ngIf="otpField.invalid && (otpField.dirty || otpField.touched)" class="text-danger">
-                      OTP is required.
-                    </div>
                   </div>
 
                   <button type="submit" class="btn btn-success w-100" [disabled]="adminLoginForm.invalid">Login through
+                    OTP</button>
+                </form>
+              </div>
+
+              <!-- Program Tab -->
+              <div class="tab-pane fade" id="program" role="tabpanel" aria-labelledby="program-tab">
+                <form #programLoginForm="ngForm" (ngSubmit)="programLoginForm.valid && handleLogin()">
+                  <div class="mb-3">
+                    <div class="input-group">
+                      <span class="input-group-text bg-light">
+                        <i class="fas fa-user"></i>
+                      </span>
+                      <ng-select [items]="programDropdownList" bindLabel="textfield" bindValue="emailid"
+                        [(ngModel)]="emailid" (change)="onUserChange($event)" name="emailidProgram" #programEmailidField="ngModel"
+                        [placeholder]="!emailid ? 'Choose Program User' : ''" [searchable]="true" [clearable]="true"
+                        [appendTo]="'body'" required class="form-control">
+                      </ng-select>
+                    </div>
+                    <div *ngIf="programEmailidField.invalid && (programEmailidField.dirty || programEmailidField.touched)"
+                      class="text-danger mt-1">
+                      Please select a user.
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <button type="button" class="btn btn-success btn-sm" (click)="sendOTP()">Generate OTP</button>
+                    <input type="text" id="otpInputProgram" class="form-control" maxlength="5" [(ngModel)]="otp" name="otpProgram"
+                      placeholder="Enter otp " required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="captchaProgram" class="form-label">CAPTCHA</label>
+                    <div class="d-flex align-items-center">
+                      <span class="captcha-box">{{ captcha }}</span>
+                      <button type="button" class="btn btn-link" (click)="generateCaptcha()">Refresh</button>
+                    </div>
+                    <input type="text" class="form-control" id="captchaProgram" placeholder="Enter CAPTCHA"
+                      required>
+                  </div>
+
+                  <button type="submit" class="btn btn-success w-100" [disabled]="programLoginForm.invalid">Login through
                     OTP</button>
                 </form>
               </div>

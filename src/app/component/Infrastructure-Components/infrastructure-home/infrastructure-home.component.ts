@@ -915,7 +915,7 @@ export class InfrastructureHomeComponent implements OnInit {
       this.isbelow20 = 0;
 
     }
-    this.api.V_WorkDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, this.isbelow20, formdate, todate, workid)
+    this.api.V_WorkDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, this.isbelow20, formdate, todate, workid,0,0)
       .subscribe(
         (res) => {
           this.Dispachv_work = res.map((item: any, index: number) => ({ ...item, sno: index + 1 }));

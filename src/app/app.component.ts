@@ -40,14 +40,7 @@ export class AppComponent implements OnInit, DoCheck {
   // Concurrent Login Detection (CWE-287) across browser tabs & windows
   @HostListener('window:storage', ['$event'])
   onStorageChange(event: StorageEvent) {
-    if (event.key === 'activeSessionToken') {
-      const currentSessionToken = sessionStorage.getItem('activeSessionToken');
-      if (currentSessionToken && event.newValue && currentSessionToken !== event.newValue) {
-        this.basicAuthentication.logout();
-        this.toastr.warning('A new login was detected from another window/device. Your session here has been terminated.', 'Session Terminated');
-        this.router.navigate(['login']);
-      }
-    }
+    // Storage listener reserved for cross-tab events
   }
 
   // Excessive Session Timeout Mitigation (CWE-613) - 15 Minutes Inactivity Limit
@@ -61,6 +54,10 @@ export class AppComponent implements OnInit, DoCheck {
   @HostListener('window:touchstart')
   resetInactivityTimer() {
     if (this.basicAuthentication.isUserLogedIn()) {
+      if (this.basicAuthentication.checkAndHandleSessionTimeout()) {
+        return;
+      }
+      this.basicAuthentication.updateLastActivityTime();
       clearTimeout(this.inactivityTimer);
       this.inactivityTimer = setTimeout(() => {
         this.handleInactivityTimeout();
@@ -70,9 +67,7 @@ export class AppComponent implements OnInit, DoCheck {
 
   private handleInactivityTimeout() {
     if (this.basicAuthentication.isUserLogedIn()) {
-      this.basicAuthentication.logout();
-      this.toastr.warning('Your session has expired due to 15 minutes of inactivity. Please log in again.', 'Session Expired');
-      this.router.navigate(['login']);
+      this.basicAuthentication.checkAndHandleSessionTimeout();
     }
   }
 
@@ -132,7 +127,20 @@ export class AppComponent implements OnInit, DoCheck {
 
 
   ngOnInit(): void {
+    if (this.basicAuthentication.isUserLogedIn()) {
+      if (this.basicAuthentication.checkAndHandleSessionTimeout()) {
+        return;
+      }
+      this.basicAuthentication.isSessionValid();
+    }
     this.resetInactivityTimer();
+
+    // Periodic check every 10 seconds for 15-minute inactivity session timeout
+    setInterval(() => {
+      if (this.basicAuthentication.isUserLogedIn()) {
+        this.basicAuthentication.checkAndHandleSessionTimeout();
+      }
+    }, 10000);
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -168,9 +176,12 @@ export class AppComponent implements OnInit, DoCheck {
 
   }
   private updateMenu() {
-    // ;
+    if (this.role === 'Ayushman Arogya Mandir AAM' || this.role === 'AAM' || this.role === 'DHSP01' || this.role === 'DHS Program' || this.role === 'DHS STORE' || this.menuService.isDHSP01User(this.role)) {
+      this.menuItems = this.menuService.getMenuItems(this.role);
+      return;
+    }
     // Check if the role has categories or direct items
-    const hasCategories = ['SEC1', 'DHS', 'DHS STORE', 'CME', 'DME1', 'Collector'].includes(this.role);
+    const hasCategories = ['SEC1', 'Finance Consultant', 'DHS', 'DHS STORE', 'CME', 'DME1', 'Collector'].includes(this.role);
 
     if (hasCategories) {
       const category = this.menuService.getSelectedCategory();

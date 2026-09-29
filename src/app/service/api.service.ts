@@ -637,9 +637,56 @@ export class ApiService {
   //   return this.http.post(`${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}`, { responseType: 'text' });
   // }
   getOTPSaved(userid: any, ipAddress: any) {
-
-    const url = `${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}&ipAddress=${encodeURIComponent(ipAddress)}`;
+    let validIp = (ipAddress && String(ipAddress).trim() !== '' && String(ipAddress).trim() !== 'undefined' && String(ipAddress).trim() !== 'null')
+      ? String(ipAddress).trim()
+      : (sessionStorage.getItem('ipAddress') || '127.0.0.1');
+    const url = `${this.CGMSCHO_API2}/Login/getOTPSaved?userid=${userid}&ipAddress=${encodeURIComponent(validIp)}`;
     return this.http.post(url, null, { responseType: 'text' });
+  }
+
+  sendSMS(mobileNo: any, message: any): Observable<any> {
+    const url = 'https://dpdmis.in/SMSASP/api/SmsTest/Send';
+    const payload = {
+      mobileNo: String(mobileNo || '').trim(),
+      message: message,
+      smsServiceType: 'otpmsg'
+    };
+    return this.http.post(url, payload);
+  }
+
+  sendOTPWithSMS(userid: any, ipAddress: any, mobileNo: any): Observable<any> {
+    return new Observable((observer) => {
+      this.getOTPSaved(userid, ipAddress).subscribe({
+        next: (otpResponse: any) => {
+          let otp = otpResponse;
+          if (typeof otpResponse === 'string') {
+            otp = otpResponse.trim().replace(/^"|"$/g, '');
+          } else if (otpResponse && otpResponse.otp) {
+            otp = otpResponse.otp;
+          }
+
+          const message = `OTP for Login on DPDMIS is ${otp}`;
+          if (mobileNo) {
+            this.sendSMS(mobileNo, message).subscribe({
+              next: (smsRes) => {
+                console.log('SMS sent:', smsRes);
+                observer.next({ otp, smsRes });
+                observer.complete();
+              },
+              error: (smsErr) => {
+                console.warn('SMS send error:', smsErr);
+                observer.next({ otp, smsRes: null });
+                observer.complete();
+              }
+            });
+          } else {
+            observer.next({ otp, smsRes: null });
+            observer.complete();
+          }
+        },
+        error: (err) => observer.error(err)
+      });
+    });
   }
 
 
@@ -706,9 +753,9 @@ export class ApiService {
   }
 
 
-  V_WorkDetails(did: any, divisionId: any, districtid: any, mainSchemeId: any, contractorid: any, ASAmount: any, isbelow20: any, fromdt: any, todt: any, work_id: any) {
-    return this.http.get<any[]>(`${this.apiUrl}/DetailProgress/V_WorkDetails?did=${did}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}&isbelow20=${isbelow20}&fromdt=${fromdt}&todt=${todt}&work_id=${work_id}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
+  V_WorkDetails(did: any, divisionId: any, districtid: any, mainSchemeId: any, contractorid: any, ASAmount: any, isbelow20: any, fromdt: any, todt: any, work_id: any, subengid: any = 0, aeid: any = 0) {
+    return this.http.get<any[]>(`${this.apiUrl}/DetailProgress/V_WorkDetails?did=${did}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}&isbelow20=${isbelow20}&fromdt=${fromdt}&todt=${todt}&work_id=${work_id}&subengid=${subengid}&aeid=${aeid}`);
+    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0&subengid=0&aeid=0
   }
 
   DashProgressCount(divisionId: any, mainSchemeId: number, distid: number, ASID: any, GrantID: any, ASAmount: any, fromdt: any, todt: any) {
@@ -972,14 +1019,14 @@ export class ApiService {
     // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
   }
   GETASFile(ASID: any, workid: any) {
-
+    debugger
     return this.http.get<ASFile[]>(`${this.apiUrl}/ASDetails/getASFile?ASID=${ASID}&workid=${workid}`);
 
     //md :otp=11344
     // https://cgmsc.gov.in/HIMIS_APIN/api/ASDetails/getASFile?ASID=4&workid=0
   }
   downloadASFile(ASID: any, workid: any) {
-
+    debugger
     return this.http.get(
       `${this.apiUrl}/downloadASFile?ASID=${ASID}&workid=${workid}`,
       {

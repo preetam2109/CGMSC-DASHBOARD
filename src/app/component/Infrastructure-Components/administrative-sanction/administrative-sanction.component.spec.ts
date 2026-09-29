@@ -10,7 +10,7 @@ describe('AdministrativeSanctionComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AdministrativeSanctionComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AdministrativeSanctionComponent);
     component = fixture.componentInstance;
