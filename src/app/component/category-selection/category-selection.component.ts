@@ -37,6 +37,14 @@ export class CategorySelectionComponent implements OnInit {
 
     this.role = this.loginService.getRole().roleName;
 
+    if (this.role === 'Ayushman Arogya Mandir AAM' || this.role === 'AAM' || this.role === 'DHSP01' || this.role === 'DHS Program' || this.role === 'DHS STORE' || this.menuService.isDHSP01User(this.role)) {
+      this.selectedCategory = 'DrugsConsumables';
+      localStorage.setItem('selectedCategory', 'DrugsConsumables');
+      this.menuService.setSelectedCategory('DrugsConsumables');
+      this.router.navigate(['/welcome']);
+      return;
+    }
+
     if (this.role === 'DHS') {
       this.selectedCategory = 'DrugsConsumables';
       localStorage.setItem('selectedCategory', 'DrugsConsumables');

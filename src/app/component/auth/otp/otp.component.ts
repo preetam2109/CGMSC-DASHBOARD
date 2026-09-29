@@ -117,8 +117,10 @@ InsertUserLoginLogData: InsertUserLoginLogmodal = new InsertUserLoginLogmodal();
       },
     });
   
+    const currentIp = this.ipAddress || sessionStorage.getItem('ipAddress') || '127.0.0.1';
     // Call API to send OTP
-    this.api.getOTPSaved(this.userid,this.ipAddress).subscribe(
+    this.api.getOTPSaved(this.userid, currentIp).subscribe(
+    // this.api.sendOTPWithSMS(this.userid, this.ipAddress, this.phonE1).subscribe(
       (res: any) => {
         // Close the loading indicator
         Swal.close();
@@ -147,18 +149,36 @@ InsertUserLoginLogData: InsertUserLoginLogmodal = new InsertUserLoginLogmodal();
     );
   }
 
-  getIPAddress() {
-    this.http.get<any>('https://api.ipify.org?format=json')
-      .subscribe(
-        (res) => {
-          this.ipAddress = res.ip;
-          sessionStorage.setItem('ipAddress', this.ipAddress);
-          // console.log('this.ipAddress=',this.ipAddress);
-        },
-        (err) => {
-          console.error('Error fetching IP:', err);
+  async getIPAddress() {
+    const savedIp = sessionStorage.getItem('ipAddress');
+    if (savedIp) {
+      this.ipAddress = savedIp;
+    }
+    const services = [
+      'https://api.ipify.org?format=json',
+      'https://api.db-ip.com/v2/free/self',
+      'https://ipapi.co/json/'
+    ];
+    for (const service of services) {
+      try {
+        const response = await fetch(service, { cache: 'no-store' });
+        if (response.ok) {
+          const data = await response.json();
+          const ip = data.ip || data.ipAddress;
+          if (ip) {
+            this.ipAddress = ip;
+            sessionStorage.setItem('ipAddress', ip);
+            return;
+          }
         }
-      );
+      } catch (err) {
+        // try next IP service
+      }
+    }
+    if (!this.ipAddress) {
+      this.ipAddress = '127.0.0.1';
+      sessionStorage.setItem('ipAddress', '127.0.0.1');
+    }
   }
   getBrowserInfo() {
     return {

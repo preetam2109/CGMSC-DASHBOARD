@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   cgmsclUserId: any;
   cgmsclPwd: any;
   adminDropdownList: any = [];
+  programDropdownList: any = [];
   cgmsclDropdownList: any = [];
   InfraStructureDropdownList: any = [];
   wHDropdownList: any = [];
@@ -148,29 +149,23 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.api.masddlUser('HOD').subscribe((res: any[]) => {
       console.log(' Admin API dropdown Response:', res);
       if (res && res.length > 0) {
-        this.adminDropdownList = res.map(item => ({
+        const programUserIds = [14218, 14220, 14221, 14222, 14223, 14224, 14225, 14226, 14227, 14228, 14229, 14230];
+        const allItems = res.map(item => ({
           emailid: item.emailid, // Adjust key names if needed
           textfield: item.textfield,
           siMobile: item.siMobile,
           userid: item.userid,
           roleid: item.roleid,
           rolename: item.rolename,
-          firstname: item.firstname
-
+          firstname: item.firstname,
+          lastname: item.lastname
         }));
-        // 
-        // this.siMobile = this.adminDropdownList[0]?.siMobile || null; // Save siMobile of the first item
-        // this.userid = this.adminDropdownList[0]?.userid || null; // Save siMobile of the first item
-        // sessionStorage.setItem('firstname', this.adminDropdownList[0]?.firstname);
-        // sessionStorage.setItem('roleId', this.adminDropdownList[0]?.roleId);
-        // if (this.adminDropdownList[0]?.rolename) {
-        //   this.setRole(this.adminDropdownList[0]?.rolename);
-        // }
 
-
-
+        this.programDropdownList = allItems.filter(item => programUserIds.includes(Number(item.userid)));
+        this.adminDropdownList = allItems.filter(item => !programUserIds.includes(Number(item.userid)));
 
         console.log('adminDropdownList :', this.adminDropdownList);
+        console.log('programDropdownList :', this.programDropdownList);
       } else {
         console.error('No emailid found or incorrect structure:', res);
       }
@@ -179,8 +174,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   onUserChange(event: Event): void {
 
-    // const emailid = (event.target as HTMLSelectElement).value; // Get the selected email ID
-    const selectedUser = this.adminDropdownList.find((user: { emailid: string }) => user.emailid === this.emailid); // Find the user object in the list
+    // Find the user object in adminDropdownList or programDropdownList
+    const selectedUser = this.adminDropdownList.find((user: { emailid: string }) => user.emailid === this.emailid)
+      || this.programDropdownList.find((user: { emailid: string }) => user.emailid === this.emailid);
 
     console.log('Selected User:', selectedUser); // Log the selected user object properly
 
@@ -196,10 +192,22 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.firstname = selectedUser.firstname || null;
 
       this.setRole(this.rolename);
+      if (selectedUser.textfield) {
+        sessionStorage.setItem('textfield', selectedUser.textfield);
+        localStorage.setItem('textfield', selectedUser.textfield);
+      }
+      if (selectedUser.lastname) {
+        sessionStorage.setItem('lastname', selectedUser.lastname);
+        localStorage.setItem('lastname', selectedUser.lastname);
+      } else {
+        sessionStorage.removeItem('lastname');
+        localStorage.removeItem('lastname');
+      }
       sessionStorage.setItem('firstname', this.firstname);
       sessionStorage.setItem('roleId', this.roleid);
       sessionStorage.setItem('userid', this.userid);
       sessionStorage.setItem('authenticatedUser', this.emailid);
+      this.loginService.registerActiveSession(this.emailid || this.userid);
 
 
       // Log individual values to ensure they are being set correctly
@@ -227,6 +235,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
       this.setRole(this.rolename);
 
+      if (selectedUser.textfield) {
+        sessionStorage.setItem('textfield', selectedUser.textfield);
+        localStorage.setItem('textfield', selectedUser.textfield);
+      }
+      if (selectedUser.lastname) {
+        sessionStorage.setItem('lastname', selectedUser.lastname);
+        localStorage.setItem('lastname', selectedUser.lastname);
+      } else {
+        sessionStorage.removeItem('lastname');
+        localStorage.removeItem('lastname');
+      }
       sessionStorage.setItem('roleId', this.roleid);
       sessionStorage.setItem('userid', this.userid);
 
@@ -251,6 +270,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.rolename = selectedUser.rolename || null;
 
       this.setRole(this.rolename);
+      if (selectedUser.textfield) {
+        sessionStorage.setItem('textfield', selectedUser.textfield);
+        localStorage.setItem('textfield', selectedUser.textfield);
+      }
+      if (selectedUser.lastname) {
+        sessionStorage.setItem('lastname', selectedUser.lastname);
+        localStorage.setItem('lastname', selectedUser.lastname);
+      } else {
+        sessionStorage.removeItem('lastname');
+        localStorage.removeItem('lastname');
+      }
       sessionStorage.setItem('roleId', this.roleid);
       sessionStorage.setItem('userid', this.userid);
 
@@ -318,6 +348,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
           textfield: item.textfield,
           siMobile: item.siMobile,
           userid: item.userid,
+          roleid: item.roleid,
+          rolename: item.rolename,
+          firstname: item.firstname,
+          lastname: item.lastname
         }));
         console.log('Processed cgmsclDropdownList:', this.cgmsclDropdownList);
       } else {
@@ -334,7 +368,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
           textfield: item.textfield, // Adjust key names if needed
           siMobile: item.siMobile,
           userid: item.userid,
-
+          roleid: item.roleid,
+          rolename: item.rolename,
+          firstname: item.firstname,
+          lastname: item.lastname
         }));
         console.log('wHDropdownList wh:', this.cgmsclDropdownList);
       } else {
@@ -430,12 +467,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
           if (isSuccess) {
             const nameToStore = this.firstname || this.emailid || 'User';
+            const userKey = this.emailid || nameToStore || this.userid;
+            if (!this.loginService.canUserLogin(userKey)) {
+              return;
+            }
             sessionStorage.setItem('authenticatedUser', nameToStore);
             sessionStorage.setItem('firstname', nameToStore);
             localStorage.setItem('firstname', nameToStore);
             if (this.rolename) {
               localStorage.setItem('roleName', this.rolename);
             }
+            this.loginService.registerActiveSession(this.emailid || nameToStore || this.userid);
             this.InsertUserLoginLog();
 
             // Show SweetAlert for successful OTP verification
@@ -446,7 +488,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
               confirmButtonText: 'OK'
             }).then(() => {
               // Navigate to the correct page after the SweetAlert is closed
-              if (this.rolename === 'GM Finance' || this.rolename === 'DMFin') {
+              if (this.rolename === 'Ayushman Arogya Mandir AAM' || this.rolename === 'AAM' || this.rolename === 'DHSP01' || this.rolename === 'DHS Program' || this.rolename === 'DHS STORE' || this.userid === 14218 || this.userid === '14218' || this.userid === 14231 || this.userid === '14231' || this.emailid === 'bloodcellcg@gmail.com' || this.emailid === 'pratiksha.pal0409@gmail.com') {
+                localStorage.setItem('selectedCategory', 'DrugsConsumables');
+                this.router.navigate(['/welcome']);
+              } else if (this.rolename === 'GM Finance' || this.rolename === 'DMFin') {
                 this.router.navigate(['/finance-dash']);
               } else if (this.rolename === 'DHS') {
                 localStorage.setItem('selectedCategory', 'DrugsConsumables');
@@ -544,7 +589,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
 
   validateCaptcha(): boolean {
-    const captchaValue = this.captchaInput?.nativeElement?.value;
+    const activeCaptchaInput = document.querySelector('.tab-pane.active input[placeholder="Enter CAPTCHA"]') as HTMLInputElement;
+    const captchaValue = activeCaptchaInput?.value || this.captchaInput?.nativeElement?.value;
     console.log('Captcha Value:', captchaValue);
 
     if (!captchaValue || captchaValue.trim().toLowerCase() !== this.captcha.toLowerCase()) {
@@ -555,6 +601,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
         confirmButtonText: 'OK'
       });
       this.generateCaptcha();
+      if (activeCaptchaInput) {
+        activeCaptchaInput.value = '';
+      }
       if (this.captchaInput?.nativeElement) {
         this.captchaInput.nativeElement.value = '';
       }
@@ -567,8 +616,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (!this.validateCaptcha()) {
       return;
     }
+    const userKey = this.emailid || this.userid || this.firstname;
+    if (!this.loginService.canUserLogin(userKey)) {
+      return;
+    }
     sessionStorage.clear();
-    localStorage.clear();
     this.verifyOTP();
   }
 
@@ -576,8 +628,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (!this.validateCaptcha()) {
       return;
     }
+    const userKey = this.emailid || this.userid || this.firstname;
+    if (!this.loginService.canUserLogin(userKey)) {
+      return;
+    }
     sessionStorage.clear();
-    localStorage.clear();
     this.verifyOTP_SMIT();
   }
 
@@ -585,9 +640,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (!this.validateCaptcha()) {
       return;
     }
-    // Clear storage
+    const userKey = this.emailid || this.userid || this.firstname;
+    if (!this.loginService.canUserLogin(userKey)) {
+      return;
+    }
+    // Clear session storage only
     sessionStorage.clear();
-    localStorage.clear();
 
     // First verify OTP
     const otpValid = await this.verifyOTPOther();
@@ -606,7 +664,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.rolename = res.userInfo.rolename;
           this.InsertUserLoginLog();
 
-          if (this.rolename === 'SSO' || this.rolename === 'Logi Cell') {
+          if (this.rolename === 'Ayushman Arogya Mandir AAM' || this.rolename === 'AAM' || this.rolename === 'DHSP01' || this.rolename === 'DHS Program' || this.rolename === 'DHS STORE' || this.userid === 14218 || this.userid === '14218' || this.userid === 14231 || this.userid === '14231' || this.emailid === 'bloodcellcg@gmail.com' || this.emailid === 'pratiksha.pal0409@gmail.com' || sessionStorage.getItem('userid') === '14218' || sessionStorage.getItem('userid') === '14231') {
+            localStorage.setItem('selectedCategory', 'DrugsConsumables');
+            this.router.navigate(['/welcome']);
+          } else if (this.rolename === 'SSO' || this.rolename === 'Logi Cell') {
             this.router.navigate(['/welcome']);
           } else if (this.rolename === 'QC') {
             this.router.navigate(['/qc-dashboard']);
@@ -764,7 +825,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
           if (res.message === "Successfully Login") {
             //Redirect to Welcome Page
 
-            this.invalidLogin = false
+            this.invalidLogin = false;
+            this.loginService.registerActiveSession('SE_' + (this.id || '1001'));
             this.InsertUserLoginLog();
             this.router.navigate(['welcome']); // Redirect to category selector after login
             this.toastr.success('Logged in Successfully');
@@ -791,7 +853,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
           if (res.message === "Successfully Login") {
             //Redirect to Welcome Page
 
-            this.invalidLogin = false
+            this.invalidLogin = false;
+            this.loginService.registerActiveSession('Infra_' + (this.id || 'Field'));
 
             this.router.navigate(['/welcome']); // Redirect to category selector after login
             this.toastr.success('Logged in Successfully');
@@ -900,8 +963,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
       },
     });
 
+    const currentIp = this.ipAddress || sessionStorage.getItem('ipAddress') || '127.0.0.1';
     // Call API to send OTP
-    this.api.getOTPSaved(this.userid, this.ipAddress).subscribe(
+    this.api.getOTPSaved(this.userid, currentIp).subscribe(
       (res: any) => {
         // Close the loading indicator
         Swal.close();
@@ -948,8 +1012,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
       },
     });
 
+    const currentIp = this.ipAddress || sessionStorage.getItem('ipAddress') || '127.0.0.1';
     // Call API to send OTP
-    this.api.getOTPSaved(2926, this.ipAddress).subscribe(
+    this.api.getOTPSaved(2926, currentIp).subscribe(
       (res: any) => {
         // Close the loading indicator
         Swal.close();
@@ -1095,18 +1160,36 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
 
-  getIPAddress() {
-    this.http.get<any>('https://api.ipify.org?format=json')
-      .subscribe(
-        (res) => {
-          this.ipAddress = res.ip;
-          sessionStorage.setItem('ipAddress', this.ipAddress);
-          // console.log('this.ipAddress=',this.ipAddress);
-        },
-        (err) => {
-          console.error('Error fetching IP:', err);
+  async getIPAddress() {
+    const savedIp = sessionStorage.getItem('ipAddress');
+    if (savedIp) {
+      this.ipAddress = savedIp;
+    }
+    const services = [
+      'https://api.ipify.org?format=json',
+      'https://api.db-ip.com/v2/free/self',
+      'https://ipapi.co/json/'
+    ];
+    for (const service of services) {
+      try {
+        const response = await fetch(service, { cache: 'no-store' });
+        if (response.ok) {
+          const data = await response.json();
+          const ip = data.ip || data.ipAddress;
+          if (ip) {
+            this.ipAddress = ip;
+            sessionStorage.setItem('ipAddress', ip);
+            return;
+          }
         }
-      );
+      } catch (err) {
+        // try next IP lookup service
+      }
+    }
+    if (!this.ipAddress) {
+      this.ipAddress = '127.0.0.1';
+      sessionStorage.setItem('ipAddress', '127.0.0.1');
+    }
   }
   getBrowserInfo() {
     return {

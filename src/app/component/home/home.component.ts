@@ -18,9 +18,9 @@ import { WOpendingTotal } from 'src/app/Model/DashProgressCount';
 import autoTable from 'jspdf-autotable';
 import { ToastrService } from 'ngx-toastr';
 import jsPDF from 'jspdf';
-import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { InsertUserPageViewLogmodal } from 'src/app/Model/DashLoginDDL';
 import { Location } from '@angular/common';
-import { StockStatusModel, whstockoutin,StockOutDetailsmodel,IssuePerDetailModel,WhStockOutInDetailModel} from 'src/app/Model/DashLoginDDL';
+import { StockStatusModel, whstockoutin, StockOutDetailsmodel, IssuePerDetailModel, WhStockOutInDetailModel } from 'src/app/Model/DashLoginDDL';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -72,7 +72,7 @@ export class HomeComponent {
   pipelineSlippagePOItemDetailDTO: any[] = [];
   parameterNew: any;
   title1: any;
-  flag:any
+  flag: any
   totalpoitems: any;
   totalrecvalue: any;
   dropindentid: any;
@@ -87,14 +87,22 @@ export class HomeComponent {
   firstname: any = sessionStorage.getItem('firstname');
 
   get userDisplayName(): string {
-    const fn = sessionStorage.getItem('firstname');
-    if (fn === 'SM') {
-      return 'System Manager';
+    const fn = sessionStorage.getItem('firstname') || localStorage.getItem('firstname');
+    const lastname = sessionStorage.getItem('lastname') || localStorage.getItem('lastname');
+
+    let name: string = fn || '';
+    if (name === 'SM') {
+      name = 'System Manager';
+    } else if (name === 'Public') {
+      name = 'Public View Of Drugs and Consumables';
+    } else if (!name) {
+      name = this.username || 'User';
     }
-    if (fn === 'Public') {
-      return 'Public View Of Drugs and Consumables';
+
+    if (lastname && lastname.trim() !== '') {
+      return `${name} (${lastname.trim()})`;
     }
-    return fn || this.username || 'User';
+    return name || 'User';
   }
   currentMonth = new Date().toLocaleString('default', { month: 'long' });
   MasIndentitemslist: any;
@@ -106,7 +114,7 @@ export class HomeComponent {
   PartItemRClist: any;
 
   totalNoTenders: number = 0;
-  totalRC1: any[]=[];
+  totalRC1: any[] = [];
   totalRC1details: any;
 
   @ViewChild('StatusDetailsModal') StatusDetailsModal: any;
@@ -462,10 +470,10 @@ export class HomeComponent {
     private menuService: MenuServiceService,
     private authService: HardcodedAuthenticationService,
     public basicAuthentication: BasicAuthenticationService,
-    public router: Router,private location: Location,
+    public router: Router, private location: Location,
   ) {
     this.pageName = this.location.path();
-this.fullUrl = window.location.href;
+    this.fullUrl = window.location.href;
     this.StockStatusdata = new MatTableDataSource<StockStatusModel>([]);
     this.whstockoutindata = new MatTableDataSource<whstockoutin>([]);
     this.StockoutDetailsdata = new MatTableDataSource<StockOutDetailsmodel>([]);
@@ -1041,7 +1049,7 @@ this.fullUrl = window.location.href;
         error: () => this.toastr.error('Some data failed to load'),
       });
 
-      this.InsertUserPageViewLog();
+    this.InsertUserPageViewLog();
     // Collect all API observables
     //   const apiCalls = [
     //     this.CGMSCIndentPending(),
@@ -1115,13 +1123,13 @@ this.fullUrl = window.location.href;
   }
   GetpipelineSlippage(): Observable<any> {
     return this.api
-      .pipelineSlippage(this.mcid,0)
+      .pipelineSlippage(this.mcid, 0)
       .pipe(
         catchError((error) => {
           console.error('Failed to load pipelineSlippage abstract:', error);
           this.toastr.error('Error loading pipelineSlippage data');
           this.pipelineSlippage = 0;
-          return of([]); 
+          return of([]);
         }),
         tap((res: any[]) => {
           this.pipelineSlippage = res
@@ -1262,7 +1270,7 @@ this.fullUrl = window.location.href;
 
   // }
   GetNearExpRC() {
-    this.api.getNearExpRC(1).subscribe((res: any) => {});
+    this.api.getNearExpRC(1).subscribe((res: any) => { });
   }
   GetDeliveryInMonth(): Observable<any> {
     return this.api.getDeliveryInMonth(0, 0, 0, 0, this.mcid).pipe(
@@ -1325,7 +1333,7 @@ this.fullUrl = window.location.href;
     );
   }
 
-  menuIcons() {}
+  menuIcons() { }
   // Method to add custom icons based on the label
   addIconsToMenu(): void {
     // Define a mapping for labels to icons
@@ -1353,9 +1361,13 @@ this.fullUrl = window.location.href;
   private updateMenu() {
     console.log('Role:', this.role);
 
-    // ;
+    if (this.role === 'Ayushman Arogya Mandir AAM' || this.role === 'AAM' || this.role === 'DHSP01' || this.role === 'DHS Program' || this.role === 'DHS STORE' || this.menuService.isDHSP01User(this.role)) {
+      this.menuItems = this.menuService.getMenuItems(this.role);
+      console.log('Menu Items:', this.menuItems);
+      return;
+    }
     // Check if the role has categories or direct items
-    const hasCategories = ['SEC1', 'DHS', 'DHS STORE', 'CME', 'DME1', 'Collector'].includes(this.role);
+    const hasCategories = ['SEC1', 'Finance Consultant', 'DHS', 'DHS STORE', 'CME', 'DME1', 'Collector'].includes(this.role);
 
     if (hasCategories) {
       const category = this.menuService.getSelectedCategory();
@@ -1997,85 +2009,85 @@ this.fullUrl = window.location.href;
 
     this.openDialogHOD();
   }
-//   GetpipelineSlippageItemDetail(nos:any,timeline:any) {
+  //   GetpipelineSlippageItemDetail(nos:any,timeline:any) {
 
-//      if(timeline==='Timeline'){
-//       return
-//      }
-//     this.spinner.show();
-// if(nos>14){
-//   this.flag=1;
-// }else{
-//   this.flag=2;
-// }
+  //      if(timeline==='Timeline'){
+  //       return
+  //      }
+  //     this.spinner.show();
+  // if(nos>14){
+  //   this.flag=1;
+  // }else{
+  //   this.flag=2;
+  // }
 
-//     this.api.pipelineSlippageItemDetail(this.flag,this.mcid,0).subscribe({
-//       next: (res: any[]) => {
-//         if (res && res.length > 0) {
-//           this.pipelineSlippageItemDetail = res.map((item: any, index: number) => ({
-//             ...item,
-//             sno: index + 1,
-//           }));
+  //     this.api.pipelineSlippageItemDetail(this.flag,this.mcid,0).subscribe({
+  //       next: (res: any[]) => {
+  //         if (res && res.length > 0) {
+  //           this.pipelineSlippageItemDetail = res.map((item: any, index: number) => ({
+  //             ...item,
+  //             sno: index + 1,
+  //           }));
 
-//           this.dataSource10.data = this.pipelineSlippageItemDetail;
-//           this.dataSource10.paginator = this.paginator15;
-//           this.dataSource10.sort = this.sort15;
-//         } else {
-//           this.toastr.error('No data found');
-//           this.dataSource10.data=[];
-//         }
-//       },
-//       error: (err) => {
-//         console.error('API error:', err);
-//         this.toastr.error('Failed to load data');
-//       },
-//       complete: () => {
-//         this.spinner.hide();
-//       },
-//     });
+  //           this.dataSource10.data = this.pipelineSlippageItemDetail;
+  //           this.dataSource10.paginator = this.paginator15;
+  //           this.dataSource10.sort = this.sort15;
+  //         } else {
+  //           this.toastr.error('No data found');
+  //           this.dataSource10.data=[];
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.error('API error:', err);
+  //         this.toastr.error('Failed to load data');
+  //       },
+  //       complete: () => {
+  //         this.spinner.hide();
+  //       },
+  //     });
 
-//     this.openDialogpipelineSlippageItemDetail();
-//   }
+  //     this.openDialogpipelineSlippageItemDetail();
+  //   }
 
-//   GetPipelineSlippagePOItemDetailDTO(po:any,timeline:any) {
-//     if(timeline==='Timeline'){
-//       return
-//      }
-//     this.spinner.show();
-// if(po>14){
-//   this.flag=1;
-// }else{
-//   this.flag=2;
-// }
+  //   GetPipelineSlippagePOItemDetailDTO(po:any,timeline:any) {
+  //     if(timeline==='Timeline'){
+  //       return
+  //      }
+  //     this.spinner.show();
+  // if(po>14){
+  //   this.flag=1;
+  // }else{
+  //   this.flag=2;
+  // }
 
-//     this.api.PipelineSlippagePOItemDetailDTO(this.flag,this.mcid,0).subscribe({
-//       next: (res: any[]) => {
-//         if (res && res.length > 0) {
-//           this.pipelineSlippagePOItemDetailDTO = res.map((item: any, index: number) => ({
-//             ...item,
-//             sno: index + 1,
-//           }));
+  //     this.api.PipelineSlippagePOItemDetailDTO(this.flag,this.mcid,0).subscribe({
+  //       next: (res: any[]) => {
+  //         if (res && res.length > 0) {
+  //           this.pipelineSlippagePOItemDetailDTO = res.map((item: any, index: number) => ({
+  //             ...item,
+  //             sno: index + 1,
+  //           }));
 
-//           this.dataSource11.data = this.pipelineSlippagePOItemDetailDTO;
-//           this.dataSource11.paginator = this.paginator16;
-//           this.dataSource11.sort = this.sort16;
-//         } else {
-//           this.toastr.error('No data found');
-//           this.dataSource11.data=[];
-//         }
-//       },
-//       error: (err) => {
-//         console.error('API error:', err);
-//         this.toastr.error('Failed to load data');
-//       },
-//       complete: () => {
-//         this.spinner.hide();
-//       },
-//     });
+  //           this.dataSource11.data = this.pipelineSlippagePOItemDetailDTO;
+  //           this.dataSource11.paginator = this.paginator16;
+  //           this.dataSource11.sort = this.sort16;
+  //         } else {
+  //           this.toastr.error('No data found');
+  //           this.dataSource11.data=[];
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.error('API error:', err);
+  //         this.toastr.error('Failed to load data');
+  //       },
+  //       complete: () => {
+  //         this.spinner.hide();
+  //       },
+  //     });
 
-//     this.openDialogpipelineSlippagePOItemDetailDTO();
-//   }
-  
+  //     this.openDialogpipelineSlippagePOItemDetailDTO();
+  //   }
+
   Rcdetails(value: any) {
     this.spinner.show();
 
@@ -2510,21 +2522,21 @@ this.fullUrl = window.location.href;
   }
   exportToPDFpipelineSlippageItemDetail() {
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
-  
+
     const now = new Date();
     const dateString = now.toLocaleDateString();
     const timeString = now.toLocaleTimeString();
-  
+
     const title = 'Pipeline Slippage Item Details';
     doc.setFontSize(18);
     const pageWidth = doc.internal.pageSize.getWidth();
     const textWidth = doc.getTextWidth(title);
     const xOffset = (pageWidth - textWidth) / 2;
     doc.text(title, xOffset, 20);
-  
+
     doc.setFontSize(10);
     doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 28);
-  
+
     // ✅ Define new columns
     const columns = [
       { header: 'S.No', dataKey: 'sno' },
@@ -2537,7 +2549,7 @@ this.fullUrl = window.location.href;
       { header: 'Received %', dataKey: 'min_per' },
       { header: 'No. of POs', dataKey: 'nospo' },
     ];
-  
+
     // ✅ Prepare rows
     const rows = this.pipelineSlippageItemDetail.map((item: any, index: number) => ({
       sno: index + 1,
@@ -2550,7 +2562,7 @@ this.fullUrl = window.location.href;
       min_per: item.min_per,
       nospo: item.nospo,
     }));
-  
+
     // ✅ Generate table
     autoTable(doc, {
       head: [columns.map((col) => col.header)],
@@ -2567,26 +2579,26 @@ this.fullUrl = window.location.href;
         4: { cellWidth: 45 }, // Item Name wider
       },
     });
-  
+
     doc.save('PipelineSlippageItemDetails.pdf');
   }
   exportToPDFpipelineSlippagePOItemDetailDTOModal() {
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
-  
+
     const now = new Date();
     const dateString = now.toLocaleDateString();
     const timeString = now.toLocaleTimeString();
-  
+
     const title = 'Pipeline Slippage PO Item Details';
     doc.setFontSize(18);
     const pageWidth = doc.internal.pageSize.getWidth();
     const textWidth = doc.getTextWidth(title);
     const xOffset = (pageWidth - textWidth) / 2;
     doc.text(title, xOffset, 20);
-  
+
     doc.setFontSize(10);
     doc.text(`Date: ${dateString}  Time: ${timeString}`, 10, 28);
-  
+
     // ✅ Define new columns
     const columns = [
       { header: 'S.No', dataKey: 'sno' },
@@ -2602,7 +2614,7 @@ this.fullUrl = window.location.href;
       { header: 'Received Qty', dataKey: 'receivedQTY' },
       { header: 'Time Duration', dataKey: 'timduration' },
     ];
-  
+
     // ✅ Prepare rows
     const rows = this.pipelineSlippagePOItemDetailDTO.map(
       (item: any, index: number) => ({
@@ -2624,7 +2636,7 @@ this.fullUrl = window.location.href;
         timduration: item.timduration,
       })
     );
-  
+
     // ✅ Generate table
     autoTable(doc, {
       head: [columns.map((col) => col.header)],
@@ -2646,11 +2658,11 @@ this.fullUrl = window.location.href;
         6: { cellWidth: 45 }, // PO No
       },
     });
-  
+
     doc.save('pipelineSlippagePOItemDetailDTO.pdf');
   }
-  
-  
+
+
   exportToPDFRCDDetails() {
     const doc = new jsPDF('l', 'mm', 'a4'); // landscape
 
@@ -3161,7 +3173,7 @@ this.fullUrl = window.location.href;
       console.log('Dialog closed');
     });
   }
-  allvaluecilick(tendCondition: any,item: any,parameterNew: any,title1: any ) {
+  allvaluecilick(tendCondition: any, item: any, parameterNew: any, title1: any) {
     this.parameterNew = parameterNew;
     this.title1 = title1;
     const yearId = 546,
@@ -4330,8 +4342,8 @@ this.fullUrl = window.location.href;
       const roleId = Number(sessionStorage.getItem('roleId') || 0);
       // const userName = sessionStorage.getItem('firstname') || '';
       const ipAddress = sessionStorage.getItem('ipAddress') || '';
-      const userAgent = navigator.userAgent; 
-      this.InsertUserPageViewLogdata.logId = 0; 
+      const userAgent = navigator.userAgent;
+      this.InsertUserPageViewLogdata.logId = 0;
       this.InsertUserPageViewLogdata.userId = userId;
       this.InsertUserPageViewLogdata.roleId = roleId;
       this.InsertUserPageViewLogdata.roleIdName = roleIdName;
@@ -4341,13 +4353,13 @@ this.fullUrl = window.location.href;
       this.InsertUserPageViewLogdata.ipAddress = ipAddress;
       this.InsertUserPageViewLogdata.userAgent = userAgent;
       //console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
-  // if(localStorage.getItem('Log Saved')|| ''!){
+      // if(localStorage.getItem('Log Saved')|| ''!){
 
-  // }
+      // }
       // API call
       this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
         next: (res: any) => {
-          console.log('Page View Log Saved:',res);
+          console.log('Page View Log Saved:', res);
           // const LogSaved='Log Saved'
           // localStorage.setItem('Log Saved', LogSaved);
         },
@@ -4355,7 +4367,7 @@ this.fullUrl = window.location.href;
           console.error('Backend Error:', JSON.stringify(err.message));
         }
       });
-  
+
     } catch (err: any) {
       console.error('Error:', err.message);
     }
