@@ -1,5 +1,5 @@
 import { throwDialogContentAlreadyAttachedError } from '@angular/cdk/dialog';
-import { CommonModule, DatePipe, NgFor,Location } from '@angular/common';
+import { CommonModule, DatePipe, NgFor, Location } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import {
   FormBuilder,
@@ -41,8 +41,8 @@ import {
 import { ApiService } from 'src/app/service/api.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import {MatIconModule} from '@angular/material/icon';
-import { InsertUserPageViewLogmodal} from 'src/app/Model/DashLoginDDL';
+import { MatIconModule } from '@angular/material/icon';
+import { InsertUserPageViewLogmodal } from 'src/app/Model/DashLoginDDL';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -72,7 +72,7 @@ export type ChartOptions = {
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    FormsModule,MatIconModule,
+    FormsModule, MatIconModule,
     NgFor,
     CommonModule,
   ],
@@ -102,12 +102,12 @@ export class WorkOrderGeneratedComponent {
   wOIssuedScheme: WorkOrderIssued[] = [];
   divisionid: any;
   himisDistrictid: any;
-  mainSchemeID:any;
+  mainSchemeID: any;
   dateRange!: FormGroup;
   fromdt: any;
   todt: any;
-  name:any;
-  totalWorks:any;
+  name: any;
+  totalWorks: any;
   InsertUserPageViewLogdata: InsertUserPageViewLogmodal = new InsertUserPageViewLogmodal();
 
   pageName: string = '';
@@ -118,10 +118,10 @@ export class WorkOrderGeneratedComponent {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    public datePipe: DatePipe,private location: Location,
+    public datePipe: DatePipe, private location: Location,
   ) {
     this.pageName = this.location.path();
-this.fullUrl = window.location.href;
+    this.fullUrl = window.location.href;
     this.dataSource = new MatTableDataSource<WorkGenDetails>([]);
   }
   ngOnInit() {
@@ -195,7 +195,7 @@ this.fullUrl = window.location.href;
                 );
               }
             } else {
-             // console.log('Selected category or series is invalid.');
+              // console.log('Selected category or series is invalid.');
             }
           },
         },
@@ -283,12 +283,12 @@ this.fullUrl = window.location.href;
                 this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelectionDistrict(id, selectedSeries);
               } else {
-               console.log(
+                console.log(
                   `No data found for selected category: ${selectedCategory}`
                 );
               }
             } else {
-             // console.log('Selected category or series is invalid.');
+              // console.log('Selected category or series is invalid.');
             }
           },
         },
@@ -376,12 +376,12 @@ this.fullUrl = window.location.href;
                 this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelectionScheme(id, selectedSeries);
               } else {
-               console.log(
+                console.log(
                   `No data found for selected category: ${selectedCategory}`
                 );
               }
             } else {
-             // console.log('Selected category or series is invalid.');
+              // console.log('Selected category or series is invalid.');
             }
           },
         },
@@ -470,12 +470,12 @@ this.fullUrl = window.location.href;
                 this.totalWorks = selectedData.totalWorks;
                 this.fetchDataBasedOnChartSelection(0, selectedSeries);
               } else {
-               console.log(
+                console.log(
                   `No data found for selected category: ${selectedCategory}`
                 );
               }
             } else {
-             // console.log('Selected category or series is invalid.');
+              // console.log('Selected category or series is invalid.');
             }
           },
         },
@@ -483,8 +483,8 @@ this.fullUrl = window.location.href;
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth:'20%',
-          borderRadius:3,
+          columnWidth: '20%',
+          borderRadius: 3,
           distributed: false,
           dataLabels: {
             position: 'top', // top, center, bottom
@@ -546,16 +546,16 @@ this.fullUrl = window.location.href;
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptions.chart.height = '200px';
       this.himisDistrictid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
     } else if (roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.divisionid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
       this.chartOptions.chart.height = '400px';
     } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
       this.chartOptions.chart.height = 'auto';
     }
     const startDate = this.dateRange.value.start;
@@ -567,7 +567,7 @@ this.fullUrl = window.location.href;
     var RPType = 'Total';
     // console.log('fromdt=',this.fromdt,'todt=',this.todt)
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
+    // http://103.51.8.80/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
       this.api
         .GETWorkOrderGenerated(
@@ -575,12 +575,12 @@ this.fullUrl = window.location.href;
           this.divisionid,
           this.himisDistrictid,
           this.fromdt,
-          this.todt,this.mainSchemeID
+          this.todt, this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
             this.WoIssuedTotal = data;
-           // console.log('WoIssuedTotal:', this.WoIssuedTotal);
+            // console.log('WoIssuedTotal:', this.WoIssuedTotal);
             // console.log('API Response data:', data);
             const id: string[] = [];
             const name: string[] = [];
@@ -615,7 +615,7 @@ this.fullUrl = window.location.href;
                 totalNormalTVC.push(item.totalNormalTVC);
               }
             );
-            
+
             this.chartOptions.series = [
               {
                 name: 'No of Works',
@@ -625,7 +625,7 @@ this.fullUrl = window.location.href;
               {
                 name: 'Contract Value (in Cr)',
                 data: totalTVC,
-                color: 'rgba(93, 243, 174, 0.85)' ,
+                color: 'rgba(93, 243, 174, 0.85)',
               },
               // {
               //   name: 'Avg Days Since Acceptance',
@@ -633,7 +633,7 @@ this.fullUrl = window.location.href;
               //   color:  'rgba(250, 199, 161, 0.85)',
               // },
 
-            
+
             ];
             this.chartOptions.xaxis = { categories: name };
             this.cO = this.chartOptions;
@@ -654,16 +654,16 @@ this.fullUrl = window.location.href;
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptions2.chart.height = '400';
       this.himisDistrictid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
     } else if (roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.divisionid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
       this.chartOptions2.chart.height = '400';
     } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
       this.chartOptions2.chart.height = '900';
     }
     const startDate = this.dateRange.value.start;
@@ -675,7 +675,7 @@ this.fullUrl = window.location.href;
     var RPType = 'District';
     // console.log('fromdt=',this.fromdt,'todt=',this.todt)
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
+    // http://103.51.8.80/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
       this.api
         .GETWorkOrderGenerated(
@@ -683,7 +683,7 @@ this.fullUrl = window.location.href;
           this.divisionid,
           this.himisDistrictid,
           this.fromdt,
-          this.todt,this.mainSchemeID
+          this.todt, this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -733,14 +733,14 @@ this.fullUrl = window.location.href;
               {
                 name: 'Contract Value (in Cr)',
                 data: totalTVC,
-                color: 'rgba(93, 243, 174, 0.85)'  ,
+                color: 'rgba(93, 243, 174, 0.85)',
               },
               // {
               //   name: 'Avg Days Since Acceptance',
               //   data: avgDaysSinceAcceptance,
               //   color:'rgba(250, 199, 161, 0.85)' ,
               // },
-             
+
             ];
             this.chartOptions2.xaxis = { categories: name };
             this.cO = this.chartOptions2;
@@ -761,16 +761,16 @@ this.fullUrl = window.location.href;
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptionsLine.chart.height = '400';
       this.himisDistrictid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
     } else if (roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.divisionid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
       this.chartOptionsLine.chart.height = '400';
     } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
       this.chartOptionsLine.chart.height = '900';
     }
     const startDate = this.dateRange.value.start;
@@ -780,9 +780,9 @@ this.fullUrl = window.location.href;
       : '';
     this.todt = endDate ? this.datePipe.transform(endDate, 'dd-MMM-yyyy') : '';
     var RPType = 'Scheme';
-   // console.log('fromdt=', this.fromdt, 'todt=', this.todt);
+    // console.log('fromdt=', this.fromdt, 'todt=', this.todt);
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
+    // http://103.51.8.80/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
       this.api
         .GETWorkOrderGenerated(
@@ -790,7 +790,7 @@ this.fullUrl = window.location.href;
           this.divisionid,
           this.himisDistrictid,
           this.fromdt,
-          this.todt,this.mainSchemeID
+          this.todt, this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
@@ -840,14 +840,14 @@ this.fullUrl = window.location.href;
               {
                 name: 'Contract Value (in Cr)',
                 data: totalTVC,
-                color: 'rgba(93, 243, 174, 0.85)'  ,
+                color: 'rgba(93, 243, 174, 0.85)',
               },
               // {
               //   name: 'Avg Days Since Acceptance',
               //   data: avgDaysSinceAcceptance,
               //   color:'rgba(250, 199, 161, 0.85)' ,
               // },
-              
+
             ];
             this.chartOptionsLine.xaxis = { categories: name };
             this.cO = this.chartOptionsLine;
@@ -868,16 +868,16 @@ this.fullUrl = window.location.href;
       this.divisionid = sessionStorage.getItem('divisionID');
       this.chartOptionsLine2.chart.height = '300';
       this.himisDistrictid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
     } else if (roleName == 'Collector') {
       this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
       this.divisionid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
       this.chartOptionsLine2.chart.height = '300';
     } else {
       this.divisionid = 0;
       this.himisDistrictid = 0;
-      this.mainSchemeID=0;
+      this.mainSchemeID = 0;
       this.chartOptionsLine2.chart.height = '300';
     }
     const startDate = this.dateRange.value.start;
@@ -889,7 +889,7 @@ this.fullUrl = window.location.href;
     var RPType = 'GTotal';
     // console.log('fromdt=',this.fromdt,'todt=',this.todt)
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
+    // http://103.51.8.80/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
       this.api
         .GETWorkOrderGenerated(
@@ -897,12 +897,12 @@ this.fullUrl = window.location.href;
           this.divisionid,
           this.himisDistrictid,
           this.fromdt,
-          this.todt,this.mainSchemeID
+          this.todt, this.mainSchemeID
         )
         .subscribe(
           (data: any) => {
             this.wOIssuedGTotal = data;
-           // console.log('wOIssuedGTotal', this.wOIssuedGTotal);
+            // console.log('wOIssuedGTotal', this.wOIssuedGTotal);
             // console.log('API Response data:', data);
             const id: string[] = [];
             const name: string[] = [];
@@ -946,14 +946,14 @@ this.fullUrl = window.location.href;
               {
                 name: 'Contract Value (in Cr)',
                 data: totalTVC,
-                color: 'rgba(93, 243, 174, 0.85)'  ,
+                color: 'rgba(93, 243, 174, 0.85)',
               },
               // {
               //   name: 'Avg Days Since Acceptance',
               //   data: avgDaysSinceAcceptance,
               //   color:'rgba(250, 199, 161, 0.85)' ,
               // },
-             
+
             ];
             this.chartOptionsLine2.xaxis = { categories: name };
             this.cO = this.chartOptionsLine2;
@@ -968,13 +968,13 @@ this.fullUrl = window.location.href;
     }
   }
   // #endregion
-  
+
   //#region Fetch database in table form
   fetchDataBasedOnChartSelectionTotal(
     divisionID: any,
     seriesName: string
   ): void {
-   // console.log(`Selected ID 11: ${divisionID}, Series: ${seriesName}`);
+    // console.log(`Selected ID 11: ${divisionID}, Series: ${seriesName}`);
     const distid = 0;
     const mainSchemeId = 0;
     const contractid = 0;
@@ -1002,7 +1002,7 @@ this.fullUrl = window.location.href;
               sno: index + 1,
             })
           );
-         // console.log('res:', res);
+          // console.log('res:', res);
           this.dataSource.data = this.dispatchPending;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -1020,17 +1020,17 @@ this.fullUrl = window.location.href;
     seriesName: string
   ): void {
     // console.log(`Selected ID: ${distid}, Series: ${seriesName}`);
-    var roleName  = localStorage.getItem('roleName');
-    if(roleName == 'Division'){
-    this.divisionid = sessionStorage.getItem('divisionID');
-    this.himisDistrictid=0; 
-    }  else if (roleName == 'Collector') {
-    this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
-    this.divisionid=0;
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
     }
-    else{
-      this.divisionid=0;
-      this.himisDistrictid=0; 
+    else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
     }
     // const divisionID = 0;
     const mainSchemeId = 0;
@@ -1075,17 +1075,17 @@ this.fullUrl = window.location.href;
     seriesName: string
   ): void {
     // console.log(`Selected ID: ${mainSchemeId}, Series: ${seriesName}`);
-    var roleName  = localStorage.getItem('roleName');
-    if(roleName == 'Division'){
-    this.divisionid = sessionStorage.getItem('divisionID');
-    this.himisDistrictid=0; 
-    }  else if (roleName == 'Collector') {
-    this.himisDistrictid=sessionStorage.getItem('himisDistrictid');
-    this.divisionid=0;
+    var roleName = localStorage.getItem('roleName');
+    if (roleName == 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID');
+      this.himisDistrictid = 0;
+    } else if (roleName == 'Collector') {
+      this.himisDistrictid = sessionStorage.getItem('himisDistrictid');
+      this.divisionid = 0;
     }
-    else{
-      this.divisionid=0;
-      this.himisDistrictid=0; 
+    else {
+      this.divisionid = 0;
+      this.himisDistrictid = 0;
     }
     // const distid = 0;
     // const divisionID = 0;
@@ -1146,7 +1146,7 @@ this.fullUrl = window.location.href;
     // const todt = '01-jan-2025';
     this.spinner.show();
     // divisionId: any,mainSchemeId:any,distid: any,work_id:any,fromdt: any,todt: any
-    this.api.GETWorkGenDetails(this.divisionid, mainSchemeId,this.himisDistrictid, work_id, this.fromdt, this.todt)
+    this.api.GETWorkGenDetails(this.divisionid, mainSchemeId, this.himisDistrictid, work_id, this.fromdt, this.todt)
       .subscribe(
         (res) => {
           this.dispatchPending = res.map(
@@ -1231,7 +1231,7 @@ this.fullUrl = window.location.href;
       // height: 'auto',
     });
     dialogRef.afterClosed().subscribe((result) => {
-     // console.log('Dialog closed');
+      // console.log('Dialog closed');
     });
   }
   onButtonClick2(ASID: any, workid: any): void {
@@ -1248,7 +1248,7 @@ this.fullUrl = window.location.href;
         // this.ASFileData=res;
         const filename = res[0]?.filename; // Ensure `res[0]` exists
         const URL = res[0]?.asLetterName;
-  
+
         if (filename) {
           window.open(URL, '_blank');
         } else {
@@ -1259,9 +1259,9 @@ this.fullUrl = window.location.href;
         }
         //  const URL =this.ASFileData[0].asLetterName;
         // window.open('https://cgmsc.gov.in/himisr/Upload/W3900002AS2.pdf', '_blank');
-  
+
         // console.log('res:', res);
-       // console.log('ASFileData:', this.ASFileData);
+        // console.log('ASFileData:', this.ASFileData);
         this.spinner.hide();
       },
       (error) => {
@@ -1270,7 +1270,7 @@ this.fullUrl = window.location.href;
       }
     );
   }
-  
+
 
   InsertUserPageViewLog() {
     try {
@@ -1280,8 +1280,8 @@ this.fullUrl = window.location.href;
       const roleId = Number(sessionStorage.getItem('roleId') || 0);
       // const userName = sessionStorage.getItem('firstname') || '';
       const ipAddress = sessionStorage.getItem('ipAddress') || '';
-      const userAgent = navigator.userAgent; 
-      this.InsertUserPageViewLogdata.logId = 0; 
+      const userAgent = navigator.userAgent;
+      this.InsertUserPageViewLogdata.logId = 0;
       this.InsertUserPageViewLogdata.userId = userId;
       this.InsertUserPageViewLogdata.roleId = roleId;
       this.InsertUserPageViewLogdata.roleIdName = roleIdName;
@@ -1290,14 +1290,14 @@ this.fullUrl = window.location.href;
       this.InsertUserPageViewLogdata.viewTime = new Date().toISOString();
       this.InsertUserPageViewLogdata.ipAddress = ipAddress;
       this.InsertUserPageViewLogdata.userAgent = userAgent;
-      console.log('InsertUserPageViewLogdata=',this.InsertUserPageViewLogdata);
-  // if(localStorage.getItem('Log Saved')|| ''!){
+      console.log('InsertUserPageViewLogdata=', this.InsertUserPageViewLogdata);
+      // if(localStorage.getItem('Log Saved')|| ''!){
 
-  // }
+      // }
       // API call
       this.api.InsertUserPageViewLogPOST(this.InsertUserPageViewLogdata).subscribe({
         next: (res: any) => {
-          console.log('Page View Log Saved:',res);
+          console.log('Page View Log Saved:', res);
           // const LogSaved='Log Saved'
           // localStorage.setItem('Log Saved', LogSaved);
         },
@@ -1305,7 +1305,7 @@ this.fullUrl = window.location.href;
           console.error('Backend Error:', JSON.stringify(err.message));
         }
       });
-  
+
     } catch (err: any) {
       console.error('Error:', err.message);
     }

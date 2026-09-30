@@ -893,7 +893,7 @@ export class InfrastructurePublicViewComponent {
 
   //  GET_TotalWorksAbstract(divisionId: any, mainSchemeId: any, distid: any, contractorid: any) {
   //     return this.http.get<TotalWorksAbstract[]>(`${this.apiUrl}/DetailProgress/TotalWorksAbstract?divisionid=${divisionId}&districtid=${distid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}`);
-  //   //  https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=147&contractorid=0
+  //   //  http://103.51.8.80/HIMIS_APIN/api/DetailProgress/TotalWorksAbstract?divisionid=0&districtid=0&mainschemeid=147&contractorid=0
   //   }
 
   TotalWorksAbstract() {

@@ -820,7 +820,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     if (this.id === "1001") {
 
-      this.http.post('https://cgmsc.gov.in/HIMIS_APIN/api/Login', SE, { headers }).subscribe(
+      this.http.post('http://103.51.8.80/HIMIS_APIN/api/Login', SE, { headers }).subscribe(
         (res: any) => {
           if (res.message === "Successfully Login") {
             //Redirect to Welcome Page
@@ -848,7 +848,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       );
     } else {
 
-      this.http.post('https://cgmsc.gov.in/HIMIS_APIN/api/FieldLogin/LoginField', loginPayload, { headers }).subscribe(
+      this.http.post('http://103.51.8.80/HIMIS_APIN/api/FieldLogin/LoginField', loginPayload, { headers }).subscribe(
         (res: any) => {
           if (res.message === "Successfully Login") {
             //Redirect to Welcome Page
