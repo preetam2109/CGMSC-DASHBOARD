@@ -733,7 +733,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     );
   }
   handleInfrastructureLogin() {
-
+// debugger;
     // Your logic for handling CGMSCL login
     sessionStorage.removeItem
     localStorage.removeItem
@@ -887,7 +887,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   sendOTP(): void {
-
+// debugger;
     // Show a loading indicator
     Swal.fire({
       title: 'Sending OTP...',

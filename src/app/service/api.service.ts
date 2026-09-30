@@ -125,16 +125,23 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
+  private apiUrl = 'http://103.51.8.80/HIMIS_APIN/api';
+ 
+
+  // private apiUrl = 'https://cgmsc.gov.in/HIMIS_APIN/api';
   private AAM_API_URL = 'https://dpdmis.in/AAMAPIMR/api';
   private CGMSCHO_API2 = 'https://dpdmis.in/CGMSCHO_API2/api';
+
+
   // private CGMSCHO_API2 = 'http://141.148.193.157/CGMSCHO_API2/api';
-  private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
+  // private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
+  private himis_apin = 'http://103.51.8.80/himis_apin/api';
 
   // private CGMSCHO_API2 = 'https://dpdmis.in//CGMSCHO_API_TEST/api';
 
   // https://dpdmis.in//CGMSCHO_API_TEST/api
-  private EMIS_API = 'https://cgmsc.gov.in/EMIS_API';
+  private EMIS_API = 'http://103.51.8.80/EMIS_API';
+  // private EMIS_API = 'https://cgmsc.gov.in/EMIS_API';
 
   private tokenSubject = new BehaviorSubject<string | null>(null);
 
@@ -645,7 +652,8 @@ export class ApiService {
 
   getDashLoginDDL() {
 
-    return this.http.get<DashLoginDDL[]>(`https://cgmsc.gov.in/HIMIS_APIN/api/Work/getDashLoginDDL`);
+    // return this.http.get<DashLoginDDL[]>(`https://cgmsc.gov.in/HIMIS_APIN/api/Work/getDashLoginDDL`);
+    return this.http.get<DashLoginDDL[]>(`http://103.51.8.80/HIMIS_APIN/api/Work/getDashLoginDDL`);
   }
 
   getDisYrGrowth(districtId: any, mcid: any) {
@@ -706,9 +714,9 @@ export class ApiService {
   }
 
 
-  V_WorkDetails(did: any, divisionId: any, districtid: any, mainSchemeId: any, contractorid: any, ASAmount: any, isbelow20: any, fromdt: any, todt: any, work_id: any) {
-    return this.http.get<any[]>(`${this.apiUrl}/DetailProgress/V_WorkDetails?did=${did}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}&isbelow20=${isbelow20}&fromdt=${fromdt}&todt=${todt}&work_id=${work_id}`);
-    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
+  V_WorkDetails(did: any, divisionId: any, districtid: any, mainSchemeId: any, contractorid: any, ASAmount: any, isbelow20: any, fromdt: any, todt: any, work_id: any,subengid:any,aeid:any) {
+    return this.http.get<any[]>(`${this.apiUrl}/DetailProgress/V_WorkDetails?did=${did}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}&isbelow20=${isbelow20}&fromdt=${fromdt}&todt=${todt}&work_id=${work_id}&subengid=${subengid}&aeid=${aeid}`);
+    // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0&subengid=C1281&aeid=0
   }
 
   DashProgressCount(divisionId: any, mainSchemeId: number, distid: number, ASID: any, GrantID: any, ASAmount: any, fromdt: any, todt: any) {
@@ -722,12 +730,14 @@ export class ApiService {
   }
   GetDistrict(isall: any, divisionId: number) {
     return this.http.get<GetDistrict[]>(
-      `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/GetDistrict?isall=${isall}&divisionId=${divisionId}`
+      `http://103.51.8.80/HIMIS_APIN/api/Progress/GetDistrict?isall=${isall}&divisionId=${divisionId}`
+      // `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/GetDistrict?isall=${isall}&divisionId=${divisionId}`
     );
   }
   DashProgressDistCount(divisionId: any, mainSchemeId: any, dashID: any) {
     return this.http.get<DashProgressDistCount[]>(
-      `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressDistCount?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&dashID=${dashID}`
+      `http://103.51.8.80/HIMIS_APIN/api/Progress/DashProgressDistCount?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&dashID=${dashID}`
+      // `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressDistCount?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&dashID=${dashID}`
 
     );
   }
@@ -874,7 +884,8 @@ export class ApiService {
   //#region GET IMAGE
   GetImageBinary(sr: number, imgName: string): Observable<any> {
     const encodedImgName = encodeURIComponent(imgName); // Encode the image name
-    const url = `https://cgmsc.gov.in/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}`;
+    // const url = `https://cgmsc.gov.in/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}`;
+    const url = `http://103.51.8.80/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}`;
     return this.http.get(url, { responseType: 'text' }); // Use 'text' if the API returns a base64 string
 
   }
