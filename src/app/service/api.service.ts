@@ -134,10 +134,10 @@ export class ApiService {
 
 
   // private CGMSCHO_API2 = 'http://141.148.193.157/CGMSCHO_API2/api';
-  // private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
-  private himis_apin = 'http://103.51.8.80/himis_apin/api';
 
-  // private CGMSCHO_API2 = 'https://dpdmis.in//CGMSCHO_API_TEST/api';
+  // private himis_apin = 'https://www.cgmsc.gov.in/himis_apin/api';
+
+  private himis_apin = 'http://103.51.8.80/himis_apin/api';
 
   // https://dpdmis.in//CGMSCHO_API_TEST/api
   private EMIS_API = 'http://103.51.8.80/EMIS_API';
@@ -699,10 +699,11 @@ export class ApiService {
 
   getDashLoginDDL() {
 
+
     // return this.http.get<DashLoginDDL[]>(`https://cgmsc.gov.in/HIMIS_APIN/api/Work/getDashLoginDDL`);
+
     return this.http.get<DashLoginDDL[]>(`http://103.51.8.80/HIMIS_APIN/api/Work/getDashLoginDDL`);
   }
-
   getDisYrGrowth(districtId: any, mcid: any) {
 
     return this.http.get<DisYrGrowth[]>(`${this.CGMSCHO_API2}/District/DisYrGrowth?districtId=${districtId}&mcid=${mcid}`);
@@ -778,13 +779,18 @@ export class ApiService {
   GetDistrict(isall: any, divisionId: number) {
     return this.http.get<GetDistrict[]>(
       `http://103.51.8.80/HIMIS_APIN/api/Progress/GetDistrict?isall=${isall}&divisionId=${divisionId}`
+
       // `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/GetDistrict?isall=${isall}&divisionId=${divisionId}`
+
+
     );
   }
   DashProgressDistCount(divisionId: any, mainSchemeId: any, dashID: any) {
     return this.http.get<DashProgressDistCount[]>(
       `http://103.51.8.80/HIMIS_APIN/api/Progress/DashProgressDistCount?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&dashID=${dashID}`
+
       // `https://cgmsc.gov.in/HIMIS_APIN/api/Progress/DashProgressDistCount?divisionId=${divisionId}&mainSchemeId=${mainSchemeId}&dashID=${dashID}`
+
 
     );
   }
@@ -931,7 +937,10 @@ export class ApiService {
   //#region GET IMAGE
   GetImageBinary(sr: number, imgName: string): Observable<any> {
     const encodedImgName = encodeURIComponent(imgName); // Encode the image name
+
     // const url = `https://cgmsc.gov.in/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}`;
+
+
     const url = `http://103.51.8.80/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}`;
     return this.http.get(url, { responseType: 'text' }); // Use 'text' if the API returns a base64 string
 
