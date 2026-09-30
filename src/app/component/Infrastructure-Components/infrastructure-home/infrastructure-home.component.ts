@@ -678,7 +678,7 @@ export class InfrastructureHomeComponent implements OnInit {
     this.openDialogTW();
   }
 
-  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
+  // http://103.51.8.80/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
   // GETV_WorkDetails(did: any, dashname: any, nosworks: any){
 
   //  1001,
@@ -916,7 +916,7 @@ export class InfrastructureHomeComponent implements OnInit {
       this.isbelow20 = 0;
 
     }
-    this.api.V_WorkDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, this.isbelow20, formdate, todate, workid,0,0)
+    this.api.V_WorkDetails(did, this.divisionid, this.himisDistrictid, this.mainSchemeID, this.contractorid, this.ASAmount, this.isbelow20, formdate, todate, workid, 0, 0)
       .subscribe(
         (res) => {
           this.Dispachv_work = res.map((item: any, index: number) => ({ ...item, sno: index + 1 }));

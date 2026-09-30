@@ -523,7 +523,7 @@ export class SearchingWorkComponent {
     try {
       return
       // ;
-      // https://cgmsc.gov.in/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}
+      // http://103.51.8.80/HIMIS_APIN/api/WorkPhysicalProgress/GetImageBinary?sr=${sr}&imgName=${encodedImgName}
       // const sr = 90691;  
       // const img = 'CGMSC WORK.jpg';
       // console.log('this.ImageName: ', this.ImageName);

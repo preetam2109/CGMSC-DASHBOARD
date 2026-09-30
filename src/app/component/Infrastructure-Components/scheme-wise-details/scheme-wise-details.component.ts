@@ -3123,7 +3123,7 @@ export class SchemeWiseDetailsComponent {
       this.chartHandover1.chart.height = '400';
     }
     // this.divisionid = roleName === 'Division' ? sessionStorage.getItem('divisionID') : 0;
-    // https://cgmsc.gov.in/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&
+    // http://103.51.8.80/HIMIS_APIN/api/Handover/HandoverAbstract?RPType=Total&dashid=4001&
     // divisionid=0&districtid=0&SWId=0&fromdt=01-04-2023&todt=0&mainSchemeId=142
     var RPType = 'Scheme';
     if (this.fromdt && this.todt) {
@@ -6413,7 +6413,7 @@ export class SchemeWiseDetailsComponent {
     var RPType = 'Total';
     // console.log('fromdt=',this.fromdt,'todt=',this.todt)
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
-    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
+    // http://103.51.8.80/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt3 && this.todt3) {
       this.api
         .GETWorkOrderGenerated(
