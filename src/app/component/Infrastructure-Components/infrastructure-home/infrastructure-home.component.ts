@@ -206,7 +206,8 @@ export class InfrastructureHomeComponent implements OnInit {
   zonalPermission: number = 0;
   cancellation: number = 0;
 
-  readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+  readonly baseImageUrl = 'http://103.51.8.80/himisr/ProgressImages/';
+  // readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
   selectedWork: any;
   imageUrls: string[] = [];
 
@@ -915,7 +916,7 @@ export class InfrastructureHomeComponent implements OnInit {
      this.isbelow20=0;
 
     }
-    this.api.V_WorkDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,this.isbelow20,formdate,todate,workid)
+    this.api.V_WorkDetails(did,this.divisionid,this.himisDistrictid,this.mainSchemeID,this.contractorid,this.ASAmount,this.isbelow20,formdate,todate,workid,0,0)
           .subscribe(
             (res) => {
               this.Dispachv_work = res.map((item: any, index: number) => ({ ...item, sno: index + 1 }));
@@ -2631,7 +2632,7 @@ imageKeys.forEach((key) => {
   });
 }
   onopenimges1(element: any) {
-    debugger;
+    // debugger;
     this.selectedWork = element;
     this.imageUrls = [];
     // https://cgmsc.gov.in/himisr/ProgressImages/
