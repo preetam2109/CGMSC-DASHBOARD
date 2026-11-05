@@ -67,11 +67,24 @@
                   </ng-container>
 
                   <!-- inddt Column -->
-                  <ng-container matColumnDef="enteredWorks">
+                  <!-- <ng-container matColumnDef="enteredWorks">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Entered Works</th>
                     <td mat-cell *matCellDef="let element" (click)="getASEnteredDetails(element.asid,0,0)">{{
                       element.enteredWorks}} </td>
-                  </ng-container>
+                  </ng-container> -->
+                    <ng-container matColumnDef="enteredWorks">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+    Entered Works
+  </th>
+
+  <td mat-cell *matCellDef="let element">
+    <span
+      class="link-text"
+      (click)="getASEnteredDetails(element.asid, element.divisionID, 0)">
+      {{ element.enteredWorks }}
+    </span>
+  </td>
+</ng-container>
 
                   <!-- pendingday Column -->
                   <ng-container matColumnDef="baltobeEnter">
@@ -193,11 +206,24 @@
                   </ng-container>
 
                   <!-- inddt Column -->
-                  <ng-container matColumnDef="enteredWorks">
+                   <ng-container matColumnDef="enteredWorks">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+    Entered Works
+  </th>
+
+  <td mat-cell *matCellDef="let element">
+    <span
+      class="link-text"
+      (click)="getASEnteredDetails(element.asid, element.divisionID, 0)">
+      {{ element.enteredWorks }}
+    </span>
+  </td>
+</ng-container>
+                  <!-- <ng-container matColumnDef="enteredWorks">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Entered Works</th>
                     <td mat-cell *matCellDef="let element"
                       (click)="getASEnteredDetails(element.asid,element.divisionID,0)">{{ element.enteredWorks}} </td>
-                  </ng-container>
+                  </ng-container> -->
 
                   <!-- pendingday Column -->
                   <ng-container matColumnDef="balanceWork">
@@ -401,12 +427,24 @@
                   </ng-container>
 
                   <!-- inddt Column -->
-                  <ng-container matColumnDef="enteredWorks">
+                  <!-- <ng-container matColumnDef="enteredWorks">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Entered Works</th>
                     <td mat-cell *matCellDef="let element" (click)="getASEnteredDetails(element.asid,0,0)">{{
                       element.enteredWorks}} </td>
-                  </ng-container>
+                  </ng-container> -->
+  <ng-container matColumnDef="enteredWorks">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+    Entered Works
+  </th>
 
+  <td mat-cell *matCellDef="let element">
+    <span
+      class="link-text"
+      (click)="getASEnteredDetails(element.asid, element.divisionID, 0)">
+      {{ element.enteredWorks }}
+    </span>
+  </td>
+</ng-container>
                   <!-- pendingday Column -->
                   <ng-container matColumnDef="baltobeEnter">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Bal to be Enter</th>

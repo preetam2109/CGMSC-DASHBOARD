@@ -274,11 +274,13 @@ dataSourceDivisionSummary = new MatTableDataSource<DivisionWiseASSummary>([]);
   }
 
   getDivisionWiseASPendingDetails(): void {
-  let divisionId = 0;
-  let mainSchemeId = 0;
+  // let divisionId = 0;
+ debugger;
 
   this.spinner.show();
-
+//  const sessionDivId = sessionStorage.getItem('divisionID');
+let divisionId = sessionStorage.getItem('divisionID') || '0';
+let mainSchemeId = 0;
   this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
     (res) => {
       // Existing table ka data
@@ -334,9 +336,10 @@ applyTextFilterDivisionSummary(event: Event): void {
   this.dataSourceDivisionSummary.filter = filterValue.trim().toLowerCase();
 }
   getDivisionWiseASPendingDetails1(): void {
-    let divisionId = 0;
+    // let divisionId = 0;
     let mainSchemeId = 0;
     this.spinner.show();
+   let divisionId = sessionStorage.getItem('divisionID') || '0';
     this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
       (res) => {
         this.dispatchDataDivision = res.map(
