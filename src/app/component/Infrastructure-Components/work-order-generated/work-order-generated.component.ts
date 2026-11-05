@@ -567,6 +567,7 @@ export class WorkOrderGeneratedComponent {
     var RPType = 'Total';
     // console.log('fromdt=',this.fromdt,'todt=',this.todt)
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     // https://www.cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
       this.api
@@ -675,6 +676,7 @@ export class WorkOrderGeneratedComponent {
     var RPType = 'District';
     // console.log('fromdt=',this.fromdt,'todt=',this.todt)
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     // https://www.cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
       this.api
@@ -782,6 +784,7 @@ export class WorkOrderGeneratedComponent {
     var RPType = 'Scheme';
     // console.log('fromdt=', this.fromdt, 'todt=', this.todt);
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     // https://www.cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
       this.api
@@ -889,6 +892,7 @@ export class WorkOrderGeneratedComponent {
     var RPType = 'GTotal';
     // console.log('fromdt=',this.fromdt,'todt=',this.todt)
     // this.divisionid = this.divisionid == 0 ? 0 : this.divisionid;
+    // https://cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     // https://www.cgmsc.gov.in/HIMIS_APIN/api/WorkOrder/WorkOrderGenerated?RPType=Total&divisionid=0&districtid=0&fromdt=01-01-2024&todt=0
     if (this.fromdt && this.todt) {
       this.api

@@ -206,6 +206,7 @@ export class InfrastructureHomeComponent implements OnInit {
   zonalPermission: number = 0;
   cancellation: number = 0;
 
+ // readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
   readonly baseImageUrl = 'https://www.cgmsc.gov.in/himisr/ProgressImages/';
   // readonly baseImageUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
   selectedWork: any;
@@ -678,6 +679,7 @@ export class InfrastructureHomeComponent implements OnInit {
     this.openDialogTW();
   }
 
+  // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
   // https://www.cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0
   // GETV_WorkDetails(did: any, dashname: any, nosworks: any){
 

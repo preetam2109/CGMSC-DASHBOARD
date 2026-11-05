@@ -182,6 +182,7 @@ import { QcLabMonitoring } from './component/ORACLE-DASHBOARD/QC/qc-lab-monitori
 import { QcWarehouseMonitoring } from './component/ORACLE-DASHBOARD/QC/qc-warehouse-monitoring/qc-warehouse-monitoring';
 import { AamStockStatus } from './component/ORACLE-DASHBOARD/aam-stock-status/aam-stock-status';
 import { AamNearExpiryMonitoring } from './component/ORACLE-DASHBOARD/aam-near-expiry-monitoring/aam-near-expiry-monitoring';
+import { AmmFacilityMonitoring } from './component/ORACLE-DASHBOARD/amm-facility-monitoring/amm-facility-monitoring';
 import { FacAiVsIssuanceStocks } from './component/ORACLE-DASHBOARD/fac-ai-vs-issuance-stocks/fac-ai-vs-issuance-stocks';
 import { MedicalCollegeHospitalNocAnalytics } from './component/ORACLE-DASHBOARD/medical-college-hospital-noc-analytics/medical-college-hospital-noc-analytics';
 import { ZeroQtyFinalApprovalPending } from './component/ORACLE-DASHBOARD/QC/zero-qty-final-approval-pending/zero-qty-final-approval-pending';
@@ -501,6 +502,8 @@ const routes: Routes = [
   { path: 'qc-warehouse-monitoring', component: QcWarehouseMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'aam-stock-status', component: AamStockStatus, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'DHSP01', 'DHS Program', 'Ayushman Arogya Mandir AAM', 'AAM', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'aam-near-expiry-monitoring', component: AamNearExpiryMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'DHSP01', 'DHS Program', 'Ayushman Arogya Mandir AAM', 'AAM', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'amm-facility-monitoring', component: AmmFacilityMonitoring, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'DHSP01', 'DHS Program', 'Ayushman Arogya Mandir AAM', 'AAM', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'aam-facility-monitoring', redirectTo: 'amm-facility-monitoring', pathMatch: 'full' },
   { path: 'fac-ai-vs-issuance-stocks', component: FacAiVsIssuanceStocks, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'medical-college-hospital-noc-analytics', component: MedicalCollegeHospitalNocAnalytics, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'zero-qty-final-approval-pending', component: ZeroQtyFinalApprovalPending, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
