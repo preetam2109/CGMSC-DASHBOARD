@@ -167,55 +167,23 @@ export class AdministrativeSanctionComponent {
     this.spinner.show();
     this.api.GETASFile(ASID, workid).subscribe(
       (res) => {
-        console.log('url=', res);
-        const filename = res[0]?.filename;
-        const URL = res[0]?.asLetterName; // e.g., "https://cgmsc.gov.in/himisr/UploadAS/323AS.pdf"
+        const filename = res[0]?.filename; // Ensure `res[0]` exists
+        const URL = res[0]?.asLetterName;
 
-        if (filename && URL) {
-          // Remove the domain part so it becomes "/himisr/UploadAS/323AS.pdf"
-          const relativeUrl = URL.replace('https://cgmsc.gov.in', '');
-          this.downloadPDF(relativeUrl, filename);
+        if (filename) {
+          window.open(URL, '_blank');
         } else {
-          this.spinner.hide();
           alert(
-            '⚠️ Alert: AS Letter Not Found!\nThe requested document is missing.',
+            '⚠️ Alert: AS Letter Not Found!\n\nThe requested document is missing.\nPlease try again later or contact support.',
           );
         }
+        this.spinner.hide();
       },
       (error) => {
         this.spinner.hide();
         alert(`Error fetching data: ${error.message}`);
       },
     );
-  }
-
-  downloadPDF(url: string, fileName: string): void {
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.blob();
-      })
-      .then((blob) => {
-        const blobUrl = window.URL.createObjectURL(blob);
-        const anchor = document.createElement('a');
-        anchor.href = blobUrl;
-
-        anchor.download = fileName.endsWith('.pdf')
-          ? fileName
-          : `${fileName}.pdf`;
-
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-
-        window.URL.revokeObjectURL(blobUrl);
-        this.spinner.hide();
-      })
-      .catch((error) => {
-        this.spinner.hide();
-        console.error('Download error:', error);
-        alert('⚠️ Error downloading the file. Please try again.');
-      });
   }
 
   getASEnteredDetails(ASID: any, divisionId: any, mainSchemeId: any): void {

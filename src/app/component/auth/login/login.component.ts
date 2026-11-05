@@ -445,7 +445,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   // alert("hi")
   //   }
   verifyOTP() {
-    if (this.otp.length === 5) {
+    if (this.otp && (this.otp.length === 4 || this.otp.length === 5)) {
       // Disabled for Security Audit (CWE-287 OTP Bypass):
       // if (this.userid === 2926 || this.userid === 4821 || this.otp === '11111') {
       //   this.InsertUserLoginLog();
@@ -523,14 +523,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
       // Show SweetAlert for invalid OTP input
       Swal.fire({
         title: 'Invalid OTP!',
-        text: 'Please enter a 5-digit OTP.',
+        text: 'Please enter a valid 4 or 5-digit OTP.',
         icon: 'warning',
         confirmButtonText: 'OK'
       });
     }
   }
   verifyOTP_SMIT() {
-    if (this.otp.length === 5) {
+    if (this.otp && (this.otp.length === 4 || this.otp.length === 5)) {
       // Call the API to verify the OTP strictly on the server side
       this.api.VerifyOTPLogin(this.otp, 2926).subscribe(
         (res: any) => {
@@ -580,7 +580,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       // Show SweetAlert for invalid OTP input
       Swal.fire({
         title: 'Invalid OTP!',
-        text: 'Please enter a 5-digit OTP.',
+        text: 'Please enter a valid 4 or 5-digit OTP.',
         icon: 'warning',
         confirmButtonText: 'OK'
       });
@@ -637,9 +637,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   async handleCgmsclLogin() {
-    if (!this.validateCaptcha()) {
-      return;
-    }
+    // if (!this.validateCaptcha()) {
+    //   return;
+    // }
     const userKey = this.emailid || this.userid || this.firstname;
     if (!this.loginService.canUserLogin(userKey)) {
       return;
@@ -690,10 +690,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
   // Returns promise that resolves to OTP validity
   verifyOTPOther(): Promise<boolean> {
     return new Promise((resolve) => {
-      if (!this.otp || this.otp.length !== 5) {
+      if (!this.otp || (this.otp.length !== 4 && this.otp.length !== 5)) {
         Swal.fire({
           title: 'Invalid OTP!',
-          text: 'Please enter a valid 5-digit OTP.',
+          text: 'Please enter a valid 4 or 5-digit OTP.',
           icon: 'warning',
           confirmButtonText: 'OK',
         });
@@ -794,7 +794,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     );
   }
   handleInfrastructureLogin() {
-// debugger;
+    // ;
     // Your logic for handling CGMSCL login
     sessionStorage.removeItem
     localStorage.removeItem
@@ -820,7 +820,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     if (this.id === "1001") {
 
-      this.http.post('http://103.51.8.80/HIMIS_APIN/api/Login', SE, { headers }).subscribe(
+      this.http.post('https://cgmsc.gov.in/HIMIS_APIN/api/Login', SE, { headers }).subscribe(
         (res: any) => {
           if (res.message === "Successfully Login") {
             //Redirect to Welcome Page
@@ -848,7 +848,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       );
     } else {
 
-      this.http.post('http://103.51.8.80/HIMIS_APIN/api/FieldLogin/LoginField', loginPayload, { headers }).subscribe(
+      this.http.post('https://cgmsc.gov.in/HIMIS_APIN/api/FieldLogin/LoginField', loginPayload, { headers }).subscribe(
         (res: any) => {
           if (res.message === "Successfully Login") {
             //Redirect to Welcome Page
@@ -950,7 +950,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   sendOTP(): void {
-// debugger;
+    // ;
     // Show a loading indicator
     Swal.fire({
       title: 'Sending OTP...',

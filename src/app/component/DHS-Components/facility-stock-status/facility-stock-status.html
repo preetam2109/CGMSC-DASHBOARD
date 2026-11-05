@@ -1,5 +1,4 @@
 <div class="facility-stock-wrapper">
-
   <!-- Spinner -->
   <div *ngIf="loading" class="spinner-overlay">
     <div class="modern-spinner"></div>
@@ -7,7 +6,6 @@
       Please wait while we load the dashboard...
     </div>
   </div>
-
   <!-- Oracle Analytics Dashboard -->
   <iframe
     class="oac_embedding_iframe"
@@ -25,7 +23,6 @@
   </script>
   <script>
           var token = "";
-
           function runWithRequireJS(callback) {
             if (typeof requirejs !== "undefined") {
               callback();
