@@ -635,7 +635,7 @@ export class PaidBillinfra {
 
     this.dataSource.data = this.groupedDivisionData;
   }
-  // http://103.51.8.80/HIMIS_APIN/api/Payment/PaidDetails?divisionId=D1017&mainSchemeId=0&distid=0&fromdt=03-June-2026&todt=10-June-2026
+  // https://www.cgmsc.gov.in/HIMIS_APIN/api/Payment/PaidDetails?divisionId=D1017&mainSchemeId=0&distid=0&fromdt=03-June-2026&todt=10-June-2026
 
   GETPaidDetails() {
     this.spinner.show();
