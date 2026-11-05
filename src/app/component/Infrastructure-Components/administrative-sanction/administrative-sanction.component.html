@@ -17,7 +17,7 @@
                   <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                   <mat-menu #exportMenu="matMenu">
                     <button mat-menu-item
-                      (click)="canExport() && exporter.exportTable('xlsx', { fileName: 'TotalASPending', sheet: 'TotalASPending', Props: { Author: 'cgmsc' }})">Excel</button>
+                      (click)="canExport() && exporterPending.exportTable('xlsx', { fileName: 'TotalASPending', sheet: 'TotalASPending', Props: { Author: 'cgmsc' }})">Excel</button>
                     <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                     <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
@@ -27,7 +27,7 @@
               </div>
               <div class="table-responsive ">
                 <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
-                  [dataSource]="dataSource" #exporter="matTableExporter" matSort #sort="matSort">
+                  [dataSource]="dataSource" #exporterPending="matTableExporter" matSort #sort="matSort">
 
                   <!-- Serial Number Column -->
                   <ng-container matColumnDef="sno">
@@ -44,7 +44,10 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Head</th>
                     <td mat-cell *matCellDef="let element">{{ element.head}} </td>
                   </ng-container>
-
+                  <!-- <ng-container matColumnDef="division">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Division</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.division}}</td>
+                  </ng-container> -->
                   <!-- warehousename Column -->
                   <ng-container matColumnDef="letterno">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>AS Letter NO</th>
@@ -132,10 +135,10 @@
                     (keyup)="applyTextFilterDivision($event)">
                 </div>
                 <div class="export-menu-container">
-                  <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
-                  <mat-menu #exportMenu="matMenu">
+                  <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenuu">Export</button>
+                  <mat-menu #exportMenuu="matMenu">
                     <button mat-menu-item
-                      (click)="exporter.exportTable('xlsx', { fileName: 'DivisionwiseASP', sheet: 'DivisionwiseASP', Props: { Author: 'cgmsc' }})">Excel</button>
+                      (click)="exporterDivision.exportTable('xlsx', { fileName: 'DivisionwiseASP', sheet: 'DivisionwiseASP', Props: { Author: 'cgmsc' }})">Excel</button>
                     <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                     <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
@@ -145,7 +148,7 @@
               </div>
               <div class="table-responsive ">
                 <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
-                  [dataSource]="dataSourceDivision" #exporter="matTableExporter" matSort #sort2="matSort">
+                  [dataSource]="dataSourceDivision" #exporterDivision="matTableExporter" matSort #sort2="matSort">
 
                   <!-- Serial Number Column -->
                   <ng-container matColumnDef="sno">
@@ -240,6 +243,91 @@
             </div>
           </div>
 
+          <!-- division summary --> 
+           <div class="mt-3">
+  <div class="w-100 mt-2" style="background-color:#050382">
+    <h3 class="bold text-light">Division Wise AS Pending Summary</h3>
+  </div>
+
+  <div class="card shadow card-body">
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <input
+        type="text"
+        class="form-control"
+        style="max-width:300px"
+        placeholder="Filter Division"
+        (keyup)="applyTextFilterDivisionSummary($event)"
+      />
+
+      <button
+        class="btn btn-outline-success"
+        mat-button
+        (click)="exporterDivisionSummary.exportTable('xlsx', {
+          fileName: 'DivisionWiseASPendingSummary',
+          sheet: 'Division Summary',
+          Props: { Author: 'cgmsc' }
+        })">
+        <i class="bi bi-file-earmark-excel"></i>
+        Export Excel
+      </button>
+    </div>
+
+    <div class="table-responsive">
+      <table
+        class="table table-bordered table-striped"
+        mat-table
+        matTableExporter
+        [dataSource]="dataSourceDivisionSummary"
+        #exporterDivisionSummary="matTableExporter">
+
+        <!-- Division -->
+        <ng-container matColumnDef="division">
+          <th mat-header-cell *matHeaderCellDef>Division</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.division }}
+          </td>
+        </ng-container>
+
+        <!-- Total Works -->
+        <ng-container matColumnDef="totalWorks">
+          <th mat-header-cell *matHeaderCellDef>Total Number of  Works in AS </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.totalWorks }}
+          </td>
+        </ng-container>
+
+        <!-- Entered Works -->
+        <ng-container matColumnDef="enteredWorks">
+          <th mat-header-cell *matHeaderCellDef> Work Created in HIMIS </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.enteredWorks }}
+          </td>
+        </ng-container>
+
+        <!-- Balance Work -->
+        <ng-container matColumnDef="balanceWork">
+          <th mat-header-cell *matHeaderCellDef>Balance to be created in HIMIS</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.balanceWork }}
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="['division', 'totalWorks', 'enteredWorks', 'balanceWork']">
+        </tr>
+
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['division', 'totalWorks', 'enteredWorks', 'balanceWork']">
+        </tr>
+
+      </table>
+    </div>
+  </div>
+</div>
+
         </ng-template>
       </mat-tab>
       <mat-tab label="Entered Administrative Sanction">
@@ -258,7 +346,7 @@
                   <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
                   <mat-menu #exportMenu="matMenu">
                     <button mat-menu-item
-                      (click)="exporter.exportTable('xlsx', { fileName: 'CompletedAS', sheet: 'CompletedAS', Props: { Author: 'cgmsc' }})">Excel</button>
+                      (click)="exporterCompleted.exportTable('xlsx', { fileName: 'CompletedAS', sheet: 'CompletedAS', Props: { Author: 'cgmsc' }})">Excel</button>
                     <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
                     <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
                     <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
@@ -268,7 +356,7 @@
               </div>
               <div class="table-responsive ">
                 <table class="table table-bordered table-striped border rounded" mat-table matTableExporter
-                  [dataSource]="dataSource2" #exporter="matTableExporter" matSort #sort3="matSort">
+                  [dataSource]="dataSource2" #exporterCompleted="matTableExporter" matSort #sort3="matSort">
 
                   <!-- Serial Number Column -->
                   <ng-container matColumnDef="sno">
@@ -397,7 +485,7 @@
           <button class="btn  btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu">Export</button>
           <mat-menu #exportMenu="matMenu">
             <button mat-menu-item
-              (click)="exporter.exportTable('xlsx', { fileName: 'ASEnteredDetails', sheet: 'ASEnteredDetails', Props: { Author: 'cgmsc' }})">Excel</button>
+              (click)="exporterEntered.exportTable('xlsx', { fileName: 'ASEnteredDetails', sheet: 'ASEnteredDetails', Props: { Author: 'cgmsc' }})">Excel</button>
             <!-- <button mat-menu-item (click)="exporter.exportTable('csv')">CSV</button>
             <button mat-menu-item (click)="exporter.exportTable('json')">JSON</button>
             <button mat-menu-item (click)="exporter.exportTable('txt')">TXT</button> -->
@@ -408,7 +496,7 @@
 
       <div class="table-responsive ">
         <table class="table table-bordered table-striped border rounded " mat-table matTableExporter
-          [dataSource]="dataSource1" #exporter="matTableExporter" matSort #sort1="matSort">
+          [dataSource]="dataSource1" #exporterEntered="matTableExporter" matSort #sort1="matSort">
 
           <!-- Serial Number Column -->
           <ng-container matColumnDef="sno">
