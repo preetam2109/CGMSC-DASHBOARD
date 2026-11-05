@@ -276,6 +276,7 @@ export class FundReleaseManagement {
     }
   }
 
+  //https://cgmsc.gov.in/HIMIS_APIN/api/Payment/LimitSummary?divisionId=0&districtid=0&mainSchemeId=0&finalstatus=0&DEMANDID=0
   //https://www.cgmsc.gov.in/HIMIS_APIN/api/Payment/LimitSummary?divisionId=0&districtid=0&mainSchemeId=0&finalstatus=0&DEMANDID=0
 
   GetLimitSummary() {
@@ -749,6 +750,7 @@ export class FundReleaseManagement {
     const divName_En = data.divName_En;
     const demandid = data.demandid;
 
+    // https://cgmsc.gov.in/HIMIS_APIN/api/Payment/LimitDetails?divisionId=D1001&districtid=0&mainSchemeId=0&finalstatus=0&DEMANDID=0
     // https://www.cgmsc.gov.in/HIMIS_APIN/api/Payment/LimitDetails?divisionId=D1001&districtid=0&mainSchemeId=0&finalstatus=0&DEMANDID=0
 
     // this.api.LimitDetails(divisionId,districtid,mainSchemeId,finalstatus,DEMANDID)

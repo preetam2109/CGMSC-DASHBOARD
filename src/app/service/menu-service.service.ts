@@ -64,6 +64,7 @@ export class MenuServiceService {
                     { label: 'Item wise Stock', route: '/item-wise-stock' },
                     { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },
                     { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring', verified: true },
+                    { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring', verified: true },
                     { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
                     { label: 'Medical College Hospital NOC Analytics', route: '/medical-college-hospital-noc-analytics', verified: true },
                     { label: 'Delivery Performance Insights', route: '/delivery-performance-insights-oracle', verified: true },
@@ -401,6 +402,7 @@ export class MenuServiceService {
                 { label: 'Stock Out & Stock Availability in Warehouse', route: '/stock-ou-and-stock-availability-in-warehouse', verified: true },
                 { label: 'Item wise Stock', route: '/item-wise-stock', verified: true },
                 { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },
+                { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring', verified: true },
                 { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
                 { label: 'Medical College Hospital NOC Analytics', route: '/medical-college-hospital-noc-analytics', verified: true },
                 { label: 'Warehouse Indent Pending Activity ', route: '/warehouse-indent-pending-activity-monitoring', verified: true },
@@ -697,6 +699,7 @@ export class MenuServiceService {
                 { label: 'Health Facility Batch wise Stock', route: '/facility-stock-status' },
                 { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
                 { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
+                { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring' },
                 // { label: 'Expired Items', route: '/Expired-Items-Oracle' },
                 // { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
                 // { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
@@ -850,6 +853,7 @@ export class MenuServiceService {
                 { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
                 { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
                 { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
+                { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring' },
                 { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
                 { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
                 { label: 'Item wise Stock', route: '/item-wise-stock' },
@@ -1548,8 +1552,10 @@ export class MenuServiceService {
       'Ayushman Arogya Mandir AAM': {
         items: [
           { label: 'Dashboard', route: '/welcome' },
+          { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring' },
           { label: 'AAM Stock Status', route: '/aam-stock-status' },
           { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
+          
           { label: 'Delivery Performance Insights', route: '/delivery-performance-insights-oracle' },
           { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
         ],
@@ -1620,6 +1626,7 @@ export class MenuServiceService {
         { label: 'Dashboard', route: '/welcome' },
         { label: 'AAM Stock Status', route: '/aam-stock-status' },
         { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
+        { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring' },
         { label: 'Delivery Performance Insights', route: '/delivery-performance-insights-oracle'},
         { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
       ];
@@ -1628,6 +1635,7 @@ export class MenuServiceService {
     if (role === 'DHSP01' || role === 'DHS Program' || this.isDHSP01User(role)) {
       return [
         { label: 'Dashboard', route: '/welcome' },
+        { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring' },
         { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock' },
         { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
         { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
@@ -1707,6 +1715,7 @@ export class MenuServiceService {
             { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
             { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle' },
             { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },
+            { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring', verified: true },
             { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
             { label: 'Medical College Hospital NOC Analytics', route: '/medical-college-hospital-noc-analytics', verified: true },
           ]
