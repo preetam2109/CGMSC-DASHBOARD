@@ -273,16 +273,16 @@ dataSourceDivisionSummary = new MatTableDataSource<DivisionWiseASSummary>([]);
     // this.openDialog();
   }
 
-  getDivisionWiseASPendingDetails(): void {
-  // let divisionId = 0;
- debugger;
+getDivisionWiseASPendingDetails(): void {
 
   this.spinner.show();
-//  const sessionDivId = sessionStorage.getItem('divisionID');
-let divisionId = sessionStorage.getItem('divisionID') || '0';
-let mainSchemeId = 0;
+
+  let divisionId = sessionStorage.getItem('divisionID') || '0';
+  let mainSchemeId = 0;
+
   this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
     (res) => {
+
       // Existing table ka data
       this.dispatchDataDivision = res.map(
         (item: DivisionWiseASPendingDetails, index: number) => ({
@@ -299,6 +299,7 @@ let mainSchemeId = 0;
       const summaryMap = new Map<string, DivisionWiseASSummary>();
 
       this.dispatchDataDivision.forEach((item) => {
+
         const divisionName = (item.division || 'Unknown').trim();
 
         if (!summaryMap.has(divisionName)) {
@@ -315,22 +316,103 @@ let mainSchemeId = 0;
         summary.totalWorks += Number(item.totalWorks) || 0;
         summary.enteredWorks += Number(item.enteredWorks) || 0;
         summary.balanceWork += Number(item.balanceWork) || 0;
+
       });
 
-      // New summary table ka data
+      // Division-wise summary data
       this.divisionSummaryData = Array.from(summaryMap.values());
 
+      // Grand Total Calculate
+      const grandTotal: DivisionWiseASSummary = {
+        division: 'Grand Total',
+        totalWorks: 0,
+        enteredWorks: 0,
+        balanceWork: 0
+      };
+
+      this.divisionSummaryData.forEach((item) => {
+        grandTotal.totalWorks += Number(item.totalWorks) || 0;
+        grandTotal.enteredWorks += Number(item.enteredWorks) || 0;
+        grandTotal.balanceWork += Number(item.balanceWork) || 0;
+      });
+
+      // Grand Total ko last row me add karna
+      this.divisionSummaryData.push(grandTotal);
+
+      // Summary table data
       this.dataSourceDivisionSummary.data = this.divisionSummaryData;
 
       this.cdr.detectChanges();
       this.spinner.hide();
+
     },
     (error) => {
+
       this.spinner.hide();
       alert(`Error fetching data: ${error.message}`);
+
     }
   );
 }
+
+//   getDivisionWiseASPendingDetails(): void {
+//   // let divisionId = 0;
+// //  debugger;
+
+//   this.spinner.show();
+// //  const sessionDivId = sessionStorage.getItem('divisionID');
+// let divisionId = sessionStorage.getItem('divisionID') || '0';
+// let mainSchemeId = 0;
+//   this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
+//     (res) => {
+//       // Existing table ka data
+//       this.dispatchDataDivision = res.map(
+//         (item: DivisionWiseASPendingDetails, index: number) => ({
+//           ...item,
+//           sno: index + 1,
+//         })
+//       );
+
+//       this.dataSourceDivision.data = this.dispatchDataDivision;
+//       this.dataSourceDivision.paginator = this.paginatorPageSize;
+//       this.dataSourceDivision.sort = this.sort2;
+
+//       // Division-wise summary calculate karna
+//       const summaryMap = new Map<string, DivisionWiseASSummary>();
+
+//       this.dispatchDataDivision.forEach((item) => {
+//         const divisionName = (item.division || 'Unknown').trim();
+
+//         if (!summaryMap.has(divisionName)) {
+//           summaryMap.set(divisionName, {
+//             division: divisionName,
+//             totalWorks: 0,
+//             enteredWorks: 0,
+//             balanceWork: 0,
+//           });
+//         }
+
+//         const summary = summaryMap.get(divisionName)!;
+
+//         summary.totalWorks += Number(item.totalWorks) || 0;
+//         summary.enteredWorks += Number(item.enteredWorks) || 0;
+//         summary.balanceWork += Number(item.balanceWork) || 0;
+//       });
+
+//       // New summary table ka data
+//       this.divisionSummaryData = Array.from(summaryMap.values());
+
+//       this.dataSourceDivisionSummary.data = this.divisionSummaryData;
+
+//       this.cdr.detectChanges();
+//       this.spinner.hide();
+//     },
+//     (error) => {
+//       this.spinner.hide();
+//       alert(`Error fetching data: ${error.message}`);
+//     }
+//   );
+// }
 applyTextFilterDivisionSummary(event: Event): void {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSourceDivisionSummary.filter = filterValue.trim().toLowerCase();
