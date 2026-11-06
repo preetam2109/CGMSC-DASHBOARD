@@ -338,8 +338,17 @@
             {{ element.balanceWork }}
           </td>
         </ng-container>
-
         <tr
+  mat-header-row
+  *matHeaderRowDef="['division', 'totalWorks', 'enteredWorks', 'balanceWork']">
+</tr>
+
+<tr
+  mat-row
+  *matRowDef="let row; columns: ['division', 'totalWorks', 'enteredWorks', 'balanceWork']"
+  [class.grand-total-row]="row.division === 'Grand Total'">
+</tr>
+        <!-- <tr
           mat-header-row
           *matHeaderRowDef="['division', 'totalWorks', 'enteredWorks', 'balanceWork']">
         </tr>
@@ -347,7 +356,7 @@
         <tr
           mat-row
           *matRowDef="let row; columns: ['division', 'totalWorks', 'enteredWorks', 'balanceWork']">
-        </tr>
+        </tr> -->
 
       </table>
     </div>
