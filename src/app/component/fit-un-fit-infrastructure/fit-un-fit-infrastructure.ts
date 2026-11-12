@@ -346,133 +346,293 @@ export class FitUnFitInfrastructure {
 
 
   // SE Office
-  getPendigBill() {
+    getPendigBill() {
+  // debugger;
+  this.spinner.show();
 
-    this.spinner.show();
-    let roleName = localStorage.getItem('roleName');
+  let roleName = localStorage.getItem('roleName');
 
-    if (roleName == 'Division') {
-      this.divisionid = sessionStorage.getItem('divisionID');
+  if (roleName == 'Division') {
+    this.divisionid = sessionStorage.getItem('divisionID');
+  } else {
+    this.divisionid = 0;
+  }
 
-    } else {
-      this.divisionid = 0
-    }
-    console.log('divisionid=', this.divisionid, 'schemeid=', this.mainSchemeID, 'officerid=', this.officeorderid)
-    this.api.getPendigBill(this.mainSchemeID, this.officeorderid, this.divisionid).subscribe(
-      (res) => {
+  console.log(
+    'divisionid=', this.divisionid,
+    'schemeid=', this.mainSchemeID,
+    'officerid=', this.officeorderid
+  );
 
-        const groupedData = res.reduce((acc: any[], curr: any) => {
+  this.api.getPendigBill(
+    this.mainSchemeID,
+    this.officeorderid,
+    this.divisionid
+  ).subscribe(
+    (res) => {
 
-          const cleanDivision =
-            curr.divisionname?.replace(' Division', '').trim();
+      const groupedData = res.reduce((acc: any[], curr: any) => {
 
+        const cleanDivision =
+          curr.divisionname?.replace(' Division', '').trim();
 
-          const existing = acc.find(
-            x =>
-              x.fund === curr.fund &&
-              x.divisionname === cleanDivision &&
-              x.pedingsection?.trim().toLowerCase() ===
-              curr.pedingsection?.trim().toLowerCase()
-          );
+        const section =
+          curr.pedingsection?.trim().toLowerCase();
 
-          if (existing) {
+        // Group by Work ID also
+        const existing = acc.find(x =>
+          x.fund === curr.fund &&
+          x.divisionname === cleanDivision &&
+          x.pedingsection?.trim().toLowerCase() === section &&
+          x.worK_ID === curr.worK_ID
+        );
 
-            // Sum Gross Amount
-            existing.grossamount =
-              Number(existing.grossamount) +
-              Number(curr.grossamount);
+        if (existing) {
 
-            // Update latest values if needed
-            existing.fileondesk = curr.fileondesk;
-            existing.dayssincefile = curr.dayssincefile;
+          const billNo = String(curr.billno);
 
-          } else {
+          // Avoid adding the same bill twice
+          if (!existing._billNoSet.has(billNo)) {
 
-            acc.push({
-              ...curr, // ALL columns preserve
+            existing.grossamount += Number(curr.grossamount) || 0;
 
-              divisionname: cleanDivision,
+            existing._billNoSet.add(billNo);
 
-              grossamount: Number(curr.grossamount)
-            });
-
+            existing.billnos.push(billNo);
           }
 
-          return acc;
+          // Retain existing latest-row behavior
+          existing.fileondesk = curr.fileondesk;
+          existing.dayssincefile = curr.dayssincefile;
 
-        }, []);
+        } else {
 
+          const billNo = String(curr.billno);
 
-        this.himis_PendigBill = groupedData
-          .map((item) => ({
-            ...item,
+          acc.push({
+            ...curr,
+
+            divisionname: cleanDivision,
+
+            grossamount: Number(curr.grossamount) || 0,
+
+            billnos: [billNo],
+
+            _billNoSet: new Set([billNo])
+          });
+
+        }
+
+        return acc;
+
+      }, []);
+
+      this.himis_PendigBill = groupedData
+
+        .map((item) => {
+
+          const { _billNoSet, ...row } = item;
+
+          return {
+            ...row,
+
+            // Display multiple bill numbers
+            billno: item.billnos.join(', '),
 
             divisionname: item.divisionname
               ?.replace(' Division', '')
               .trim(),
 
+            // Convert rupees into lakhs
             grossamount: Number(
               (item.grossamount / 100000).toFixed(2)
             )
-          }))
+          };
+        })
 
-          .sort((a, b) => {
+        .sort((a, b) => {
 
-            const sectionOrder: any = {
-              'finance': 1,
-              'se office': 2,
-              'divisional level': 3
-            };
+          const sectionOrder: any = {
+            'finance': 1,
+            'se office': 2,
+            'divisional level': 3
+          };
 
-            const aSection =
-              a.pedingsection?.trim().toLowerCase();
+          const aSection =
+            a.pedingsection?.trim().toLowerCase();
 
-            const bSection =
-              b.pedingsection?.trim().toLowerCase();
+          const bSection =
+            b.pedingsection?.trim().toLowerCase();
 
-            const sectionCompare =
-              (sectionOrder[aSection] ?? 99) -
-              (sectionOrder[bSection] ?? 99);
+          const sectionCompare =
+            (sectionOrder[aSection] ?? 99) -
+            (sectionOrder[bSection] ?? 99);
 
-            if (sectionCompare !== 0) {
-              return sectionCompare;
-            }
+          if (sectionCompare !== 0) {
+            return sectionCompare;
+          }
 
-            const divisionCompare =
-              a.divisionname.localeCompare(
-                b.divisionname
-              );
+          const divisionCompare =
+            a.divisionname.localeCompare(b.divisionname);
 
-            if (divisionCompare !== 0) {
-              return divisionCompare;
-            }
+          if (divisionCompare !== 0) {
+            return divisionCompare;
+          }
 
-            return a.fund.localeCompare(
-              b.fund
-            );
+          return a.fund.localeCompare(b.fund);
+        })
 
-          })
-          // Recreate serial number after sorting
-          .map((item, index) => ({
-            ...item,
-            sno: index + 1
-          }));
-        this.dataSource1.data = this.himis_PendigBill;
+        // Recreate serial number
+        .map((item, index) => ({
+          ...item,
+          sno: index + 1
+        }));
 
-        this.dataSource1.paginator = this.paginator1;
-        this.dataSource1.sort = this.sort1;
+      this.himis_PendigBill = this.himis_PendigBill;
 
-        this.cdr.detectChanges();
+      this.dataSource1.data = this.himis_PendigBill;
 
-        this.spinner.hide();
+      this.dataSource1.paginator = this.paginator1;
+      this.dataSource1.sort = this.sort1;
 
-      },
-      (error) => {
-        this.spinner.hide();
-        console.error(error);
-      }
-    );
-  }
+      this.cdr.detectChanges();
+
+      this.spinner.hide();
+
+    },
+    (error) => {
+      this.spinner.hide();
+      console.error(error);
+    }
+  );
+}
+//   getPendigBill() {
+// debugger;
+//     this.spinner.show();
+//     let roleName = localStorage.getItem('roleName');
+
+//     if (roleName == 'Division') {
+//       this.divisionid = sessionStorage.getItem('divisionID');
+
+//     } else {
+//       this.divisionid = 0
+//     }
+//     console.log('divisionid=', this.divisionid, 'schemeid=', this.mainSchemeID, 'officerid=', this.officeorderid)
+//     this.api.getPendigBill(this.mainSchemeID, this.officeorderid, this.divisionid).subscribe(
+//       (res) => {
+
+//         const groupedData = res.reduce((acc: any[], curr: any) => {
+
+//           const cleanDivision =
+//             curr.divisionname?.replace(' Division', '').trim();
+
+
+//           const existing = acc.find(
+//             x =>
+//               x.fund === curr.fund &&
+//               x.divisionname === cleanDivision &&
+//               x.pedingsection?.trim().toLowerCase() ===
+//               curr.pedingsection?.trim().toLowerCase()
+//           );
+
+//           if (existing) {
+
+//             // Sum Gross Amount
+//             existing.grossamount =
+//               Number(existing.grossamount) +
+//               Number(curr.grossamount);
+
+//             // Update latest values if needed
+//             existing.fileondesk = curr.fileondesk;
+//             existing.dayssincefile = curr.dayssincefile;
+
+//           } else {
+
+//             acc.push({
+//               ...curr, // ALL columns preserve
+
+//               divisionname: cleanDivision,
+
+//               grossamount: Number(curr.grossamount)
+//             });
+
+//           }
+
+//           return acc;
+
+//         }, []);
+
+
+//         this.himis_PendigBill = groupedData
+//           .map((item) => ({
+//             ...item,
+
+//             divisionname: item.divisionname
+//               ?.replace(' Division', '')
+//               .trim(),
+
+//             grossamount: Number(
+//               (item.grossamount / 100000).toFixed(2)
+//             )
+//           }))
+
+//           .sort((a, b) => {
+
+//             const sectionOrder: any = {
+//               'finance': 1,
+//               'se office': 2,
+//               'divisional level': 3
+//             };
+
+//             const aSection =
+//               a.pedingsection?.trim().toLowerCase();
+
+//             const bSection =
+//               b.pedingsection?.trim().toLowerCase();
+
+//             const sectionCompare =
+//               (sectionOrder[aSection] ?? 99) -
+//               (sectionOrder[bSection] ?? 99);
+
+//             if (sectionCompare !== 0) {
+//               return sectionCompare;
+//             }
+
+//             const divisionCompare =
+//               a.divisionname.localeCompare(
+//                 b.divisionname
+//               );
+
+//             if (divisionCompare !== 0) {
+//               return divisionCompare;
+//             }
+
+//             return a.fund.localeCompare(
+//               b.fund
+//             );
+
+//           })
+//           // Recreate serial number after sorting
+//           .map((item, index) => ({
+//             ...item,
+//             sno: index + 1
+//           }));
+//         this.dataSource1.data = this.himis_PendigBill;
+
+//         this.dataSource1.paginator = this.paginator1;
+//         this.dataSource1.sort = this.sort1;
+
+//         this.cdr.detectChanges();
+
+//         this.spinner.hide();
+
+//       },
+//       (error) => {
+//         this.spinner.hide();
+//         console.error(error);
+//       }
+//     );
+//   }
 
 
   applyTextFilter2(event: Event) {
@@ -489,6 +649,7 @@ export class FitUnFitInfrastructure {
       this.dataSource1.paginator.firstPage();
     }
   }
+
   getTotals() {
     return this.himis_PendigBillSummary.reduce(
       (acc, r) => {
