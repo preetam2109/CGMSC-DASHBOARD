@@ -64,7 +64,7 @@ export class RouteGuardService implements CanActivate {
     console.log('Allowed Roles:', allowedRoles);
 
     // Allow access if the user's role is included in the allowed roles
-    if (!allowedRoles || allowedRoles.includes(userRole) || (userRole === 'Finance Consultant' && allowedRoles.includes('SEC1'))) {
+    if (!allowedRoles || allowedRoles.includes(userRole) || ((userRole === 'Finance Consultant' || userRole === 'SMIT' || userRole === 'SM IT') && allowedRoles.includes('SEC1'))) {
       return true;
     } else {
       // Redirect to an unauthorized page or login if role does not match

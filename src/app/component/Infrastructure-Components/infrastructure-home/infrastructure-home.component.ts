@@ -866,6 +866,7 @@ export class InfrastructureHomeComponent implements OnInit {
   ];
   isbelow20: any;
   DetailProgress(did: any, dashname: any, nosworks: any) {
+    debugger
     // ;
     let workid = 0;
     this.dashname = dashname;
@@ -923,6 +924,7 @@ export class InfrastructureHomeComponent implements OnInit {
         (res) => {
           this.Dispachv_work = res.map((item: any, index: number) => ({ ...item, sno: index + 1 }));
           this.dataSourcev_work.data = this.Dispachv_work;
+          debugger
           console.log('dataSourcev_work=', this.dataSourcev_work);
           this.dataSourcev_work.paginator = this.paginatorv_wor;
           this.dataSourcev_work.sort = this.sort12;
