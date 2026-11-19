@@ -1192,10 +1192,11 @@ export class MenuServiceService {
 
       'GM Finance': {
         items: [
+            
           { label: 'Home', route: '/home' },
           { label: 'Payment Approvals', route: '/PayementApprovals' },
           { label: 'Fund Release Management', route: '/FundReleaseManagement', verified: true },
-
+          { label: 'Bills Pending for Payment', route: '/FitUnFitinfra', verified: true },
           { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
 
           { label: 'Finance', route: '/finance-dash' },
@@ -1212,10 +1213,23 @@ export class MenuServiceService {
       },
       'DMFin': {
         items: [
+           {
+                  label: 'Finance',
+                  route: '',
+                  submenu: [
+                    { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
+                    { label: 'PO File Status Insights (Technical)', route: '/pofile-status-insights-technical' },
+                    { label: 'Security Deposit Pending Monitoring', route: '/securitydepositpendingmonitoring-oracle' },
+                    { label: 'Security Deposit Released Monitoring', route: '/securitydepositreleasedmonitoring-oracle' },
+                    { label: 'EMD Monitoring & Insights (FY 2021–Present)', route: '/EMDMonitoringAndInsights' },
+                    { label: 'SD Acknowledgement Insights', route: '/sdacknowledgement-insights' },
+                  ]
+                },
           { label: 'Home', route: '/home' },
           { label: 'Payment Approvals', route: '/PayementApprovals' },
           { label: 'Finance', route: '/finance-dash' },
           { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
+          { label: 'Bills Pending for Payment', route: '/FitUnFitinfra', verified: true },
           { label: 'Growth in Distribution', route: '/distribution' },
           { label: 'Payment', route: '/PriceEvaluation' },
           { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },

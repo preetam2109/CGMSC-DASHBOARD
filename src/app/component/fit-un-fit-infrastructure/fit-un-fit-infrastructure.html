@@ -1,5 +1,5 @@
 <mat-tab-group (selectedTabChange)="selectedTabValue2($event)">
-    <mat-tab label="Pending Bill Summary">
+    <mat-tab label="Fund Head Wise">
         <ng-template matTabContent>
 
           <div class="mt-2">
@@ -176,7 +176,7 @@
           </div>
         </ng-template>
       </mat-tab>
-    <mat-tab label="Bill Status Under Process (Not Paid) Bill Details">
+    <mat-tab label="Work Bill Wise (Not Paid) Details">
       <ng-template matTabContent>
          <div class="mt-2">
             <div class="card col-12 col-md-12">
@@ -346,6 +346,119 @@
                 </div>
             </div>
         </div> 
+
+
+        <div class="card mt-3 py-2 px-2 mb-3">
+
+  <div class="card-header text-center"
+       style="background-color: rgb(254, 240, 255);">
+
+    <h3 class="mb-0">
+      Other Head Pending Bills
+    </h3>
+
+    <small>
+      (Excluded the SNA SPARSH Head)
+    </small>
+
+  </div>
+
+  <div class="table-responsive">
+    <div class="d-flex justify-content-start mb-2">
+      <div class="export-menu-container ">
+        <button class="btn btn-outline-secondary" mat-button [matMenuTriggerFor]="exportMenu4">
+          Export
+        </button>
+    
+        <mat-menu #exportMenu4="matMenu">
+    
+          <button mat-menu-item (click)="exportToExcel4()">
+            Excel
+          </button>
+    
+          <button mat-menu-item (click)="exportToPDF4()">
+            PDF
+          </button>
+    
+        </mat-menu>
+      </div>
+    </div>
+    <table class="table table-bordered table-striped mb-0"
+           mat-table
+           [dataSource]="dataSource4">
+
+      <!-- Division -->
+      <ng-container matColumnDef="divisionname">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Division
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          {{element.divisionname}}
+        </td>
+
+        <td mat-footer-cell *matFooterCellDef>
+          <b>Grand Total</b>
+        </td>
+
+      </ng-container>
+
+      <!-- No of Works -->
+      <ng-container matColumnDef="noofworks">
+
+        <th mat-header-cell *matHeaderCellDef>
+          No of Works
+        </th>
+
+        <td mat-cell *matCellDef="let element"
+            class="text-center">
+          {{element.noofworks}}
+        </td>
+
+        <td mat-footer-cell *matFooterCellDef
+            class="text-center">
+          <b>{{otherHeadTotalWorks1}}</b>
+        </td>
+
+      </ng-container>
+
+      <!-- Gross Amount -->
+      <ng-container matColumnDef="grossamount">
+
+        <th mat-header-cell *matHeaderCellDef>
+          Bill Gross Amt (in Lac)
+        </th>
+
+        <td mat-cell *matCellDef="let element"
+            class="text-end">
+          {{element.grossamount | number:'1.2-2'}}
+        </td>
+
+        <td mat-footer-cell *matFooterCellDef
+            class="text-end">
+          <b>{{otherHeadTotalAmount1 | number:'1.2-2'}}</b>
+        </td>
+
+      </ng-container>
+
+      <tr mat-header-row
+          *matHeaderRowDef="displayedColumns4">
+      </tr>
+
+      <tr mat-row
+          *matRowDef="let row; columns: displayedColumns4">
+      </tr>
+
+      <tr mat-footer-row
+          *matFooterRowDef="displayedColumns4">
+      </tr>
+
+    </table>
+
+  </div>
+
+</div>
 
       </ng-template>
     </mat-tab>
