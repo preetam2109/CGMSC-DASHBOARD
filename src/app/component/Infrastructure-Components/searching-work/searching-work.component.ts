@@ -112,119 +112,6 @@ export class SearchingWorkComponent {
   }
 
   initializeChartOptions() {
-    // this.chartOptions = {
-    //   series: [],
-    //   chart: {
-    //     type: 'rangeBar',
-    //     height: '300',
-    //     // stacked: false,
-    //     events: {
-    //       dataPointMouseEnter: function (event: any, chartContext: any, config: any) {
-    //         const dataPoint = config.w.config.series[config.seriesIndex].data[config.dataPointIndex];
-    //         // Custom logic to display data inside the bar on hover
-    //       }
-    //     }
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //       distributed: true,
-    //       colors: {
-    //         ranges: [],
-    //         backgroundBarColors: ['#f8f9fa', '#e9ecef', '#dee2e6'],
-    //         backgroundBarOpacity: 1
-    //       },
-    //       dataLabels: {
-    //         hideOverflowingLabels: false,
-    //         position: 'center', // Place labels inside the bars
-    //       }
-    //     }
-    //   },
-    //   dataLabels: {
-    //     enabled: true,
-    //     formatter: function (val: any, opts: any) {
-    //       const w = opts.w; // Accessing the wider context
-    //       const seriesIndex = opts.seriesIndex;
-    //       const dataPointIndex = opts.dataPointIndex;
-
-    //       // Ensure we are accessing the correct data structure
-    //       if (w.config && w.config.series && w.config.series[seriesIndex] && w.config.series[seriesIndex].data[dataPointIndex]) {
-    //         const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
-    //         // console.log('DataPoint:', dataPoint); // Log to verify structure
-    //         if (dataPoint && dataPoint.level) {
-    //           return dataPoint.level; // Return the `level` value
-    //         }
-    //       }
-    //       return ''; // Default return if `level` is not available
-    //     },
-    //     style: {
-    //       colors: ['#fff']
-    //     }
-    //   },
-    //   xaxis: {
-    //     categories: [], // Already set based on `res.map(item => item.pdate)`
-    //     labels: {
-    //       style: {
-    //         fontSize: '12px',
-    //         colors: ['#000']
-    //       }
-    //     },
-    //     opposite: true // Ensure larger values appear at the top
-
-    //   },
-    //   yaxis: {
-    //     // categories: [],
-    //     labels: {
-    //       style: {
-    //         fontSize: '12px',
-    //         colors: ['#000']
-    //       }
-    //     },
-    //     categories: [], // Reversed in GetProjectTimeline
-    //     // opposite: true // Ensure larger values appear at the top
-    //     title: {
-    //       text: ' Progress Date ',
-    //       align: 'center',
-    //       style: {
-    //         fontSize: '12px',
-    //         // color: '#000'
-    //         color: '#6e0d25',
-
-    //       },
-    //     },
-    //   },
-    //   title: {
-    //     text: 'Project Timeline Progress',
-    //     align: 'center',
-    //     style: {
-    //       fontSize: '12px',
-    //       // color: '#000'
-    //       color: '#6e0d25'
-    //     },
-    //   },
-    //   legend: {
-    //     position: 'top',
-    //     horizontalAlign: 'center',
-    //     offsetx: 50,
-    //   },
-    //   stroke: {
-    //     width: 1,
-    //     colors: ['#fff'],
-    //   },
-    //   tooltip: {
-    //     custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
-    //       const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
-    //       return `<div class="tooltip-box">
-    //                 <div><strong>level:</strong> ${dataPoint.level}</div>
-    //                 <div><strong>sinceAS:</strong> ${dataPoint.sinceAS}</div>
-    //                 <div><strong>sinceLastProg:</strong> ${dataPoint.sinceLastProg}</div>
-    //               </div>`;
-    //     }
-    //   },
-    // };
-
-
-
     this.chartOptions = {
       series: [],
       chart: {
@@ -315,7 +202,7 @@ export class SearchingWorkComponent {
       var roleName = localStorage.getItem('roleName');
       // alert( roleName )
       if (roleName == 'Division') {
-        this.divisionid = sessionStorage.getItem('c');
+        this.divisionid = sessionStorage.getItem('divisionID');
         this.himisDistrictid = 0;
         // return;
         // alert( this.divisionid )
@@ -368,7 +255,6 @@ export class SearchingWorkComponent {
 
   GetWorkDetails() {
     try {
-      // ;
 
       this.api.GetWorkDetails(this.workID).subscribe(
         (res) => {
@@ -376,8 +262,10 @@ export class SearchingWorkComponent {
           this.sr = this.workdetails[0]?.sr;
           // alert(this.workdetails[0]?.sr || 'SR not found or is null');
           this.ImageName = this.workdetails[0]?.imageName;
+          // this.loadProgressImages(this.workdetails[0]);
+          this.loadProgressImages(res[0]);
           // alert(this.workdetails[0]?.imageName || 'SR not found or is null');
-          // console.log('workdetails: ', JSON.stringify(this.workdetails));
+          console.log('workdetails: ', JSON.stringify(this.workdetails));
           var ProgressEnterby = new Date(this.workdetails[0]?.progressEnterby);
           var progressEntryTime = new Date(
             this.workdetails[0]?.progressEntryTime
@@ -388,8 +276,8 @@ export class SearchingWorkComponent {
           this.GetProjectTimelineNEW(this.workID);
 
           this.GetWorkBillStatus(this.workID);
-          this.updateImagePath(this.ImageName);
-          this.GetImageBinary();
+          // this.updateImagePath(this.ImageName);
+          // this.GetImageBinary();
         },
         (error) => {
           console.log('error=', JSON.stringify(error));
@@ -410,7 +298,6 @@ export class SearchingWorkComponent {
   // WorkBillStatus 
   GetWorkBillStatus(workID: any) {
     try {
-      // ;
 
       // alert(this.workID);
       // this.api.GETWorkBillStatus('W4100398').subscribe(
@@ -502,7 +389,7 @@ export class SearchingWorkComponent {
   }
   // W3900011
 
-  readonly imageBaseUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+  // readonly imageBaseUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
   // imageName: string = 'W4400269_Image1_68.jpg'; // Ye API se aayega, example: 'W4400269_Image1_68.jpg'
   fullImageUrl: string = '';
 
@@ -519,6 +406,93 @@ export class SearchingWorkComponent {
   onImageError(event: any) {
     event.target.src = 'https://via.placeholder.com/450x450?text=Image+Not+Found';
   }
+
+  readonly imageBaseUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
+
+progressImages: string[] = [];
+
+
+loadProgressImages(work: any): void {
+//  debugger
+  this.progressImages = [];
+
+  if (!work) {
+    console.warn('Work details is undefined or empty');
+    return;
+  }
+
+  const imageNames = [
+    work.imageName,
+    work.imageName2,
+    work.imageName3,
+    work.imageName4,
+    work.imageName5
+  ];
+
+  this.progressImages = imageNames
+    .filter((name: any) => {
+      if (!name) return false; // Agar null ya undefined hai toh hata do
+      const cleanName = String(name).trim().toUpperCase();
+    
+      return cleanName !== '' && cleanName !== 'NA' && cleanName !== 'NULL' && cleanName !== 'UNDEFINED';
+    })
+    .map((name: string) =>
+      this.imageBaseUrl + name.trim()
+    );
+
+  console.log('Filtered Progress Images:', this.progressImages);
+}
+
+// loadProgressImages(work: any): void {
+// debugger;
+//   this.progressImages = [];
+
+//   if (!work) {
+//     console.warn('Work details is undefined or empty');
+//     return;
+//   }
+
+//   const imageNames = [
+//     work.imageName,
+//     work.imageName2,
+//     work.imageName3,
+//     work.imageName4,
+//     work.imageName5
+//   ];
+
+//   this.progressImages = imageNames
+//     .filter((name: any) =>
+//       typeof name === 'string' &&
+//       name.trim() !== '' &&
+//       name.trim().toUpperCase() !== 'NA'
+//     )
+//     .map((name: string) =>
+//       this.imageBaseUrl + name.trim()
+//     );
+
+//   console.log('Progress Images:', this.progressImages);
+// }
+
+// loadProgressImages(work: any) {
+
+//   const imageNames = [
+//     work.imageName,
+//     work.imageName2,
+//     work.imageName3,
+//     work.imageName4,
+//     work.imageName5
+//   ];
+
+//   this.progressImages = imageNames
+//     .filter((name: any) =>
+//       name &&
+//       name.trim() !== '' &&
+//       name.toUpperCase() !== 'NA'
+//     )
+//     .map((name: string) => this.imageBaseUrl + name);
+
+//   console.log('All Progress Images:', this.progressImages);
+// }
   GetImageBinary() {
     try {
       return
@@ -567,7 +541,6 @@ export class SearchingWorkComponent {
           sinceLastProg: item.sinceLastProg,
           fillColor: this.getRandomColor(), // Generate random color for each bar
         }));
-
         // console.log("seriesData",seriesData);
         this.chartOptions.series = [{ name: 'Progress', data: seriesData }];
         this.chartOptions.xaxis.categories = res
@@ -588,7 +561,6 @@ export class SearchingWorkComponent {
   }
 
   GetProjectTimelineNEW(workID: any) {
-    // 
     this.api.GetProjectTimelineNew(workID).subscribe(
       // this.api.GetProjectTimelineNew("W4100398").subscribe(
       (res) => {
@@ -623,27 +595,6 @@ export class SearchingWorkComponent {
           },
         };
 
-
-        // this.chartOptions = {
-        //   ...this.chartOptions, // ✅ Keep existing properties
-        //   series: [{ name: "Progress ID", data: seriesData }],
-        //   xaxis: {
-        //     categories: res.map((item) => item.level), // ✅ Ensure categories are set
-        //     labels: {
-        //       style: {
-        //         fontSize: "12px",
-        //         colors: res.map(() => "#FF0000") // ✅ Apply red to all labels
-        //       }
-        //     },
-        //     opposite: true
-        //   }
-        // };
-
-        // // ✅ Force Angular to detect changes
-        // setTimeout(() => {
-        //   this.chartOptions = { ...this.chartOptions };
-        // }, 100);
-
         this.spinner.hide();
       },
       (error) => {
@@ -656,7 +607,7 @@ export class SearchingWorkComponent {
 
 
   getRandomColor() {
-    // ;
+
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
@@ -755,7 +706,6 @@ export class SearchingWorkComponent {
 
   InsertUserPageViewLog() {
     try {
-      // 
       const roleIdName = localStorage.getItem('roleName') || '';
       const userId = Number(sessionStorage.getItem('userid') || 0);
       const roleId = Number(sessionStorage.getItem('roleId') || 0);
