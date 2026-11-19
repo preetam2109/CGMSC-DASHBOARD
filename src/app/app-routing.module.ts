@@ -217,6 +217,7 @@ import { NearExpiryAyushDrugs } from './component/ORACLE-DASHBOARD/near-expiry-u
 import { NearExpiryReagents } from './component/ORACLE-DASHBOARD/near-expiry-utilization/near-expiry-reagents/near-expiry-reagents';
 import { FundReleaseManagement } from './fund-release-management/fund-release-management';
 import { DeliveryPerformanceInsights } from './component/ORACLE-DASHBOARD/delivery-performance-insights/delivery-performance-insights';
+import { DrugsPipelineStatusPOGiven } from './component/ORACLE-DASHBOARD/drugs-pipeline-status-po-given/drugs-pipeline-status-po-given';
 // import { ConversationHodCgmscComponent } from './component/tender-status /conversation-hod-cgmsc/conversation-hod-cgmsc.component';
 // import { TenderStatusDashComponent } from './component/tender-status /tender-status-dash/tender-status-dash.component';
 
@@ -525,6 +526,8 @@ const routes: Routes = [
   { path: 'FitUnFitinfra', component: FitUnFitInfrastructure, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'PaidBills', component: PaidBillinfra, canActivate: [RouteGuardService], data: { allowedRoles: ['GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
   { path: 'FundReleaseManagement', component: FundReleaseManagement, canActivate: [RouteGuardService], data: { allowedRoles: ['Chairman', 'GM Finance', 'SSO', 'SE', 'HO_Infra', 'DHS', 'DHS STORE', 'SEC1', 'Chairman', 'CME', 'DME1', 'Warehouse', 'DM PO', 'QC', 'QC2', 'Tenders', 'Division'] } },
+  { path: 'DrugPipelineStatusPoGiven', component: DrugsPipelineStatusPOGiven, canActivate: [RouteGuardService], data: { allowedRoles: ['Chairman', 'GM Finance', 'SSO', 'SE', 'DHS', 'DHS STORE', 'SEC1', 'CME', 'DME1', 'DM PO', 'Tenders', 'SMIT', 'SM IT'] } },
+  { path: 'drug-pipeline-status-po-given', redirectTo: 'DrugPipelineStatusPoGiven', pathMatch: 'full' },
 
 
   //#region public view 

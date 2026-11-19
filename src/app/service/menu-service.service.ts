@@ -57,6 +57,7 @@ export class MenuServiceService {
                     },
 
                     { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
+                    { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
                     { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
                     { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle' },
                     { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock' },
@@ -401,6 +402,7 @@ export class MenuServiceService {
                 { label: 'Facility & Warehouse Stock Availability Status', route: '/dhsfacility-stock', verified: true },
                 { label: 'Stock Out & Stock Availability in Warehouse', route: '/stock-ou-and-stock-availability-in-warehouse', verified: true },
                 { label: 'Item wise Stock', route: '/item-wise-stock', verified: true },
+                { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
                 { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },
                 { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring', verified: true },
                 { label: 'Facility Annual Indent Vs. Issuance & Stocks', route: '/fac-ai-vs-issuance-stocks', verified: true },
@@ -499,6 +501,7 @@ export class MenuServiceService {
           { label: 'Tender Status', route: '/oracle-dashboard' },
           { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
           { label: 'Pipeline Supplies ', route: '/PipelineSuppliesOracle' },
+          { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
           {
             label: 'QC',
             route: '',
@@ -700,6 +703,7 @@ export class MenuServiceService {
                 { label: 'Payment Status Insights (Finance)', route: '/PayementStatusInsightsOracle' },
                 { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
                 { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring' },
+                { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
                 // { label: 'Expired Items', route: '/Expired-Items-Oracle' },
                 // { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
                 // { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
@@ -854,6 +858,7 @@ export class MenuServiceService {
                 { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
                 { label: 'AAM Near Expiry Monitoring', route: '/aam-near-expiry-monitoring' },
                 { label: 'AMM Facility Monitoring', route: '/amm-facility-monitoring' },
+                { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
                 { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
                 { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
                 { label: 'Item wise Stock', route: '/item-wise-stock' },
@@ -981,6 +986,7 @@ export class MenuServiceService {
             { label: 'Home', route: '/home' },
             { label: 'Dashboard', route: '/cmedash' },
             { label: 'Tender Status', route: '/tender-status-cme' },
+            { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
 
             { label: 'Finance', route: '/finance-dash' },
             { label: 'Med. Coll/Hospital Indent vs Issuance/NOC', route: '/institute-wise-issuance' },
@@ -1055,6 +1061,7 @@ export class MenuServiceService {
           DrugsConsumables: [
             { label: 'Home', route: '/home' },
             { label: 'Dashboard', route: '/cmedash' },
+            { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
             { label: 'Finance', route: '/finance-dash' },
 
             { label: 'Stock Details', route: '/stockDetails' },
@@ -1181,12 +1188,10 @@ export class MenuServiceService {
         items: [
           { label: 'Home', route: '/home' },
           { label: 'Tender Status', route: '/tender-status' },
+          { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
           { label: 'Equipment Dashboard', route: '/eqp-dash' },
           { label: 'RCDetail', route: '/Rcdetail' },
           { label: 'IWH Pendings', route: '/iwhPending' },
-
-
-
         ]
       },
 
@@ -1194,6 +1199,7 @@ export class MenuServiceService {
         items: [
           { label: 'Home', route: '/home' },
           { label: 'Payment Approvals', route: '/PayementApprovals' },
+          { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
           { label: 'Fund Release Management', route: '/FundReleaseManagement', verified: true },
 
           { label: 'Executive Supply Chain', route: '/ExecutiveSupplyChain' },
@@ -1214,6 +1220,7 @@ export class MenuServiceService {
         items: [
           { label: 'Home', route: '/home' },
           { label: 'Payment Approvals', route: '/PayementApprovals' },
+          { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
           { label: 'Finance', route: '/finance-dash' },
           { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
           { label: 'Growth in Distribution', route: '/distribution' },
@@ -1248,6 +1255,7 @@ export class MenuServiceService {
           { label: 'Field Stock', route: '/field-stock' },
           { label: 'Warehouse Stock-out %', route: '/StockoutSummary' },
           { label: 'Warehouse Indent Pending', route: '/IndentPendingWHdash' },
+          { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
           { label: 'Seasonal Drugs', route: '/SeasonDrugs' },
           { label: 'Growth In Procurment', route: '/GrowthInProcurmentTab' },
           { label: 'Growth in Distribution', route: '/distribution' },
@@ -1348,6 +1356,7 @@ export class MenuServiceService {
           // { label: 'District Progress', route: 'District Progress' },
           // { label: 'DivisionProgress', route: 'DivisionProgress' },
           { label: 'Dashboard', route: '/welcome' },
+          { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
           { label: 'Payments Pending', route: '/FitUnFit' },
           { label: 'Fund Release Management', route: '/FundReleaseManagement', verified: true },
           { label: 'Bills Pending for Payment', route: '/FitUnFitinfra' },
@@ -1647,7 +1656,7 @@ export class MenuServiceService {
         { label: 'Tender/RC Position', route: '/rcpoplanning' },
       ];
     }
-    if (role === 'Finance Consultant') {
+    if (role === 'Finance Consultant' || role === 'SMIT' || role === 'SM IT') {
       role = 'SEC1';
     }
     const roleMenu = this.menu[role];
@@ -1656,7 +1665,7 @@ export class MenuServiceService {
       return [];
     }
 
-    const rolesUsingCategories = ['Collector', 'SEC1', 'Finance Consultant', 'Chairman', 'DHS', 'DHS STORE', 'CME', 'DME1'];
+    const rolesUsingCategories = ['Collector', 'SEC1', 'Finance Consultant', 'Chairman', 'DHS', 'DHS STORE', 'CME', 'DME1', 'SMIT', 'SM IT'];
 
     if (rolesUsingCategories.includes(role) && roleMenu.categories) {
       const selectedCategory = this.getSelectedCategory();
@@ -1712,6 +1721,7 @@ export class MenuServiceService {
             { label: 'Inter Warehouse Alert Planning', route: '/interwarehousealertplanning' },
             { label: 'Near Expiry', route: '/Near-Expiry-Oracle' },
             { label: 'Pipeline Status', route: '/PipelineStatusOracle' },
+            { label: 'Drugs -Pipeline Status (PO Given)', route: '/DrugPipelineStatusPoGiven', verified: true },
             { label: 'Warehouse Stock', route: '/Warehouse-Stock-Oracle' },
             { label: 'Supplier Pipeline vs Stock Position', route: '/supplierpipelinevsstockposition-oracle' },
             { label: 'AAM Stock Status', route: '/aam-stock-status', verified: true },

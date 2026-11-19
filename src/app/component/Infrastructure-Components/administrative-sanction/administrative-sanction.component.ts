@@ -64,8 +64,8 @@ export interface DivisionWiseASSummary {
 export class AdministrativeSanctionComponent {
   selectedTabIndex: number = 0;
   @ViewChild('itemDetailsModal') itemDetailsModal: any;
-divisionSummaryData: DivisionWiseASSummary[] = [];
-dataSourceDivisionSummary = new MatTableDataSource<DivisionWiseASSummary>([]);
+  divisionSummaryData: DivisionWiseASSummary[] = [];
+  dataSourceDivisionSummary = new MatTableDataSource<DivisionWiseASSummary>([]);
 
   //#region DataBase Table
   dataSource!: MatTableDataSource<ASPendingDetails>;
@@ -273,155 +273,155 @@ dataSourceDivisionSummary = new MatTableDataSource<DivisionWiseASSummary>([]);
     // this.openDialog();
   }
 
-getDivisionWiseASPendingDetails(): void {
+  getDivisionWiseASPendingDetails(): void {
 
-  this.spinner.show();
+    this.spinner.show();
 
-  let divisionId = sessionStorage.getItem('divisionID') || '0';
-  let mainSchemeId = 0;
+    let divisionId = sessionStorage.getItem('divisionID') || '0';
+    let mainSchemeId = 0;
 
-  this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
-    (res) => {
+    this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
+      (res) => {
 
-      // Existing table ka data
-      this.dispatchDataDivision = res.map(
-        (item: DivisionWiseASPendingDetails, index: number) => ({
-          ...item,
-          sno: index + 1,
-        })
-      );
+        // Existing table ka data
+        this.dispatchDataDivision = res.map(
+          (item: DivisionWiseASPendingDetails, index: number) => ({
+            ...item,
+            sno: index + 1,
+          })
+        );
 
-      this.dataSourceDivision.data = this.dispatchDataDivision;
-      this.dataSourceDivision.paginator = this.paginatorPageSize;
-      this.dataSourceDivision.sort = this.sort2;
+        this.dataSourceDivision.data = this.dispatchDataDivision;
+        this.dataSourceDivision.paginator = this.paginatorPageSize;
+        this.dataSourceDivision.sort = this.sort2;
 
-      // Division-wise summary calculate karna
-      const summaryMap = new Map<string, DivisionWiseASSummary>();
+        // Division-wise summary calculate karna
+        const summaryMap = new Map<string, DivisionWiseASSummary>();
 
-      this.dispatchDataDivision.forEach((item) => {
+        this.dispatchDataDivision.forEach((item) => {
 
-        const divisionName = (item.division || 'Unknown').trim();
+          const divisionName = (item.division || 'Unknown').trim();
 
-        if (!summaryMap.has(divisionName)) {
-          summaryMap.set(divisionName, {
-            division: divisionName,
-            totalWorks: 0,
-            enteredWorks: 0,
-            balanceWork: 0,
-          });
-        }
+          if (!summaryMap.has(divisionName)) {
+            summaryMap.set(divisionName, {
+              division: divisionName,
+              totalWorks: 0,
+              enteredWorks: 0,
+              balanceWork: 0,
+            });
+          }
 
-        const summary = summaryMap.get(divisionName)!;
+          const summary = summaryMap.get(divisionName)!;
 
-        summary.totalWorks += Number(item.totalWorks) || 0;
-        summary.enteredWorks += Number(item.enteredWorks) || 0;
-        summary.balanceWork += Number(item.balanceWork) || 0;
+          summary.totalWorks += Number(item.totalWorks) || 0;
+          summary.enteredWorks += Number(item.enteredWorks) || 0;
+          summary.balanceWork += Number(item.balanceWork) || 0;
 
-      });
+        });
 
-      // Division-wise summary data
-      this.divisionSummaryData = Array.from(summaryMap.values());
+        // Division-wise summary data
+        this.divisionSummaryData = Array.from(summaryMap.values());
 
-      // Grand Total Calculate
-      const grandTotal: DivisionWiseASSummary = {
-        division: 'Grand Total',
-        totalWorks: 0,
-        enteredWorks: 0,
-        balanceWork: 0
-      };
+        // Grand Total Calculate
+        const grandTotal: DivisionWiseASSummary = {
+          division: 'Grand Total',
+          totalWorks: 0,
+          enteredWorks: 0,
+          balanceWork: 0
+        };
 
-      this.divisionSummaryData.forEach((item) => {
-        grandTotal.totalWorks += Number(item.totalWorks) || 0;
-        grandTotal.enteredWorks += Number(item.enteredWorks) || 0;
-        grandTotal.balanceWork += Number(item.balanceWork) || 0;
-      });
+        this.divisionSummaryData.forEach((item) => {
+          grandTotal.totalWorks += Number(item.totalWorks) || 0;
+          grandTotal.enteredWorks += Number(item.enteredWorks) || 0;
+          grandTotal.balanceWork += Number(item.balanceWork) || 0;
+        });
 
-      // Grand Total ko last row me add karna
-      this.divisionSummaryData.push(grandTotal);
+        // Grand Total ko last row me add karna
+        this.divisionSummaryData.push(grandTotal);
 
-      // Summary table data
-      this.dataSourceDivisionSummary.data = this.divisionSummaryData;
+        // Summary table data
+        this.dataSourceDivisionSummary.data = this.divisionSummaryData;
 
-      this.cdr.detectChanges();
-      this.spinner.hide();
+        this.cdr.detectChanges();
+        this.spinner.hide();
 
-    },
-    (error) => {
+      },
+      (error) => {
 
-      this.spinner.hide();
-      alert(`Error fetching data: ${error.message}`);
+        this.spinner.hide();
+        alert(`Error fetching data: ${error.message}`);
 
-    }
-  );
-}
+      }
+    );
+  }
 
-//   getDivisionWiseASPendingDetails(): void {
-//   // let divisionId = 0;
-// //  debugger;
+  //   getDivisionWiseASPendingDetails(): void {
+  //   // let divisionId = 0;
+  // //  ;
 
-//   this.spinner.show();
-// //  const sessionDivId = sessionStorage.getItem('divisionID');
-// let divisionId = sessionStorage.getItem('divisionID') || '0';
-// let mainSchemeId = 0;
-//   this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
-//     (res) => {
-//       // Existing table ka data
-//       this.dispatchDataDivision = res.map(
-//         (item: DivisionWiseASPendingDetails, index: number) => ({
-//           ...item,
-//           sno: index + 1,
-//         })
-//       );
+  //   this.spinner.show();
+  // //  const sessionDivId = sessionStorage.getItem('divisionID');
+  // let divisionId = sessionStorage.getItem('divisionID') || '0';
+  // let mainSchemeId = 0;
+  //   this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
+  //     (res) => {
+  //       // Existing table ka data
+  //       this.dispatchDataDivision = res.map(
+  //         (item: DivisionWiseASPendingDetails, index: number) => ({
+  //           ...item,
+  //           sno: index + 1,
+  //         })
+  //       );
 
-//       this.dataSourceDivision.data = this.dispatchDataDivision;
-//       this.dataSourceDivision.paginator = this.paginatorPageSize;
-//       this.dataSourceDivision.sort = this.sort2;
+  //       this.dataSourceDivision.data = this.dispatchDataDivision;
+  //       this.dataSourceDivision.paginator = this.paginatorPageSize;
+  //       this.dataSourceDivision.sort = this.sort2;
 
-//       // Division-wise summary calculate karna
-//       const summaryMap = new Map<string, DivisionWiseASSummary>();
+  //       // Division-wise summary calculate karna
+  //       const summaryMap = new Map<string, DivisionWiseASSummary>();
 
-//       this.dispatchDataDivision.forEach((item) => {
-//         const divisionName = (item.division || 'Unknown').trim();
+  //       this.dispatchDataDivision.forEach((item) => {
+  //         const divisionName = (item.division || 'Unknown').trim();
 
-//         if (!summaryMap.has(divisionName)) {
-//           summaryMap.set(divisionName, {
-//             division: divisionName,
-//             totalWorks: 0,
-//             enteredWorks: 0,
-//             balanceWork: 0,
-//           });
-//         }
+  //         if (!summaryMap.has(divisionName)) {
+  //           summaryMap.set(divisionName, {
+  //             division: divisionName,
+  //             totalWorks: 0,
+  //             enteredWorks: 0,
+  //             balanceWork: 0,
+  //           });
+  //         }
 
-//         const summary = summaryMap.get(divisionName)!;
+  //         const summary = summaryMap.get(divisionName)!;
 
-//         summary.totalWorks += Number(item.totalWorks) || 0;
-//         summary.enteredWorks += Number(item.enteredWorks) || 0;
-//         summary.balanceWork += Number(item.balanceWork) || 0;
-//       });
+  //         summary.totalWorks += Number(item.totalWorks) || 0;
+  //         summary.enteredWorks += Number(item.enteredWorks) || 0;
+  //         summary.balanceWork += Number(item.balanceWork) || 0;
+  //       });
 
-//       // New summary table ka data
-//       this.divisionSummaryData = Array.from(summaryMap.values());
+  //       // New summary table ka data
+  //       this.divisionSummaryData = Array.from(summaryMap.values());
 
-//       this.dataSourceDivisionSummary.data = this.divisionSummaryData;
+  //       this.dataSourceDivisionSummary.data = this.divisionSummaryData;
 
-//       this.cdr.detectChanges();
-//       this.spinner.hide();
-//     },
-//     (error) => {
-//       this.spinner.hide();
-//       alert(`Error fetching data: ${error.message}`);
-//     }
-//   );
-// }
-applyTextFilterDivisionSummary(event: Event): void {
-  const filterValue = (event.target as HTMLInputElement).value;
-  this.dataSourceDivisionSummary.filter = filterValue.trim().toLowerCase();
-}
+  //       this.cdr.detectChanges();
+  //       this.spinner.hide();
+  //     },
+  //     (error) => {
+  //       this.spinner.hide();
+  //       alert(`Error fetching data: ${error.message}`);
+  //     }
+  //   );
+  // }
+  applyTextFilterDivisionSummary(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceDivisionSummary.filter = filterValue.trim().toLowerCase();
+  }
   getDivisionWiseASPendingDetails1(): void {
     // let divisionId = 0;
     let mainSchemeId = 0;
     this.spinner.show();
-   let divisionId = sessionStorage.getItem('divisionID') || '0';
+    let divisionId = sessionStorage.getItem('divisionID') || '0';
     this.api.GETDivisionWiseASPending(divisionId, mainSchemeId).subscribe(
       (res) => {
         this.dispatchDataDivision = res.map(

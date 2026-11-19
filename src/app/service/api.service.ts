@@ -767,6 +767,7 @@ export class ApiService {
 
 
   V_WorkDetails(did: any, divisionId: any, districtid: any, mainSchemeId: any, contractorid: any, ASAmount: any, isbelow20: any, fromdt: any, todt: any, work_id: any, subengid: any = 0, aeid: any = 0) {
+    debugger
     return this.http.get<any[]>(`${this.apiUrl}/DetailProgress/V_WorkDetails?did=${did}&divisionid=${divisionId}&districtid=${districtid}&mainschemeid=${mainSchemeId}&contractorid=${contractorid}&ASAmount=${ASAmount}&isbelow20=${isbelow20}&fromdt=${fromdt}&todt=${todt}&work_id=${work_id}&subengid=${subengid}&aeid=${aeid}`);
     // https://cgmsc.gov.in/HIMIS_APIN/api/DetailProgress/V_WorkDetails?did=1001&divisionid=D1001&districtid=0&mainschemeid=0&contractorid=0&ASAmount=0&isbelow20=0&fromdt=0&todt=0&work_id=0&subengid=0&aeid=0
   }
