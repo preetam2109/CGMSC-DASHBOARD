@@ -58,13 +58,13 @@ export class FitUnFitInfrastructure {
   dataSource1!: MatTableDataSource<himis_PendigBill>;
   dataSource2!: MatTableDataSource<PaidSummary>;
   dataSource3!: MatTableDataSource<PaidDetails>;
-displayedColumns4: string[] = [
-  'divisionname',
-  'noofworks',
-  'grossamount'
-];
+  displayedColumns4: string[] = [
+    'divisionname',
+    'noofworks',
+    'grossamount'
+  ];
 
-dataSource4 = new MatTableDataSource<any>([]);
+  dataSource4 = new MatTableDataSource<any>([]);
 
 
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -230,7 +230,7 @@ dataSource4 = new MatTableDataSource<any>([]);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     } else if (this.selectedTabIndex2 == 1) {
-       this.getPendigBill();
+      this.getPendigBill();
       // this.dataSource1.paginator = this.paginator1;
       // this.dataSource1.sort = this.sort1;
     } else if (this.selectedTabIndex2 == 2) {
@@ -358,579 +358,579 @@ dataSource4 = new MatTableDataSource<any>([]);
 
 
   // SE Office
-//     getPendigBill() {
-//   // debugger;
-//   this.spinner.show();
+  //     getPendigBill() {
+  //   // ;
+  //   this.spinner.show();
 
-//   let roleName = localStorage.getItem('roleName');
+  //   let roleName = localStorage.getItem('roleName');
 
-//   if (roleName == 'Division') {
-//     this.divisionid = sessionStorage.getItem('divisionID');
-//   } else {
-//     this.divisionid = 0;
-//   }
+  //   if (roleName == 'Division') {
+  //     this.divisionid = sessionStorage.getItem('divisionID');
+  //   } else {
+  //     this.divisionid = 0;
+  //   }
 
-//   console.log(
-//     'divisionid=', this.divisionid,
-//     'schemeid=', this.mainSchemeID,
-//     'officerid=', this.officeorderid
-//   );
+  //   console.log(
+  //     'divisionid=', this.divisionid,
+  //     'schemeid=', this.mainSchemeID,
+  //     'officerid=', this.officeorderid
+  //   );
 
-//   this.api.getPendigBill(
-//     this.mainSchemeID,
-//     this.officeorderid,
-//     this.divisionid
-//   ).subscribe(
-//     (res) => {
+  //   this.api.getPendigBill(
+  //     this.mainSchemeID,
+  //     this.officeorderid,
+  //     this.divisionid
+  //   ).subscribe(
+  //     (res) => {
 
-//       const groupedData = res.reduce((acc: any[], curr: any) => {
+  //       const groupedData = res.reduce((acc: any[], curr: any) => {
 
-//         const cleanDivision =
-//           curr.divisionname?.replace(' Division', '').trim();
+  //         const cleanDivision =
+  //           curr.divisionname?.replace(' Division', '').trim();
 
-//         const section =
-//           curr.pedingsection?.trim().toLowerCase();
+  //         const section =
+  //           curr.pedingsection?.trim().toLowerCase();
 
-//         // Group by Work ID also
-//         const existing = acc.find(x =>
-//           x.fund === curr.fund &&
-//           x.divisionname === cleanDivision &&
-//           x.pedingsection?.trim().toLowerCase() === section &&
-//           x.worK_ID === curr.worK_ID
-//         );
+  //         // Group by Work ID also
+  //         const existing = acc.find(x =>
+  //           x.fund === curr.fund &&
+  //           x.divisionname === cleanDivision &&
+  //           x.pedingsection?.trim().toLowerCase() === section &&
+  //           x.worK_ID === curr.worK_ID
+  //         );
 
-//         if (existing) {
+  //         if (existing) {
 
-//           const billNo = String(curr.billno);
+  //           const billNo = String(curr.billno);
 
-//           // Avoid adding the same bill twice
-//           if (!existing._billNoSet.has(billNo)) {
+  //           // Avoid adding the same bill twice
+  //           if (!existing._billNoSet.has(billNo)) {
 
-//             existing.grossamount += Number(curr.grossamount) || 0;
+  //             existing.grossamount += Number(curr.grossamount) || 0;
 
-//             existing._billNoSet.add(billNo);
+  //             existing._billNoSet.add(billNo);
 
-//             existing.billnos.push(billNo);
-//           }
+  //             existing.billnos.push(billNo);
+  //           }
 
-//           // Retain existing latest-row behavior
-//           existing.fileondesk = curr.fileondesk;
-//           existing.dayssincefile = curr.dayssincefile;
+  //           // Retain existing latest-row behavior
+  //           existing.fileondesk = curr.fileondesk;
+  //           existing.dayssincefile = curr.dayssincefile;
 
-//         } else {
+  //         } else {
 
-//           const billNo = String(curr.billno);
+  //           const billNo = String(curr.billno);
 
-//           acc.push({
-//             ...curr,
+  //           acc.push({
+  //             ...curr,
 
-//             divisionname: cleanDivision,
+  //             divisionname: cleanDivision,
 
-//             grossamount: Number(curr.grossamount) || 0,
+  //             grossamount: Number(curr.grossamount) || 0,
 
-//             billnos: [billNo],
+  //             billnos: [billNo],
 
-//             _billNoSet: new Set([billNo])
-//           });
+  //             _billNoSet: new Set([billNo])
+  //           });
 
-//         }
+  //         }
 
-//         return acc;
+  //         return acc;
 
-//       }, []);
+  //       }, []);
 
-//       this.himis_PendigBill = groupedData
+  //       this.himis_PendigBill = groupedData
 
-//         .map((item) => {
+  //         .map((item) => {
 
-//           const { _billNoSet, ...row } = item;
+  //           const { _billNoSet, ...row } = item;
 
-//           return {
-//             ...row,
+  //           return {
+  //             ...row,
 
-//             // Display multiple bill numbers
-//             billno: item.billnos.join(', '),
+  //             // Display multiple bill numbers
+  //             billno: item.billnos.join(', '),
 
-//             divisionname: item.divisionname
-//               ?.replace(' Division', '')
-//               .trim(),
+  //             divisionname: item.divisionname
+  //               ?.replace(' Division', '')
+  //               .trim(),
 
-//             // Convert rupees into lakhs
-//             grossamount: Number(
-//               (item.grossamount / 100000).toFixed(2)
-//             )
-//           };
-//         })
+  //             // Convert rupees into lakhs
+  //             grossamount: Number(
+  //               (item.grossamount / 100000).toFixed(2)
+  //             )
+  //           };
+  //         })
 
-//         .sort((a, b) => {
+  //         .sort((a, b) => {
 
-//           const sectionOrder: any = {
-//             'finance': 1,
-//             'se office': 2,
-//             'divisional level': 3
-//           };
+  //           const sectionOrder: any = {
+  //             'finance': 1,
+  //             'se office': 2,
+  //             'divisional level': 3
+  //           };
 
-//           const aSection =
-//             a.pedingsection?.trim().toLowerCase();
+  //           const aSection =
+  //             a.pedingsection?.trim().toLowerCase();
 
-//           const bSection =
-//             b.pedingsection?.trim().toLowerCase();
+  //           const bSection =
+  //             b.pedingsection?.trim().toLowerCase();
 
-//           const sectionCompare =
-//             (sectionOrder[aSection] ?? 99) -
-//             (sectionOrder[bSection] ?? 99);
+  //           const sectionCompare =
+  //             (sectionOrder[aSection] ?? 99) -
+  //             (sectionOrder[bSection] ?? 99);
 
-//           if (sectionCompare !== 0) {
-//             return sectionCompare;
-//           }
+  //           if (sectionCompare !== 0) {
+  //             return sectionCompare;
+  //           }
 
-//           const divisionCompare =
-//             a.divisionname.localeCompare(b.divisionname);
+  //           const divisionCompare =
+  //             a.divisionname.localeCompare(b.divisionname);
 
-//           if (divisionCompare !== 0) {
-//             return divisionCompare;
-//           }
+  //           if (divisionCompare !== 0) {
+  //             return divisionCompare;
+  //           }
 
-//           return a.fund.localeCompare(b.fund);
-//         })
+  //           return a.fund.localeCompare(b.fund);
+  //         })
 
-//         // Recreate serial number
-//         .map((item, index) => ({
-//           ...item,
-//           sno: index + 1
-//         }));
+  //         // Recreate serial number
+  //         .map((item, index) => ({
+  //           ...item,
+  //           sno: index + 1
+  //         }));
 
-//       this.himis_PendigBill = this.himis_PendigBill;
+  //       this.himis_PendigBill = this.himis_PendigBill;
 
-//       this.dataSource1.data = this.himis_PendigBill;
+  //       this.dataSource1.data = this.himis_PendigBill;
 
-//       this.dataSource1.paginator = this.paginator1;
-//       this.dataSource1.sort = this.sort1;
+  //       this.dataSource1.paginator = this.paginator1;
+  //       this.dataSource1.sort = this.sort1;
 
-//       this.cdr.detectChanges();
+  //       this.cdr.detectChanges();
 
-//       this.spinner.hide();
+  //       this.spinner.hide();
 
-//     },
-//     (error) => {
-//       this.spinner.hide();
-//       console.error(error);
-//     }
-//   );
-// }
+  //     },
+  //     (error) => {
+  //       this.spinner.hide();
+  //       console.error(error);
+  //     }
+  //   );
+  // }
 
-getPendigBill() {
-  this.spinner.show();
+  getPendigBill() {
+    this.spinner.show();
 
-  const roleName = localStorage.getItem('roleName');
+    const roleName = localStorage.getItem('roleName');
 
-  if (roleName === 'Division') {
-    this.divisionid = sessionStorage.getItem('divisionID') || 0;
-  } else {
-    this.divisionid = 0;
-  }
-
-  console.log(
-    'divisionid=', this.divisionid,
-    'schemeid=', this.mainSchemeID,
-    'officerid=', this.officeorderid
-  );
-
-  this.api.getPendigBill(
-    this.mainSchemeID,
-    this.officeorderid,
-    this.divisionid
-  ).subscribe(
-    (res: any[]) => {
-
-      // API data as it is; only Gross Amount convert into Lakhs
-      this.himis_PendigBill = res.map((item: any, index: number) => ({
-        ...item,
-
-        // Division name cleanup
-        divisionname: item.divisionname?.replace(' Division', '').trim(),
-
-        // Rupees to Lakhs
-        grossamount: Number(
-          (Number(item.grossamount || 0) / 100000).toFixed(2)
-        ),
-
-        // Serial number
-        sno: index + 1
-      }));
-
-      // Bind data to table
-      this.dataSource1.data = this.himis_PendigBill;
-
-      this.dataSource1.paginator = this.paginator1;
-      this.dataSource1.sort = this.sort1;
-
-
-// Other Head Pending Bills Summary
-// Exclude SNA SPARSH Head
-
-const otherHeadData = this.himis_PendigBill.filter(
-  (item: any) =>
-    !String(item.fund || '')
-      .toUpperCase()
-      .includes('SNA SPARSH')
-);
-
-// Group Division Wise
-const divisionSummary: any = {};
-
-otherHeadData.forEach((item: any) => {
-
-  const division = item.divisionname || 'Unknown';
-
-  if (!divisionSummary[division]) {
-    divisionSummary[division] = {
-      divisionname: division,
-      noofworks: 0,
-      grossamount: 0
-    };
-  }
-
-  // Count Every API Record
-  divisionSummary[division].noofworks += 1;
-
-  // Gross Amount in Lakhs
-  divisionSummary[division].grossamount +=
-    Number(item.grossamount || 0);
-
-});
-
-// Prepare Division Wise Data
-const summaryData: any[] = Object.values(divisionSummary).map(
-  (item: any) => ({
-    divisionname: item.divisionname,
-    noofworks: item.noofworks,
-    grossamount: Number(item.grossamount.toFixed(2))
-  })
-);
-
-// Sort Division Name
-summaryData.sort((a: any, b: any) =>
-  a.divisionname.localeCompare(b.divisionname)
-);
-
-// Bind Summary Table
-this.dataSource4.data = summaryData;
-
-// Grand Total
-this.otherHeadTotalWorks1 = summaryData.reduce(
-  (sum: number, item: any) => sum + item.noofworks, 0
-);
-
-this.otherHeadTotalAmount1 = Number(
-  summaryData.reduce(
-    (sum: number, item: any) => sum + item.grossamount, 0
-  ).toFixed(2)
-);
-
-
-
-
-
-
-
-
-      this.cdr.detectChanges();
-      this.spinner.hide();
-
-    },
-    (error) => {
-      this.spinner.hide();
-      console.error(error);
+    if (roleName === 'Division') {
+      this.divisionid = sessionStorage.getItem('divisionID') || 0;
+    } else {
+      this.divisionid = 0;
     }
-  );
-}
 
-//   getPendigBill() {
-// debugger;
-//     this.spinner.show();
-//     let roleName = localStorage.getItem('roleName');
+    console.log(
+      'divisionid=', this.divisionid,
+      'schemeid=', this.mainSchemeID,
+      'officerid=', this.officeorderid
+    );
 
-//     if (roleName == 'Division') {
-//       this.divisionid = sessionStorage.getItem('divisionID');
+    this.api.getPendigBill(
+      this.mainSchemeID,
+      this.officeorderid,
+      this.divisionid
+    ).subscribe(
+      (res: any[]) => {
 
-//     } else {
-//       this.divisionid = 0
-//     }
-//     console.log('divisionid=', this.divisionid, 'schemeid=', this.mainSchemeID, 'officerid=', this.officeorderid)
-//     this.api.getPendigBill(this.mainSchemeID, this.officeorderid, this.divisionid).subscribe(
-//       (res) => {
+        // API data as it is; only Gross Amount convert into Lakhs
+        this.himis_PendigBill = res.map((item: any, index: number) => ({
+          ...item,
 
-//         const groupedData = res.reduce((acc: any[], curr: any) => {
+          // Division name cleanup
+          divisionname: item.divisionname?.replace(' Division', '').trim(),
 
-//           const cleanDivision =
-//             curr.divisionname?.replace(' Division', '').trim();
+          // Rupees to Lakhs
+          grossamount: Number(
+            (Number(item.grossamount || 0) / 100000).toFixed(2)
+          ),
 
+          // Serial number
+          sno: index + 1
+        }));
 
-//           const existing = acc.find(
-//             x =>
-//               x.fund === curr.fund &&
-//               x.divisionname === cleanDivision &&
-//               x.pedingsection?.trim().toLowerCase() ===
-//               curr.pedingsection?.trim().toLowerCase()
-//           );
+        // Bind data to table
+        this.dataSource1.data = this.himis_PendigBill;
 
-//           if (existing) {
-
-//             // Sum Gross Amount
-//             existing.grossamount =
-//               Number(existing.grossamount) +
-//               Number(curr.grossamount);
-
-//             // Update latest values if needed
-//             existing.fileondesk = curr.fileondesk;
-//             existing.dayssincefile = curr.dayssincefile;
-
-//           } else {
-
-//             acc.push({
-//               ...curr, // ALL columns preserve
-
-//               divisionname: cleanDivision,
-
-//               grossamount: Number(curr.grossamount)
-//             });
-
-//           }
-
-//           return acc;
-
-//         }, []);
+        this.dataSource1.paginator = this.paginator1;
+        this.dataSource1.sort = this.sort1;
 
 
-//         this.himis_PendigBill = groupedData
-//           .map((item) => ({
-//             ...item,
+        // Other Head Pending Bills Summary
+        // Exclude SNA SPARSH Head
 
-//             divisionname: item.divisionname
-//               ?.replace(' Division', '')
-//               .trim(),
+        const otherHeadData = this.himis_PendigBill.filter(
+          (item: any) =>
+            !String(item.fund || '')
+              .toUpperCase()
+              .includes('SNA SPARSH')
+        );
 
-//             grossamount: Number(
-//               (item.grossamount / 100000).toFixed(2)
-//             )
-//           }))
+        // Group Division Wise
+        const divisionSummary: any = {};
 
-//           .sort((a, b) => {
+        otherHeadData.forEach((item: any) => {
 
-//             const sectionOrder: any = {
-//               'finance': 1,
-//               'se office': 2,
-//               'divisional level': 3
-//             };
+          const division = item.divisionname || 'Unknown';
 
-//             const aSection =
-//               a.pedingsection?.trim().toLowerCase();
+          if (!divisionSummary[division]) {
+            divisionSummary[division] = {
+              divisionname: division,
+              noofworks: 0,
+              grossamount: 0
+            };
+          }
 
-//             const bSection =
-//               b.pedingsection?.trim().toLowerCase();
+          // Count Every API Record
+          divisionSummary[division].noofworks += 1;
 
-//             const sectionCompare =
-//               (sectionOrder[aSection] ?? 99) -
-//               (sectionOrder[bSection] ?? 99);
+          // Gross Amount in Lakhs
+          divisionSummary[division].grossamount +=
+            Number(item.grossamount || 0);
 
-//             if (sectionCompare !== 0) {
-//               return sectionCompare;
-//             }
+        });
 
-//             const divisionCompare =
-//               a.divisionname.localeCompare(
-//                 b.divisionname
-//               );
+        // Prepare Division Wise Data
+        const summaryData: any[] = Object.values(divisionSummary).map(
+          (item: any) => ({
+            divisionname: item.divisionname,
+            noofworks: item.noofworks,
+            grossamount: Number(item.grossamount.toFixed(2))
+          })
+        );
 
-//             if (divisionCompare !== 0) {
-//               return divisionCompare;
-//             }
+        // Sort Division Name
+        summaryData.sort((a: any, b: any) =>
+          a.divisionname.localeCompare(b.divisionname)
+        );
 
-//             return a.fund.localeCompare(
-//               b.fund
-//             );
+        // Bind Summary Table
+        this.dataSource4.data = summaryData;
 
-//           })
-//           // Recreate serial number after sorting
-//           .map((item, index) => ({
-//             ...item,
-//             sno: index + 1
-//           }));
-//         this.dataSource1.data = this.himis_PendigBill;
+        // Grand Total
+        this.otherHeadTotalWorks1 = summaryData.reduce(
+          (sum: number, item: any) => sum + item.noofworks, 0
+        );
 
-//         this.dataSource1.paginator = this.paginator1;
-//         this.dataSource1.sort = this.sort1;
+        this.otherHeadTotalAmount1 = Number(
+          summaryData.reduce(
+            (sum: number, item: any) => sum + item.grossamount, 0
+          ).toFixed(2)
+        );
 
-//         this.cdr.detectChanges();
 
-//         this.spinner.hide();
 
-//       },
-//       (error) => {
-//         this.spinner.hide();
-//         console.error(error);
-//       }
-//     );
-//   }
 
-exportToExcel4() {
 
-  const data = this.dataSource4.filteredData;
 
-  if (!data || data.length === 0) {
-    Swal.fire('Warning', 'No data available for export!', 'warning');
-    return;
+
+
+        this.cdr.detectChanges();
+        this.spinner.hide();
+
+      },
+      (error) => {
+        this.spinner.hide();
+        console.error(error);
+      }
+    );
   }
 
-  const totalWorks = data.reduce(
-    (sum: number, item: any) => sum + item.noofworks, 0
-  );
+  //   getPendigBill() {
+  // ;
+  //     this.spinner.show();
+  //     let roleName = localStorage.getItem('roleName');
 
-  const totalAmount = data.reduce(
-    (sum: number, item: any) => sum + Number(item.grossamount || 0), 0
-  );
+  //     if (roleName == 'Division') {
+  //       this.divisionid = sessionStorage.getItem('divisionID');
 
-  const excelData = [
-    ['Other Head Pending Bills'],
-    ['(Excluded the SNA SPARSH Head)'],
-    [],
-    ['Division', 'No of Works', 'Bill Gross Amt (in Lac)'],
+  //     } else {
+  //       this.divisionid = 0
+  //     }
+  //     console.log('divisionid=', this.divisionid, 'schemeid=', this.mainSchemeID, 'officerid=', this.officeorderid)
+  //     this.api.getPendigBill(this.mainSchemeID, this.officeorderid, this.divisionid).subscribe(
+  //       (res) => {
 
-    ...data.map((item: any) => [
-      item.divisionname,
-      item.noofworks,
-      Number(item.grossamount.toFixed(2))
-    ]),
+  //         const groupedData = res.reduce((acc: any[], curr: any) => {
 
-    [
-      'Grand Total',
-      totalWorks,
-      Number(totalAmount.toFixed(2))
-    ]
-  ];
+  //           const cleanDivision =
+  //             curr.divisionname?.replace(' Division', '').trim();
 
-  const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(excelData);
 
-  ws['!cols'] = [
-    { wch: 25 },
-    { wch: 18 },
-    { wch: 30 }
-  ];
+  //           const existing = acc.find(
+  //             x =>
+  //               x.fund === curr.fund &&
+  //               x.divisionname === cleanDivision &&
+  //               x.pedingsection?.trim().toLowerCase() ===
+  //               curr.pedingsection?.trim().toLowerCase()
+  //           );
 
-  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  //           if (existing) {
 
-  XLSX.utils.book_append_sheet(
-    wb,
-    ws,
-    'Other Head Pending Bills'
-  );
+  //             // Sum Gross Amount
+  //             existing.grossamount =
+  //               Number(existing.grossamount) +
+  //               Number(curr.grossamount);
 
-  XLSX.writeFile(
-    wb,
-    'Other_Head_Pending_Bills.xlsx'
-  );
-}
-exportToPDF4() {
+  //             // Update latest values if needed
+  //             existing.fileondesk = curr.fileondesk;
+  //             existing.dayssincefile = curr.dayssincefile;
 
-  const data = this.dataSource4.filteredData;
+  //           } else {
 
-  if (!data || data.length === 0) {
-    Swal.fire('Warning', 'No data available for export!', 'warning');
-    return;
-  }
+  //             acc.push({
+  //               ...curr, // ALL columns preserve
 
-  const doc = new jsPDF('p', 'mm', 'a4');
+  //               divisionname: cleanDivision,
 
-  const totalWorks = data.reduce(
-    (sum: number, item: any) => sum + item.noofworks, 0
-  );
+  //               grossamount: Number(curr.grossamount)
+  //             });
 
-  const totalAmount = data.reduce(
-    (sum: number, item: any) =>
-      sum + Number(item.grossamount || 0), 0
-  );
+  //           }
 
-  // Title
-  doc.setFontSize(15);
-  doc.setFont('helvetica', 'bold');
+  //           return acc;
 
-  doc.text(
-    'Other Head Pending Bills',
-    105,
-    15,
-    { align: 'center' }
-  );
+  //         }, []);
 
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
 
-  doc.text(
-    '(Excluded the SNA SPARSH Head)',
-    105,
-    22,
-    { align: 'center' }
-  );
+  //         this.himis_PendigBill = groupedData
+  //           .map((item) => ({
+  //             ...item,
 
-  // Table
-  autoTable(doc, {
-    startY: 30,
+  //             divisionname: item.divisionname
+  //               ?.replace(' Division', '')
+  //               .trim(),
 
-    head: [[
-      'Division',
-      'No of Works',
-      'Bill Gross Amt (in Lac)'
-    ]],
+  //             grossamount: Number(
+  //               (item.grossamount / 100000).toFixed(2)
+  //             )
+  //           }))
 
-    body: [
+  //           .sort((a, b) => {
+
+  //             const sectionOrder: any = {
+  //               'finance': 1,
+  //               'se office': 2,
+  //               'divisional level': 3
+  //             };
+
+  //             const aSection =
+  //               a.pedingsection?.trim().toLowerCase();
+
+  //             const bSection =
+  //               b.pedingsection?.trim().toLowerCase();
+
+  //             const sectionCompare =
+  //               (sectionOrder[aSection] ?? 99) -
+  //               (sectionOrder[bSection] ?? 99);
+
+  //             if (sectionCompare !== 0) {
+  //               return sectionCompare;
+  //             }
+
+  //             const divisionCompare =
+  //               a.divisionname.localeCompare(
+  //                 b.divisionname
+  //               );
+
+  //             if (divisionCompare !== 0) {
+  //               return divisionCompare;
+  //             }
+
+  //             return a.fund.localeCompare(
+  //               b.fund
+  //             );
+
+  //           })
+  //           // Recreate serial number after sorting
+  //           .map((item, index) => ({
+  //             ...item,
+  //             sno: index + 1
+  //           }));
+  //         this.dataSource1.data = this.himis_PendigBill;
+
+  //         this.dataSource1.paginator = this.paginator1;
+  //         this.dataSource1.sort = this.sort1;
+
+  //         this.cdr.detectChanges();
+
+  //         this.spinner.hide();
+
+  //       },
+  //       (error) => {
+  //         this.spinner.hide();
+  //         console.error(error);
+  //       }
+  //     );
+  //   }
+
+  exportToExcel4() {
+
+    const data = this.dataSource4.filteredData;
+
+    if (!data || data.length === 0) {
+      Swal.fire('Warning', 'No data available for export!', 'warning');
+      return;
+    }
+
+    const totalWorks = data.reduce(
+      (sum: number, item: any) => sum + item.noofworks, 0
+    );
+
+    const totalAmount = data.reduce(
+      (sum: number, item: any) => sum + Number(item.grossamount || 0), 0
+    );
+
+    const excelData = [
+      ['Other Head Pending Bills'],
+      ['(Excluded the SNA SPARSH Head)'],
+      [],
+      ['Division', 'No of Works', 'Bill Gross Amt (in Lac)'],
+
       ...data.map((item: any) => [
         item.divisionname,
         item.noofworks,
-        Number(item.grossamount).toFixed(2)
+        Number(item.grossamount.toFixed(2))
       ]),
 
       [
         'Grand Total',
         totalWorks,
-        totalAmount.toFixed(2)
+        Number(totalAmount.toFixed(2))
       ]
-    ],
+    ];
 
-    theme: 'grid',
+    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(excelData);
 
-    headStyles: {
-      fillColor: [32, 178, 170],
-      textColor: 255,
-      fontStyle: 'bold',
-      halign: 'center'
-    },
+    ws['!cols'] = [
+      { wch: 25 },
+      { wch: 18 },
+      { wch: 30 }
+    ];
 
-    styles: {
-      fontSize: 10,
-      cellPadding: 3
-    },
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
 
-    columnStyles: {
-      0: { halign: 'left' },
-      1: { halign: 'center' },
-      2: { halign: 'right' }
-    },
+    XLSX.utils.book_append_sheet(
+      wb,
+      ws,
+      'Other Head Pending Bills'
+    );
 
-    didParseCell: function (data: any) {
+    XLSX.writeFile(
+      wb,
+      'Other_Head_Pending_Bills.xlsx'
+    );
+  }
+  exportToPDF4() {
 
-      if (
-        data.section === 'body' &&
-        data.row.index === data.table.body.length - 1
-      ) {
-        data.cell.styles.fontStyle = 'bold';
-        data.cell.styles.fillColor = [230, 230, 230];
-      }
+    const data = this.dataSource4.filteredData;
 
+    if (!data || data.length === 0) {
+      Swal.fire('Warning', 'No data available for export!', 'warning');
+      return;
     }
-  });
 
-  doc.save('Other_Head_Pending_Bills.pdf');
-}
+    const doc = new jsPDF('p', 'mm', 'a4');
+
+    const totalWorks = data.reduce(
+      (sum: number, item: any) => sum + item.noofworks, 0
+    );
+
+    const totalAmount = data.reduce(
+      (sum: number, item: any) =>
+        sum + Number(item.grossamount || 0), 0
+    );
+
+    // Title
+    doc.setFontSize(15);
+    doc.setFont('helvetica', 'bold');
+
+    doc.text(
+      'Other Head Pending Bills',
+      105,
+      15,
+      { align: 'center' }
+    );
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+
+    doc.text(
+      '(Excluded the SNA SPARSH Head)',
+      105,
+      22,
+      { align: 'center' }
+    );
+
+    // Table
+    autoTable(doc, {
+      startY: 30,
+
+      head: [[
+        'Division',
+        'No of Works',
+        'Bill Gross Amt (in Lac)'
+      ]],
+
+      body: [
+        ...data.map((item: any) => [
+          item.divisionname,
+          item.noofworks,
+          Number(item.grossamount).toFixed(2)
+        ]),
+
+        [
+          'Grand Total',
+          totalWorks,
+          totalAmount.toFixed(2)
+        ]
+      ],
+
+      theme: 'grid',
+
+      headStyles: {
+        fillColor: [32, 178, 170],
+        textColor: 255,
+        fontStyle: 'bold',
+        halign: 'center'
+      },
+
+      styles: {
+        fontSize: 10,
+        cellPadding: 3
+      },
+
+      columnStyles: {
+        0: { halign: 'left' },
+        1: { halign: 'center' },
+        2: { halign: 'right' }
+      },
+
+      didParseCell: function (data: any) {
+
+        if (
+          data.section === 'body' &&
+          data.row.index === data.table.body.length - 1
+        ) {
+          data.cell.styles.fontStyle = 'bold';
+          data.cell.styles.fillColor = [230, 230, 230];
+        }
+
+      }
+    });
+
+    doc.save('Other_Head_Pending_Bills.pdf');
+  }
   // applyTextFilter4(event: Event) {
   //   const filterValue = (event.target as HTMLInputElement).value;
   //   this.dataSource4.filter = filterValue.trim().toLowerCase();
