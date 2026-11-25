@@ -409,90 +409,90 @@ export class SearchingWorkComponent {
 
   readonly imageBaseUrl = 'https://cgmsc.gov.in/himisr/ProgressImages/';
 
-progressImages: string[] = [];
+  progressImages: string[] = [];
 
 
-loadProgressImages(work: any): void {
-//  debugger
-  this.progressImages = [];
+  loadProgressImages(work: any): void {
+    //  
+    this.progressImages = [];
 
-  if (!work) {
-    console.warn('Work details is undefined or empty');
-    return;
+    if (!work) {
+      console.warn('Work details is undefined or empty');
+      return;
+    }
+
+    const imageNames = [
+      work.imageName,
+      work.imageName2,
+      work.imageName3,
+      work.imageName4,
+      work.imageName5
+    ];
+
+    this.progressImages = imageNames
+      .filter((name: any) => {
+        if (!name) return false; // Agar null ya undefined hai toh hata do
+        const cleanName = String(name).trim().toUpperCase();
+
+        return cleanName !== '' && cleanName !== 'NA' && cleanName !== 'NULL' && cleanName !== 'UNDEFINED';
+      })
+      .map((name: string) =>
+        this.imageBaseUrl + name.trim()
+      );
+
+    console.log('Filtered Progress Images:', this.progressImages);
   }
 
-  const imageNames = [
-    work.imageName,
-    work.imageName2,
-    work.imageName3,
-    work.imageName4,
-    work.imageName5
-  ];
+  // loadProgressImages(work: any): void {
+  // ;
+  //   this.progressImages = [];
 
-  this.progressImages = imageNames
-    .filter((name: any) => {
-      if (!name) return false; // Agar null ya undefined hai toh hata do
-      const cleanName = String(name).trim().toUpperCase();
-    
-      return cleanName !== '' && cleanName !== 'NA' && cleanName !== 'NULL' && cleanName !== 'UNDEFINED';
-    })
-    .map((name: string) =>
-      this.imageBaseUrl + name.trim()
-    );
+  //   if (!work) {
+  //     console.warn('Work details is undefined or empty');
+  //     return;
+  //   }
 
-  console.log('Filtered Progress Images:', this.progressImages);
-}
+  //   const imageNames = [
+  //     work.imageName,
+  //     work.imageName2,
+  //     work.imageName3,
+  //     work.imageName4,
+  //     work.imageName5
+  //   ];
 
-// loadProgressImages(work: any): void {
-// debugger;
-//   this.progressImages = [];
+  //   this.progressImages = imageNames
+  //     .filter((name: any) =>
+  //       typeof name === 'string' &&
+  //       name.trim() !== '' &&
+  //       name.trim().toUpperCase() !== 'NA'
+  //     )
+  //     .map((name: string) =>
+  //       this.imageBaseUrl + name.trim()
+  //     );
 
-//   if (!work) {
-//     console.warn('Work details is undefined or empty');
-//     return;
-//   }
+  //   console.log('Progress Images:', this.progressImages);
+  // }
 
-//   const imageNames = [
-//     work.imageName,
-//     work.imageName2,
-//     work.imageName3,
-//     work.imageName4,
-//     work.imageName5
-//   ];
+  // loadProgressImages(work: any) {
 
-//   this.progressImages = imageNames
-//     .filter((name: any) =>
-//       typeof name === 'string' &&
-//       name.trim() !== '' &&
-//       name.trim().toUpperCase() !== 'NA'
-//     )
-//     .map((name: string) =>
-//       this.imageBaseUrl + name.trim()
-//     );
+  //   const imageNames = [
+  //     work.imageName,
+  //     work.imageName2,
+  //     work.imageName3,
+  //     work.imageName4,
+  //     work.imageName5
+  //   ];
 
-//   console.log('Progress Images:', this.progressImages);
-// }
+  //   this.progressImages = imageNames
+  //     .filter((name: any) =>
+  //       name &&
+  //       name.trim() !== '' &&
+  //       name.toUpperCase() !== 'NA'
+  //     )
+  //     .map((name: string) => this.imageBaseUrl + name);
 
-// loadProgressImages(work: any) {
-
-//   const imageNames = [
-//     work.imageName,
-//     work.imageName2,
-//     work.imageName3,
-//     work.imageName4,
-//     work.imageName5
-//   ];
-
-//   this.progressImages = imageNames
-//     .filter((name: any) =>
-//       name &&
-//       name.trim() !== '' &&
-//       name.toUpperCase() !== 'NA'
-//     )
-//     .map((name: string) => this.imageBaseUrl + name);
-
-//   console.log('All Progress Images:', this.progressImages);
-// }
+  //   console.log('All Progress Images:', this.progressImages);
+  // }
   GetImageBinary() {
     try {
       return
